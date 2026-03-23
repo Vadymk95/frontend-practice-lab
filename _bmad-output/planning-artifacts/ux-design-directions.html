@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InterviewOS — Design Directions</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    background: #0a0a0a;
+    color: #e5e5e5;
+    padding: 32px 16px;
+  }
+
+  h1 { font-size: 20px; font-weight: 600; color: #e5e5e5; margin-bottom: 8px; }
+  .subtitle { font-size: 13px; color: #6b7280; margin-bottom: 48px; }
+
+  .directions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 32px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .direction-card {
+    border: 1px solid #2a2a2a;
+    background: #111;
+    overflow: hidden;
+  }
+
+  .direction-label {
+    padding: 12px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-bottom: 1px solid #2a2a2a;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .direction-label .tag {
+    font-size: 10px;
+    padding: 2px 6px;
+    border: 1px solid #2a2a2a;
+    color: #6b7280;
+  }
+
+  /* ─── MOCKUP WRAPPER ─── */
+  .mockup {
+    height: 640px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ─── DIRECTION A: Terminal Minimal ─── */
+  .dir-a { background: #0d0d0d; height: 100%; display: flex; flex-direction: column; }
+  .dir-a .app-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 16px; height: 48px; border-bottom: 1px solid #1e1e1e;
+  }
+  .dir-a .logo { font-size: 13px; font-weight: 600; color: #00ff87; letter-spacing: 0.05em; }
+  .dir-a .bar-actions { display: flex; gap: 12px; }
+  .dir-a .bar-btn { font-size: 11px; color: #6b7280; background: none; border: none; cursor: pointer; font-family: inherit; }
+  .dir-a .progress-bar-wrap { height: 2px; background: #1a1a1a; }
+  .dir-a .progress-bar-fill { height: 100%; width: 46%; background: #00ff87; }
+  .dir-a .question-area { flex: 1; padding: 24px 16px 0; overflow: auto; }
+  .dir-a .q-meta { font-size: 11px; color: #6b7280; margin-bottom: 16px; display: flex; gap: 12px; align-items: center; }
+  .dir-a .q-meta .badge {
+    font-size: 10px; padding: 2px 6px;
+    border: 1px solid #2a2a2a; color: #6b7280;
+  }
+  .dir-a .q-meta .badge.react { color: #3b82f6; border-color: #1d3a6e; }
+  .dir-a .q-text { font-size: 15px; line-height: 1.6; color: #e5e5e5; margin-bottom: 24px; }
+  .dir-a .options { display: flex; flex-direction: column; gap: 8px; }
+  .dir-a .option {
+    padding: 14px 16px; border: 1px solid #2a2a2a; background: #1a1a1a;
+    cursor: pointer; font-family: inherit; font-size: 13px; color: #e5e5e5;
+    text-align: left; display: flex; align-items: center; gap: 12px;
+    transition: border-color 0.1s;
+  }
+  .dir-a .option:hover { border-color: #3a3a3a; }
+  .dir-a .option.correct { border-color: #00ff87; background: #001a0d; color: #00ff87; }
+  .dir-a .option.wrong { border-color: #ef4444; background: #1a0000; color: #ef4444; }
+  .dir-a .option .opt-key {
+    width: 20px; height: 20px; border: 1px solid currentColor;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; flex-shrink: 0; opacity: 0.7;
+  }
+  .dir-a .explanation {
+    margin-top: 16px; padding: 14px; background: #161616;
+    border-left: 2px solid #00ff87; font-size: 13px; line-height: 1.6; color: #9ca3af;
+  }
+  .dir-a .explanation strong { color: #e5e5e5; display: block; margin-bottom: 4px; font-size: 12px; }
+  .dir-a .bottom-bar {
+    padding: 10px 16px; border-top: 1px solid #1e1e1e; background: #0d0d0d;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .dir-a .q-counter { font-size: 12px; color: #6b7280; }
+  .dir-a .next-btn {
+    padding: 12px 24px; background: #00ff87; color: #000; border: none;
+    font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+    letter-spacing: 0.05em;
+  }
+
+  /* ─── DIRECTION B: Card-focused with sidebar stats ─── */
+  .dir-b { background: #0d0d0d; height: 100%; display: flex; flex-direction: column; }
+  .dir-b .app-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 16px; height: 48px; border-bottom: 1px solid #1e1e1e;
+  }
+  .dir-b .logo { font-size: 13px; font-weight: 600; }
+  .dir-b .logo span { color: #00ff87; }
+  .dir-b .session-info { font-size: 11px; color: #6b7280; }
+  .dir-b .content { flex: 1; display: grid; grid-template-columns: 1fr 140px; overflow: hidden; }
+  .dir-b .main { padding: 20px 16px; overflow: auto; display: flex; flex-direction: column; gap: 16px; }
+  .dir-b .sidebar {
+    border-left: 1px solid #1e1e1e; padding: 16px 12px;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .dir-b .sidebar-label { font-size: 10px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+  .dir-b .stat { font-size: 20px; font-weight: 600; color: #e5e5e5; }
+  .dir-b .stat.green { color: #00ff87; }
+  .dir-b .stat.red { color: #ef4444; }
+  .dir-b .topic-list { display: flex; flex-direction: column; gap: 4px; }
+  .dir-b .topic-item { font-size: 10px; color: #6b7280; }
+  .dir-b .topic-item.hot { color: #f59e0b; }
+  .dir-b .question-card {
+    background: #1a1a1a; border: 1px solid #2a2a2a; padding: 16px;
+  }
+  .dir-b .q-num { font-size: 10px; color: #6b7280; margin-bottom: 8px; }
+  .dir-b .q-text { font-size: 14px; line-height: 1.6; }
+  .dir-b .options { display: flex; flex-direction: column; gap: 6px; }
+  .dir-b .option {
+    padding: 10px 14px; border: 1px solid #2a2a2a; background: #111;
+    font-family: inherit; font-size: 12px; color: #e5e5e5; cursor: pointer; text-align: left;
+  }
+  .dir-b .option.correct { border-color: #00ff87; color: #00ff87; background: #001a0d; }
+  .dir-b .exp { font-size: 12px; line-height: 1.5; color: #9ca3af; padding: 10px; background: #161616; border-left: 2px solid #00ff87; }
+  .dir-b .bottom-bar {
+    border-top: 1px solid #1e1e1e; padding: 10px 16px;
+    display: flex; justify-content: space-between; align-items: center; background: #0d0d0d;
+  }
+  .dir-b .prog { display: flex; align-items: center; gap: 8px; font-size: 11px; color: #6b7280; }
+  .dir-b .prog-dots { display: flex; gap: 3px; }
+  .dir-b .dot { width: 6px; height: 6px; background: #2a2a2a; }
+  .dir-b .dot.done { background: #00ff87; }
+  .dir-b .dot.current { background: #3b82f6; }
+  .dir-b .next-btn {
+    padding: 10px 20px; background: transparent; border: 1px solid #00ff87;
+    color: #00ff87; font-family: inherit; font-size: 12px; cursor: pointer; font-weight: 500;
+  }
+
+  /* ─── DIRECTION C: Dense Terminal / Keyboard-First ─── */
+  .dir-c { background: #0d0d0d; height: 100%; display: flex; flex-direction: column; font-size: 13px; }
+  .dir-c .top-bar {
+    display: flex; align-items: center; gap: 16px;
+    padding: 8px 16px; border-bottom: 1px solid #1e1e1e;
+    font-size: 11px; color: #6b7280;
+  }
+  .dir-c .top-bar .logo { color: #00ff87; font-weight: 600; margin-right: auto; }
+  .dir-c .breadcrumb { display: flex; gap: 4px; align-items: center; }
+  .dir-c .breadcrumb span { color: #3a3a3a; }
+  .dir-c .kbd {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 18px; height: 18px; border: 1px solid #2a2a2a;
+    font-size: 10px; color: #6b7280;
+  }
+  .dir-c .progress-line {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 16px; border-bottom: 1px solid #1e1e1e; font-size: 11px;
+  }
+  .dir-c .prog-track { flex: 1; height: 1px; background: #1e1e1e; }
+  .dir-c .prog-fill { height: 100%; background: #00ff87; width: 46%; }
+  .dir-c .prog-text { color: #6b7280; white-space: nowrap; }
+  .dir-c .q-area { flex: 1; padding: 20px 16px 8px; overflow: auto; }
+  .dir-c .q-tags { display: flex; gap: 6px; margin-bottom: 12px; }
+  .dir-c .tag {
+    font-size: 10px; padding: 2px 6px; border: 1px solid #2a2a2a; color: #6b7280;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .dir-c .tag.diff-medium { color: #f59e0b; border-color: #3a2a00; }
+  .dir-c .q-text { font-size: 14px; line-height: 1.65; color: #e5e5e5; margin-bottom: 20px; }
+  .dir-c .options { display: flex; flex-direction: column; gap: 2px; }
+  .dir-c .option {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 12px; background: transparent; border: none;
+    border-left: 2px solid transparent; font-family: inherit; font-size: 13px;
+    color: #9ca3af; cursor: pointer; text-align: left;
+    transition: all 0.08s;
+  }
+  .dir-c .option:hover { color: #e5e5e5; border-left-color: #2a2a2a; background: #141414; }
+  .dir-c .option.correct { color: #00ff87; border-left-color: #00ff87; background: #001a0d; }
+  .dir-c .option.wrong { color: #ef4444; border-left-color: #ef4444; background: #1a0000; }
+  .dir-c .opt-num { font-size: 10px; color: #3a3a3a; margin-top: 2px; flex-shrink: 0; }
+  .dir-c .option.correct .opt-num { color: #00ff87; }
+  .dir-c .exp-block {
+    margin-top: 12px; padding: 12px 14px;
+    background: #141414; border-top: 1px solid #1e1e1e; font-size: 12px; line-height: 1.6; color: #9ca3af;
+  }
+  .dir-c .exp-label { font-size: 10px; color: #00ff87; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+  .dir-c .shortcut-bar {
+    padding: 8px 16px; border-top: 1px solid #1e1e1e;
+    display: flex; gap: 16px; font-size: 10px; color: #3a3a3a;
+  }
+  .dir-c .shortcut { display: flex; gap: 4px; align-items: center; }
+
+  /* ─── DIRECTION D: Session Configurator view ─── */
+  .dir-d { background: #0d0d0d; height: 100%; display: flex; flex-direction: column; }
+  .dir-d .app-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 16px; height: 48px; border-bottom: 1px solid #1e1e1e;
+  }
+  .dir-d .logo { font-size: 13px; font-weight: 600; color: #e5e5e5; }
+  .dir-d .logo em { color: #00ff87; font-style: normal; }
+  .dir-d .content { flex: 1; padding: 20px 16px; overflow: auto; display: flex; flex-direction: column; gap: 20px; }
+  .dir-d .section-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #6b7280; margin-bottom: 10px; }
+  .dir-d .category-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .dir-d .cat-btn {
+    padding: 8px 6px; border: 1px solid #2a2a2a; background: #1a1a1a;
+    font-family: inherit; font-size: 10px; color: #9ca3af; cursor: pointer; text-align: center;
+  }
+  .dir-d .cat-btn.selected { border-color: #00ff87; color: #00ff87; background: #001a0d; }
+  .dir-d .filters { display: flex; gap: 8px; flex-wrap: wrap; }
+  .dir-d .filter-group { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 100px; }
+  .dir-d .filter-label { font-size: 10px; color: #6b7280; }
+  .dir-d .filter-opts { display: flex; gap: 4px; }
+  .dir-d .filter-opt {
+    padding: 6px 10px; border: 1px solid #2a2a2a; background: transparent;
+    font-family: inherit; font-size: 11px; color: #9ca3af; cursor: pointer;
+  }
+  .dir-d .filter-opt.active { border-color: #3b82f6; color: #3b82f6; background: #0a1628; }
+  .dir-d .count-box {
+    padding: 14px; background: #1a1a1a; border: 1px solid #2a2a2a;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .dir-d .count-label { font-size: 12px; color: #6b7280; }
+  .dir-d .count-num { font-size: 22px; font-weight: 600; color: #00ff87; }
+  .dir-d .presets { display: flex; flex-direction: column; gap: 4px; }
+  .dir-d .preset-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 12px; border: 1px solid #2a2a2a; background: #1a1a1a;
+    font-size: 11px; color: #9ca3af; cursor: pointer;
+  }
+  .dir-d .preset-row:hover { border-color: #3a3a3a; }
+  .dir-d .preset-name { color: #e5e5e5; }
+  .dir-d .preset-meta { font-size: 10px; color: #3a3a3a; }
+  .dir-d .bottom-bar {
+    border-top: 1px solid #1e1e1e; padding: 12px 16px; background: #0d0d0d;
+    display: flex; gap: 8px;
+  }
+  .dir-d .start-btn {
+    flex: 1; padding: 14px; background: #00ff87; color: #000; border: none;
+    font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; letter-spacing: 0.05em;
+  }
+  .dir-d .save-btn {
+    padding: 14px 16px; background: transparent; border: 1px solid #2a2a2a;
+    font-family: inherit; font-size: 12px; color: #6b7280; cursor: pointer;
+  }
+
+  /* nav */
+  .nav { display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap; }
+  .nav-btn {
+    padding: 8px 16px; border: 1px solid #2a2a2a; background: transparent;
+    font-family: inherit; font-size: 12px; color: #6b7280; cursor: pointer;
+  }
+  .nav-btn.active { border-color: #00ff87; color: #00ff87; background: #001a0d; }
+
+  .direction-desc {
+    padding: 12px 16px; background: #111; border: 1px solid #1e1e1e;
+    font-size: 12px; line-height: 1.6; color: #9ca3af; margin-top: 0;
+  }
+  .direction-desc strong { color: #e5e5e5; }
+</style>
+</head>
+<body>
+
+<h1>InterviewOS — Design Directions</h1>
+<p class="subtitle">4 visual explorations. All use the same token system. Choose or combine elements.</p>
+
+<div class="directions-grid">
+
+  <!-- DIRECTION A -->
+  <div class="direction-card">
+    <div class="direction-label" style="color:#00ff87;">
+      A — Terminal Minimal
+      <span class="tag">Question view · post-answer</span>
+    </div>
+    <div class="mockup">
+      <div class="dir-a">
+        <div class="app-bar">
+          <span class="logo">interview_os</span>
+          <div class="bar-actions">
+            <button class="bar-btn">RU</button>
+            <button class="bar-btn">☀</button>
+          </div>
+        </div>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+        <div class="question-area">
+          <div class="q-meta">
+            <span>23 / 50</span>
+            <span class="badge react">React</span>
+            <span class="badge">medium</span>
+          </div>
+          <div class="q-text">What is the difference between <code style="color:#00ff87;background:#001a0d;padding:1px 4px;">useMemo</code> and <code style="color:#00ff87;background:#001a0d;padding:1px 4px;">useCallback</code>?</div>
+          <div class="options">
+            <button class="option correct">
+              <span class="opt-key">✓</span>
+              useMemo memoizes a value; useCallback memoizes a function reference
+            </button>
+            <button class="option wrong">
+              <span class="opt-key">✗</span>
+              They are identical — useCallback is an alias for useMemo
+            </button>
+            <button class="option" style="opacity:.4">
+              <span class="opt-key">C</span>
+              useMemo is for async; useCallback is for sync operations
+            </button>
+            <button class="option" style="opacity:.4">
+              <span class="opt-key">D</span>
+              useCallback prevents re-renders; useMemo does not
+            </button>
+          </div>
+          <div class="explanation">
+            <strong>Why this matters</strong>
+            useMemo(() => compute(), [deps]) returns the computed value and skips recomputation when deps unchanged. useCallback(() => fn, [deps]) returns the same function reference — critical when passing callbacks to memoized children to avoid breaking React.memo.
+          </div>
+        </div>
+        <div class="bottom-bar">
+          <span class="q-counter">38% error rate on React hooks</span>
+          <button class="next-btn">NEXT →</button>
+        </div>
+      </div>
+    </div>
+    <div class="direction-desc">
+      <strong>A — Terminal Minimal:</strong> Full-width layout, 2px progress line, bottom-anchored CTA. Clean separation between question, options, and explanation. Explanation uses left-border accent. <strong>Best for:</strong> distraction-free sessions, single focus column.
+    </div>
+  </div>
+
+  <!-- DIRECTION B -->
+  <div class="direction-card">
+    <div class="direction-label" style="color:#3b82f6;">
+      B — Card + Live Stats
+      <span class="tag">Question view · with sidebar</span>
+    </div>
+    <div class="mockup">
+      <div class="dir-b">
+        <div class="app-bar">
+          <span class="logo">interview<span>_os</span></span>
+          <span class="session-info">React · medium · 50q</span>
+        </div>
+        <div class="content">
+          <div class="main">
+            <div class="question-card">
+              <div class="q-num">Q 23 of 50</div>
+              <div class="q-text">What does React.memo do, and when should you NOT use it?</div>
+            </div>
+            <div class="options">
+              <button class="option correct">Prevents re-render if props are shallowly equal</button>
+              <button class="option">Deeply compares all props on every render</button>
+              <button class="option" style="opacity:.4">Replaces PureComponent for class components</button>
+              <button class="option" style="opacity:.4">Caches the component between route navigations</button>
+            </div>
+            <div class="exp">
+              React.memo does a shallow comparison. Avoid it when props contain new object/array references each render (it will always re-render anyway) or when the component is cheap to render.
+            </div>
+          </div>
+          <div class="sidebar">
+            <div>
+              <div class="sidebar-label">Score</div>
+              <div class="stat green">38/50</div>
+            </div>
+            <div>
+              <div class="sidebar-label">Streak</div>
+              <div class="stat">7 days</div>
+            </div>
+            <div>
+              <div class="sidebar-label">Weak topics</div>
+              <div class="topic-list">
+                <span class="topic-item hot">↑ Closures 61%</span>
+                <span class="topic-item hot">↑ Generics 55%</span>
+                <span class="topic-item">Hooks 38%</span>
+                <span class="topic-item">Promises 22%</span>
+              </div>
+            </div>
+            <div>
+              <div class="sidebar-label">Mode</div>
+              <div style="font-size:11px;color:#6b7280;">quiz</div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-bar">
+          <div class="prog">
+            <div class="prog-dots">
+              <div class="dot done"></div><div class="dot done"></div><div class="dot done"></div>
+              <div class="dot current"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            46%
+          </div>
+          <button class="next-btn">Next</button>
+        </div>
+      </div>
+    </div>
+    <div class="direction-desc">
+      <strong>B — Card + Live Stats:</strong> Sidebar shows live weak topics and streak. Question is a raised card. Progress as dot indicators. <strong>Best for:</strong> users who want visible algorithm context during session. <strong>Trade-off:</strong> reduced question focus due to sidebar.
+    </div>
+  </div>
+
+  <!-- DIRECTION C -->
+  <div class="direction-card">
+    <div class="direction-label" style="color:#e5e5e5;">
+      C — Dense / Keyboard-First
+      <span class="tag">Question view · keyboard shortcuts</span>
+    </div>
+    <div class="mockup">
+      <div class="dir-c">
+        <div class="top-bar">
+          <span class="logo">interview_os</span>
+          <div class="breadcrumb">
+            <span>session</span><span>/</span><span style="color:#e5e5e5;">react</span>
+          </div>
+          <span style="font-size:10px;">RU</span>
+          <span style="font-size:10px;">☀</span>
+        </div>
+        <div class="progress-line">
+          <span class="prog-text">23/50</span>
+          <div class="prog-track"><div class="prog-fill"></div></div>
+          <span class="prog-text">46%</span>
+        </div>
+        <div class="q-area">
+          <div class="q-tags">
+            <span class="tag">React</span>
+            <span class="tag diff-medium">medium</span>
+            <span class="tag">hooks</span>
+          </div>
+          <div class="q-text">When does useEffect run, and how does the dependency array change its behaviour? List all three modes.</div>
+          <div class="options">
+            <button class="option">
+              <span class="opt-num">1</span>
+              After every render; after first render only; after first render and when deps change
+            </button>
+            <button class="option correct">
+              <span class="opt-num">✓</span>
+              After every render (no array); after mount only (empty array); after mount + dep changes (with array)
+            </button>
+            <button class="option wrong">
+              <span class="opt-num">✗</span>
+              Only after mount; only when deps change; never (no array)
+            </button>
+            <button class="option" style="opacity:.35">
+              <span class="opt-num">4</span>
+              Before render; after render; conditionally
+            </button>
+          </div>
+          <div class="exp-block">
+            <div class="exp-label">Explanation</div>
+            No array = runs after every render (expensive, often wrong). Empty array [] = runs once after mount. Array with deps = runs after mount and whenever any dep changes. The cleanup function in the return value runs before the next effect or on unmount.
+          </div>
+        </div>
+        <div class="shortcut-bar">
+          <span class="shortcut"><span class="kbd">↵</span> Next</span>
+          <span class="shortcut"><span class="kbd">S</span> Skip</span>
+          <span class="shortcut"><span class="kbd">1</span><span class="kbd">2</span><span class="kbd">3</span><span class="kbd">4</span> Select</span>
+        </div>
+      </div>
+    </div>
+    <div class="direction-desc">
+      <strong>C — Dense / Keyboard-First:</strong> Tightest layout. Breadcrumb path. Options as a list with left-border reveal. Keyboard shortcuts visible. <strong>Best for:</strong> desktop power users who want maximum density and keyboard navigation.
+    </div>
+  </div>
+
+  <!-- DIRECTION D -->
+  <div class="direction-card">
+    <div class="direction-label" style="color:#f59e0b;">
+      D — Session Configurator
+      <span class="tag">Home screen · before session</span>
+    </div>
+    <div class="mockup">
+      <div class="dir-d">
+        <div class="app-bar">
+          <span class="logo">interview<em>_os</em></span>
+          <span style="font-size:11px;color:#6b7280;">7 day streak 🔥</span>
+        </div>
+        <div class="content">
+          <div>
+            <div class="section-title">Categories</div>
+            <div class="category-grid">
+              <button class="cat-btn selected">JavaScript</button>
+              <button class="cat-btn selected">TypeScript</button>
+              <button class="cat-btn selected">React</button>
+              <button class="cat-btn">CSS</button>
+              <button class="cat-btn">HTML</button>
+              <button class="cat-btn">Next.js</button>
+              <button class="cat-btn">Testing</button>
+              <button class="cat-btn">Security</button>
+              <button class="cat-btn">Git</button>
+            </div>
+          </div>
+          <div class="filters">
+            <div class="filter-group">
+              <div class="filter-label">Difficulty</div>
+              <div class="filter-opts">
+                <button class="filter-opt">easy</button>
+                <button class="filter-opt active">medium</button>
+                <button class="filter-opt">hard</button>
+              </div>
+            </div>
+            <div class="filter-group">
+              <div class="filter-label">Mode</div>
+              <div class="filter-opts">
+                <button class="filter-opt active">quiz</button>
+                <button class="filter-opt">bug</button>
+                <button class="filter-opt">code</button>
+              </div>
+            </div>
+          </div>
+          <div class="count-box">
+            <span class="count-label">Questions available</span>
+            <span class="count-num">235</span>
+          </div>
+          <div>
+            <div class="section-title">Presets</div>
+            <div class="presets">
+              <div class="preset-row">
+                <span class="preset-name">Morning JS+TS · medium · 50q</span>
+                <span class="preset-meta">used yesterday</span>
+              </div>
+              <div class="preset-row">
+                <span class="preset-name">Pre-interview · hard · 30q</span>
+                <span class="preset-meta">3 days ago</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-bar">
+          <button class="start-btn">START SESSION</button>
+          <button class="save-btn">Save preset</button>
+        </div>
+      </div>
+    </div>
+    <div class="direction-desc">
+      <strong>D — Session Configurator:</strong> Home screen showing category grid, filters, live question count, and presets. This is the entry point, not the question view. <strong>Best for:</strong> validating the configurator layout and preset UX.
+    </div>
+  </div>
+
+</div>
+
+<div style="max-width:1400px;margin:40px auto 0;padding:24px;border:1px solid #1e1e1e;background:#111;font-size:13px;line-height:1.6;color:#6b7280;">
+  <strong style="color:#e5e5e5;display:block;margin-bottom:8px;">Evaluation guide</strong>
+  <strong style="color:#e5e5e5;">A</strong> — purest terminal feel; most distraction-free; recommended baseline for question view<br>
+  <strong style="color:#e5e5e5;">B</strong> — adds algorithm visibility via sidebar; good if you want the adaptive logic surfaced during session<br>
+  <strong style="color:#e5e5e5;">C</strong> — densest; best for desktop; keyboard shortcuts integrate naturally<br>
+  <strong style="color:#e5e5e5;">D</strong> — configurator layout; essential to validate before building the session start flow<br><br>
+  <span style="color:#3a3a3a;">All directions share the same token system (#0d0d0d bg, #00ff87 accent, JetBrains Mono). Choosing A+D means: Direction A for question view, Direction D layout for configurator.</span>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+import { screen } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+
+import { renderWithProviders } from '@/test/test-utils';
+
+import { AppHeader } from './AppHeader';
+
+describe('AppHeader', () => {
+    it('renders the logo with brand text', () => {
+        renderWithProviders(<AppHeader />);
+        expect(screen.getByText('InterviewOS')).toBeInTheDocument();
+    });
+
+    it('renders a language toggle button', () => {
+        renderWithProviders(<AppHeader />);
+        expect(screen.getByRole('button', { name: /toggle language/i })).toBeInTheDocument();
+    });
+
+    it('renders a theme toggle button', () => {
+        renderWithProviders(<AppHeader />);
+        expect(screen.getByRole('button', { name: /toggle theme/i })).toBeInTheDocument();
+    });
+
+    it('renders as a header landmark', () => {
+        renderWithProviders(<AppHeader />);
+        expect(screen.getByRole('banner')).toBeInTheDocument();
+    });
+});

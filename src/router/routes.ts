@@ -1,6 +1,6 @@
 export const RoutesPath = {
     Root: '/',
-    DevPlayground: '/dev/ui',
+    DevPlayground: '/dev-playground',
     NotFound: '*'
 } as const;
 

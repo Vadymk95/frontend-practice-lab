@@ -1,8 +1,10 @@
-# react-enterprise-foundation — Project Context
+# InterviewOS — Project Context
 
 ## Purpose
 
-Production-ready React SPA template. Copy, rename, start building. Includes all the boring setup (DX tooling, i18n, routing, state, testing, CI) so you don't repeat it.
+Personal mobile-first interview preparation SPA for frontend engineers. Daily habit tool (1-hour sessions) to combat cognitive atrophy from AI-assisted workflows. Covers trainee → principal/staff engineer depth across 17 topic categories. Adaptive algorithm tracks per-topic error rates and surfaces weak areas more frequently.
+
+PRD: `_bmad-output/planning-artifacts/prd.md`
 
 ## Tech Stack
 
@@ -22,6 +24,7 @@ Production-ready React SPA template. Copy, rename, start building. Includes all 
 | Linting      | ESLint flat config               | 9                         |
 | Formatting   | Prettier                         | 3                         |
 | Git hooks    | Husky + commitlint + lint-staged | 9 / 20                    |
+| PWA          | vite-plugin-pwa                  | latest                    |
 
 ## Architecture
 
@@ -51,6 +54,7 @@ src/
   store/
     user/        # userStore.ts + userStore.test.ts
     utils/       # createSelectors.ts
+  data/          # JSON question files (one per category)
   test/
     setup.ts     # Vitest setup
     test-utils   # Custom render with providers
@@ -78,7 +82,6 @@ ComponentName/
 
 ```typescript
 // Usage: useUserStore.use.username() — auto-selector
-// Or: useUserStore((s) => s.username) — standard selector
 export const useUserStore = createSelectors(useUserStoreBase);
 ```
 
@@ -90,18 +93,37 @@ export const useUserStore = createSelectors(useUserStoreBase);
 // Router uses WithSuspense HOC
 ```
 
-### i18n namespace strategy
+### i18n
 
+- Default language: **Russian**. Language toggle RU/EN persists via localStorage.
+- Code snippets always in English regardless of active language
 - `common` — always loaded (buttons, labels)
 - `errors` — always loaded (API/validation errors)
-- `home` — loaded with HomePage
 - Feature namespaces — lazy loaded on demand
+
+### Data Layer
+
+- Questions stored in `src/data/<category>.json` — strict schema
+- Schema validated at build time (CI)
+- Storage service encapsulates all localStorage access — swappable for Firebase
+- See `docs/content-guide.md` for question schema and contribution patterns
+
+## Agent Rules
+
+Engineering standards, react patterns, state management, testing, and other constraints:
+**Read `.cursor/rules/` before any implementation task.**
+
+Key rules files:
+- `engineering-standards.mdc` — code quality, naming, structure
+- `react-patterns.mdc` — component patterns, hooks
+- `state-management.mdc` — Zustand usage
+- `test-driven-development.mdc` — testing approach
+- `performance.mdc` — performance constraints
+- `routing.mdc` — React Router 7 patterns
 
 ## Dev Tooling
 
 - `npm run dev` — dev server on :3000
 - `npm run build` — tsc + vite build (OXC minifier)
-- `npm run build:analyze` — bundle visualizer (ANALYZE=true)
 - `npm run test` — vitest run
 - `npm run lint` — eslint flat config
-- `DISABLE_ESLINT_PLUGIN=true npm run dev` — skip eslint in dev

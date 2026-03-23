@@ -3,7 +3,10 @@ import { Outlet } from 'react-router-dom';
 
 export const Main: FC = () => {
     return (
-        <main className="container mx-auto flex h-full flex-1 items-center justify-center py-12">
+        <main
+            id="main-content"
+            className="w-full flex-1 px-4 py-8 md:px-6 lg:mx-auto lg:max-w-[760px] lg:px-8"
+        >
             <Outlet />
         </main>
     );

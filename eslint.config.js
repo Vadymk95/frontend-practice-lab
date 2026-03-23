@@ -10,7 +10,7 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default defineConfig([
-    globalIgnores(['dist']),
+    globalIgnores(['dist', '.claude', '.cursor', '_bmad', '_bmad-output']),
     {
         files: ['**/*.{ts,tsx}'],
         plugins: {
