@@ -1,0 +1,90 @@
+[
+    {
+        "id": "ts-generics-001",
+        "type": "single-choice",
+        "category": "typescript",
+        "difficulty": "medium",
+        "tags": ["generics", "types"],
+        "question": "What does `T extends keyof U` mean in a generic constraint?",
+        "options": [
+            "T must be a subtype of U",
+            "T must be one of the property names of U",
+            "T must extend the class U",
+            "T must be equal to U"
+        ],
+        "correct": 1,
+        "explanation": "keyof U produces a union of all property keys of type U. T extends keyof U means T must be assignable to one of those keys."
+    },
+    {
+        "id": "ts-utility-001",
+        "type": "single-choice",
+        "category": "typescript",
+        "difficulty": "easy",
+        "tags": ["utility-types", "Partial", "Required"],
+        "question": "What does `Partial<T>` do in TypeScript?",
+        "options": [
+            "Makes all properties of T required",
+            "Makes all properties of T optional",
+            "Removes all optional properties from T",
+            "Creates a readonly version of T"
+        ],
+        "correct": 1,
+        "explanation": "Partial<T> constructs a type with all properties of T set to optional. It is equivalent to adding '?' to every property."
+    },
+    {
+        "id": "ts-narrowing-001",
+        "type": "multi-choice",
+        "category": "typescript",
+        "difficulty": "medium",
+        "tags": ["narrowing", "type-guards"],
+        "question": "Which of the following are valid type narrowing techniques in TypeScript?",
+        "options": [
+            "typeof checks (e.g., typeof x === 'string')",
+            "instanceof checks (e.g., x instanceof Date)",
+            "in operator (e.g., 'key' in obj)",
+            "as keyword (type assertions)"
+        ],
+        "correct": [0, 1, 2],
+        "explanation": "typeof, instanceof, and in are all valid narrowing techniques that TypeScript understands. Type assertions (as) do not narrow — they just override the type without a runtime check."
+    },
+    {
+        "id": "ts-mapped-001",
+        "type": "multi-choice",
+        "category": "typescript",
+        "difficulty": "hard",
+        "tags": ["mapped-types", "advanced"],
+        "question": "In a mapped type `{ [K in keyof T]: T[K] }`, which modifiers can be added?",
+        "options": [
+            "readonly (e.g., readonly [K in keyof T])",
+            "optional (e.g., [K in keyof T]?)",
+            "Removing readonly with -readonly",
+            "Removing optional with -?"
+        ],
+        "correct": [0, 1, 2, 3],
+        "explanation": "Mapped types support adding/removing readonly and optional modifiers using +/- prefixes. Both +readonly and -readonly, as well as +? and -? are valid."
+    },
+    {
+        "id": "ts-bug-assertion-001",
+        "type": "bug-finding",
+        "category": "typescript",
+        "difficulty": "medium",
+        "tags": ["type-assertion", "bugs", "safety"],
+        "question": "Find the issue with this TypeScript code:",
+        "code": "function getLength(value: string | number): number {\n  return (value as string).length;\n}",
+        "correct": "When value is a number, (value as string).length returns undefined at runtime",
+        "referenceAnswer": "The as string assertion bypasses TypeScript's type checking. When value is a number, .length returns undefined at runtime. Fix: use narrowing — if (typeof value === 'string') return value.length; return String(value).length;",
+        "explanation": "Type assertions (as) are a way to override TypeScript's inference but do not perform runtime checks. Always prefer type narrowing over assertions for safety."
+    },
+    {
+        "id": "ts-template-literal-001",
+        "type": "code-completion",
+        "category": "typescript",
+        "difficulty": "hard",
+        "tags": ["template-literal-types", "advanced"],
+        "question": "Complete the template literal type that creates event names by prepending 'on' to a capitalized string:",
+        "code": "type EventName<T extends string> = `__BLANK__${Capitalize<T>}`;\n// EventName<'click'> should be 'onClick'\n// EventName<'change'> should be 'onChange'",
+        "blanks": ["on"],
+        "referenceAnswer": "Template literal types use backtick syntax with ${} interpolation. Prefixing with 'on' and using Capitalize<T> produces camelCase event handler names.",
+        "explanation": "Template literal types in TypeScript allow constructing new string literal types by combining type patterns with template literal syntax."
+    }
+]

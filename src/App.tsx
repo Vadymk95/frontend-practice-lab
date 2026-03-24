@@ -6,10 +6,13 @@ import { AppHeader } from '@/components/layout/AppHeader';
 import { Footer } from '@/components/layout/Footer';
 import { Main } from '@/components/layout/Main';
 import { useI18nReload } from '@/hooks/i18n/useI18nReload';
+import { useTheme } from '@/hooks/ui/useTheme';
 
 export const App: FC = () => {
     // Hot reload translations in development mode
     useI18nReload();
+    // Hydrate uiStore from localStorage and apply theme class on mount
+    useTheme();
     const { t } = useTranslation('common');
 
     return (

@@ -1,0 +1,85 @@
+[
+    {
+        "id": "js-closure-001",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "easy",
+        "tags": ["closures", "scope"],
+        "question": "What is a closure in JavaScript?",
+        "options": [
+            "A function that is called immediately after it is defined",
+            "A function that retains access to its lexical scope even when executed outside that scope",
+            "A function with no return value",
+            "A built-in JavaScript method for closing browser tabs"
+        ],
+        "correct": 1,
+        "explanation": "A closure is a function that retains access to variables from its outer (enclosing) lexical scope even after the outer function has finished executing."
+    },
+    {
+        "id": "js-hoisting-001",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "easy",
+        "tags": ["hoisting", "var", "let"],
+        "question": "What will `console.log(x)` output before `var x = 5` is declared?",
+        "options": ["5", "undefined", "ReferenceError", "null"],
+        "correct": 1,
+        "explanation": "var declarations are hoisted to the top of their scope and initialized with `undefined`. The assignment stays in place, so accessing x before the assignment gives `undefined`."
+    },
+    {
+        "id": "js-promise-001",
+        "type": "multi-choice",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["promises", "async"],
+        "question": "Which of the following are valid ways to handle a rejected Promise?",
+        "options": [
+            "Using `.catch()` at the end of the chain",
+            "Using the second argument of `.then(onFulfilled, onRejected)`",
+            "Using try/catch inside an async function",
+            "Using `.finally()` to handle rejections"
+        ],
+        "correct": [0, 1, 2],
+        "explanation": "Rejected promises can be handled with .catch(), the second argument of .then(), or try/catch in async functions. .finally() runs regardless of outcome but does not handle rejections."
+    },
+    {
+        "id": "js-event-loop-001",
+        "type": "multi-choice",
+        "category": "javascript",
+        "difficulty": "hard",
+        "tags": ["event-loop", "microtasks", "macrotasks"],
+        "question": "Which of the following are microtasks in JavaScript?",
+        "options": [
+            "Promise callbacks (.then/.catch)",
+            "setTimeout callbacks",
+            "queueMicrotask() callbacks",
+            "setInterval callbacks"
+        ],
+        "correct": [0, 2],
+        "explanation": "Microtasks include Promise callbacks and queueMicrotask(). setTimeout and setInterval are macrotasks (tasks) processed after all microtasks in the current queue are done."
+    },
+    {
+        "id": "js-bug-typeof-001",
+        "type": "bug-finding",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["typeof", "null", "bugs"],
+        "question": "Find the bug in this type-checking function:",
+        "code": "function isObject(value) {\n  return typeof value === 'object';\n}",
+        "correct": "null passes the check because typeof null === 'object'",
+        "referenceAnswer": "The function returns true for null because typeof null === 'object' is a well-known JavaScript bug. Fix: return value !== null && typeof value === 'object';",
+        "explanation": "typeof null === 'object' is a historical JavaScript quirk. Always add a null check when using typeof to verify objects."
+    },
+    {
+        "id": "js-template-001",
+        "type": "code-completion",
+        "category": "javascript",
+        "difficulty": "easy",
+        "tags": ["template-literals", "strings"],
+        "question": "Complete the tagged template literal to return the string in uppercase:",
+        "code": "function upper(strings, ...values) {\n  return strings.reduce((acc, str, i) => {\n    return acc + (values[i - 1] ? values[i - 1].__BLANK__ : '') + str;\n  });\n}\nconst name = 'world';\nconsole.log(upper`hello ${name}`); // 'hello WORLD'",
+        "blanks": ["toUpperCase()"],
+        "referenceAnswer": "values[i - 1].toUpperCase() converts each interpolated value to uppercase before concatenating.",
+        "explanation": "Tagged template literals receive the string parts and interpolated values separately. Calling .toUpperCase() on each value produces the uppercase output."
+    }
+]
