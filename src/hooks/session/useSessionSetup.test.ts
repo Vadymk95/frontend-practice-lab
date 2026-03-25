@@ -44,17 +44,18 @@ const makeQuestion = (
     id: string,
     difficulty: 'easy' | 'medium' | 'hard' = 'easy',
     type: Question['type'] = 'single-choice'
-): Question => ({
-    id,
-    type,
-    category: 'javascript',
-    difficulty,
-    tags: [],
-    question: `Question ${id}`,
-    explanation: `Explanation ${id}`,
-    options: ['A', 'B'],
-    correct: 0
-});
+): Question =>
+    ({
+        id,
+        type,
+        category: 'javascript',
+        difficulty,
+        tags: [],
+        question: `Question ${id}`,
+        explanation: `Explanation ${id}`,
+        options: ['A', 'B'],
+        correct: 0
+    }) as unknown as Question;
 
 const mockRefetch = vi.fn();
 
