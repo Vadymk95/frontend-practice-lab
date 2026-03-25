@@ -38,7 +38,7 @@ const useSessionStoreBase = create<SessionState>()(
         (set) => ({
             ...initialState,
             setConfig: (config: SessionConfig) => {
-                set({ config }, false, { type: 'session-store/setConfig' });
+                set({ ...initialState, config }, false, { type: 'session-store/setConfig' });
             },
             setQuestionList: (questionList: Question[]) => {
                 set({ questionList, currentIndex: 0 }, false, {
@@ -79,3 +79,4 @@ const useSessionStoreBase = create<SessionState>()(
 );
 
 export const useSessionStore = createSelectors(useSessionStoreBase);
+export { useSessionStoreBase };

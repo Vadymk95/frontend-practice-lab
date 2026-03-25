@@ -1,8 +1,9 @@
 export interface SessionConfig {
-    categorySlug: string;
+    categories: string[];
     questionCount: number;
-    difficulty: 'easy' | 'medium' | 'hard' | 'mixed';
-    timeLimit?: number; // seconds; undefined = no limit
+    difficulty: 'easy' | 'medium' | 'hard' | 'all';
+    mode: 'quiz' | 'bug-finding' | 'code-completion' | 'all';
+    order: 'random' | 'sequential';
 }
 
 export interface StreakData {

@@ -13,6 +13,12 @@ priority: 100
 
 ## Phase 1: Deep Discovery (mandatory)
 
+### Phase 1 Fast-Track
+
+If the task targets **only** files matching `*.styled.ts`, `*.styled.tsx`, `*.scss`, `*.css`, `*.i18n.*`, `*.spec.ts`, `*.test.ts`, or `*.md` — skip Brain reads and proceed directly to Phase 3. State: `"Phase 1 skipped — styling/i18n/test/docs task."` When in doubt → run full Phase 1.
+
+---
+
 Before any reasoning about implementation:
 
 1. **Brain Scan**: Read `.cursor/brain/MAP.md` (store topology, data flows, routes, component wiring).
@@ -125,12 +131,12 @@ Re-read every changed file and verify:
 
 Before marking task complete:
 
-| Brain File | Update Trigger |
-|---|---|
-| `MAP.md` | New/changed stores, routes, data flows, component wiring |
-| `DECISIONS.md` | New architectural pattern, deviation from existing, trade-off made |
-| `SKELETONS.md` | New risk discovered, existing risk mitigated |
-| `DICTIONARY.md` | New domain term, acronym, or concept introduced |
+| Brain File      | Update Trigger                                                     |
+| --------------- | ------------------------------------------------------------------ |
+| `MAP.md`        | New/changed stores, routes, data flows, component wiring           |
+| `DECISIONS.md`  | New architectural pattern, deviation from existing, trade-off made |
+| `SKELETONS.md`  | New risk discovered, existing risk mitigated                       |
+| `DICTIONARY.md` | New domain term, acronym, or concept introduced                    |
 
 **Rule**: If no update needed — explicitly state: `"Brain sync: none needed."`
 **FORBIDDEN**: Completing a task without this declaration.

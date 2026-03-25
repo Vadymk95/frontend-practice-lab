@@ -5,6 +5,8 @@ import { WithSuspense } from '@/hocs/WithSuspense';
 import { DevPlayground } from '@/pages/DevPlayground';
 import { HomePage } from '@/pages/HomePage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
+import { SessionPlayPage } from '@/pages/SessionPlayPage';
+import { SummaryPage } from '@/pages/SummaryPage';
 
 import { RoutesPath } from '../routes';
 
@@ -17,6 +19,14 @@ const baseRoutes: RouteObject[] = [
                 // index: true means that this route is the default route
                 index: true,
                 element: <HomePage />
+            },
+            {
+                path: RoutesPath.SessionPlay,
+                element: WithSuspense(<SessionPlayPage />)
+            },
+            {
+                path: RoutesPath.SessionSummary,
+                element: WithSuspense(<SummaryPage />)
             },
             {
                 path: RoutesPath.NotFound,

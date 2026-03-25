@@ -27,12 +27,16 @@ Dark mode via `.dark` class. Animations via `tw-animate-css`.
 
 ## Post-Edit Commands
 
+After every batch of edits, run in order:
+
 ```bash
+npm run format        # auto-fix formatting — run BEFORE lint
 npm run lint
-npm run format:check
 npx tsc --noEmit
 npm run test
 ```
+
+**Rule:** Always run `npm run format` (not just `format:check`) after editing files. Do not leave formatting errors for the user to fix manually.
 
 ## Commit Format
 

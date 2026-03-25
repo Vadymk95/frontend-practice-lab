@@ -8,6 +8,9 @@ export interface ManifestEntry {
         medium: number;
         hard: number;
         total: number;
+        quiz: number;
+        bugFinding: number;
+        codeCompletion: number;
     };
 }
 

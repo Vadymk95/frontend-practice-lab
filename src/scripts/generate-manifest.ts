@@ -17,6 +17,9 @@ interface ManifestEntry {
         medium: number;
         hard: number;
         total: number;
+        quiz: number;
+        bugFinding: number;
+        codeCompletion: number;
     };
 }
 
@@ -49,9 +52,24 @@ function main() {
             const parsed = JSON.parse(raw) as unknown;
             const questions = CategoryFileSchema.parse(parsed);
 
-            const counts = { easy: 0, medium: 0, hard: 0, total: questions.length };
+            const counts = {
+                easy: 0,
+                medium: 0,
+                hard: 0,
+                total: questions.length,
+                quiz: 0,
+                bugFinding: 0,
+                codeCompletion: 0
+            };
             for (const q of questions) {
                 counts[q.difficulty]++;
+                if (q.type === 'single-choice' || q.type === 'multi-choice') {
+                    counts.quiz++;
+                } else if (q.type === 'bug-finding') {
+                    counts.bugFinding++;
+                } else if (q.type === 'code-completion') {
+                    counts.codeCompletion++;
+                }
             }
 
             manifest.push({

@@ -14,12 +14,16 @@ import { createQueryClient } from '@/lib/queryClient';
 import commonTranslations from '../../public/locales/en/common.json';
 import errorsTranslations from '../../public/locales/en/errors.json';
 import homeTranslations from '../../public/locales/en/home.json';
+import questionTranslations from '../../public/locales/en/question.json';
+import sessionTranslations from '../../public/locales/en/session.json';
 
 // Map namespaces to their translation objects
 const translationMap = {
     common: commonTranslations,
     errors: errorsTranslations,
-    home: homeTranslations
+    home: homeTranslations,
+    session: sessionTranslations,
+    question: questionTranslations
 } as const;
 
 // Ensure i18next is initialized for tests
