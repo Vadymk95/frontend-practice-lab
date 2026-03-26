@@ -194,6 +194,59 @@ export const DevPlayground: FC = () => {
                 </div>
             </section>
 
+            {/* Summary States Section */}
+            <section className="space-y-4">
+                <h2 className="text-2xl font-semibold tracking-tight">Summary Page States</h2>
+                <div className="rounded-lg border p-6 space-y-8">
+                    <div>
+                        <h3 className="text-sm font-medium text-muted-foreground mb-3">
+                            With wrong answers (Repeat mistakes CTA)
+                        </h3>
+                        <div className="flex flex-col gap-3 max-w-md">
+                            <div className="text-center">
+                                <p className="text-sm text-muted-foreground mb-1">Your score</p>
+                                <p className="text-5xl font-bold tabular-nums">38 / 50</p>
+                            </div>
+                            <div>
+                                <p className="text-sm font-medium mb-2">Focus areas</p>
+                                <ul className="flex flex-wrap gap-2">
+                                    {['JavaScript', 'TypeScript', 'React'].map((topic) => (
+                                        <li
+                                            key={topic}
+                                            className="px-3 py-1 rounded-full text-xs border border-border bg-muted text-muted-foreground"
+                                        >
+                                            {topic}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                            <div className="flex flex-col gap-3">
+                                <Button variant="default">Repeat mistakes (12)</Button>
+                                <Button variant="secondary">New session</Button>
+                                <Button variant="ghost">Home</Button>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 className="text-sm font-medium text-muted-foreground mb-3">
+                            Perfect score (Try again / Try something else CTAs)
+                        </h3>
+                        <div className="flex flex-col gap-3 max-w-md">
+                            <div className="text-center">
+                                <p className="text-sm text-muted-foreground mb-1">Your score</p>
+                                <p className="text-5xl font-bold tabular-nums">50 / 50</p>
+                                <p className="mt-2 text-accent font-medium">Perfect score!</p>
+                            </div>
+                            <div className="flex flex-col gap-3">
+                                <Button variant="default">Try again</Button>
+                                <Button variant="secondary">Try something else</Button>
+                                <Button variant="ghost">Home</Button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* ErrorState Section */}
             <section className="space-y-4">
                 <h2 className="text-2xl font-semibold tracking-tight">ErrorState</h2>

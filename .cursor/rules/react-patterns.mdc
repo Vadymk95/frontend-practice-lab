@@ -34,7 +34,9 @@ export function Input({ label, ref, ...props }: InputProps) {
 ## 2. Component Architecture: Logic Separation
 
 - **Components must be maximally presentational** — UI only.
-- **Extract all logic to a local hook** next to the component: `useComponentName.ts`.
+- **Extract runtime orchestration to a local hook** next to the component: `useComponentName.ts`.
+- **Extract pure deterministic computation to utilities** (`src/lib/` or local utility file).
+- **Mixed logic rule**: split pure computation out first; keep the hook as a thin orchestration layer.
 - Component imports hook: `import { useComponentName } from './useComponentName'`.
 
 ```

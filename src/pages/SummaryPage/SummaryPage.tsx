@@ -1,13 +1,83 @@
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { Button } from '@/components/ui/button';
+
+import { useSummaryPage } from './useSummaryPage';
+
 export const SummaryPage: FC = () => {
-    const { t } = useTranslation('common');
+    const { t } = useTranslation('summary');
+    const {
+        correctCount,
+        totalCount,
+        wrongCount,
+        weakTopics,
+        isPerfectScore,
+        handleRepeatMistakes,
+        handleTryAgain,
+        handleHome
+    } = useSummaryPage();
+
+    // During redirect (questionList empty), render nothing
+    if (totalCount === 0) return null;
+
     return (
-        <div className="flex items-center justify-center min-h-[60vh]">
-            <p className="text-muted-foreground text-sm">
-                {t('comingSoon', 'Summary coming in Story 1.6')}
-            </p>
+        <div className="flex flex-col gap-6 max-w-md mx-auto py-8 px-4">
+            {/* Score */}
+            <div className="text-center">
+                <p className="text-sm text-muted-foreground mb-1">{t('score.label')}</p>
+                <p className="text-5xl font-bold tabular-nums">
+                    {t('score.display', { correct: correctCount, total: totalCount })}
+                </p>
+                {isPerfectScore && <p className="mt-2 text-accent font-medium">{t('perfect')}</p>}
+            </div>
+
+            {/* Weak topics */}
+            {!isPerfectScore && (
+                <div>
+                    <p className="text-sm font-medium mb-2">{t('weakTopics.title')}</p>
+                    {weakTopics.length === 0 ? (
+                        <p className="text-sm text-muted-foreground">{t('weakTopics.empty')}</p>
+                    ) : (
+                        <ul className="flex flex-wrap gap-2">
+                            {weakTopics.map((topic) => (
+                                <li
+                                    key={topic}
+                                    className="px-3 py-1 rounded-full text-xs border border-border bg-muted text-muted-foreground"
+                                >
+                                    {topic}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+            )}
+
+            {/* CTAs */}
+            <div className="flex flex-col gap-3 mt-2">
+                {isPerfectScore ? (
+                    <>
+                        <Button onClick={handleTryAgain} variant="default">
+                            {t('actions.tryAgain')}
+                        </Button>
+                        <Button onClick={handleHome} variant="secondary">
+                            {t('actions.trySomethingElse')}
+                        </Button>
+                    </>
+                ) : (
+                    <>
+                        <Button onClick={handleRepeatMistakes} variant="default">
+                            {t('actions.repeatMistakes')} ({wrongCount})
+                        </Button>
+                        <Button onClick={handleHome} variant="secondary">
+                            {t('actions.newSession')}
+                        </Button>
+                    </>
+                )}
+                <Button onClick={handleHome} variant="ghost">
+                    {t('actions.home')}
+                </Button>
+            </div>
         </div>
     );
 };

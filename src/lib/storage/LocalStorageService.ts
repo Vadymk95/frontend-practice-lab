@@ -7,7 +7,8 @@ const STORAGE_KEYS = {
     RECORDS: 'ios_records',
     THEME: 'ios_theme',
     LANGUAGE: 'ios_language',
-    PRESETS: 'ios_presets'
+    PRESETS: 'ios_presets',
+    LAST_SESSION_RESULTS: 'ios_last_session_results'
 } as const;
 
 function readJson<T>(key: string, fallback: T): T {
@@ -99,6 +100,14 @@ class LocalStorageService implements StorageService {
     deletePreset(id: string): void {
         const presets = this.getPresets().filter((p) => p.id !== id);
         writeJson(STORAGE_KEYS.PRESETS, presets);
+    }
+
+    getLastSessionResults(): Record<string, boolean> {
+        return readJson<Record<string, boolean>>(STORAGE_KEYS.LAST_SESSION_RESULTS, {});
+    }
+
+    setLastSessionResults(results: Record<string, boolean>): void {
+        writeJson(STORAGE_KEYS.LAST_SESSION_RESULTS, results);
     }
 }
 

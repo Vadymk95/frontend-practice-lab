@@ -10,11 +10,13 @@ interface ProgressState {
     errorRates: Record<string, number>;
     streak: StreakData;
     records: Record<string, number>;
+    lastSessionResults: Record<string, boolean>;
     // Actions
     setWeights: (weights: Record<string, number>) => void;
     setErrorRates: (rates: Record<string, number>) => void;
     setStreak: (data: StreakData) => void;
     setRecord: (key: string, ms: number) => void;
+    saveSessionResults: (results: Record<string, boolean>) => void;
 }
 
 const useProgressStoreBase = create<ProgressState>()(
@@ -24,6 +26,7 @@ const useProgressStoreBase = create<ProgressState>()(
             errorRates: storageService.getErrorRates(),
             streak: storageService.getStreak(),
             records: storageService.getRecords(),
+            lastSessionResults: storageService.getLastSessionResults(),
 
             setWeights: (weights: Record<string, number>) => {
                 storageService.setWeights(weights);
@@ -41,6 +44,12 @@ const useProgressStoreBase = create<ProgressState>()(
                 storageService.setRecord(key, ms);
                 const records = { ...get().records, [key]: ms };
                 set({ records }, false, { type: 'progress-store/setRecord' });
+            },
+            saveSessionResults: (results: Record<string, boolean>) => {
+                storageService.setLastSessionResults(results);
+                set({ lastSessionResults: results }, false, {
+                    type: 'progress-store/saveSessionResults'
+                });
             }
         }),
         { name: 'progress-store' }
@@ -48,3 +57,4 @@ const useProgressStoreBase = create<ProgressState>()(
 );
 
 export const useProgressStore = createSelectors(useProgressStoreBase);
+export { useProgressStoreBase };

@@ -22,6 +22,7 @@ interface SessionState {
     nextQuestion: () => void;
     setTimerMs: (ms: number) => void;
     resetSession: () => void;
+    setRepeatMistakes: (questions: Question[]) => void;
 }
 
 const initialState = {
@@ -72,6 +73,11 @@ const useSessionStoreBase = create<SessionState>()(
             },
             resetSession: () => {
                 set(initialState, false, { type: 'session-store/resetSession' });
+            },
+            setRepeatMistakes: (questionList: Question[]) => {
+                set({ questionList, currentIndex: 0, answers: {}, skipList: [] }, false, {
+                    type: 'session-store/setRepeatMistakes'
+                });
             }
         }),
         { name: 'session-store' }

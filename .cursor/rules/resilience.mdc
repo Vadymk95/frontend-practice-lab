@@ -15,10 +15,10 @@ priority: 92
 ```typescript
 // Bad
 console.error(error);
-catch (e: any) { throw e; }
+catch (e: unknown) { throw e; }
 
-// Good — always include [module] operation: reason
-console.error('[UserStore] setUser: failed to update user state', error, { userId });
+// Good — always include [module] operation: reason via logger
+logger.error('[UserStore] setUser: failed to update user state', error, { userId });
 ```
 
 - **Silent catch**: FORBIDDEN. Every `catch` must either log with context or rethrow.
@@ -48,7 +48,7 @@ if (error) return <ErrorMessage message={error.message} />;
 
 ## 4. Debugging Strategy (Forensics)
 
-- **Evidence first**: Use `grep` and `git log -S` to trace bugs. Don't guess.
+- **Evidence first**: Use `rg` and `git log -S` to trace bugs. Don't guess.
 - **Root Cause**: Trace to origin — not the surface symptom.
 - **Post-Mortem**: Document new risks in `.cursor/brain/SKELETONS.md` after critical fixes.
 

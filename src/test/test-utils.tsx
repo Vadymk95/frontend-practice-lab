@@ -16,6 +16,7 @@ import errorsTranslations from '../../public/locales/en/errors.json';
 import homeTranslations from '../../public/locales/en/home.json';
 import questionTranslations from '../../public/locales/en/question.json';
 import sessionTranslations from '../../public/locales/en/session.json';
+import summaryTranslations from '../../public/locales/en/summary.json';
 
 // Map namespaces to their translation objects
 const translationMap = {
@@ -23,7 +24,8 @@ const translationMap = {
     errors: errorsTranslations,
     home: homeTranslations,
     session: sessionTranslations,
-    question: questionTranslations
+    question: questionTranslations,
+    summary: summaryTranslations
 } as const;
 
 // Ensure i18next is initialized for tests

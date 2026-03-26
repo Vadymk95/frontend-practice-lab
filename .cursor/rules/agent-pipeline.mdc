@@ -88,6 +88,8 @@ Implement directly → write integration tests via `renderWithProviders`.
 - [ ] No magic strings/numbers — use constants.
 - [ ] Errors logged with explicit module context — follow `resilience.mdc` and never use bare `console.error(e)`.
 - [ ] No `console.log` left in code.
+- [ ] Hook vs utility split is explicit: runtime orchestration in hooks, pure computation in utilities.
+- [ ] If a hook contains pure computation, extract the pure part to a utility before finalizing.
 
 ---
 
@@ -98,7 +100,7 @@ Implement directly → write integration tests via `renderWithProviders`.
 ```bash
 npm run lint          # must exit 0
 npm run format:check  # Prettier compliance
-tsc --noEmit          # zero type errors
+npx tsc -b --noEmit   # solution / project references — aligns with package.json `tsc -b`
 npm test              # all tests green
 ```
 
@@ -113,9 +115,10 @@ If any check fails:
 
 ### 4.3 Manual Checks (code review pass)
 
-- Grep changed files for `console.error(e)` without context — all errors must follow the contextual pattern from `resilience.mdc`.
+- Use `rg` on changed files to detect `console.error(e)` without context — all errors must follow the contextual pattern from `resilience.mdc`.
 - Verify no new circular imports or missing `@/` aliases.
 - Confirm no hardcoded user-visible strings — use `t()`.
+- Verify no pure business computation remains inside hooks when it is extractable to utility functions.
 
 ### 4.4 Diff Self-Review (mandatory)
 

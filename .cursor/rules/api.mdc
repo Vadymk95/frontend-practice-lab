@@ -27,11 +27,15 @@ src/hooks/<domain>/
 
 - **Typed contracts**: All API functions must have explicit `Request` params and `Response` return types. No `any`.
 - **Constants**: Base URLs, endpoint paths, and pagination limits from constants — never hardcoded in functions.
-- **Logging**: API errors logged via `console.error('[api/<domain>] operation: reason', error)`.
+- **Logging**: API errors logged via `logger.error('[api/<domain>] operation: reason', error)`.
 
 ```typescript
 // src/lib/api/users.ts
-export interface User { id: string; name: string; email: string; }
+export interface User {
+    id: string;
+    name: string;
+    email: string;
+}
 
 export const getUser = async (id: string): Promise<User> => {
     return apiClient<User>(`/users/${id}`);
@@ -42,7 +46,7 @@ export const useUserQuery = (id: string) => {
     return useQuery({
         queryKey: ['user', id],
         queryFn: () => getUser(id),
-        staleTime: 5 * 60 * 1000,
+        staleTime: 5 * 60 * 1000
     });
 };
 ```
@@ -59,7 +63,7 @@ export const useUserQuery = (id: string) => {
 export const userKeys = {
     all: ['users'] as const,
     detail: (id: string) => ['users', id] as const,
-    list: (filters: UserFilters) => ['users', 'list', filters] as const,
+    list: (filters: UserFilters) => ['users', 'list', filters] as const
 };
 ```
 
@@ -74,8 +78,8 @@ export const useUpdateUserMutation = () => {
             queryClient.setQueryData(userKeys.detail(data.id), data);
         },
         onError: (error) => {
-            console.error('[useUpdateUserMutation] failed', error);
-        },
+            logger.error('[useUpdateUserMutation] failed', error);
+        }
     });
 };
 ```

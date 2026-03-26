@@ -6,7 +6,7 @@ export const DEFAULT_LANGUAGE: SupportedLanguage = 'en';
 
 export const DEFAULT_NAMESPACES = ['common', 'errors', 'home'] as const;
 
-const LAZY_NAMESPACES = ['session', 'question'] as const;
+const LAZY_NAMESPACES = ['session', 'question', 'summary'] as const;
 
 export const ALL_NAMESPACES = [...DEFAULT_NAMESPACES, ...LAZY_NAMESPACES] as const;
 

@@ -18,7 +18,8 @@ Write tests **before** implementation for:
 
 ## 2. Hybrid UI Approach
 
-- **Logic → Hook** (strict TDD for the hook)
+- **Runtime orchestration → Hook** (strict TDD for the hook)
+- **Pure computation → Utility** (strict TDD for the utility)
 - **UI → Component** (integration test after component is built)
 - **Rule**: If component logic exceeds 10 lines — extract to `useComponentName.ts` hook, apply strict TDD to the hook.
 
@@ -58,7 +59,10 @@ describe('userStore', () => {
 
     it('clears state on logout()', () => {
         const { result } = renderHook(() => useUserStore());
-        act(() => { result.current.setUser('alice'); result.current.logout(); });
+        act(() => {
+            result.current.setUser('alice');
+            result.current.logout();
+        });
         expect(result.current.username).toBeNull();
         expect(result.current.isLoggedIn).toBe(false);
     });

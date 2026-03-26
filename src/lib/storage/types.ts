@@ -38,4 +38,7 @@ export interface StorageService {
     getPresets(): SessionPreset[];
     savePreset(p: SessionPreset): void;
     deletePreset(id: string): void;
+    // Session results
+    getLastSessionResults(): Record<string, boolean>;
+    setLastSessionResults(results: Record<string, boolean>): void;
 }
