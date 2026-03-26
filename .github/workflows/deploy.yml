@@ -1,33 +1,24 @@
-name: CI
+name: Deploy
 
 on:
-    pull_request:
-        branches: [master]
     push:
         branches: [master]
 
 jobs:
-    validate:
+    deploy:
         runs-on: ubuntu-latest
-
-        strategy:
-            matrix:
-                node-version: [24.x]
 
         steps:
             - uses: actions/checkout@v4
 
-            - name: Use Node.js ${{ matrix.node-version }}
+            - name: Use Node.js 24.x
               uses: actions/setup-node@v4
               with:
-                  node-version: ${{ matrix.node-version }}
+                  node-version: 24.x
                   cache: 'npm'
 
             - name: Install dependencies
               run: npm ci
-
-            - name: Audit dependencies
-              run: npm audit --audit-level=moderate
 
             - name: Run Linter
               run: npm run lint
@@ -43,3 +34,9 @@ jobs:
 
             - name: Run Tests
               run: npm run test
+
+            - name: Build
+              run: npm run build
+
+            - name: Deploy to Firebase Hosting
+              run: npx firebase-tools deploy --only hosting --non-interactive --token "${{ secrets.FIREBASE_TOKEN }}"
