@@ -1,13 +1,13 @@
 import type { FC } from 'react';
 
-import type { MultiChoiceQuestion } from '@/lib/data/schema';
+import type { MultiChoiceQuestion as MultiChoiceQuestionData } from '@/lib/data/schema';
 
 import { AnswerOption } from '../AnswerOption';
 import { ExplanationPanel } from '../ExplanationPanel';
 import { useMultiChoiceQuestion } from './useMultiChoiceQuestion';
 
 interface Props {
-    question: MultiChoiceQuestion;
+    question: MultiChoiceQuestionData;
     onSelectionChange: (hasSelection: boolean) => void;
     onCheckRegister: (checkFn: () => void) => void;
 }
