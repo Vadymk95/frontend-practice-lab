@@ -1,3 +1,17 @@
+export PATH="$HOME/.nvm/versions/node/v24.11.0/bin:$PATH"
+
+npm run format:check
+if [ $? -ne 0 ]; then
+  echo "❌ Formatting check failed. Run 'npm run format' and re-commit."
+  exit 1
+fi
+
+npm run lint
+if [ $? -ne 0 ]; then
+  echo "❌ Lint failed. Fix errors before push."
+  exit 1
+fi
+
 npx tsc -b --force --noEmit
 if [ $? -ne 0 ]; then
   echo "❌ TypeScript type-check failed. Fix errors before push."
