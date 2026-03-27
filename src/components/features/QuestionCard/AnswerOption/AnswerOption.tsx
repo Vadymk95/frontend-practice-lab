@@ -12,6 +12,8 @@ interface AnswerOptionProps {
     isCorrect: boolean;
     isDisabled: boolean;
     onSelect: () => void;
+    variant?: 'radio' | 'checkbox';
+    isMissed?: boolean;
 }
 
 export const AnswerOption: FC<AnswerOptionProps> = ({
@@ -21,33 +23,38 @@ export const AnswerOption: FC<AnswerOptionProps> = ({
     isAnswered,
     isCorrect,
     isDisabled,
-    onSelect
+    onSelect,
+    variant = 'radio',
+    isMissed = false
 }) => {
     const showCorrect = isAnswered && isCorrect;
+    const showCorrectIcon = isAnswered && isSelected && isCorrect;
     const showWrong = isAnswered && isSelected && !isCorrect;
+    const showMissed = isMissed && !isSelected;
 
     return (
         <button
-            role="radio"
+            role={variant}
             aria-checked={isSelected}
             aria-disabled={isDisabled}
-            disabled={isDisabled && !showCorrect}
+            disabled={isDisabled && !showCorrect && !showMissed}
             onClick={isDisabled ? undefined : onSelect}
             className={cn(
                 'flex items-center gap-3 w-full min-h-[52px] px-4 py-3 rounded-lg border text-left transition-colors',
                 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
-                !isAnswered && 'hover:bg-accent/5 border-border cursor-pointer',
+                !isAnswered && !isMissed && 'hover:bg-accent/5 border-border cursor-pointer',
                 isSelected && !isAnswered && 'border-primary bg-primary/10',
                 showCorrect && 'bg-accent/10 border-accent',
                 showWrong && 'bg-error/10 border-error',
-                isDisabled && !showCorrect && 'cursor-not-allowed opacity-60'
+                showMissed && 'bg-accent/10 border-accent',
+                isDisabled && !showCorrect && !showMissed && 'cursor-not-allowed opacity-60'
             )}
         >
             <span className="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full border text-xs font-medium">
                 {OPTION_KEYS[index]}
             </span>
             <span className="flex-1 text-sm">{text}</span>
-            {showCorrect && (
+            {showCorrectIcon && (
                 <span aria-hidden="true" className="text-accent">
                     ✓
                 </span>

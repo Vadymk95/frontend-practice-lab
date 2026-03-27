@@ -50,6 +50,7 @@ export function useSessionPlayPage() {
         isSetupError,
         questionCount: questionList.length,
         currentIndex,
+        currentQuestion,
         isAnswered,
         handleNext,
         onRetry: refetch

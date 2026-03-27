@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { type FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { ErrorState } from '@/components/common/ErrorState';
@@ -8,36 +8,89 @@ import { Button } from '@/components/ui/button';
 import { useSessionPlayPage } from './useSessionPlayPage';
 
 export const SessionPlayPage: FC = () => {
-    const { t } = useTranslation('session');
-    const { isSetupLoading, isSetupError, questionCount, isAnswered, handleNext, onRetry } =
-        useSessionPlayPage();
+    const { t: tSession } = useTranslation('session');
+    const { t: tQuestion } = useTranslation('question');
+    const {
+        isSetupLoading,
+        isSetupError,
+        questionCount,
+        currentQuestion,
+        isAnswered,
+        handleNext,
+        onRetry
+    } = useSessionPlayPage();
+
+    const [multiHasSelection, setMultiHasSelection] = useState(false);
+    const checkFnRef = useRef<(() => void) | null>(null);
+
+    const handleSelectionChange = useCallback((hasSelection: boolean) => {
+        setMultiHasSelection(hasSelection);
+    }, []);
+
+    const handleCheckRegister = useCallback((checkFn: () => void) => {
+        checkFnRef.current = checkFn;
+    }, []);
+
+    const handleCheck = useCallback(() => {
+        checkFnRef.current?.();
+    }, []);
+
+    useEffect(() => {
+        setMultiHasSelection(false);
+        checkFnRef.current = null;
+    }, [currentQuestion?.id]);
 
     if (isSetupError) {
-        return <ErrorState message={t('errors.fetchQuestions')} onRetry={onRetry} />;
+        return <ErrorState message={tSession('errors.fetchQuestions')} onRetry={onRetry} />;
     }
 
     if (isSetupLoading || questionCount === 0) {
         return (
             <div role="status" aria-live="polite" className="flex justify-center py-12">
-                <span className="text-muted-foreground text-sm">{t('loading')}</span>
+                <span className="text-muted-foreground text-sm">{tSession('loading')}</span>
             </div>
         );
     }
 
+    const isMultiChoice = currentQuestion?.type === 'multi-choice';
+
     return (
         <div className="flex flex-col gap-4 pb-24 lg:pb-0">
-            <QuestionCard />
-            {/* Desktop inline */}
-            {isAnswered && (
+            <QuestionCard
+                onSelectionChange={handleSelectionChange}
+                onCheckRegister={handleCheckRegister}
+            />
+
+            {/* Desktop inline — Check button (multi-choice, not yet answered) */}
+            {isMultiChoice && !isAnswered && (
                 <div className="hidden lg:flex justify-end mt-2">
-                    <Button onClick={handleNext}>{t('next')}</Button>
+                    <Button disabled={!multiHasSelection} onClick={handleCheck}>
+                        {tQuestion('check')}
+                    </Button>
                 </div>
             )}
-            {/* Mobile sticky bottom bar */}
+
+            {/* Desktop inline — Next button (answered) */}
+            {isAnswered && (
+                <div className="hidden lg:flex justify-end mt-2">
+                    <Button onClick={handleNext}>{tSession('next')}</Button>
+                </div>
+            )}
+
+            {/* Mobile sticky — Check button (multi-choice, not yet answered) */}
+            {isMultiChoice && !isAnswered && (
+                <div className="lg:hidden fixed bottom-0 left-0 right-0 p-4 bg-background border-t border-border">
+                    <Button disabled={!multiHasSelection} onClick={handleCheck} className="w-full">
+                        {tQuestion('check')}
+                    </Button>
+                </div>
+            )}
+
+            {/* Mobile sticky — Next button (answered) */}
             {isAnswered && (
                 <div className="lg:hidden fixed bottom-0 left-0 right-0 p-4 bg-background border-t border-border">
                     <Button onClick={handleNext} className="w-full">
-                        {t('next')}
+                        {tSession('next')}
                     </Button>
                 </div>
             )}

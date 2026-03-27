@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import type { SingleChoiceQuestion } from '@/lib/data/schema';
+import type { MultiChoiceQuestion, SingleChoiceQuestion } from '@/lib/data/schema';
 import { useSessionStore } from '@/store/session';
 import { renderWithProviders } from '@/test/test-utils';
 
@@ -84,5 +84,31 @@ describe('QuestionCard', () => {
         expect(screen.getByRole('radiogroup')).toBeInTheDocument();
         expect(screen.getByText('null')).toBeInTheDocument();
         expect(screen.getByText('object')).toBeInTheDocument();
+    });
+
+    it('renders MultiChoiceQuestion when type is multi-choice', () => {
+        const multiQuestion: MultiChoiceQuestion = {
+            id: 'mc-q-1',
+            type: 'multi-choice',
+            category: 'JavaScript',
+            difficulty: 'medium',
+            tags: [],
+            question: 'Which are truthy?',
+            explanation: 'Empty array and non-zero numbers are truthy.',
+            options: ['0', '[]', '""', '1'],
+            correct: [1, 3]
+        };
+        useSessionStore.setState({
+            questionList: [multiQuestion],
+            currentIndex: 0,
+            answers: {},
+            skipList: [],
+            config: null,
+            timerMs: 0
+        });
+        renderWithProviders(<QuestionCard onSelectionChange={vi.fn()} onCheckRegister={vi.fn()} />);
+        expect(screen.getByRole('group', { name: 'Answer options' })).toBeInTheDocument();
+        const checkboxes = screen.getAllByRole('checkbox');
+        expect(checkboxes).toHaveLength(4);
     });
 });

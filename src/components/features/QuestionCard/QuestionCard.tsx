@@ -3,10 +3,16 @@ import { useTranslation } from 'react-i18next';
 
 import { Badge } from '@/components/ui/badge';
 
+import { MultiChoiceQuestion } from './MultiChoice';
 import { SingleChoiceQuestion } from './SingleChoice';
 import { useQuestionCard } from './useQuestionCard';
 
-export const QuestionCard: FC = () => {
+interface QuestionCardProps {
+    onSelectionChange?: (hasSelection: boolean) => void;
+    onCheckRegister?: (checkFn: () => void) => void;
+}
+
+export const QuestionCard: FC<QuestionCardProps> = ({ onSelectionChange, onCheckRegister }) => {
     const { t } = useTranslation('question');
     const { question, currentIndex, questionCount } = useQuestionCard();
 
@@ -29,6 +35,13 @@ export const QuestionCard: FC = () => {
             </div>
             <h2 className="text-base font-medium">{question.question}</h2>
             {question.type === 'single-choice' && <SingleChoiceQuestion question={question} />}
+            {question.type === 'multi-choice' && (
+                <MultiChoiceQuestion
+                    question={question}
+                    onSelectionChange={onSelectionChange ?? (() => {})}
+                    onCheckRegister={onCheckRegister ?? (() => {})}
+                />
+            )}
         </article>
     );
 };
