@@ -39,7 +39,7 @@ describe('CodeBlock', () => {
         vi.mocked(getHighlighter).mockResolvedValue({
             codeToHtml: (code: string) =>
                 `<pre class="shiki"><code>${code.replace(/</g, '&lt;')}</code></pre>`
-        } as Awaited<ReturnType<typeof getHighlighter>>);
+        } as unknown as Awaited<ReturnType<typeof getHighlighter>>);
 
         renderWithProviders(<CodeBlock code="const x = 1" lang="javascript" />);
 
@@ -110,7 +110,7 @@ describe('CodeBlock', () => {
         await act(async () => {
             resolveHighlighter({
                 codeToHtml
-            } as Awaited<ReturnType<typeof import('@/lib/shiki').getHighlighter>>);
+            } as unknown as Awaited<ReturnType<typeof import('@/lib/shiki').getHighlighter>>);
         });
 
         expect(codeToHtml).not.toHaveBeenCalled();
