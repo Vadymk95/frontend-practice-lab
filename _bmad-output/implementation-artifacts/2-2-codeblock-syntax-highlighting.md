@@ -1,6 +1,6 @@
 # Story 2.2: CodeBlock Component with Syntax Highlighting
 
-Status: review
+Status: done
 
 ## Story
 
