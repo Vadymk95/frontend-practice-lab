@@ -1,19 +1,11 @@
-export PATH="$HOME/.nvm/versions/node/v24.11.0/bin:$PATH"
+export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use --silent 2>/dev/null || true
 
-npm run format:check
-if [ $? -ne 0 ]; then
-  echo "❌ Formatting check failed. Run 'npm run format' and re-commit."
-  exit 1
-fi
+echo "→ format:check"
+npm run format:check || { echo "❌ Formatting check failed. Run 'npm run format' and re-commit."; exit 1; }
 
-npm run lint
-if [ $? -ne 0 ]; then
-  echo "❌ Lint failed. Fix errors before push."
-  exit 1
-fi
+echo "→ lint"
+npm run lint || { echo "❌ Lint failed. Fix errors before push."; exit 1; }
 
-npx tsc -b --force --noEmit
-if [ $? -ne 0 ]; then
-  echo "❌ TypeScript type-check failed. Fix errors before push."
-  exit 1
-fi
+echo "→ type-check"
+npx tsc -b --force --noEmit || { echo "❌ TypeScript type-check failed. Fix errors before push."; exit 1; }

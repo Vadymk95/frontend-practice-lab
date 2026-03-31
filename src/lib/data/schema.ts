@@ -25,7 +25,7 @@ export const MultiChoiceSchema = BaseQuestionSchema.extend({
 export const BugFindingSchema = BaseQuestionSchema.extend({
     type: z.literal('bug-finding'),
     code: z.string(),
-    options: z.array(z.string()).optional(),
+    options: z.array(z.string()).min(1).optional(),
     correct: z.string(),
     referenceAnswer: z.string()
 });

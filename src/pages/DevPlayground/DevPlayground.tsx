@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { CodeBlock } from '@/components/common/CodeBlock';
 import { ErrorState } from '@/components/common/ErrorState';
 import { AnswerOption } from '@/components/features/QuestionCard/AnswerOption';
+import { BugFindingQuestion } from '@/components/features/QuestionCard/BugFinding';
 import { ExplanationPanel } from '@/components/features/QuestionCard/ExplanationPanel';
 import { SessionConfigurator } from '@/components/features/SessionConfigurator';
 import { Button } from '@/components/ui/button';
@@ -277,6 +278,62 @@ export const DevPlayground: FC = () => {
                         <CodeBlock
                             lang="javascript"
                             code={`const result = someVeryLongFunctionName(firstArgument, secondArgument, thirdArgument, fourthArgument, fifthArgument);`}
+                        />
+                    </div>
+                </div>
+            </section>
+
+            {/* BugFindingQuestion Section */}
+            <section className="space-y-4">
+                <h2 className="text-2xl font-semibold tracking-tight">BugFindingQuestion</h2>
+                <div className="rounded-lg border p-6 space-y-8">
+                    <div>
+                        <h3 className="text-sm font-medium text-muted-foreground mb-3">
+                            With options — pre-submit
+                        </h3>
+                        <BugFindingQuestion
+                            question={{
+                                id: 'bf-demo-1',
+                                type: 'bug-finding',
+                                category: 'javascript',
+                                difficulty: 'medium',
+                                tags: ['closures'],
+                                question: 'Find the bug in this closure:',
+                                code: `for (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 100);\n}`,
+                                options: [
+                                    'var should be let',
+                                    'setTimeout delay is wrong',
+                                    'console.log is wrong'
+                                ],
+                                correct: 'var should be let',
+                                referenceAnswer: `for (let i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 100);\n}`,
+                                explanation:
+                                    'var is function-scoped. By the time the timeouts fire, i is 3. Using let creates a new binding per iteration.'
+                            }}
+                            onSubmitRegister={() => {}}
+                            onSelfAssessRegister={() => {}}
+                        />
+                    </div>
+                    <div>
+                        <h3 className="text-sm font-medium text-muted-foreground mb-3">
+                            Text input variant — pre-submit
+                        </h3>
+                        <BugFindingQuestion
+                            question={{
+                                id: 'bf-demo-2',
+                                type: 'bug-finding',
+                                category: 'javascript',
+                                difficulty: 'easy',
+                                tags: ['types'],
+                                question: 'What is wrong with this comparison?',
+                                code: `if (userAge == "18") {\n  grantAccess();\n}`,
+                                correct: 'uses loose equality instead of strict',
+                                referenceAnswer: `if (userAge === 18) {\n  grantAccess();\n}`,
+                                explanation:
+                                    'Use === for type-safe comparison. == coerces types which can lead to unexpected behavior.'
+                            }}
+                            onSubmitRegister={() => {}}
+                            onSelfAssessRegister={() => {}}
                         />
                     </div>
                 </div>

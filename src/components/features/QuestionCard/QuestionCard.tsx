@@ -1,8 +1,12 @@
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
+const noop = () => {};
+const noopSelfAssess = (_: (result: 'gotIt' | 'missedIt') => void) => {};
+
 import { Badge } from '@/components/ui/badge';
 
+import { BugFindingQuestion } from './BugFinding';
 import { MultiChoiceQuestion } from './MultiChoice';
 import { SingleChoiceQuestion } from './SingleChoice';
 import { useQuestionCard } from './useQuestionCard';
@@ -10,9 +14,16 @@ import { useQuestionCard } from './useQuestionCard';
 interface QuestionCardProps {
     onSelectionChange?: (hasSelection: boolean) => void;
     onCheckRegister?: (checkFn: () => void) => void;
+    onSubmitRegister?: (submitFn: () => void) => void;
+    onSelfAssessRegister?: (selfAssessFn: (result: 'gotIt' | 'missedIt') => void) => void;
 }
 
-export const QuestionCard: FC<QuestionCardProps> = ({ onSelectionChange, onCheckRegister }) => {
+export const QuestionCard: FC<QuestionCardProps> = ({
+    onSelectionChange,
+    onCheckRegister,
+    onSubmitRegister,
+    onSelfAssessRegister
+}) => {
     const { t } = useTranslation('question');
     const { question, currentIndex, questionCount } = useQuestionCard();
 
@@ -40,6 +51,13 @@ export const QuestionCard: FC<QuestionCardProps> = ({ onSelectionChange, onCheck
                     question={question}
                     onSelectionChange={onSelectionChange ?? (() => {})}
                     onCheckRegister={onCheckRegister ?? (() => {})}
+                />
+            )}
+            {question.type === 'bug-finding' && (
+                <BugFindingQuestion
+                    question={question}
+                    onSubmitRegister={onSubmitRegister ?? noop}
+                    onSelfAssessRegister={onSelfAssessRegister ?? noopSelfAssess}
                 />
             )}
         </article>

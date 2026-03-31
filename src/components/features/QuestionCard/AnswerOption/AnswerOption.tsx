@@ -50,7 +50,7 @@ export const AnswerOption: FC<AnswerOptionProps> = ({
                 isDisabled && !showCorrect && !showMissed && 'cursor-not-allowed opacity-60'
             )}
         >
-            <span className="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full border text-xs font-medium">
+            <span className="shrink-0 w-6 h-6 flex items-center justify-center rounded-full border text-xs font-medium">
                 {OPTION_KEYS[index]}
             </span>
             <span className="flex-1 text-sm">{text}</span>
