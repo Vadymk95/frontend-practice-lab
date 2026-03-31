@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 
+import { CodeBlock } from '@/components/common/CodeBlock';
 import { ErrorState } from '@/components/common/ErrorState';
 import { AnswerOption } from '@/components/features/QuestionCard/AnswerOption';
 import { ExplanationPanel } from '@/components/features/QuestionCard/ExplanationPanel';
@@ -243,6 +244,40 @@ export const DevPlayground: FC = () => {
                                 <Button variant="ghost">Home</Button>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* CodeBlock Section */}
+            <section className="space-y-4">
+                <h2 className="text-2xl font-semibold tracking-tight">CodeBlock</h2>
+                <div className="rounded-lg border p-6 space-y-8">
+                    <div>
+                        <h3 className="text-sm font-medium text-muted-foreground mb-3">
+                            JavaScript (readonly)
+                        </h3>
+                        <CodeBlock
+                            lang="javascript"
+                            code={`function fibonacci(n) {\n  if (n <= 1) return n;\n  return fibonacci(n - 1) + fibonacci(n - 2);\n}`}
+                        />
+                    </div>
+                    <div>
+                        <h3 className="text-sm font-medium text-muted-foreground mb-3">
+                            TypeScript
+                        </h3>
+                        <CodeBlock
+                            lang="typescript"
+                            code={`interface User {\n  id: string;\n  name: string;\n  role: 'admin' | 'user';\n}\n\nfunction getUser(id: string): Promise<User | null> {\n  return fetch(\`/api/users/\${id}\`).then(r => r.json());\n}`}
+                        />
+                    </div>
+                    <div>
+                        <h3 className="text-sm font-medium text-muted-foreground mb-3">
+                            Long lines (horizontal scroll test)
+                        </h3>
+                        <CodeBlock
+                            lang="javascript"
+                            code={`const result = someVeryLongFunctionName(firstArgument, secondArgument, thirdArgument, fourthArgument, fifthArgument);`}
+                        />
                     </div>
                 </div>
             </section>
