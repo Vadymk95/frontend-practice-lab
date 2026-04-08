@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { MultiChoiceQuestion, SingleChoiceQuestion } from '@/lib/data/schema';
@@ -84,6 +84,58 @@ describe('QuestionCard', () => {
         expect(screen.getByRole('radiogroup')).toBeInTheDocument();
         expect(screen.getByText('null')).toBeInTheDocument();
         expect(screen.getByText('object')).toBeInTheDocument();
+    });
+
+    describe('Back button', () => {
+        it('does not show Back button when question is unanswered', () => {
+            renderWithProviders(<QuestionCard />);
+            expect(screen.queryByRole('button', { name: /back/i })).not.toBeInTheDocument();
+        });
+
+        it('shows Back button when question is answered', () => {
+            useSessionStore.setState({
+                questionList: [mockQuestion],
+                currentIndex: 0,
+                answers: { [mockQuestion.id]: 2 },
+                skipList: [],
+                config: null,
+                timerMs: 0
+            });
+            renderWithProviders(<QuestionCard />);
+            expect(screen.getByRole('button', { name: /back/i })).toBeInTheDocument();
+        });
+
+        it('removes answer from store when Back is tapped', async () => {
+            useSessionStore.setState({
+                questionList: [mockQuestion],
+                currentIndex: 0,
+                answers: { [mockQuestion.id]: 2 },
+                skipList: [],
+                config: null,
+                timerMs: 0
+            });
+            renderWithProviders(<QuestionCard />);
+            fireEvent.click(screen.getByRole('button', { name: /back/i }));
+            await waitFor(() => {
+                expect(useSessionStore.getState().answers[mockQuestion.id]).toBeUndefined();
+            });
+        });
+
+        it('hides Back button after tapping it (answer removed)', async () => {
+            useSessionStore.setState({
+                questionList: [mockQuestion],
+                currentIndex: 0,
+                answers: { [mockQuestion.id]: 2 },
+                skipList: [],
+                config: null,
+                timerMs: 0
+            });
+            renderWithProviders(<QuestionCard />);
+            fireEvent.click(screen.getByRole('button', { name: /back/i }));
+            await waitFor(() => {
+                expect(screen.queryByRole('button', { name: /back/i })).not.toBeInTheDocument();
+            });
+        });
     });
 
     it('renders MultiChoiceQuestion when type is multi-choice', () => {

@@ -18,6 +18,7 @@ interface SessionState {
     setConfig: (config: SessionConfig) => void;
     setQuestionList: (questions: Question[]) => void;
     setAnswer: (questionId: string, answer: Answer) => void;
+    removeAnswer: (questionId: string) => void;
     skipQuestion: (questionId: string) => void;
     nextQuestion: () => void;
     setTimerMs: (ms: number) => void;
@@ -50,6 +51,16 @@ const useSessionStoreBase = create<SessionState>()(
                 set((state) => ({ answers: { ...state.answers, [questionId]: answer } }), false, {
                     type: 'session-store/setAnswer'
                 });
+            },
+            removeAnswer: (questionId: string) => {
+                set(
+                    (state) => {
+                        const { [questionId]: _removed, ...rest } = state.answers;
+                        return { answers: rest };
+                    },
+                    false,
+                    { type: 'session-store/removeAnswer' }
+                );
             },
             skipQuestion: (questionId: string) => {
                 set((state) => ({ skipList: [...state.skipList, questionId] }), false, {

@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const noop = () => {};
@@ -6,6 +7,7 @@ const noopSelfAssess = (_: (result: 'gotIt' | 'missedIt') => void) => {};
 const noopAllFilled = (_: boolean) => {};
 
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 
 import { BugFindingQuestion } from './BugFinding';
 import { CodeCompletionQuestion } from './CodeCompletion';
@@ -29,29 +31,45 @@ export const QuestionCard: FC<QuestionCardProps> = ({
     onAllBlanksFilled
 }) => {
     const { t } = useTranslation('question');
-    const { question, currentIndex, questionCount } = useQuestionCard();
+    const { question, currentIndex, questionCount, isAnswered, handleBack } = useQuestionCard();
+    const [resetKey, setResetKey] = useState(0);
+
+    const onBack = useCallback(() => {
+        handleBack();
+        setResetKey((k) => k + 1);
+    }, [handleBack]);
 
     if (!question) return null;
 
     return (
         <article className="flex flex-col gap-4">
-            <div
-                aria-label={t('progress.ariaLabel', {
-                    current: currentIndex + 1,
-                    total: questionCount
-                })}
-                className="text-sm text-muted-foreground"
-            >
-                {t('progress.indicator', { current: currentIndex + 1, total: questionCount })}
+            <div className="flex items-center justify-between">
+                <div
+                    aria-label={t('progress.ariaLabel', {
+                        current: currentIndex + 1,
+                        total: questionCount
+                    })}
+                    className="text-sm text-muted-foreground"
+                >
+                    {t('progress.indicator', { current: currentIndex + 1, total: questionCount })}
+                </div>
+                {isAnswered && (
+                    <Button variant="ghost" size="sm" onClick={onBack}>
+                        {t('back')}
+                    </Button>
+                )}
             </div>
             <div className="flex gap-2 flex-wrap">
                 <Badge variant="outline">{question.category}</Badge>
                 <Badge variant="outline">{t(`difficulty.${question.difficulty}`)}</Badge>
             </div>
             <h2 className="text-base font-medium">{question.question}</h2>
-            {question.type === 'single-choice' && <SingleChoiceQuestion question={question} />}
+            {question.type === 'single-choice' && (
+                <SingleChoiceQuestion key={resetKey} question={question} />
+            )}
             {question.type === 'multi-choice' && (
                 <MultiChoiceQuestion
+                    key={resetKey}
                     question={question}
                     onSelectionChange={onSelectionChange ?? (() => {})}
                     onCheckRegister={onCheckRegister ?? (() => {})}
@@ -59,6 +77,7 @@ export const QuestionCard: FC<QuestionCardProps> = ({
             )}
             {question.type === 'bug-finding' && (
                 <BugFindingQuestion
+                    key={resetKey}
                     question={question}
                     onSubmitRegister={onSubmitRegister ?? noop}
                     onSelfAssessRegister={onSelfAssessRegister ?? noopSelfAssess}
@@ -66,6 +85,7 @@ export const QuestionCard: FC<QuestionCardProps> = ({
             )}
             {question.type === 'code-completion' && (
                 <CodeCompletionQuestion
+                    key={resetKey}
                     question={question}
                     onSubmitRegister={onSubmitRegister ?? noop}
                     onAllBlanksFilled={onAllBlanksFilled ?? noopAllFilled}
