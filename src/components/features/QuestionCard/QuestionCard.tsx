@@ -3,10 +3,12 @@ import { useTranslation } from 'react-i18next';
 
 const noop = () => {};
 const noopSelfAssess = (_: (result: 'gotIt' | 'missedIt') => void) => {};
+const noopAllFilled = (_: boolean) => {};
 
 import { Badge } from '@/components/ui/badge';
 
 import { BugFindingQuestion } from './BugFinding';
+import { CodeCompletionQuestion } from './CodeCompletion';
 import { MultiChoiceQuestion } from './MultiChoice';
 import { SingleChoiceQuestion } from './SingleChoice';
 import { useQuestionCard } from './useQuestionCard';
@@ -16,13 +18,15 @@ interface QuestionCardProps {
     onCheckRegister?: (checkFn: () => void) => void;
     onSubmitRegister?: (submitFn: () => void) => void;
     onSelfAssessRegister?: (selfAssessFn: (result: 'gotIt' | 'missedIt') => void) => void;
+    onAllBlanksFilled?: (filled: boolean) => void;
 }
 
 export const QuestionCard: FC<QuestionCardProps> = ({
     onSelectionChange,
     onCheckRegister,
     onSubmitRegister,
-    onSelfAssessRegister
+    onSelfAssessRegister,
+    onAllBlanksFilled
 }) => {
     const { t } = useTranslation('question');
     const { question, currentIndex, questionCount } = useQuestionCard();
@@ -58,6 +62,13 @@ export const QuestionCard: FC<QuestionCardProps> = ({
                     question={question}
                     onSubmitRegister={onSubmitRegister ?? noop}
                     onSelfAssessRegister={onSelfAssessRegister ?? noopSelfAssess}
+                />
+            )}
+            {question.type === 'code-completion' && (
+                <CodeCompletionQuestion
+                    question={question}
+                    onSubmitRegister={onSubmitRegister ?? noop}
+                    onAllBlanksFilled={onAllBlanksFilled ?? noopAllFilled}
                 />
             )}
         </article>

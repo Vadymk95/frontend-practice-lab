@@ -4,6 +4,7 @@ import { CodeBlock } from '@/components/common/CodeBlock';
 import { ErrorState } from '@/components/common/ErrorState';
 import { AnswerOption } from '@/components/features/QuestionCard/AnswerOption';
 import { BugFindingQuestion } from '@/components/features/QuestionCard/BugFinding';
+import { CodeCompletionQuestion } from '@/components/features/QuestionCard/CodeCompletion';
 import { ExplanationPanel } from '@/components/features/QuestionCard/ExplanationPanel';
 import { SessionConfigurator } from '@/components/features/SessionConfigurator';
 import { Button } from '@/components/ui/button';
@@ -334,6 +335,35 @@ export const DevPlayground: FC = () => {
                             }}
                             onSubmitRegister={() => {}}
                             onSelfAssessRegister={() => {}}
+                        />
+                    </div>
+                </div>
+            </section>
+
+            {/* CodeCompletionQuestion Section */}
+            <section className="space-y-4">
+                <h2 className="text-2xl font-semibold tracking-tight">CodeCompletionQuestion</h2>
+                <div className="rounded-lg border p-6 space-y-8">
+                    <div>
+                        <h3 className="text-sm font-medium text-muted-foreground mb-3">
+                            Pre-submit (blanks empty)
+                        </h3>
+                        <CodeCompletionQuestion
+                            question={{
+                                id: 'cc-demo-1',
+                                type: 'code-completion',
+                                category: 'javascript',
+                                difficulty: 'easy',
+                                tags: ['variables'],
+                                question: 'Complete the function body:',
+                                code: 'function add(a, b) {\n  return __BLANK__ + __BLANK__;\n}',
+                                blanks: ['a', 'b'],
+                                referenceAnswer: 'function add(a, b) {\n  return a + b;\n}',
+                                explanation:
+                                    'Add the two parameters. Both a and b are the function arguments.'
+                            }}
+                            onSubmitRegister={() => {}}
+                            onAllBlanksFilled={() => {}}
                         />
                     </div>
                 </div>

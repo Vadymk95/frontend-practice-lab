@@ -34,6 +34,7 @@ export const CodeCompletionSchema = BaseQuestionSchema.extend({
     type: z.literal('code-completion'),
     code: z.string(),
     blanks: z.array(z.string()),
+    lang: z.string().optional(),
     referenceAnswer: z.string()
 });
 

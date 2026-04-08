@@ -12,7 +12,10 @@ function isCorrectAnswer(question: Question, answer: unknown): boolean {
     if (question.type === 'single-choice') {
         return typeof answer === 'number' && answer === question.correct;
     }
-    // Other types (multi-choice, bug-finding, code-completion) handled in future stories
+    if (question.type === 'code-completion') {
+        return answer === 'correct';
+    }
+    // multi-choice, bug-finding handled in future stories
     return false;
 }
 

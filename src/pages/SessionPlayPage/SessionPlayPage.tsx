@@ -23,6 +23,9 @@ export const SessionPlayPage: FC = () => {
     const [multiHasSelection, setMultiHasSelection] = useState(false);
     const checkFnRef = useRef<(() => void) | null>(null);
 
+    const [codeCompletionAllFilled, setCodeCompletionAllFilled] = useState(false);
+    const submitFnRef = useRef<(() => void) | null>(null);
+
     const handleSelectionChange = useCallback((hasSelection: boolean) => {
         setMultiHasSelection(hasSelection);
     }, []);
@@ -35,9 +38,23 @@ export const SessionPlayPage: FC = () => {
         checkFnRef.current?.();
     }, []);
 
+    const handleAllBlanksFilled = useCallback((filled: boolean) => {
+        setCodeCompletionAllFilled(filled);
+    }, []);
+
+    const handleSubmitRegister = useCallback((submitFn: () => void) => {
+        submitFnRef.current = submitFn;
+    }, []);
+
+    const handleSubmit = useCallback(() => {
+        submitFnRef.current?.();
+    }, []);
+
     useEffect(() => {
         setMultiHasSelection(false);
         checkFnRef.current = null;
+        setCodeCompletionAllFilled(false);
+        submitFnRef.current = null;
     }, [currentQuestion?.id]);
 
     if (isSetupError) {
@@ -53,12 +70,15 @@ export const SessionPlayPage: FC = () => {
     }
 
     const isMultiChoice = currentQuestion?.type === 'multi-choice';
+    const isCodeCompletion = currentQuestion?.type === 'code-completion';
 
     return (
         <div className="flex flex-col gap-4 pb-24 lg:pb-0">
             <QuestionCard
                 onSelectionChange={handleSelectionChange}
                 onCheckRegister={handleCheckRegister}
+                onSubmitRegister={handleSubmitRegister}
+                onAllBlanksFilled={handleAllBlanksFilled}
             />
 
             {/* Desktop inline — Check button (multi-choice, not yet answered) */}
@@ -66,6 +86,15 @@ export const SessionPlayPage: FC = () => {
                 <div className="hidden lg:flex justify-end mt-2">
                     <Button disabled={!multiHasSelection} onClick={handleCheck}>
                         {tQuestion('check')}
+                    </Button>
+                </div>
+            )}
+
+            {/* Desktop inline — Submit button (code-completion, not yet answered) */}
+            {isCodeCompletion && !isAnswered && (
+                <div className="hidden lg:flex justify-end mt-2">
+                    <Button disabled={!codeCompletionAllFilled} onClick={handleSubmit}>
+                        {tQuestion('submit')}
                     </Button>
                 </div>
             )}
@@ -82,6 +111,19 @@ export const SessionPlayPage: FC = () => {
                 <div className="lg:hidden fixed bottom-0 left-0 right-0 p-4 bg-background border-t border-border">
                     <Button disabled={!multiHasSelection} onClick={handleCheck} className="w-full">
                         {tQuestion('check')}
+                    </Button>
+                </div>
+            )}
+
+            {/* Mobile sticky — Submit button (code-completion, not yet answered) */}
+            {isCodeCompletion && !isAnswered && (
+                <div className="lg:hidden fixed bottom-0 left-0 right-0 p-4 bg-background border-t border-border">
+                    <Button
+                        disabled={!codeCompletionAllFilled}
+                        onClick={handleSubmit}
+                        className="w-full"
+                    >
+                        {tQuestion('submit')}
                     </Button>
                 </div>
             )}
