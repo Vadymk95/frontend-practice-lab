@@ -86,7 +86,11 @@ function makeWrapper() {
         createElement(MemoryRouter, { initialEntries: ['/session/summary'] }, children);
 }
 
-function resetStores(overrides?: { questionList?: Question[]; answers?: Record<string, unknown> }) {
+function resetStores(overrides?: {
+    questionList?: Question[];
+    answers?: Record<string, unknown>;
+    skipList?: string[];
+}) {
     useSessionStoreBase.setState({
         questionList: overrides?.questionList ?? [mockQuestion],
         answers: (overrides?.answers ?? { 'q-001': 1 }) as Record<
@@ -95,7 +99,7 @@ function resetStores(overrides?: { questionList?: Question[]; answers?: Record<s
         >,
         currentIndex: 0,
         config: null,
-        skipList: [],
+        skipList: overrides?.skipList ?? [],
         timerMs: 0
     });
     useProgressStoreBase.setState({
@@ -141,7 +145,7 @@ describe('useSummaryPage', () => {
         const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
 
         expect(result.current.correctCount).toBe(1);
-        expect(result.current.wrongCount).toBe(0);
+        expect(result.current.pureWrongCount).toBe(0);
     });
 
     it('calculates correctCount = 1 out of 2 when one answer is wrong', () => {
@@ -155,12 +159,12 @@ describe('useSummaryPage', () => {
         const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
 
         expect(result.current.correctCount).toBe(1);
-        expect(result.current.wrongCount).toBe(1);
+        expect(result.current.pureWrongCount).toBe(1);
         expect(result.current.totalCount).toBe(2);
     });
 
-    it('isPerfectScore is true when all answers are correct', () => {
-        resetStores({ questionList: [mockQuestion], answers: { 'q-001': 1 } });
+    it('isPerfectScore is true when all answers are correct and no skipped', () => {
+        resetStores({ questionList: [mockQuestion], answers: { 'q-001': 1 }, skipList: [] });
 
         const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
 
@@ -169,6 +173,18 @@ describe('useSummaryPage', () => {
 
     it('isPerfectScore is false when there are wrong answers', () => {
         resetStores({ questionList: [mockQuestion], answers: { 'q-001': 0 } });
+
+        const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+        expect(result.current.isPerfectScore).toBe(false);
+    });
+
+    it('isPerfectScore is false when there are skipped questions', () => {
+        resetStores({
+            questionList: [mockQuestion],
+            answers: { 'q-001': 'skipped' },
+            skipList: ['q-001']
+        });
 
         const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
 
@@ -239,81 +255,158 @@ describe('useSummaryPage', () => {
         expect(mockSaveSessionResults).toHaveBeenCalledWith({ 'q-001': true });
     });
 
-    it('calls setRepeatMistakes with wrong questions on handleRepeatMistakes', () => {
-        const setRepeatMistakesMock = vi.fn();
-        useSessionStoreBase.setState({
-            questionList: [mockQuestion],
-            answers: { 'q-001': 0 } as Record<string, number | number[] | string | string[]>, // wrong
-            currentIndex: 0,
-            config: null,
-            skipList: [],
-            timerMs: 0,
-            setRepeatMistakes: setRepeatMistakesMock
-        } as unknown as Parameters<typeof useSessionStoreBase.setState>[0]);
+    describe('review subsets', () => {
+        it('pureWrongCount excludes skipped questions', () => {
+            // q-001 wrong (not skipped), q-002 skipped
+            resetStores({
+                questionList: [mockQuestion, mockQuestion2],
+                answers: { 'q-001': 0, 'q-002': 'skipped' },
+                skipList: ['q-002']
+            });
 
-        const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+            const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
 
-        act(() => {
-            result.current.handleRepeatMistakes();
+            expect(result.current.pureWrongCount).toBe(1);
+            expect(result.current.skippedCount).toBe(1);
+            expect(result.current.allMistakesCount).toBe(2);
         });
 
-        expect(setRepeatMistakesMock).toHaveBeenCalledWith([mockQuestion]);
+        it('allMistakesCount is deduped union of wrong + skipped', () => {
+            // q-001 wrong and skipped (edge case: in both sets)
+            // q-002 wrong but not skipped
+            resetStores({
+                questionList: [mockQuestion, mockQuestion2],
+                answers: { 'q-001': 'skipped', 'q-002': 0 },
+                skipList: ['q-001']
+            });
+
+            const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+            // q-001 is skipped only, q-002 is wrong only → total 2
+            expect(result.current.allMistakesCount).toBe(2);
+        });
+
+        it('skippedCount equals skipList length', () => {
+            resetStores({
+                questionList: [mockQuestion, mockQuestion2],
+                answers: { 'q-001': 'skipped', 'q-002': 'skipped' },
+                skipList: ['q-001', 'q-002']
+            });
+
+            const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+            expect(result.current.skippedCount).toBe(2);
+        });
     });
 
-    it('navigates to /session/play after handleRepeatMistakes', () => {
-        resetStores({ questionList: [mockQuestion], answers: { 'q-001': 0 } }); // wrong answer
+    describe('handlers', () => {
+        it('handleRepeatWrong calls setRepeatMistakes with pureWrong questions and navigates', () => {
+            const setRepeatMistakesMock = vi.fn();
+            useSessionStoreBase.setState({
+                questionList: [mockQuestion, mockQuestion2],
+                answers: { 'q-001': 0, 'q-002': 'skipped' } as Record<
+                    string,
+                    number | number[] | string | string[]
+                >,
+                currentIndex: 0,
+                config: null,
+                skipList: ['q-002'],
+                timerMs: 0,
+                setRepeatMistakes: setRepeatMistakesMock
+            } as unknown as Parameters<typeof useSessionStoreBase.setState>[0]);
 
-        const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+            const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
 
-        act(() => {
-            result.current.handleRepeatMistakes();
+            act(() => {
+                result.current.handleRepeatWrong();
+            });
+
+            expect(setRepeatMistakesMock).toHaveBeenCalledWith([mockQuestion]);
+            expect(navigateMock).toHaveBeenCalledWith('/session/play');
         });
 
-        expect(navigateMock).toHaveBeenCalledWith('/session/play');
-    });
+        it('handleRepeatSkipped calls setRepeatMistakes with skipped questions and navigates', () => {
+            const setRepeatMistakesMock = vi.fn();
+            useSessionStoreBase.setState({
+                questionList: [mockQuestion, mockQuestion2],
+                answers: { 'q-001': 1, 'q-002': 'skipped' } as Record<
+                    string,
+                    number | number[] | string | string[]
+                >,
+                currentIndex: 0,
+                config: null,
+                skipList: ['q-002'],
+                timerMs: 0,
+                setRepeatMistakes: setRepeatMistakesMock
+            } as unknown as Parameters<typeof useSessionStoreBase.setState>[0]);
 
-    it('calls setRepeatMistakes with full questionList on handleTryAgain (perfect score)', () => {
-        const setRepeatMistakesMock = vi.fn();
-        useSessionStoreBase.setState({
-            questionList: [mockQuestion],
-            answers: { 'q-001': 1 } as Record<string, number | number[] | string | string[]>, // correct
-            currentIndex: 0,
-            config: null,
-            skipList: [],
-            timerMs: 0,
-            setRepeatMistakes: setRepeatMistakesMock
-        } as unknown as Parameters<typeof useSessionStoreBase.setState>[0]);
+            const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
 
-        const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+            act(() => {
+                result.current.handleRepeatSkipped();
+            });
 
-        act(() => {
-            result.current.handleTryAgain();
+            expect(setRepeatMistakesMock).toHaveBeenCalledWith([mockQuestion2]);
+            expect(navigateMock).toHaveBeenCalledWith('/session/play');
         });
 
-        expect(setRepeatMistakesMock).toHaveBeenCalledWith([mockQuestion]);
-    });
+        it('handleRepeatAllMistakes calls setRepeatMistakes with all mistakes and navigates', () => {
+            const setRepeatMistakesMock = vi.fn();
+            useSessionStoreBase.setState({
+                questionList: [mockQuestion, mockQuestion2],
+                answers: { 'q-001': 0, 'q-002': 'skipped' } as Record<
+                    string,
+                    number | number[] | string | string[]
+                >,
+                currentIndex: 0,
+                config: null,
+                skipList: ['q-002'],
+                timerMs: 0,
+                setRepeatMistakes: setRepeatMistakesMock
+            } as unknown as Parameters<typeof useSessionStoreBase.setState>[0]);
 
-    it('navigates to /session/play after handleTryAgain', () => {
-        resetStores({ questionList: [mockQuestion], answers: { 'q-001': 1 } }); // correct answer
+            const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
 
-        const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+            act(() => {
+                result.current.handleRepeatAllMistakes();
+            });
 
-        act(() => {
-            result.current.handleTryAgain();
+            expect(setRepeatMistakesMock).toHaveBeenCalledWith([mockQuestion, mockQuestion2]);
+            expect(navigateMock).toHaveBeenCalledWith('/session/play');
         });
 
-        expect(navigateMock).toHaveBeenCalledWith('/session/play');
-    });
+        it('handleRestartSession calls setRepeatMistakes with full questionList and navigates', () => {
+            const setRepeatMistakesMock = vi.fn();
+            useSessionStoreBase.setState({
+                questionList: [mockQuestion],
+                answers: { 'q-001': 1 } as Record<string, number | number[] | string | string[]>,
+                currentIndex: 0,
+                config: null,
+                skipList: [],
+                timerMs: 0,
+                setRepeatMistakes: setRepeatMistakesMock
+            } as unknown as Parameters<typeof useSessionStoreBase.setState>[0]);
 
-    it('navigates to / on handleHome', () => {
-        resetStores();
+            const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
 
-        const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+            act(() => {
+                result.current.handleRestartSession();
+            });
 
-        act(() => {
-            result.current.handleHome();
+            expect(setRepeatMistakesMock).toHaveBeenCalledWith([mockQuestion]);
+            expect(navigateMock).toHaveBeenCalledWith('/session/play');
         });
 
-        expect(navigateMock).toHaveBeenCalledWith('/');
+        it('navigates to / on handleHome', () => {
+            resetStores();
+
+            const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+            act(() => {
+                result.current.handleHome();
+            });
+
+            expect(navigateMock).toHaveBeenCalledWith('/');
+        });
     });
 });

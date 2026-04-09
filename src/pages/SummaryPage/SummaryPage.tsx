@@ -10,12 +10,15 @@ export const SummaryPage: FC = () => {
     const {
         correctCount,
         totalCount,
-        wrongCount,
+        pureWrongCount,
         skippedCount,
+        allMistakesCount,
         weakTopics,
         isPerfectScore,
-        handleRepeatMistakes,
-        handleTryAgain,
+        handleRepeatWrong,
+        handleRepeatSkipped,
+        handleRepeatAllMistakes,
+        handleRestartSession,
         handleHome
     } = useSummaryPage();
 
@@ -63,7 +66,7 @@ export const SummaryPage: FC = () => {
             <div className="flex flex-col gap-3 mt-2">
                 {isPerfectScore ? (
                     <>
-                        <Button onClick={handleTryAgain} variant="default">
+                        <Button onClick={handleRestartSession} variant="default">
                             {t('actions.tryAgain')}
                         </Button>
                         <Button onClick={handleHome} variant="secondary">
@@ -72,11 +75,29 @@ export const SummaryPage: FC = () => {
                     </>
                 ) : (
                     <>
-                        <Button onClick={handleRepeatMistakes} variant="default">
-                            {t('actions.repeatMistakes')} ({wrongCount})
-                        </Button>
-                        <Button onClick={handleHome} variant="secondary">
-                            {t('actions.newSession')}
+                        {pureWrongCount > 0 && skippedCount > 0 && (
+                            <Button onClick={handleRepeatAllMistakes} variant="default">
+                                {t('actions.repeatAllMistakes', { count: allMistakesCount })}
+                            </Button>
+                        )}
+                        {pureWrongCount > 0 && (
+                            <Button
+                                onClick={handleRepeatWrong}
+                                variant={skippedCount > 0 ? 'secondary' : 'default'}
+                            >
+                                {t('actions.repeatWrong', { count: pureWrongCount })}
+                            </Button>
+                        )}
+                        {skippedCount > 0 && (
+                            <Button
+                                onClick={handleRepeatSkipped}
+                                variant={pureWrongCount > 0 ? 'secondary' : 'default'}
+                            >
+                                {t('actions.repeatSkipped', { count: skippedCount })}
+                            </Button>
+                        )}
+                        <Button onClick={handleRestartSession} variant="outline">
+                            {t('actions.restart')}
                         </Button>
                     </>
                 )}

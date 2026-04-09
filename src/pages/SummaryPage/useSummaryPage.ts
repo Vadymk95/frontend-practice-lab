@@ -76,16 +76,39 @@ export function useSummaryPage() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []); // intentional — save once on mount via ref
 
-    const isPerfectScore = wrongQuestions.length === 0;
+    const skippedQuestions = useMemo(
+        () => questionList.filter((q) => skipList.includes(q.id)),
+        [questionList, skipList]
+    );
 
-    // Repeats only wrong questions from this session
-    const handleRepeatMistakes = () => {
-        setRepeatMistakes(wrongQuestions);
+    const pureWrongQuestions = useMemo(
+        () => wrongQuestions.filter((q) => !skipList.includes(q.id)),
+        [wrongQuestions, skipList]
+    );
+
+    const allMistakeQuestions = useMemo(
+        () => [...pureWrongQuestions, ...skippedQuestions],
+        [pureWrongQuestions, skippedQuestions]
+    );
+
+    const isPerfectScore = pureWrongQuestions.length === 0 && skippedQuestions.length === 0;
+
+    const handleRepeatWrong = () => {
+        setRepeatMistakes(pureWrongQuestions);
         navigate(RoutesPath.SessionPlay);
     };
 
-    // Restarts the same session from scratch (perfect score "Try again" path)
-    const handleTryAgain = () => {
+    const handleRepeatSkipped = () => {
+        setRepeatMistakes(skippedQuestions);
+        navigate(RoutesPath.SessionPlay);
+    };
+
+    const handleRepeatAllMistakes = () => {
+        setRepeatMistakes(allMistakeQuestions);
+        navigate(RoutesPath.SessionPlay);
+    };
+
+    const handleRestartSession = () => {
         setRepeatMistakes(questionList);
         navigate(RoutesPath.SessionPlay);
     };
@@ -95,12 +118,15 @@ export function useSummaryPage() {
     return {
         correctCount,
         totalCount: questionList.length,
-        wrongCount: wrongQuestions.length,
-        skippedCount: skipList.length,
+        pureWrongCount: pureWrongQuestions.length,
+        skippedCount: skippedQuestions.length,
+        allMistakesCount: allMistakeQuestions.length,
         weakTopics,
         isPerfectScore,
-        handleRepeatMistakes,
-        handleTryAgain,
+        handleRepeatWrong,
+        handleRepeatSkipped,
+        handleRepeatAllMistakes,
+        handleRestartSession,
         handleHome
     };
 }

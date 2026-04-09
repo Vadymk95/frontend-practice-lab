@@ -1,6 +1,6 @@
 # Story 3.5: Post-Session Review Mode Selection
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 
@@ -25,42 +25,42 @@ So that I can focus my review time on exactly what I need.
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Update `useSummaryPage` — compute review subsets (AC: #1, #2)
-  - [ ] Modify `src/pages/SummaryPage/useSummaryPage.ts`
-  - [ ] Read `skipList = useSessionStore.use.skipList()` (already added in Story 3.4)
-  - [ ] Derive `skippedQuestions: Question[]` — questions whose id is in `skipList`
-  - [ ] Derive `pureWrongQuestions: Question[]` — `wrongQuestions` minus skipped ones (answered incorrectly but NOT skipped)
-  - [ ] Derive `allMistakeQuestions: Question[]` — union of pureWrongQuestions + skippedQuestions (deduped)
-  - [ ] Add handlers: `handleRepeatWrong`, `handleRepeatSkipped`, `handleRepeatAllMistakes`, `handleRestartSession`
-  - [ ] Each handler calls `setRepeatMistakes(subset)` then `navigate(RoutesPath.SessionPlay)`
-  - [ ] `handleRestartSession`: calls `setRepeatMistakes(questionList)` (same full set) then navigates
-  - [ ] Remove old `handleRepeatMistakes` and `handleTryAgain` — replaced by the new handlers
-  - [ ] Return: `pureWrongCount`, `skippedCount`, `allMistakesCount`, `handleRepeatWrong`, `handleRepeatSkipped`, `handleRepeatAllMistakes`, `handleRestartSession`, plus existing `correctCount`, `totalCount`, `weakTopics`, `isPerfectScore`
+- [x] Task 1: Update `useSummaryPage` — compute review subsets (AC: #1, #2)
+  - [x] Modify `src/pages/SummaryPage/useSummaryPage.ts`
+  - [x] Read `skipList = useSessionStore.use.skipList()` (already added in Story 3.4)
+  - [x] Derive `skippedQuestions: Question[]` — questions whose id is in `skipList`
+  - [x] Derive `pureWrongQuestions: Question[]` — `wrongQuestions` minus skipped ones (answered incorrectly but NOT skipped)
+  - [x] Derive `allMistakeQuestions: Question[]` — union of pureWrongQuestions + skippedQuestions (deduped)
+  - [x] Add handlers: `handleRepeatWrong`, `handleRepeatSkipped`, `handleRepeatAllMistakes`, `handleRestartSession`
+  - [x] Each handler calls `setRepeatMistakes(subset)` then `navigate(RoutesPath.SessionPlay)`
+  - [x] `handleRestartSession`: calls `setRepeatMistakes(questionList)` (same full set) then navigates
+  - [x] Remove old `handleRepeatMistakes` and `handleTryAgain` — replaced by the new handlers
+  - [x] Return: `pureWrongCount`, `skippedCount`, `allMistakesCount`, `handleRepeatWrong`, `handleRepeatSkipped`, `handleRepeatAllMistakes`, `handleRestartSession`, plus existing `correctCount`, `totalCount`, `weakTopics`, `isPerfectScore`
 
-- [ ] Task 2: Refactor `SummaryPage.tsx` — conditional review CTAs (AC: #1)
-  - [ ] Modify `src/pages/SummaryPage/SummaryPage.tsx`
-  - [ ] Replace existing CTA block with conditional rendering:
+- [x] Task 2: Refactor `SummaryPage.tsx` — conditional review CTAs (AC: #1)
+  - [x] Modify `src/pages/SummaryPage/SummaryPage.tsx`
+  - [x] Replace existing CTA block with conditional rendering:
     - If `pureWrongCount > 0`: show "Repeat wrong answers (N)" as `variant="default"` button
     - If `skippedCount > 0`: show "Repeat skipped (N)" as `variant="default"` or `variant="secondary"` button
     - If both `pureWrongCount > 0 && skippedCount > 0`: show "Repeat all mistakes (N)" as additional option
     - Always show "Restart session" as `variant="outline"` button
     - Always show "New session" (go home) as `variant="ghost"` button
-  - [ ] Perfect score path: `isPerfectScore` is now only true when `pureWrongCount === 0 && skippedCount === 0`
-  - [ ] Remove old `handleRepeatMistakes`, `handleTryAgain`, `handleHome` in favor of new handlers (keep `handleHome` for "New session")
+  - [x] Perfect score path: `isPerfectScore` is now only true when `pureWrongCount === 0 && skippedCount === 0`
+  - [x] Remove old `handleRepeatMistakes`, `handleTryAgain`, `handleHome` in favor of new handlers (keep `handleHome` for "New session")
 
-- [ ] Task 3: Add i18n keys (AC: #1)
-  - [ ] `public/locales/en/summary.json` — add action keys
-  - [ ] `public/locales/ru/summary.json` — add action keys
+- [x] Task 3: Add i18n keys (AC: #1)
+  - [x] `public/locales/en/summary.json` — add action keys
+  - [x] `public/locales/ru/summary.json` — add action keys
 
-- [ ] Task 4: Update tests (AC: #1, #2)
-  - [ ] Modify `src/pages/SummaryPage/SummaryPage.test.tsx` if exists — update for new CTA logic
-  - [ ] Verify existing tests still pass
+- [x] Task 4: Update tests (AC: #1, #2)
+  - [x] Modify `src/pages/SummaryPage/SummaryPage.test.tsx` if exists — update for new CTA logic
+  - [x] Verify existing tests still pass
 
-- [ ] Task 5: Verification
-  - [ ] `npm run format`
-  - [ ] `npm run lint`
-  - [ ] `npx tsc --noEmit`
-  - [ ] `npm run test`
+- [x] Task 5: Verification
+  - [x] `npm run format`
+  - [x] `npm run lint`
+  - [x] `npx tsc --noEmit`
+  - [x] `npm run test`
 
 ## Dev Notes
 
@@ -236,8 +236,29 @@ Note: `public/locales/ru/summary.json` may not exist — check and create if mis
 
 ### Agent Model Used
 
+claude-sonnet-4-6
+
 ### Debug Log References
+
+None — clean implementation, no blockers.
 
 ### Completion Notes List
 
+- Replaced single `handleRepeatMistakes` / `handleTryAgain` with four targeted handlers: `handleRepeatWrong`, `handleRepeatSkipped`, `handleRepeatAllMistakes`, `handleRestartSession`
+- `isPerfectScore` now requires both `pureWrongCount === 0` AND `skippedCount === 0`
+- `allMistakeQuestions` uses deduped union (pureWrong + skipped) via filter — no duplicate IDs
+- All three subsets computed via `useMemo` for stable references
+- i18n: removed deprecated keys `repeatMistakes` / `newSession`; added `repeatAllMistakes`, `repeatWrong`, `repeatSkipped`, `restart`
+- Tests fully rewritten: 187 tests pass (23 test files), no regressions
+
 ### File List
+
+- `src/pages/SummaryPage/useSummaryPage.ts` — modified
+- `src/pages/SummaryPage/SummaryPage.tsx` — modified
+- `src/pages/SummaryPage/SummaryPage.test.tsx` — modified
+- `public/locales/en/summary.json` — modified
+- `public/locales/ru/summary.json` — modified
+
+### Change Log
+
+- feat(summary): implement post-session review mode selection (Story 3.5) — 2026-04-09
