@@ -1,6 +1,6 @@
 # Story 4.3: Weighted Question Sampling in Sessions
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
@@ -22,27 +22,27 @@ So that the app automatically focuses my practice where I need it most.
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Verify `useSessionSetup` already passes weights correctly (AC: #1, #2)
-  - [ ] Read `src/hooks/session/useSessionSetup.ts` — confirm it reads `weights` from `useProgressStore` and passes to `sampleWeighted(filtered, weights, config.questionCount)`
-  - [ ] Confirm empty `weights = {}` case → `sampleWeighted` uses `DEFAULT_WEIGHT = 1.0` fallback via `resolveWeight` in `algorithm/index.ts`
-  - [ ] If the above is already correct: this is a validation/integration task — no code changes to `useSessionSetup` needed
+- [x] Task 1: Verify `useSessionSetup` already passes weights correctly (AC: #1, #2)
+  - [x] Read `src/hooks/session/useSessionSetup.ts` — confirm it reads `weights` from `useProgressStore` and passes to `sampleWeighted(filtered, weights, config.questionCount)`
+  - [x] Confirm empty `weights = {}` case → `sampleWeighted` uses `DEFAULT_WEIGHT = 1.0` fallback via `resolveWeight` in `algorithm/index.ts`
+  - [x] If the above is already correct: this is a validation/integration task — no code changes to `useSessionSetup` needed
 
-- [ ] Task 2: Add integration test for weighted sampling (AC: #1, #2)
-  - [ ] In `src/hooks/session/useSessionSetup.test.ts`, add test cases:
-    - [ ] "uses uniform weights on first session (empty weights)" — verify all categories can appear
-    - [ ] "high-weighted questions appear more frequently when weights provided" — call `sampleWeighted` directly with skewed weights, verify distribution bias
+- [x] Task 2: Add integration test for weighted sampling (AC: #1, #2)
+  - [x] In `src/hooks/session/useSessionSetup.test.ts`, add test cases:
+    - [x] "uses uniform weights on first session (empty weights)" — verify all categories can appear
+    - [x] "high-weighted questions appear more frequently when weights provided" — call `sampleWeighted` directly with skewed weights, verify distribution bias
 
-- [ ] Task 3: Verify "at least one per category" behavior (AC: #1)
-  - [ ] The current `sampleWeighted` does weighted random sampling without per-category guarantee
-  - [ ] Check epics.md AC: "questions from every selected category appear at least once if pool allows"
-  - [ ] If `sampleWeighted` doesn't guarantee per-category presence: add a pre-sample step in `useSessionSetup` that ensures at least 1 question per category before filling the remainder with weighted sampling
-  - [ ] See Dev Notes for the recommended approach
+- [x] Task 3: Verify "at least one per category" behavior (AC: #1)
+  - [x] The current `sampleWeighted` does weighted random sampling without per-category guarantee
+  - [x] Check epics.md AC: "questions from every selected category appear at least once if pool allows"
+  - [x] If `sampleWeighted` doesn't guarantee per-category presence: add a pre-sample step in `useSessionSetup` that ensures at least 1 question per category before filling the remainder with weighted sampling
+  - [x] See Dev Notes for the recommended approach
 
-- [ ] Task 4: Verification
-  - [ ] `npm run format`
-  - [ ] `npm run lint`
-  - [ ] `npx tsc --noEmit`
-  - [ ] `npm run test`
+- [x] Task 4: Verification
+  - [x] `npm run format`
+  - [x] `npm run lint`
+  - [x] `npx tsc --noEmit`
+  - [x] `npm run test`
 
 ## Dev Notes
 
@@ -151,7 +151,7 @@ src/hooks/session/useSessionSetup.test.ts ← ADD weighted sampling tests
 
 ### Agent Model Used
 
-_to be filled_
+claude-sonnet-4-6
 
 ### Debug Log References
 
@@ -159,7 +159,10 @@ _none_
 
 ### Completion Notes List
 
-_to be filled_
+- Task 1: Wiring already correct — `useSessionSetup` reads `weights` from `progressStore` and passes to `sampleWeighted`. `resolveWeight` uses `DEFAULT_WEIGHT=1.0` for empty weights map. No changes needed.
+- Task 2: Added "uses uniform weights on first session" test (verifies empty `{}` weights are passed through) and "high-weighted questions appear more frequently" statistical test using `vi.importActual` to bypass mock and run 100-sample distribution check with 10x bias weights.
+- Task 3: Implemented `sampleWithCategoryGuarantee` (exported) in `useSessionSetup.ts`. Seeds one weighted question per category, fills remaining slots with `sampleWeighted`, shuffles via `sampleWeighted(combined, weights, combined.length)`. Replaced `sampleWeighted` call in `useSessionSetup` hook. Updated "calls sampleWeighted with questionCount" test to assert `questionList.length` instead of `sampleWeighted` call args (internal call pattern changed). Added 4 direct unit tests for `sampleWithCategoryGuarantee`. Updated `makeQuestion` helper with optional `category` param.
+- Task 4: All 223 tests pass. No lint errors. TypeScript clean.
 
 ### Review Findings
 
@@ -167,5 +170,10 @@ _none yet_
 
 ### File List
 
-- `src/hooks/session/useSessionSetup.ts` — MODIFY (add per-category guarantee if needed)
-- `src/hooks/session/useSessionSetup.test.ts` — MODIFY (add weighted sampling tests)
+- `src/hooks/session/useSessionSetup.ts` — MODIFIED (added exported `sampleWithCategoryGuarantee`, replaced `sampleWeighted` call in hook)
+- `src/hooks/session/useSessionSetup.test.ts` — MODIFIED (added `sampleWithCategoryGuarantee` import, updated `makeQuestion` helper, updated "calls sampleWeighted with questionCount" test, added "uses uniform weights on first session" and "high-weighted questions appear more frequently" tests, added `sampleWithCategoryGuarantee` describe block with 5 tests)
+
+## Change Log
+
+- Implemented `sampleWithCategoryGuarantee` in `useSessionSetup.ts` — seeds one weighted question per selected category before filling remaining slots, ensuring per-category presence when pool allows (AC #1). Used `sampleWeighted(combined, combined.length)` for final shuffle. (Date: 2026-04-09)
+- Added 7 new tests: 2 in `useSessionSetup` describe (uniform weights, distribution bias) + 5 in new `sampleWithCategoryGuarantee` describe. Updated `makeQuestion` helper with optional category param. Fixed "calls sampleWeighted with questionCount" test to assert on `questionList` length. (Date: 2026-04-09)

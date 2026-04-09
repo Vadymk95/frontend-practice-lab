@@ -29,6 +29,36 @@ export function sortByDifficulty(questions: Question[]): Question[] {
     );
 }
 
+export function sampleWithCategoryGuarantee(
+    questions: Question[],
+    weights: Record<string, number>,
+    count: number,
+    categories: string[]
+): Question[] {
+    if (count <= 0) return [];
+    if (count >= questions.length) return sampleWeighted(questions, weights, count);
+
+    const seeded: Question[] = [];
+    const remaining = [...questions];
+
+    for (const cat of categories) {
+        const catPool = remaining.filter((q) => q.category === cat);
+        if (catPool.length === 0) continue;
+        const picked = sampleWeighted(catPool, weights, 1)[0];
+        if (picked) {
+            seeded.push(picked);
+            const idx = remaining.findIndex((q) => q.id === picked.id);
+            if (idx !== -1) remaining.splice(idx, 1);
+        }
+        if (seeded.length >= count) break;
+    }
+
+    const fillCount = Math.max(0, count - seeded.length);
+    const filled = fillCount > 0 ? sampleWeighted(remaining, weights, fillCount) : [];
+    const combined = [...seeded, ...filled];
+    return sampleWeighted(combined, weights, combined.length); // count === length → shuffle path
+}
+
 export function useSessionSetup() {
     const navigate = useNavigate();
     const config = useSessionStore.use.config();
@@ -50,7 +80,12 @@ export function useSessionSetup() {
         if (questionList.length > 0) return; // already sampled for this session
 
         const filtered = filterQuestions(allQuestions, config);
-        const sampled = sampleWeighted(filtered, weights, config.questionCount);
+        const sampled = sampleWithCategoryGuarantee(
+            filtered,
+            weights,
+            config.questionCount,
+            config.categories
+        );
         const ordered = config.order === 'sequential' ? sortByDifficulty(sampled) : sampled;
 
         setQuestionList(ordered);

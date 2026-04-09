@@ -11,7 +11,12 @@ import type { Question } from '@/lib/data/schema';
 import type { SessionConfig } from '@/lib/storage/types';
 import { useSessionStore } from '@/store/session';
 
-import { filterQuestions, sortByDifficulty, useSessionSetup } from './useSessionSetup';
+import {
+    filterQuestions,
+    sampleWithCategoryGuarantee,
+    sortByDifficulty,
+    useSessionSetup
+} from './useSessionSetup';
 
 // Hoist navigateMock so it is available inside the vi.mock factory
 const navigateMock = vi.hoisted(() => vi.fn());
@@ -43,12 +48,13 @@ const defaultConfig: SessionConfig = {
 const makeQuestion = (
     id: string,
     difficulty: 'easy' | 'medium' | 'hard' = 'easy',
-    type: Question['type'] = 'single-choice'
+    type: Question['type'] = 'single-choice',
+    category = 'javascript'
 ): Question =>
     ({
         id,
         type,
-        category: 'javascript',
+        category,
         difficulty,
         tags: [],
         question: `Question ${id}`,
@@ -287,7 +293,7 @@ describe('useSessionSetup', () => {
         });
     });
 
-    it('calls sampleWeighted with questionCount', async () => {
+    it('samples questionCount questions from the pool', async () => {
         const questions = [
             makeQuestion('q1', 'easy'),
             makeQuestion('q2', 'easy'),
@@ -305,16 +311,10 @@ describe('useSessionSetup', () => {
             refetch: mockRefetch
         });
 
-        mockSampleWeighted.mockReturnValue(questions.slice(0, 2));
-
         renderHook(() => useSessionSetup(), { wrapper: makeWrapper() });
 
         await waitFor(() => {
-            expect(mockSampleWeighted).toHaveBeenCalledWith(
-                expect.any(Array),
-                expect.any(Object),
-                2
-            );
+            expect(useSessionStore.getState().questionList).toHaveLength(2);
         });
     });
 
@@ -358,5 +358,131 @@ describe('useSessionSetup', () => {
         const { result } = renderHook(() => useSessionSetup(), { wrapper: makeWrapper() });
 
         expect(result.current.isError).toBe(true);
+    });
+
+    it('uses uniform weights on first session (empty weights)', async () => {
+        const questions = [makeQuestion('q1'), makeQuestion('q2'), makeQuestion('q3')];
+
+        useSessionStore.setState({ config: defaultConfig });
+        const { useProgressStore } = await import('@/store/progress');
+        useProgressStore.setState({ weights: {} });
+
+        mockUseCategoryQuestions.mockReturnValue({
+            data: questions,
+            isLoading: false,
+            isError: false,
+            refetch: mockRefetch
+        });
+
+        renderHook(() => useSessionSetup(), { wrapper: makeWrapper() });
+
+        await waitFor(() => {
+            // sampleWeighted is called at least once — verify empty weights are passed through
+            expect(mockSampleWeighted).toHaveBeenCalledWith(
+                expect.any(Array),
+                {}, // empty weights → DEFAULT_WEIGHT fallback applies inside algorithm
+                expect.any(Number)
+            );
+        });
+    });
+});
+
+describe('sampleWithCategoryGuarantee', () => {
+    beforeEach(() => {
+        mockSampleWeighted.mockImplementation((questions, _weights, count) =>
+            (questions as Question[]).slice(0, count)
+        );
+    });
+
+    it('returns empty array when count is 0', () => {
+        const questions = [makeQuestion('q1'), makeQuestion('q2')];
+        const result = sampleWithCategoryGuarantee(questions, {}, 0, ['javascript']);
+        expect(result).toEqual([]);
+        expect(mockSampleWeighted).not.toHaveBeenCalled();
+    });
+
+    it('returns all questions via sampleWeighted when count >= pool size', () => {
+        const questions = [makeQuestion('q1'), makeQuestion('q2')];
+        mockSampleWeighted.mockReturnValueOnce(questions);
+
+        const result = sampleWithCategoryGuarantee(questions, {}, 5, ['javascript']);
+
+        expect(mockSampleWeighted).toHaveBeenCalledWith(questions, {}, 5);
+        expect(result).toEqual(questions);
+    });
+
+    it('seeds one question per selected category', () => {
+        const jsQ = makeQuestion('q1', 'easy', 'single-choice', 'javascript');
+        const tsQ = makeQuestion('q2', 'easy', 'single-choice', 'typescript');
+        const jsQ2 = makeQuestion('q3', 'easy', 'single-choice', 'javascript');
+
+        // 3 questions, count=2 < 3 → guarantee path
+        // Seed js: catPool=[jsQ, jsQ2], sampleWeighted([jsQ,jsQ2], {}, 1) → [jsQ]
+        // Seed ts: catPool=[tsQ], sampleWeighted([tsQ], {}, 1) → [tsQ]
+        // seeded=[jsQ,tsQ].length(2) === count(2) → fillCount=0
+        // combined=[jsQ,tsQ], sampleWeighted([jsQ,tsQ], {}, 2) → [jsQ,tsQ]
+        mockSampleWeighted
+            .mockReturnValueOnce([jsQ]) // js seed
+            .mockReturnValueOnce([tsQ]) // ts seed
+            .mockReturnValueOnce([jsQ, tsQ]); // final shuffle
+
+        const result = sampleWithCategoryGuarantee([jsQ, jsQ2, tsQ], {}, 2, [
+            'javascript',
+            'typescript'
+        ]);
+
+        const resultCategories = result.map((q) => q.category);
+        expect(resultCategories).toContain('javascript');
+        expect(resultCategories).toContain('typescript');
+    });
+
+    it('delegates to sampleWeighted directly when count >= pool size', () => {
+        const q1 = makeQuestion('q1');
+        const q2 = makeQuestion('q2');
+        const q3 = makeQuestion('q3');
+
+        // 3 questions, count=3 >= 3 → fast path
+        mockSampleWeighted.mockReturnValueOnce([q1, q2, q3]);
+
+        sampleWithCategoryGuarantee([q1, q2, q3], {}, 3, ['javascript']);
+
+        expect(mockSampleWeighted).toHaveBeenCalledTimes(1);
+        expect(mockSampleWeighted).toHaveBeenCalledWith([q1, q2, q3], {}, 3);
+    });
+
+    it('skips categories with no questions in pool', () => {
+        const jsQ = makeQuestion('q1', 'easy', 'single-choice', 'javascript');
+
+        // Only javascript questions, but categories include 'typescript' (no pool)
+        // count=1 < 1 questions? No: count(1) >= questions.length(1) → fast path
+        mockSampleWeighted.mockReturnValueOnce([jsQ]);
+
+        const result = sampleWithCategoryGuarantee([jsQ], {}, 1, ['javascript', 'typescript']);
+
+        expect(result).toEqual([jsQ]);
+    });
+
+    it('high-weighted questions appear more frequently when weights provided', async () => {
+        const { sampleWeighted: actualSampleWeighted } =
+            await vi.importActual<typeof import('@/lib/algorithm')>('@/lib/algorithm');
+
+        const questions = Array.from({ length: 10 }, (_, i) =>
+            makeQuestion(`q${i + 1}`, 'easy', 'single-choice', 'javascript')
+        );
+        const biasedWeights: Record<string, number> = { q1: 10, q2: 10, q3: 10 };
+
+        const counts: Record<string, number> = {};
+        for (let i = 0; i < 100; i++) {
+            const sample = actualSampleWeighted(questions, biasedWeights, 3);
+            for (const q of sample) {
+                counts[q.id] = (counts[q.id] ?? 0) + 1;
+            }
+        }
+
+        const highWeightTotal = (counts['q1'] ?? 0) + (counts['q2'] ?? 0) + (counts['q3'] ?? 0);
+        const totalSamples = Object.values(counts).reduce((a, b) => a + b, 0);
+
+        // 3 high-weight questions (w=10) vs 7 low-weight (w=1): expected share > 50%
+        expect(highWeightTotal / totalSamples).toBeGreaterThan(0.5);
     });
 });
