@@ -1,6 +1,6 @@
 # Story 3.2: Preset Management — Delete
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 
@@ -22,37 +22,37 @@ So that I can keep my preset list clean without accumulating outdated configurat
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Install shadcn/ui Dialog component (AC: #1)
-  - [ ] Run `npx shadcn@latest add dialog` from project root
-  - [ ] Verify `src/components/ui/dialog.tsx` is created
+- [x] Task 1: Install shadcn/ui Dialog component (AC: #1)
+  - [x] Run `npx shadcn@latest add dialog` from project root
+  - [x] Verify `src/components/ui/dialog.tsx` is created
 
-- [ ] Task 2: Add `deletePreset` to `presetStore` (AC: #1)
-  - [ ] Modify `src/store/presets/presetStore.ts` — add `deletePreset(id: string)` action
-  - [ ] `deletePreset`: calls `storageService.deletePreset(id)`, reloads from storage: `set({ presets: storageService.getPresets() })`
-  - [ ] Add `deletePreset` to `PresetState` interface
-  - [ ] Add tests to `src/store/presets/presetStore.test.ts`
+- [x] Task 2: Add `deletePreset` to `presetStore` (AC: #1)
+  - [x] Modify `src/store/presets/presetStore.ts` — add `deletePreset(id: string)` action
+  - [x] `deletePreset`: calls `storageService.deletePreset(id)`, reloads from storage: `set({ presets: storageService.getPresets() })`
+  - [x] Add `deletePreset` to `PresetState` interface
+  - [x] Add tests to `src/store/presets/presetStore.test.ts`
 
-- [ ] Task 3: Add delete button and confirmation dialog to `PresetRow` (AC: #1)
-  - [ ] Modify `src/components/features/PresetList/PresetRow/usePresetRow.ts` — add `isDeleteOpen`, `setIsDeleteOpen`, `handleDeleteRequest`, `handleDeleteConfirm`, `handleDeleteCancel`
-  - [ ] `handleDeleteRequest`: sets `isDeleteOpen = true`
-  - [ ] `handleDeleteConfirm`: calls `presetStore.deletePreset(preset.id)`, sets `isDeleteOpen = false`
-  - [ ] `handleDeleteCancel`: sets `isDeleteOpen = false`
-  - [ ] Modify `src/components/features/PresetList/PresetRow/PresetRow.tsx` — render delete icon button + Dialog
-  - [ ] Dialog content: title "Delete preset?" + description "'[name]'" + Cancel + Delete buttons
+- [x] Task 3: Add delete button and confirmation dialog to `PresetRow` (AC: #1)
+  - [x] Modify `src/components/features/PresetList/PresetRow/usePresetRow.ts` — add `isDeleteOpen`, `setIsDeleteOpen`, `handleDeleteRequest`, `handleDeleteConfirm`, `handleDeleteCancel`
+  - [x] `handleDeleteRequest`: sets `isDeleteOpen = true`
+  - [x] `handleDeleteConfirm`: calls `presetStore.deletePreset(preset.id)`, sets `isDeleteOpen = false`
+  - [x] `handleDeleteCancel`: sets `isDeleteOpen = false`
+  - [x] Modify `src/components/features/PresetList/PresetRow/PresetRow.tsx` — render delete icon button + Dialog
+  - [x] Dialog content: title "Delete preset?" + description "'[name]'" + Cancel + Delete buttons
 
-- [ ] Task 4: Show empty state when all presets deleted (AC: #2)
-  - [ ] Modify `src/pages/HomePage/index.tsx` — show empty state text when `presets.length === 0` AFTER at least one preset was saved
-  - [ ] Actually: per AC, show "No saved presets yet" as muted text when list is empty. This is shown in the preset section area only when preset section has been rendered before. Simplest implementation: always show the empty state text when `presets.length === 0` in the preset section. Story 3.6 handles the no-preset-first-visit case (hiding the section entirely). For now: always show the text when empty.
+- [x] Task 4: Show empty state when all presets deleted (AC: #2)
+  - [x] Modify `src/pages/HomePage/index.tsx` — show empty state text when `presets.length === 0` AFTER at least one preset was saved
+  - [x] Actually: per AC, show "No saved presets yet" as muted text when list is empty. This is shown in the preset section area only when preset section has been rendered before. Simplest implementation: always show the empty state text when `presets.length === 0` in the preset section. Story 3.6 handles the no-preset-first-visit case (hiding the section entirely). For now: always show the text when empty.
 
-- [ ] Task 5: Add i18n keys (AC: #1, #2)
-  - [ ] `en/home.json` — add `presets.deleteDialog.title`, `presets.deleteDialog.description`, `presets.deleteDialog.confirm`, `presets.deleteDialog.cancel`, `presets.empty`
-  - [ ] `ru/home.json` — same keys in Russian
+- [x] Task 5: Add i18n keys (AC: #1, #2)
+  - [x] `en/home.json` — add `presets.deleteDialog.title`, `presets.deleteDialog.description`, `presets.deleteDialog.confirm`, `presets.deleteDialog.cancel`, `presets.empty`
+  - [x] `ru/home.json` — same keys in Russian
 
-- [ ] Task 6: Verification
-  - [ ] `npm run format`
-  - [ ] `npm run lint`
-  - [ ] `npx tsc --noEmit`
-  - [ ] `npm run test`
+- [x] Task 6: Verification
+  - [x] `npm run format`
+  - [x] `npm run lint`
+  - [x] `npx tsc --noEmit`
+  - [x] `npm run test`
 
 ## Dev Notes
 
@@ -231,9 +231,31 @@ public/locales/ru/home.json                 ← MODIFY
 ## Dev Agent Record
 
 ### Agent Model Used
+claude-sonnet-4-6
 
 ### Debug Log References
+- lint errors in `dialog.tsx` (import/order) — fixed with `eslint --fix`
 
 ### Completion Notes List
+- Installed `shadcn/ui` Dialog via `npx shadcn@latest add dialog`
+- Added `deletePreset(id)` to `PresetState` interface and store implementation; reloads from storage after deletion
+- Added 4 tests for `deletePreset` in `presetStore.test.ts` (remove one, remove targeted, persist to storage, unknown id)
+- Extended `usePresetRow` with `isDeleteOpen` state and `handleDeleteRequest/Confirm/Cancel` handlers
+- Refactored `PresetRow` layout: launch button + inline delete icon button; Dialog for confirmation
+- Updated `HomePage` to show `presets.empty` i18n text when list is empty (Story 3.6 will handle first-visit hiding)
+- Added `presets.empty` and `presets.deleteDialog.*` keys to `en/home.json` and `ru/home.json`
+- All 172 tests pass; format, lint, tsc clean
 
 ### File List
+- `src/components/ui/dialog.tsx` — NEW (shadcn add dialog)
+- `src/store/presets/presetStore.ts` — MODIFIED (added deletePreset to interface + implementation)
+- `src/store/presets/presetStore.test.ts` — MODIFIED (added deletePreset tests)
+- `src/components/features/PresetList/PresetRow/usePresetRow.ts` — MODIFIED (delete state + handlers)
+- `src/components/features/PresetList/PresetRow/PresetRow.tsx` — MODIFIED (delete button + Dialog)
+- `src/pages/HomePage/index.tsx` — MODIFIED (empty state text)
+- `public/locales/en/home.json` — MODIFIED (presets keys)
+- `public/locales/ru/home.json` — MODIFIED (presets keys)
+
+## Change Log
+
+- 2026-04-09: Implemented Story 3.2 — preset delete with shadcn Dialog, deletePreset store action, i18n keys, empty state. 172 tests passing.

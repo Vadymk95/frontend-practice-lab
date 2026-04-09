@@ -53,6 +53,48 @@ describe('presetStore', () => {
         });
     });
 
+    describe('deletePreset', () => {
+        it('removes the preset from the list', () => {
+            usePresetStoreBase.getState().savePreset(baseConfig, 'ToDelete');
+            const { presets } = usePresetStoreBase.getState();
+            const id = presets[0].id;
+
+            usePresetStoreBase.getState().deletePreset(id);
+
+            expect(usePresetStoreBase.getState().presets).toHaveLength(0);
+        });
+
+        it('removes only the targeted preset when multiple exist', () => {
+            usePresetStoreBase.getState().savePreset(baseConfig, 'First');
+            usePresetStoreBase.getState().savePreset(baseConfig, 'Second');
+            const { presets } = usePresetStoreBase.getState();
+            const idToDelete = presets[0].id;
+
+            usePresetStoreBase.getState().deletePreset(idToDelete);
+
+            const remaining = usePresetStoreBase.getState().presets;
+            expect(remaining).toHaveLength(1);
+            expect(remaining[0].id).not.toBe(idToDelete);
+        });
+
+        it('persists deletion to storage', () => {
+            usePresetStoreBase.getState().savePreset(baseConfig, 'Stored');
+            const id = usePresetStoreBase.getState().presets[0].id;
+
+            usePresetStoreBase.getState().deletePreset(id);
+
+            expect(storageService.getPresets()).toHaveLength(0);
+        });
+
+        it('does nothing for unknown id', () => {
+            usePresetStoreBase.getState().savePreset(baseConfig, 'Keep');
+            expect(() => {
+                usePresetStoreBase.getState().deletePreset('nonexistent');
+            }).not.toThrow();
+            expect(usePresetStoreBase.getState().presets).toHaveLength(1);
+        });
+    });
+
     describe('updateLastUsed', () => {
         it('updates lastUsedAt timestamp', () => {
             const oldTimestamp = '2026-01-01T00:00:00.000Z';

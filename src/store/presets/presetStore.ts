@@ -9,6 +9,7 @@ interface PresetState {
     presets: SessionPreset[];
     savePreset: (config: SessionConfig, name: string) => void;
     updateLastUsed: (id: string) => void;
+    deletePreset: (id: string) => void;
 }
 
 const usePresetStoreBase = create<PresetState>()(
@@ -35,6 +36,12 @@ const usePresetStoreBase = create<PresetState>()(
                 storageService.savePreset(updated);
                 set({ presets: storageService.getPresets() }, false, {
                     type: 'preset-store/updateLastUsed'
+                });
+            },
+            deletePreset: (id: string) => {
+                storageService.deletePreset(id);
+                set({ presets: storageService.getPresets() }, false, {
+                    type: 'preset-store/deletePreset'
                 });
             }
         }),
