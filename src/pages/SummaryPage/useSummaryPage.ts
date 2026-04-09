@@ -26,6 +26,7 @@ export function useSummaryPage() {
     const skipList = useSessionStore.use.skipList();
     const setRepeatMistakes = useSessionStore.use.setRepeatMistakes();
     const saveSessionResults = useProgressStore.use.saveSessionResults();
+    const recordAnswer = useProgressStore.use.recordAnswer();
 
     // Guard: if no session data, redirect home
     useEffect(() => {
@@ -69,12 +70,24 @@ export function useSummaryPage() {
     const sessionResultsRef = useRef(sessionResults);
     sessionResultsRef.current = sessionResults;
 
-    // Persist session results once on mount
+    // Build category map once per render — stable ref for mount effect
+    const questionCategoryMapRef = useRef<Record<string, string>>({});
+    questionCategoryMapRef.current = Object.fromEntries(
+        questionList.map((q) => [q.id, q.category])
+    );
+
+    // Persist session results once on mount and record answers for adaptive algorithm
     useEffect(() => {
-        if (Object.keys(sessionResultsRef.current).length === 0) return;
-        saveSessionResults(sessionResultsRef.current);
+        const results = sessionResultsRef.current;
+        if (Object.keys(results).length === 0) return;
+        saveSessionResults(results);
+        const catMap = questionCategoryMapRef.current;
+        for (const [questionId, correct] of Object.entries(results)) {
+            const category = catMap[questionId];
+            if (category) recordAnswer(questionId, category, correct);
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []); // intentional — save once on mount via ref
+    }, []); // intentional — mount only
 
     const skippedQuestions = useMemo(
         () => questionList.filter((q) => skipList.includes(q.id)),

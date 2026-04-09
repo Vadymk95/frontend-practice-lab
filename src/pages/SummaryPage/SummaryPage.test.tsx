@@ -17,10 +17,12 @@ vi.mock('react-router-dom', async (importOriginal) => {
 });
 
 const mockSaveSessionResults = vi.fn();
+const mockRecordAnswer = vi.fn();
 vi.mock('@/store/progress', () => ({
     useProgressStore: {
         use: {
-            saveSessionResults: () => mockSaveSessionResults
+            saveSessionResults: () => mockSaveSessionResults,
+            recordAnswer: () => mockRecordAnswer
         }
     }
 }));
@@ -114,6 +116,7 @@ function resetStores(overrides?: {
 beforeEach(() => {
     navigateMock.mockReset();
     mockSaveSessionResults.mockReset();
+    mockRecordAnswer.mockReset();
     resetStores();
 });
 
@@ -246,13 +249,15 @@ describe('useSummaryPage', () => {
         expect(result.current.weakTopics).not.toContain('TypeScript');
     });
 
-    it('calls saveSessionResults on mount', () => {
+    it('calls saveSessionResults and recordAnswer on mount', () => {
         resetStores({ questionList: [mockQuestion], answers: { 'q-001': 1 } });
 
         renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
 
         expect(mockSaveSessionResults).toHaveBeenCalledOnce();
         expect(mockSaveSessionResults).toHaveBeenCalledWith({ 'q-001': true });
+        expect(mockRecordAnswer).toHaveBeenCalledOnce();
+        expect(mockRecordAnswer).toHaveBeenCalledWith('q-001', 'JavaScript', true);
     });
 
     describe('review subsets', () => {

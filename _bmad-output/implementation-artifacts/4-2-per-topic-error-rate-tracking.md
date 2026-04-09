@@ -1,6 +1,6 @@
 # Story 4.2: Per-Topic Error Rate Tracking
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
@@ -27,34 +27,34 @@ So that the adaptive algorithm has accurate data to surface my weak areas.
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Add `recordAnswer` action to `progressStore` (AC: #1, #3)
-  - [ ] Add `recordAnswer: (questionId: string, category: string, correct: boolean) => void` to `ProgressState` interface
-  - [ ] Implement action body in `progressStore.ts`:
-    - [ ] Read current `errorRates[category] ?? 0` and call `updateErrorRate(current, correct)`
-    - [ ] Write updated error rates via `storageService.setErrorRates(newRates)` and `set({ errorRates: newRates })`
-    - [ ] Read current `weights[questionId] ?? DEFAULT_WEIGHT` and call `calculateWeight(newErrorRate, currentWeight)`
-    - [ ] Write updated weights via `storageService.setWeights(newWeights)` and `set({ weights: newWeights })`
-    - [ ] Stale questionId (not found in any loaded questions): silently handled — `weights[questionId]` simply uses DEFAULT_WEIGHT fallback
+- [x] Task 1: Add `recordAnswer` action to `progressStore` (AC: #1, #3)
+  - [x] Add `recordAnswer: (questionId: string, category: string, correct: boolean) => void` to `ProgressState` interface
+  - [x] Implement action body in `progressStore.ts`:
+    - [x] Read current `errorRates[category] ?? 0` and call `updateErrorRate(current, correct)`
+    - [x] Write updated error rates via `storageService.setErrorRates(newRates)` and `set({ errorRates: newRates })`
+    - [x] Read current `weights[questionId] ?? DEFAULT_WEIGHT` and call `calculateWeight(newErrorRate, currentWeight)`
+    - [x] Write updated weights via `storageService.setWeights(newWeights)` and `set({ weights: newWeights })`
+    - [x] Stale questionId (not found in any loaded questions): silently handled — `weights[questionId]` simply uses DEFAULT_WEIGHT fallback
 
-- [ ] Task 2: Call `progressStore.recordAnswer()` from `useSummaryPage` (AC: #1)
-  - [ ] Import `useProgressStore` in `useSummaryPage.ts` (it's already imported)
-  - [ ] Get `recordAnswer` action from store
-  - [ ] In the `useEffect` that persists session results (mount effect), iterate `sessionResultsRef.current` entries and call `recordAnswer(questionId, category, correct)` for each
-  - [ ] Need question's category: iterate `questionList` to build `Record<questionId, category>` map — use a `useMemo` or derive inline
-  - [ ] Call `recordAnswer` inside the mount `useEffect` (after `saveSessionResults` call)
+- [x] Task 2: Call `progressStore.recordAnswer()` from `useSummaryPage` (AC: #1)
+  - [x] Import `useProgressStore` in `useSummaryPage.ts` (it's already imported)
+  - [x] Get `recordAnswer` action from store
+  - [x] In the `useEffect` that persists session results (mount effect), iterate `sessionResultsRef.current` entries and call `recordAnswer(questionId, category, correct)` for each
+  - [x] Need question's category: iterate `questionList` to build `Record<questionId, category>` map — use a `useMemo` or derive inline
+  - [x] Call `recordAnswer` inside the mount `useEffect` (after `saveSessionResults` call)
 
-- [ ] Task 3: Add `progressStore.test.ts` unit tests (AC: #1, #2, #3)
-  - [ ] Create `src/store/progress/progressStore.test.ts`
-  - [ ] Test `recordAnswer`: error rate updates for category, weight updates for question
-  - [ ] Test: weight clamped at MAX_WEIGHT (10), floored at MIN_WEIGHT (0.5)
-  - [ ] Test: stale questionId (not in pool) processed without crash
-  - [ ] Test: initial load from storageService (mock storageService)
+- [x] Task 3: Add `progressStore.test.ts` unit tests (AC: #1, #2, #3)
+  - [x] Create `src/store/progress/progressStore.test.ts`
+  - [x] Test `recordAnswer`: error rate updates for category, weight updates for question
+  - [x] Test: weight clamped at MAX_WEIGHT (10), floored at MIN_WEIGHT (0.5)
+  - [x] Test: stale questionId (not in pool) processed without crash
+  - [x] Test: initial load from storageService (mock storageService)
 
-- [ ] Task 4: Verification
-  - [ ] `npm run format`
-  - [ ] `npm run lint`
-  - [ ] `npx tsc --noEmit`
-  - [ ] `npm run test`
+- [x] Task 4: Verification
+  - [x] `npm run format`
+  - [x] `npm run lint`
+  - [x] `npx tsc --noEmit`
+  - [x] `npm run test`
 
 ## Dev Notes
 
@@ -158,7 +158,7 @@ src/store/progress/progressStore.test.ts  ← NEW (unit tests)
 
 ### Agent Model Used
 
-_to be filled_
+claude-sonnet-4-6
 
 ### Debug Log References
 
@@ -166,14 +166,28 @@ _none_
 
 ### Completion Notes List
 
-_to be filled_
+- Added `recordAnswer(questionId, category, correct)` action to `progressStore` — coordinates `updateErrorRate` + `calculateWeight` in a single store action, then persists both via `storageService`
+- Added `questionCategoryMapRef` in `useSummaryPage` to safely build questionId→category map without adding deps to mount effect
+- Extended mount `useEffect` in `useSummaryPage` to iterate sessionResults and call `recordAnswer` for each after `saveSessionResults`
+- Added `progressStore.test.ts` with 9 tests covering: error rate updates (wrong/correct), weight updates, MAX_WEIGHT clamp, MIN_WEIGHT floor, stale questionId no-crash, storageService persistence calls, initial load restoration
+- Fixed `SummaryPage.test.tsx` mock — added `recordAnswer: () => mockRecordAnswer` to the `useProgressStore` mock
+- All 217 tests pass, lint clean, tsc clean
 
 ### Review Findings
 
-_none yet_
+**Fixed (2 issues):**
+- `mockRecordAnswer` was not reset in `beforeEach` and not asserted in the mount test — added `mockReset()` call and assertion `recordAnswer('q-001', 'JavaScript', true)` to the "calls saveSessionResults on mount" test.
+- "restores error rates" test used manual `setState` instead of testing real store initialization — replaced with `vi.resetModules()` + fresh `import('./progressStore')` to verify actual `storageService.getErrorRates()` call on store creation.
+
+**Rejected (false positives):**
+- `useProgressStoreBase` export — already exported on line 79.
+- `questionCategoryMapRef.current` mutation in render — intentional "render-to-ref" pattern (same as `sessionResultsRef`), not a React side effect.
+- `recordAnswer` absent from useEffect deps — Zustand actions are referentially stable; `eslint-disable` is correct.
+- "Double persistence" concern — `saveSessionResults` writes `lastSessionResults`; `recordAnswer` writes `weights+errorRates`; no overlap.
 
 ### File List
 
-- `src/store/progress/progressStore.ts` — MODIFY
-- `src/pages/SummaryPage/useSummaryPage.ts` — MODIFY
-- `src/store/progress/progressStore.test.ts` — NEW
+- `src/store/progress/progressStore.ts` — MODIFIED (added `recordAnswer` action + `calculateWeight`/`updateErrorRate`/`ALGORITHM_CONFIG` imports)
+- `src/pages/SummaryPage/useSummaryPage.ts` — MODIFIED (added `recordAnswer` call + `questionCategoryMapRef`)
+- `src/store/progress/progressStore.test.ts` — NEW (unit tests for `recordAnswer`)
+- `src/pages/SummaryPage/SummaryPage.test.tsx` — MODIFIED (added `mockRecordAnswer` to progressStore mock)

@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
+import { calculateWeight, updateErrorRate } from '@/lib/algorithm';
+import { ALGORITHM_CONFIG } from '@/lib/algorithm/config';
 import { storageService } from '@/lib/storage';
 import type { StreakData } from '@/lib/storage/types';
 import { createSelectors } from '@/store/utils/createSelectors';
@@ -17,6 +19,7 @@ interface ProgressState {
     setStreak: (data: StreakData) => void;
     setRecord: (key: string, ms: number) => void;
     saveSessionResults: (results: Record<string, boolean>) => void;
+    recordAnswer: (questionId: string, category: string, correct: boolean) => void;
 }
 
 const useProgressStoreBase = create<ProgressState>()(
@@ -49,6 +52,22 @@ const useProgressStoreBase = create<ProgressState>()(
                 storageService.setLastSessionResults(results);
                 set({ lastSessionResults: results }, false, {
                     type: 'progress-store/saveSessionResults'
+                });
+            },
+            recordAnswer: (questionId: string, category: string, correct: boolean) => {
+                const { errorRates, weights } = get();
+                const prevErrorRate = errorRates[category] ?? 0;
+                const newErrorRate = updateErrorRate(prevErrorRate, correct);
+                const newRates = { ...errorRates, [category]: newErrorRate };
+
+                const prevWeight = weights[questionId] ?? ALGORITHM_CONFIG.DEFAULT_WEIGHT;
+                const newWeight = calculateWeight(newErrorRate, prevWeight);
+                const newWeights = { ...weights, [questionId]: newWeight };
+
+                storageService.setErrorRates(newRates);
+                storageService.setWeights(newWeights);
+                set({ errorRates: newRates, weights: newWeights }, false, {
+                    type: 'progress-store/recordAnswer'
                 });
             }
         }),
