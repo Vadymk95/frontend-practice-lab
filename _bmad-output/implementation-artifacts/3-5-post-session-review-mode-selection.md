@@ -1,6 +1,6 @@
 # Story 3.5: Post-Session Review Mode Selection
 
-Status: review
+Status: done
 
 ## Story
 
