@@ -18,11 +18,15 @@ vi.mock('react-router-dom', async (importOriginal) => {
 
 const mockSaveSessionResults = vi.fn();
 const mockRecordAnswer = vi.fn();
+const mockUpdateStreak = vi.fn();
+let mockStreakData = { current: 0, lastActivityDate: '' };
 vi.mock('@/store/progress', () => ({
     useProgressStore: {
         use: {
             saveSessionResults: () => mockSaveSessionResults,
-            recordAnswer: () => mockRecordAnswer
+            recordAnswer: () => mockRecordAnswer,
+            updateStreak: () => mockUpdateStreak,
+            streak: () => mockStreakData
         }
     }
 }));
@@ -117,6 +121,7 @@ beforeEach(() => {
     navigateMock.mockReset();
     mockSaveSessionResults.mockReset();
     mockRecordAnswer.mockReset();
+    mockStreakData = { current: 0, lastActivityDate: '' };
     resetStores();
 });
 
@@ -412,6 +417,74 @@ describe('useSummaryPage', () => {
             });
 
             expect(navigateMock).toHaveBeenCalledWith('/');
+        });
+    });
+
+    describe('streak', () => {
+        const TODAY = '2026-04-09';
+        const YESTERDAY = '2026-04-08';
+        const OLD_DATE = '2026-03-01';
+
+        beforeEach(() => {
+            vi.useFakeTimers();
+            vi.setSystemTime(new Date('2026-04-09T12:00:00Z'));
+        });
+
+        afterEach(() => {
+            vi.useRealTimers();
+        });
+
+        it('isStreakReset is false for first-ever session (empty lastActivityDate)', () => {
+            mockStreakData = { current: 0, lastActivityDate: '' };
+            resetStores();
+
+            const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+            expect(result.current.isStreakReset).toBe(false);
+        });
+
+        it('isStreakReset is false when last session was yesterday (consecutive)', () => {
+            mockStreakData = { current: 5, lastActivityDate: YESTERDAY };
+            resetStores();
+
+            const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+            expect(result.current.isStreakReset).toBe(false);
+        });
+
+        it('isStreakReset is false when last session was today (same-day repeat)', () => {
+            mockStreakData = { current: 3, lastActivityDate: TODAY };
+            resetStores();
+
+            const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+            expect(result.current.isStreakReset).toBe(false);
+        });
+
+        it('isStreakReset is true when gap > 1 day (streak broken)', () => {
+            mockStreakData = { current: 10, lastActivityDate: OLD_DATE };
+            resetStores();
+
+            const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+            expect(result.current.isStreakReset).toBe(true);
+        });
+
+        it('streak value is passed through from the store', () => {
+            mockStreakData = { current: 7, lastActivityDate: YESTERDAY };
+            resetStores();
+
+            const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+            expect(result.current.streak.current).toBe(7);
+        });
+
+        it('calls updateStreak on mount', () => {
+            resetStores();
+
+            renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+            expect(mockUpdateStreak).toHaveBeenCalledOnce();
         });
     });
 });

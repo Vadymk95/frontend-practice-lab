@@ -3,6 +3,7 @@ import { devtools } from 'zustand/middleware';
 
 import { calculateWeight, updateErrorRate } from '@/lib/algorithm';
 import { ALGORITHM_CONFIG } from '@/lib/algorithm/config';
+import { isYesterday } from '@/lib/date';
 import { storageService } from '@/lib/storage';
 import type { StreakData } from '@/lib/storage/types';
 import { createSelectors } from '@/store/utils/createSelectors';
@@ -20,6 +21,7 @@ interface ProgressState {
     setRecord: (key: string, ms: number) => void;
     saveSessionResults: (results: Record<string, boolean>) => void;
     recordAnswer: (questionId: string, category: string, correct: boolean) => void;
+    updateStreak: () => void;
 }
 
 const useProgressStoreBase = create<ProgressState>()(
@@ -53,6 +55,20 @@ const useProgressStoreBase = create<ProgressState>()(
                 set({ lastSessionResults: results }, false, {
                     type: 'progress-store/saveSessionResults'
                 });
+            },
+            updateStreak: () => {
+                const { streak } = get();
+                const today = new Date().toISOString().slice(0, 10);
+
+                if (streak.lastActivityDate === today) return;
+
+                const isConsecutive = isYesterday(streak.lastActivityDate, today);
+                const newStreak: StreakData = {
+                    current: isConsecutive ? streak.current + 1 : 1,
+                    lastActivityDate: today
+                };
+                storageService.setStreak(newStreak);
+                set({ streak: newStreak }, false, { type: 'progress-store/updateStreak' });
             },
             recordAnswer: (questionId: string, category: string, correct: boolean) => {
                 const { errorRates, weights } = get();

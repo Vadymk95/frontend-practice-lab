@@ -1,6 +1,6 @@
 # Story 4.4: Daily Streak Tracking
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
@@ -27,41 +27,41 @@ So that I'm motivated to maintain my daily practice habit.
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Add `updateStreak` action to `progressStore` (AC: #1, #2, #3)
-  - [ ] Add `updateStreak: () => void` to `ProgressState` interface
-  - [ ] Implement action: compute today's ISO date (`new Date().toISOString().slice(0, 10)`)
-  - [ ] If `streak.lastActivityDate === today`: no-op (AC #3 — already incremented today)
-  - [ ] If `streak.lastActivityDate` is yesterday (`isYesterday(streak.lastActivityDate, today)`): increment `streak.current + 1`
-  - [ ] Otherwise (more than 1 day gap or first session): reset to `1`
-  - [ ] Save via `storageService.setStreak(newStreak)` and `set({ streak: newStreak })`
+- [x] Task 1: Add `updateStreak` action to `progressStore` (AC: #1, #2, #3)
+  - [x] Add `updateStreak: () => void` to `ProgressState` interface
+  - [x] Implement action: compute today's ISO date (`new Date().toISOString().slice(0, 10)`)
+  - [x] If `streak.lastActivityDate === today`: no-op (AC #3 — already incremented today)
+  - [x] If `streak.lastActivityDate` is yesterday (`isYesterday(streak.lastActivityDate, today)`): increment `streak.current + 1`
+  - [x] Otherwise (more than 1 day gap or first session): reset to `1`
+  - [x] Save via `storageService.setStreak(newStreak)` and `set({ streak: newStreak })`
 
-- [ ] Task 2: Call `updateStreak()` from `useSummaryPage` (AC: #1, #2, #3)
-  - [ ] Get `updateStreak` from `useProgressStore`
-  - [ ] Call `updateStreak()` in the mount `useEffect` (alongside `saveSessionResults` and `recordAnswer`)
-  - [ ] Expose `streak` (current + `isNewStreak` flag) to the component
+- [x] Task 2: Call `updateStreak()` from `useSummaryPage` (AC: #1, #2, #3)
+  - [x] Get `updateStreak` from `useProgressStore`
+  - [x] Call `updateStreak()` in the mount `useEffect` (alongside `saveSessionResults` and `recordAnswer`)
+  - [x] Expose `streak` (current + `isNewStreak` flag) to the component
 
-- [ ] Task 3: Display streak in `SummaryPage` (AC: #1, #2)
-  - [ ] Add streak display below the score section
-  - [ ] If `streak.current > 1`: show `t('streak.count', { count: streak.current })` → "Streak: 7 days"
-  - [ ] If `streak.current === 1` AND `isNewStreakStart` (was reset): show `t('streak.newStart')` → "Start a new streak today" (positive framing)
-  - [ ] If `streak.current === 1` AND continuing (first ever session): show count normally
+- [x] Task 3: Display streak in `SummaryPage` (AC: #1, #2)
+  - [x] Add streak display below the score section
+  - [x] If `streak.current > 1`: show `t('streak.count', { count: streak.current })` → "Streak: 7 days"
+  - [x] If `streak.current === 1` AND `isNewStreakStart` (was reset): show `t('streak.newStart')` → "Start a new streak today" (positive framing)
+  - [x] If `streak.current === 1` AND continuing (first ever session): show count normally
 
-- [ ] Task 4: Add i18n keys (AC: #1, #2)
-  - [ ] `public/locales/en/summary.json` — add `streak.count` (with count interpolation), `streak.newStart`
-  - [ ] `public/locales/ru/summary.json` — same keys in Russian
+- [x] Task 4: Add i18n keys (AC: #1, #2)
+  - [x] `public/locales/en/summary.json` — add `streak.count` (with count interpolation), `streak.newStart`
+  - [x] `public/locales/ru/summary.json` — same keys in Russian
 
-- [ ] Task 5: Add unit tests for `updateStreak` (AC: #1, #2, #3)
-  - [ ] In `src/store/progress/progressStore.test.ts` (created in Story 4.2):
-    - [ ] Test: same day → streak unchanged
-    - [ ] Test: consecutive day → streak increments
-    - [ ] Test: gap of 2+ days → streak resets to 1
-    - [ ] Test: first session (lastActivityDate = '') → streak = 1
+- [x] Task 5: Add unit tests for `updateStreak` (AC: #1, #2, #3)
+  - [x] In `src/store/progress/progressStore.test.ts` (created in Story 4.2):
+    - [x] Test: same day → streak unchanged
+    - [x] Test: consecutive day → streak increments
+    - [x] Test: gap of 2+ days → streak resets to 1
+    - [x] Test: first session (lastActivityDate = '') → streak = 1
 
-- [ ] Task 6: Verification
-  - [ ] `npm run format`
-  - [ ] `npm run lint`
-  - [ ] `npx tsc --noEmit`
-  - [ ] `npm run test`
+- [x] Task 6: Verification
+  - [x] `npm run format`
+  - [x] `npm run lint`
+  - [x] `npx tsc --noEmit`
+  - [x] `npm run test`
 
 ## Dev Notes
 
@@ -212,7 +212,7 @@ public/locales/ru/summary.json            ← ADD streak keys
 
 ### Agent Model Used
 
-_to be filled_
+claude-sonnet-4-6
 
 ### Debug Log References
 
@@ -220,11 +220,19 @@ _none_
 
 ### Completion Notes List
 
-_to be filled_
+- Added `isYesterday` pure helper and `updateStreak` action to `progressStore` — handles same-day no-op, consecutive-day increment, gap reset
+- Updated `useSummaryPage`: added `isStreakResetRef` (computed pre-update), calls `updateStreak()` in mount effect, exposes `streak` and `isStreakReset`
+- Added streak display block to `SummaryPage` between score and weak topics
+- Added `streak.count` / `streak.newStart` i18n keys in EN and RU locales
+- Added 6 unit tests for `updateStreak` using `vi.useFakeTimers`; updated `SummaryPage.test.tsx` mock to include `updateStreak` and `streak`
+- All 230 tests pass, lint and tsc clean
 
 ### Review Findings
 
-_none yet_
+- [x] [Review][Patch] `isStreakResetRef` re-evaluated on every render — reset message never showed [useSummaryPage.ts:89] — Fixed: lazy `null` sentinel so value is captured once on first render
+- [x] [Review][Patch] Duplicate `isYesterday`/`isYesterdayDate` helpers in store and hook — Fixed: extracted to `src/lib/date.ts`, both files import from there
+- [x] [Review][Patch] EN i18n plural "Streak: 1 days" — Fixed: added `count_one`/`count_other` keys in `en/summary.json`
+- [x] [Review][Patch] Streak UI untested (mock always `current: 0`) — Fixed: made mock dynamic, added 6 streak tests to `SummaryPage.test.tsx`
 
 ### File List
 

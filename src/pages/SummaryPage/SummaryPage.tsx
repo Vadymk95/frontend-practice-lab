@@ -15,6 +15,8 @@ export const SummaryPage: FC = () => {
         allMistakesCount,
         weakTopics,
         isPerfectScore,
+        streak,
+        isStreakReset,
         handleRepeatWrong,
         handleRepeatSkipped,
         handleRepeatAllMistakes,
@@ -40,6 +42,19 @@ export const SummaryPage: FC = () => {
                     </p>
                 )}
             </div>
+
+            {/* Streak */}
+            {streak.current > 0 && (
+                <div className="text-center">
+                    {isStreakReset ? (
+                        <p className="text-sm text-muted-foreground">{t('streak.newStart')}</p>
+                    ) : (
+                        <p className="text-sm font-medium">
+                            {t('streak.count', { count: streak.current })}
+                        </p>
+                    )}
+                </div>
+            )}
 
             {/* Weak topics */}
             {!isPerfectScore && (

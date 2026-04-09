@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { ALGORITHM_CONFIG } from '@/lib/algorithm/config';
 
@@ -106,6 +106,81 @@ describe('progressStore — recordAnswer', () => {
     it('persists weights via storageService.setWeights', () => {
         useProgressStoreBase.getState().recordAnswer('q1', 'react', false);
         expect(mockStorageService.setWeights).toHaveBeenCalledOnce();
+    });
+});
+
+describe('progressStore — updateStreak', () => {
+    const TODAY = '2026-04-09';
+    const YESTERDAY = '2026-04-08';
+    const TWO_DAYS_AGO = '2026-04-07';
+
+    beforeEach(() => {
+        vi.clearAllMocks();
+        vi.useFakeTimers();
+        vi.setSystemTime(new Date('2026-04-09T12:00:00Z'));
+        useProgressStoreBase.setState({
+            weights: {},
+            errorRates: {},
+            streak: { current: 0, lastActivityDate: '' },
+            records: {},
+            lastSessionResults: {}
+        });
+    });
+
+    afterEach(() => {
+        vi.useRealTimers();
+    });
+
+    it('first session (lastActivityDate empty) → streak becomes 1', () => {
+        useProgressStoreBase.getState().updateStreak();
+
+        const { streak } = useProgressStoreBase.getState();
+        expect(streak.current).toBe(1);
+        expect(streak.lastActivityDate).toBe(TODAY);
+    });
+
+    it('same day call → streak unchanged (no-op)', () => {
+        useProgressStoreBase.setState({ streak: { current: 3, lastActivityDate: TODAY } });
+        useProgressStoreBase.getState().updateStreak();
+
+        const { streak } = useProgressStoreBase.getState();
+        expect(streak.current).toBe(3);
+    });
+
+    it('consecutive day → streak increments', () => {
+        useProgressStoreBase.setState({ streak: { current: 5, lastActivityDate: YESTERDAY } });
+        useProgressStoreBase.getState().updateStreak();
+
+        const { streak } = useProgressStoreBase.getState();
+        expect(streak.current).toBe(6);
+        expect(streak.lastActivityDate).toBe(TODAY);
+    });
+
+    it('gap of 2+ days → streak resets to 1', () => {
+        useProgressStoreBase.setState({ streak: { current: 10, lastActivityDate: TWO_DAYS_AGO } });
+        useProgressStoreBase.getState().updateStreak();
+
+        const { streak } = useProgressStoreBase.getState();
+        expect(streak.current).toBe(1);
+        expect(streak.lastActivityDate).toBe(TODAY);
+    });
+
+    it('persists new streak via storageService.setStreak', () => {
+        useProgressStoreBase.setState({ streak: { current: 2, lastActivityDate: YESTERDAY } });
+        useProgressStoreBase.getState().updateStreak();
+
+        expect(mockStorageService.setStreak).toHaveBeenCalledOnce();
+        expect(mockStorageService.setStreak).toHaveBeenCalledWith({
+            current: 3,
+            lastActivityDate: TODAY
+        });
+    });
+
+    it('same day call → setStreak not called', () => {
+        useProgressStoreBase.setState({ streak: { current: 3, lastActivityDate: TODAY } });
+        useProgressStoreBase.getState().updateStreak();
+
+        expect(mockStorageService.setStreak).not.toHaveBeenCalled();
     });
 });
 

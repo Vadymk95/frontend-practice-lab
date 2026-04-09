@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import type { Question } from '@/lib/data/schema';
+import { isYesterday } from '@/lib/date';
 import { RoutesPath } from '@/router/routes';
 import { useProgressStore } from '@/store/progress';
 import { useSessionStore } from '@/store/session';
@@ -27,6 +28,8 @@ export function useSummaryPage() {
     const setRepeatMistakes = useSessionStore.use.setRepeatMistakes();
     const saveSessionResults = useProgressStore.use.saveSessionResults();
     const recordAnswer = useProgressStore.use.recordAnswer();
+    const updateStreak = useProgressStore.use.updateStreak();
+    const streak = useProgressStore.use.streak();
 
     // Guard: if no session data, redirect home
     useEffect(() => {
@@ -76,6 +79,15 @@ export function useSummaryPage() {
         questionList.map((q) => [q.id, q.category])
     );
 
+    // Computed once on first render (before updateStreak fires and triggers a re-render).
+    // Using null sentinel so subsequent re-renders don't overwrite the pre-update value.
+    const isStreakResetRef = useRef<boolean | null>(null);
+    if (isStreakResetRef.current === null) {
+        const today = new Date().toISOString().slice(0, 10);
+        const last = streak.lastActivityDate;
+        isStreakResetRef.current = last !== '' && last !== today && !isYesterday(last, today);
+    }
+
     // Persist session results once on mount and record answers for adaptive algorithm
     useEffect(() => {
         const results = sessionResultsRef.current;
@@ -86,6 +98,7 @@ export function useSummaryPage() {
             const category = catMap[questionId];
             if (category) recordAnswer(questionId, category, correct);
         }
+        updateStreak();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []); // intentional — mount only
 
@@ -136,6 +149,8 @@ export function useSummaryPage() {
         allMistakesCount: allMistakeQuestions.length,
         weakTopics,
         isPerfectScore,
+        streak,
+        isStreakReset: isStreakResetRef.current,
         handleRepeatWrong,
         handleRepeatSkipped,
         handleRepeatAllMistakes,
