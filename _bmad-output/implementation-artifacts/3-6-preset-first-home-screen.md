@@ -1,6 +1,6 @@
 # Story 3.6: Preset-First Home Screen
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
@@ -27,50 +27,50 @@ So that my daily session starts with one tap instead of reconfiguring every time
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Sort presets by `lastUsedAt` in `usePresetStore` or at consumption point (AC: #1, #3)
-  - [ ] The `presets` array in `presetStore` is stored in insertion order
-  - [ ] Derive `sortedPresets = [...presets].sort((a, b) => b.lastUsedAt.localeCompare(a.lastUsedAt))` at the consumption point (in `HomePage` or a new hook)
-  - [ ] `mruPreset = sortedPresets[0]` (most recently used)
-  - [ ] `secondaryPresets = sortedPresets.slice(1)` (remaining presets)
+- [x] Task 1: Sort presets by `lastUsedAt` in `usePresetStore` or at consumption point (AC: #1, #3)
+  - [x] The `presets` array in `presetStore` is stored in insertion order
+  - [x] Derive `sortedPresets = [...presets].sort((a, b) => b.lastUsedAt.localeCompare(a.lastUsedAt))` at the consumption point (in `HomePage` or a new hook)
+  - [x] `mruPreset = sortedPresets[0]` (most recently used)
+  - [x] `secondaryPresets = sortedPresets.slice(1)` (remaining presets)
 
-- [ ] Task 2: Create `PrimaryPresetCard` component (AC: #1)
-  - [ ] Create `src/components/features/PresetList/PrimaryPresetCard/PrimaryPresetCard.tsx` — UI only
-  - [ ] Create `src/components/features/PresetList/PrimaryPresetCard/usePrimaryPresetCard.ts` — logic
-  - [ ] Create `src/components/features/PresetList/PrimaryPresetCard/index.ts` — re-export
-  - [ ] `usePrimaryPresetCard(preset)`: expose `configSummary`, `handleStart`, `handleModify`
-  - [ ] `handleStart`: `presetStore.updateLastUsed(preset.id)`, `sessionStore.setConfig(preset.config)`, navigate to `RoutesPath.SessionPlay`
-  - [ ] `handleModify`: sets configurator to preset config state (see dev notes below) + scrolls/focuses configurator
+- [x] Task 2: Create `PrimaryPresetCard` component (AC: #1)
+  - [x] Create `src/components/features/PresetList/PrimaryPresetCard/PrimaryPresetCard.tsx` — UI only
+  - [x] Create `src/components/features/PresetList/PrimaryPresetCard/usePrimaryPresetCard.ts` — logic
+  - [x] Create `src/components/features/PresetList/PrimaryPresetCard/index.ts` — re-export
+  - [x] `usePrimaryPresetCard(preset)`: expose `configSummary`, `handleStart`, `handleModify`
+  - [x] `handleStart`: `presetStore.updateLastUsed(preset.id)`, `sessionStore.setConfig(preset.config)`, navigate to `RoutesPath.SessionPlay`
+  - [x] `handleModify`: sets configurator to preset config state (see dev notes below) + scrolls/focuses configurator
 
-- [ ] Task 3: Refactor `HomePage` layout — preset-first structure (AC: #1, #2, #3)
-  - [ ] Modify `src/pages/HomePage/index.tsx`
-  - [ ] When `presets.length > 0`:
+- [x] Task 3: Refactor `HomePage` layout — preset-first structure (AC: #1, #2, #3)
+  - [x] Modify `src/pages/HomePage/index.tsx`
+  - [x] When `presets.length > 0`:
     - Show `PrimaryPresetCard` for MRU preset at the top
     - Show `SessionConfigurator` below (collapsed/secondary or shown as always)
     - Show remaining presets as `PresetRow` list below configurator
-  - [ ] When `presets.length === 0`:
+  - [x] When `presets.length === 0`:
     - Show only `SessionConfigurator` (no preset section, no empty state — Story 3.2 empty state applies only when presets existed)
-  - [ ] Remove the empty state text added in Story 3.2 when `presets.length === 0` AND no presets have ever been saved — OR simplify: only show preset section when `presets.length > 0`, never show empty state on first visit
+  - [x] Remove the empty state text added in Story 3.2 when `presets.length === 0` AND no presets have ever been saved — OR simplify: only show preset section when `presets.length > 0`, never show empty state on first visit
 
-- [ ] Task 4: Implement "Modify" — pre-fill SessionConfigurator (AC: #1)
-  - [ ] `SessionConfigurator` needs to accept initial config values via props or via a shared state signal
-  - [ ] Approach: add `initialConfig?: SessionConfig` prop to `SessionConfigurator` component
-  - [ ] `useSessionConfigurator` accepts `initialConfig?: SessionConfig` and initializes state from it in `useState`:
+- [x] Task 4: Implement "Modify" — pre-fill SessionConfigurator (AC: #1)
+  - [x] `SessionConfigurator` needs to accept initial config values via props or via a shared state signal
+  - [x] Approach: add `initialConfig?: SessionConfig` prop to `SessionConfigurator` component
+  - [x] `useSessionConfigurator` accepts `initialConfig?: SessionConfig` and initializes state from it in `useState`:
     - `useState(initialConfig?.categories ?? [])`
     - `useState(initialConfig?.difficulty ?? 'all')`
     - `useState(initialConfig?.mode ?? 'all')`
     - `useState(initialConfig?.questionCount ?? 10)`
     - `useState(initialConfig?.order ?? 'random')`
-  - [ ] `HomePage` passes `initialConfig` from `handleModify` via a state variable `modifyConfig`
+  - [x] `HomePage` passes `initialConfig` from `handleModify` via a state variable `modifyConfig`
 
-- [ ] Task 5: Add i18n keys (AC: #1)
-  - [ ] `public/locales/en/home.json` — add `presets.primaryCard.start`, `presets.primaryCard.modify`
-  - [ ] `public/locales/ru/home.json` — same keys in Russian
+- [x] Task 5: Add i18n keys (AC: #1)
+  - [x] `public/locales/en/home.json` — add `presets.primaryCard.start`, `presets.primaryCard.modify`
+  - [x] `public/locales/ru/home.json` — same keys in Russian
 
-- [ ] Task 6: Verification
-  - [ ] `npm run format`
-  - [ ] `npm run lint`
-  - [ ] `npx tsc --noEmit`
-  - [ ] `npm run test`
+- [x] Task 6: Verification
+  - [x] `npm run format`
+  - [x] `npm run lint`
+  - [x] `npx tsc --noEmit`
+  - [x] `npm run test`
 
 ## Dev Notes
 
@@ -274,8 +274,41 @@ public/locales/ru/home.json                                                  ←
 
 ### Agent Model Used
 
+claude-sonnet-4-6
+
 ### Debug Log References
+
+None — clean implementation.
 
 ### Completion Notes List
 
+- Sorting by `lastUsedAt` implemented via `useMemo` in `HomePage` (ISO string lexicographic sort)
+- `PrimaryPresetCard` component created with `usePrimaryPresetCard` hook: exposes `configSummary`, `handleStart`, `handleModify`
+- `handleStart` calls `updateLastUsed` + `setConfig` + navigate to SessionPlay
+- `handleModify` calls `onModify(preset.config)` which sets `modifyConfig` state in `HomePage`
+- `SessionConfigurator` now accepts `initialConfig?: SessionConfig` prop; `key={JSON.stringify(modifyConfig)}` forces remount on modify trigger
+- Empty state from Story 3.2 removed — preset section only shown when `presets.length > 0`
+- i18n keys added: `presets.primaryCard.start` / `presets.primaryCard.modify` in EN + RU
+- All 187 tests pass, lint clean, TypeScript clean
+
+### Review Findings
+
+- [x] [Review][Patch] Counter key for SessionConfigurator remount — `JSON.stringify(modifyConfig)` replaced with `modifyKey` counter; clicking "Modify" on the same preset twice now correctly resets the configurator [src/pages/HomePage/index.tsx]
+- [x] [Review][Patch] configSummary IIFE showed raw slugs instead of display names — removed redundant subtitle from `PrimaryPresetCard` (preset.name already encodes the summary) and from `PresetRow`; DRY violation eliminated [usePrimaryPresetCard.ts, PrimaryPresetCard.tsx, usePresetRow.ts, PresetRow.tsx]
+- [x] [Review][Patch] handleStart dependency array narrowed from entire `preset` object to `preset.id, preset.config` [usePrimaryPresetCard.ts]
+- [x] [Review][Defer] "Modify" button is bare `<button>` vs `<Button>` component — intentional: secondary action styled as link [PrimaryPresetCard.tsx] — deferred, pre-existing design intent
+- [x] [Review][Defer] localeCompare on lastUsedAt without null guard — TypeScript strict mode guarantees string type from store [HomePage/index.tsx] — deferred, TypeScript invariant holds
+- [x] [Review][Defer] Zero questionCount defense in preset — store prevents invalid state upstream — deferred, pre-existing
+
 ### File List
+
+- `src/components/features/PresetList/PrimaryPresetCard/PrimaryPresetCard.tsx` — NEW
+- `src/components/features/PresetList/PrimaryPresetCard/usePrimaryPresetCard.ts` — NEW
+- `src/components/features/PresetList/PrimaryPresetCard/index.ts` — NEW
+- `src/pages/HomePage/index.tsx` — MODIFIED
+- `src/components/features/SessionConfigurator/SessionConfigurator.tsx` — MODIFIED
+- `src/components/features/SessionConfigurator/useSessionConfigurator.ts` — MODIFIED
+- `src/components/features/PresetList/PresetRow/usePresetRow.ts` — MODIFIED (review fix: remove configSummary)
+- `src/components/features/PresetList/PresetRow/PresetRow.tsx` — MODIFIED (review fix: remove configSummary subtitle)
+- `public/locales/en/home.json` — MODIFIED
+- `public/locales/ru/home.json` — MODIFIED

@@ -14,12 +14,6 @@ export function usePresetRow(preset: SessionPreset) {
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
-    const configSummary = (() => {
-        const { categories, difficulty, questionCount } = preset.config;
-        const catPart = categories.slice(0, 2).join('+') + (categories.length > 2 ? '+…' : '');
-        return `${catPart} · ${difficulty} · ${questionCount}q`;
-    })();
-
     const handleLaunch = useCallback(() => {
         updateLastUsed(preset.id);
         setConfig(preset.config);
@@ -41,7 +35,6 @@ export function usePresetRow(preset: SessionPreset) {
     );
 
     return {
-        configSummary,
         handleLaunch,
         isDeleteOpen,
         handleDialogOpenChange,

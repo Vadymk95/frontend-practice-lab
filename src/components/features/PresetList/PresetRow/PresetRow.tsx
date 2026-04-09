@@ -21,7 +21,6 @@ interface PresetRowProps {
 export const PresetRow: FC<PresetRowProps> = ({ preset }) => {
     const { t } = useTranslation('home');
     const {
-        configSummary,
         handleLaunch,
         isDeleteOpen,
         handleDialogOpenChange,
@@ -49,7 +48,6 @@ export const PresetRow: FC<PresetRowProps> = ({ preset }) => {
                     className="flex-1 text-left px-4 py-3"
                 >
                     <div className="text-sm font-medium text-foreground">{preset.name}</div>
-                    <div className="text-xs text-muted-foreground mt-0.5">{configSummary}</div>
                     {relativeDate && (
                         <div className="text-xs text-muted-foreground mt-0.5">{relativeDate}</div>
                     )}

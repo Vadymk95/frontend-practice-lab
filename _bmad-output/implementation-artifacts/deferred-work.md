@@ -12,6 +12,12 @@
 - Mobile sticky bar (Submit/Check/Next) has no explicit z-index — pre-existing pattern across all question type sticky bars in SessionPlayPage; `bg-background` provides visual coverage in current layout; address if stacking context issues emerge
 - `onSubmit` exported from `useCodeCompletionQuestion` hook but component doesn't use it directly — same pattern as BugFindingQuestion; submission is via registered ref callback; deferred for consistency
 
+## Deferred from: code review of 3-6-preset-first-home-screen (2026-04-09)
+
+- "Modify" bare `<button>` in `PrimaryPresetCard` styled as link rather than `<Button>` component — intentional design choice (secondary/tertiary action); no accessibility violation since type="button" is set
+- `localeCompare` on `lastUsedAt` without null guard in `HomePage` — TypeScript strict mode guarantees `string` type from Zustand store; safe unless storage layer corrupts the field
+- Zero `questionCount` defense in `PrimaryPresetCard/handleStart` — store and schema prevent invalid presets at save time; defensive guard would be redundant
+
 ## Deferred from: code review of 2-5-back-button-misclick-protection (2026-04-08)
 
 - Store test (`sessionStore.test.ts`) imports `useSessionStore` (selector wrapper) instead of `useSessionStoreBase` — SKELETONS convention; functionally correct since `createSelectors` mutates same reference; 90%+ project tests follow this pattern; address in a test convention cleanup sweep

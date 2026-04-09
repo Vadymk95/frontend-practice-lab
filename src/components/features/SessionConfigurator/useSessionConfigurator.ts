@@ -58,17 +58,19 @@ export function computeAvailableCount(
         .reduce((total, cat) => total + getFilteredCategoryCount(cat, difficulty, mode), 0);
 }
 
-export function useSessionConfigurator() {
+export function useSessionConfigurator(initialConfig?: SessionConfig) {
     const { data: categories = [], isLoading } = useCategories();
     const navigate = useNavigate();
     const setConfig = useSessionStore.use.setConfig();
     const savePreset = usePresetStore.use.savePreset();
 
-    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-    const [difficulty, setDifficulty] = useState<Difficulty>('all');
-    const [mode, setMode] = useState<Mode>('all');
-    const [questionCount, setQuestionCount] = useState<number>(10);
-    const [order, setOrder] = useState<Order>('random');
+    const [selectedCategories, setSelectedCategories] = useState<string[]>(
+        initialConfig?.categories ?? []
+    );
+    const [difficulty, setDifficulty] = useState<Difficulty>(initialConfig?.difficulty ?? 'all');
+    const [mode, setMode] = useState<Mode>(initialConfig?.mode ?? 'all');
+    const [questionCount, setQuestionCount] = useState<number>(initialConfig?.questionCount ?? 10);
+    const [order, setOrder] = useState<Order>(initialConfig?.order ?? 'random');
 
     const deferredSelectedCategories = useDeferredValue(selectedCategories);
     const deferredDifficulty = useDeferredValue(difficulty);

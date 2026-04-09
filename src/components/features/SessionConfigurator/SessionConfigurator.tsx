@@ -13,7 +13,11 @@ type Difficulty = SessionConfig['difficulty'];
 type Mode = SessionConfig['mode'];
 type Order = SessionConfig['order'];
 
-export const SessionConfigurator: FC = () => {
+interface SessionConfiguratorProps {
+    initialConfig?: SessionConfig;
+}
+
+export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfig }) => {
     const { t } = useTranslation('home');
     const {
         categories,
@@ -34,7 +38,7 @@ export const SessionConfigurator: FC = () => {
         handleOrderChange,
         handleStart,
         handleSavePreset
-    } = useSessionConfigurator();
+    } = useSessionConfigurator(initialConfig);
 
     if (isLoading) {
         return (
