@@ -5,5 +5,6 @@ export const ALGORITHM_CONFIG = {
     LOW_ERROR_MULTIPLIER: 0.5,
     MAX_WEIGHT: 10,
     MIN_WEIGHT: 0.5,
-    DEFAULT_WEIGHT: 1.0
+    DEFAULT_WEIGHT: 1.0,
+    ERROR_RATE_DECAY: 0.2
 } as const;

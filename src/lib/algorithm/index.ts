@@ -49,11 +49,27 @@ export function sampleWeighted(
     return result;
 }
 
-// Stubs — full adaptive logic deferred to Story 4.x
-export function calculateWeight(_errorRate: number, currentWeight: number): number {
+export function calculateWeight(errorRate: number, currentWeight: number): number {
+    if (!isFinite(errorRate) || !isFinite(currentWeight) || currentWeight < 0)
+        return ALGORITHM_CONFIG.DEFAULT_WEIGHT;
+    if (errorRate > ALGORITHM_CONFIG.HIGH_ERROR_THRESHOLD) {
+        return Math.min(
+            currentWeight * ALGORITHM_CONFIG.HIGH_ERROR_MULTIPLIER,
+            ALGORITHM_CONFIG.MAX_WEIGHT
+        );
+    }
+    if (errorRate < ALGORITHM_CONFIG.LOW_ERROR_THRESHOLD) {
+        return Math.max(
+            currentWeight * ALGORITHM_CONFIG.LOW_ERROR_MULTIPLIER,
+            ALGORITHM_CONFIG.MIN_WEIGHT
+        );
+    }
     return currentWeight;
 }
 
-export function updateErrorRate(previous: number, _correct: boolean): number {
-    return previous;
+export function updateErrorRate(previous: number, correct: boolean): number {
+    if (!isFinite(previous)) return correct ? 0 : 1;
+    const decay = ALGORITHM_CONFIG.ERROR_RATE_DECAY;
+    const updated = correct ? previous * (1 - decay) : previous * (1 - decay) + decay;
+    return Math.max(0, Math.min(1, updated));
 }
