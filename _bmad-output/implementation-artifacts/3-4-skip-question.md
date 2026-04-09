@@ -1,6 +1,6 @@
 # Story 3.4: Skip Question
 
-Status: review
+Status: done
 
 ## Story
 

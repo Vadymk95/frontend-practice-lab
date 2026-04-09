@@ -1,6 +1,6 @@
 # Story 3.2: Preset Management — Delete
 
-Status: review
+Status: done
 
 ## Story
 

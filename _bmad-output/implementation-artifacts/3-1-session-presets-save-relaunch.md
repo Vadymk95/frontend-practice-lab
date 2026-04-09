@@ -1,6 +1,6 @@
 # Story 3.1: Session Presets — Save & Relaunch
 
-Status: review
+Status: done
 
 ## Story
 
