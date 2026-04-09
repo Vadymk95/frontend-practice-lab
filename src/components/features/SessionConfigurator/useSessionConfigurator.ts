@@ -5,11 +5,20 @@ import type { ManifestEntry } from '@/hooks/data/useCategories';
 import { useCategories } from '@/hooks/data/useCategories';
 import type { SessionConfig } from '@/lib/storage/types';
 import { RoutesPath } from '@/router/routes';
+import { usePresetStore } from '@/store/presets';
 import { useSessionStore } from '@/store/session';
 
 type Difficulty = SessionConfig['difficulty'];
 type Mode = SessionConfig['mode'];
 type Order = SessionConfig['order'];
+
+export function generatePresetName(config: SessionConfig, categories: ManifestEntry[]): string {
+    const catLabels = categories
+        .filter((c) => config.categories.includes(c.slug))
+        .map((c) => c.displayName);
+    const catPart = catLabels.slice(0, 2).join('+') + (catLabels.length > 2 ? '+…' : '');
+    return `${catPart} · ${config.difficulty} · ${config.questionCount}q`;
+}
 
 export function computeAvailableCount(
     categories: ManifestEntry[],
@@ -50,6 +59,7 @@ export function useSessionConfigurator() {
     const { data: categories = [], isLoading } = useCategories();
     const navigate = useNavigate();
     const setConfig = useSessionStore.use.setConfig();
+    const savePreset = usePresetStore.use.savePreset();
 
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [difficulty, setDifficulty] = useState<Difficulty>('all');
@@ -138,6 +148,29 @@ export function useSessionConfigurator() {
         navigate
     ]);
 
+    const handleSavePreset = useCallback(() => {
+        if (!isStartEnabled) return;
+        const config: SessionConfig = {
+            categories: selectedCategories,
+            questionCount: Math.min(questionCount, maxCount),
+            difficulty,
+            mode,
+            order
+        };
+        const name = generatePresetName(config, categories);
+        savePreset(config, name);
+    }, [
+        isStartEnabled,
+        selectedCategories,
+        questionCount,
+        maxCount,
+        difficulty,
+        mode,
+        order,
+        categories,
+        savePreset
+    ]);
+
     return {
         categories,
         isLoading,
@@ -154,6 +187,7 @@ export function useSessionConfigurator() {
         handleModeChange,
         handleQuestionCountChange,
         handleOrderChange,
-        handleStart
+        handleStart,
+        handleSavePreset
     };
 }

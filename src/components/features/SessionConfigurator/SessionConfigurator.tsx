@@ -29,7 +29,8 @@ export const SessionConfigurator: FC = () => {
         handleModeChange,
         handleQuestionCountChange,
         handleOrderChange,
-        handleStart
+        handleStart,
+        handleSavePreset
     } = useSessionConfigurator();
 
     if (isLoading) {
@@ -190,14 +191,24 @@ export const SessionConfigurator: FC = () => {
             </div>
 
             {/* Sticky Start Button (mobile) */}
-            <div className="fixed bottom-0 left-0 right-0 h-[72px] bg-surface border-t border-border px-4 flex items-center lg:hidden">
-                <Button className="w-full" disabled={!isStartEnabled} onClick={handleStart}>
+            <div className="fixed bottom-0 left-0 right-0 h-[72px] bg-surface border-t border-border px-4 flex items-center gap-2 lg:hidden">
+                {isStartEnabled && (
+                    <Button variant="outline" onClick={handleSavePreset}>
+                        {t('configurator.savePreset')}
+                    </Button>
+                )}
+                <Button className="flex-1" disabled={!isStartEnabled} onClick={handleStart}>
                     {t('configurator.start')}
                 </Button>
             </div>
 
             {/* Inline Start Button (desktop) */}
-            <div className="hidden lg:flex lg:justify-end">
+            <div className="hidden lg:flex lg:justify-end lg:gap-2">
+                {isStartEnabled && (
+                    <Button variant="outline" onClick={handleSavePreset}>
+                        {t('configurator.savePreset')}
+                    </Button>
+                )}
                 <Button disabled={!isStartEnabled} onClick={handleStart}>
                     {t('configurator.start')}
                 </Button>
