@@ -11,6 +11,7 @@ export const SummaryPage: FC = () => {
         correctCount,
         totalCount,
         wrongCount,
+        skippedCount,
         weakTopics,
         isPerfectScore,
         handleRepeatMistakes,
@@ -30,6 +31,11 @@ export const SummaryPage: FC = () => {
                     {t('score.display', { correct: correctCount, total: totalCount })}
                 </p>
                 {isPerfectScore && <p className="mt-2 text-accent font-medium">{t('perfect')}</p>}
+                {skippedCount > 0 && (
+                    <p className="mt-2 text-sm text-muted-foreground">
+                        {t('skipped', { count: skippedCount })}
+                    </p>
+                )}
             </div>
 
             {/* Weak topics */}

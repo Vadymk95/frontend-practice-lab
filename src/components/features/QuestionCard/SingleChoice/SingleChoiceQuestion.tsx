@@ -8,10 +8,11 @@ import { useSingleChoiceQuestion } from './useSingleChoiceQuestion';
 
 interface Props {
     question: SingleChoiceQuestionType;
+    isSkipped?: boolean;
 }
 
-export const SingleChoiceQuestion: FC<Props> = ({ question }) => {
-    const { selectedIndex, isAnswered, onSelect } = useSingleChoiceQuestion(question);
+export const SingleChoiceQuestion: FC<Props> = ({ question, isSkipped = false }) => {
+    const { selectedIndex, isAnswered, onSelect } = useSingleChoiceQuestion(question, isSkipped);
     return (
         <div className="flex flex-col gap-2">
             <div role="radiogroup" aria-label="Answer options">

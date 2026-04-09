@@ -5,11 +5,14 @@ import { useSessionStore } from '@/store/session';
 
 export function useMultiChoiceQuestion(
     question: MultiChoiceQuestion,
+    isSkipped: boolean,
     onSelectionChange: (hasSelection: boolean) => void,
     onCheckRegister: (checkFn: () => void) => void
 ) {
-    const [selectedIndices, setSelectedIndices] = useState<number[]>([]);
-    const [isChecked, setIsChecked] = useState(false);
+    const [_selectedIndices, setSelectedIndices] = useState<number[]>([]);
+    const [_isChecked, setIsChecked] = useState(false);
+    const selectedIndices = isSkipped ? question.correct : _selectedIndices;
+    const isChecked = isSkipped || _isChecked;
     const setAnswer = useSessionStore.use.setAnswer();
 
     const onToggle = useCallback(

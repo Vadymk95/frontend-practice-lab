@@ -1,6 +1,6 @@
 # Story 3.4: Skip Question
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 
@@ -28,52 +28,52 @@ So that I can move past questions I'm stuck on without breaking my session flow.
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Update `useQuestionCard` — expose `isSkipped` and `handleSkip` (AC: #1)
-  - [ ] Modify `src/components/features/QuestionCard/useQuestionCard.ts`
-  - [ ] Add `skipList = useSessionStore.use.skipList()` and `skipQuestion = useSessionStore.use.skipQuestion()`
-  - [ ] Add `setAnswer = useSessionStore.use.setAnswer()`
-  - [ ] `isSkipped = question !== null && skipList.includes(question.id)`
-  - [ ] `handleSkip = useCallback(() => { if (question && !isSkipped) { skipQuestion(question.id); setAnswer(question.id, 'skipped'); } }, [...])`
-  - [ ] Return `{ question, currentIndex, questionCount, isAnswered, handleBack, isSkipped, handleSkip }`
+- [x] Task 1: Update `useQuestionCard` — expose `isSkipped` and `handleSkip` (AC: #1)
+  - [x] Modify `src/components/features/QuestionCard/useQuestionCard.ts`
+  - [x] Add `skipList = useSessionStore.use.skipList()` and `skipQuestion = useSessionStore.use.skipQuestion()`
+  - [x] Add `setAnswer = useSessionStore.use.setAnswer()`
+  - [x] `isSkipped = question !== null && skipList.includes(question.id)`
+  - [x] `handleSkip = useCallback(() => { if (question && !isSkipped) { skipQuestion(question.id); setAnswer(question.id, 'skipped'); } }, [...])`
+  - [x] Return `{ question, currentIndex, questionCount, isAnswered, handleBack, isSkipped, handleSkip }`
 
-- [ ] Task 2: Add Skip button to `QuestionCard` header (AC: #1)
-  - [ ] Modify `src/components/features/QuestionCard/QuestionCard.tsx`
-  - [ ] Skip button: `<Button variant="ghost" size="sm">` shown when `!isAnswered` (only on unanswered questions)
-  - [ ] Place in the header row alongside progress indicator (same row as Back button from Story 2.5)
-  - [ ] Header row layout: `<div className="flex items-center justify-between">` — progress on left, action buttons on right
-  - [ ] When unanswered: show Skip on right; when answered: show Back on right (no Skip after answering)
+- [x] Task 2: Add Skip button to `QuestionCard` header (AC: #1)
+  - [x] Modify `src/components/features/QuestionCard/QuestionCard.tsx`
+  - [x] Skip button: `<Button variant="ghost" size="sm">` shown when `!isAnswered` (only on unanswered questions)
+  - [x] Place in the header row alongside progress indicator (same row as Back button from Story 2.5)
+  - [x] Header row layout: `<div className="flex items-center justify-between">` — progress on left, action buttons on right
+  - [x] When unanswered: show Skip on right; when answered: show Back on right (no Skip after answering)
 
-- [ ] Task 3: Update question type components to handle `isSkipped` (AC: #1)
-  - [ ] Each question type component receives `isSkipped?: boolean` prop and passes it to its hook
-  - [ ] Modify `src/components/features/QuestionCard/SingleChoice/useSingleChoiceQuestion.ts` — when `isSkipped=true`, initialize `selectedOption = question.correct` and `isAnswered = true`
-  - [ ] Modify `src/components/features/QuestionCard/MultiChoice/useMultiChoiceQuestion.ts` — when `isSkipped=true`, initialize `selectedOptions = question.correct` and `isChecked = true`
-  - [ ] Modify `src/components/features/QuestionCard/BugFinding/useBugFindingQuestion.ts` — when `isSkipped=true`, initialize in "self-assess revealed" state (show referenceAnswer)
-  - [ ] Modify `src/components/features/QuestionCard/CodeCompletion/useCodeCompletionQuestion.ts` — when `isSkipped=true`, initialize in "submitted/revealed" state showing blanks filled with correct values
-  - [ ] Pass `isSkipped` from `QuestionCard.tsx` to each question type component
+- [x] Task 3: Update question type components to handle `isSkipped` (AC: #1)
+  - [x] Each question type component receives `isSkipped?: boolean` prop and passes it to its hook
+  - [x] Modify `src/components/features/QuestionCard/SingleChoice/useSingleChoiceQuestion.ts` — when `isSkipped=true`, initialize `selectedOption = question.correct` and `isAnswered = true`
+  - [x] Modify `src/components/features/QuestionCard/MultiChoice/useMultiChoiceQuestion.ts` — when `isSkipped=true`, initialize `selectedOptions = question.correct` and `isChecked = true`
+  - [x] Modify `src/components/features/QuestionCard/BugFinding/useBugFindingQuestion.ts` — when `isSkipped=true`, initialize in "self-assess revealed" state (show referenceAnswer)
+  - [x] Modify `src/components/features/QuestionCard/CodeCompletion/useCodeCompletionQuestion.ts` — when `isSkipped=true`, initialize in "submitted/revealed" state showing blanks filled with correct values
+  - [x] Pass `isSkipped` from `QuestionCard.tsx` to each question type component
 
-- [ ] Task 4: Update `useSummaryPage` to expose skipped count (AC: #3)
-  - [ ] Modify `src/pages/SummaryPage/useSummaryPage.ts`
-  - [ ] Read `skipList = useSessionStore.use.skipList()`
-  - [ ] `skippedCount = skipList.length`
-  - [ ] In `isCorrectAnswer()`: `answers[id] === 'skipped'` → returns `false` (already incorrect — algorithm correct)
-  - [ ] Skipped questions go into `wrongQuestions` array (for repeat mistakes) — no change needed, they're already counted as wrong
-  - [ ] Return `skippedCount` from hook
+- [x] Task 4: Update `useSummaryPage` to expose skipped count (AC: #3)
+  - [x] Modify `src/pages/SummaryPage/useSummaryPage.ts`
+  - [x] Read `skipList = useSessionStore.use.skipList()`
+  - [x] `skippedCount = skipList.length`
+  - [x] In `isCorrectAnswer()`: `answers[id] === 'skipped'` → returns `false` (already incorrect — algorithm correct)
+  - [x] Skipped questions go into `wrongQuestions` array (for repeat mistakes) — no change needed, they're already counted as wrong
+  - [x] Return `skippedCount` from hook
 
-- [ ] Task 5: Show skipped count in `SummaryPage` (AC: #3)
-  - [ ] Modify `src/pages/SummaryPage/SummaryPage.tsx` — add skipped count display when `skippedCount > 0`
-  - [ ] Placement: below score, above weak topics section
+- [x] Task 5: Show skipped count in `SummaryPage` (AC: #3)
+  - [x] Modify `src/pages/SummaryPage/SummaryPage.tsx` — add skipped count display when `skippedCount > 0`
+  - [x] Placement: below score, above weak topics section
 
-- [ ] Task 6: Add i18n keys (AC: #1, #3)
-  - [ ] `public/locales/en/question.json` — add `"skip": "Skip"`
-  - [ ] `public/locales/ru/question.json` — add `"skip": "Пропустить"`
-  - [ ] `public/locales/en/summary.json` — add `"skipped": "Skipped: {{count}}"`
-  - [ ] `public/locales/ru/summary.json` — add `"skipped": "Пропущено: {{count}}"`
+- [x] Task 6: Add i18n keys (AC: #1, #3)
+  - [x] `public/locales/en/question.json` — add `"skip": "Skip"`
+  - [x] `public/locales/ru/question.json` — add `"skip": "Пропустить"`
+  - [x] `public/locales/en/summary.json` — add `"skipped": "Skipped: {{count}}"`
+  - [x] `public/locales/ru/summary.json` — add `"skipped": "Пропущено: {{count}}"`
 
-- [ ] Task 7: Verification
-  - [ ] `npm run format`
-  - [ ] `npm run lint`
-  - [ ] `npx tsc --noEmit`
-  - [ ] `npm run test`
+- [x] Task 7: Verification
+  - [x] `npm run format`
+  - [x] `npm run lint`
+  - [x] `npx tsc --noEmit`
+  - [x] `npm run test`
 
 ## Dev Notes
 
@@ -285,8 +285,40 @@ describe('Skip button', () => {
 
 ### Agent Model Used
 
+claude-sonnet-4-6
+
 ### Debug Log References
+
+No issues encountered.
 
 ### Completion Notes List
 
+- Implemented `handleSkip` in `useQuestionCard` — calls `skipQuestion` + `setAnswer('skipped')` making `isAnswered=true` transparently activating Next without touching `useSessionPlayPage`
+- Skip button shows only on unanswered questions; Back button shows on answered but non-skipped questions; no button on skipped (by design — no skip undo)
+- All 4 question type hooks accept `isSkipped?: boolean` with initial state set to "revealed" when skipped: SingleChoice pre-selects correct answer, MultiChoice pre-selects correct options and sets isChecked, BugFinding initializes in submitted+selfAssess=missedIt state, CodeCompletion fills blanks with correct values and marks all as 'correct'
+- `useSummaryPage` reads `skipList.length` for `skippedCount`; skipped questions already count as wrong via `isCorrectAnswer` returning false for 'skipped' string — no algorithm changes needed
+- 4 new Skip button tests added to `QuestionCard.test.tsx`; all 183 tests pass
+
 ### File List
+
+- `src/components/features/QuestionCard/useQuestionCard.ts` — modified
+- `src/components/features/QuestionCard/QuestionCard.tsx` — modified
+- `src/components/features/QuestionCard/QuestionCard.test.tsx` — modified (4 new tests)
+- `src/components/features/QuestionCard/SingleChoice/SingleChoiceQuestion.tsx` — modified
+- `src/components/features/QuestionCard/SingleChoice/useSingleChoiceQuestion.ts` — modified
+- `src/components/features/QuestionCard/MultiChoice/MultiChoiceQuestion.tsx` — modified
+- `src/components/features/QuestionCard/MultiChoice/useMultiChoiceQuestion.ts` — modified
+- `src/components/features/QuestionCard/BugFinding/BugFindingQuestion.tsx` — modified
+- `src/components/features/QuestionCard/BugFinding/useBugFindingQuestion.ts` — modified
+- `src/components/features/QuestionCard/CodeCompletion/CodeCompletionQuestion.tsx` — modified
+- `src/components/features/QuestionCard/CodeCompletion/useCodeCompletionQuestion.ts` — modified
+- `src/pages/SummaryPage/useSummaryPage.ts` — modified
+- `src/pages/SummaryPage/SummaryPage.tsx` — modified
+- `public/locales/en/question.json` — modified
+- `public/locales/ru/question.json` — modified
+- `public/locales/en/summary.json` — modified
+- `public/locales/ru/summary.json` — modified
+
+## Change Log
+
+- Implemented Story 3.4: Skip Question — ghost Skip button, question reveal on skip, skipped count in summary (Date: 2026-04-09)

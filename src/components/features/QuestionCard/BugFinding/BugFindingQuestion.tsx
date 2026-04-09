@@ -14,12 +14,14 @@ type SelfAssessment = 'gotIt' | 'missedIt';
 
 interface Props {
     question: BugFindingQuestionData;
+    isSkipped?: boolean;
     onSubmitRegister: (submitFn: () => void) => void;
     onSelfAssessRegister: (selfAssessFn: (result: SelfAssessment) => void) => void;
 }
 
 export const BugFindingQuestion: FC<Props> = ({
     question,
+    isSkipped = false,
     onSubmitRegister,
     onSelfAssessRegister
 }) => {
@@ -32,7 +34,7 @@ export const BugFindingQuestion: FC<Props> = ({
         onSelectOption,
         onTextChange,
         onSelfAssess
-    } = useBugFindingQuestion({ question, onSubmitRegister, onSelfAssessRegister });
+    } = useBugFindingQuestion({ question, isSkipped, onSubmitRegister, onSelfAssessRegister });
 
     return (
         <div className="flex flex-col gap-4">

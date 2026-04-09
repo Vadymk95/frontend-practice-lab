@@ -10,18 +10,20 @@ import { useCodeCompletionQuestion } from './useCodeCompletionQuestion';
 
 interface Props {
     question: CodeCompletionQuestionData;
+    isSkipped?: boolean;
     onSubmitRegister: (submitFn: () => void) => void;
     onAllBlanksFilled: (filled: boolean) => void;
 }
 
 export const CodeCompletionQuestion: FC<Props> = ({
     question,
+    isSkipped = false,
     onSubmitRegister,
     onAllBlanksFilled
 }) => {
     const { t } = useTranslation('question');
     const { segments, blanksInput, isSubmitted, blankResults, onBlankChange } =
-        useCodeCompletionQuestion({ question, onSubmitRegister, onAllBlanksFilled });
+        useCodeCompletionQuestion({ question, isSkipped, onSubmitRegister, onAllBlanksFilled });
 
     return (
         <div className="flex flex-col gap-4">

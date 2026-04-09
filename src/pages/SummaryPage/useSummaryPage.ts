@@ -23,6 +23,7 @@ export function useSummaryPage() {
     const navigate = useNavigate();
     const questionList = useSessionStore.use.questionList();
     const answers = useSessionStore.use.answers();
+    const skipList = useSessionStore.use.skipList();
     const setRepeatMistakes = useSessionStore.use.setRepeatMistakes();
     const saveSessionResults = useProgressStore.use.saveSessionResults();
 
@@ -95,6 +96,7 @@ export function useSummaryPage() {
         correctCount,
         totalCount: questionList.length,
         wrongCount: wrongQuestions.length,
+        skippedCount: skipList.length,
         weakTopics,
         isPerfectScore,
         handleRepeatMistakes,

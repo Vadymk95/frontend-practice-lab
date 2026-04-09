@@ -5,6 +5,7 @@ import { useSessionStore } from '@/store/session';
 
 interface UseCodeCompletionQuestionProps {
     question: CodeCompletionQuestion;
+    isSkipped?: boolean;
     onSubmitRegister: (submitFn: () => void) => void;
     onAllBlanksFilled: (filled: boolean) => void;
 }
@@ -20,14 +21,21 @@ interface UseCodeCompletionQuestionReturn {
 
 export function useCodeCompletionQuestion({
     question,
+    isSkipped = false,
     onSubmitRegister,
     onAllBlanksFilled
 }: UseCodeCompletionQuestionProps): UseCodeCompletionQuestionReturn {
-    const [blanksInput, setBlanksInput] = useState<string[]>(() =>
+    const [_blanksInput, setBlanksInput] = useState<string[]>(() =>
         Array(question.blanks.length).fill('')
     );
-    const [isSubmitted, setIsSubmitted] = useState(false);
-    const [blankResults, setBlankResults] = useState<Array<'correct' | 'incorrect'>>([]);
+    const [_isSubmitted, setIsSubmitted] = useState(false);
+    const [_blankResults, setBlankResults] = useState<Array<'correct' | 'incorrect'>>([]);
+    const blanksInput = useMemo(
+        () => (isSkipped ? [...question.blanks] : _blanksInput),
+        [isSkipped, question.blanks, _blanksInput]
+    );
+    const isSubmitted = isSkipped || _isSubmitted;
+    const blankResults = isSkipped ? question.blanks.map(() => 'correct' as const) : _blankResults;
 
     const segments = useMemo(() => question.code.split('__BLANK__'), [question.code]);
 

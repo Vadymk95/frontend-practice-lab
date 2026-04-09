@@ -31,7 +31,8 @@ export const QuestionCard: FC<QuestionCardProps> = ({
     onAllBlanksFilled
 }) => {
     const { t } = useTranslation('question');
-    const { question, currentIndex, questionCount, isAnswered, handleBack } = useQuestionCard();
+    const { question, currentIndex, questionCount, isAnswered, handleBack, isSkipped, handleSkip } =
+        useQuestionCard();
     const [resetKey, setResetKey] = useState(0);
 
     const onBack = useCallback(() => {
@@ -53,11 +54,18 @@ export const QuestionCard: FC<QuestionCardProps> = ({
                 >
                     {t('progress.indicator', { current: currentIndex + 1, total: questionCount })}
                 </div>
-                {isAnswered && (
-                    <Button variant="ghost" size="sm" onClick={onBack}>
-                        {t('back')}
-                    </Button>
-                )}
+                <div className="flex items-center gap-2">
+                    {!isAnswered && (
+                        <Button variant="ghost" size="sm" onClick={handleSkip}>
+                            {t('skip')}
+                        </Button>
+                    )}
+                    {isAnswered && !isSkipped && (
+                        <Button variant="ghost" size="sm" onClick={onBack}>
+                            {t('back')}
+                        </Button>
+                    )}
+                </div>
             </div>
             <div className="flex gap-2 flex-wrap">
                 <Badge variant="outline">{question.category}</Badge>
@@ -65,12 +73,13 @@ export const QuestionCard: FC<QuestionCardProps> = ({
             </div>
             <h2 className="text-base font-medium">{question.question}</h2>
             {question.type === 'single-choice' && (
-                <SingleChoiceQuestion key={resetKey} question={question} />
+                <SingleChoiceQuestion key={resetKey} question={question} isSkipped={isSkipped} />
             )}
             {question.type === 'multi-choice' && (
                 <MultiChoiceQuestion
                     key={resetKey}
                     question={question}
+                    isSkipped={isSkipped}
                     onSelectionChange={onSelectionChange ?? (() => {})}
                     onCheckRegister={onCheckRegister ?? (() => {})}
                 />
@@ -79,6 +88,7 @@ export const QuestionCard: FC<QuestionCardProps> = ({
                 <BugFindingQuestion
                     key={resetKey}
                     question={question}
+                    isSkipped={isSkipped}
                     onSubmitRegister={onSubmitRegister ?? noop}
                     onSelfAssessRegister={onSelfAssessRegister ?? noopSelfAssess}
                 />
@@ -87,6 +97,7 @@ export const QuestionCard: FC<QuestionCardProps> = ({
                 <CodeCompletionQuestion
                     key={resetKey}
                     question={question}
+                    isSkipped={isSkipped}
                     onSubmitRegister={onSubmitRegister ?? noop}
                     onAllBlanksFilled={onAllBlanksFilled ?? noopAllFilled}
                 />

@@ -7,6 +7,7 @@ type SelfAssessment = 'gotIt' | 'missedIt';
 
 interface UseBugFindingQuestionProps {
     question: BugFindingQuestion;
+    isSkipped?: boolean;
     onSubmitRegister: (submitFn: () => void) => void;
     onSelfAssessRegister: (selfAssessFn: (result: SelfAssessment) => void) => void;
 }
@@ -24,13 +25,17 @@ interface UseBugFindingQuestionReturn {
 
 export function useBugFindingQuestion({
     question,
+    isSkipped = false,
     onSubmitRegister,
     onSelfAssessRegister
 }: UseBugFindingQuestionProps): UseBugFindingQuestionReturn {
     const [selectedOption, setSelectedOption] = useState<number | null>(null);
     const [textAnswer, setTextAnswer] = useState('');
-    const [isSubmitted, setIsSubmitted] = useState(false);
-    const [selfAssessment, setSelfAssessment] = useState<SelfAssessment | null>(null);
+    const [_isSubmitted, setIsSubmitted] = useState(false);
+    const [_selfAssessment, setSelfAssessment] = useState<SelfAssessment | null>(null);
+    const isSubmitted = isSkipped || _isSubmitted;
+    const selfAssessment: SelfAssessment | null =
+        isSkipped && _selfAssessment === null ? 'missedIt' : _selfAssessment;
     const setAnswer = useSessionStore.use.setAnswer();
 
     const onSelectOption = useCallback(

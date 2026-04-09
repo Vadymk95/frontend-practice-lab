@@ -8,17 +8,20 @@ import { useMultiChoiceQuestion } from './useMultiChoiceQuestion';
 
 interface Props {
     question: MultiChoiceQuestionData;
+    isSkipped?: boolean;
     onSelectionChange: (hasSelection: boolean) => void;
     onCheckRegister: (checkFn: () => void) => void;
 }
 
 export const MultiChoiceQuestion: FC<Props> = ({
     question,
+    isSkipped = false,
     onSelectionChange,
     onCheckRegister
 }) => {
     const { selectedIndices, isChecked, onToggle } = useMultiChoiceQuestion(
         question,
+        isSkipped,
         onSelectionChange,
         onCheckRegister
     );

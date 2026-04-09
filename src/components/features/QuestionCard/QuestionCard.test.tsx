@@ -138,6 +138,52 @@ describe('QuestionCard', () => {
         });
     });
 
+    describe('Skip button', () => {
+        it('shows Skip button when question is unanswered', () => {
+            renderWithProviders(<QuestionCard />);
+            expect(screen.getByRole('button', { name: /skip/i })).toBeInTheDocument();
+        });
+
+        it('hides Skip button when question is answered', () => {
+            useSessionStore.setState({
+                questionList: [mockQuestion],
+                currentIndex: 0,
+                answers: { [mockQuestion.id]: 2 },
+                skipList: [],
+                config: null,
+                timerMs: 0
+            });
+            renderWithProviders(<QuestionCard />);
+            expect(screen.queryByRole('button', { name: /skip/i })).not.toBeInTheDocument();
+        });
+
+        it('adds question to skipList and answers when Skip tapped', async () => {
+            useSessionStore.setState({
+                questionList: [mockQuestion],
+                currentIndex: 0,
+                answers: {},
+                skipList: [],
+                config: null,
+                timerMs: 0
+            });
+            renderWithProviders(<QuestionCard />);
+            fireEvent.click(screen.getByRole('button', { name: /skip/i }));
+            await waitFor(() => {
+                expect(useSessionStore.getState().skipList).toContain(mockQuestion.id);
+                expect(useSessionStore.getState().answers[mockQuestion.id]).toBe('skipped');
+            });
+        });
+
+        it('hides Skip button and does not show Back after skip', async () => {
+            renderWithProviders(<QuestionCard />);
+            fireEvent.click(screen.getByRole('button', { name: /skip/i }));
+            await waitFor(() => {
+                expect(screen.queryByRole('button', { name: /skip/i })).not.toBeInTheDocument();
+                expect(screen.queryByRole('button', { name: /back/i })).not.toBeInTheDocument();
+            });
+        });
+    });
+
     it('renders MultiChoiceQuestion when type is multi-choice', () => {
         const multiQuestion: MultiChoiceQuestion = {
             id: 'mc-q-1',

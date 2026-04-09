@@ -3,10 +3,12 @@ import { useCallback, useEffect, useState } from 'react';
 import type { SingleChoiceQuestion } from '@/lib/data/schema';
 import { useSessionStore } from '@/store/session';
 
-export function useSingleChoiceQuestion(question: SingleChoiceQuestion) {
-    const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+export function useSingleChoiceQuestion(question: SingleChoiceQuestion, isSkipped = false) {
+    const [selectedIndex, setSelectedIndex] = useState<number | null>(
+        isSkipped ? question.correct : null
+    );
     const setAnswer = useSessionStore.use.setAnswer();
-    const isAnswered = selectedIndex !== null;
+    const isAnswered = isSkipped || selectedIndex !== null;
 
     const onSelect = useCallback(
         (index: number) => {
