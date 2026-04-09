@@ -1,6 +1,6 @@
 # Story 3.3: Per-Category Question Count Preview
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
@@ -23,32 +23,32 @@ So that I can make informed filter choices without guessing how many questions I
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Install shadcn/ui Tooltip component (AC: #1)
-  - [ ] Run `npx shadcn@latest add tooltip` from project root
-  - [ ] Verify `src/components/ui/tooltip.tsx` is created
+- [x] Task 1: Install shadcn/ui Tooltip component (AC: #1)
+  - [x] Run `npx shadcn@latest add tooltip` from project root
+  - [x] Verify `src/components/ui/tooltip.tsx` is created
 
-- [ ] Task 2: Compute per-category filtered counts in `useSessionConfigurator` (AC: #1, #2)
-  - [ ] Modify `src/components/features/SessionConfigurator/useSessionConfigurator.ts`
-  - [ ] Add `getFilteredCategoryCount(cat: ManifestEntry, difficulty: Difficulty, mode: Mode): number` — pure function (can be co-located or in utils)
-  - [ ] Expose `categoryCountMap: Record<string, number>` from the hook — maps `slug → filteredCount` for the current difficulty+mode selection
-  - [ ] `categoryCountMap` uses `useMemo` with `[categories, deferredDifficulty, deferredMode]` deps — non-blocking like existing `availableCount`
+- [x] Task 2: Compute per-category filtered counts in `useSessionConfigurator` (AC: #1, #2)
+  - [x] Modify `src/components/features/SessionConfigurator/useSessionConfigurator.ts`
+  - [x] Add `getFilteredCategoryCount(cat: ManifestEntry, difficulty: Difficulty, mode: Mode): number` — pure function (can be co-located or in utils)
+  - [x] Expose `categoryCountMap: Record<string, number>` from the hook — maps `slug → filteredCount` for the current difficulty+mode selection
+  - [x] `categoryCountMap` uses `useMemo` with `[categories, deferredDifficulty, deferredMode]` deps — non-blocking like existing `availableCount`
 
-- [ ] Task 3: Update category chip in `SessionConfigurator.tsx` to show count badge and tooltip (AC: #1, #2)
-  - [ ] Modify `src/components/features/SessionConfigurator/SessionConfigurator.tsx`
-  - [ ] Each category chip: add count badge (`categoryCountMap[cat.slug] ?? 0`) inside the chip
-  - [ ] Wrap each category chip with `<TooltipProvider><Tooltip>` to show difficulty breakdown on hover/tap
-  - [ ] Tooltip content: `easy: N / medium: N / hard: N` from `cat.counts` (always the raw unfiltered per-difficulty counts — same data, different view)
-  - [ ] When `categoryCountMap[cat.slug] === 0`: apply `opacity-50` class to the chip (remains selectable per AC)
+- [x] Task 3: Update category chip in `SessionConfigurator.tsx` to show count badge and tooltip (AC: #1, #2)
+  - [x] Modify `src/components/features/SessionConfigurator/SessionConfigurator.tsx`
+  - [x] Each category chip: add count badge (`categoryCountMap[cat.slug] ?? 0`) inside the chip
+  - [x] Wrap each category chip with `<TooltipProvider><Tooltip>` to show difficulty breakdown on hover/tap
+  - [x] Tooltip content: `easy: N / medium: N / hard: N` from `cat.counts` (always the raw unfiltered per-difficulty counts — same data, different view)
+  - [x] When `categoryCountMap[cat.slug] === 0`: apply `opacity-50` class to the chip (remains selectable per AC)
 
-- [ ] Task 4: Add i18n keys (AC: #1)
-  - [ ] `public/locales/en/home.json` — add `categories.countBreakdown` with `easy`, `medium`, `hard` labels
-  - [ ] `public/locales/ru/home.json` — same keys in Russian
+- [x] Task 4: Add i18n keys (AC: #1)
+  - [x] `public/locales/en/home.json` — add `categories.countBreakdown` with `easy`, `medium`, `hard` labels
+  - [x] `public/locales/ru/home.json` — same keys in Russian
 
-- [ ] Task 5: Verification
-  - [ ] `npm run format`
-  - [ ] `npm run lint`
-  - [ ] `npx tsc --noEmit`
-  - [ ] `npm run test`
+- [x] Task 5: Verification
+  - [x] `npm run format`
+  - [x] `npm run lint`
+  - [x] `npx tsc --noEmit`
+  - [x] `npm run test`
 
 ## Dev Notes
 
@@ -234,8 +234,39 @@ public/locales/ru/home.json                    ← MODIFY
 
 ### Agent Model Used
 
+claude-sonnet-4-6
+
 ### Debug Log References
+
+None — implementation straightforward.
 
 ### Completion Notes List
 
+- Extracted `getFilteredCategoryCount` from `computeAvailableCount` as named export; refactored `computeAvailableCount` to reuse it (no logic change).
+- Added `categoryCountMap` to `useSessionConfigurator` using `useMemo` with `[categories, deferredDifficulty, deferredMode]` deps — non-blocking.
+- Category grid wrapped in single `<TooltipProvider>`; each chip uses `<Tooltip>` + count badge + `opacity-50` when count=0.
+- i18n keys added to `configurator.categories.countBreakdown` in both en/ru locales.
+- shadcn/ui import order lint error in generated `tooltip.tsx` fixed with `eslint --fix`.
+- Added 5 tests for `getFilteredCategoryCount` + 1 test for `categoryCountMap` hook output. All 177 tests pass.
+
 ### File List
+
+- `src/components/ui/tooltip.tsx` — NEW (shadcn/ui add tooltip)
+- `src/components/features/SessionConfigurator/useSessionConfigurator.ts` — MODIFIED
+- `src/components/features/SessionConfigurator/SessionConfigurator.tsx` — MODIFIED
+- `src/components/features/SessionConfigurator/SessionConfigurator.test.tsx` — MODIFIED
+- `public/locales/en/home.json` — MODIFIED
+- `public/locales/ru/home.json` — MODIFIED
+
+### Change Log
+
+- feat(configurator): per-category question count preview with tooltip breakdown (Story 3.3, 2026-04-09)
+
+---
+
+## Review Findings
+
+- [x] [Review][Patch] Missing reactivity tests for categoryCountMap [SessionConfigurator.test.tsx] — added two tests: difficulty filter change (easy → 3/2) and mode filter change (quiz → 4/3). All 179 tests pass.
+- [x] [Review][Defer] Math.round rounding edge case [useSessionConfigurator.ts:45] — deferred, pre-existing pattern identical to computeAvailableCount
+- [x] [Review][Defer] Keyboard navigation test for checkbox-role buttons — deferred, pre-existing gap unrelated to this story
+- [x] [Review][Defer] i18n key rendering test for tooltip content — deferred, requires complex i18n mock setup for low value

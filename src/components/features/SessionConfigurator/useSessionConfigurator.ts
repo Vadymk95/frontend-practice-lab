@@ -20,6 +20,31 @@ export function generatePresetName(config: SessionConfig, categories: ManifestEn
     return `${catPart} · ${config.difficulty} · ${config.questionCount}q`;
 }
 
+export function getFilteredCategoryCount(
+    cat: ManifestEntry,
+    difficulty: Difficulty,
+    mode: Mode
+): number {
+    let diffCount: number;
+    if (difficulty === 'all') {
+        diffCount = cat.counts.total;
+    } else {
+        diffCount = cat.counts[difficulty];
+    }
+
+    if (mode === 'all') return diffCount;
+
+    const modeTotal =
+        mode === 'quiz'
+            ? cat.counts.quiz
+            : mode === 'bug-finding'
+              ? cat.counts.bugFinding
+              : cat.counts.codeCompletion;
+
+    if (cat.counts.total === 0) return 0;
+    return Math.round(diffCount * (modeTotal / cat.counts.total));
+}
+
 export function computeAvailableCount(
     categories: ManifestEntry[],
     selectedSlugs: string[],
@@ -30,29 +55,7 @@ export function computeAvailableCount(
 
     return categories
         .filter((cat) => selectedSlugs.includes(cat.slug))
-        .reduce((total, cat) => {
-            let diffCount: number;
-            if (difficulty === 'all') {
-                diffCount = cat.counts.total;
-            } else {
-                diffCount = cat.counts[difficulty];
-            }
-
-            if (mode === 'all') {
-                return total + diffCount;
-            }
-
-            const modeTotal =
-                mode === 'quiz'
-                    ? cat.counts.quiz
-                    : mode === 'bug-finding'
-                      ? cat.counts.bugFinding
-                      : cat.counts.codeCompletion;
-
-            if (cat.counts.total === 0) return total;
-            const modeFraction = modeTotal / cat.counts.total;
-            return total + Math.round(diffCount * modeFraction);
-        }, 0);
+        .reduce((total, cat) => total + getFilteredCategoryCount(cat, difficulty, mode), 0);
 }
 
 export function useSessionConfigurator() {
@@ -80,6 +83,17 @@ export function useSessionConfigurator() {
                 deferredMode
             ),
         [categories, deferredSelectedCategories, deferredDifficulty, deferredMode]
+    );
+
+    const categoryCountMap = useMemo(
+        () =>
+            Object.fromEntries(
+                categories.map((cat) => [
+                    cat.slug,
+                    getFilteredCategoryCount(cat, deferredDifficulty, deferredMode)
+                ])
+            ),
+        [categories, deferredDifficulty, deferredMode]
     );
 
     const maxCount = useMemo(
@@ -181,6 +195,7 @@ export function useSessionConfigurator() {
         order,
         availableCount,
         maxCount,
+        categoryCountMap,
         isStartEnabled,
         handleCategoryToggle,
         handleDifficultyChange,

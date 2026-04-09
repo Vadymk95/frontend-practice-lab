@@ -8,7 +8,11 @@ import type { ManifestEntry } from '@/hooks/data/useCategories';
 import { useCategories } from '@/hooks/data/useCategories';
 import { useSessionStore } from '@/store/session';
 
-import { computeAvailableCount, useSessionConfigurator } from './useSessionConfigurator';
+import {
+    computeAvailableCount,
+    getFilteredCategoryCount,
+    useSessionConfigurator
+} from './useSessionConfigurator';
 
 vi.mock('@/hooks/data/useCategories', () => ({
     useCategories: vi.fn()
@@ -35,6 +39,42 @@ function createWrapper() {
         </MemoryRouter>
     );
 }
+
+describe('getFilteredCategoryCount', () => {
+    const js = mockCategories[0];
+
+    it('returns total for difficulty=all mode=all', () => {
+        expect(getFilteredCategoryCount(js, 'all', 'all')).toBe(6);
+    });
+
+    it('returns difficulty count for specific difficulty, mode=all', () => {
+        expect(getFilteredCategoryCount(js, 'easy', 'all')).toBe(3);
+        expect(getFilteredCategoryCount(js, 'medium', 'all')).toBe(2);
+        expect(getFilteredCategoryCount(js, 'hard', 'all')).toBe(1);
+    });
+
+    it('applies proportional mode filter', () => {
+        // quiz=4, total=6, easy=3 → round(3 * 4/6) = round(2) = 2
+        expect(getFilteredCategoryCount(js, 'easy', 'quiz')).toBe(2);
+    });
+
+    it('returns 0 when total is 0', () => {
+        const empty = {
+            slug: 'empty',
+            displayName: 'Empty',
+            counts: {
+                easy: 0,
+                medium: 0,
+                hard: 0,
+                total: 0,
+                quiz: 0,
+                bugFinding: 0,
+                codeCompletion: 0
+            }
+        };
+        expect(getFilteredCategoryCount(empty, 'all', 'quiz')).toBe(0);
+    });
+});
 
 describe('computeAvailableCount', () => {
     it('returns 0 when no slugs selected', () => {
@@ -159,6 +199,40 @@ describe('useSessionConfigurator', () => {
         expect(config?.difficulty).toBe('all');
         expect(config?.mode).toBe('all');
         expect(config?.order).toBe('random');
+    });
+
+    it('categoryCountMap contains counts for all categories', () => {
+        const { result } = renderHook(() => useSessionConfigurator(), {
+            wrapper: createWrapper()
+        });
+        expect(result.current.categoryCountMap).toHaveProperty('javascript');
+        expect(result.current.categoryCountMap).toHaveProperty('typescript');
+        expect(result.current.categoryCountMap['javascript']).toBe(6);
+        expect(result.current.categoryCountMap['typescript']).toBe(6);
+    });
+
+    it('categoryCountMap updates when difficulty filter changes', () => {
+        const { result } = renderHook(() => useSessionConfigurator(), {
+            wrapper: createWrapper()
+        });
+        act(() => {
+            result.current.handleDifficultyChange('easy');
+        });
+        // javascript: easy=3, typescript: easy=2
+        expect(result.current.categoryCountMap['javascript']).toBe(3);
+        expect(result.current.categoryCountMap['typescript']).toBe(2);
+    });
+
+    it('categoryCountMap updates when mode filter changes', () => {
+        const { result } = renderHook(() => useSessionConfigurator(), {
+            wrapper: createWrapper()
+        });
+        act(() => {
+            result.current.handleModeChange('quiz');
+        });
+        // javascript: round(6 * 4/6) = 4, typescript: round(6 * 3/6) = 3
+        expect(result.current.categoryCountMap['javascript']).toBe(4);
+        expect(result.current.categoryCountMap['typescript']).toBe(3);
     });
 
     it('handleQuestionCountChange clamps value between 1 and maxCount', () => {

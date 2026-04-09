@@ -3,7 +3,9 @@ import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import type { SessionConfig } from '@/lib/storage/types';
+import { cn } from '@/lib/utils';
 
 import { useSessionConfigurator } from './useSessionConfigurator';
 
@@ -23,6 +25,7 @@ export const SessionConfigurator: FC = () => {
         order,
         availableCount,
         maxCount,
+        categoryCountMap,
         isStartEnabled,
         handleCategoryToggle,
         handleDifficultyChange,
@@ -52,29 +55,59 @@ export const SessionConfigurator: FC = () => {
                 <h2 className="text-sm font-medium text-foreground mb-3">
                     {t('configurator.categories.label')}
                 </h2>
-                <div
-                    role="group"
-                    aria-label={t('configurator.categories.ariaLabel')}
-                    aria-describedby="configurator-hint"
-                    className="grid grid-cols-2 gap-2 sm:grid-cols-3"
-                >
-                    {categories.map((cat) => (
-                        <button
-                            key={cat.slug}
-                            type="button"
-                            role="checkbox"
-                            aria-checked={selectedCategories.includes(cat.slug)}
-                            onClick={() => handleCategoryToggle(cat.slug)}
-                            className={`min-h-11 px-3 py-2 text-sm text-left border transition-colors ${
-                                selectedCategories.includes(cat.slug)
-                                    ? 'border-accent-alt bg-accent-alt/10 text-primary'
-                                    : 'border-border bg-surface text-muted-foreground hover:border-accent-alt/50'
-                            }`}
-                        >
-                            {cat.displayName}
-                        </button>
-                    ))}
-                </div>
+                <TooltipProvider>
+                    <div
+                        role="group"
+                        aria-label={t('configurator.categories.ariaLabel')}
+                        aria-describedby="configurator-hint"
+                        className="grid grid-cols-2 gap-2 sm:grid-cols-3"
+                    >
+                        {categories.map((cat) => {
+                            const count = categoryCountMap[cat.slug] ?? 0;
+                            return (
+                                <Tooltip key={cat.slug}>
+                                    <TooltipTrigger asChild>
+                                        <button
+                                            type="button"
+                                            role="checkbox"
+                                            aria-checked={selectedCategories.includes(cat.slug)}
+                                            onClick={() => handleCategoryToggle(cat.slug)}
+                                            className={cn(
+                                                'min-h-11 px-3 py-2 text-sm text-left border transition-colors flex items-center justify-between gap-1',
+                                                selectedCategories.includes(cat.slug)
+                                                    ? 'border-accent-alt bg-accent-alt/10 text-primary'
+                                                    : 'border-border bg-surface text-muted-foreground hover:border-accent-alt/50',
+                                                count === 0 && 'opacity-50'
+                                            )}
+                                        >
+                                            <span>{cat.displayName}</span>
+                                            <span className="text-xs text-muted-foreground shrink-0">
+                                                {count}
+                                            </span>
+                                        </button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>
+                                            {t('configurator.categories.countBreakdown.easy', {
+                                                count: cat.counts.easy
+                                            })}
+                                        </p>
+                                        <p>
+                                            {t('configurator.categories.countBreakdown.medium', {
+                                                count: cat.counts.medium
+                                            })}
+                                        </p>
+                                        <p>
+                                            {t('configurator.categories.countBreakdown.hard', {
+                                                count: cat.counts.hard
+                                            })}
+                                        </p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            );
+                        })}
+                    </div>
+                </TooltipProvider>
             </section>
 
             {/* Difficulty Filter */}
