@@ -27,7 +27,7 @@ Selector wrapper relies on React context and will throw outside component tree.
 
 ## DevPlayground
 
-`src/pages/DevPlayground/` is a dev sandbox. Remove before production or add a prod guard.
+`src/pages/DevPlayground/` is a dev sandbox (route `/dev-playground`, registered only when `import.meta.env.DEV`). Remove before production or rely on the existing prod guard.
 
 ## rolldown-vite (experimental bundler)
 

@@ -31,95 +31,82 @@ PRD: `_bmad-output/planning-artifacts/prd.md`
 ```
 src/
   components/
-    common/      # App-level: ErrorBoundary etc.
-    layout/      # Header, Footer, Main
-    ui/          # shadcn/ui components (Button, Input, ...)
-  hocs/          # WithSuspense
+    common/       # App-level: ErrorBoundary, etc.
+    layout/       # Header, Footer, Main
+    ui/           # shadcn primitives
+  hocs/           # WithSuspense
   hooks/
-    i18n/        # useI18nReload (dev HMR)
-    <domain>/    # Domain hooks with tests alongside
+    i18n/         # useI18nReload (dev HMR)
+    session/      # Session setup
+    data/         # Category / question loading
+    ui/           # Theme, language
   lib/
-    api/         # Base fetch client + example
-    i18n/        # i18next setup, constants, types
-    queryClient  # TanStack Query client factory
-    utils        # cn() helper (clsx + tailwind-merge)
+    api/          # Fetch client + examples
+    algorithm/    # Adaptive question selection
+    data/         # Zod question schema + types
+    i18n/         # i18next setup, constants, types
+    storage/      # localStorage service + types
+    queryClient   # TanStack Query factory
+    utils         # cn(), timers, keys, …
+    shiki.ts      # Code highlighting
   pages/
-    HomePage/    # Entry page (no lazy)
-    NotFoundPage/ # Lazy loaded (PageName.tsx + index.ts)
-    DevPlayground/ # Dev sandbox (remove before prod)
+    HomePage/
+    SessionPlayPage/
+    SummaryPage/
+    NotFoundPage/
+    DevPlayground/   # dev sandbox only
   router/
-    index.tsx    # createBrowserRouter assembly
-    modules/     # Route modules: base.routes.tsx
-    routes.ts    # Route name constants
+    index.tsx
+    modules/      # base.routes.tsx
+    routes.ts
   store/
-    user/        # userStore.ts + userStore.test.ts
-    utils/       # createSelectors.ts
-  data/          # JSON question files (one per category)
-  test/
-    setup.ts     # Vitest setup
-    test-utils   # Custom render with providers
+    user/         # userStore
+    session/      # sessionStore
+    progress/     # progressStore
+    ui/           # uiStore
+    presets/      # presetStore
+    utils/        # createSelectors
+  test/           # setup, renderWithProviders
+public/
+  data/           # manifest + per-category JSON question files
+  locales/        # i18n JSON per language
 ```
 
 ## Key Patterns
 
-### Tailwind v4 (IMPORTANT — no tailwind.config.ts)
+### Tailwind v4 (no tailwind.config.ts)
 
-- Config lives in `src/index.css` via `@theme inline {}`
+- Config in `src/index.css` via `@theme inline {}`
 - Dark mode via `@custom-variant dark (&:where(.dark, .dark *))`
-- Animations via `tw-animate-css` (import in CSS, not a JS plugin)
-- Custom animations defined as `@keyframes` + `--animate-*` in `@theme`
+- Animations via `tw-animate-css` (CSS import)
+- Custom motion: `@keyframes` + `--animate-*` in `@theme`
 
-### Components: always presentational + hook
+### Components: presentational + hook
 
-```
-ComponentName/
-  ComponentName.tsx    # UI only, imports hook
-  useComponentName.ts  # All logic here
-  ComponentName.test.tsx
-```
+Each feature component folder: `ComponentName.tsx`, `useComponentName.ts`, tests.
 
 ### Stores: Zustand + createSelectors
 
-```typescript
-// Usage: useUserStore.use.username() — auto-selector
-export const useUserStore = createSelectors(useUserStoreBase);
-```
+Use `useXStore.use.field()` pattern; tests subscribe via base store where needed (see SKELETONS).
 
-### Pages: lazy by default
+### Pages: lazy by default (except Home)
 
-```typescript
-// PageName.tsx — component
-// index.ts — lazy(() => import('./PageName'))
-// Router uses WithSuspense HOC
-```
+Lazy pages exported from `index.ts`; router wraps with `WithSuspense`.
 
 ### i18n
 
-- Default language: **Russian**. Language toggle RU/EN persists via localStorage.
-- Code snippets always in English regardless of active language
-- `common` — always loaded (buttons, labels)
-- `errors` — always loaded (API/validation errors)
-- Feature namespaces — lazy loaded on demand
+- Default language: **Russian**. RU/EN toggle; persistence via localStorage.
+- Code snippets in UI stay English regardless of locale.
+- `common` and `errors` always loaded; home, session, summary, question namespaces as routes require.
 
-### Data Layer
+### Data layer
 
-- Questions stored in `src/data/<category>.json` — strict schema
-- Schema validated at build time (CI)
-- Storage service encapsulates all localStorage access — swappable for Firebase
-- See `docs/content-guide.md` for question schema and contribution patterns
+- Question content: `public/data/` (manifest + category JSON), validated against `src/lib/data/schema.ts` at build time.
+- Client persistence: `src/lib/storage/` — swappable later (e.g. cloud sync).
 
 ## Agent Rules
 
-Engineering standards, react patterns, state management, testing, and other constraints:
-**Read `.cursor/rules/` before any implementation task.**
-
-Key rules files:
-- `engineering-standards.mdc` — code quality, naming, structure
-- `react-patterns.mdc` — component patterns, hooks
-- `state-management.mdc` — Zustand usage
-- `test-driven-development.mdc` — testing approach
-- `performance.mdc` — performance constraints
-- `routing.mdc` — React Router 7 patterns
+Read `.cursor/rules/` before implementation. Core entry points: `global.mdc`, `agent-pipeline.mdc`, `workflow.mdc`, `project-config.mdc`, `engineering-standards.mdc`, `react-patterns.mdc`, `state-management.mdc`, `routing.mdc`, `api.mdc`, `test-driven-development.mdc`, `resilience.mdc`, `constants.mdc`, `performance.mdc`.
 
 ## Dev Tooling
 

@@ -29,7 +29,7 @@ npm run dev
 
 ## Adding Questions
 
-See `docs/content-guide.md` for the question schema and contribution patterns.
+Follow the Zod schema in `src/lib/data/schema.ts` and add JSON under `public/data/` (see `manifest.json` for registered categories).
 
 ## Commands
 
