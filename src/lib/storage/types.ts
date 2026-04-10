@@ -4,6 +4,7 @@ export interface SessionConfig {
     difficulty: 'easy' | 'medium' | 'hard' | 'all';
     mode: 'quiz' | 'bug-finding' | 'code-completion' | 'all';
     order: 'random' | 'sequential';
+    timerEnabled?: boolean;
 }
 
 export interface StreakData {

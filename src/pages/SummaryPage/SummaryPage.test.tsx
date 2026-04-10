@@ -19,14 +19,18 @@ vi.mock('react-router-dom', async (importOriginal) => {
 const mockSaveSessionResults = vi.fn();
 const mockRecordAnswer = vi.fn();
 const mockUpdateStreak = vi.fn();
+const mockSetRecord = vi.fn();
 let mockStreakData = { current: 0, lastActivityDate: '' };
+let mockRecordsData: Record<string, number> = {};
 vi.mock('@/store/progress', () => ({
     useProgressStore: {
         use: {
             saveSessionResults: () => mockSaveSessionResults,
             recordAnswer: () => mockRecordAnswer,
             updateStreak: () => mockUpdateStreak,
-            streak: () => mockStreakData
+            streak: () => mockStreakData,
+            records: () => mockRecordsData,
+            setRecord: () => mockSetRecord
         }
     }
 }));
@@ -121,7 +125,10 @@ beforeEach(() => {
     navigateMock.mockReset();
     mockSaveSessionResults.mockReset();
     mockRecordAnswer.mockReset();
+    mockUpdateStreak.mockReset();
+    mockSetRecord.mockReset();
     mockStreakData = { current: 0, lastActivityDate: '' };
+    mockRecordsData = {};
     resetStores();
 });
 

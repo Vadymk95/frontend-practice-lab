@@ -13,6 +13,10 @@ export function useSessionPlayPage() {
     const currentIndex = useSessionStore.use.currentIndex();
     const answers = useSessionStore.use.answers();
     const nextQuestion = useSessionStore.use.nextQuestion();
+    const timerMs = useSessionStore.use.timerMs();
+    const setTimerMs = useSessionStore.use.setTimerMs();
+
+    const timerEnabled = config?.timerEnabled ?? false;
 
     const currentQuestion = questionList[currentIndex] ?? null;
     const isAnswered = currentQuestion !== null && answers[currentQuestion.id] !== undefined;
@@ -33,6 +37,17 @@ export function useSessionPlayPage() {
         }
     }, [isSetupLoading, isSetupError, config, questionList.length, navigate]);
 
+    // Timer interval — starts when timerEnabled, clears on unmount
+    useEffect(() => {
+        if (!timerEnabled) return;
+        const start = Date.now() - timerMs;
+        const id = setInterval(() => {
+            setTimerMs(Date.now() - start);
+        }, 1000);
+        return () => clearInterval(id);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [timerEnabled]); // only start once when timer is enabled
+
     // Keyboard: Enter advances to next question when answered
     useEffect(() => {
         if (!isAnswered) return;
@@ -52,6 +67,8 @@ export function useSessionPlayPage() {
         currentIndex,
         currentQuestion,
         isAnswered,
+        timerEnabled,
+        timerMs,
         handleNext,
         onRetry: refetch
     };

@@ -1,6 +1,6 @@
 # Story 4.5: Session Timer & Personal Records
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 
@@ -28,56 +28,56 @@ So that I can challenge myself to answer questions faster over time.
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Add `timerEnabled` to `SessionConfig` type (AC: #1, #3)
-  - [ ] In `src/lib/storage/types.ts`, add `timerEnabled?: boolean` to `SessionConfig` interface
-  - [ ] Default is `undefined` / `false` — timer off by default
+- [x] Task 1: Add `timerEnabled` to `SessionConfig` type (AC: #1, #3)
+  - [x] In `src/lib/storage/types.ts`, add `timerEnabled?: boolean` to `SessionConfig` interface
+  - [x] Default is `undefined` / `false` — timer off by default
 
-- [ ] Task 2: Add timer toggle to `SessionConfigurator` (AC: #1)
-  - [ ] In `useSessionConfigurator.ts`: add `timerEnabled` state (`useState(initialConfig?.timerEnabled ?? false)`)
-  - [ ] Add `toggleTimer` handler
-  - [ ] Include `timerEnabled` in the returned `SessionConfig` object passed to `sessionStore.setConfig()`
-  - [ ] In `SessionConfigurator.tsx`: add a toggle row "Timer" with a `Switch` component (shadcn/ui)
-  - [ ] Place after the order toggle row
+- [x] Task 2: Add timer toggle to `SessionConfigurator` (AC: #1)
+  - [x] In `useSessionConfigurator.ts`: add `timerEnabled` state (`useState(initialConfig?.timerEnabled ?? false)`)
+  - [x] Add `toggleTimer` handler
+  - [x] Include `timerEnabled` in the returned `SessionConfig` object passed to `sessionStore.setConfig()`
+  - [x] In `SessionConfigurator.tsx`: add a toggle row "Timer" with a `Switch` component (shadcn/ui)
+  - [x] Place after the order toggle row
 
-- [ ] Task 3: Implement timer in `SessionPlayPage` (AC: #1, #3)
-  - [ ] In `useSessionPlayPage.ts`:
-    - [ ] Read `config.timerEnabled` from `sessionStore`
-    - [ ] If enabled: start `setInterval` on mount that calls `setTimerMs(ms)` every second
-    - [ ] `timerMs` is already in `sessionStore` — `setTimerMs` is already implemented
-    - [ ] Clear interval on unmount
-    - [ ] Expose `timerEnabled` and `timerMs` to the component
-  - [ ] In `SessionPlayPage.tsx`:
-    - [ ] If `timerEnabled`: show timer display in header (MM:SS format)
-    - [ ] Format: `formatTimer(timerMs)` — pad minutes and seconds to 2 digits
+- [x] Task 3: Implement timer in `SessionPlayPage` (AC: #1, #3)
+  - [x] In `useSessionPlayPage.ts`:
+    - [x] Read `config.timerEnabled` from `sessionStore`
+    - [x] If enabled: start `setInterval` on mount that calls `setTimerMs(ms)` every second
+    - [x] `timerMs` is already in `sessionStore` — `setTimerMs` is already implemented
+    - [x] Clear interval on unmount
+    - [x] Expose `timerEnabled` and `timerMs` to the component
+  - [x] In `SessionPlayPage.tsx`:
+    - [x] If `timerEnabled`: show timer display in header (MM:SS format)
+    - [x] Format: `formatTimer(timerMs)` — pad minutes and seconds to 2 digits
 
-- [ ] Task 4: Handle timer + records in `useSummaryPage` (AC: #2, #3)
-  - [ ] Read `config` from `sessionStore` (already available)
-  - [ ] Read `timerMs` from `sessionStore`
-  - [ ] If `config.timerEnabled`:
-    - [ ] Generate record key: `generateRecordKey(config)`
-    - [ ] Read prior record from `progressStore.records[recordKey]`
-    - [ ] If no prior record OR `timerMs < priorRecord`: call `progressStore.setRecord(recordKey, timerMs)`
-    - [ ] Determine `isNewRecord: boolean` and `priorRecordMs: number | undefined`
-  - [ ] Expose `timerEnabled`, `sessionDurationMs`, `isNewRecord`, `priorRecordMs` to component
+- [x] Task 4: Handle timer + records in `useSummaryPage` (AC: #2, #3)
+  - [x] Read `config` from `sessionStore` (already available)
+  - [x] Read `timerMs` from `sessionStore`
+  - [x] If `config.timerEnabled`:
+    - [x] Generate record key: `generateRecordKey(config)`
+    - [x] Read prior record from `progressStore.records[recordKey]`
+    - [x] If no prior record OR `timerMs < priorRecord`: call `progressStore.setRecord(recordKey, timerMs)`
+    - [x] Determine `isNewRecord: boolean` and `priorRecordMs: number | undefined`
+  - [x] Expose `timerEnabled`, `sessionDurationMs`, `isNewRecord`, `priorRecordMs` to component
 
-- [ ] Task 5: Display timer results in `SummaryPage` (AC: #2, #3)
-  - [ ] If `timerEnabled && sessionDurationMs > 0`:
-    - [ ] Show total duration: `{t('timer.duration', { time: formatTimer(sessionDurationMs) })}`
-    - [ ] If `isNewRecord`: show `{t('timer.newRecord')}` — congratulation message
-    - [ ] Else if `priorRecordMs`: show `{t('timer.personalBest', { time: formatTimer(priorRecordMs) })}`
+- [x] Task 5: Display timer results in `SummaryPage` (AC: #2, #3)
+  - [x] If `timerEnabled && sessionDurationMs > 0`:
+    - [x] Show total duration: `{t('timer.duration', { time: formatTimer(sessionDurationMs) })}`
+    - [x] If `isNewRecord`: show `{t('timer.newRecord')}` — congratulation message
+    - [x] Else if `priorRecordMs`: show `{t('timer.personalBest', { time: formatTimer(priorRecordMs) })}`
 
-- [ ] Task 6: Add i18n keys (AC: #2)
-  - [ ] `public/locales/en/session.json` — add `timer.label`
-  - [ ] `public/locales/en/summary.json` — add `timer.duration`, `timer.newRecord`, `timer.personalBest`
-  - [ ] `public/locales/ru/session.json` and `ru/summary.json` — same keys in Russian
-  - [ ] `public/locales/en/home.json` — add `configurator.timer` toggle label
-  - [ ] `public/locales/ru/home.json` — same
+- [x] Task 6: Add i18n keys (AC: #2)
+  - [x] `public/locales/en/session.json` — add `timer.label`
+  - [x] `public/locales/en/summary.json` — add `timer.duration`, `timer.newRecord`, `timer.personalBest`
+  - [x] `public/locales/ru/session.json` and `ru/summary.json` — same keys in Russian
+  - [x] `public/locales/en/home.json` — add `configurator.timer` toggle label
+  - [x] `public/locales/ru/home.json` — same
 
-- [ ] Task 7: Verification
-  - [ ] `npm run format`
-  - [ ] `npm run lint`
-  - [ ] `npx tsc --noEmit`
-  - [ ] `npm run test`
+- [x] Task 7: Verification
+  - [x] `npm run format`
+  - [x] `npm run lint`
+  - [x] `npx tsc --noEmit`
+  - [x] `npm run test`
 
 ## Dev Notes
 
@@ -223,7 +223,7 @@ public/locales/ru/summary.json                     ← ADD timer.* keys
 
 ### Agent Model Used
 
-_to be filled_
+claude-sonnet-4-6
 
 ### Debug Log References
 
@@ -231,7 +231,18 @@ _none_
 
 ### Completion Notes List
 
-_to be filled_
+- Added `timerEnabled?: boolean` to `SessionConfig` interface
+- Created `src/components/ui/switch.tsx` using `radix-ui` Switch primitive (already a project dep)
+- Wired timer toggle in `useSessionConfigurator` + `SessionConfigurator` (Switch UI after order row)
+- Created `src/lib/utils/formatTimer.ts` (pure utility, MM:SS format)
+- Created `src/lib/utils/generateRecordKey.ts` (pure utility, deterministic key from config)
+- Timer interval in `useSessionPlayPage` — starts on mount when `timerEnabled`, clears on unmount
+- Record logic in `useSummaryPage` — checks prior record in `progressStore`, saves if new on mount
+- Timer section in `SummaryPage` — shows duration, new record congratulation, or personal best
+- i18n keys added for EN + RU in home/session/summary namespaces
+- Tests updated in `SummaryPage.test.tsx` to include `records` + `setRecord` in progressStore mock
+- New test files: `formatTimer.test.ts` (8 tests), `generateRecordKey.test.ts` (6 tests)
+- All 250 tests pass, lint + tsc clean
 
 ### Review Findings
 
@@ -241,15 +252,25 @@ _none yet_
 
 - `src/lib/storage/types.ts` — MODIFY
 - `src/lib/utils/formatTimer.ts` — NEW
+- `src/lib/utils/formatTimer.test.ts` — NEW
+- `src/lib/utils/generateRecordKey.ts` — NEW
+- `src/lib/utils/generateRecordKey.test.ts` — NEW
+- `src/components/ui/switch.tsx` — NEW
+- `src/components/ui/index.ts` — MODIFY
 - `src/components/features/SessionConfigurator/useSessionConfigurator.ts` — MODIFY
 - `src/components/features/SessionConfigurator/SessionConfigurator.tsx` — MODIFY
 - `src/pages/SessionPlayPage/useSessionPlayPage.ts` — MODIFY
 - `src/pages/SessionPlayPage/SessionPlayPage.tsx` — MODIFY
 - `src/pages/SummaryPage/useSummaryPage.ts` — MODIFY
 - `src/pages/SummaryPage/SummaryPage.tsx` — MODIFY
+- `src/pages/SummaryPage/SummaryPage.test.tsx` — MODIFY
 - `public/locales/en/home.json` — MODIFY
 - `public/locales/ru/home.json` — MODIFY
 - `public/locales/en/session.json` — MODIFY
 - `public/locales/ru/session.json` — MODIFY
 - `public/locales/en/summary.json` — MODIFY
 - `public/locales/ru/summary.json` — MODIFY
+
+## Change Log
+
+- 2026-04-10: Story 4.5 implemented — session timer + personal records. Added `timerEnabled` to `SessionConfig`, Switch toggle in configurator, timer interval in play page, record key generation and persistence in summary, i18n keys for EN/RU. 14 new tests added (250 total passing).

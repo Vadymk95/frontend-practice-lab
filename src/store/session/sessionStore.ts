@@ -86,9 +86,13 @@ const useSessionStoreBase = create<SessionState>()(
                 set(initialState, false, { type: 'session-store/resetSession' });
             },
             setRepeatMistakes: (questionList: Question[]) => {
-                set({ questionList, currentIndex: 0, answers: {}, skipList: [] }, false, {
-                    type: 'session-store/setRepeatMistakes'
-                });
+                set(
+                    { questionList, currentIndex: 0, answers: {}, skipList: [], timerMs: 0 },
+                    false,
+                    {
+                        type: 'session-store/setRepeatMistakes'
+                    }
+                );
             }
         }),
         { name: 'session-store' }

@@ -71,6 +71,7 @@ export function useSessionConfigurator(initialConfig?: SessionConfig) {
     const [mode, setMode] = useState<Mode>(initialConfig?.mode ?? 'all');
     const [questionCount, setQuestionCount] = useState<number>(initialConfig?.questionCount ?? 10);
     const [order, setOrder] = useState<Order>(initialConfig?.order ?? 'random');
+    const [timerEnabled, setTimerEnabled] = useState<boolean>(initialConfig?.timerEnabled ?? false);
 
     const deferredSelectedCategories = useDeferredValue(selectedCategories);
     const deferredDifficulty = useDeferredValue(difficulty);
@@ -140,6 +141,10 @@ export function useSessionConfigurator(initialConfig?: SessionConfig) {
         setOrder(value);
     }, []);
 
+    const toggleTimer = useCallback(() => {
+        setTimerEnabled((prev) => !prev);
+    }, []);
+
     const handleStart = useCallback(() => {
         if (!isStartEnabled) return;
         const config: SessionConfig = {
@@ -148,7 +153,8 @@ export function useSessionConfigurator(initialConfig?: SessionConfig) {
             questionCount: Math.min(questionCount, maxCount),
             difficulty,
             mode,
-            order
+            order,
+            timerEnabled
         };
         setConfig(config);
         navigate(RoutesPath.SessionPlay);
@@ -160,6 +166,7 @@ export function useSessionConfigurator(initialConfig?: SessionConfig) {
         difficulty,
         mode,
         order,
+        timerEnabled,
         setConfig,
         navigate
     ]);
@@ -171,7 +178,8 @@ export function useSessionConfigurator(initialConfig?: SessionConfig) {
             questionCount: Math.min(questionCount, maxCount),
             difficulty,
             mode,
-            order
+            order,
+            timerEnabled
         };
         const name = generatePresetName(config, categories);
         savePreset(config, name);
@@ -183,6 +191,7 @@ export function useSessionConfigurator(initialConfig?: SessionConfig) {
         difficulty,
         mode,
         order,
+        timerEnabled,
         categories,
         savePreset
     ]);
@@ -195,6 +204,7 @@ export function useSessionConfigurator(initialConfig?: SessionConfig) {
         mode,
         questionCount,
         order,
+        timerEnabled,
         availableCount,
         maxCount,
         categoryCountMap,
@@ -204,6 +214,7 @@ export function useSessionConfigurator(initialConfig?: SessionConfig) {
         handleModeChange,
         handleQuestionCountChange,
         handleOrderChange,
+        toggleTimer,
         handleStart,
         handleSavePreset
     };

@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/ui/button';
+import { formatTimer } from '@/lib/utils/formatTimer';
 
 import { useSummaryPage } from './useSummaryPage';
 
@@ -17,6 +18,10 @@ export const SummaryPage: FC = () => {
         isPerfectScore,
         streak,
         isStreakReset,
+        timerEnabled,
+        sessionDurationMs,
+        isNewRecord,
+        priorRecordMs,
         handleRepeatWrong,
         handleRepeatSkipped,
         handleRepeatAllMistakes,
@@ -53,6 +58,22 @@ export const SummaryPage: FC = () => {
                             {t('streak.count', { count: streak.current })}
                         </p>
                     )}
+                </div>
+            )}
+
+            {/* Timer results */}
+            {timerEnabled && sessionDurationMs > 0 && (
+                <div className="text-center">
+                    <p className="text-sm text-muted-foreground">
+                        {t('timer.duration', { time: formatTimer(sessionDurationMs) })}
+                    </p>
+                    {isNewRecord ? (
+                        <p className="text-sm font-medium text-accent">{t('timer.newRecord')}</p>
+                    ) : priorRecordMs !== undefined ? (
+                        <p className="text-sm text-muted-foreground">
+                            {t('timer.personalBest', { time: formatTimer(priorRecordMs) })}
+                        </p>
+                    ) : null}
                 </div>
             )}
 

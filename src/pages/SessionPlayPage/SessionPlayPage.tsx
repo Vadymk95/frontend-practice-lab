@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { ErrorState } from '@/components/common/ErrorState';
 import { QuestionCard } from '@/components/features/QuestionCard';
 import { Button } from '@/components/ui/button';
+import { formatTimer } from '@/lib/utils/formatTimer';
 
 import { useSessionPlayPage } from './useSessionPlayPage';
 
@@ -16,6 +17,8 @@ export const SessionPlayPage: FC = () => {
         questionCount,
         currentQuestion,
         isAnswered,
+        timerEnabled,
+        timerMs,
         handleNext,
         onRetry
     } = useSessionPlayPage();
@@ -74,6 +77,17 @@ export const SessionPlayPage: FC = () => {
 
     return (
         <div className="flex flex-col gap-4 pb-24 lg:pb-0">
+            {timerEnabled && (
+                <div className="flex justify-end">
+                    <span
+                        className="text-sm font-mono text-muted-foreground tabular-nums"
+                        aria-label={tSession('timer.label')}
+                    >
+                        {formatTimer(timerMs)}
+                    </span>
+                </div>
+            )}
+
             <QuestionCard
                 onSelectionChange={handleSelectionChange}
                 onCheckRegister={handleCheckRegister}

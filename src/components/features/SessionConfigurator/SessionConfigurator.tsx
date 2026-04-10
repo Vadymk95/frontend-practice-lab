@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import type { SessionConfig } from '@/lib/storage/types';
 import { cn } from '@/lib/utils';
@@ -27,6 +28,7 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
         mode,
         questionCount,
         order,
+        timerEnabled,
         availableCount,
         maxCount,
         categoryCountMap,
@@ -36,6 +38,7 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
         handleModeChange,
         handleQuestionCountChange,
         handleOrderChange,
+        toggleTimer,
         handleStart,
         handleSavePreset
     } = useSessionConfigurator(initialConfig);
@@ -210,6 +213,20 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
                             {t(`configurator.order.${o}`)}
                         </button>
                     ))}
+                </div>
+            </section>
+
+            {/* Timer Toggle */}
+            <section>
+                <div className="flex items-center justify-between">
+                    <h2 className="text-sm font-medium text-foreground">
+                        {t('configurator.timer')}
+                    </h2>
+                    <Switch
+                        checked={timerEnabled}
+                        onCheckedChange={toggleTimer}
+                        aria-label={t('configurator.timer')}
+                    />
                 </div>
             </section>
 
