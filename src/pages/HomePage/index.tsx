@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import type { FC } from 'react';
 
+import { AlgorithmWidget } from '@/components/features/AlgorithmWidget';
 import { PresetRow } from '@/components/features/PresetList/PresetRow';
 import { PrimaryPresetCard } from '@/components/features/PresetList/PrimaryPresetCard';
 import { SessionConfigurator } from '@/components/features/SessionConfigurator';
@@ -25,8 +26,20 @@ export const HomePage: FC = () => {
         setModifyKey((k) => k + 1);
     }, []);
 
+    const handleAlgorithmCategorySelect = useCallback((slug: string) => {
+        setModifyConfig({
+            categories: [slug],
+            questionCount: 10,
+            difficulty: 'all',
+            mode: 'all',
+            order: 'random'
+        });
+        setModifyKey((k) => k + 1);
+    }, []);
+
     return (
         <div className="container mx-auto max-w-2xl px-4 py-6 flex flex-col gap-6">
+            <AlgorithmWidget onCategorySelect={handleAlgorithmCategorySelect} />
             {mruPreset && <PrimaryPresetCard preset={mruPreset} onModify={handleModify} />}
             <SessionConfigurator key={modifyKey} initialConfig={modifyConfig} />
             {secondaryPresets.length > 0 && (

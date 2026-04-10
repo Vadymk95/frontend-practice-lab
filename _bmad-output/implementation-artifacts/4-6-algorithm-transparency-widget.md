@@ -1,6 +1,6 @@
 # Story 4.6: Algorithm Transparency Widget
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 
@@ -27,40 +27,40 @@ So that I can start my session with intention rather than picking categories bli
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Create `AlgorithmWidget` component (AC: #1, #2)
-  - [ ] Create `src/components/features/AlgorithmWidget/AlgorithmWidget.tsx` — UI only
-  - [ ] Create `src/components/features/AlgorithmWidget/useAlgorithmWidget.ts` — logic hook
-  - [ ] Create `src/components/features/AlgorithmWidget/index.ts` — re-export
+- [x] Task 1: Create `AlgorithmWidget` component (AC: #1, #2)
+  - [x] Create `src/components/features/AlgorithmWidget/AlgorithmWidget.tsx` — UI only
+  - [x] Create `src/components/features/AlgorithmWidget/useAlgorithmWidget.ts` — logic hook
+  - [x] Create `src/components/features/AlgorithmWidget/index.ts` — re-export
 
-- [ ] Task 2: Implement `useAlgorithmWidget` logic (AC: #1, #2)
-  - [ ] Read `errorRates` from `useProgressStore.use.errorRates()`
-  - [ ] Read `categories` from `useCategories()` (manifest data for display names)
-  - [ ] Filter: only categories with `errorRates[slug] > 0` (has prior data)
-  - [ ] Sort by `errorRates[slug]` descending, take top 3
-  - [ ] If no categories have `errorRate > 0`: return `{ topWeakCategories: [], hasData: false }`
-  - [ ] Expose: `topWeakCategories: Array<{ slug: string; displayName: string; errorRate: number }>`, `hasData: boolean`
-  - [ ] Expose: `handleTopicSelect(slug: string): void` — calls `onCategorySelect` callback
+- [x] Task 2: Implement `useAlgorithmWidget` logic (AC: #1, #2)
+  - [x] Read `errorRates` from `useProgressStore.use.errorRates()`
+  - [x] Read `categories` from `useCategories()` (manifest data for display names)
+  - [x] Filter: only categories with `errorRates[slug] > 0` (has prior data)
+  - [x] Sort by `errorRates[slug]` descending, take top 3
+  - [x] If no categories have `errorRate > 0`: return `{ topWeakCategories: [], hasData: false }`
+  - [x] Expose: `topWeakCategories: Array<{ slug: string; displayName: string; errorRate: number }>`, `hasData: boolean`
+  - [x] Expose: `handleTopicSelect(slug: string): void` — calls `onCategorySelect` callback
 
-- [ ] Task 3: Wire `AlgorithmWidget` into `HomePage` (AC: #1, #2)
-  - [ ] Import and render `AlgorithmWidget` in `src/pages/HomePage/index.tsx`
-  - [ ] Placement: above `SessionConfigurator` (and above `PrimaryPresetCard`)
-  - [ ] Hidden when `!hasData` (no prior session data — AC #2)
-  - [ ] On topic tap: pre-select the category in `SessionConfigurator` — use existing `modifyConfig` pattern with a new state var, or add a separate `onCategoryAdd` callback
+- [x] Task 3: Wire `AlgorithmWidget` into `HomePage` (AC: #1, #2)
+  - [x] Import and render `AlgorithmWidget` in `src/pages/HomePage/index.tsx`
+  - [x] Placement: above `SessionConfigurator` (and above `PrimaryPresetCard`)
+  - [x] Hidden when `!hasData` (no prior session data — AC #2)
+  - [x] On topic tap: pre-select the category in `SessionConfigurator` — use existing `modifyConfig` pattern with a new state var, or add a separate `onCategoryAdd` callback
 
-- [ ] Task 4: Add error rate badges to category chips (AC: #3)
-  - [ ] Read `errorRates` from `useProgressStore` in `useSessionConfigurator.ts` (or in the category chip component)
-  - [ ] In the category grid render: if `errorRates[category.slug] > 0.30`, show a small badge `"{Math.round(errorRates[slug] * 100)}%"`
-  - [ ] Badge styling: `bg-destructive/20 text-destructive text-[10px] px-1 rounded` — subtle, non-alarming
+- [x] Task 4: Add error rate badges to category chips (AC: #3)
+  - [x] Read `errorRates` from `useProgressStore` in `useSessionConfigurator.ts` (or in the category chip component)
+  - [x] In the category grid render: if `errorRates[category.slug] > 0.30`, show a small badge `"{Math.round(errorRates[slug] * 100)}%"`
+  - [x] Badge styling: `bg-destructive/20 text-destructive text-[10px] px-1 rounded` — subtle, non-alarming
 
-- [ ] Task 5: Add i18n keys (AC: #1)
-  - [ ] `public/locales/en/home.json` — add `algorithmWidget.title`, `algorithmWidget.tapToSelect`
-  - [ ] `public/locales/ru/home.json` — same keys in Russian
+- [x] Task 5: Add i18n keys (AC: #1)
+  - [x] `public/locales/en/home.json` — add `algorithmWidget.title`, `algorithmWidget.tapToSelect`
+  - [x] `public/locales/ru/home.json` — same keys in Russian
 
-- [ ] Task 6: Verification
-  - [ ] `npm run format`
-  - [ ] `npm run lint`
-  - [ ] `npx tsc --noEmit`
-  - [ ] `npm run test`
+- [x] Task 6: Verification
+  - [x] `npm run format`
+  - [x] `npm run lint`
+  - [x] `npx tsc --noEmit`
+  - [x] `npm run test`
 
 ## Dev Notes
 
@@ -281,7 +281,7 @@ public/locales/ru/home.json                                  ← ADD algorithmWi
 
 ### Agent Model Used
 
-_to be filled_
+claude-sonnet-4-6
 
 ### Debug Log References
 
@@ -289,11 +289,20 @@ _none_
 
 ### Completion Notes List
 
-_to be filled_
+- Created `AlgorithmWidget` component (AlgorithmWidget.tsx + useAlgorithmWidget.ts + index.ts) — reads `errorRates` from `progressStore`, filters categories with >0 error rate, sorts descending, exposes top 3. Returns null when no data (AC #2).
+- Wired `AlgorithmWidget` into `HomePage/index.tsx` above `PrimaryPresetCard` — `handleAlgorithmCategorySelect` callback pre-fills `SessionConfigurator` via existing `modifyConfig`/`modifyKey` pattern.
+- Added `errorRates` read to `useSessionConfigurator.ts` (from `useProgressStore`) and exposed in return value.
+- Added error rate badges in `SessionConfigurator.tsx` category grid: visible when `errorRate > 0.30`, styled `bg-destructive/20 text-destructive text-[10px] px-1 rounded`.
+- Added i18n keys `algorithmWidget.title` / `algorithmWidget.tapToSelect` to both en/ru home.json.
+- All 250 tests pass, lint clean, tsc clean, format clean.
 
 ### Review Findings
 
 _none yet_
+
+### Change Log
+
+- feat(4.6): algorithm transparency widget — AlgorithmWidget, error rate badges, i18n (2026-04-10)
 
 ### File List
 

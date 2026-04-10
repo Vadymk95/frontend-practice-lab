@@ -6,6 +6,7 @@ import { useCategories } from '@/hooks/data/useCategories';
 import type { SessionConfig } from '@/lib/storage/types';
 import { RoutesPath } from '@/router/routes';
 import { usePresetStore } from '@/store/presets';
+import { useProgressStore } from '@/store/progress';
 import { useSessionStore } from '@/store/session';
 
 type Difficulty = SessionConfig['difficulty'];
@@ -63,6 +64,7 @@ export function useSessionConfigurator(initialConfig?: SessionConfig) {
     const navigate = useNavigate();
     const setConfig = useSessionStore.use.setConfig();
     const savePreset = usePresetStore.use.savePreset();
+    const errorRates = useProgressStore.use.errorRates();
 
     const [selectedCategories, setSelectedCategories] = useState<string[]>(
         initialConfig?.categories ?? []
@@ -208,6 +210,7 @@ export function useSessionConfigurator(initialConfig?: SessionConfig) {
         availableCount,
         maxCount,
         categoryCountMap,
+        errorRates,
         isStartEnabled,
         handleCategoryToggle,
         handleDifficultyChange,

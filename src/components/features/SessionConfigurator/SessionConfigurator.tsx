@@ -32,6 +32,7 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
         availableCount,
         maxCount,
         categoryCountMap,
+        errorRates,
         isStartEnabled,
         handleCategoryToggle,
         handleDifficultyChange,
@@ -71,6 +72,8 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
                     >
                         {categories.map((cat) => {
                             const count = categoryCountMap[cat.slug] ?? 0;
+                            const errorRate = errorRates[cat.slug] ?? 0;
+                            const showBadge = errorRate > 0.3;
                             return (
                                 <Tooltip key={cat.slug}>
                                     <TooltipTrigger asChild>
@@ -88,8 +91,15 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
                                             )}
                                         >
                                             <span>{cat.displayName}</span>
-                                            <span className="text-xs text-muted-foreground shrink-0">
-                                                {count}
+                                            <span className="flex items-center gap-1 shrink-0">
+                                                {showBadge && (
+                                                    <span className="bg-destructive/20 text-destructive text-[10px] px-1 rounded">
+                                                        {Math.round(errorRate * 100)}%
+                                                    </span>
+                                                )}
+                                                <span className="text-xs text-muted-foreground">
+                                                    {count}
+                                                </span>
                                             </span>
                                         </button>
                                     </TooltipTrigger>
