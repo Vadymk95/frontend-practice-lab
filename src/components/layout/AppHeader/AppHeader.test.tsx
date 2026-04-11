@@ -18,7 +18,9 @@ describe('AppHeader', () => {
 
     it('renders a theme toggle button', () => {
         renderWithProviders(<AppHeader />);
-        expect(screen.getByRole('button', { name: /toggle theme/i })).toBeInTheDocument();
+        expect(
+            screen.getByRole('button', { name: /switch to (light|dark) mode/i })
+        ).toBeInTheDocument();
     });
 
     it('renders as a header landmark', () => {

@@ -18,6 +18,11 @@
 - `localeCompare` on `lastUsedAt` without null guard in `HomePage` — TypeScript strict mode guarantees `string` type from Zustand store; safe unless storage layer corrupts the field
 - Zero `questionCount` defense in `PrimaryPresetCard/handleStart` — store and schema prevent invalid presets at save time; defensive guard would be redundant
 
+## Deferred from: code review of 6-1-dark-light-theme-toggle (2026-04-11)
+
+- `LocalStorageService` silently swallows all storage errors — no logging or user feedback when read/write fails (e.g., private browsing, quota exceeded); theme silently resets to default on next session
+- `uiStore.setTheme()` toggles DOM class before storage write with no rollback — if storage fails, visual theme is applied but won't persist; pre-existing architecture decision in uiStore
+
 ## Deferred from: code review of 2-5-back-button-misclick-protection (2026-04-08)
 
 - Store test (`sessionStore.test.ts`) imports `useSessionStore` (selector wrapper) instead of `useSessionStoreBase` — SKELETONS convention; functionally correct since `createSelectors` mutates same reference; 90%+ project tests follow this pattern; address in a test convention cleanup sweep

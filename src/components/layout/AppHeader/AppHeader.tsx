@@ -1,4 +1,4 @@
-import { Moon, Settings } from 'lucide-react';
+import { Moon, Settings, Sun } from 'lucide-react';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -10,7 +10,7 @@ import {
 import { useAppHeader } from './useAppHeader';
 
 export const AppHeader: FC = () => {
-    useAppHeader();
+    const { theme, setTheme } = useAppHeader();
     const { t } = useTranslation('common');
     const resetDialog = useResetWeightsDialog();
 
@@ -29,10 +29,17 @@ export const AppHeader: FC = () => {
                         </button>
                         <button
                             type="button"
-                            aria-label={t('header.toggleTheme')}
+                            aria-label={t(
+                                theme === 'dark' ? 'header.switchToLight' : 'header.switchToDark'
+                            )}
+                            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                             className="rounded p-1 text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-alt"
                         >
-                            <Moon size={16} aria-hidden="true" />
+                            {theme === 'dark' ? (
+                                <Moon size={16} aria-hidden="true" />
+                            ) : (
+                                <Sun size={16} aria-hidden="true" />
+                            )}
                         </button>
                         <button
                             type="button"

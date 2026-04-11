@@ -1,6 +1,6 @@
 # Story 6.1: Dark/Light Theme Toggle
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
@@ -27,25 +27,25 @@ so that I can use the app comfortably in different lighting conditions.
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Wire theme toggle in `AppHeader` (AC: #1, #2, #3)
-  - [ ] Read `theme` from `useUiStore.use.theme()`
-  - [ ] Call `useUiStore.use.setTheme()` on button click — toggle `'dark'` ↔ `'light'`
-  - [ ] Swap Moon icon for Sun icon when theme is `'light'` (both from `lucide-react`)
-  - [ ] Update `aria-label` dynamically: `t('header.toggleTheme')`
+- [x] Task 1: Wire theme toggle in `AppHeader` (AC: #1, #2, #3)
+  - [x] Read `theme` from `useUiStore.use.theme()`
+  - [x] Call `useUiStore.use.setTheme()` on button click — toggle `'dark'` ↔ `'light'`
+  - [x] Swap Moon icon for Sun icon when theme is `'light'` (both from `lucide-react`)
+  - [x] Update `aria-label` dynamically: `t('header.toggleTheme')`
 
-- [ ] Task 2: Ensure `initTheme()` is called on app mount (AC: #1, #3)
-  - [ ] Confirm `uiStore.initTheme()` is called in `main.tsx` or `App.tsx` before render
-  - [ ] If not wired — add `useEffect(() => { useUiStoreBase.getState().initTheme(); }, [])` to `App.tsx`
+- [x] Task 2: Ensure `initTheme()` is called on app mount (AC: #1, #3)
+  - [x] Confirm `uiStore.initTheme()` is called in `main.tsx` or `App.tsx` before render
+  - [x] If not wired — add `useEffect(() => { useUiStoreBase.getState().initTheme(); }, [])` to `App.tsx`
 
-- [ ] Task 3: Add i18n keys (AC: #2)
-  - [ ] Ensure `public/locales/en/common.json` has `header.toggleTheme` key (already exists — verify value is accurate for both states)
-  - [ ] Mirror in `public/locales/ru/common.json`
+- [x] Task 3: Add i18n keys (AC: #2)
+  - [x] Ensure `public/locales/en/common.json` has `header.toggleTheme` key (already exists — verify value is accurate for both states)
+  - [x] Mirror in `public/locales/ru/common.json`
 
-- [ ] Task 4: Verification
-  - [ ] `npm run format`
-  - [ ] `npm run lint`
-  - [ ] `npx tsc --noEmit`
-  - [ ] `npm run test`
+- [x] Task 4: Verification
+  - [x] `npm run format`
+  - [x] `npm run lint`
+  - [x] `npx tsc --noEmit`
+  - [x] `npm run test`
 
 ## Dev Notes
 
@@ -157,3 +157,35 @@ If `useAppHeader` grows beyond 10 lines, extract logic there and add tests.
 - `src/components/layout/AppHeader/AppHeader.tsx` — integration point (Moon button)
 - `src/store/utils/createSelectors.ts` — `use.fieldName()` selector pattern
 - Story 5.4 (`5-4-reset-question-weights.md`) — established `useUiStore.use.*()` pattern
+
+## File List
+
+- `src/components/layout/AppHeader/AppHeader.tsx` — modified: removed direct uiStore import, reads theme/setTheme from useAppHeader; dynamic aria-label
+- `src/components/layout/AppHeader/useAppHeader.ts` — modified: added useUiStore selectors (theme, setTheme), returned from hook
+- `src/components/layout/AppHeader/AppHeader.test.tsx` — modified: updated theme button query to match dynamic aria-label
+- `index.html` — modified: added `class="dark"` to `<html>` to prevent FODT
+- `public/locales/en/common.json` — modified: added `header.switchToLight` and `header.switchToDark` keys
+- `public/locales/ru/common.json` — modified: added same keys in Russian
+
+## Dev Agent Record
+
+### Completion Notes
+
+- Task 1: Wired theme toggle in `AppHeader.tsx`. Added `useUiStore.use.theme()` + `useUiStore.use.setTheme()` selectors. Button now toggles `'dark'` ↔ `'light'`, switches Moon↔Sun icon. `aria-label` uses existing `t('header.toggleTheme')`.
+- Task 2: Already wired — `App.tsx` calls `useTheme()` hook which calls `initTheme()` in `useEffect`. No changes needed.
+- Task 3: i18n keys `header.toggleTheme` already exist in both `en/common.json` ("Toggle theme") and `ru/common.json` ("Переключить тему"). Values are accurate — no changes needed.
+- Task 4: All 4 verification commands passed: format (no changes), lint (clean), tsc (no errors), test (269 passed).
+- No tests added per story Dev Notes (no logic >10 lines, toggle is a single onClick call into existing store).
+
+### Review Findings
+
+- [x] [Review][Patch] FODT — add `class="dark"` to `<html>` in index.html [index.html] — fixed
+- [x] [Review][Patch] Theme logic in AppHeader.tsx directly, not in useAppHeader hook [AppHeader.tsx:14-15] — fixed: moved to useAppHeader.ts
+- [x] [Review][Patch] aria-label static regardless of theme state [AppHeader.tsx:35] — fixed: dynamic switchToLight/switchToDark keys
+- [x] [Review][Defer] localStorage error swallowing in LocalStorageService [LocalStorageService.ts:27-29] — deferred, pre-existing
+- [x] [Review][Defer] No rollback on setTheme failure if storage write fails [uiStore.ts:22-26] — deferred, pre-existing
+
+### Change Log
+
+- 2026-04-11: Implemented story 6.1 — wired dark/light theme toggle in AppHeader
+- 2026-04-11: Code review — fixed 3 issues: FODT (index.html class="dark"), hook pattern (useAppHeader), dynamic aria-label; deferred 2 pre-existing storage issues
