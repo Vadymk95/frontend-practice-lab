@@ -70,10 +70,10 @@ describe('validate-data main()', () => {
 
         expect(() => main(tmpDir)).toThrow('process.exit(1)');
         expect(exitSpy).toHaveBeenCalledWith(1);
-        expect(errSpy).toHaveBeenCalledWith(
-            expect.stringContaining('✗ bad.json'),
-            expect.anything()
-        );
+        // Header line: no second argument after the fix (was logging raw err as 2nd arg)
+        expect(errSpy).toHaveBeenCalledWith(expect.stringContaining('✗ bad.json'));
+        // Field-level error line present
+        expect(errSpy).toHaveBeenCalledWith(expect.stringContaining('(root):'));
     });
 
     it('manifest.json is ignored when scanning for category files', () => {

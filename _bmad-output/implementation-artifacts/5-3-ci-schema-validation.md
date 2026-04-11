@@ -1,6 +1,6 @@
 # Story 5.3: CI Schema Validation
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 
@@ -24,30 +24,30 @@ so that malformed questions never reach production.
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Audit `src/scripts/validate-data.ts` against AC #1 (AC: #1)
-  - [ ] Confirm dynamic discovery: `fs.readdirSync` with no hardcoded file list ← already in place
-  - [ ] Confirm Zod validation via `CategoryFileSchema.parse()` ← already in place
-  - [ ] Confirm exit code 0 on success, exit code 1 + error message on failure ← already in place
-  - [ ] If error output format is unclear (missing file path or field name), improve the `catch` block
+- [x] Task 1: Audit `src/scripts/validate-data.ts` against AC #1 (AC: #1)
+  - [x] Confirm dynamic discovery: `fs.readdirSync` with no hardcoded file list ← already in place
+  - [x] Confirm Zod validation via `CategoryFileSchema.parse()` ← already in place
+  - [x] Confirm exit code 0 on success, exit code 1 + error message on failure ← already in place
+  - [x] If error output format is unclear (missing file path or field name), improve the `catch` block
 
-- [ ] Task 2: Audit `.github/workflows/ci.yml` against AC #2 (AC: #2)
-  - [ ] Confirm `validate:data` step exists in the workflow ← already in place
-  - [ ] Confirm ordering: after `tsc --noEmit`, before `Run Tests` ← already in place
-  - [ ] Confirm it runs on both `push` and `pull_request` ← already in place
-  - [ ] If any gap is found, fix `ci.yml` accordingly
+- [x] Task 2: Audit `.github/workflows/ci.yml` against AC #2 (AC: #2)
+  - [x] Confirm `validate:data` step exists in the workflow ← already in place
+  - [x] Confirm ordering: after `tsc --noEmit`, before `Run Tests` ← already in place
+  - [x] Confirm it runs on both `push` and `pull_request` ← already in place
+  - [x] If any gap is found, fix `ci.yml` accordingly
 
-- [ ] Task 3: Improve error output if needed (AC: #1)
-  - [ ] Current `catch` prints `err` which may be verbose Zod output
-  - [ ] If Zod error format is unreadable, extract `err instanceof ZodError ? err.errors : err` for clean output
-  - [ ] Output format should clearly show: file path, field path, message
+- [x] Task 3: Improve error output if needed (AC: #1)
+  - [x] Current `catch` prints `err` which may be verbose Zod output
+  - [x] If Zod error format is unreadable, extract `err instanceof ZodError ? err.errors : err` for clean output
+  - [x] Output format should clearly show: file path, field path, message
 
-- [ ] Task 4: Verification
-  - [ ] `npm run validate:data` exits 0 with current data files
-  - [ ] Temporarily create `public/data/bad-test.json` with `[{"id": "x"}]`, run validate → confirm exit 1 + clear error, then delete
-  - [ ] `npm run format`
-  - [ ] `npm run lint`
-  - [ ] `npx tsc --noEmit`
-  - [ ] `npm run test`
+- [x] Task 4: Verification
+  - [x] `npm run validate:data` exits 0 with current data files
+  - [x] Temporarily create `public/data/bad-test.json` with `[{"id": "x"}]`, run validate → confirm exit 1 + clear error, then delete
+  - [x] `npm run format`
+  - [x] `npm run lint`
+  - [x] `npx tsc --noEmit`
+  - [x] `npm run test`
 
 ## Dev Notes
 
@@ -122,4 +122,12 @@ claude-sonnet-4-6
 
 ### Completion Notes List
 
+- Audited validate-data.ts: dynamic discovery, Zod validation, exit codes all in place — no changes needed.
+- Audited ci.yml: validate:data step exists in correct position (after tsc, before tests), runs on push and pull_request — no changes needed.
+- Task 3 executed: raw ZodError dump replaced with structured per-issue output (`[index].field: message`). Added `import { ZodError } from 'zod'`. Updated validate-data.test.ts assertion to match new single-arg console.error call + field-level error line.
+- All 259 tests pass.
+
 ### File List
+
+- `src/scripts/validate-data.ts` — improved catch block: ZodError → per-field output format
+- `src/scripts/validate-data.test.ts` — updated assertion for new error output format

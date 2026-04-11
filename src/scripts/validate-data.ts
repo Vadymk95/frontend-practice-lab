@@ -2,6 +2,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { ZodError } from 'zod';
+
 import { CategoryFileSchema } from '../lib/data/schema.ts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -29,7 +31,17 @@ export function main(dataDir: string = DATA_DIR): void {
             const questions = CategoryFileSchema.parse(parsed);
             console.log(`✓ ${file} — ${questions.length} questions`);
         } catch (err) {
-            console.error(`✗ ${file} — schema violation:`, err);
+            console.error(`✗ ${file} — schema violation:`);
+            if (err instanceof ZodError) {
+                for (const issue of err.issues) {
+                    const fieldPath = issue.path
+                        .map((p) => (typeof p === 'number' ? `[${p}]` : p))
+                        .join('.');
+                    console.error(`  ${fieldPath || '(root)'}: ${issue.message}`);
+                }
+            } else {
+                console.error(`  Error: ${String(err)}`);
+            }
             hasError = true;
         }
     }
