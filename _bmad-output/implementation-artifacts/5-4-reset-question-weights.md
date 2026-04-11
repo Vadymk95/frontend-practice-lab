@@ -1,6 +1,6 @@
 # Story 5.4: Reset Question Weights
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
@@ -27,43 +27,42 @@ so that I can recalibrate the algorithm when the question set changes significan
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Create `ResetWeightsDialog` component + hook (AC: #1, #2)
-  - [ ] Create `src/components/features/ResetWeightsDialog/ResetWeightsDialog.tsx` — UI only
-  - [ ] Create `src/components/features/ResetWeightsDialog/useResetWeightsDialog.ts` — all logic
-  - [ ] Create `src/components/features/ResetWeightsDialog/index.ts` — re-export
+- [x] Task 1: Create `ResetWeightsDialog` component + hook (AC: #1, #2)
+  - [x] Create `src/components/features/ResetWeightsDialog/ResetWeightsDialog.tsx` — UI only
+  - [x] Create `src/components/features/ResetWeightsDialog/useResetWeightsDialog.ts` — all logic
+  - [x] Create `src/components/features/ResetWeightsDialog/index.ts` — re-export
 
-- [ ] Task 2: Implement `useResetWeightsDialog` logic (AC: #1, #2, #3)
-  - [ ] Read `weights` from `useProgressStore.use.weights()`
-  - [ ] Read `errorRates` from `useProgressStore.use.errorRates()`
-  - [ ] Read `categories` from `useCategories()` for the category list in the dialog
-  - [ ] `resetAll()`: call `progressStore.setWeights({})` and `progressStore.setErrorRates({})`
-  - [ ] `resetCategory(slug)`: fetch `/data/${slug}.json` to get question IDs, filter weights to remove that category's IDs, call `setWeights(filtered)`, remove `errorRates[slug]`, call `setErrorRates(filtered)`
-  - [ ] Expose: `isOpen`, `open()`, `close()`, `resetAll()`, `resetCategory(slug)`, `categories`, `successMessage: string | null`
-  - [ ] After any reset: set `successMessage` for 2 seconds, then clear (auto-close dialog)
-  - [ ] Write `useResetWeightsDialog.test.ts` (strict TDD — test before implement)
+- [x] Task 2: Implement `useResetWeightsDialog` logic (AC: #1, #2, #3)
+  - [x] Read `weights` from `useProgressStore.use.weights()`
+  - [x] Read `errorRates` from `useProgressStore.use.errorRates()`
+  - [x] Read `categories` from `useCategories()` for the category list in the dialog
+  - [x] `resetAll()`: call `progressStore.setWeights({})` and `progressStore.setErrorRates({})`
+  - [x] `resetCategory(slug)`: fetch `/data/${slug}.json` to get question IDs, filter weights to remove that category's IDs, call `setWeights(filtered)`, remove `errorRates[slug]`, call `setErrorRates(filtered)`
+  - [x] Expose: `isOpen`, `open()`, `close()`, `resetAll()`, `resetCategory(slug)`, `categories`, `successMessage: string | null`
+  - [x] After any reset: set `successMessage` for 2 seconds, then clear (auto-close dialog)
+  - [x] Write `useResetWeightsDialog.test.ts` (strict TDD — test before implement)
 
-- [ ] Task 3: Build `ResetWeightsDialog` UI (AC: #1, #2)
-  - [ ] Use `shadcn/ui Dialog` (`src/components/ui/dialog.tsx`)
-  - [ ] "Reset all weights" button → confirm via Dialog → calls `resetAll()`
-  - [ ] Category list: each row has "Reset [CategoryName]" button → calls `resetCategory(slug)`
-  - [ ] Show `successMessage` inline in dialog after reset (before auto-close)
-  - [ ] i18n all strings via `t()` from `common` namespace
+- [x] Task 3: Build `ResetWeightsDialog` UI (AC: #1, #2)
+  - [x] Use `shadcn/ui Dialog` (`src/components/ui/dialog.tsx`)
+  - [x] "Reset all weights" button → confirm via Dialog → calls `resetAll()`
+  - [x] Category list: each row has "Reset [CategoryName]" button → calls `resetCategory(slug)`
+  - [x] Show `successMessage` inline in dialog after reset (before auto-close)
+  - [x] i18n all strings via `t()` from `common` namespace
 
-- [ ] Task 4: Wire `ResetWeightsDialog` into `AppHeader` (AC: #1)
-  - [ ] Add a settings icon button (`SettingsIcon` from `lucide-react`) to `AppHeader.tsx`
-  - [ ] Update `useAppHeader.ts` to manage `isResetDialogOpen` state + open/close handlers
-  - [ ] Render `<ResetWeightsDialog />` in `AppHeader.tsx` (or just render it in `AppShell`/root and control via store)
-  - [ ] Alternative: render `ResetWeightsDialog` in `HomePage` below `SessionConfigurator` as a plain button (simpler, no AppHeader change)
+- [x] Task 4: Wire `ResetWeightsDialog` into `AppHeader` (AC: #1)
+  - [x] Add a settings icon button (`Settings` from `lucide-react`) to `AppHeader.tsx`
+  - [x] Update `useAppHeader.ts` to manage `isResetDialogOpen` state + open/close handlers
+  - [x] Render `<ResetWeightsDialog />` in `AppHeader.tsx`
 
-- [ ] Task 5: Add i18n keys (AC: #1, #2)
-  - [ ] `public/locales/en/common.json` — add `resetWeights.*` keys
-  - [ ] `public/locales/ru/common.json` — same keys in Russian
+- [x] Task 5: Add i18n keys (AC: #1, #2)
+  - [x] `public/locales/en/common.json` — add `resetWeights.*` keys
+  - [x] `public/locales/ru/common.json` — same keys in Russian
 
-- [ ] Task 6: Verification
-  - [ ] `npm run format`
-  - [ ] `npm run lint`
-  - [ ] `npx tsc --noEmit`
-  - [ ] `npm run test`
+- [x] Task 6: Verification
+  - [x] `npm run format`
+  - [x] `npm run lint`
+  - [x] `npx tsc --noEmit`
+  - [x] `npm run test`
 
 ## Dev Notes
 
@@ -218,6 +217,35 @@ claude-sonnet-4-6
 
 ### Debug Log References
 
+No blockers encountered.
+
 ### Completion Notes List
 
+- Implemented `useResetWeightsDialog` hook with strict TDD (10 tests written first, all pass)
+- `resetAll()` clears weights and errorRates via `setWeights({}) / setErrorRates({})` — algorithm uses `DEFAULT_WEIGHT` fallback
+- `resetCategory(slug)` fetches `/data/${slug}.json`, extracts question IDs, filters weights + removes errorRate for that category only
+- Session `records` are untouched by any reset (confirmed by test)
+- `successMessage` auto-clears and dialog auto-closes after 2000ms via `setTimeout`
+- `ResetWeightsDialog` UI uses shadcn Dialog with inline success message state
+- Settings gear icon added to `AppHeader` — accessible from every page
+- i18n keys added to both EN and RU `common.json`
+
 ### File List
+
+- `src/components/features/ResetWeightsDialog/useResetWeightsDialog.ts` (new)
+- `src/components/features/ResetWeightsDialog/useResetWeightsDialog.test.ts` (new)
+- `src/components/features/ResetWeightsDialog/ResetWeightsDialog.tsx` (new)
+- `src/components/features/ResetWeightsDialog/index.ts` (new)
+- `src/components/layout/AppHeader/AppHeader.tsx` (modified)
+- `src/components/layout/AppHeader/useAppHeader.ts` (modified)
+- `public/locales/en/common.json` (modified)
+- `public/locales/ru/common.json` (modified)
+
+### Review Findings
+
+- [x] [Review][Patch] setTimeout memory leak — added `useRef` + `useEffect` cleanup [useResetWeightsDialog.ts] — fixed
+- [x] [Review][Patch] Stale closure: weights/errorRates read at render, used in async — now reads `useProgressStoreBase.getState()` inside resetCategory [useResetWeightsDialog.ts] — fixed
+- [x] [Review][Patch] No `res.ok` check in resetCategory fetch + no try-catch — added guard + silent catch [useResetWeightsDialog.ts] — fixed
+- [x] [Review][Patch] Dead code in useAppHeader — unused isResetDialogOpen state removed [useAppHeader.ts] — fixed
+- [x] [Review][Patch] Unused i18n key `resetWeights.cancel` — removed from both locales — fixed
+- [x] [Review][Defer] Empty categories loading state — pre-existing app pattern, not specific to this story
