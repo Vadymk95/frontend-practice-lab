@@ -30,12 +30,12 @@ function toDisplayName(slug: string): string {
         .join(' ');
 }
 
-function main() {
+export function main(dataDir: string = DATA_DIR, manifestPath: string = MANIFEST_PATH): void {
     let hasError = false;
     const manifest: ManifestEntry[] = [];
 
     const files = fs
-        .readdirSync(DATA_DIR)
+        .readdirSync(dataDir)
         .filter((f) => f.endsWith('.json') && f !== 'manifest.json');
 
     if (files.length === 0) {
@@ -45,7 +45,7 @@ function main() {
 
     for (const file of files) {
         const slug = file.replace('.json', '');
-        const filePath = path.join(DATA_DIR, file);
+        const filePath = path.join(dataDir, file);
 
         try {
             const raw = fs.readFileSync(filePath, 'utf-8');
@@ -90,8 +90,9 @@ function main() {
         process.exit(1);
     }
 
-    fs.writeFileSync(MANIFEST_PATH, JSON.stringify(manifest, null, 2));
+    fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
     console.log(`\n✅ manifest.json written with ${manifest.length} categories.`);
 }
 
-main();
+const isMain = import.meta.url === `file://${process.argv[1]}`;
+if (isMain) main();

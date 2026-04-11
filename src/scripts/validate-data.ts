@@ -8,11 +8,11 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '../../');
 const DATA_DIR = path.join(ROOT, 'public/data');
 
-function main() {
+export function main(dataDir: string = DATA_DIR): void {
     let hasError = false;
 
     const files = fs
-        .readdirSync(DATA_DIR)
+        .readdirSync(dataDir)
         .filter((f) => f.endsWith('.json') && f !== 'manifest.json');
 
     if (files.length === 0) {
@@ -21,7 +21,7 @@ function main() {
     }
 
     for (const file of files) {
-        const filePath = path.join(DATA_DIR, file);
+        const filePath = path.join(dataDir, file);
 
         try {
             const raw = fs.readFileSync(filePath, 'utf-8');
@@ -42,4 +42,5 @@ function main() {
     console.log('\n✅ All data files are valid.');
 }
 
-main();
+const isMain = import.meta.url === `file://${process.argv[1]}`;
+if (isMain) main();
