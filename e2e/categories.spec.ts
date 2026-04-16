@@ -66,8 +66,8 @@ test.describe('Categories — select all', () => {
 
         await page.getByRole('button', { name: /Select all|Выбрать все/i }).click();
 
-        const hint = page.locator('[aria-live="polite"]');
-        await expect(hint).toContainText(String(totalQuestions));
+        // Count is now reflected in the number input (synced to maxCount, not aria-live)
+        await expect(page.locator('input[type="number"]')).toHaveValue(String(totalQuestions));
     });
 
     test('Start button enables after select all', async ({ page }) => {
@@ -138,12 +138,11 @@ test.describe('Categories — question access', () => {
         // Force quiz mode so we always get radio buttons (predictable interaction)
         await page.getByRole('radio', { name: /Тест|Quiz/i }).click();
 
+        // Verify input auto-updated to quiz total (synced to maxCount)
+        await expect(page.locator('input[type="number"]')).toHaveValue(String(quizTotal));
+
         // Set count to 1 so test stays fast
         await page.locator('input[type="number"]').fill('1');
-
-        // Verify available count reflects all quiz questions across all categories
-        const hint = page.locator('[aria-live="polite"]');
-        await expect(hint).toContainText(String(quizTotal));
 
         await page
             .getByRole('button', { name: /Начать|Start/i })
