@@ -27,6 +27,7 @@ export const SessionPlayPage: FC = () => {
     const checkFnRef = useRef<(() => void) | null>(null);
 
     const [codeCompletionAllFilled, setCodeCompletionAllFilled] = useState(false);
+    const [bugFindingCanSubmit, setBugFindingCanSubmit] = useState(false);
     const submitFnRef = useRef<(() => void) | null>(null);
 
     const handleSelectionChange = useCallback((hasSelection: boolean) => {
@@ -45,6 +46,10 @@ export const SessionPlayPage: FC = () => {
         setCodeCompletionAllFilled(filled);
     }, []);
 
+    const handleBugFindingCanSubmit = useCallback((canSubmit: boolean) => {
+        setBugFindingCanSubmit(canSubmit);
+    }, []);
+
     const handleSubmitRegister = useCallback((submitFn: () => void) => {
         submitFnRef.current = submitFn;
     }, []);
@@ -57,6 +62,7 @@ export const SessionPlayPage: FC = () => {
         setMultiHasSelection(false);
         checkFnRef.current = null;
         setCodeCompletionAllFilled(false);
+        setBugFindingCanSubmit(false);
         submitFnRef.current = null;
     }, [currentQuestion?.id]);
 
@@ -74,6 +80,7 @@ export const SessionPlayPage: FC = () => {
 
     const isMultiChoice = currentQuestion?.type === 'multi-choice';
     const isCodeCompletion = currentQuestion?.type === 'code-completion';
+    const isBugFinding = currentQuestion?.type === 'bug-finding';
 
     return (
         <div className="flex flex-col gap-4 pb-24 lg:pb-0">
@@ -93,6 +100,7 @@ export const SessionPlayPage: FC = () => {
                 onCheckRegister={handleCheckRegister}
                 onSubmitRegister={handleSubmitRegister}
                 onAllBlanksFilled={handleAllBlanksFilled}
+                onBugFindingCanSubmit={handleBugFindingCanSubmit}
             />
 
             {/* Desktop inline — Check button (multi-choice, not yet answered) */}
@@ -108,6 +116,15 @@ export const SessionPlayPage: FC = () => {
             {isCodeCompletion && !isAnswered && (
                 <div className="hidden lg:flex justify-end mt-2">
                     <Button disabled={!codeCompletionAllFilled} onClick={handleSubmit}>
+                        {tQuestion('submit')}
+                    </Button>
+                </div>
+            )}
+
+            {/* Desktop inline — Submit button (bug-finding, not yet answered) */}
+            {isBugFinding && !isAnswered && (
+                <div className="hidden lg:flex justify-end mt-2">
+                    <Button disabled={!bugFindingCanSubmit} onClick={handleSubmit}>
                         {tQuestion('submit')}
                     </Button>
                 </div>
@@ -134,6 +151,19 @@ export const SessionPlayPage: FC = () => {
                 <div className="lg:hidden fixed bottom-0 left-0 right-0 p-4 bg-background border-t border-border">
                     <Button
                         disabled={!codeCompletionAllFilled}
+                        onClick={handleSubmit}
+                        className="w-full"
+                    >
+                        {tQuestion('submit')}
+                    </Button>
+                </div>
+            )}
+
+            {/* Mobile sticky — Submit button (bug-finding, not yet answered) */}
+            {isBugFinding && !isAnswered && (
+                <div className="lg:hidden fixed bottom-0 left-0 right-0 p-4 bg-background border-t border-border">
+                    <Button
+                        disabled={!bugFindingCanSubmit}
                         onClick={handleSubmit}
                         className="w-full"
                     >

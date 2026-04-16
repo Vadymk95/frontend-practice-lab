@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { track } from '@/lib/analytics';
 import type { MultiChoiceQuestion } from '@/lib/data/schema';
@@ -16,18 +16,25 @@ export function useMultiChoiceQuestion(
     const isChecked = isSkipped || _isChecked;
     const setAnswer = useSessionStore.use.setAnswer();
 
+    // Track whether onSelectionChange has been called for current indices to avoid
+    // calling parent setState inside a child setState updater (React warning).
+    const prevSelectionRef = useRef(false);
+    useEffect(() => {
+        const hasSelection = _selectedIndices.length > 0;
+        if (prevSelectionRef.current !== hasSelection) {
+            prevSelectionRef.current = hasSelection;
+            onSelectionChange(hasSelection);
+        }
+    }, [_selectedIndices, onSelectionChange]);
+
     const onToggle = useCallback(
         (index: number) => {
             if (isChecked) return;
-            setSelectedIndices((prev) => {
-                const next = prev.includes(index)
-                    ? prev.filter((i) => i !== index)
-                    : [...prev, index];
-                onSelectionChange(next.length > 0);
-                return next;
-            });
+            setSelectedIndices((prev) =>
+                prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+            );
         },
-        [isChecked, onSelectionChange]
+        [isChecked]
     );
 
     const onCheck = useCallback(() => {
@@ -54,6 +61,7 @@ export function useMultiChoiceQuestion(
     useEffect(() => {
         setSelectedIndices([]);
         setIsChecked(false);
+        prevSelectionRef.current = false;
         onSelectionChange(false);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [question.id]);

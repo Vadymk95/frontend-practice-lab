@@ -21,6 +21,7 @@ interface QuestionCardProps {
     onSubmitRegister?: (submitFn: () => void) => void;
     onSelfAssessRegister?: (selfAssessFn: (result: 'gotIt' | 'missedIt') => void) => void;
     onAllBlanksFilled?: (filled: boolean) => void;
+    onBugFindingCanSubmit?: (canSubmit: boolean) => void;
 }
 
 export const QuestionCard: FC<QuestionCardProps> = ({
@@ -28,7 +29,8 @@ export const QuestionCard: FC<QuestionCardProps> = ({
     onCheckRegister,
     onSubmitRegister,
     onSelfAssessRegister,
-    onAllBlanksFilled
+    onAllBlanksFilled,
+    onBugFindingCanSubmit
 }) => {
     const { t } = useTranslation('question');
     const { question, currentIndex, questionCount, isAnswered, handleBack, isSkipped, handleSkip } =
@@ -91,6 +93,7 @@ export const QuestionCard: FC<QuestionCardProps> = ({
                     isSkipped={isSkipped}
                     onSubmitRegister={onSubmitRegister ?? noop}
                     onSelfAssessRegister={onSelfAssessRegister ?? noopSelfAssess}
+                    onCanSubmitChange={onBugFindingCanSubmit}
                 />
             )}
             {question.type === 'code-completion' && (

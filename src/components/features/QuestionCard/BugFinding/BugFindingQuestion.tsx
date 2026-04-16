@@ -17,13 +17,15 @@ interface Props {
     isSkipped?: boolean;
     onSubmitRegister: (submitFn: () => void) => void;
     onSelfAssessRegister: (selfAssessFn: (result: SelfAssessment) => void) => void;
+    onCanSubmitChange?: (canSubmit: boolean) => void;
 }
 
 export const BugFindingQuestion: FC<Props> = ({
     question,
     isSkipped = false,
     onSubmitRegister,
-    onSelfAssessRegister
+    onSelfAssessRegister,
+    onCanSubmitChange
 }) => {
     const { t } = useTranslation('question');
     const {
@@ -34,7 +36,13 @@ export const BugFindingQuestion: FC<Props> = ({
         onSelectOption,
         onTextChange,
         onSelfAssess
-    } = useBugFindingQuestion({ question, isSkipped, onSubmitRegister, onSelfAssessRegister });
+    } = useBugFindingQuestion({
+        question,
+        isSkipped,
+        onSubmitRegister,
+        onSelfAssessRegister,
+        onCanSubmitChange
+    });
 
     return (
         <div className="flex flex-col gap-4">

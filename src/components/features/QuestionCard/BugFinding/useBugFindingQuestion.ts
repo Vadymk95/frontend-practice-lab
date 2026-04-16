@@ -11,6 +11,7 @@ interface UseBugFindingQuestionProps {
     isSkipped?: boolean;
     onSubmitRegister: (submitFn: () => void) => void;
     onSelfAssessRegister: (selfAssessFn: (result: SelfAssessment) => void) => void;
+    onCanSubmitChange?: (canSubmit: boolean) => void;
 }
 
 interface UseBugFindingQuestionReturn {
@@ -28,7 +29,8 @@ export function useBugFindingQuestion({
     question,
     isSkipped = false,
     onSubmitRegister,
-    onSelfAssessRegister
+    onSelfAssessRegister,
+    onCanSubmitChange
 }: UseBugFindingQuestionProps): UseBugFindingQuestionReturn {
     const [selectedOption, setSelectedOption] = useState<number | null>(null);
     const [textAnswer, setTextAnswer] = useState('');
@@ -43,16 +45,18 @@ export function useBugFindingQuestion({
         (index: number) => {
             if (isSubmitted) return;
             setSelectedOption(index);
+            onCanSubmitChange?.(true);
         },
-        [isSubmitted]
+        [isSubmitted, onCanSubmitChange]
     );
 
     const onTextChange = useCallback(
         (value: string) => {
             if (isSubmitted) return;
             setTextAnswer(value);
+            onCanSubmitChange?.(value.trim().length > 0);
         },
-        [isSubmitted]
+        [isSubmitted, onCanSubmitChange]
     );
 
     const onSubmit = useCallback(() => {
