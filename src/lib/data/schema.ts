@@ -52,3 +52,4 @@ export type MultiChoiceQuestion = z.infer<typeof MultiChoiceSchema>;
 export type BugFindingQuestion = z.infer<typeof BugFindingSchema>;
 export type CodeCompletionQuestion = z.infer<typeof CodeCompletionSchema>;
 export type Question = z.infer<typeof QuestionSchema>;
+export type QuestionType = Question['type'];

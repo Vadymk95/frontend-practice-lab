@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
+import { track } from '@/lib/analytics';
 import type { CodeCompletionQuestion } from '@/lib/data/schema';
 import { useSessionStore } from '@/store/session';
 
@@ -69,9 +70,17 @@ export function useCodeCompletionQuestion({
                 ? ('correct' as const)
                 : ('incorrect' as const)
         );
+        const allCorrect = results.every((r) => r === 'correct');
         setBlankResults(results);
         setIsSubmitted(true);
-        setAnswer(question.id, results.every((r) => r === 'correct') ? 'correct' : 'incorrect');
+        setAnswer(question.id, allCorrect ? 'correct' : 'incorrect');
+        track('question_answered', {
+            category: question.category,
+            difficulty: question.difficulty,
+            type: question.type,
+            correct: allCorrect,
+            timeMs: useSessionStore.getState().timerMs
+        });
     }, [isSubmitted, blanksInput, question, setAnswer]);
 
     useEffect(() => {

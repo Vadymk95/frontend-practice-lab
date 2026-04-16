@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
+import { track } from '@/lib/analytics';
 import { RoutesPath } from '@/router/routes';
 
 interface BeforeInstallPromptEvent extends Event {
@@ -31,6 +32,7 @@ export const usePwaInstallToast = () => {
             !sessionStorage.getItem(DISMISSED_KEY)
         ) {
             setIsVisible(true);
+            track('pwa_install_prompt', {});
         }
     }, [location.pathname, promptEvent]);
 

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { track } from '@/lib/analytics';
 import type { Question } from '@/lib/data/schema';
 import { isYesterday } from '@/lib/date';
 import { generateRecordKey } from '@/lib/utils/generateRecordKey';
@@ -84,6 +85,9 @@ export function useSummaryPage() {
     const sessionResultsRef = useRef(sessionResults);
     sessionResultsRef.current = sessionResults;
 
+    const weakTopicsRef = useRef(weakTopics);
+    weakTopicsRef.current = weakTopics;
+
     // Refs for timer record save — captured at render time to use in mount-only effect
     const isNewRecordRef = useRef(isNewRecord);
     isNewRecordRef.current = isNewRecord;
@@ -121,6 +125,13 @@ export function useSummaryPage() {
         if (isNewRecordRef.current && recordKeyRef.current) {
             setRecord(recordKeyRef.current, timerMsRef.current);
         }
+        const score = Object.values(results).filter(Boolean).length;
+        track('session_complete', {
+            score,
+            total: Object.keys(results).length,
+            durationMs: timerMsRef.current,
+            weakCategories: weakTopicsRef.current
+        });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []); // intentional — mount only
 
@@ -142,16 +153,19 @@ export function useSummaryPage() {
     const isPerfectScore = pureWrongQuestions.length === 0 && skippedQuestions.length === 0;
 
     const handleRepeatWrong = () => {
+        track('repeat_mistakes_start', { count: pureWrongQuestions.length });
         setRepeatMistakes(pureWrongQuestions);
         navigate(RoutesPath.SessionPlay);
     };
 
     const handleRepeatSkipped = () => {
+        track('repeat_mistakes_start', { count: skippedQuestions.length });
         setRepeatMistakes(skippedQuestions);
         navigate(RoutesPath.SessionPlay);
     };
 
     const handleRepeatAllMistakes = () => {
+        track('repeat_mistakes_start', { count: allMistakeQuestions.length });
         setRepeatMistakes(allMistakeQuestions);
         navigate(RoutesPath.SessionPlay);
     };

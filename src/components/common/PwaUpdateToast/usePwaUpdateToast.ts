@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useRegisterSW } from 'virtual:pwa-register/react';
 
+import { track } from '@/lib/analytics';
+
 const DISMISSED_KEY = 'pwa_update_dismissed';
 
 export const usePwaUpdateToast = () => {
@@ -14,6 +16,7 @@ export const usePwaUpdateToast = () => {
     const isVisible = needRefresh && !dismissed;
 
     const handleUpdate = () => {
+        track('pwa_update_applied', {});
         void updateServiceWorker(true);
     };
 

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useCategoryQuestions } from '@/hooks/data/useCategoryQuestions';
 import { sampleWeighted } from '@/lib/algorithm';
+import { track } from '@/lib/analytics';
 import type { Question } from '@/lib/data/schema';
 import type { SessionConfig } from '@/lib/storage/types';
 import { RoutesPath } from '@/router/routes';
@@ -89,6 +90,12 @@ export function useSessionSetup() {
         const ordered = config.order === 'sequential' ? sortByDifficulty(sampled) : sampled;
 
         setQuestionList(ordered);
+        track('session_start', {
+            categories: config.categories,
+            difficulty: config.difficulty,
+            mode: config.mode,
+            count: ordered.length
+        });
     }, [config, isLoading, isError, allQuestions, weights, setQuestionList, questionList.length]);
 
     return { isLoading, isError, refetch };

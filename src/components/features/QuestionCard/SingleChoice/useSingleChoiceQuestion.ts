@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
+import { track } from '@/lib/analytics';
 import type { SingleChoiceQuestion } from '@/lib/data/schema';
 import { useSessionStore } from '@/store/session';
 
@@ -15,8 +16,15 @@ export function useSingleChoiceQuestion(question: SingleChoiceQuestion, isSkippe
             if (isAnswered) return;
             setSelectedIndex(index);
             setAnswer(question.id, index);
+            track('question_answered', {
+                category: question.category,
+                difficulty: question.difficulty,
+                type: question.type,
+                correct: index === question.correct,
+                timeMs: useSessionStore.getState().timerMs
+            });
         },
-        [isAnswered, question.id, setAnswer]
+        [isAnswered, question, setAnswer]
     );
 
     // Reset when question changes (navigation forward)

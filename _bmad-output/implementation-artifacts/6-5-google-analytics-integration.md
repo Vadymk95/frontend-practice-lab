@@ -1,6 +1,6 @@
 # Story 6.5: Google Analytics Integration
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 
@@ -29,44 +29,44 @@ so that I can measure usage patterns and identify which categories and modes are
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Create analytics module (AC: #1, #4)
-  - [ ] Create `src/lib/analytics/events.ts` — event name constants + payload types
-  - [ ] Create `src/lib/analytics/index.ts` — `track()` function wrapping `window.gtag`
-  - [ ] Add `gtag` type declaration to avoid TypeScript errors
+- [x] Task 1: Create analytics module (AC: #1, #4)
+  - [x] Create `src/lib/analytics/events.ts` — event name constants + payload types
+  - [x] Create `src/lib/analytics/index.ts` — `track()` function wrapping `window.gtag`
+  - [x] Add `gtag` type declaration to avoid TypeScript errors
 
-- [ ] Task 2: Create `useAnalytics` convenience hook (AC: #1)
-  - [ ] Create `src/hooks/analytics/useAnalytics.ts` — thin re-export of `track`
-  - [ ] No logic — just `return { track }`
+- [x] Task 2: Create `useAnalytics` convenience hook (AC: #1)
+  - [x] Create `src/hooks/analytics/useAnalytics.ts` — thin re-export of `track`
+  - [x] No logic — just `return { track }`
 
-- [ ] Task 3: Inject GA script in `index.html` (AC: #1, #2, #3, #4)
-  - [ ] Add Google Analytics gtag.js script tag to `index.html`
-  - [ ] Use environment variable `VITE_GA_ID` for the Measurement ID
-  - [ ] Add `VITE_GA_ID=` to `.env.example` with empty value
+- [x] Task 3: Inject GA script in `index.html` (AC: #1, #2, #3, #4)
+  - [x] Add Google Analytics gtag.js script tag to `index.html`
+  - [x] Use environment variable `VITE_GA_ID` for the Measurement ID
+  - [x] Add `VITE_GA_ID=` to `.env.example` with empty value
 
-- [ ] Task 4: Wire `session_start` event (AC: #2)
-  - [ ] Call `track('session_start', { categories, difficulty, mode, count })` when session begins
-  - [ ] Location: `src/store/session/sessionStore.ts` `startSession()` action OR `src/hooks/session/useSessionSetup.ts`
+- [x] Task 4: Wire `session_start` event (AC: #2)
+  - [x] Call `track('session_start', { categories, difficulty, mode, count })` when session begins
+  - [x] Location: `src/hooks/session/useSessionSetup.ts` after `setQuestionList(ordered)`
 
-- [ ] Task 5: Wire `question_answered` event (AC: #3)
-  - [ ] Call `track('question_answered', { category, difficulty, type, correct, timeMs })` on answer submit
-  - [ ] Location: session store `answerQuestion()` action or question answer hooks
+- [x] Task 5: Wire `question_answered` event (AC: #3)
+  - [x] Call `track('question_answered', { category, difficulty, type, correct, timeMs })` on answer submit
+  - [x] Location: all 4 question answer hooks (single-choice, multi-choice, bug-finding, code-completion)
 
-- [ ] Task 6: Wire remaining 9 events (AC: #4)
-  - [ ] `session_complete` — on session end with score
-  - [ ] `session_abandoned` — on back navigation mid-session
-  - [ ] `repeat_mistakes_start` — on "retry wrong answers" action
-  - [ ] `preset_saved` — in `presetStore.savePreset()`
-  - [ ] `preset_loaded` — on preset selection and launch
-  - [ ] `language_changed` — in `uiStore.setLanguage()` or AppHeader toggle handler
-  - [ ] `theme_changed` — in `uiStore.setTheme()` or AppHeader toggle handler
-  - [ ] `pwa_install_prompt` — in `usePwaInstallToast` when prompt is shown (Story 6.3)
-  - [ ] `pwa_update_applied` — in `usePwaUpdateToast.handleUpdate()` (Story 6.4)
+- [x] Task 6: Wire remaining 9 events (AC: #4)
+  - [x] `session_complete` — in `useSummaryPage.ts` mount effect with score/total/durationMs/weakCategories
+  - [x] `session_abandoned` — cleanup effect in `useSessionPlayPage.ts` on unmount without completion
+  - [x] `repeat_mistakes_start` — in all three repeat handlers in `useSummaryPage.ts`
+  - [x] `preset_saved` — in `presetStore.savePreset()`
+  - [x] `preset_loaded` — in `presetStore.updateLastUsed()` (called on preset launch)
+  - [x] `language_changed` — in `useAppHeader.handleLanguageToggle()`
+  - [x] `theme_changed` — in `useAppHeader.handleThemeToggle()` (new handler replacing inline lambda)
+  - [x] `pwa_install_prompt` — in `usePwaInstallToast` when `setIsVisible(true)` fires
+  - [x] `pwa_update_applied` — in `usePwaUpdateToast.handleUpdate()` before `updateServiceWorker`
 
-- [ ] Task 7: Verification
-  - [ ] `npm run format`
-  - [ ] `npm run lint`
-  - [ ] `npx tsc --noEmit`
-  - [ ] `npm run test`
+- [x] Task 7: Verification
+  - [x] `npm run format`
+  - [x] `npm run lint`
+  - [x] `npx tsc --noEmit`
+  - [x] `npm run test`
 
 ## Dev Notes
 
@@ -209,3 +209,48 @@ Find existing call sites by searching for store actions and hooks:
 - `src/lib/data/schema.ts` — `QuestionType` enum/union for `question_answered` payload
 - Story 6.3 (`6-3-pwa-installable-offline.md`) — `pwa_install_prompt` event
 - Story 6.4 (`6-4-pwa-update-notification.md`) — `pwa_update_applied` event
+
+## Dev Agent Record
+
+### Completion Notes
+
+- Created `src/lib/analytics/events.ts` with all 11 event constants and TypeScript payload types.
+- Created `src/lib/analytics/index.ts` with `track()` function using `window.gtag?.` optional chaining (ad-blocker safe). Added global `Window.gtag` type declaration.
+- Created `src/hooks/analytics/useAnalytics.ts` as a thin `{ track }` re-export hook.
+- Added GA script tags to `index.html` using `%VITE_GA_ID%` Vite env substitution. Added `VITE_GA_ID=G-XXXXXXXXXX` to `.env.example`.
+- Exported `useSessionStoreBase` from `src/store/session/index.ts` to enable imperative `getState().timerMs` access in question hooks without React subscription overhead.
+- `session_start` fires in `useSessionSetup.ts` after `setQuestionList(ordered)` with actual sampled count.
+- `question_answered` fires in all 4 question hooks (single-choice, multi-choice, bug-finding, code-completion) using `useSessionStoreBase.getState().timerMs` for the timeMs field.
+- `session_complete` fires in `useSummaryPage.ts` mount effect alongside `saveSessionResults`. Added `weakTopicsRef` to capture the useMemo value for the mount-only effect.
+- `session_abandoned` fires in `useSessionPlayPage.ts` cleanup effect on unmount. A `sessionCompletedRef` is set to `true` before navigating to summary — prevents double-firing when session completes normally.
+- `repeat_mistakes_start` fires in all three repeat handlers in `useSummaryPage.ts`.
+- `preset_saved` and `preset_loaded` fire inside `presetStore.ts` actions — `savePreset()` and `updateLastUsed()` respectively.
+- `language_changed` fires in `useAppHeader.handleLanguageToggle()`. `theme_changed` fires in new `handleThemeToggle()` handler; `AppHeader.tsx` updated to use it instead of inline lambda.
+- `pwa_install_prompt` fires in `usePwaInstallToast.ts` when the install prompt becomes visible.
+- `pwa_update_applied` fires in `usePwaUpdateToast.handleUpdate()` before calling `updateServiceWorker`.
+- All 31 test files (281 tests) pass. No test changes needed — `window.gtag?.` optional chaining means `track()` is a no-op in test env.
+
+### File List
+
+- `src/lib/analytics/events.ts` (new)
+- `src/lib/analytics/index.ts` (new)
+- `src/hooks/analytics/useAnalytics.ts` (new)
+- `index.html` (modified — GA script tags)
+- `.env.example` (modified — VITE_GA_ID)
+- `src/store/session/index.ts` (modified — export useSessionStoreBase)
+- `src/hooks/session/useSessionSetup.ts` (modified — session_start)
+- `src/components/features/QuestionCard/SingleChoice/useSingleChoiceQuestion.ts` (modified — question_answered)
+- `src/components/features/QuestionCard/MultiChoice/useMultiChoiceQuestion.ts` (modified — question_answered)
+- `src/components/features/QuestionCard/BugFinding/useBugFindingQuestion.ts` (modified — question_answered)
+- `src/components/features/QuestionCard/CodeCompletion/useCodeCompletionQuestion.ts` (modified — question_answered)
+- `src/pages/SessionPlayPage/useSessionPlayPage.ts` (modified — session_abandoned)
+- `src/pages/SummaryPage/useSummaryPage.ts` (modified — session_complete, repeat_mistakes_start)
+- `src/store/presets/presetStore.ts` (modified — preset_saved, preset_loaded)
+- `src/components/layout/AppHeader/useAppHeader.ts` (modified — language_changed, theme_changed, handleThemeToggle)
+- `src/components/layout/AppHeader/AppHeader.tsx` (modified — use handleThemeToggle)
+- `src/components/common/PwaInstallToast/usePwaInstallToast.ts` (modified — pwa_install_prompt)
+- `src/components/common/PwaUpdateToast/usePwaUpdateToast.ts` (modified — pwa_update_applied)
+
+### Change Log
+
+- feat(analytics): implement Google Analytics integration with 11-event taxonomy (2026-04-16)

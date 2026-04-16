@@ -7,7 +7,8 @@ import { ResetWeightsDialog } from '@/components/features/ResetWeightsDialog';
 import { useAppHeader } from './useAppHeader';
 
 export const AppHeader: FC = () => {
-    const { theme, setTheme, language, handleLanguageToggle, resetDialog } = useAppHeader();
+    const { theme, language, handleLanguageToggle, handleThemeToggle, resetDialog } =
+        useAppHeader();
     const { t } = useTranslation('common');
 
     return (
@@ -29,7 +30,7 @@ export const AppHeader: FC = () => {
                             aria-label={t(
                                 theme === 'dark' ? 'header.switchToLight' : 'header.switchToDark'
                             )}
-                            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                            onClick={handleThemeToggle}
                             className="rounded p-1 text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-alt"
                         >
                             {theme === 'dark' ? (

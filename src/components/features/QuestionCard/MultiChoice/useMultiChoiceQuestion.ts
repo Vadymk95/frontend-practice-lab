@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
+import { track } from '@/lib/analytics';
 import type { MultiChoiceQuestion } from '@/lib/data/schema';
 import { useSessionStore } from '@/store/session';
 
@@ -33,7 +34,16 @@ export function useMultiChoiceQuestion(
         if (selectedIndices.length === 0 || isChecked) return;
         setIsChecked(true);
         setAnswer(question.id, selectedIndices);
-    }, [selectedIndices, isChecked, setAnswer, question.id]);
+        const correct =
+            [...selectedIndices].sort().join(',') === [...question.correct].sort().join(',');
+        track('question_answered', {
+            category: question.category,
+            difficulty: question.difficulty,
+            type: question.type,
+            correct,
+            timeMs: useSessionStore.getState().timerMs
+        });
+    }, [selectedIndices, isChecked, setAnswer, question]);
 
     // Register the check callback with the parent (SessionPlayPage via QuestionCard)
     useEffect(() => {

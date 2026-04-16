@@ -1,7 +1,8 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useSessionSetup } from '@/hooks/session/useSessionSetup';
+import { track } from '@/lib/analytics';
 import { RoutesPath } from '@/router/routes';
 import { useSessionStore } from '@/store/session';
 
@@ -22,13 +23,30 @@ export function useSessionPlayPage() {
     const isAnswered = currentQuestion !== null && answers[currentQuestion.id] !== undefined;
     const isLastQuestion = questionList.length > 0 && currentIndex === questionList.length - 1;
 
+    const sessionCompletedRef = useRef(false);
+
     const handleNext = useCallback(() => {
         if (isLastQuestion) {
+            sessionCompletedRef.current = true;
             navigate(RoutesPath.SessionSummary);
         } else {
             nextQuestion();
         }
     }, [isLastQuestion, navigate, nextQuestion]);
+
+    // Fire session_abandoned when navigating away mid-session without completing
+    useEffect(() => {
+        return () => {
+            if (sessionCompletedRef.current) return;
+            const state = useSessionStore.getState();
+            if (state.questionList.length > 0 && Object.keys(state.answers).length > 0) {
+                track('session_abandoned', {
+                    answered: Object.keys(state.answers).length,
+                    total: state.questionList.length
+                });
+            }
+        };
+    }, []);
 
     // P-2: setup complete but filtered results empty — go back home
     // Use getState() to avoid stale closure: setQuestionList (called in useSessionSetup's

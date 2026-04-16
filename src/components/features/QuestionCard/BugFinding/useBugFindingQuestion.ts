@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
+import { track } from '@/lib/analytics';
 import type { BugFindingQuestion } from '@/lib/data/schema';
 import { useSessionStore } from '@/store/session';
 
@@ -71,8 +72,15 @@ export function useBugFindingQuestion({
             if (selfAssessment !== null) return;
             setSelfAssessment(result);
             setAnswer(question.id, result);
+            track('question_answered', {
+                category: question.category,
+                difficulty: question.difficulty,
+                type: question.type,
+                correct: result === 'gotIt',
+                timeMs: useSessionStore.getState().timerMs
+            });
         },
-        [selfAssessment, setAnswer, question.id]
+        [selfAssessment, setAnswer, question]
     );
 
     useEffect(() => {

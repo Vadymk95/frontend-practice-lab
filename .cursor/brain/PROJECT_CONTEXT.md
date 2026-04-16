@@ -36,11 +36,13 @@ src/
     ui/           # shadcn primitives
   hocs/           # WithSuspense
   hooks/
+    analytics/    # useAnalytics for interaction/event tracking
     i18n/         # useI18nReload (dev HMR)
     session/      # Session setup
     data/         # Category / question loading
     ui/           # Theme, language
   lib/
+    analytics/    # Event contracts + analytics facade
     api/          # Fetch client + examples
     algorithm/    # Adaptive question selection
     data/         # Zod question schema + types

@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
+import { track } from '@/lib/analytics';
 import { storageService } from '@/lib/storage';
 import type { SessionConfig, SessionPreset } from '@/lib/storage/types';
 import { createSelectors } from '@/store/utils/createSelectors';
@@ -28,6 +29,7 @@ const usePresetStoreBase = create<PresetState>()(
                 set({ presets: storageService.getPresets() }, false, {
                     type: 'preset-store/savePreset'
                 });
+                track('preset_saved', {});
             },
             updateLastUsed: (id: string) => {
                 const preset = get().presets.find((p) => p.id === id);
@@ -37,6 +39,7 @@ const usePresetStoreBase = create<PresetState>()(
                 set({ presets: storageService.getPresets() }, false, {
                     type: 'preset-store/updateLastUsed'
                 });
+                track('preset_loaded', {});
             },
             deletePreset: (id: string) => {
                 storageService.deletePreset(id);

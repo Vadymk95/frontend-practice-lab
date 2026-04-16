@@ -65,6 +65,14 @@ src/hooks/data/             — category loading helpers
 
 Storage for client prefs: `src/lib/storage/` (localStorage abstraction).
 
+## Analytics
+
+```
+src/hooks/analytics/useAnalytics.ts  — UI-layer analytics hook for question interactions
+src/lib/analytics/events.ts          — canonical analytics event names/payload contracts
+src/lib/analytics/index.ts           — analytics module public entry point
+```
+
 ## Algorithm / Session
 
 Adaptive selection and session orchestration live under `src/lib/algorithm/`; wired from session-related stores and session pages.
@@ -86,5 +94,6 @@ Brand color: `--primary` in `:root`. New color token: add HSL in `:root`, then m
 
 | Artifact                   | Role                                                                 |
 | -------------------------- | -------------------------------------------------------------------- |
-| `.github/workflows/ci.yml` | PR + push `master`: audit (moderate+), lint, format, test, **build** |
+| `.github/workflows/ci.yml` | PR + push `master`: audit (moderate+), lint, format, type-check, data validation, unit + e2e tests |
+| `.github/workflows/deploy.yml` | Push `master`: lint, format, type-check, data validation, test, build, Firebase deploy |
 | `.github/dependabot.yml`   | Weekly npm version PRs (limit 8 open)                                |
