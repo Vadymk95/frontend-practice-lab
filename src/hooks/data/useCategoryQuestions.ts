@@ -1,5 +1,5 @@
 import { useQueries } from '@tanstack/react-query';
-import { useCallback, useRef } from 'react';
+import { useCallback, useLayoutEffect, useRef } from 'react';
 
 import type { Question } from '@/lib/data/schema';
 import { CategoryFileSchema } from '@/lib/data/schema';
@@ -27,7 +27,9 @@ export function useCategoryQuestions(slugs: string[]) {
     const data: Question[] = results.filter((r) => r.data).flatMap((r) => r.data as Question[]);
 
     const resultsRef = useRef(results);
-    resultsRef.current = results;
+    useLayoutEffect(() => {
+        resultsRef.current = results;
+    });
     const refetch = useCallback(() => resultsRef.current.forEach((r) => r.refetch()), []);
 
     return { data, isLoading, isError, refetch };

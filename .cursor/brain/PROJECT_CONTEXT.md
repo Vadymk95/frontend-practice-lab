@@ -12,7 +12,7 @@ PRD: `_bmad-output/planning-artifacts/prd.md`
 | ------------ | -------------------------------- | ------------------------- |
 | UI           | React                            | 19                        |
 | Language     | TypeScript                       | 5.9 strict                |
-| Bundler      | Vite (rolldown-vite)             | 7                         |
+| Bundler      | Vite (Rolldown native)           | 8                         |
 | Styling      | Tailwind CSS                     | **v4** (CSS-based config) |
 | Components   | shadcn/ui (new-york)             | latest                    |
 | Global State | Zustand + devtools               | 5                         |

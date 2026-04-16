@@ -29,13 +29,14 @@ Selector wrapper relies on React context and will throw outside component tree.
 
 `src/pages/DevPlayground/` is a dev sandbox (route `/dev-playground`, registered only when `import.meta.env.DEV`). Remove before production or rely on the existing prod guard.
 
-## rolldown-vite (experimental bundler)
+## Vite 8 — Rolldown bundler (stable)
 
-The project uses `rolldown-vite` (Rust bundler, aliased as `vite`). It's faster but pre-stable:
+Migrated from `rolldown-vite` (experimental) to **Vite 8** in Story 6.7. Rolldown is now the native bundler — no longer an experimental alias.
 
-- Some vite plugins may not be compatible — test before adding new ones
-- If a plugin breaks, try switching back to standard vite and check issue tracker
-- `overrides` in package.json forces rolldown-vite — don't remove without intent
+- `overrides` in package.json are **security patches only** (axios, follow-redirects, serialize-javascript) — not bundler-related
+- Vite 8 requires Node.js ≥ 20.19 or ≥ 22.12 (project runs Node 24)
+- All plugins confirmed Vite 8 compatible: `@tailwindcss/vite`, `vite-plugin-pwa`, `vite-plugin-svgr`, `vite-plugin-eslint2`, `vite-plugin-compression`, `vite-plugin-webfont-dl`
+- Test new plugins against Vite 8 before adding — some older plugins may pin to `vite@^7`
 
 ## tw-animate-css vs tailwindcss-animate
 

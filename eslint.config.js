@@ -19,7 +19,7 @@ export default defineConfig([
         extends: [
             js.configs.recommended,
             tseslint.configs.recommended,
-            reactHooks.configs['recommended-latest'],
+            reactHooks.configs.flat['recommended-latest'],
             reactRefresh.configs.vite,
             queryPlugin.configs['flat/recommended'],
             pluginImport.flatConfigs.recommended,
@@ -35,6 +35,7 @@ export default defineConfig([
                     project: [
                         './tsconfig.app.json',
                         './tsconfig.node.json',
+                        './tsconfig.scripts.json',
                         './tsconfig.vitest.json'
                     ],
                     alwaysTryTypes: true,
@@ -79,6 +80,11 @@ export default defineConfig([
                     trailingComma: 'none'
                 }
             ],
+            // Downgrade new react-hooks v7 rules from error to warn.
+            // The set-state-in-effect pattern is used intentionally to reset state
+            // on question navigation; purity flags Date.now() in CSR-only code.
+            'react-hooks/set-state-in-effect': 'warn',
+            'react-hooks/purity': 'warn',
             ...jsxA11y.configs.recommended.rules
         }
     }
