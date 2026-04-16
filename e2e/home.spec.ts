@@ -6,7 +6,7 @@ test.describe('Home page', () => {
     });
 
     test('renders app brand and header controls', async ({ page }) => {
-        await expect(page.getByText('InterviewOS')).toBeVisible();
+        await expect(page.getByRole('link', { name: 'InterviewOS' })).toBeVisible();
         await expect(
             page.getByRole('button', { name: /Toggle language|Переключить язык/i })
         ).toBeVisible();

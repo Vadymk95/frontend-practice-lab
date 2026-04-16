@@ -19,10 +19,15 @@ export default defineConfig({
             name: 'chromium',
             use: { ...devices['Desktop Chrome'] }
         },
-        {
-            name: 'iPhone 14',
-            use: { ...devices['iPhone 14'] }
-        }
+        // WebKit not installed on CI runners — run locally only
+        ...(process.env.CI
+            ? []
+            : [
+                  {
+                      name: 'iPhone 14',
+                      use: { ...devices['iPhone 14'] }
+                  }
+              ])
     ],
     webServer: {
         command: 'npm run dev:nolint',
