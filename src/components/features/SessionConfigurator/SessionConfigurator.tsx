@@ -52,7 +52,7 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
         );
     }
 
-    const difficultyOptions: Difficulty[] = ['easy', 'medium', 'hard'];
+    const difficultyOptions: Difficulty[] = ['all', 'easy', 'medium', 'hard'];
     const modeOptions: Mode[] = ['quiz', 'bug-finding', 'code-completion', 'all'];
     const orderOptions: Order[] = ['random', 'sequential'];
 
@@ -256,7 +256,7 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
             </div>
 
             {/* Sticky Start Button (mobile) */}
-            <div className="fixed bottom-0 left-0 right-0 h-[72px] bg-surface border-t border-border px-4 flex items-center gap-2 lg:hidden">
+            <div className="fixed bottom-0 left-0 right-0 border-t border-border bg-surface px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] flex items-center gap-2 lg:hidden">
                 {isStartEnabled && (
                     <Button variant="outline" onClick={handleSavePreset}>
                         {t('configurator.savePreset')}

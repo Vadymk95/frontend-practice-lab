@@ -1,5 +1,7 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+
+import { renderWithProviders } from '@/test/test-utils';
 
 import { ErrorBoundary } from './index';
 
@@ -19,7 +21,7 @@ describe('ErrorBoundary', () => {
     });
 
     it('renders fallback UI when child throws', () => {
-        render(
+        renderWithProviders(
             <ErrorBoundary>
                 <Bomb />
             </ErrorBoundary>
@@ -27,7 +29,9 @@ describe('ErrorBoundary', () => {
 
         expect(screen.getByRole('alert')).toBeInTheDocument();
         expect(screen.getByRole('heading', { name: /something went wrong/i })).toBeInTheDocument();
-        expect(screen.getByText(/we encountered an unexpected error/i)).toBeInTheDocument();
+        expect(
+            screen.getByText(/something went wrong\. please try again later/i)
+        ).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /try again/i })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /reload page/i })).toBeInTheDocument();
     });

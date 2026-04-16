@@ -37,7 +37,7 @@ export const SummaryPage: FC = () => {
             {/* Score */}
             <div className="text-center">
                 <p className="text-sm text-muted-foreground mb-1">{t('score.label')}</p>
-                <p className="text-5xl font-bold tabular-nums">
+                <p className="text-3xl font-bold tabular-nums sm:text-5xl">
                     {t('score.display', { correct: correctCount, total: totalCount })}
                 </p>
                 {isPerfectScore && <p className="mt-2 text-accent font-medium">{t('perfect')}</p>}

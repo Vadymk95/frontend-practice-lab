@@ -1,3 +1,4 @@
+import i18next from 'i18next';
 import { Component, type ErrorInfo, type ReactNode } from 'react';
 
 import { Button } from '@/components/ui';
@@ -42,6 +43,7 @@ class ErrorBoundaryComponent extends Component<ErrorBoundaryProps, ErrorBoundary
     render() {
         if (this.state.hasError) {
             const isDev = import.meta.env.DEV;
+            const t = (key: string) => i18next.t(key);
 
             return (
                 <section
@@ -50,16 +52,13 @@ class ErrorBoundaryComponent extends Component<ErrorBoundaryProps, ErrorBoundary
                     className="flex min-h-screen flex-col items-center justify-center p-4"
                 >
                     <div className="max-w-md space-y-4 text-center">
-                        <h1 className="text-2xl font-bold">Something went wrong</h1>
-                        <p className="text-muted-foreground">
-                            We encountered an unexpected error. Please try again or refresh the
-                            page.
-                        </p>
+                        <h1 className="text-2xl font-bold">{t('errors:generic')}</h1>
+                        <p className="text-muted-foreground">{t('errors:page.generic')}</p>
 
                         {isDev && this.state.error && (
                             <details className="mt-4 text-left">
                                 <summary className="cursor-pointer text-sm font-medium text-muted-foreground">
-                                    Error details (dev only)
+                                    {t('errors:page.errorDetails')}
                                 </summary>
                                 <pre className="mt-2 overflow-auto rounded-md bg-muted p-4 text-xs">
                                     {this.state.error.message}
@@ -71,10 +70,10 @@ class ErrorBoundaryComponent extends Component<ErrorBoundaryProps, ErrorBoundary
 
                         <div className="flex flex-col gap-2 sm:flex-row sm:justify-center">
                             <Button onClick={this.handleReset} variant="default">
-                                Try again
+                                {t('errors:retry')}
                             </Button>
                             <Button onClick={this.handleReload} variant="outline">
-                                Reload page
+                                {t('errors:reload')}
                             </Button>
                         </div>
                     </div>

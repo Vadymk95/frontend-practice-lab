@@ -2,6 +2,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { render, type RenderOptions } from '@testing-library/react';
 import type { ReactElement, ReactNode } from 'react';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
+import { MemoryRouter } from 'react-router-dom';
 
 import i18n from '@/lib/i18n';
 import { ALL_NAMESPACES, DEFAULT_LANGUAGE, DEFAULT_NAMESPACE } from '@/lib/i18n/constants';
@@ -61,9 +62,11 @@ export const renderWithProviders = (ui: ReactElement, options?: Omit<RenderOptio
     });
 
     const Wrapper = ({ children }: ProvidersProps) => (
-        <I18nextProvider i18n={i18n}>
-            <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-        </I18nextProvider>
+        <MemoryRouter>
+            <I18nextProvider i18n={i18n}>
+                <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+            </I18nextProvider>
+        </MemoryRouter>
     );
 
     return render(ui, { wrapper: Wrapper, ...options });

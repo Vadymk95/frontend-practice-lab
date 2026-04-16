@@ -1,8 +1,10 @@
 import { Moon, Settings, Sun } from 'lucide-react';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 import { ResetWeightsDialog } from '@/components/features/ResetWeightsDialog';
+import { RoutesPath } from '@/router/routes';
 
 import { useAppHeader } from './useAppHeader';
 
@@ -15,7 +17,12 @@ export const AppHeader: FC = () => {
         <>
             <header className="w-full border-b border-border bg-background px-4 py-3 md:px-6 lg:px-8">
                 <div className="flex items-center justify-between">
-                    <span className="font-mono font-semibold text-accent">InterviewOS</span>
+                    <Link
+                        to={RoutesPath.Root}
+                        className="font-mono font-semibold text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-alt rounded"
+                    >
+                        InterviewOS
+                    </Link>
                     <div className="flex items-center gap-2">
                         <button
                             type="button"

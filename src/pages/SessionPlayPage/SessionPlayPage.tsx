@@ -181,7 +181,7 @@ export const SessionPlayPage: FC = () => {
 
             {/* Mobile sticky — Check button (multi-choice, not yet answered) */}
             {isMultiChoice && !isAnswered && (
-                <div className="lg:hidden fixed bottom-0 left-0 right-0 p-4 bg-background border-t border-border">
+                <div className="lg:hidden fixed bottom-0 left-0 right-0 border-t border-border bg-background px-4 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
                     <Button disabled={!multiHasSelection} onClick={handleCheck} className="w-full">
                         {tQuestion('check')}
                     </Button>
@@ -190,7 +190,7 @@ export const SessionPlayPage: FC = () => {
 
             {/* Mobile sticky — Submit button (code-completion, not yet answered) */}
             {isCodeCompletion && !isAnswered && (
-                <div className="lg:hidden fixed bottom-0 left-0 right-0 p-4 bg-background border-t border-border">
+                <div className="lg:hidden fixed bottom-0 left-0 right-0 border-t border-border bg-background px-4 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
                     <Button
                         disabled={!codeCompletionAllFilled}
                         onClick={handleSubmit}
@@ -203,7 +203,7 @@ export const SessionPlayPage: FC = () => {
 
             {/* Mobile sticky — Submit button (bug-finding, not yet answered) */}
             {isBugFinding && !isAnswered && (
-                <div className="lg:hidden fixed bottom-0 left-0 right-0 p-4 bg-background border-t border-border">
+                <div className="lg:hidden fixed bottom-0 left-0 right-0 border-t border-border bg-background px-4 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
                     <Button
                         disabled={!bugFindingCanSubmit}
                         onClick={handleSubmit}
@@ -216,7 +216,7 @@ export const SessionPlayPage: FC = () => {
 
             {/* Mobile sticky — Next button (answered) */}
             {isAnswered && (
-                <div className="lg:hidden fixed bottom-0 left-0 right-0 p-4 bg-background border-t border-border">
+                <div className="lg:hidden fixed bottom-0 left-0 right-0 border-t border-border bg-background px-4 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
                     <Button onClick={handleNext} className="w-full">
                         {tSession('next')}
                     </Button>
