@@ -106,10 +106,11 @@ export function useSessionConfigurator(initialConfig?: SessionConfig) {
         [categories, selectedCategories, difficulty, mode]
     );
 
-    // P-2: auto-clamp questionCount when maxCount drops below current value
+    // Always sync questionCount to maxCount when selection/filters change.
+    // User can manually lower the count after — but the default is always "all available".
     useEffect(() => {
         if (maxCount > 0) {
-            setQuestionCount((prev) => Math.min(prev, maxCount));
+            setQuestionCount(maxCount);
         }
     }, [maxCount]);
 

@@ -42,7 +42,7 @@ export default defineConfig(({ command }) => ({
         // Downloads fonts from @import in CSS and bundles them locally (0 external requests)
         webfontDownload(),
         VitePWA({
-            registerType: 'prompt',
+            registerType: 'autoUpdate',
             injectRegister: 'auto',
             manifest: {
                 name: 'InterviewOS',
@@ -65,6 +65,9 @@ export default defineConfig(({ command }) => ({
                 ]
             },
             workbox: {
+                // Force new SW to activate immediately without waiting for tabs to close
+                skipWaiting: true,
+                clientsClaim: true,
                 globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}', 'data/*.json'],
                 runtimeCaching: [
                     {

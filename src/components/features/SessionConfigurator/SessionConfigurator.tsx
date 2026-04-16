@@ -211,6 +211,11 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
                     className="w-24"
                     disabled={maxCount === 0}
                 />
+                {maxCount > 0 && (
+                    <p className="mt-1.5 text-xs text-muted-foreground">
+                        {t('configurator.count.available', { count: availableCount })}
+                    </p>
+                )}
             </section>
 
             {/* Order Toggle */}
@@ -254,19 +259,19 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
                 </div>
             </section>
 
-            {/* Live Count / State Messages */}
-            <div
-                id="configurator-hint"
-                aria-live="polite"
-                aria-atomic="true"
-                className="text-sm text-muted-foreground"
-            >
-                {selectedCategories.length === 0
-                    ? t('configurator.hint.selectCategory')
-                    : availableCount === 0
-                      ? t('configurator.emptyState.message')
-                      : t('configurator.count.available', { count: availableCount })}
-            </div>
+            {/* State messages: only shown when something requires user attention */}
+            {(selectedCategories.length === 0 || availableCount === 0) && (
+                <div
+                    id="configurator-hint"
+                    aria-live="polite"
+                    aria-atomic="true"
+                    className="text-sm text-muted-foreground"
+                >
+                    {selectedCategories.length === 0
+                        ? t('configurator.hint.selectCategory')
+                        : t('configurator.emptyState.message')}
+                </div>
+            )}
 
             {/* Sticky Start Button (mobile) */}
             <div className="fixed bottom-0 left-0 right-0 border-t border-border bg-surface px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] flex items-center gap-2 lg:hidden">
