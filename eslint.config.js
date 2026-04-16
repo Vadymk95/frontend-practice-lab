@@ -47,6 +47,7 @@ export default defineConfig([
             'import/extensions': ['.js', '.jsx', '.ts', '.tsx']
         },
         rules: {
+            'import/no-unresolved': ['error', { ignore: ['^virtual:'] }],
             '@typescript-eslint/no-unused-vars': [
                 'error',
                 { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }
