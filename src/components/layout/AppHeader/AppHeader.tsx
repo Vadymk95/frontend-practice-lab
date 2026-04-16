@@ -2,17 +2,13 @@ import { Moon, Settings, Sun } from 'lucide-react';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import {
-    ResetWeightsDialog,
-    useResetWeightsDialog
-} from '@/components/features/ResetWeightsDialog';
+import { ResetWeightsDialog } from '@/components/features/ResetWeightsDialog';
 
 import { useAppHeader } from './useAppHeader';
 
 export const AppHeader: FC = () => {
-    const { theme, setTheme } = useAppHeader();
+    const { theme, setTheme, resetDialog } = useAppHeader();
     const { t } = useTranslation('common');
-    const resetDialog = useResetWeightsDialog();
 
     return (
         <>

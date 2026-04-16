@@ -9,13 +9,16 @@ import {
     DialogHeader,
     DialogTitle
 } from '@/components/ui/dialog';
+import type { ManifestEntry } from '@/hooks/data/useCategories';
 
-import type { UseResetWeightsDialogReturn } from './useResetWeightsDialog';
-
-type ResetWeightsDialogProps = Pick<
-    UseResetWeightsDialogReturn,
-    'isOpen' | 'close' | 'resetAll' | 'resetCategory' | 'categories' | 'successMessage'
->;
+interface ResetWeightsDialogProps {
+    isOpen: boolean;
+    close: () => void;
+    resetAll: () => Promise<void>;
+    resetCategory: (slug: string) => Promise<void>;
+    categories: ManifestEntry[];
+    successMessage: string | null;
+}
 
 export function ResetWeightsDialog({
     isOpen,

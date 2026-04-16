@@ -18,7 +18,7 @@ export function main(dataDir: string = DATA_DIR): void {
         .filter((f) => f.endsWith('.json') && f !== 'manifest.json');
 
     if (files.length === 0) {
-        console.error('No JSON files found in public/data/');
+        console.error(`No JSON files found in ${dataDir}`);
         process.exit(1);
     }
 
