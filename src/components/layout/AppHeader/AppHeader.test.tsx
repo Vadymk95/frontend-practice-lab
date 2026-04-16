@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
+import { axe } from '@/test/a11y';
 import { renderWithProviders } from '@/test/test-utils';
 
 import { AppHeader } from './AppHeader';
@@ -26,5 +27,11 @@ describe('AppHeader', () => {
     it('renders as a header landmark', () => {
         renderWithProviders(<AppHeader />);
         expect(screen.getByRole('banner')).toBeInTheDocument();
+    });
+
+    it('has no accessibility violations', async () => {
+        const { container } = renderWithProviders(<AppHeader />);
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
     });
 });

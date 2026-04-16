@@ -74,18 +74,6 @@ export function useSessionPlayPage() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [timerEnabled]); // only start once when timer is enabled
 
-    // Keyboard: Enter advances to next question when answered
-    useEffect(() => {
-        if (!isAnswered) return;
-        const handleKey = (e: KeyboardEvent) => {
-            if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement)
-                return;
-            if (e.key === 'Enter') handleNext();
-        };
-        window.addEventListener('keydown', handleKey);
-        return () => window.removeEventListener('keydown', handleKey);
-    }, [isAnswered, handleNext]);
-
     return {
         isSetupLoading,
         isSetupError,

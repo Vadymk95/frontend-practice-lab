@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { ErrorState } from '@/components/common/ErrorState';
 import { QuestionCard } from '@/components/features/QuestionCard';
 import { Button } from '@/components/ui/button';
+import { useQuestionKeyboard } from '@/hooks/ui/useQuestionKeyboard';
 import { formatTimer } from '@/lib/utils/formatTimer';
 
 import { useSessionPlayPage } from './useSessionPlayPage';
@@ -29,6 +30,7 @@ export const SessionPlayPage: FC = () => {
     const [codeCompletionAllFilled, setCodeCompletionAllFilled] = useState(false);
     const [bugFindingCanSubmit, setBugFindingCanSubmit] = useState(false);
     const submitFnRef = useRef<(() => void) | null>(null);
+    const selectFnRef = useRef<((idx: number) => void) | null>(null);
 
     const handleSelectionChange = useCallback((hasSelection: boolean) => {
         setMultiHasSelection(hasSelection);
@@ -58,13 +60,56 @@ export const SessionPlayPage: FC = () => {
         submitFnRef.current?.();
     }, []);
 
+    const handleSelectOptionRegister = useCallback((fn: (idx: number) => void) => {
+        selectFnRef.current = fn;
+    }, []);
+
+    const handleSelectOption = useCallback((idx: number) => {
+        selectFnRef.current?.(idx);
+    }, []);
+
     useEffect(() => {
         setMultiHasSelection(false);
         checkFnRef.current = null;
         setCodeCompletionAllFilled(false);
         setBugFindingCanSubmit(false);
         submitFnRef.current = null;
+        selectFnRef.current = null;
     }, [currentQuestion?.id]);
+
+    const isMultiChoice = currentQuestion?.type === 'multi-choice';
+    const isCodeCompletion = currentQuestion?.type === 'code-completion';
+    const isBugFinding = currentQuestion?.type === 'bug-finding';
+
+    const optionCount =
+        currentQuestion?.type === 'single-choice' || currentQuestion?.type === 'multi-choice'
+            ? currentQuestion.options.length
+            : 0;
+
+    const handleKeyboardSubmit = useCallback(() => {
+        if (isAnswered) {
+            handleNext();
+        } else if (isMultiChoice) {
+            handleCheck();
+        } else if (isCodeCompletion || isBugFinding) {
+            handleSubmit();
+        }
+    }, [
+        isAnswered,
+        isMultiChoice,
+        isCodeCompletion,
+        isBugFinding,
+        handleNext,
+        handleCheck,
+        handleSubmit
+    ]);
+
+    useQuestionKeyboard({
+        optionCount,
+        onSelectOption: handleSelectOption,
+        onSubmit: handleKeyboardSubmit,
+        isAnswered
+    });
 
     if (isSetupError) {
         return <ErrorState message={tSession('errors.fetchQuestions')} onRetry={onRetry} />;
@@ -77,10 +122,6 @@ export const SessionPlayPage: FC = () => {
             </div>
         );
     }
-
-    const isMultiChoice = currentQuestion?.type === 'multi-choice';
-    const isCodeCompletion = currentQuestion?.type === 'code-completion';
-    const isBugFinding = currentQuestion?.type === 'bug-finding';
 
     return (
         <div className="flex flex-col gap-4 pb-24 lg:pb-0">
@@ -101,6 +142,7 @@ export const SessionPlayPage: FC = () => {
                 onSubmitRegister={handleSubmitRegister}
                 onAllBlanksFilled={handleAllBlanksFilled}
                 onBugFindingCanSubmit={handleBugFindingCanSubmit}
+                onSelectOptionRegister={handleSelectOptionRegister}
             />
 
             {/* Desktop inline — Check button (multi-choice, not yet answered) */}

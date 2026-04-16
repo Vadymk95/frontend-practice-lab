@@ -185,11 +185,12 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
 
             {/* Question Count */}
             <section>
-                <h2 className="text-sm font-medium text-foreground mb-3">
+                <h2 id="question-count-label" className="text-sm font-medium text-foreground mb-3">
                     {t('configurator.count.label')}
                 </h2>
                 <Input
                     type="number"
+                    aria-labelledby="question-count-label"
                     min={1}
                     max={maxCount > 0 ? maxCount : undefined}
                     value={questionCount}

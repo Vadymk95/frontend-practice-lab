@@ -11,19 +11,22 @@ interface Props {
     isSkipped?: boolean;
     onSelectionChange: (hasSelection: boolean) => void;
     onCheckRegister: (checkFn: () => void) => void;
+    onSelectOptionRegister?: (selectFn: (idx: number) => void) => void;
 }
 
 export const MultiChoiceQuestion: FC<Props> = ({
     question,
     isSkipped = false,
     onSelectionChange,
-    onCheckRegister
+    onCheckRegister,
+    onSelectOptionRegister
 }) => {
     const { selectedIndices, isChecked, onToggle } = useMultiChoiceQuestion(
         question,
         isSkipped,
         onSelectionChange,
-        onCheckRegister
+        onCheckRegister,
+        onSelectOptionRegister
     );
 
     return (

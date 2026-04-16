@@ -22,6 +22,7 @@ interface QuestionCardProps {
     onSelfAssessRegister?: (selfAssessFn: (result: 'gotIt' | 'missedIt') => void) => void;
     onAllBlanksFilled?: (filled: boolean) => void;
     onBugFindingCanSubmit?: (canSubmit: boolean) => void;
+    onSelectOptionRegister?: (selectFn: (idx: number) => void) => void;
 }
 
 export const QuestionCard: FC<QuestionCardProps> = ({
@@ -30,7 +31,8 @@ export const QuestionCard: FC<QuestionCardProps> = ({
     onSubmitRegister,
     onSelfAssessRegister,
     onAllBlanksFilled,
-    onBugFindingCanSubmit
+    onBugFindingCanSubmit,
+    onSelectOptionRegister
 }) => {
     const { t } = useTranslation('question');
     const { question, currentIndex, questionCount, isAnswered, handleBack, isSkipped, handleSkip } =
@@ -75,7 +77,12 @@ export const QuestionCard: FC<QuestionCardProps> = ({
             </div>
             <h2 className="text-base font-medium">{question.question}</h2>
             {question.type === 'single-choice' && (
-                <SingleChoiceQuestion key={resetKey} question={question} isSkipped={isSkipped} />
+                <SingleChoiceQuestion
+                    key={resetKey}
+                    question={question}
+                    isSkipped={isSkipped}
+                    onSelectOptionRegister={onSelectOptionRegister}
+                />
             )}
             {question.type === 'multi-choice' && (
                 <MultiChoiceQuestion
@@ -84,6 +91,7 @@ export const QuestionCard: FC<QuestionCardProps> = ({
                     isSkipped={isSkipped}
                     onSelectionChange={onSelectionChange ?? (() => {})}
                     onCheckRegister={onCheckRegister ?? (() => {})}
+                    onSelectOptionRegister={onSelectOptionRegister}
                 />
             )}
             {question.type === 'bug-finding' && (

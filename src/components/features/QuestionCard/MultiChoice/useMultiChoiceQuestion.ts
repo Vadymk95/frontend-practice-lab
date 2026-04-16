@@ -8,7 +8,8 @@ export function useMultiChoiceQuestion(
     question: MultiChoiceQuestion,
     isSkipped: boolean,
     onSelectionChange: (hasSelection: boolean) => void,
-    onCheckRegister: (checkFn: () => void) => void
+    onCheckRegister: (checkFn: () => void) => void,
+    onSelectOptionRegister?: (fn: (idx: number) => void) => void
 ) {
     const [_selectedIndices, setSelectedIndices] = useState<number[]>([]);
     const [_isChecked, setIsChecked] = useState(false);
@@ -56,6 +57,10 @@ export function useMultiChoiceQuestion(
     useEffect(() => {
         onCheckRegister(onCheck);
     }, [onCheck, onCheckRegister]);
+
+    useEffect(() => {
+        onSelectOptionRegister?.(onToggle);
+    }, [onToggle, onSelectOptionRegister]);
 
     // Reset state when question changes
     useEffect(() => {

@@ -105,6 +105,17 @@ html:not(.dark) {
     }
 }
 
+/* Ensure focus-visible ring across all interactive elements */
+:focus-visible {
+    outline: 2px solid var(--color-accent-alt);
+    outline-offset: 2px;
+}
+
+/* Remove default outline — handled via focus-visible: Tailwind classes */
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
 @layer base {
     body {
         @apply bg-background text-text-primary min-h-screen antialiased;

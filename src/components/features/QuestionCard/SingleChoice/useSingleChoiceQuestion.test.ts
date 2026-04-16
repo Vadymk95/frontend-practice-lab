@@ -95,41 +95,4 @@ describe('useSingleChoiceQuestion', () => {
         expect(result.current.selectedIndex).toBeNull();
         expect(result.current.isAnswered).toBe(false);
     });
-
-    it('keyboard key "1" selects option at index 0', () => {
-        const q = makeQuestion();
-        renderHook(() => useSingleChoiceQuestion(q));
-
-        act(() => {
-            window.dispatchEvent(new KeyboardEvent('keydown', { key: '1' }));
-        });
-
-        expect(useSessionStore.getState().answers[q.id]).toBe(0);
-    });
-
-    it('keyboard key "2" selects option at index 1', () => {
-        const q = makeQuestion();
-        renderHook(() => useSingleChoiceQuestion(q));
-
-        act(() => {
-            window.dispatchEvent(new KeyboardEvent('keydown', { key: '2' }));
-        });
-
-        expect(useSessionStore.getState().answers[q.id]).toBe(1);
-    });
-
-    it('keyboard keys ignored after answer is revealed', () => {
-        const q = makeQuestion();
-        const { result } = renderHook(() => useSingleChoiceQuestion(q));
-
-        act(() => {
-            result.current.onSelect(0);
-        });
-
-        act(() => {
-            window.dispatchEvent(new KeyboardEvent('keydown', { key: '2' }));
-        });
-
-        expect(result.current.selectedIndex).toBe(0);
-    });
 });

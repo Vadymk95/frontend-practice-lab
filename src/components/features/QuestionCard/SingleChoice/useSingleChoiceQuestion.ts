@@ -4,7 +4,11 @@ import { track } from '@/lib/analytics';
 import type { SingleChoiceQuestion } from '@/lib/data/schema';
 import { useSessionStore } from '@/store/session';
 
-export function useSingleChoiceQuestion(question: SingleChoiceQuestion, isSkipped = false) {
+export function useSingleChoiceQuestion(
+    question: SingleChoiceQuestion,
+    isSkipped = false,
+    onSelectOptionRegister?: (fn: (idx: number) => void) => void
+) {
     const [selectedIndex, setSelectedIndex] = useState<number | null>(
         isSkipped ? question.correct : null
     );
@@ -32,20 +36,9 @@ export function useSingleChoiceQuestion(question: SingleChoiceQuestion, isSkippe
         setSelectedIndex(null);
     }, [question.id]);
 
-    // Keyboard: 1–4 keys select option
     useEffect(() => {
-        if (isAnswered) return;
-        const handleKey = (e: KeyboardEvent) => {
-            if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement)
-                return;
-            const index = parseInt(e.key) - 1;
-            if (index >= 0 && index < question.options.length) {
-                onSelect(index);
-            }
-        };
-        window.addEventListener('keydown', handleKey);
-        return () => window.removeEventListener('keydown', handleKey);
-    }, [isAnswered, question.options.length, onSelect]);
+        onSelectOptionRegister?.(onSelect);
+    }, [onSelect, onSelectOptionRegister]);
 
     return { selectedIndex, isAnswered, onSelect };
 }

@@ -21,7 +21,7 @@ export const App: FC = () => {
         <ErrorBoundary>
             <a
                 href="#main-content"
-                className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:border focus:border-accent-alt focus:bg-background focus:px-4 focus:py-2 focus:text-text-primary"
+                className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:ring-2 focus:ring-accent-alt"
             >
                 {t('skipToContent')}
             </a>

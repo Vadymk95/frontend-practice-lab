@@ -1,6 +1,9 @@
 import '@testing-library/jest-dom/vitest';
 import { cleanup } from '@testing-library/react';
-import { afterEach } from 'vitest';
+import { afterEach, expect } from 'vitest';
+import { toHaveNoViolations } from 'vitest-axe/matchers';
+
+expect.extend({ toHaveNoViolations });
 
 // Mock import.meta for tests
 if (typeof (globalThis as { import?: unknown }).import === 'undefined') {
