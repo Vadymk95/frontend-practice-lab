@@ -1,0 +1,844 @@
+[
+    {
+        "id": "browser-crp-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "easy",
+        "tags": ["critical-rendering-path", "dom", "cssom"],
+        "question": "What is the correct order of steps in the Critical Rendering Path?",
+        "options": [
+            "Parse HTML → Build CSSOM → Build DOM → Render Tree → Layout → Paint",
+            "Parse HTML → Build DOM → Build CSSOM → Render Tree → Layout → Paint",
+            "Build DOM → Parse HTML → Render Tree → CSSOM → Layout → Paint",
+            "Build CSSOM → Build DOM → Parse HTML → Render Tree → Layout → Paint"
+        ],
+        "correct": 1,
+        "explanation": "The browser first parses HTML to build the DOM, then processes CSS to build the CSSOM. Both are combined into a Render Tree, which is used to calculate Layout (geometry), and finally Paint renders pixels to the screen."
+    },
+    {
+        "id": "browser-dom-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "easy",
+        "tags": ["dom", "html-parsing"],
+        "question": "What does the browser do when it encounters a `<script>` tag without `async` or `defer` while parsing HTML?",
+        "options": [
+            "Continues parsing HTML and executes the script after DOM is fully built",
+            "Pauses HTML parsing, downloads and executes the script, then continues",
+            "Downloads the script in parallel and executes it after all CSS is loaded",
+            "Defers execution until the DOMContentLoaded event fires"
+        ],
+        "correct": 1,
+        "explanation": "A synchronous `<script>` tag blocks HTML parsing. The browser stops building the DOM, fetches (if external) and executes the script, then resumes parsing. This is why scripts are often placed before `</body>` or given `defer`/`async` attributes."
+    },
+    {
+        "id": "browser-reflow-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "easy",
+        "tags": ["reflow", "repaint", "layout"],
+        "question": "Which CSS property change triggers a reflow (layout recalculation)?",
+        "options": ["color", "background-color", "opacity", "width"],
+        "correct": 3,
+        "explanation": "Changing `width` affects the geometry of the element and potentially surrounding elements, triggering a full layout recalculation (reflow). `color`, `background-color`, and `opacity` only require repaint or compositing — not layout recalculation."
+    },
+    {
+        "id": "browser-eventloop-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "easy",
+        "tags": ["event-loop", "microtasks", "macrotasks"],
+        "question": "In which order will the following log statements execute?\n\n```js\nconsole.log('1');\nsetTimeout(() => console.log('2'), 0);\nPromise.resolve().then(() => console.log('3'));\nconsole.log('4');\n```",
+        "options": ["1, 2, 3, 4", "1, 4, 2, 3", "1, 4, 3, 2", "1, 3, 4, 2"],
+        "correct": 2,
+        "explanation": "Synchronous code runs first (1, 4). After the call stack empties, microtasks (Promise) run before macrotasks (setTimeout). So the order is 1 → 4 → 3 → 2."
+    },
+    {
+        "id": "browser-storage-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "easy",
+        "tags": ["localStorage", "sessionStorage", "cookies"],
+        "question": "Which storage mechanism persists data across browser sessions (after the browser is closed and reopened)?",
+        "options": [
+            "sessionStorage",
+            "localStorage",
+            "In-memory variables",
+            "Cache-Control: no-store"
+        ],
+        "correct": 1,
+        "explanation": "localStorage persists until explicitly cleared or the user clears browser data. sessionStorage is scoped to the browser tab/session and is cleared when the tab is closed. In-memory variables are lost on page unload."
+    },
+    {
+        "id": "browser-cors-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "easy",
+        "tags": ["cors", "security", "http"],
+        "question": "What is a CORS preflight request?",
+        "options": [
+            "The browser's first attempt to load a resource before it has an IP address",
+            "An HTTP OPTIONS request the browser sends automatically before certain cross-origin requests",
+            "A DNS lookup that precedes any cross-origin fetch",
+            "A security check performed by the server before returning HTML"
+        ],
+        "correct": 1,
+        "explanation": "For 'non-simple' cross-origin requests (e.g., custom headers, non-GET/POST methods), the browser automatically sends an HTTP OPTIONS preflight request to ask the server if the actual request is allowed. The server must respond with appropriate `Access-Control-Allow-*` headers."
+    },
+    {
+        "id": "browser-vitals-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "easy",
+        "tags": ["web-vitals", "lcp", "cls", "fcp"],
+        "question": "What does LCP (Largest Contentful Paint) measure?",
+        "options": [
+            "The time from navigation start until the first byte is received from the server",
+            "The cumulative amount of unexpected layout shift during the page lifetime",
+            "The render time of the largest image or text block visible in the viewport",
+            "The time from user input until the next frame is painted"
+        ],
+        "correct": 2,
+        "explanation": "LCP measures the render time of the largest content element visible in the viewport. A good LCP is under 2.5 seconds. It is the primary metric for perceived load speed of the main content."
+    },
+    {
+        "id": "browser-http-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "easy",
+        "tags": ["http2", "http3", "networking"],
+        "question": "Which major feature does HTTP/2 introduce over HTTP/1.1?",
+        "options": [
+            "Request/response body encryption via TLS",
+            "Multiplexing multiple requests over a single TCP connection",
+            "UDP-based transport for lower latency",
+            "Built-in support for WebSockets"
+        ],
+        "correct": 1,
+        "explanation": "HTTP/2 introduces multiplexing, allowing multiple requests and responses to be in-flight simultaneously over a single TCP connection. This eliminates HTTP/1.1's head-of-line blocking at the application layer."
+    },
+    {
+        "id": "browser-caching-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "easy",
+        "tags": ["caching", "cache-control", "etag"],
+        "question": "What does the `Cache-Control: no-cache` directive instruct the browser to do?",
+        "options": [
+            "Never cache the response under any circumstances",
+            "Store the response but always revalidate with the server before using it",
+            "Cache the response for 0 seconds",
+            "Disable caching for all subsequent requests on the same origin"
+        ],
+        "correct": 1,
+        "explanation": "`no-cache` means the browser can store the response but must revalidate it with the server (using ETag or Last-Modified) before reusing it. `no-store` is what you use to prevent any caching at all."
+    },
+    {
+        "id": "browser-worker-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "easy",
+        "tags": ["web-workers", "multithreading"],
+        "question": "What is the main limitation of Web Workers compared to the main thread?",
+        "options": [
+            "They cannot perform network requests",
+            "They have no access to the DOM",
+            "They run on the same thread as the main JavaScript",
+            "They cannot use Promises or async/await"
+        ],
+        "correct": 1,
+        "explanation": "Web Workers run in a separate thread and have no access to the DOM or most browser APIs. Communication with the main thread happens via `postMessage`. This isolation is intentional to prevent concurrency issues with DOM manipulation."
+    },
+    {
+        "id": "browser-paint-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "easy",
+        "tags": ["composite", "paint", "layers"],
+        "question": "Which CSS property promotes an element to its own compositor layer (most reliably across browsers)?",
+        "options": [
+            "position: absolute",
+            "z-index: 1",
+            "transform: translateZ(0)",
+            "display: block"
+        ],
+        "correct": 2,
+        "explanation": "`transform: translateZ(0)` (or `will-change: transform`) is the standard hack to force GPU compositing by promoting the element to its own layer. This allows animations of that element to skip layout and paint, handled entirely by the compositor thread."
+    },
+    {
+        "id": "browser-sw-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "easy",
+        "tags": ["service-workers", "pwa", "offline"],
+        "question": "Which lifecycle event must a Service Worker handle to intercept network requests?",
+        "options": ["install", "activate", "fetch", "message"],
+        "correct": 2,
+        "explanation": "The `fetch` event is fired for every network request made by pages under the Service Worker's scope. By calling `event.respondWith()`, the worker can return cached responses, modify requests, or fall back to the network."
+    },
+    {
+        "id": "browser-websocket-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "easy",
+        "tags": ["websocket", "sse", "realtime"],
+        "question": "What is the key difference between WebSockets and Server-Sent Events (SSE)?",
+        "options": [
+            "SSE uses UDP; WebSockets use TCP",
+            "WebSockets are bidirectional; SSE is server-to-client only",
+            "SSE requires a special server protocol; WebSockets use standard HTTP",
+            "WebSockets only work over HTTPS"
+        ],
+        "correct": 1,
+        "explanation": "WebSockets establish a full-duplex channel for bidirectional communication. SSE (EventSource) is a unidirectional protocol — the server pushes events to the client over a long-lived HTTP connection. SSE is simpler and works over standard HTTP/2."
+    },
+    {
+        "id": "browser-raf-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "easy",
+        "tags": ["requestAnimationFrame", "rendering", "animation"],
+        "question": "Why should you prefer `requestAnimationFrame` over `setTimeout` for animations?",
+        "options": [
+            "requestAnimationFrame runs at a fixed 60fps regardless of the display refresh rate",
+            "requestAnimationFrame callbacks fire before each browser repaint, synchronized with the display refresh rate",
+            "setTimeout is deprecated for use in animations",
+            "requestAnimationFrame skips the layout phase entirely"
+        ],
+        "correct": 1,
+        "explanation": "`requestAnimationFrame` schedules work immediately before the browser's next repaint, synchronized with the display refresh rate (60Hz, 120Hz, etc.). This prevents tearing and wasted work. `setTimeout` has no such synchronization guarantee."
+    },
+    {
+        "id": "browser-preload-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "easy",
+        "tags": ["preload", "prefetch", "resource-hints"],
+        "question": "What is the difference between `<link rel=\"preload\">` and `<link rel=\"prefetch\">`?",
+        "options": [
+            "preload is for images; prefetch is for scripts",
+            "preload fetches resources needed for the current page with high priority; prefetch fetches resources for future navigations at low priority",
+            "preload is a newer standard that replaces prefetch",
+            "prefetch guarantees the resource will be in cache; preload only hints"
+        ],
+        "correct": 1,
+        "explanation": "`preload` is a mandatory fetch hint for resources needed in the current page load (critical CSS, fonts, hero images). `prefetch` is a low-priority hint for resources the user might need on future navigations. Both populate the browser cache."
+    },
+    {
+        "id": "browser-v8-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "medium",
+        "tags": ["v8", "jit", "javascript-engine"],
+        "question": "In V8's compilation pipeline, what is the role of TurboFan?",
+        "options": [
+            "It parses JavaScript source code into an AST",
+            "It interprets bytecode line-by-line without compilation",
+            "It is V8's optimizing JIT compiler that compiles hot functions to highly optimized machine code",
+            "It manages garbage collection using a generational algorithm"
+        ],
+        "correct": 2,
+        "explanation": "V8's pipeline: source → parser (AST) → Ignition (interpreter, generates bytecode) → TurboFan (optimizing JIT). TurboFan monitors 'hot' functions and compiles them to optimized machine code using type feedback collected by Ignition."
+    },
+    {
+        "id": "browser-gc-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "medium",
+        "tags": ["v8", "garbage-collection", "memory"],
+        "question": "V8 uses a generational garbage collector. What is the rationale behind generational GC?",
+        "options": [
+            "Older objects are more likely to have circular references than newer objects",
+            "Most objects die young, so collecting the young generation (minor GC) is cheap and frequent",
+            "Older objects are promoted to faster memory tiers closer to the CPU",
+            "The generation number determines the object's priority during GC pauses"
+        ],
+        "correct": 1,
+        "explanation": "The generational hypothesis states that most allocated objects become garbage very quickly (e.g., temporary variables). V8 divides the heap into 'young generation' (Scavenger/minor GC, very fast) and 'old generation' (Mark-Compact/major GC, less frequent). This makes GC efficient in practice."
+    },
+    {
+        "id": "browser-layout-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "medium",
+        "tags": ["layout", "reflow", "performance"],
+        "question": "Which of the following JavaScript patterns causes forced synchronous layout (layout thrashing)?",
+        "options": [
+            "Reading `element.textContent` after changing it",
+            "Writing `element.style.width` in a loop without reading layout properties",
+            "Reading `element.offsetWidth` immediately after writing `element.style.width` in a loop",
+            "Using `requestAnimationFrame` to batch DOM writes"
+        ],
+        "correct": 2,
+        "explanation": "Layout thrashing occurs when you interleave reads of layout properties (offsetWidth, getBoundingClientRect, etc.) with writes that invalidate layout. The browser is forced to recalculate layout synchronously before returning the read value, instead of batching recalculations."
+    },
+    {
+        "id": "browser-composite-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "medium",
+        "tags": ["composite", "will-change", "layers", "performance"],
+        "question": "What is the downside of overusing `will-change: transform` on many elements?",
+        "options": [
+            "It forces the browser to use software rendering instead of GPU",
+            "It increases memory consumption because each promoted layer occupies GPU memory",
+            "It disables CSS transitions on the affected element",
+            "It prevents the element from being included in the accessibility tree"
+        ],
+        "correct": 1,
+        "explanation": "Each compositor layer promoted via `will-change` requires memory on the GPU. Promoting too many elements can exhaust GPU memory, cause jank, or even crash the compositor. Use `will-change` sparingly — only on elements about to animate."
+    },
+    {
+        "id": "browser-microtask-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "medium",
+        "tags": ["event-loop", "microtasks", "queueMicrotask"],
+        "question": "When does the microtask queue get drained in the browser event loop?",
+        "options": [
+            "Once per animation frame, before requestAnimationFrame callbacks",
+            "After every task (macrotask) completes, before the browser renders",
+            "Only after the call stack is completely empty and no more tasks exist",
+            "On a separate thread concurrently with the main event loop"
+        ],
+        "correct": 1,
+        "explanation": "After each task (setTimeout callback, event handler, etc.) completes and the call stack empties, the browser drains the entire microtask queue (Promises, queueMicrotask, MutationObserver) before picking the next task or rendering. Microtasks can also schedule new microtasks, all of which run before the next task."
+    },
+    {
+        "id": "browser-idb-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "medium",
+        "tags": ["indexeddb", "storage", "async"],
+        "question": "What is the primary advantage of IndexedDB over localStorage?",
+        "options": [
+            "IndexedDB is synchronous, making it faster for read-heavy workloads",
+            "IndexedDB supports transactions, indexes, and can store large structured data asynchronously",
+            "IndexedDB data is automatically encrypted at rest",
+            "IndexedDB persists across different origins with the same eTLD+1"
+        ],
+        "correct": 1,
+        "explanation": "IndexedDB is a full client-side NoSQL database: it supports transactions, indexes, cursors, and can store structured objects including Blobs. Its async API prevents blocking the main thread. localStorage is synchronous, size-limited (~5MB), and stores only strings."
+    },
+    {
+        "id": "browser-cls-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "medium",
+        "tags": ["web-vitals", "cls", "layout-shift"],
+        "question": "Which of the following best describes how to prevent high CLS (Cumulative Layout Shift)?",
+        "options": [
+            "Load all fonts asynchronously with `font-display: swap`",
+            "Reserve space for images and ads by specifying width and height attributes, and avoid inserting content above existing content",
+            "Minimize the number of DOM elements on the page",
+            "Use `position: fixed` for all above-the-fold content"
+        ],
+        "correct": 1,
+        "explanation": "CLS is caused by elements shifting position unexpectedly. The main fixes are: setting explicit dimensions on images/videos/iframes, not dynamically inserting content above existing content, and using CSS `aspect-ratio` or `min-height` to reserve space for dynamic content like ads."
+    },
+    {
+        "id": "browser-bfcache-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "medium",
+        "tags": ["bfcache", "navigation", "performance"],
+        "question": "What is the Back/Forward Cache (bfcache) and what can prevent a page from being stored in it?",
+        "options": [
+            "A DNS cache for back/forward navigation; blocked by HTTPS pages",
+            "A full page snapshot stored in memory for instant back/forward navigation; blocked by unload event listeners and open IndexedDB connections",
+            "A service worker cache strategy; blocked by Cache-Control: no-store",
+            "A browser history store; blocked by Content-Security-Policy headers"
+        ],
+        "correct": 1,
+        "explanation": "bfcache stores a complete snapshot of the page (including JS heap) so back/forward navigations are instant. Pages are excluded from bfcache if they use `unload` event listeners, have open IndexedDB connections, or send `Cache-Control: no-store`. Use the `pageshow`/`pagehide` events instead of `unload`."
+    },
+    {
+        "id": "browser-csp-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "medium",
+        "tags": ["csp", "security", "headers"],
+        "question": "What does the CSP directive `script-src 'self'` allow?",
+        "options": [
+            "Scripts from the same origin only, blocking inline scripts and eval()",
+            "Scripts from any HTTPS source including CDNs",
+            "Scripts from the same origin and all subdomains",
+            "Only scripts loaded via `<script type=\"module\">`"
+        ],
+        "correct": 0,
+        "explanation": "`script-src 'self'` restricts script loading to the same origin (scheme + host + port). Inline scripts (`<script>` blocks) and `eval()` are blocked by default unless explicitly allowed via `'unsafe-inline'` or `'unsafe-eval'` (strongly discouraged)."
+    },
+    {
+        "id": "browser-http3-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "medium",
+        "tags": ["http3", "quic", "networking"],
+        "question": "What transport protocol does HTTP/3 use, and what problem does it solve versus HTTP/2?",
+        "options": [
+            "TCP with TLS 1.3; it solves certificate validation latency",
+            "QUIC (UDP-based); it eliminates TCP-level head-of-line blocking that affects all HTTP/2 streams when a packet is lost",
+            "WebSockets; it enables bidirectional streaming natively",
+            "SCTP; it allows multi-homing for mobile networks"
+        ],
+        "correct": 1,
+        "explanation": "HTTP/3 runs on QUIC, a multiplexed protocol built on UDP. HTTP/2 multiplexes over TCP, but a single lost TCP packet blocks all streams (TCP-level HOL blocking). QUIC handles packet loss per-stream independently, making HTTP/3 much more resilient on lossy networks."
+    },
+    {
+        "id": "browser-mo-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "medium",
+        "tags": ["MutationObserver", "dom", "observers"],
+        "question": "Which statement correctly describes MutationObserver callbacks?",
+        "options": [
+            "They are macrotasks scheduled via the task queue",
+            "They are microtasks that run synchronously before the current task completes",
+            "They are microtasks queued after the current task, before the next rendering step",
+            "They are called synchronously inside the DOM mutation"
+        ],
+        "correct": 2,
+        "explanation": "MutationObserver callbacks are queued as microtasks. They fire after the current task's synchronous code finishes (call stack empties) but before the browser performs rendering. This ensures the observer sees a consistent DOM snapshot."
+    },
+    {
+        "id": "browser-io-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "medium",
+        "tags": ["IntersectionObserver", "lazy-loading", "observers"],
+        "question": "How does IntersectionObserver improve performance over a scroll event listener for lazy loading?",
+        "options": [
+            "It runs on the compositor thread and never causes reflows",
+            "It batches intersection checks off the main thread, avoiding repeated layout reads on every scroll event",
+            "It automatically applies CSS `content-visibility: auto` to unobserved elements",
+            "It uses WebAssembly for geometric calculations"
+        ],
+        "correct": 1,
+        "explanation": "Scroll event listeners fire on every scroll event (potentially 60+ times/second) and usually require reading layout properties, causing forced reflows. IntersectionObserver is a browser-native API that runs intersection checks asynchronously, delivering batched callbacks only when thresholds are crossed."
+    },
+    {
+        "id": "browser-paint-api-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "hard",
+        "tags": ["paint-api", "houdini", "css"],
+        "question": "What is the CSS Paint API (Houdini) and what rendering phase does it hook into?",
+        "options": [
+            "An API for scheduling imperative canvas drawing after compositing",
+            "A Worklet-based API that allows custom CSS painting during the paint phase, replacing an element's background or border",
+            "A JavaScript API for measuring paint timing via PerformanceObserver",
+            "A service worker hook that intercepts CSS asset loading"
+        ],
+        "correct": 1,
+        "explanation": "The CSS Paint API (part of CSS Houdini) lets you register a Paint Worklet that implements the `paint()` method. The browser calls it during the paint phase to draw an element's background-image (or other paintable properties). The worklet runs off the main thread on some browsers."
+    },
+    {
+        "id": "browser-v8-deopt-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "hard",
+        "tags": ["v8", "deoptimization", "jit"],
+        "question": "What causes V8 to deoptimize a previously JIT-compiled function?",
+        "options": [
+            "The function is called more than 10,000 times",
+            "The function's type assumptions are violated at runtime (e.g., a parameter that was always a number becomes a string)",
+            "The function is defined inside a loop",
+            "The function uses arrow function syntax instead of function declarations"
+        ],
+        "correct": 1,
+        "explanation": "TurboFan generates optimized code based on type feedback (e.g., 'x has always been a Smi integer'). If those assumptions are violated at runtime, V8 deoptimizes back to interpreted Ignition bytecode. To avoid deoptimizations, keep function argument types consistent."
+    },
+    {
+        "id": "browser-crp-hard-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "hard",
+        "tags": ["critical-rendering-path", "css", "render-blocking"],
+        "question": "A stylesheet with `media=\"print\"` is still downloaded by the browser but does not block rendering. What is the technical reason it doesn't block?",
+        "options": [
+            "The browser skips print stylesheets entirely until the user triggers a print dialog",
+            "The browser downloads it at low priority and marks it non-render-blocking because the media query doesn't match the current environment",
+            "Print stylesheets are processed in a separate CSSOM tree that is never combined into the Render Tree",
+            "The browser only parses print stylesheets after all JavaScript has executed"
+        ],
+        "correct": 1,
+        "explanation": "The browser evaluates `media` attributes to decide whether a stylesheet is render-blocking. Stylesheets whose media query doesn't match the current environment (e.g., `print` on a screen) are still fetched (since the user might print) but at low priority and without blocking rendering."
+    },
+    {
+        "id": "browser-inp-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "hard",
+        "tags": ["inp", "web-vitals", "responsiveness"],
+        "question": "INP (Interaction to Next Paint) replaced FID as a Core Web Vital. What is the key improvement over FID?",
+        "options": [
+            "INP measures server response time; FID measured client-side delay",
+            "INP measures the worst interaction latency across all interactions during the page lifetime; FID only measured the first interaction's input delay",
+            "INP is a composite score of LCP and CLS; FID was a standalone metric",
+            "INP measures time to paint after a network request; FID measured input delay during page load"
+        ],
+        "correct": 1,
+        "explanation": "FID only measured the input delay of the very first interaction and ignored processing time and presentation delay. INP captures the full latency (input delay + processing time + presentation delay) of all interactions during the session and reports the worst-case value (or near-worst for pages with many interactions)."
+    },
+    {
+        "id": "browser-rs-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "hard",
+        "tags": ["ResizeObserver", "observers", "layout"],
+        "question": "ResizeObserver callbacks are guaranteed to fire after layout but before paint. What potential problem does this introduce?",
+        "options": [
+            "ResizeObserver callbacks may run on the compositor thread, causing race conditions with main-thread DOM access",
+            "Modifying element sizes inside a ResizeObserver callback can create infinite loops unless sizes converge",
+            "ResizeObserver cannot observe elements inside Shadow DOM",
+            "ResizeObserver fires synchronously during layout, blocking the render pipeline"
+        ],
+        "correct": 1,
+        "explanation": "If a ResizeObserver callback changes the size of an element it is observing (or an ancestor), it triggers another resize notification, potentially creating an infinite loop. Browsers handle this by skipping observations that were triggered at the same or shallower DOM depth within the same notification delivery."
+    },
+    {
+        "id": "browser-multiqueue-001",
+        "type": "multi-choice",
+        "category": "browser-internals",
+        "difficulty": "easy",
+        "tags": ["event-loop", "microtasks", "macrotasks"],
+        "question": "Which of the following are microtasks in the browser?",
+        "options": [
+            "Promise.then() callbacks",
+            "setTimeout callbacks",
+            "queueMicrotask() callbacks",
+            "setInterval callbacks",
+            "MutationObserver callbacks"
+        ],
+        "correct": [0, 2, 4],
+        "explanation": "Microtasks include Promise callbacks, queueMicrotask(), and MutationObserver callbacks. setTimeout and setInterval schedule macrotasks (regular tasks). Microtasks are processed after every task before the next task is picked up."
+    },
+    {
+        "id": "browser-multistorage-001",
+        "type": "multi-choice",
+        "category": "browser-internals",
+        "difficulty": "easy",
+        "tags": ["storage", "cookies", "localStorage", "IndexedDB"],
+        "question": "Which storage mechanisms are accessible from a Web Worker?",
+        "options": [
+            "localStorage",
+            "IndexedDB",
+            "sessionStorage",
+            "Cache API (CacheStorage)",
+            "Cookies via document.cookie"
+        ],
+        "correct": [1, 3],
+        "explanation": "Web Workers have no access to the DOM, so `document.cookie`, `localStorage`, and `sessionStorage` are not available. IndexedDB and the Cache API (CacheStorage) are accessible from workers, making them suitable for offline-first data management."
+    },
+    {
+        "id": "browser-multicors-001",
+        "type": "multi-choice",
+        "category": "browser-internals",
+        "difficulty": "medium",
+        "tags": ["cors", "preflight", "http"],
+        "question": "Which of the following conditions trigger a CORS preflight request?",
+        "options": [
+            "Using the HTTP DELETE method",
+            "Using the HTTP GET method with no custom headers",
+            "Adding a custom `Authorization` header",
+            "Setting `Content-Type: application/json`",
+            "Setting `Content-Type: text/plain`"
+        ],
+        "correct": [0, 2, 3],
+        "explanation": "Preflight is triggered by: non-simple methods (anything other than GET/POST/HEAD), non-simple content types (anything other than application/x-www-form-urlencoded, multipart/form-data, text/plain), or custom request headers. `Authorization`, `Content-Type: application/json`, and `DELETE` all trigger preflight."
+    },
+    {
+        "id": "browser-multivitals-001",
+        "type": "multi-choice",
+        "category": "browser-internals",
+        "difficulty": "medium",
+        "tags": ["web-vitals", "core-web-vitals"],
+        "question": "Which of the following are currently considered Core Web Vitals by Google?",
+        "options": [
+            "First Contentful Paint (FCP)",
+            "Largest Contentful Paint (LCP)",
+            "Time to First Byte (TTFB)",
+            "Cumulative Layout Shift (CLS)",
+            "Interaction to Next Paint (INP)"
+        ],
+        "correct": [1, 3, 4],
+        "explanation": "The three Core Web Vitals are LCP (loading), CLS (visual stability), and INP (interactivity — replaced FID in 2024). FCP and TTFB are diagnostic metrics but not Core Web Vitals."
+    },
+    {
+        "id": "browser-multihttp-001",
+        "type": "multi-choice",
+        "category": "browser-internals",
+        "difficulty": "medium",
+        "tags": ["http2", "http3", "http1"],
+        "question": "Which of the following are features introduced or improved in HTTP/2 versus HTTP/1.1?",
+        "options": [
+            "Binary framing layer",
+            "Request multiplexing over a single connection",
+            "UDP-based transport",
+            "Header compression (HPACK)",
+            "Server push"
+        ],
+        "correct": [0, 1, 3, 4],
+        "explanation": "HTTP/2 introduced: binary framing (replacing text-based HTTP/1.1), multiplexing, HPACK header compression, and server push. UDP-based transport is a feature of HTTP/3 (QUIC), not HTTP/2."
+    },
+    {
+        "id": "browser-multicrp-001",
+        "type": "multi-choice",
+        "category": "browser-internals",
+        "difficulty": "medium",
+        "tags": ["critical-rendering-path", "render-blocking", "optimization"],
+        "question": "Which of the following resources are render-blocking by default?",
+        "options": [
+            "A `<link rel=\"stylesheet\">` in the `<head>`",
+            "A `<script async src=\"...\">` tag",
+            "A `<script>` tag without async/defer in the `<head>`",
+            "A `<link rel=\"preload\" as=\"font\">`",
+            "A `<script defer src=\"...\">` tag"
+        ],
+        "correct": [0, 2],
+        "explanation": "Render-blocking resources: synchronous `<script>` tags (block both parsing and rendering) and `<link rel=\"stylesheet\">` (block rendering until CSSOM is built). `async` scripts don't block rendering. `defer` scripts don't block rendering (execute after parsing). `preload` hints fetch resources without blocking rendering."
+    },
+    {
+        "id": "browser-multiworker-001",
+        "type": "multi-choice",
+        "category": "browser-internals",
+        "difficulty": "medium",
+        "tags": ["service-workers", "web-workers", "workers"],
+        "question": "Which statements about Service Workers are correct?",
+        "options": [
+            "A Service Worker can intercept fetch requests from the pages it controls",
+            "A Service Worker runs on the main thread alongside page JavaScript",
+            "A Service Worker requires HTTPS (or localhost) to register",
+            "A Service Worker can access the DOM directly",
+            "A Service Worker persists across browser sessions"
+        ],
+        "correct": [0, 2, 4],
+        "explanation": "Service Workers: intercept network requests via `fetch` event, require HTTPS or localhost for security, and persist across sessions (surviving page close). They run in a separate thread with no DOM access. They differ from regular Web Workers in that they are event-driven and have a lifecycle independent of any page."
+    },
+    {
+        "id": "browser-multicsp-001",
+        "type": "multi-choice",
+        "category": "browser-internals",
+        "difficulty": "hard",
+        "tags": ["csp", "security", "xss"],
+        "question": "Which CSP directives, if set to `'none'`, prevent all forms of script execution?",
+        "options": [
+            "script-src 'none'",
+            "default-src 'none' (without a more specific script-src)",
+            "object-src 'none'",
+            "style-src 'none'",
+            "connect-src 'none'"
+        ],
+        "correct": [0, 1],
+        "explanation": "`script-src 'none'` directly blocks all script loading. `default-src 'none'` acts as a fallback for all fetch directives (including script-src) when more specific directives are absent. `object-src` blocks plugins (Flash etc.), `style-src` blocks CSS, and `connect-src` restricts network requests — none of these prevent JavaScript execution."
+    },
+    {
+        "id": "browser-multiio-001",
+        "type": "multi-choice",
+        "category": "browser-internals",
+        "difficulty": "hard",
+        "tags": ["IntersectionObserver", "ResizeObserver", "MutationObserver", "observers"],
+        "question": "Which statements about the three browser Observer APIs are correct?",
+        "options": [
+            "MutationObserver callbacks are microtasks",
+            "IntersectionObserver callbacks are macrotasks",
+            "ResizeObserver callbacks fire after layout, before paint",
+            "All three observers can observe elements inside Shadow DOM",
+            "IntersectionObserver can observe visibility across cross-origin iframes"
+        ],
+        "correct": [0, 2, 3],
+        "explanation": "MutationObserver callbacks are microtasks (queued after each task). ResizeObserver callbacks fire in a dedicated step after layout but before paint. All three can observe Shadow DOM elements. IntersectionObserver callbacks are task-queue microtask-adjacent (spec says 'steps to notify intersection observers' runs as a microtask checkpoint). Cross-origin iframe intersection is reported with reduced precision for privacy reasons — the threshold information is limited."
+    },
+    {
+        "id": "browser-multirender-001",
+        "type": "multi-choice",
+        "category": "browser-internals",
+        "difficulty": "hard",
+        "tags": ["composite", "paint", "layers", "performance"],
+        "question": "Which of the following CSS properties or techniques create a new stacking context or compositor layer?",
+        "options": [
+            "opacity less than 1",
+            "transform (any value other than none)",
+            "position: relative without z-index",
+            "will-change: transform",
+            "filter: blur(0px)"
+        ],
+        "correct": [0, 1, 3, 4],
+        "explanation": "New stacking contexts / compositor layers are created by: `opacity < 1`, any `transform`, `will-change: transform`, and CSS `filter`. `position: relative` alone does not create a stacking context — it requires `z-index` to be specified as well."
+    },
+    {
+        "id": "browser-bug-raf-001",
+        "type": "bug-finding",
+        "category": "browser-internals",
+        "difficulty": "easy",
+        "tags": ["requestAnimationFrame", "animation", "memory-leak"],
+        "question": "Find the bug in this animation loop:",
+        "code": "let position = 0;\nfunction animate() {\n  position += 1;\n  document.getElementById('box').style.left = position + 'px';\n  requestAnimationFrame(animate);\n}\nanimate();",
+        "correct": "The animation loop never stops — there is no cancellation mechanism",
+        "referenceAnswer": "The loop calls requestAnimationFrame indefinitely with no stop condition. Fix: store the rAF id with `const id = requestAnimationFrame(animate)` and call `cancelAnimationFrame(id)` when the animation should stop (e.g., when position exceeds a threshold or a stop flag is set).",
+        "explanation": "An infinite rAF loop that is never cancelled will run forever, consuming CPU/GPU even when the animation is visually complete. Always store the return value of `requestAnimationFrame` and cancel it with `cancelAnimationFrame` when done."
+    },
+    {
+        "id": "browser-bug-thrash-001",
+        "type": "bug-finding",
+        "category": "browser-internals",
+        "difficulty": "medium",
+        "tags": ["layout-thrashing", "reflow", "performance"],
+        "question": "Identify the performance bug in this code:",
+        "code": "const items = document.querySelectorAll('.item');\nfor (let i = 0; i < items.length; i++) {\n  items[i].style.width = items[i].offsetWidth + 10 + 'px';\n}",
+        "correct": "Reading offsetWidth after writing style.width causes forced synchronous layout on every iteration (layout thrashing)",
+        "referenceAnswer": "Interleaving style writes and layout reads forces the browser to recalculate layout on each iteration. Fix: first read all widths into an array, then apply all writes in a second loop. Or use requestAnimationFrame to batch writes.",
+        "explanation": "Layout thrashing occurs when layout reads (offsetWidth, getBoundingClientRect, etc.) are interspersed with writes that invalidate the layout. The browser must synchronously flush pending style changes to return accurate measurements."
+    },
+    {
+        "id": "browser-bug-sw-001",
+        "type": "bug-finding",
+        "category": "browser-internals",
+        "difficulty": "medium",
+        "tags": ["service-workers", "fetch", "cache"],
+        "question": "Find the bug in this Service Worker fetch handler:",
+        "code": "self.addEventListener('fetch', (event) => {\n  const cached = caches.match(event.request);\n  if (cached) {\n    event.respondWith(cached);\n  }\n});",
+        "correct": "`caches.match()` returns a Promise, not a value — the truthy check always passes because a Promise is truthy",
+        "referenceAnswer": "caches.match() is async and returns a Promise<Response | undefined>. A Promise object is always truthy, so the if-block always runs but `event.respondWith` receives an unresolved Promise that resolves to undefined. Fix: `event.respondWith(caches.match(event.request).then(r => r || fetch(event.request)))`",
+        "explanation": "All Cache API methods are asynchronous. Forgetting to await them is a common Service Worker bug. Always use the Promise directly with `event.respondWith()` rather than trying to unwrap it synchronously."
+    },
+    {
+        "id": "browser-bug-cors-001",
+        "type": "bug-finding",
+        "category": "browser-internals",
+        "difficulty": "medium",
+        "tags": ["cors", "fetch", "credentials"],
+        "question": "Find the bug in this cross-origin fetch with credentials:",
+        "code": "fetch('https://api.example.com/user', {\n  credentials: 'include'\n});\n\n// Server response headers:\n// Access-Control-Allow-Origin: *\n// Access-Control-Allow-Credentials: true",
+        "correct": "Access-Control-Allow-Origin cannot be a wildcard (*) when credentials are included — it must specify the exact origin",
+        "referenceAnswer": "When `credentials: 'include'` is used, the server must respond with `Access-Control-Allow-Origin: https://your-origin.com` (exact origin, not *) AND `Access-Control-Allow-Credentials: true`. A wildcard origin with credentials is disallowed by the CORS spec.",
+        "explanation": "Using a wildcard ACAO with credentials would expose cookies/auth headers to any origin. Browsers enforce this rule strictly — the request will fail with a CORS error even if the server sends both headers."
+    },
+    {
+        "id": "browser-bug-localstorage-001",
+        "type": "bug-finding",
+        "category": "browser-internals",
+        "difficulty": "hard",
+        "tags": ["localStorage", "storage", "json"],
+        "question": "Find the bug in this localStorage usage:",
+        "code": "function saveUser(user) {\n  localStorage.setItem('user', user);\n}\n\nfunction loadUser() {\n  const user = localStorage.getItem('user');\n  return user;\n}\n\nconst user = { name: 'Alice', age: 30 };\nsaveUser(user);\nconst loaded = loadUser();\nconsole.log(loaded.name); // undefined",
+        "correct": "The user object is stored as `[object Object]` because localStorage only stores strings and the object is not serialized with JSON.stringify",
+        "referenceAnswer": "localStorage only stores strings. Objects must be serialized: `localStorage.setItem('user', JSON.stringify(user))` and deserialized: `JSON.parse(localStorage.getItem('user'))`. Without this, the object is coerced to the string '[object Object]'.",
+        "explanation": "All localStorage values are coerced to strings via `.toString()`. Object's default toString is '[object Object]'. Always use JSON.stringify/parse when storing non-primitive values."
+    },
+    {
+        "id": "browser-bug-gc-001",
+        "type": "bug-finding",
+        "category": "browser-internals",
+        "difficulty": "hard",
+        "tags": ["memory-leak", "event-listeners", "gc"],
+        "question": "Find the memory leak in this code:",
+        "code": "class DataComponent {\n  constructor(element) {\n    this.element = element;\n    this.data = new Array(100000).fill('data');\n    this.element.addEventListener('click', this.handleClick.bind(this));\n  }\n\n  handleClick() {\n    console.log('clicked', this.data.length);\n  }\n\n  destroy() {\n    this.element = null;\n    this.data = null;\n  }\n}",
+        "correct": "The event listener created with .bind(this) is never removed, keeping the DataComponent instance and its large data array alive",
+        "referenceAnswer": "`.bind(this)` creates a new function reference each time, so it cannot be removed with `removeEventListener` using a new `.bind()` call. Fix: store the bound handler: `this.boundHandler = this.handleClick.bind(this)` in the constructor, add it with that reference, and in `destroy()` call `this.element.removeEventListener('click', this.boundHandler)`.",
+        "explanation": "Event listeners hold a reference to their callback, and the callback (created with bind) holds a reference to `this` (the component). Even after `destroy()` nulls the properties, the listener on the DOM element keeps the component alive in memory."
+    },
+    {
+        "id": "browser-bug-idb-001",
+        "type": "bug-finding",
+        "category": "browser-internals",
+        "difficulty": "hard",
+        "tags": ["indexeddb", "transactions", "async"],
+        "question": "Find the bug in this IndexedDB transaction:",
+        "code": "async function saveData(db, key, value) {\n  const tx = db.transaction('store', 'readwrite');\n  const store = tx.objectStore('store');\n  store.put(value, key);\n  await new Promise(resolve => setTimeout(resolve, 0));\n  store.put({ extra: true }, 'extra-key');\n}",
+        "correct": "The await causes the IndexedDB transaction to auto-commit before the second store.put() call",
+        "referenceAnswer": "IndexedDB transactions auto-commit when there are no pending requests AND control returns to the event loop. `await setTimeout(resolve, 0)` yields to the event loop, triggering auto-commit. The second `store.put()` will throw a TransactionInactiveError. Fix: issue both put() requests before any await, or listen to the tx.oncomplete event.",
+        "explanation": "IndexedDB's transaction lifetime is tied to the event loop — any async gap (including awaiting microtasks that yield to the event loop) can cause auto-commit. All IDB requests within a transaction must be made synchronously within the transaction's callbacks."
+    },
+    {
+        "id": "browser-cc-eventloop-001",
+        "type": "code-completion",
+        "category": "browser-internals",
+        "difficulty": "easy",
+        "tags": ["event-loop", "microtasks", "promises"],
+        "question": "Complete the code so that the microtask fires after the synchronous code but before the setTimeout:",
+        "code": "console.log('start');\n\n___(___).then(() => console.log('microtask'));\n\nsetTimeout(() => console.log('macrotask'), 0);\n\nconsole.log('end');\n// Output: start → end → microtask → macrotask",
+        "blanks": ["Promise", "resolve()"],
+        "lang": "javascript",
+        "referenceAnswer": "Promise.resolve() creates an already-resolved Promise. Its .then() callback is queued as a microtask, which runs after the synchronous code ('start', 'end') and before the setTimeout macrotask.",
+        "explanation": "Microtasks (Promise callbacks) are processed after each task's synchronous code completes, before the next macrotask. This is why microtask fires between 'end' and 'macrotask'."
+    },
+    {
+        "id": "browser-cc-observer-001",
+        "type": "code-completion",
+        "category": "browser-internals",
+        "difficulty": "medium",
+        "tags": ["IntersectionObserver", "lazy-loading"],
+        "question": "Complete the IntersectionObserver setup for lazy-loading images:",
+        "code": "const observer = new ___(([entry]) => {\n  if (entry.___) {\n    entry.target.src = entry.target.dataset.src;\n    observer.unobserve(entry.target);\n  }\n}, { threshold: 0.1 });\n\ndocument.querySelectorAll('img[data-src]').forEach(img => {\n  observer.___(img);\n});",
+        "blanks": ["IntersectionObserver", "isIntersecting", "observe"],
+        "lang": "javascript",
+        "referenceAnswer": "IntersectionObserver constructor takes a callback and options. `entry.isIntersecting` is true when the element enters the viewport. `observer.observe(img)` registers each image for observation.",
+        "explanation": "The IntersectionObserver API provides an efficient way to detect when elements enter/leave the viewport without scroll event listeners. `unobserve` stops observing the element after its image has loaded."
+    },
+    {
+        "id": "browser-cc-sw-cache-001",
+        "type": "code-completion",
+        "category": "browser-internals",
+        "difficulty": "medium",
+        "tags": ["service-workers", "cache", "offline"],
+        "question": "Complete the Service Worker install handler to pre-cache a list of assets:",
+        "code": "const CACHE_NAME = 'v1';\nconst ASSETS = ['/', '/index.html', '/app.js'];\n\nself.addEventListener('install', (event) => {\n  event.___(\n    caches.___(CACHE_NAME).then(cache => cache.___(ASSETS))\n  );\n});",
+        "blanks": ["waitUntil", "open", "addAll"],
+        "lang": "javascript",
+        "referenceAnswer": "event.waitUntil() extends the install lifetime until the promise resolves. caches.open() returns a Cache instance. cache.addAll() fetches and stores all assets atomically — if any request fails, the entire addAll rejects.",
+        "explanation": "During the install phase, `event.waitUntil()` prevents the SW from activating until pre-caching completes. `cache.addAll()` is atomic: all resources must succeed or the install fails."
+    },
+    {
+        "id": "browser-cc-idb-001",
+        "type": "code-completion",
+        "category": "browser-internals",
+        "difficulty": "medium",
+        "tags": ["indexeddb", "async", "storage"],
+        "question": "Complete the IndexedDB open and schema upgrade:",
+        "code": "const dbPromise = new ___(\"mydb\", 1);\ndbPromise.___ = (event) => {\n  const db = event.target.result;\n  db.___('users', { keyPath: 'id', autoIncrement: true });\n};",
+        "blanks": ["IDBOpenDBRequest", "onupgradeneeded", "createObjectStore"],
+        "lang": "javascript",
+        "referenceAnswer": "IDBOpenDBRequest is returned by indexedDB.open(). The onupgradeneeded event fires when the database is first created or the version increases. createObjectStore creates a new object store with the specified key path.",
+        "explanation": "IndexedDB schema changes (creating/deleting stores and indexes) must happen inside the `onupgradeneeded` callback. This is the only place where structural changes to the database are permitted."
+    },
+    {
+        "id": "browser-cc-mo-001",
+        "type": "code-completion",
+        "category": "browser-internals",
+        "difficulty": "hard",
+        "tags": ["MutationObserver", "dom", "observers"],
+        "question": "Complete the MutationObserver that watches for added child nodes:",
+        "code": "const observer = new ___(mutations => {\n  mutations.forEach(mutation => {\n    if (mutation.___ === 'childList') {\n      mutation.___.forEach(node => console.log('Added:', node));\n    }\n  });\n});\n\nobserver.observe(document.body, { ___: true });",
+        "blanks": ["MutationObserver", "type", "addedNodes", "childList"],
+        "lang": "javascript",
+        "referenceAnswer": "MutationObserver constructor takes a callback receiving a MutationRecord array. `mutation.type === 'childList'` checks for DOM insertions/removals. `mutation.addedNodes` is a NodeList of inserted nodes. The `{ childList: true }` option enables child node observation.",
+        "explanation": "MutationObserver is the modern replacement for the deprecated Mutation Events. The observe() options object must include `childList: true` to receive notifications about child node additions and removals."
+    },
+    {
+        "id": "browser-cc-perf-001",
+        "type": "code-completion",
+        "category": "browser-internals",
+        "difficulty": "hard",
+        "tags": ["performance-mark", "performance-measure", "web-vitals"],
+        "question": "Complete the User Timing API usage to measure a critical operation:",
+        "code": "performance.___('operation-start');\n\n// ... expensive operation ...\n\nperformance.___('operation-end');\n\nconst [measure] = performance.___(\n  'operation-duration',\n  'operation-start',\n  'operation-end'\n);\nconsole.log(measure.duration + 'ms');",
+        "blanks": ["mark", "mark", "getEntriesByName"],
+        "lang": "javascript",
+        "referenceAnswer": "performance.mark() creates a named timestamp. performance.measure() calculates the duration between two marks. performance.getEntriesByName() retrieves the PerformanceEntry for the measure. Alternatively, performance.measure() returns the entry directly in modern browsers.",
+        "explanation": "The User Timing API (performance.mark/measure) integrates with browser DevTools performance timelines and PerformanceObserver, making it far more useful than console.time() for production performance monitoring."
+    },
+    {
+        "id": "browser-cc-raf-001",
+        "type": "code-completion",
+        "category": "browser-internals",
+        "difficulty": "hard",
+        "tags": ["requestAnimationFrame", "animation", "performance"],
+        "question": "Complete the scroll-linked animation using requestAnimationFrame to avoid layout thrashing:",
+        "code": "let rafId = null;\nlet scrollY = 0;\n\nwindow.addEventListener('scroll', () => {\n  scrollY = window.scrollY;\n  if (!rafId) {\n    rafId = ___(updatePosition);\n  }\n});\n\nfunction updatePosition() {\n  element.style.transform = `translateY(${scrollY * 0.5}px)`;\n  ___ = null;\n}",
+        "blanks": ["requestAnimationFrame", "rafId"],
+        "lang": "javascript",
+        "referenceAnswer": "requestAnimationFrame schedules updatePosition to run before the next paint. The `if (!rafId)` guard prevents scheduling multiple rAF callbacks per frame. Setting rafId to null after execution allows the next scroll event to schedule a new rAF.",
+        "explanation": "This pattern debounces scroll events to the display refresh rate. Only one rAF is queued per frame, and the latest scrollY value is always used. This prevents layout thrashing by separating scroll reads from style writes."
+    }
+]

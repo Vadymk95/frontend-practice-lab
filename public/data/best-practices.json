@@ -1,0 +1,742 @@
+[
+    {
+        "id": "bp-naming-001",
+        "type": "single-choice",
+        "category": "best-practices",
+        "difficulty": "easy",
+        "tags": ["naming", "clean-code"],
+        "question": "Which variable name best follows clean code naming conventions?",
+        "options": ["d", "data", "userProfileData", "theUserProfileDataObjectFromTheAPI"],
+        "correct": 2,
+        "explanation": "userProfileData is descriptive enough to convey the meaning (who, what) without being redundant. Single letters (d) are only acceptable as loop counters. Generic names (data) give no context. Overly verbose names reduce readability. Aim for intention-revealing names that explain the 'what' clearly."
+    },
+    {
+        "id": "bp-naming-002",
+        "type": "single-choice",
+        "category": "best-practices",
+        "difficulty": "easy",
+        "tags": ["naming", "functions"],
+        "question": "Which function name best communicates its intent?",
+        "options": ["process()", "handle()", "getUserByEmail(email: string)", "doStuff()"],
+        "correct": 2,
+        "explanation": "getUserByEmail clearly communicates: the action (get), the entity (User), and the parameter contract (by email). Generic names like process(), handle(), and doStuff() give no information about what the function does and force readers to inspect the body."
+    },
+    {
+        "id": "bp-commenting-001",
+        "type": "single-choice",
+        "category": "best-practices",
+        "difficulty": "easy",
+        "tags": ["comments", "clean-code"],
+        "question": "When is a code comment most valuable?",
+        "options": [
+            "To describe what every line of code does",
+            "To explain the 'why' behind a non-obvious decision that the code itself cannot express",
+            "To document every function parameter",
+            "To mark code that needs to be revisited with TODO"
+        ],
+        "correct": 1,
+        "explanation": "The best comments explain 'why' — the context, constraints, or reasoning behind a decision that the code cannot convey. 'What' is self-documenting through good naming and structure. TODOs have value but must be tracked; parameter docs are better served by TypeScript types."
+    },
+    {
+        "id": "bp-error-001",
+        "type": "single-choice",
+        "category": "best-practices",
+        "difficulty": "easy",
+        "tags": ["error-handling"],
+        "question": "What is wrong with swallowing errors silently?",
+        "options": [
+            "It makes the application run slower",
+            "It causes the application to crash immediately instead of recovering gracefully",
+            "It hides failures, making bugs impossible to diagnose and leaving the application in an unknown state",
+            "It increases the bundle size"
+        ],
+        "correct": 2,
+        "explanation": "Silent error swallowing (empty catch blocks) is one of the most dangerous patterns in software. It hides failures, making debugging extremely difficult, and allows the application to continue in a corrupted state that can cause cascading failures or data corruption downstream."
+    },
+    {
+        "id": "bp-immutability-001",
+        "type": "single-choice",
+        "category": "best-practices",
+        "difficulty": "easy",
+        "tags": ["immutability", "pure-functions"],
+        "question": "Why is mutating function parameters considered a bad practice?",
+        "options": [
+            "It always causes a runtime error",
+            "It creates side effects that make the function unpredictable and harder to test",
+            "It prevents the function from returning a value",
+            "It is forbidden by the ECMAScript standard"
+        ],
+        "correct": 1,
+        "explanation": "Mutating parameters creates hidden side effects — the caller does not expect their object to change after passing it to a function. This makes functions unpredictable, breaks referential transparency, and makes tests require more setup to isolate state."
+    },
+    {
+        "id": "bp-pure-001",
+        "type": "single-choice",
+        "category": "best-practices",
+        "difficulty": "easy",
+        "tags": ["pure-functions", "side-effects"],
+        "question": "What defines a pure function?",
+        "options": [
+            "A function that only uses native JavaScript methods",
+            "A function with the same output for the same inputs and no observable side effects",
+            "A function that does not use variables from outer scope",
+            "A function that never throws an error"
+        ],
+        "correct": 1,
+        "explanation": "A pure function: (1) always returns the same output for the same inputs (deterministic), and (2) has no side effects (does not mutate external state, make network calls, or write to storage). Pure functions are easy to test, compose, and reason about."
+    },
+    {
+        "id": "bp-concerns-001",
+        "type": "single-choice",
+        "category": "best-practices",
+        "difficulty": "easy",
+        "tags": ["separation-of-concerns"],
+        "question": "Which of the following violates separation of concerns in a React component?",
+        "options": [
+            "Using a custom hook to separate data fetching logic from the UI component",
+            "Making a fetch() call directly inside the JSX render return statement",
+            "Separating form validation logic into a separate utility function",
+            "Moving complex calculations into a derived selector"
+        ],
+        "correct": 1,
+        "explanation": "Calling fetch() inside JSX mixes data fetching (a side effect) with rendering logic. Rendering should be a pure function of props/state. Data fetching belongs in event handlers, hooks, or lifecycle methods — never directly in JSX."
+    },
+    {
+        "id": "bp-a11y-001",
+        "type": "single-choice",
+        "category": "best-practices",
+        "difficulty": "easy",
+        "tags": ["a11y", "accessibility", "WCAG"],
+        "question": "What minimum WCAG contrast ratio is required for normal text to meet AA standard?",
+        "options": ["2:1", "3:1", "4.5:1", "7:1"],
+        "correct": 2,
+        "explanation": "WCAG 2.1 AA requires a contrast ratio of at least 4.5:1 for normal text and 3:1 for large text (18pt or 14pt bold). AAA requires 7:1 for normal text. Tools like axe, Lighthouse, or browser DevTools can check contrast ratios automatically."
+    },
+    {
+        "id": "bp-i18n-001",
+        "type": "single-choice",
+        "category": "best-practices",
+        "difficulty": "easy",
+        "tags": ["i18n", "l10n"],
+        "question": "What is the difference between i18n (internationalization) and l10n (localization)?",
+        "options": [
+            "They are identical concepts with different abbreviations",
+            "i18n is the process of designing software to support multiple locales; l10n is the process of adapting it to a specific locale",
+            "i18n handles translations; l10n handles date/number formats",
+            "l10n is only for right-to-left languages"
+        ],
+        "correct": 1,
+        "explanation": "i18n (internationalization) is engineering work: designing the software architecture to support different languages and locales (translation keys, locale switching, pluralization). l10n (localization) is the content work: translating strings and adapting date formats, currencies, and conventions for a specific locale."
+    },
+    {
+        "id": "bp-semver-001",
+        "type": "single-choice",
+        "category": "best-practices",
+        "difficulty": "easy",
+        "tags": ["semantic-versioning", "semver"],
+        "question": "In semantic versioning (MAJOR.MINOR.PATCH), when should the MAJOR version be incremented?",
+        "options": [
+            "When a new feature is added",
+            "When a bug is fixed",
+            "When a breaking change is introduced that is not backward-compatible",
+            "After every release"
+        ],
+        "correct": 2,
+        "explanation": "Semantic versioning: MAJOR increments for breaking (backward-incompatible) changes, MINOR for new backward-compatible features, PATCH for backward-compatible bug fixes. Following semver allows consumers to safely automate dependency updates using range constraints like ^1.0.0."
+    },
+    {
+        "id": "bp-logging-001",
+        "type": "single-choice",
+        "category": "best-practices",
+        "difficulty": "easy",
+        "tags": ["logging", "levels"],
+        "question": "Which log level is most appropriate for recording that a user successfully logged in?",
+        "options": ["ERROR", "WARN", "INFO", "DEBUG"],
+        "correct": 2,
+        "explanation": "INFO is appropriate for significant application events (user logged in, order placed, job completed). ERROR is for unexpected failures. WARN is for recoverable issues or unexpected states. DEBUG is for detailed diagnostic information only useful during development."
+    },
+    {
+        "id": "bp-linting-001",
+        "type": "single-choice",
+        "category": "best-practices",
+        "difficulty": "easy",
+        "tags": ["linting", "formatting"],
+        "question": "What is the primary difference between a linter (e.g., ESLint) and a formatter (e.g., Prettier)?",
+        "options": [
+            "Linters fix formatting; formatters find logic bugs",
+            "Linters find code quality issues (potential bugs, bad patterns); formatters enforce consistent code style (spacing, semicolons, quotes)",
+            "They are identical tools with different names",
+            "Formatters only work on CSS; linters work on JavaScript"
+        ],
+        "correct": 1,
+        "explanation": "ESLint catches code quality issues: unused variables, undefined references, potential bugs, and pattern violations. Prettier enforces visual consistency: indentation, line length, quote style, semicolons. They are complementary — run formatter first, then linter."
+    },
+    {
+        "id": "bp-precommit-001",
+        "type": "single-choice",
+        "category": "best-practices",
+        "difficulty": "easy",
+        "tags": ["pre-commit", "git-hooks", "automation"],
+        "question": "What is the primary benefit of running linting and tests in a pre-commit hook?",
+        "options": [
+            "It replaces the need for CI/CD pipelines",
+            "It prevents broken or non-conforming code from entering the repository at the source",
+            "It automatically fixes all code issues before committing",
+            "It encrypts the commit before pushing to the remote"
+        ],
+        "correct": 1,
+        "explanation": "Pre-commit hooks catch issues locally before they reach the repository, providing the fastest possible feedback (seconds vs. minutes in CI). This prevents obvious issues from cluttering the history and reduces CI queue load. They complement CI — they do not replace it."
+    },
+    {
+        "id": "bp-ci-001",
+        "type": "single-choice",
+        "category": "best-practices",
+        "difficulty": "easy",
+        "tags": ["CI-CD", "automation"],
+        "question": "What is the minimum set of quality gates that should run in a CI pipeline on every PR?",
+        "options": [
+            "Only deployment — tests run locally",
+            "Linting, type checking, unit tests, and build",
+            "Only end-to-end tests — they cover everything",
+            "Code coverage report — everything else is optional"
+        ],
+        "correct": 1,
+        "explanation": "A minimal CI pipeline should run: linting (code style), type checking (TypeScript), unit/integration tests (correctness), and a production build (ensures it compiles without errors). This safety net catches regressions before they merge to the main branch."
+    },
+    {
+        "id": "bp-dry-001",
+        "type": "single-choice",
+        "category": "best-practices",
+        "difficulty": "easy",
+        "tags": ["DRY", "duplication"],
+        "question": "When is it acceptable to duplicate code instead of abstracting it?",
+        "options": [
+            "Never — duplication is always wrong",
+            "When the two pieces of code happen to look similar but serve different business concepts that will diverge in the future",
+            "When the abstraction would add more than 5 lines",
+            "Only in test files"
+        ],
+        "correct": 1,
+        "explanation": "The DRY principle applies to knowledge, not just syntax. If two things look similar but represent independent concepts, abstracting them creates artificial coupling that makes both harder to change independently. 'Duplication is far cheaper than the wrong abstraction' (Sandi Metz)."
+    },
+    {
+        "id": "bp-naming-003",
+        "type": "single-choice",
+        "category": "best-practices",
+        "difficulty": "medium",
+        "tags": ["naming", "boolean"],
+        "question": "Which boolean variable name follows best practices?",
+        "options": ["flag", "status", "active", "isUserAuthenticated"],
+        "correct": 3,
+        "explanation": "Boolean variables should use is/has/can/should prefixes to make the true/false meaning immediately obvious. isUserAuthenticated reads naturally in conditionals: if (isUserAuthenticated). Generic names like flag, status, and active are ambiguous — they could be strings, numbers, or booleans."
+    },
+    {
+        "id": "bp-a11y-002",
+        "type": "single-choice",
+        "category": "best-practices",
+        "difficulty": "medium",
+        "tags": ["a11y", "keyboard-navigation"],
+        "question": "What is the correct way to implement keyboard accessibility for a custom button built from a `<div>`?",
+        "options": [
+            "Add a CSS cursor:pointer to make it look clickable",
+            "Add tabIndex={0}, role='button', and keyboard event handlers (onKeyDown for Enter/Space)",
+            "Wrap it in a <label> element",
+            "Add a title attribute with the button description"
+        ],
+        "correct": 1,
+        "explanation": "To make a non-interactive element accessible: add tabIndex={0} to make it focusable, role='button' so assistive technologies announce it correctly, and handle keyboard events (Enter and Space activate buttons). Better yet, use a native <button> element which provides all of this for free."
+    },
+    {
+        "id": "bp-i18n-002",
+        "type": "single-choice",
+        "category": "best-practices",
+        "difficulty": "medium",
+        "tags": ["i18n", "pluralization"],
+        "question": "Which approach correctly handles pluralization in i18n?",
+        "options": [
+            "Concatenate strings: `You have ${count} message${count !== 1 ? 's' : ''}`",
+            "Use the i18n library's built-in pluralization rules per locale",
+            "Always use the plural form to avoid the issue",
+            "Store separate translation keys: messages_one and messages_many"
+        ],
+        "correct": 1,
+        "explanation": "String concatenation for pluralization breaks for languages with complex pluralization rules (Russian, Arabic, Polish have multiple plural forms). i18n libraries (i18next, react-intl) handle pluralization through CLDR rules per locale. Never concatenate translated strings."
+    },
+    {
+        "id": "bp-changelog-001",
+        "type": "single-choice",
+        "category": "best-practices",
+        "difficulty": "medium",
+        "tags": ["changelog", "documentation"],
+        "question": "What is the main purpose of a CHANGELOG.md file?",
+        "options": [
+            "To document all Git commits in human-readable form",
+            "To provide a curated, human-readable record of notable changes per release version",
+            "To replace README documentation",
+            "To list all contributors to the project"
+        ],
+        "correct": 1,
+        "explanation": "A CHANGELOG curates notable user-facing changes per version — new features, bug fixes, breaking changes. It differs from git log (every commit) by focusing on what matters to consumers. The 'Keep a Changelog' format (keepachangelog.com) with semver is the most widely adopted standard."
+    },
+    {
+        "id": "bp-a11y-003",
+        "type": "single-choice",
+        "category": "best-practices",
+        "difficulty": "medium",
+        "tags": ["a11y", "screen-readers", "aria"],
+        "question": "When should you use `aria-label` on an element?",
+        "options": [
+            "On every element to ensure screen readers have descriptions",
+            "When an element has visible text that is already descriptive",
+            "When an interactive element has no visible text label that describes its purpose",
+            "Only on form input elements"
+        ],
+        "correct": 2,
+        "explanation": "aria-label provides an accessible name for interactive elements that have no visible text label (e.g., an icon button: <button aria-label='Close dialog'>✕</button>). Avoid using it when visible text already exists — it creates redundancy. Never use aria-label on non-interactive elements that are already in the document flow."
+    },
+    {
+        "id": "bp-error-002",
+        "type": "single-choice",
+        "category": "best-practices",
+        "difficulty": "medium",
+        "tags": ["error-handling", "error-boundaries"],
+        "question": "In React, what is an Error Boundary and when should it be used?",
+        "options": [
+            "A try/catch block placed inside every component",
+            "A class component that catches JavaScript errors in its child component tree and displays a fallback UI",
+            "A custom hook for handling async errors in useEffect",
+            "A global event listener for unhandled promise rejections"
+        ],
+        "correct": 1,
+        "explanation": "Error Boundaries are React class components with componentDidCatch() and/or getDerivedStateFromError(). They catch rendering errors in their subtree and display a fallback UI instead of crashing the whole app. Use them at strategic boundaries (route level, widget level) to limit the blast radius of errors."
+    },
+    {
+        "id": "bp-jsdoc-001",
+        "type": "single-choice",
+        "category": "best-practices",
+        "difficulty": "medium",
+        "tags": ["documentation", "JSDoc"],
+        "question": "When should you write a JSDoc comment for a function in a TypeScript codebase?",
+        "options": [
+            "For every function without exception",
+            "Never — TypeScript types make JSDoc redundant",
+            "For public APIs, complex algorithms, and non-obvious business logic where the 'why' and usage context add value beyond the types",
+            "Only for functions with more than 3 parameters"
+        ],
+        "correct": 2,
+        "explanation": "In TypeScript, types document the 'what' (signatures, return types). JSDoc adds value for public APIs (usage examples, @throws, @deprecated), complex logic (explaining an algorithm's approach), and non-obvious requirements. Avoid adding JSDoc that merely restates the type signature — it becomes outdated noise."
+    },
+    {
+        "id": "bp-focus-001",
+        "type": "single-choice",
+        "category": "best-practices",
+        "difficulty": "medium",
+        "tags": ["a11y", "focus-management"],
+        "question": "When a modal dialog opens, where should keyboard focus be placed?",
+        "options": [
+            "It should remain on the element that triggered the modal",
+            "It should be placed on the first focusable element inside the modal",
+            "It should be placed on the document body",
+            "Focus management is not important for modals"
+        ],
+        "correct": 1,
+        "explanation": "When a modal opens, focus should move into the modal (to the first focusable element or a specific heading) and be trapped inside it. When the modal closes, focus should return to the element that triggered it. This is essential for keyboard-only and screen reader users."
+    },
+    {
+        "id": "bp-naming-004",
+        "type": "multi-choice",
+        "category": "best-practices",
+        "difficulty": "easy",
+        "tags": ["naming", "conventions"],
+        "question": "Which of the following naming conventions are correct for their context in a TypeScript/React project?",
+        "options": [
+            "PascalCase for React component names: UserProfile",
+            "camelCase for variable and function names: getUserById",
+            "SCREAMING_SNAKE_CASE for constants: MAX_RETRY_COUNT",
+            "snake_case for all CSS class names in Tailwind utilities",
+            "kebab-case for CSS custom properties and file names"
+        ],
+        "correct": [0, 1, 2, 4],
+        "explanation": "Conventions: PascalCase for components (React distinguishes components from HTML by case), camelCase for variables/functions, SCREAMING_SNAKE_CASE for module-level constants, kebab-case for file names and CSS custom properties. Tailwind uses utility class names defined by the framework, not custom conventions."
+    },
+    {
+        "id": "bp-a11y-004",
+        "type": "multi-choice",
+        "category": "best-practices",
+        "difficulty": "medium",
+        "tags": ["a11y", "WCAG", "semantic-HTML"],
+        "question": "Which of the following are examples of using semantic HTML for accessibility?",
+        "options": [
+            "Using <button> instead of <div onClick={}> for interactive controls",
+            "Using <nav> to wrap navigation link groups",
+            "Using <span> for all text elements instead of <p>, <h1>-<h6>",
+            "Using <table> for tabular data instead of CSS grid for layout",
+            "Using <label for='id'> to associate form labels with inputs"
+        ],
+        "correct": [0, 1, 3, 4],
+        "explanation": "Semantic HTML: native <button> provides keyboard access and role for free, <nav> landmarks aid screen reader navigation, <table> conveys data relationships, <label> programmatically associates label text with inputs. Using <span> for all text removes document structure that screen readers and SEO rely on."
+    },
+    {
+        "id": "bp-error-003",
+        "type": "multi-choice",
+        "category": "best-practices",
+        "difficulty": "medium",
+        "tags": ["error-handling", "best-practices"],
+        "question": "Which of the following are best practices for error handling in a frontend application?",
+        "options": [
+            "Never show raw error messages from APIs to end users",
+            "Log errors with structured context (userId, action, timestamp) for debugging",
+            "Swallow all errors in production to prevent crashes",
+            "Distinguish between expected errors (validation) and unexpected errors (system failures)",
+            "Provide user-friendly error messages with actionable recovery steps"
+        ],
+        "correct": [0, 1, 3, 4],
+        "explanation": "Error handling best practices: hide raw API errors from users (security + UX), log with structured context for debugging, distinguish expected from unexpected errors (different handling), and guide users toward recovery. Swallowing errors silently is one of the worst anti-patterns — it hides bugs."
+    },
+    {
+        "id": "bp-logging-002",
+        "type": "multi-choice",
+        "category": "best-practices",
+        "difficulty": "medium",
+        "tags": ["logging", "best-practices"],
+        "question": "Which of the following are best practices for application logging?",
+        "options": [
+            "Include contextual data (user ID, request ID, action) in every log entry",
+            "Log sensitive data (passwords, credit card numbers) for debugging purposes",
+            "Use structured logging (JSON format) for machine-parseable logs",
+            "Use appropriate log levels (DEBUG/INFO/WARN/ERROR) consistently",
+            "Log every variable value at every function call for maximum observability"
+        ],
+        "correct": [0, 2, 3],
+        "explanation": "Good logging: include context for traceability, use structured JSON (grep-able), and use appropriate levels. Never log sensitive data (PII, credentials) — this is a serious security violation. Logging every variable creates noise and can degrade performance; log meaningful events and state transitions."
+    },
+    {
+        "id": "bp-cicd-001",
+        "type": "multi-choice",
+        "category": "best-practices",
+        "difficulty": "medium",
+        "tags": ["CI-CD", "best-practices"],
+        "question": "Which of the following are best practices for a CI/CD pipeline?",
+        "options": [
+            "Fail fast — run the fastest checks first",
+            "Run the pipeline only on the main branch",
+            "Make the pipeline idempotent — running it twice produces the same result",
+            "Keep pipeline runs under 10 minutes to maintain fast feedback",
+            "Store secrets in plain text in the pipeline YAML for visibility"
+        ],
+        "correct": [0, 2, 3],
+        "explanation": "CI/CD best practices: fail fast (run lint before tests), idempotent pipelines (no side effects from re-runs), and fast feedback (<10 min). Run CI on every PR — not just main. Never store secrets in plain text — use secret management (GitHub Secrets, Vault, etc.)."
+    },
+    {
+        "id": "bp-review-001",
+        "type": "multi-choice",
+        "category": "best-practices",
+        "difficulty": "hard",
+        "tags": ["code-review", "best-practices"],
+        "question": "Which of the following are best practices for code review from the author's perspective?",
+        "options": [
+            "Keep PRs small and focused — one concern per PR",
+            "Add a description explaining what the PR does and why",
+            "Submit a PR with as many changes as possible to minimize review rounds",
+            "Pre-review your own PR before requesting reviews",
+            "Respond to all comments, even if only to acknowledge and defer"
+        ],
+        "correct": [0, 1, 3, 4],
+        "explanation": "Author best practices: small focused PRs (easier to review and revert), clear descriptions (context for reviewers), self-review before requesting (catches obvious issues), and respond to all comments (shows respect and keeps communication clear). Large PRs with unrelated changes are harder to review and understand."
+    },
+    {
+        "id": "bp-naming-bug-001",
+        "type": "bug-finding",
+        "category": "best-practices",
+        "difficulty": "easy",
+        "tags": ["naming", "bugs", "readability"],
+        "question": "This code has a naming bug that makes it misleading. Find it.",
+        "code": "function isUserActive(user: User): string {\n  if (user.status === 'active') {\n    return 'yes';\n  }\n  return 'no';\n}",
+        "correct": "The function is named isUserActive (implies boolean return) but returns a string ('yes'/'no') instead of a boolean",
+        "referenceAnswer": "Fix: function isUserActive(user: User): boolean { return user.status === 'active'; }. The is prefix signals a boolean predicate. Returning 'yes'/'no' strings breaks the naming contract and forces callers to compare against magic strings.",
+        "explanation": "Function names are contracts. The is/has/can prefix is a universal convention for boolean-returning predicates. Returning a non-boolean from an isX() function creates misleading code that callers will use incorrectly (e.g., if (isUserActive(user)) would be truthy for both 'yes' and 'no')."
+    },
+    {
+        "id": "bp-error-bug-001",
+        "type": "bug-finding",
+        "category": "best-practices",
+        "difficulty": "medium",
+        "tags": ["error-handling", "bugs"],
+        "question": "This error handling code has two bugs. Find them.",
+        "code": "async function fetchUser(id: string) {\n  try {\n    const response = await fetch(`/api/users/${id}`);\n    const user = await response.json();\n    return user;\n  } catch (e) {\n    console.log('Error occurred');\n  }\n}",
+        "correct": "1) HTTP errors (4xx/5xx) are not caught because fetch() only throws on network failures; 2) The error is swallowed after logging — the function returns undefined, hiding the failure from callers",
+        "referenceAnswer": "Fix: check response.ok and throw on HTTP errors; re-throw or return a typed error so callers know the fetch failed. Use logger.error with context instead of console.log.",
+        "explanation": "fetch() only rejects on network errors (no internet, DNS failure). HTTP 4xx/5xx responses resolve successfully. You must check response.ok to detect these. Additionally, catching and logging without re-throwing makes the function return undefined, causing silent failures in callers."
+    },
+    {
+        "id": "bp-a11y-bug-001",
+        "type": "bug-finding",
+        "category": "best-practices",
+        "difficulty": "medium",
+        "tags": ["a11y", "accessibility", "semantic-HTML"],
+        "question": "This form has two accessibility violations. Find them.",
+        "code": "function LoginForm() {\n  return (\n    <form>\n      <div>Email</div>\n      <input type=\"text\" placeholder=\"Enter email\" />\n      <div>Password</div>\n      <input type=\"text\" />\n      <div onClick={() => handleSubmit()}>Login</div>\n    </form>\n  );\n}",
+        "correct": "1) Labels are not associated with inputs (using <div> instead of <label htmlFor=>) — screen readers cannot announce field names; 2) The submit 'button' is a <div> not a <button> — not focusable or keyboard-activatable; also the password field should use type='password'",
+        "referenceAnswer": "Use <label htmlFor='email'> and id='email' on inputs; use <button type='submit'>Login</button> instead of <div onClick>; use type='password' for the password field.",
+        "explanation": "Three issues: 1) <div> labels are not programmatically associated with inputs — use <label htmlFor='id'>. 2) <div onClick> is not a button — not focusable, not keyboard-accessible, no ARIA role. 3) type='text' for password exposes input in plain text — must be type='password'."
+    },
+    {
+        "id": "bp-immutability-bug-001",
+        "type": "bug-finding",
+        "category": "best-practices",
+        "difficulty": "medium",
+        "tags": ["immutability", "side-effects", "bugs"],
+        "question": "This function has a subtle mutation bug. Find it.",
+        "code": "function addItem(cart: CartItem[], newItem: CartItem): CartItem[] {\n  cart.push(newItem);\n  return cart;\n}",
+        "correct": "The function mutates the original cart array instead of returning a new array, creating an unexpected side effect for the caller",
+        "referenceAnswer": "Fix: return [...cart, newItem]; — this returns a new array without mutating the original. Mutating the input array means any other reference to that array also sees the change, which can cause hard-to-trace bugs in React state management.",
+        "explanation": "In JavaScript, arrays are passed by reference. cart.push(newItem) mutates the original array — all other code holding a reference to the same array will see the modification unexpectedly. Always return new data structures from functions that should be pure."
+    },
+    {
+        "id": "bp-logging-bug-001",
+        "type": "bug-finding",
+        "category": "best-practices",
+        "difficulty": "hard",
+        "tags": ["logging", "security", "PII"],
+        "question": "This logging code has a critical security violation. Identify it.",
+        "code": "function processPayment(payload: PaymentPayload) {\n  logger.info('Processing payment', {\n    userId: payload.userId,\n    amount: payload.amount,\n    cardNumber: payload.cardNumber,\n    cvv: payload.cvv,\n  });\n  return chargeCard(payload);\n}",
+        "correct": "The function logs sensitive payment data (cardNumber and CVV) which is a PCI DSS violation and serious security risk",
+        "referenceAnswer": "Never log sensitive data. Log only safe identifiers: logger.info('Processing payment', { userId: payload.userId, amount: payload.amount, lastFour: payload.cardNumber.slice(-4) }). CVV must never be logged or stored under any circumstances.",
+        "explanation": "Logging credit card numbers and CVVs violates PCI DSS compliance and creates a serious security risk — log files are often stored, shipped, and accessed by multiple systems. Sanitize payment data before logging: use last 4 digits for card numbers and never log CVV."
+    },
+    {
+        "id": "bp-precommit-bug-001",
+        "type": "bug-finding",
+        "category": "best-practices",
+        "difficulty": "hard",
+        "tags": ["pre-commit", "git-hooks", "configuration"],
+        "question": "This Husky + lint-staged configuration does not run as expected. Find the bug.",
+        "code": "// package.json\n{\n  \"lint-staged\": {\n    \"*.{ts,tsx}\": [\n      \"eslint\",\n      \"tsc --noEmit\",\n      \"git add\"\n    ]\n  }\n}",
+        "correct": "Running tsc --noEmit in lint-staged is problematic because tsc type-checks the entire project, not just staged files, and does not accept a list of files from lint-staged — this causes slow, incorrect behavior",
+        "referenceAnswer": "Use eslint --fix for linting (it can take file arguments). For type checking, run tsc separately (not via lint-staged) or use a project-wide check in CI. Also: 'git add' in lint-staged v10+ is no longer needed — lint-staged handles re-staging automatically.",
+        "explanation": "lint-staged passes a list of staged files to each command. ESLint and Prettier accept file lists. tsc --noEmit does NOT accept file lists — it checks the entire project using tsconfig.json. Running it in lint-staged is both slow (full project check) and misleading. Type-checking belongs in CI, not per-staged-file."
+    },
+    {
+        "id": "bp-naming-005",
+        "type": "code-completion",
+        "category": "best-practices",
+        "difficulty": "easy",
+        "tags": ["naming", "clean-code"],
+        "question": "Refactor the poor names in this function to follow clean code naming conventions:",
+        "code": "// Before (bad names):\nfunction fn(d: Date, n: number): Date {\n  const r = new Date(d);\n  r.___(r.___() + n);\n  return r;\n}\n\n// After (good names):\nfunction addDaysToDate(___: Date, ___: number): Date {",
+        "blanks": ["setDate", "getDate", "date", "daysToAdd"],
+        "referenceAnswer": "setDate and getDate manipulate the day; function signature uses date and daysToAdd as intent-revealing parameter names.",
+        "lang": "typescript",
+        "explanation": "Rename single-letter variables (d→date, n→daysToAdd) and the function itself (fn→addDaysToDate) to reveal intent. The body methods setDate and getDate are the correct Date API methods for this operation."
+    },
+    {
+        "id": "bp-a11y-005",
+        "type": "code-completion",
+        "category": "best-practices",
+        "difficulty": "medium",
+        "tags": ["a11y", "ARIA", "dialog"],
+        "question": "Complete the accessible modal dialog with the required ARIA attributes:",
+        "code": "function Modal({ isOpen, title, children, onClose }: ModalProps) {\n  if (!isOpen) return null;\n  return (\n    <div\n      role=\"___\"\n      aria-___={true}\n      aria-labelledby=\"modal-title\"\n    >\n      <h2 id=\"___\">{title}</h2>\n      {children}\n      <button onClick={onClose} aria-label=\"Close ___\">\n        ✕\n      </button>\n    </div>\n  );\n}",
+        "blanks": ["dialog", "modal", "modal-title", "dialog"],
+        "referenceAnswer": "role='dialog', aria-modal={true} traps virtual cursor; aria-labelledby references the title; id='modal-title' on the heading; aria-label='Close dialog' on the close button.",
+        "lang": "typescript",
+        "explanation": "Accessible modals require: role='dialog' (announces to screen readers), aria-modal={true} (traps screen reader virtual cursor inside), aria-labelledby pointing to the dialog's title element. Without these, screen reader users may not know a dialog opened or be able to navigate it."
+    },
+    {
+        "id": "bp-error-004",
+        "type": "code-completion",
+        "category": "best-practices",
+        "difficulty": "medium",
+        "tags": ["error-handling", "fetch", "TypeScript"],
+        "question": "Complete this robust fetch wrapper that properly handles HTTP errors:",
+        "code": "async function apiFetch<T>(url: string): Promise<T> {\n  const response = await fetch(url);\n\n  if (!response.___) {\n    const error = await response.text();\n    throw new Error(`HTTP ${response.___}: ${error}`);\n  }\n\n  return response.___();\n}",
+        "blanks": ["ok", "status", "json"],
+        "referenceAnswer": "response.ok checks for 2xx status; response.status provides the HTTP status code; response.json() parses the success body.",
+        "lang": "typescript",
+        "explanation": "response.ok is true only for 2xx status codes. Checking it and throwing on failure ensures HTTP errors are propagated as exceptions that callers can handle, instead of silently returning undefined. Always include the HTTP status code in the error message for debugging."
+    },
+    {
+        "id": "bp-i18n-003",
+        "type": "code-completion",
+        "category": "best-practices",
+        "difficulty": "medium",
+        "tags": ["i18n", "React", "i18next"],
+        "question": "Complete this i18next usage in a React component for a user greeting with a name:",
+        "code": "import { useTranslation } from 'react-i18next';\n\nfunction Greeting({ username }: { username: string }) {\n  const { ___ } = useTranslation('___');\n  return <h1>{___('greeting.welcome', { name: username })}</h1>;\n}\n\n// en/common.json:\n// { \"greeting\": { \"welcome\": \"Welcome, {{___}}!\" } }",
+        "blanks": ["t", "common", "t", "name"],
+        "referenceAnswer": "useTranslation('common') loads the common namespace; t('greeting.welcome', { name }) passes the interpolation value; {{name}} is the i18next placeholder.",
+        "lang": "typescript",
+        "explanation": "i18next uses namespace-scoped keys (greeting.welcome in the common namespace). The t() function accepts a key and an interpolation object. Placeholders use {{key}} syntax in JSON files. This keeps all user-visible strings centralized and translatable."
+    },
+    {
+        "id": "bp-pure-002",
+        "type": "code-completion",
+        "category": "best-practices",
+        "difficulty": "hard",
+        "tags": ["pure-functions", "immutability", "refactoring"],
+        "question": "Refactor this impure function into a pure function by completing the blanks:",
+        "code": "// Impure version:\nconst stats = { count: 0, total: 0 };\nfunction recordSale(amount: number) {\n  stats.count++;\n  stats.total += amount;\n}\n\n// Pure version:\ninterface Stats { count: number; total: number; }\nfunction recordSale(current: ___, amount: number): ___ {\n  return {\n    count: current.___ + 1,\n    total: current.___ + amount,\n  };\n}",
+        "blanks": ["Stats", "Stats", "count", "total"],
+        "referenceAnswer": "Parameters: current: Stats, amount: number; returns Stats; spreads or reconstructs with count+1 and total+amount.",
+        "lang": "typescript",
+        "explanation": "Converting the impure function to pure: instead of mutating external state, accept the current state as a parameter and return a new state object. The caller is responsible for updating the reference. This makes the function testable without setup and composable."
+    },
+    {
+        "id": "bp-cicd-002",
+        "type": "code-completion",
+        "category": "best-practices",
+        "difficulty": "hard",
+        "tags": ["CI-CD", "GitHub-Actions"],
+        "question": "Complete this GitHub Actions workflow that runs lint and tests on every PR:",
+        "code": "name: CI\non:\n  ___:\n    branches: ['main']\n  ___:\n    branches: ['main']\n\njobs:\n  quality:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n      - run: npm ___\n      - run: npm run ___\n      - run: npm run ___",
+        "blanks": ["push", "pull_request", "ci", "lint", "test"],
+        "referenceAnswer": "Triggers: push and pull_request on main; steps: npm ci (clean install), npm run lint, npm run test.",
+        "lang": "yaml",
+        "explanation": "GitHub Actions workflow: trigger on both push to main and pull_request targeting main. Use npm ci (not npm install) for reproducible installs in CI — it uses package-lock.json exactly. Run lint before tests (fail fast) so developers get feedback on style issues immediately."
+    },
+    {
+        "id": "bp-concerns-002",
+        "type": "single-choice",
+        "category": "best-practices",
+        "difficulty": "medium",
+        "tags": ["separation-of-concerns", "React", "hooks"],
+        "question": "What pattern correctly separates concerns in a React component that fetches and displays user data?",
+        "options": [
+            "Put fetch() call, loading state, and JSX all in the component body",
+            "Use a custom hook useUserData() for fetching/state, and keep the component as a pure presenter that renders props",
+            "Use a class component with all logic in componentDidMount",
+            "Move the fetch call into the component's prop default values"
+        ],
+        "correct": 1,
+        "explanation": "Separating data-fetching logic into a custom hook and keeping the component as a pure presenter follows the separation of concerns principle. The hook is independently testable; the component only depends on the data shape, not how it is fetched."
+    },
+    {
+        "id": "bp-dry-002",
+        "type": "single-choice",
+        "category": "best-practices",
+        "difficulty": "medium",
+        "tags": ["DRY", "abstraction"],
+        "question": "You notice two components share 80% of the same logic. What should you do first?",
+        "options": [
+            "Immediately create a shared utility and refactor both components",
+            "Copy-paste the logic a third time if a third component needs it",
+            "Wait and understand whether the similar logic represents the same concept or coincidental similarity before abstracting",
+            "Delete one component and use the other for both cases"
+        ],
+        "correct": 2,
+        "explanation": "Before extracting a shared abstraction, verify the two uses represent the same concept — not just coincidentally similar code. The 'rule of three' suggests waiting until you need it in three places. Premature abstraction can create false coupling that makes independent changes harder."
+    },
+    {
+        "id": "bp-a11y-006",
+        "type": "single-choice",
+        "category": "best-practices",
+        "difficulty": "medium",
+        "tags": ["a11y", "images", "alt-text"],
+        "question": "When should an image's `alt` attribute be an empty string (`alt=\"\"`)?",
+        "options": [
+            "Never — all images require descriptive alt text",
+            "When the image is decorative and adds no informational value to the content",
+            "When the image fails to load",
+            "When the image is larger than 100x100 pixels"
+        ],
+        "correct": 1,
+        "explanation": "Decorative images (backgrounds, dividers, illustrations that repeat information already in text) should use alt=\"\" so screen readers skip them. An empty alt tells AT the image is purely decorative. Omitting alt entirely is wrong — screen readers then read the file name. Informational images always need descriptive alt text."
+    },
+    {
+        "id": "bp-error-005",
+        "type": "single-choice",
+        "category": "best-practices",
+        "difficulty": "hard",
+        "tags": ["error-handling", "typed-errors"],
+        "question": "What is the advantage of using typed/discriminated union errors over throwing generic Error objects?",
+        "options": [
+            "TypeScript will automatically catch all errors at compile time",
+            "Callers can exhaustively handle each error case and the type system enforces that all cases are covered",
+            "Typed errors are faster at runtime than thrown exceptions",
+            "They prevent errors from propagating to parent components"
+        ],
+        "correct": 1,
+        "explanation": "Typed errors modeled as discriminated unions (e.g., Result<T, E>) make all error cases visible in the type signature. Callers are forced by the type checker to handle each case, preventing unhandled error paths. This contrasts with thrown exceptions which are invisible in TypeScript's type system."
+    },
+    {
+        "id": "bp-immutability-002",
+        "type": "multi-choice",
+        "category": "best-practices",
+        "difficulty": "medium",
+        "tags": ["immutability", "patterns"],
+        "question": "Which of the following patterns enforce immutability in JavaScript/TypeScript?",
+        "options": [
+            "Using const for variable declarations",
+            "Using Object.freeze() on objects",
+            "Using the readonly modifier on TypeScript type fields",
+            "Using let instead of var",
+            "Returning new arrays/objects instead of mutating existing ones"
+        ],
+        "correct": [0, 1, 2, 4],
+        "explanation": "Immutability techniques: const prevents reassignment (not mutation), Object.freeze() prevents runtime mutation, readonly prevents mutation at compile time in TypeScript, and returning new structures is the functional approach. let vs var has nothing to do with immutability."
+    },
+    {
+        "id": "bp-concerns-003",
+        "type": "multi-choice",
+        "category": "best-practices",
+        "difficulty": "hard",
+        "tags": ["separation-of-concerns", "architecture"],
+        "question": "Which of the following are valid ways to separate concerns in a large frontend application?",
+        "options": [
+            "Separate UI components from data-fetching logic using custom hooks",
+            "Use feature modules to co-locate related UI, state, and API calls",
+            "Put all application logic in a single 1000-line App.tsx file for simplicity",
+            "Separate business logic from UI by using pure functions or a domain model layer",
+            "Use path aliases (@/features, @/shared) to enforce module boundaries"
+        ],
+        "correct": [0, 1, 3, 4],
+        "explanation": "Valid separation of concerns strategies: custom hooks for logic/UI split, feature modules for cohesion, pure functions/domain models for business logic isolation, and path aliases to enforce architectural boundaries. A monolithic App.tsx is the opposite of separation of concerns."
+    },
+    {
+        "id": "bp-semver-002",
+        "type": "multi-choice",
+        "category": "best-practices",
+        "difficulty": "medium",
+        "tags": ["semantic-versioning", "semver"],
+        "question": "Which of the following changes require a MINOR version bump (not PATCH or MAJOR) in semantic versioning?",
+        "options": [
+            "Adding a new optional function parameter",
+            "Fixing a bug in an existing function",
+            "Adding a new exported function to a library",
+            "Removing a deprecated API",
+            "Adding a new optional configuration property"
+        ],
+        "correct": [0, 2, 4],
+        "explanation": "MINOR bumps are for backward-compatible new functionality: new exported functions, new optional parameters, new optional config. PATCH is for backward-compatible bug fixes. Removing a deprecated API is a breaking change (MAJOR) even if it was deprecated — the removal breaks existing consumers."
+    },
+    {
+        "id": "bp-commenting-002",
+        "type": "code-completion",
+        "category": "best-practices",
+        "difficulty": "hard",
+        "tags": ["comments", "self-documenting-code"],
+        "question": "Refactor this over-commented code into self-documenting code by choosing better names:",
+        "code": "// Check if the user can perform the action\n// by verifying their role and subscription status\nfunction ___(user: User, action: string): boolean {\n  // Get the roles that are allowed for this action\n  const ___ = ACTION_ROLE_MAP[action];\n  // Check if the user's role is in the allowed roles\n  // and also check that their subscription is active\n  return ___?.includes(user.role) && user.subscriptionStatus === 'active';\n}",
+        "blanks": ["canUserPerformAction", "allowedRoles", "allowedRoles"],
+        "referenceAnswer": "Function canUserPerformAction; variable allowedRoles; reference allowedRoles in the condition.",
+        "lang": "typescript",
+        "explanation": "Self-documenting code uses names that make the intent obvious, eliminating the need for comments. canUserPerformAction reads like natural language; allowedRoles clearly describes what the variable holds. The comments become redundant — good naming is the best documentation."
+    },
+    {
+        "id": "bp-ci-002",
+        "type": "multi-choice",
+        "category": "best-practices",
+        "difficulty": "hard",
+        "tags": ["CI-CD", "quality-gates"],
+        "question": "Which of the following are effective quality gates to enforce in a CI pipeline for a TypeScript React app?",
+        "options": [
+            "TypeScript strict mode compilation with zero errors",
+            "ESLint with no-console and no-unused-vars rules enforced",
+            "Bundle size budget check that fails CI if the budget is exceeded",
+            "Manual QA sign-off required before each merge",
+            "Accessibility audit (axe-core) with zero critical violations"
+        ],
+        "correct": [0, 1, 2, 4],
+        "explanation": "Automated quality gates: TypeScript strict compilation (catch type errors early), ESLint rules (code quality), bundle budget checks (prevent performance regressions), and automated a11y audits (catch obvious violations before they reach users). Manual QA sign-off is a human process, not a CI gate — it does not scale for every PR."
+    }
+]

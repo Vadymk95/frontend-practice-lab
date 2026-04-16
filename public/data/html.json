@@ -1,0 +1,730 @@
+[
+    {
+        "id": "html-semantic-001",
+        "type": "single-choice",
+        "category": "html",
+        "difficulty": "easy",
+        "tags": ["semantic", "nav"],
+        "question": "Which HTML5 element is the correct semantic choice for the main navigation links of a page?",
+        "options": ["<div id=\"nav\">", "<nav>", "<menu>", "<header>"],
+        "correct": 1,
+        "explanation": "<nav> is the HTML5 landmark element for navigation links. It communicates intent to browsers, screen readers, and search engines, unlike a generic <div>."
+    },
+    {
+        "id": "html-doctype-001",
+        "type": "single-choice",
+        "category": "html",
+        "difficulty": "easy",
+        "tags": ["doctype", "html5"],
+        "question": "What is the correct HTML5 doctype declaration?",
+        "options": [
+            "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\">",
+            "<?xml version=\"1.0\"?>",
+            "<!DOCTYPE html>",
+            "<html version=\"5\">"
+        ],
+        "correct": 2,
+        "explanation": "The HTML5 doctype is <!DOCTYPE html> (case-insensitive). It signals standards mode without the verbose SGML identifiers required by HTML 4.01."
+    },
+    {
+        "id": "html-meta-viewport-001",
+        "type": "single-choice",
+        "category": "html",
+        "difficulty": "easy",
+        "tags": ["meta", "viewport"],
+        "question": "What does `<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">` do?",
+        "options": [
+            "Sets the window width to the physical screen resolution",
+            "Prevents zooming on mobile devices",
+            "Tells the browser to match viewport width to device CSS width and start at 1:1 zoom",
+            "Disables CSS media query breakpoints"
+        ],
+        "correct": 2,
+        "explanation": "This tag instructs mobile browsers to set viewport width to the device's CSS pixel width and start with 1:1 zoom, enabling proper responsive design."
+    },
+    {
+        "id": "html-forms-input-type-001",
+        "type": "single-choice",
+        "category": "html",
+        "difficulty": "easy",
+        "tags": ["forms", "input-types"],
+        "question": "Which input type provides built-in email format validation and a specialized mobile keyboard?",
+        "options": [
+            "<input type=\"text\">",
+            "<input type=\"email\">",
+            "<input type=\"url\">",
+            "<input type=\"string\">"
+        ],
+        "correct": 1,
+        "explanation": "<input type=\"email\"> validates email format, shows an @ keyboard on mobile, and communicates intent to assistive technologies."
+    },
+    {
+        "id": "html-accessibility-alt-001",
+        "type": "single-choice",
+        "category": "html",
+        "difficulty": "easy",
+        "tags": ["accessibility", "alt-text"],
+        "question": "When should the alt attribute of an <img> be set to an empty string (alt=\"\")?",
+        "options": [
+            "When no description is available",
+            "When the image is purely decorative and conveys no information",
+            "When the image is very small",
+            "Never — alt must always contain descriptive text"
+        ],
+        "correct": 1,
+        "explanation": "Decorative images should have alt=\"\" so screen readers skip them. A missing alt attribute is a violation; an intentionally empty alt is not."
+    },
+    {
+        "id": "html-script-defer-001",
+        "type": "single-choice",
+        "category": "html",
+        "difficulty": "easy",
+        "tags": ["script", "defer", "async"],
+        "question": "What is the difference between defer and async on a <script> tag?",
+        "options": [
+            "defer executes after DOM parsing; async executes as soon as downloaded, possibly before DOM is ready",
+            "async executes after DOM parsing; defer executes immediately",
+            "Both are identical",
+            "defer is for ES modules only"
+        ],
+        "correct": 0,
+        "explanation": "async downloads and executes immediately, potentially interrupting parsing. defer downloads in parallel and executes after HTML is fully parsed, in document order."
+    },
+    {
+        "id": "html-data-attr-001",
+        "type": "single-choice",
+        "category": "html",
+        "difficulty": "easy",
+        "tags": ["data-attributes", "dataset"],
+        "question": "How do you read data-user-id=\"42\" in JavaScript?",
+        "options": [
+            "element.getAttribute('user-id')",
+            "element.dataset.userId",
+            "element.data['user-id']",
+            "element.dataAttributes.userId"
+        ],
+        "correct": 1,
+        "explanation": "The dataset API converts kebab-case to camelCase. data-user-id → element.dataset.userId. element.getAttribute('data-user-id') also works but dataset is cleaner."
+    },
+    {
+        "id": "html-picture-srcset-001",
+        "type": "single-choice",
+        "category": "html",
+        "difficulty": "easy",
+        "tags": ["picture", "srcset"],
+        "question": "What is the purpose of the srcset attribute on an <img>?",
+        "options": [
+            "Provides fallback URLs if an image fails to load",
+            "Offers candidate images at different sizes so the browser picks the best",
+            "Defines multiple formats for cross-browser support",
+            "Enables lazy loading"
+        ],
+        "correct": 1,
+        "explanation": "srcset gives the browser candidate images with width or pixel-density descriptors. The browser selects the most appropriate based on device resolution and viewport size."
+    },
+    {
+        "id": "html-head-charset-001",
+        "type": "single-choice",
+        "category": "html",
+        "difficulty": "easy",
+        "tags": ["head", "charset", "meta"],
+        "question": "Where must the charset meta tag appear in an HTML document?",
+        "options": [
+            "Anywhere inside <head>",
+            "After the <title> element",
+            "Within the first 1024 bytes, inside <head> and before <title>",
+            "In the <body> section"
+        ],
+        "correct": 2,
+        "explanation": "The charset declaration must appear within the first 1024 bytes so the browser detects encoding before parsing any content. It must be the first element inside <head>, before <title>."
+    },
+    {
+        "id": "html-accessibility-tabindex-001",
+        "type": "single-choice",
+        "category": "html",
+        "difficulty": "medium",
+        "tags": ["accessibility", "tabindex", "focus"],
+        "question": "What does tabindex=\"-1\" do to an element?",
+        "options": [
+            "Removes the element from the page",
+            "Places it last in the tab order",
+            "Allows programmatic focus while removing it from the sequential tab order",
+            "Makes it the first focusable element"
+        ],
+        "correct": 2,
+        "explanation": "tabindex=\"-1\" removes an element from natural tab order but allows focus via element.focus(). Useful for programmatic focus management in modals and custom widgets."
+    },
+    {
+        "id": "html-aria-label-001",
+        "type": "single-choice",
+        "category": "html",
+        "difficulty": "medium",
+        "tags": ["accessibility", "aria", "aria-label"],
+        "question": "When should aria-label be used instead of aria-labelledby?",
+        "options": [
+            "When the label text is visible on screen",
+            "When there is no visible text element to reference",
+            "When the element is a landmark",
+            "aria-label is always preferred"
+        ],
+        "correct": 1,
+        "explanation": "aria-labelledby references an existing visible element (preferred when visible text exists). aria-label provides an inline string when no visible label text is present on the page."
+    },
+    {
+        "id": "html-seo-canonical-001",
+        "type": "single-choice",
+        "category": "html",
+        "difficulty": "medium",
+        "tags": ["seo", "canonical"],
+        "question": "What is the purpose of <link rel=\"canonical\" href=\"...\">?",
+        "options": [
+            "Loads an alternate stylesheet",
+            "Tells search engines the preferred URL when duplicate content exists",
+            "Redirects users to another URL",
+            "Links to the XML sitemap"
+        ],
+        "correct": 1,
+        "explanation": "The canonical hint tells crawlers which URL to index when the same content is reachable from multiple URLs, preventing duplicate content penalties."
+    },
+    {
+        "id": "html-tables-scope-001",
+        "type": "single-choice",
+        "category": "html",
+        "difficulty": "medium",
+        "tags": ["tables", "scope", "accessibility"],
+        "question": "What does the scope attribute on a <th> element do?",
+        "options": [
+            "Sets CSS scope for table styles",
+            "Defines colspan/rowspan",
+            "Tells screen readers whether the header applies to a column or row",
+            "Controls visual alignment"
+        ],
+        "correct": 2,
+        "explanation": "scope=\"col\" or scope=\"row\" on <th> associates it with the cells it labels. Screen readers announce the correct header when users navigate each data cell."
+    },
+    {
+        "id": "html-link-preload-001",
+        "type": "single-choice",
+        "category": "html",
+        "difficulty": "medium",
+        "tags": ["link", "preload", "prefetch"],
+        "question": "What is the difference between rel=\"preload\" and rel=\"prefetch\"?",
+        "options": [
+            "preload fetches a critical current-page resource at high priority; prefetch fetches a future-navigation resource at low priority",
+            "prefetch fetches current-page resources; preload is for future pages",
+            "They are identical",
+            "preload is for CSS only; prefetch is for JavaScript"
+        ],
+        "correct": 0,
+        "explanation": "preload is a high-priority hint for resources needed NOW (critical font, hero image). prefetch is low-priority for resources likely needed AFTER navigation."
+    },
+    {
+        "id": "html-webcomponents-template-001",
+        "type": "single-choice",
+        "category": "html",
+        "difficulty": "medium",
+        "tags": ["web-components", "template"],
+        "question": "Which HTML element holds inert, reusable markup that is parsed but not rendered?",
+        "options": ["<component>", "<template>", "<slot>", "<fragment>"],
+        "correct": 1,
+        "explanation": "<template> content is parsed but not rendered. Its content is a DocumentFragment accessible via element.content, used as the basis for Web Component stamping."
+    },
+    {
+        "id": "html-script-module-001",
+        "type": "single-choice",
+        "category": "html",
+        "difficulty": "medium",
+        "tags": ["script", "module"],
+        "question": "Which statement about <script type=\"module\"> is correct?",
+        "options": [
+            "Module scripts block HTML parsing synchronously",
+            "Module scripts are deferred and run in strict mode automatically",
+            "Module scripts share the global scope with classic scripts",
+            "Module scripts cannot use top-level await"
+        ],
+        "correct": 1,
+        "explanation": "ES module scripts are deferred by default, run in strict mode, have their own module scope, and support top-level await."
+    },
+    {
+        "id": "html-forms-autocomplete-001",
+        "type": "single-choice",
+        "category": "html",
+        "difficulty": "medium",
+        "tags": ["forms", "autocomplete"],
+        "question": "Which autocomplete token should be used on a credit card number field?",
+        "options": [
+            "autocomplete=\"on\"",
+            "autocomplete=\"cc-number\"",
+            "autocomplete=\"card-number\"",
+            "autocomplete=\"payment\""
+        ],
+        "correct": 1,
+        "explanation": "The HTML spec defines specific tokens: cc-number for card number, cc-name, cc-exp-month, cc-exp-year, cc-csc. These enable correct autofill across browsers and password managers."
+    },
+    {
+        "id": "html-forms-outside-001",
+        "type": "single-choice",
+        "category": "html",
+        "difficulty": "hard",
+        "tags": ["forms", "form-attribute"],
+        "question": "How can a form input physically outside a <form> element be associated with it?",
+        "options": [
+            "Impossible — inputs must be inside the form",
+            "By setting the input's form attribute to the form's id",
+            "By wrapping both in a <fieldset>",
+            "By using JavaScript to push it into form.elements"
+        ],
+        "correct": 1,
+        "explanation": "The form attribute on any form-associated element accepts a form's id, associating it regardless of DOM position — enabling flexible layouts with controls outside the form element."
+    },
+    {
+        "id": "html-aria-live-001",
+        "type": "single-choice",
+        "category": "html",
+        "difficulty": "hard",
+        "tags": ["accessibility", "aria", "aria-live"],
+        "question": "What does aria-live=\"polite\" communicate to screen readers?",
+        "options": [
+            "The region never updates dynamically",
+            "Announce updates when the user is idle, without interrupting current speech",
+            "Immediately interrupt and announce any change",
+            "Hide the region from screen readers"
+        ],
+        "correct": 1,
+        "explanation": "aria-live=\"polite\" queues announcements for after the current utterance — for status messages. aria-live=\"assertive\" interrupts immediately — for critical errors."
+    },
+    {
+        "id": "html-picture-art-direction-001",
+        "type": "single-choice",
+        "category": "html",
+        "difficulty": "hard",
+        "tags": ["picture", "art-direction"],
+        "question": "What advantage does <picture> with <source media> have over <img srcset> alone?",
+        "options": [
+            "<picture> supports WebP; srcset does not",
+            "<picture> enables different image compositions per breakpoint (art direction); srcset only changes resolution",
+            "<picture> loads faster",
+            "<picture> works without JavaScript; srcset requires it"
+        ],
+        "correct": 1,
+        "explanation": "<picture> with <source media> provides art direction — completely different crops per viewport. srcset on <img> only helps choose the best resolution of the same image."
+    },
+    {
+        "id": "html-heading-hierarchy-001",
+        "type": "single-choice",
+        "category": "html",
+        "difficulty": "hard",
+        "tags": ["seo", "heading-hierarchy", "accessibility"],
+        "question": "Which statement about heading hierarchy best reflects current HTML and SEO guidance?",
+        "options": [
+            "Multiple <h1> per page is always correct in HTML5",
+            "One <h1> per page is strongly recommended; headings must not skip levels",
+            "Headings have no impact on SEO or accessibility",
+            "The <h1> must exactly match the <title> element"
+        ],
+        "correct": 1,
+        "explanation": "The HTML5 outline algorithm was never browser-implemented and was removed from the spec. One h1 per page is best practice for SEO. Skipping heading levels (h1→h3) breaks the navigable outline for screen reader users."
+    },
+    {
+        "id": "html-webcomponents-slot-001",
+        "type": "single-choice",
+        "category": "html",
+        "difficulty": "hard",
+        "tags": ["web-components", "shadow-dom", "slot"],
+        "question": "What does the <slot> element do inside a Web Component's Shadow DOM?",
+        "options": [
+            "Reserves a CSS animation placeholder",
+            "Defines an insertion point where Light DOM children are projected into the Shadow DOM",
+            "Creates a form input inside the shadow root",
+            "Imports styles from the outer document"
+        ],
+        "correct": 1,
+        "explanation": "<slot> is the composition mechanism in Shadow DOM. Light DOM children matching the slot's name are projected at that position. The unnamed default slot catches all unassigned children."
+    },
+    {
+        "id": "html-semantic-004",
+        "type": "multi-choice",
+        "category": "html",
+        "difficulty": "easy",
+        "tags": ["semantic", "elements"],
+        "question": "Which of the following are HTML5 sectioning content elements?",
+        "options": ["<article>", "<div>", "<section>", "<aside>", "<nav>"],
+        "correct": [0, 2, 3, 4],
+        "explanation": "<article>, <section>, <aside>, and <nav> are HTML5 sectioning content elements. <div> is a generic container with no semantic meaning."
+    },
+    {
+        "id": "html-meta-head-001",
+        "type": "multi-choice",
+        "category": "html",
+        "difficulty": "easy",
+        "tags": ["meta", "head"],
+        "question": "Which elements belong inside <head>?",
+        "options": [
+            "<title>",
+            "<meta charset=\"UTF-8\">",
+            "<p>Intro text</p>",
+            "<link rel=\"stylesheet\">",
+            "<script src=\"app.js\" defer>"
+        ],
+        "correct": [0, 1, 3, 4],
+        "explanation": "<title>, <meta>, <link>, and <script> are valid head content. <p> is flow content that belongs in <body>."
+    },
+    {
+        "id": "html-forms-types-001",
+        "type": "multi-choice",
+        "category": "html",
+        "difficulty": "easy",
+        "tags": ["forms", "input-types"],
+        "question": "Which input types provide built-in validation or specialized mobile keyboards?",
+        "options": [
+            "type=\"email\"",
+            "type=\"text\"",
+            "type=\"tel\"",
+            "type=\"number\"",
+            "type=\"hidden\""
+        ],
+        "correct": [0, 2, 3],
+        "explanation": "type=\"email\" validates format. type=\"tel\" shows a numeric keypad. type=\"number\" restricts to numbers. type=\"text\" has no special behavior. type=\"hidden\" is non-interactive."
+    },
+    {
+        "id": "html-seo-elements-001",
+        "type": "multi-choice",
+        "category": "html",
+        "difficulty": "easy",
+        "tags": ["seo", "meta"],
+        "question": "Which HTML elements and attributes directly influence SEO?",
+        "options": [
+            "<title> element",
+            "<meta name=\"description\">",
+            "<meta name=\"keywords\">",
+            "<h1> through <h6> headings",
+            "alt attribute on images"
+        ],
+        "correct": [0, 1, 3, 4],
+        "explanation": "Title, meta description (affects CTR), headings (structure signals), and alt text (image indexing) all impact SEO. <meta name=\"keywords\"> has been ignored by Google since the early 2000s."
+    },
+    {
+        "id": "html-multi-easy-004",
+        "type": "multi-choice",
+        "category": "html",
+        "difficulty": "easy",
+        "tags": ["forms", "fieldset", "legend", "accessibility"],
+        "question": "Which of the following improve accessibility in a form with multiple groups of related inputs?",
+        "options": [
+            "Wrapping related inputs in <fieldset>",
+            "Adding a <legend> to each <fieldset>",
+            "Replacing all <label> elements with placeholder attributes",
+            "Using <div> to group inputs visually",
+            "Adding aria-labelledby on each input group"
+        ],
+        "correct": [0, 1, 4],
+        "explanation": "<fieldset> + <legend> group related controls with a visible title that screen readers announce. aria-labelledby on the group also works. placeholder is not a substitute for <label> — it disappears on input and has low contrast."
+    },
+    {
+        "id": "html-picture-source-001",
+        "type": "multi-choice",
+        "category": "html",
+        "difficulty": "medium",
+        "tags": ["picture", "source"],
+        "question": "Which attributes can appear on a <source> inside a <picture>?",
+        "options": ["srcset", "media", "type", "alt", "sizes"],
+        "correct": [0, 1, 2, 4],
+        "explanation": "<source> inside <picture> accepts: srcset, media, type, and sizes. alt belongs only on the <img> fallback — not on <source>."
+    },
+    {
+        "id": "html-script-module-002",
+        "type": "multi-choice",
+        "category": "html",
+        "difficulty": "medium",
+        "tags": ["script", "module"],
+        "question": "Which statements about <script type=\"module\"> are correct?",
+        "options": [
+            "Module scripts are deferred by default",
+            "Module scripts run in strict mode",
+            "Module scripts support top-level await",
+            "Module scripts share the global scope with classic scripts",
+            "A module URL is fetched and executed only once"
+        ],
+        "correct": [0, 1, 2, 4],
+        "explanation": "ES modules: are deferred (A), strict mode (B), support top-level await (C), cached/executed once (E). They do NOT share the global scope — each module has its own scope (D is false)."
+    },
+    {
+        "id": "html-accessibility-aria-001",
+        "type": "multi-choice",
+        "category": "html",
+        "difficulty": "medium",
+        "tags": ["accessibility", "aria", "roles"],
+        "question": "Which ARIA roles are redundant because a native HTML element equivalent exists?",
+        "options": [
+            "role=\"button\"",
+            "role=\"navigation\"",
+            "role=\"tooltip\"",
+            "role=\"list\"",
+            "role=\"banner\""
+        ],
+        "correct": [0, 1, 3],
+        "explanation": "role=\"button\" duplicates <button>, role=\"navigation\" duplicates <nav>, role=\"list\" duplicates <ul>/<ol>. Native elements include built-in keyboard behavior. role=\"tooltip\" and role=\"banner\" have no single direct HTML equivalent."
+    },
+    {
+        "id": "html-multi-medium-004",
+        "type": "multi-choice",
+        "category": "html",
+        "difficulty": "medium",
+        "tags": ["semantic", "header", "footer", "sectioning"],
+        "question": "Which statements about <header> and <footer> elements are correct?",
+        "options": [
+            "A page may contain multiple <header> and <footer> elements",
+            "<header> and <footer> can appear inside <article> or <section>",
+            "There can be only one <header> per page",
+            "<footer> inside <article> represents the article's footer, not the page footer",
+            "<header> may not contain navigation"
+        ],
+        "correct": [0, 1, 3],
+        "explanation": "<header> and <footer> are sectioning elements, not unique landmarks. Each <article> or <section> can have its own <header> and <footer>. <header> frequently contains <nav>. There is no one-per-page restriction."
+    },
+    {
+        "id": "html-multi-medium-005",
+        "type": "multi-choice",
+        "category": "html",
+        "difficulty": "medium",
+        "tags": ["forms", "validation", "attributes"],
+        "question": "Which HTML attributes enable built-in form field constraint validation?",
+        "options": ["required", "pattern", "maxlength", "placeholder", "min"],
+        "correct": [0, 1, 4],
+        "explanation": "required, pattern, and min/max participate in the HTML5 constraint validation API and prevent form submission on failure. maxlength limits input length but doesn't add a validation message. placeholder is purely presentational."
+    },
+    {
+        "id": "html-tables-accessibility-001",
+        "type": "multi-choice",
+        "category": "html",
+        "difficulty": "hard",
+        "tags": ["tables", "accessibility"],
+        "question": "Which techniques improve the accessibility of a data table?",
+        "options": [
+            "Adding a <caption> element",
+            "Using role=\"presentation\" on the <table>",
+            "Adding scope attributes to <th> elements",
+            "Using <thead>, <tbody>, and <tfoot>",
+            "Using the headers attribute on <td> referencing <th> ids"
+        ],
+        "correct": [0, 2, 3, 4],
+        "explanation": "<caption> titles the table, scope associates headers with cells, thead/tbody/tfoot provide structure, and headers handles complex multi-level tables. role=\"presentation\" removes all table semantics — making data tables inaccessible."
+    },
+    {
+        "id": "html-aria-keyboard-001",
+        "type": "multi-choice",
+        "category": "html",
+        "difficulty": "hard",
+        "tags": ["accessibility", "aria", "keyboard"],
+        "question": "Which statements about ARIA roles and keyboard interaction are correct?",
+        "options": [
+            "Adding role=\"button\" to a <div> automatically adds Enter/Space keyboard handling",
+            "Using native <button> is preferred over role=\"button\" on a <div>",
+            "aria-disabled=\"true\" removes the element from the tab order",
+            "aria-expanded is appropriate for disclosure buttons",
+            "role=\"tab\" requires managing focus with arrow keys per ARIA APG"
+        ],
+        "correct": [1, 3, 4],
+        "explanation": "ARIA roles convey semantics but not behavior. role=\"button\" on a div does NOT add keyboard handling (A false). aria-disabled does not remove from tab order — only signals state (C false). Native <button> is always preferred (B), aria-expanded describes state (D), tab pattern requires arrow key management (E)."
+    },
+    {
+        "id": "html-bug-label-001",
+        "type": "bug-finding",
+        "category": "html",
+        "difficulty": "easy",
+        "tags": ["forms", "label", "accessibility"],
+        "question": "Find the accessibility bug in this form snippet:",
+        "code": "<label>Email</label>\n<input type=\"email\" id=\"email\" name=\"email\">",
+        "correct": "The <label> is missing the for attribute pointing to the input's id",
+        "referenceAnswer": "Fix: <label for=\"email\">Email</label>. Without the for/id association, clicking the label does not focus the input and screen readers cannot announce the label when the input receives focus.",
+        "explanation": "A <label> must be associated with its control via for/id pairing (or by wrapping the input). Without association, click-to-focus fails and screen readers skip the label."
+    },
+    {
+        "id": "html-bug-figcaption-001",
+        "type": "bug-finding",
+        "category": "html",
+        "difficulty": "easy",
+        "tags": ["semantic", "figure", "figcaption"],
+        "question": "Find the structural issue in this image markup:",
+        "code": "<figure>\n  <figcaption>A sunset over the ocean</figcaption>\n  <img src=\"sunset.jpg\" alt=\"Sunset\">\n</figure>",
+        "correct": "By convention, <figcaption> should appear after the <img>, not before it",
+        "referenceAnswer": "Reorder: <figure><img src=\"sunset.jpg\" alt=\"Sunset\"><figcaption>A sunset over the ocean</figcaption></figure>. Image first, caption second matches visual and reading order.",
+        "explanation": "<figcaption> can be first or last child of <figure>. Convention places it after the image to match the reading flow where image precedes caption."
+    },
+    {
+        "id": "html-bug-charset-001",
+        "type": "bug-finding",
+        "category": "html",
+        "difficulty": "easy",
+        "tags": ["meta", "charset", "head"],
+        "question": "Find the bug in this HTML head:",
+        "code": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <title>My Page — Привет</title>\n  <meta charset=\"UTF-8\">\n</head>",
+        "correct": "The charset meta must appear before <title>. Non-ASCII characters in the title require charset to be declared first.",
+        "referenceAnswer": "Move <meta charset=\"UTF-8\"> before <title>: <head><meta charset=\"UTF-8\"><title>My Page — Привет</title></head>",
+        "explanation": "Browsers parse before downloading the full document. Non-ASCII characters in <title> need the charset to be processed first. The spec requires charset within the first 1024 bytes, before <title>."
+    },
+    {
+        "id": "html-bug-iframe-001",
+        "type": "bug-finding",
+        "category": "html",
+        "difficulty": "medium",
+        "tags": ["iframe", "sandbox", "security"],
+        "question": "Find the security issue in this third-party iframe:",
+        "code": "<iframe\n  src=\"https://third-party-widget.com\"\n  allow=\"camera; microphone\"\n  width=\"600\"\n  height=\"400\">\n</iframe>",
+        "correct": "The iframe is missing the sandbox attribute, giving embedded content full script execution, form submission, and navigation permissions",
+        "referenceAnswer": "Add sandbox=\"allow-scripts allow-same-origin\" (or minimum required tokens). Without sandbox, third-party content can run scripts, access cookies, navigate the top frame, and submit forms.",
+        "explanation": "Third-party iframes should always have sandbox for least-privilege containment. Grant only the minimum tokens the specific widget requires."
+    },
+    {
+        "id": "html-bug-table-001",
+        "type": "bug-finding",
+        "category": "html",
+        "difficulty": "medium",
+        "tags": ["tables", "structure"],
+        "question": "Find the structural bug in this table:",
+        "code": "<table>\n  <tr>\n    <th>Name</th>\n    <th>Age</th>\n  </tr>\n  <tr>\n    <td>Alice</td>\n    <td>30</td>\n    <td>Extra cell</td>\n  </tr>\n</table>",
+        "correct": "The second row has 3 cells but the header defines only 2 columns",
+        "referenceAnswer": "Remove <td>Extra cell</td>, or add a matching <th> in the header row. Tables require consistent cell counts per row (or explicit colspan/rowspan).",
+        "explanation": "Mismatched column counts break visual alignment and confuse screen readers that navigate tables by column. Each row must match the column count."
+    },
+    {
+        "id": "html-bug-select-default-001",
+        "type": "bug-finding",
+        "category": "html",
+        "difficulty": "medium",
+        "tags": ["forms", "select", "option", "accessibility"],
+        "question": "Find the bug: the select should show 'Choose a country' as a placeholder that cannot be submitted:",
+        "code": "<select name=\"country\">\n  <option value=\"\">Choose a country</option>\n  <option value=\"uk\">United Kingdom</option>\n  <option value=\"de\">Germany</option>\n</select>",
+        "correct": "The placeholder option is missing the disabled attribute — users can submit the form with an empty country value",
+        "referenceAnswer": "Add disabled to the placeholder option: <option value=\"\" disabled>Choose a country</option>. Also consider selected to show it initially: <option value=\"\" disabled selected>Choose a country</option>",
+        "explanation": "A placeholder <option> with an empty value but without disabled allows submitting a blank choice. Adding disabled prevents selection while still showing it as the default visible option."
+    },
+    {
+        "id": "html-bug-picture-001",
+        "type": "bug-finding",
+        "category": "html",
+        "difficulty": "hard",
+        "tags": ["picture", "fallback"],
+        "question": "Find the critical bug in this responsive image markup:",
+        "code": "<picture>\n  <source srcset=\"hero.avif\" type=\"image/avif\">\n  <source srcset=\"hero.webp\" type=\"image/webp\">\n</picture>",
+        "correct": "The <picture> element is missing the mandatory <img> fallback element",
+        "referenceAnswer": "Add <img src=\"hero.jpg\" alt=\"Hero image\"> as the last child of <picture>. Without it, unsupported formats and browsers render nothing.",
+        "explanation": "<picture> requires an <img> as its last child. <img> serves as the fallback and carries the alt, loading, and decoding attributes."
+    },
+    {
+        "id": "html-bug-aria-div-001",
+        "type": "bug-finding",
+        "category": "html",
+        "difficulty": "hard",
+        "tags": ["accessibility", "aria", "keyboard"],
+        "question": "Find the accessibility bugs in this custom interactive element:",
+        "code": "<div\n  role=\"button\"\n  onclick=\"handleClick()\">\n  Submit\n</div>",
+        "correct": "Missing tabindex=\"0\" (not keyboard focusable) and missing keyboard handlers for Enter and Space keys",
+        "referenceAnswer": "Add tabindex=\"0\" and onkeydown handling Enter and Space. Better: replace with a real <button> element which provides all this built-in.",
+        "explanation": "role=\"button\" grants ARIA semantics but not behavior. You must add tabindex=\"0\" and keyboard event listeners. Using <button> is always preferred."
+    },
+    {
+        "id": "html-complete-nav-001",
+        "type": "code-completion",
+        "category": "html",
+        "difficulty": "easy",
+        "tags": ["semantic", "nav", "aria"],
+        "question": "Complete the accessible navigation landmark:",
+        "code": "<___ aria-label=\"Main navigation\">\n  <ul>\n    <li><a href=\"/\">Home</a></li>\n    <li><a href=\"/about\">About</a></li>\n  </ul>\n</___>",
+        "blanks": ["nav", "nav"],
+        "referenceAnswer": "<nav aria-label=\"Main navigation\"> creates a navigation landmark. aria-label differentiates it from other nav elements on the same page.",
+        "lang": "html",
+        "explanation": "<nav> is the correct landmark for navigation. When multiple nav elements exist, aria-label differentiates them for screen reader landmark navigation."
+    },
+    {
+        "id": "html-complete-form-001",
+        "type": "code-completion",
+        "category": "html",
+        "difficulty": "easy",
+        "tags": ["forms", "label", "required"],
+        "question": "Complete the accessible, validated email input:",
+        "code": "<label ___=\"user-email\">Email address</label>\n<input\n  ___=\"user-email\"\n  type=\"email\"\n  name=\"email\"\n  ___\n>",
+        "blanks": ["for", "id", "required"],
+        "referenceAnswer": "for=\"user-email\" associates the label. id=\"user-email\" matches the for. required enables browser constraint validation.",
+        "lang": "html",
+        "explanation": "Accessible forms need explicit label/input association via for/id. The required attribute enables built-in validation preventing empty submissions."
+    },
+    {
+        "id": "html-complete-doctype-001",
+        "type": "code-completion",
+        "category": "html",
+        "difficulty": "easy",
+        "tags": ["doctype", "head", "structure"],
+        "question": "Complete the minimal valid HTML5 document structure:",
+        "code": "<!___ html>\n<html lang=\"en\">\n<___>\n  <meta charset=\"UTF-8\">\n  <title>My Page</title>\n</___>\n<body>\n  <p>Content</p>\n</body>\n</html>",
+        "blanks": ["DOCTYPE", "head", "head"],
+        "referenceAnswer": "<!DOCTYPE html> declares the HTML5 doctype. <head> contains metadata. The closing </head> ends the head section before <body>.",
+        "lang": "html",
+        "explanation": "A valid HTML5 document requires the DOCTYPE declaration, html element with lang, head section for metadata, and body for content."
+    },
+    {
+        "id": "html-complete-picture-001",
+        "type": "code-completion",
+        "category": "html",
+        "difficulty": "medium",
+        "tags": ["picture", "source", "srcset"],
+        "question": "Complete the responsive image with AVIF and WebP sources:",
+        "code": "<picture>\n  <source ___=\"hero.avif\" ___=\"image/avif\">\n  <source srcset=\"hero.webp\" type=\"image/webp\">\n  <img src=\"hero.jpg\" alt=\"Hero\" ___=\"lazy\">\n</picture>",
+        "blanks": ["srcset", "type", "loading"],
+        "referenceAnswer": "srcset on <source> specifies the image URL. type=\"image/avif\" declares MIME type for format negotiation. loading=\"lazy\" enables native lazy loading.",
+        "lang": "html",
+        "explanation": "<source> uses srcset (not src). The type attribute enables format negotiation — browser picks the first <source> it supports. loading=\"lazy\" on <img> defers loading until near the viewport."
+    },
+    {
+        "id": "html-complete-data-001",
+        "type": "code-completion",
+        "category": "html",
+        "difficulty": "medium",
+        "tags": ["data-attributes", "dataset"],
+        "question": "Complete the JavaScript reading and writing data attributes:",
+        "code": "const btn = document.querySelector('#btn');\n\n// Read data-item-id\nconst id = btn.___.___.;\n\n// Write data-item-count\nbtn.___.itemCount = '5';",
+        "blanks": ["dataset", "itemId", "dataset"],
+        "referenceAnswer": "btn.dataset.itemId reads data-item-id. btn.dataset.itemCount = '5' writes data-item-count. The dataset API converts kebab-case to camelCase.",
+        "lang": "html",
+        "explanation": "HTMLElement.dataset provides a DOMStringMap with camelCase access to data-* attributes. Writing to dataset also updates the HTML attribute."
+    },
+    {
+        "id": "html-complete-aria-001",
+        "type": "code-completion",
+        "category": "html",
+        "difficulty": "medium",
+        "tags": ["accessibility", "aria", "expanded"],
+        "question": "Complete the accessible disclosure button:",
+        "code": "<button\n  aria-controls=\"___\"\n  aria-expanded=\"___\"\n  onclick=\"toggle(this)\">\n  Show details\n</button>\n<div id=\"details\" ___>\n  <p>Extra info.</p>\n</div>",
+        "blanks": ["details", "false", "hidden"],
+        "referenceAnswer": "aria-controls=\"details\" links to the controlled element. aria-expanded=\"false\" signals the collapsed state. hidden hides the div from both visual display and screen readers.",
+        "lang": "html",
+        "explanation": "Disclosure widgets need: aria-controls (association), aria-expanded (state), and hidden on the content (so screen readers also see it as hidden, not just CSS-hidden)."
+    },
+    {
+        "id": "html-complete-table-001",
+        "type": "code-completion",
+        "category": "html",
+        "difficulty": "medium",
+        "tags": ["tables", "caption", "scope"],
+        "question": "Complete the accessible data table:",
+        "code": "<table>\n  <___>Product inventory</___>\n  <thead>\n    <tr>\n      <th ___=\"col\">Product</th>\n      <th scope=\"col\">Stock</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr><td>Widget A</td><td>42</td></tr>\n  </tbody>\n</table>",
+        "blanks": ["caption", "caption", "scope"],
+        "referenceAnswer": "<caption> titles the table programmatically. scope=\"col\" on <th> associates it with the column's data cells.",
+        "lang": "html",
+        "explanation": "<caption> is the preferred way to title a table — programmatically associated. scope=\"col\" on <th> enables correct screen reader header announcement during table navigation."
+    },
+    {
+        "id": "html-complete-webcomponent-001",
+        "type": "code-completion",
+        "category": "html",
+        "difficulty": "hard",
+        "tags": ["web-components", "custom-elements", "lifecycle"],
+        "question": "Complete the custom element with correct lifecycle hooks:",
+        "code": "class TooltipEl extends HTMLElement {\n  static get ___() {\n    return ['data-text', 'disabled'];\n  }\n\n  ___Callback() {\n    this.innerHTML = `<span>${this.dataset.text}</span>`;\n  }\n\n  attributeChangedCallback(name, old, val) {\n    if (name === 'data-text') this.querySelector('span').textContent = val;\n  }\n}",
+        "blanks": ["observedAttributes", "connected"],
+        "referenceAnswer": "observedAttributes is a static getter listing attributes to monitor for attributeChangedCallback. connectedCallback fires when the element is inserted into the document.",
+        "lang": "html",
+        "explanation": "observedAttributes must list attribute names for attributeChangedCallback to fire. connectedCallback is called when the element is connected to a document — the most common lifecycle hook for initial rendering."
+    }
+]

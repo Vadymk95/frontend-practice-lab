@@ -1,0 +1,781 @@
+[
+    {
+        "id": "lead-review-001",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "easy",
+        "tags": ["code-review", "principles"],
+        "question": "What is the primary goal of a code review?",
+        "options": [
+            "To find as many bugs as possible to justify the review process",
+            "To share knowledge, improve code quality, and catch issues before they reach production",
+            "To ensure the code author rewrites it completely",
+            "To measure the performance of individual developers"
+        ],
+        "correct": 1,
+        "explanation": "Code review serves multiple purposes: catching bugs and defects, sharing knowledge across the team, enforcing standards, and mentoring. The tone should be collaborative, not adversarial — the goal is better software, not finding fault with individuals."
+    },
+    {
+        "id": "lead-review-002",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "easy",
+        "tags": ["code-review", "blocking-vs-non-blocking"],
+        "question": "What is the difference between a 'blocker' and a 'nit' comment in code review?",
+        "options": [
+            "A blocker is written in red; a nit is written in blue",
+            "A blocker must be resolved before merging; a nit is a minor stylistic suggestion the author may choose to address",
+            "A blocker requires a new PR; a nit can be fixed inline",
+            "They are different names for the same type of feedback"
+        ],
+        "correct": 1,
+        "explanation": "Labeling comment severity helps the author prioritize. Blockers (must fix), suggestions (should fix, preferred), and nits (optional polish) let reviewers communicate urgency without requiring a 1:1 conversation for every comment."
+    },
+    {
+        "id": "lead-tech-debt-001",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "easy",
+        "tags": ["technical-debt", "management"],
+        "question": "What is technical debt?",
+        "options": [
+            "Money owed to cloud providers for infrastructure",
+            "The implied cost of future rework from choosing a quick solution over a better approach",
+            "Outdated documentation that no longer reflects the codebase",
+            "Features that were promised to customers but not yet delivered"
+        ],
+        "correct": 1,
+        "explanation": "Technical debt, coined by Ward Cunningham, describes the implied cost of future rework caused by choosing an expedient but imperfect solution now. Like financial debt, it accrues 'interest' — the longer it goes unaddressed, the harder the codebase becomes to change."
+    },
+    {
+        "id": "lead-estimate-001",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "easy",
+        "tags": ["estimation", "story-points"],
+        "question": "What are story points intended to measure?",
+        "options": [
+            "The number of hours a task will take",
+            "The relative complexity, effort, and uncertainty of a task compared to reference tasks",
+            "The business value of a feature",
+            "The number of lines of code to be written"
+        ],
+        "correct": 1,
+        "explanation": "Story points measure relative effort and complexity, not time. They account for technical complexity, unknowns, and risk. Because they are relative (not absolute), a team's velocity in points becomes meaningful over time regardless of individual speed differences."
+    },
+    {
+        "id": "lead-mentor-001",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "easy",
+        "tags": ["mentoring", "junior-developers"],
+        "question": "What is the most effective way to mentor a junior developer on a codebase problem?",
+        "options": [
+            "Solve the problem for them to save time",
+            "Send them the Stack Overflow link without context",
+            "Guide them with questions that lead them to the solution themselves, explaining the 'why' behind the approach",
+            "Assign them only simple tasks until they improve"
+        ],
+        "correct": 2,
+        "explanation": "Effective mentoring builds the mentee's problem-solving skills, not just their knowledge of specific solutions. Asking leading questions (Socratic method), explaining rationale, and letting them implement the solution themselves builds lasting competence and confidence."
+    },
+    {
+        "id": "lead-1on1-001",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "easy",
+        "tags": ["1on1", "management"],
+        "question": "Whose agenda should primarily drive a 1:1 meeting?",
+        "options": [
+            "The manager's, since they set the team's direction",
+            "The team member's, since it is primarily their time for support, growth, and concerns",
+            "HR's, to ensure compliance with company policies",
+            "Both equally, with a fixed agenda split"
+        ],
+        "correct": 1,
+        "explanation": "1:1s are the team member's time, not the manager's status update. The primary value is giving the team member a safe space to raise concerns, share feedback, discuss career growth, and get unblocked. The manager's role is to listen, coach, and remove obstacles."
+    },
+    {
+        "id": "lead-feedback-001",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "easy",
+        "tags": ["feedback", "principles"],
+        "question": "Which principle describes effective constructive feedback?",
+        "options": [
+            "Save feedback for annual performance reviews to avoid daily interruptions",
+            "Focus on the person's character to address root causes",
+            "Be specific, timely, and focus on behavior/impact rather than personality",
+            "Always deliver feedback in a group setting for accountability"
+        ],
+        "correct": 2,
+        "explanation": "Effective feedback is: specific (cite the exact behavior), timely (given soon after the event), and behavior-focused (what was done and its impact, not who the person is). This makes it actionable and removes defensiveness. Private delivery respects dignity."
+    },
+    {
+        "id": "lead-postmortem-001",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "easy",
+        "tags": ["incident-response", "blameless-postmortem"],
+        "question": "What is the core principle of a blameless postmortem?",
+        "options": [
+            "Identify who made the mistake and document it in their record",
+            "Focus on systemic causes and process improvements, not individual blame",
+            "Avoid discussing incidents publicly to protect team morale",
+            "Always roll back deployments within 24 hours of any incident"
+        ],
+        "correct": 1,
+        "explanation": "Blameless postmortems (pioneered at Google and Etsy) focus on identifying systemic failures — gaps in process, tooling, or knowledge — rather than blaming individuals. This creates psychological safety to discuss mistakes openly, leading to better long-term reliability improvements."
+    },
+    {
+        "id": "lead-adr-001",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "easy",
+        "tags": ["ADR", "architecture-decision-record"],
+        "question": "What is an Architecture Decision Record (ADR)?",
+        "options": [
+            "A report generated by the CI pipeline after a failed build",
+            "A short document that captures an architectural decision, its context, and the rationale behind it",
+            "A diagram of the system's current architecture",
+            "A log of all pull requests merged in a sprint"
+        ],
+        "correct": 1,
+        "explanation": "An ADR is a lightweight document (often Markdown) that records a significant architectural decision: the context (why it was needed), the decision made, alternatives considered, and the consequences. ADRs preserve institutional knowledge and prevent revisiting the same debates."
+    },
+    {
+        "id": "lead-dora-001",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "easy",
+        "tags": ["DORA-metrics", "engineering-metrics"],
+        "question": "Which of the following is NOT one of the four DORA metrics?",
+        "options": [
+            "Deployment Frequency",
+            "Lead Time for Changes",
+            "Code Coverage Percentage",
+            "Change Failure Rate"
+        ],
+        "correct": 2,
+        "explanation": "The four DORA (DevOps Research and Assessment) metrics are: Deployment Frequency, Lead Time for Changes, Change Failure Rate, and Mean Time to Recovery (MTTR). Code Coverage is an important quality metric but is not part of the DORA framework."
+    },
+    {
+        "id": "lead-prioritization-001",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "easy",
+        "tags": ["prioritization", "MoSCoW"],
+        "question": "In the MoSCoW prioritization framework, what does the 'S' stand for?",
+        "options": ["Simple", "Scheduled", "Should have", "Scalable"],
+        "correct": 2,
+        "explanation": "MoSCoW stands for: Must have (critical requirements), Should have (important but not vital), Could have (nice to have), and Won't have (explicitly excluded this time). 'Should have' items are high-value but the project can function without them in the current iteration."
+    },
+    {
+        "id": "lead-hiring-001",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "easy",
+        "tags": ["hiring", "interviews"],
+        "question": "What is a key problem with whiteboard coding interviews that many companies have moved away from?",
+        "options": [
+            "They are too easy and don't differentiate candidates",
+            "They measure performance in an artificial, high-pressure environment that does not reflect real day-to-day engineering work",
+            "They cannot test algorithmic knowledge",
+            "They require too much preparation from interviewers"
+        ],
+        "correct": 1,
+        "explanation": "Whiteboard coding creates an artificial environment (no IDE, no documentation, high pressure) that primarily tests anxiety management and competitive programming knowledge — not the skills used in daily software engineering. Many companies now use take-home tasks, pair programming, or work-sample tests."
+    },
+    {
+        "id": "lead-burnout-001",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "easy",
+        "tags": ["burnout", "team-health"],
+        "question": "Which of the following is an early warning sign of developer burnout?",
+        "options": [
+            "Taking more vacation days than the team average",
+            "Asking more questions in code reviews",
+            "Increased cynicism, decreased engagement, and lower quality of work over time",
+            "Delivering tasks faster than estimated"
+        ],
+        "correct": 2,
+        "explanation": "Burnout (defined by the WHO) manifests as: feelings of energy depletion, increased mental distance/cynicism toward the job, and reduced professional efficacy. As a tech lead, watch for sustained disengagement, missed deadlines, and withdrawal from team activities as early signals."
+    },
+    {
+        "id": "lead-psychological-safety-001",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "easy",
+        "tags": ["psychological-safety", "team-culture"],
+        "question": "What does psychological safety in a team mean, according to Amy Edmondson's research?",
+        "options": [
+            "Team members feel safe from workplace accidents",
+            "Team members feel safe to take interpersonal risks — speak up, share ideas, or admit mistakes without fear of punishment",
+            "Team members are protected from negative performance reviews",
+            "The team works remotely and never meets in person"
+        ],
+        "correct": 1,
+        "explanation": "Psychological safety (Amy Edmondson, Google's Project Aristotle) is the belief that one will not be punished or humiliated for speaking up with ideas, questions, concerns, or mistakes. It is the strongest predictor of high team performance in Google's research."
+    },
+    {
+        "id": "lead-roadmap-001",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "easy",
+        "tags": ["roadmap", "planning"],
+        "question": "What is the key characteristic that distinguishes a technical roadmap from a product roadmap?",
+        "options": [
+            "A technical roadmap is created by the engineering team and a product roadmap by sales",
+            "A technical roadmap focuses on infrastructure, architecture, and tech debt initiatives; a product roadmap focuses on user-facing features and business outcomes",
+            "A technical roadmap covers the next 10 years; a product roadmap covers only the next quarter",
+            "They are identical — just different names used by different companies"
+        ],
+        "correct": 1,
+        "explanation": "A technical roadmap captures engineering-driven work: platform migrations, performance improvements, security hardening, tech debt reduction, and tooling upgrades. A product roadmap captures user/business value features. Both are needed and should be aligned."
+    },
+    {
+        "id": "lead-review-003",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["code-review", "standards"],
+        "question": "A PR contains working code but with poor naming conventions. As a tech lead reviewer, what is the right approach?",
+        "options": [
+            "Approve it — naming is subjective and the code works",
+            "Reject it without explanation",
+            "Leave specific comments explaining why the naming is problematic and suggest better names, then label the comment severity",
+            "Rewrite the entire PR yourself before approving"
+        ],
+        "correct": 2,
+        "explanation": "Naming matters for long-term maintainability. A good reviewer provides specific, actionable feedback with reasoning ('this variable name suggests it holds a single item but it holds a list — consider `itemList` or `items`'). Labels (nit/suggestion) help the author prioritize."
+    },
+    {
+        "id": "lead-tech-debt-002",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["technical-debt", "strategy"],
+        "question": "What is the 'boy scout rule' applied to tech debt management?",
+        "options": [
+            "Always dedicate one sprint per quarter exclusively to debt cleanup",
+            "Assign tech debt to junior developers as training exercises",
+            "Leave the code a little better than you found it — fix small issues while working in an area",
+            "Track all tech debt in a backlog and review it in annual planning"
+        ],
+        "correct": 2,
+        "explanation": "The boy scout rule (from Robert Martin) says: 'always leave the campground cleaner than you found it.' Applied to code: when you touch a file, make small incremental improvements (rename a variable, extract a function). This prevents gradual decay without requiring dedicated debt sprints."
+    },
+    {
+        "id": "lead-estimate-002",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["estimation", "uncertainty"],
+        "question": "When a task has many unknowns and the team cannot estimate confidently, what is the recommended approach?",
+        "options": [
+            "Assign it maximum story points and move on",
+            "Refuse to estimate until all unknowns are resolved",
+            "Create a time-boxed spike (research task) to investigate unknowns, then re-estimate",
+            "Ask the product manager to remove the task from the sprint"
+        ],
+        "correct": 2,
+        "explanation": "A spike is a time-boxed investigation task (e.g., 1-2 days) with the explicit goal of reducing uncertainty enough to estimate. It produces knowledge, not production code. Spikes prevent teams from committing to wild estimates or paralysis on poorly-understood work."
+    },
+    {
+        "id": "lead-onboarding-001",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["onboarding", "new-team-members"],
+        "question": "What is the most effective first task to assign a new engineer on their first day?",
+        "options": [
+            "A complex critical-path feature to see how they perform under pressure",
+            "A small, low-risk bug fix or documentation improvement that gets them through the full development workflow",
+            "Writing unit tests for all existing code",
+            "Reading all documentation for two weeks before writing any code"
+        ],
+        "correct": 1,
+        "explanation": "A small first task (fixing a non-critical bug, adding a test, improving docs) achieves multiple goals: it guides the new engineer through the full workflow (clone, build, test, PR, review, merge, deploy), builds early confidence, and is low-risk if they make mistakes."
+    },
+    {
+        "id": "lead-rice-001",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["prioritization", "RICE"],
+        "question": "In the RICE scoring model, what do the four letters stand for?",
+        "options": [
+            "Risk, Impact, Cost, Effort",
+            "Reach, Impact, Confidence, Effort",
+            "Revenue, Innovation, Complexity, Engagement",
+            "Requirements, Implementation, Complexity, Estimation"
+        ],
+        "correct": 1,
+        "explanation": "RICE = Reach (how many users in a period), Impact (how much it moves the needle per user), Confidence (how sure you are of the estimates, as a percentage), divided by Effort (person-months). RICE score = (Reach × Impact × Confidence) / Effort. Higher scores get priority."
+    },
+    {
+        "id": "lead-crossteam-001",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["cross-team", "communication"],
+        "question": "When a dependency on another team is blocking your sprint, what is the right escalation path?",
+        "options": [
+            "Wait silently until the sprint ends and report the miss",
+            "Directly blame the blocking team in the standup",
+            "Raise the blocker early, work directly with the blocking team's lead to find a solution or workaround, and escalate to management only if it is not resolved in a reasonable time",
+            "Remove the blocked item from the sprint without notifying anyone"
+        ],
+        "correct": 2,
+        "explanation": "The right path: make the blocker visible early, collaborate directly at the peer tech lead level first (avoid unnecessary management escalation), and agree on a timeline or workaround. If it is not resolved, escalate with specific data (what is blocked, for how long, business impact)."
+    },
+    {
+        "id": "lead-managing-up-001",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["managing-up", "leadership"],
+        "question": "What does 'managing up' mean for a tech lead?",
+        "options": [
+            "Reporting all team mistakes to upper management",
+            "Proactively communicating status, risks, and needs to your manager so they can support your team",
+            "Applying for a promotion to become a manager",
+            "Bypassing your direct manager to talk to the CTO"
+        ],
+        "correct": 1,
+        "explanation": "Managing up means proactively providing your manager with the information they need: status, risks, blockers, team needs, and decisions that require their input. This prevents surprises, builds trust, and enables them to advocate for your team with their own stakeholders."
+    },
+    {
+        "id": "lead-rfc-001",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["RFC", "process"],
+        "question": "What is the primary purpose of an RFC (Request for Comments) process in an engineering team?",
+        "options": [
+            "To approve every code change before it is implemented",
+            "To propose significant changes, gather feedback from stakeholders, and reach consensus before implementation begins",
+            "To formally request access to third-party APIs",
+            "To document bugs and request fixes from other teams"
+        ],
+        "correct": 1,
+        "explanation": "An RFC is a structured proposal for a significant decision (architectural change, new process, major refactor). The author shares the proposal asynchronously, collects feedback from all stakeholders, and iterates before any work begins. This prevents expensive late-stage changes and creates documented rationale."
+    },
+    {
+        "id": "lead-metrics-001",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["engineering-metrics", "cycle-time"],
+        "question": "What is 'cycle time' in software engineering metrics?",
+        "options": [
+            "The time from when a task is created in the backlog to when it is deployed to production",
+            "The time from when a developer starts working on a task to when it is in production",
+            "The duration of a sprint",
+            "The time between two consecutive deployments"
+        ],
+        "correct": 1,
+        "explanation": "Cycle time measures the time from 'work started' to 'delivered to production'. It is a key engineering efficiency metric — shorter cycle times indicate less WIP, less context-switching, and faster feedback loops. It differs from lead time, which starts from when the task was requested."
+    },
+    {
+        "id": "lead-postmortem-002",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "hard",
+        "tags": ["incident-response", "postmortem", "RCA"],
+        "question": "In a postmortem, the '5 Whys' technique is used to:",
+        "options": [
+            "Identify exactly five people responsible for the incident",
+            "Iteratively ask 'why' to trace a problem from its symptom to its root systemic cause",
+            "List five items in the action plan",
+            "Ask five stakeholders for their perspective on the incident"
+        ],
+        "correct": 1,
+        "explanation": "The 5 Whys is a root cause analysis technique: you ask 'why did this happen?' repeatedly (typically ~5 times) until you reach a systemic root cause rather than a surface symptom. This prevents superficial fixes (e.g., 'the developer made a mistake') in favor of systemic improvements (e.g., 'the deployment process lacks validation')."
+    },
+    {
+        "id": "lead-review-004",
+        "type": "multi-choice",
+        "category": "team-lead",
+        "difficulty": "easy",
+        "tags": ["code-review", "what-to-review"],
+        "question": "Which of the following should be checked in a code review?",
+        "options": [
+            "Correctness — does the code do what it is supposed to do?",
+            "Test coverage — are edge cases and failure paths tested?",
+            "The author's seniority level before deciding how hard to review",
+            "Security implications — is user input sanitized, are secrets handled safely?",
+            "Maintainability — will future developers be able to understand and modify this?"
+        ],
+        "correct": [0, 1, 3, 4],
+        "explanation": "A thorough review checks correctness, test quality, security, and maintainability. Reviewing based on the author's seniority introduces bias — everyone's code should meet the same quality bar, and junior developers benefit most from consistent, high-quality feedback."
+    },
+    {
+        "id": "lead-estimate-003",
+        "type": "multi-choice",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["estimation", "techniques"],
+        "question": "Which of the following are valid estimation techniques used in software teams?",
+        "options": [
+            "Planning Poker (story points with consensus)",
+            "T-shirt sizing (XS/S/M/L/XL)",
+            "#NoEstimates (track throughput instead of estimating)",
+            "Monte Carlo simulation for project-level forecasting",
+            "Counting lines of code per task"
+        ],
+        "correct": [0, 1, 2, 3],
+        "explanation": "Planning Poker, T-shirt sizing, #NoEstimates (throughput-based), and Monte Carlo simulation are all recognized techniques. Counting lines of code per task is not a valid estimation technique — LoC is a poor proxy for effort and incentivizes verbose code."
+    },
+    {
+        "id": "lead-dora-002",
+        "type": "multi-choice",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["DORA-metrics", "elite-team"],
+        "question": "Which of the following are the four DORA metrics used to measure software delivery performance?",
+        "options": [
+            "Deployment Frequency",
+            "Lead Time for Changes",
+            "Code Test Coverage",
+            "Change Failure Rate",
+            "Mean Time to Recovery (MTTR)"
+        ],
+        "correct": [0, 1, 3, 4],
+        "explanation": "The four DORA metrics: Deployment Frequency (how often you deploy to production), Lead Time for Changes (time from commit to prod), Change Failure Rate (percentage of deployments causing failures), and MTTR (how quickly you recover from incidents). Code coverage is a quality metric, not a DORA metric."
+    },
+    {
+        "id": "lead-psychological-safety-002",
+        "type": "multi-choice",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["psychological-safety", "team-culture"],
+        "question": "Which team lead behaviors actively build psychological safety?",
+        "options": [
+            "Modeling vulnerability — admitting your own mistakes openly",
+            "Punishing mistakes publicly to set clear expectations",
+            "Thanking team members for raising problems and concerns",
+            "Inviting input from quieter team members in meetings",
+            "Deciding all technical questions yourself to reduce team uncertainty"
+        ],
+        "correct": [0, 2, 3],
+        "explanation": "Psychological safety is built by: modeling vulnerability (leaders who admit mistakes make it safe for others), rewarding problem-surfacing (so people report issues early), and actively inviting quieter voices. Punishing mistakes and over-controlling decisions destroy it."
+    },
+    {
+        "id": "lead-hiring-002",
+        "type": "multi-choice",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["hiring", "interview-design"],
+        "question": "Which of the following make a take-home coding task a fair and effective hiring tool?",
+        "options": [
+            "A time limit (e.g., 2-3 hours) to respect the candidate's time",
+            "A realistic task representative of actual day-to-day work",
+            "Requiring a full production-ready application with tests, CI, and documentation",
+            "Providing a rubric or explicit evaluation criteria upfront",
+            "A follow-up discussion in the next interview to understand the candidate's decisions"
+        ],
+        "correct": [0, 1, 3, 4],
+        "explanation": "Fair take-home tasks: bounded scope (2-3h), realistic work, explicit criteria, and a follow-up discussion. Requiring a production-ready app in a take-home is disrespectful of candidate time and introduces a socioeconomic bias (candidates with more free time produce better results)."
+    },
+    {
+        "id": "lead-tech-debt-003",
+        "type": "multi-choice",
+        "category": "team-lead",
+        "difficulty": "hard",
+        "tags": ["technical-debt", "strategy", "prioritization"],
+        "question": "Which of the following are effective strategies for managing and reducing technical debt sustainably?",
+        "options": [
+            "Dedicate 20% of every sprint to tech debt items alongside feature work",
+            "Rewrite the entire codebase from scratch every 2 years",
+            "Track debt as explicit backlog items with estimated business impact",
+            "Apply the boy scout rule — improve code incrementally while touching it for other reasons",
+            "Require all new code to pass stricter quality gates (linting, coverage) to prevent new debt"
+        ],
+        "correct": [0, 2, 3, 4],
+        "explanation": "Sustainable debt management: allocate regular capacity (20% rule), track debt explicitly with impact estimates, improve incrementally (boy scout rule), and enforce quality gates to prevent accumulation. Full rewrites are high-risk and often reproduce the original debt — the 'second system effect'."
+    },
+    {
+        "id": "lead-review-bug-001",
+        "type": "bug-finding",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["code-review", "feedback", "tone"],
+        "question": "A tech lead left this code review comment. What is wrong with it?",
+        "code": "// PR comment on a junior developer's code:\n// \"This is completely wrong. You clearly don't understand\n// how promises work. Did you even read the docs?\n// Any senior dev would know not to do this.\"",
+        "correct": "The comment is personal, demeaning, and attacks the developer's competence rather than addressing the specific code issue",
+        "referenceAnswer": "Rewrite as: 'This pattern runs the promises sequentially instead of in parallel, which will be slower than needed. Consider Promise.all([...]) to run them concurrently. Here's a reference: [link]. Happy to discuss in our next 1:1 if helpful.'",
+        "explanation": "Effective review feedback is specific, behavior-focused (the code, not the person), educational (explains why), and offers a solution. Personal attacks ('you clearly don't understand') damage psychological safety and the relationship, making the developer afraid to ask questions or take risks."
+    },
+    {
+        "id": "lead-planning-bug-001",
+        "type": "bug-finding",
+        "category": "team-lead",
+        "difficulty": "hard",
+        "tags": ["planning", "estimation", "process"],
+        "question": "This sprint planning process has a systemic problem. Identify it.",
+        "code": "// Sprint planning process:\n// 1. PM shares 30 stories the morning of planning\n// 2. Team estimates all 30 in 2 hours\n// 3. Team commits to the top 20 for the 2-week sprint\n// 4. Any incomplete stories are moved to next sprint\n// Result: last 3 sprints delivered 40% of committed stories",
+        "correct": "The team is consistently over-committing because there is not enough time to refine stories before estimation, the sprint is overloaded (20 stories), and incomplete work carries forward without addressing the root cause",
+        "referenceAnswer": "Fix: (1) Hold a separate refinement session 1 week before planning so stories are well-understood before estimating. (2) Reduce commitment based on historical velocity (40% delivery → commit to 40% less). (3) Use a 'ready' definition for stories before they enter a sprint. (4) Investigate why stories slip — unknowns, dependencies, or scope creep.",
+        "explanation": "Chronic under-delivery signals a planning dysfunction: insufficient refinement leads to underestimates, over-commitment reduces quality, and carry-over accumulates without addressing root causes. Sustainable planning aligns commitment to demonstrated velocity and requires adequately refined stories."
+    },
+    {
+        "id": "lead-adr-002",
+        "type": "code-completion",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["ADR", "documentation"],
+        "question": "Complete the standard sections of an Architecture Decision Record template:",
+        "code": "# ADR-042: Migrate state management from Redux to Zustand\n\n## ___\nOur Redux setup has grown complex with excessive boilerplate.\nThe team struggles to onboard new developers quickly.\n\n## ___\nAdopt Zustand as the global state management library.\n\n## Alternatives Considered\n- Keep Redux with Redux Toolkit\n- Migrate to Jotai (atomic model)\n- Use React Context only\n\n## ___\n- Positive: 70% less boilerplate, faster onboarding\n- Negative: requires migration effort (~2 sprints)\n- Risk: team needs to learn new patterns",
+        "blanks": ["Context", "Decision", "Consequences"],
+        "referenceAnswer": "ADR sections: Context (why a decision was needed), Decision (what was decided), Consequences (trade-offs, positive/negative/risk).",
+        "lang": "markdown",
+        "explanation": "The canonical ADR format (Michael Nygard) has three core sections: Context (situation requiring a decision), Decision (what was chosen), and Consequences (trade-offs and outcomes). Some teams add Status (Proposed/Accepted/Deprecated) and Alternatives as additional sections."
+    },
+    {
+        "id": "lead-1on1-002",
+        "type": "code-completion",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["1on1", "agenda"],
+        "question": "Complete the 1:1 agenda template with the correct section labels:",
+        "code": "## 1:1 — Vadym & Alex — 2024-W12\n\n### ___ (Alex's items first)\n- Feeling stuck on the auth refactor — need help prioritizing\n- Question about the Q2 roadmap direction\n\n### ___ (Vadym's items)\n- Feedback on last sprint's PRs\n- Discuss promotion criteria timeline\n\n### ___ (both commit to actions)\n- [ ] Vadym: unblock auth refactor by Friday\n- [ ] Alex: draft promotion self-assessment by EOW",
+        "blanks": ["Team Member Agenda", "Manager Agenda", "Action Items"],
+        "referenceAnswer": "Sections: Team Member Agenda (their concerns first), Manager Agenda (feedback and topics), Action Items (concrete commitments from both).",
+        "lang": "markdown",
+        "explanation": "An effective 1:1 agenda starts with the team member's items (signaling it is their meeting), includes manager topics, and always ends with concrete, owned action items. Without action items, 1:1s become passive check-ins with no follow-through."
+    },
+    {
+        "id": "lead-rice-002",
+        "type": "code-completion",
+        "category": "team-lead",
+        "difficulty": "hard",
+        "tags": ["prioritization", "RICE"],
+        "question": "Calculate the RICE score and complete the formula for this feature:",
+        "code": "// Feature: Add dark mode toggle\n// Reach: 5000 users/month\n// Impact: 0.5 (low — convenience, not core)\n// Confidence: 80% = ___\n// Effort: 2 person-weeks\n\nconst riceScore = (reach * impact * ___) / ___;\n// riceScore = (5000 * 0.5 * 0.8) / 2 = ___",
+        "blanks": ["0.8", "confidence", "effort", "1000"],
+        "referenceAnswer": "Confidence 80% = 0.8; formula: (reach * impact * confidence) / effort = (5000 * 0.5 * 0.8) / 2 = 1000.",
+        "lang": "javascript",
+        "explanation": "RICE score = (Reach × Impact × Confidence) / Effort. Confidence is expressed as a decimal (80% = 0.8). A score of 1000 tells you this feature delivers 1000 units of value per unit of effort — use this to rank against other features."
+    },
+    {
+        "id": "lead-postmortem-003",
+        "type": "code-completion",
+        "category": "team-lead",
+        "difficulty": "hard",
+        "tags": ["incident-response", "postmortem", "template"],
+        "question": "Complete the blameless postmortem template sections:",
+        "code": "# Incident Postmortem — 2024-03-15 Checkout Outage\n\n## ___\nCheckout was unavailable for 23 minutes (14:35–14:58 UTC).\nEstimated revenue impact: $12,000.\n\n## ___\n14:35 — Deployment of v2.3.1 completed\n14:38 — Error rate spiked to 45%\n14:42 — On-call alerted via PagerDuty\n14:58 — Rollback completed, service restored\n\n## Root Cause\nNew DB migration ran synchronously, locking the orders table\n\n## ___\n- [ ] Add migration dry-run step to deployment pipeline\n- [ ] Set up DB lock monitoring alert\n- [ ] Update runbook with rollback steps",
+        "blanks": ["Impact Summary", "Timeline", "Action Items"],
+        "referenceAnswer": "Sections: Impact Summary (who/what affected, business cost), Timeline (ordered events), Action Items (concrete preventive measures with owners).",
+        "lang": "markdown",
+        "explanation": "A complete postmortem has: Impact Summary (scope and cost), Timeline (events in order), Root Cause Analysis, and Action Items (concrete, owned, time-bound). The goal is to prevent recurrence, not document blame. Action items without owners and deadlines are rarely completed."
+    },
+    {
+        "id": "lead-feedback-002",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["feedback", "SBI-model"],
+        "question": "The SBI feedback model stands for:",
+        "options": [
+            "Simple, Brief, Impactful",
+            "Situation, Behavior, Impact",
+            "Skill, Behavior, Improvement",
+            "Specific, Balanced, Immediate"
+        ],
+        "correct": 1,
+        "explanation": "SBI (Situation-Behavior-Impact) is a structured feedback model: describe the Situation (when/where), the specific Behavior you observed, and the Impact it had. This avoids generalizations ('you always...') and keeps feedback grounded in observable facts."
+    },
+    {
+        "id": "lead-onboarding-002",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["onboarding", "documentation"],
+        "question": "What is the most critical piece of documentation to have ready before a new engineer joins?",
+        "options": [
+            "A complete UML diagram of the entire system",
+            "A getting-started guide covering: repo setup, local dev environment, how to run tests, and where to ask questions",
+            "A list of all open bugs in the backlog",
+            "A performance review template"
+        ],
+        "correct": 1,
+        "explanation": "The most impactful onboarding doc is a getting-started guide that lets a new engineer run the project locally within their first hour. This covers: prerequisites, clone/install steps, how to start dev servers, run tests, and who to ask when stuck. Everything else can wait."
+    },
+    {
+        "id": "lead-crossteam-002",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "hard",
+        "tags": ["cross-team", "RFC", "alignment"],
+        "question": "A feature requires changes to a shared component owned by another team. What is the correct approach?",
+        "options": [
+            "Directly modify the shared component without asking",
+            "Ask your manager to mandate the change to the other team",
+            "Propose the change via an RFC or direct collaboration with the owning team, agree on the API contract, and let the owning team implement it or contribute with their guidance",
+            "Fork the shared component into your own codebase"
+        ],
+        "correct": 2,
+        "explanation": "Shared component changes require the owning team's agreement on the contract (to avoid breaking other consumers), their implementation expertise, and coordination on timing. An RFC or direct collaboration respects ownership, produces better designs, and maintains trust between teams."
+    },
+    {
+        "id": "lead-review-005",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["code-review", "size"],
+        "question": "What is the recommended maximum size for a PR to maintain effective code review?",
+        "options": [
+            "Under 10 lines changed",
+            "Under 400 lines changed",
+            "Under 5000 lines changed",
+            "There is no limit — completeness matters more than size"
+        ],
+        "correct": 1,
+        "explanation": "Research (SmartBear, Google) suggests that review quality drops sharply after ~400 lines — reviewers become overwhelmed and miss defects. Ideal PRs are under 200-400 lines. Large PRs should be split by concern (data layer, UI layer, tests) into a series of smaller, focused PRs."
+    },
+    {
+        "id": "lead-metrics-002",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "hard",
+        "tags": ["engineering-metrics", "goodhart"],
+        "question": "What is Goodhart's Law and why is it important when choosing engineering metrics?",
+        "options": [
+            "Good metrics must be measured at least daily",
+            "When a measure becomes a target, it ceases to be a good measure — teams optimize for the metric at the expense of the underlying goal",
+            "Engineering metrics should always be approved by the product team",
+            "Metrics are only useful if they can be compared across teams"
+        ],
+        "correct": 1,
+        "explanation": "Goodhart's Law: 'When a measure becomes a target, it ceases to be a good measure.' Examples: if you measure lines of code, developers write verbose code; if you track bug counts, they are under-reported. Use metrics as signals for conversation, not as goals to optimize in isolation."
+    },
+    {
+        "id": "lead-hiring-003",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["hiring", "structured-interviews"],
+        "question": "What is a structured interview and why does it improve hiring fairness?",
+        "options": [
+            "An interview with a fixed time slot of exactly 60 minutes",
+            "An interview where every candidate is asked the same predetermined questions evaluated against a consistent rubric",
+            "An interview where candidates write code on a computer instead of a whiteboard",
+            "An interview panel with more than three interviewers"
+        ],
+        "correct": 1,
+        "explanation": "Structured interviews ask all candidates the same questions with a predetermined scoring rubric. This reduces interviewer bias (unconscious favoritism based on appearance, shared background, or confidence) and improves predictive validity. Unstructured interviews have notoriously low inter-rater reliability."
+    },
+    {
+        "id": "lead-communication-001",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["communication", "async"],
+        "question": "What is the key principle behind asynchronous-first team communication?",
+        "options": [
+            "All decisions must be made in real-time meetings",
+            "Prefer written, async communication (docs, Slack threads, PRs) over synchronous meetings — reserve real-time for decisions requiring rapid back-and-forth or emotional nuance",
+            "Avoid all meetings and only use email",
+            "Respond to all messages within 5 minutes to maximize team speed"
+        ],
+        "correct": 1,
+        "explanation": "Async-first communication respects deep work time, works across timezones, and creates a written record of decisions. Meetings are reserved for high-bandwidth situations: creative brainstorming, conflict resolution, and rapid iterations. The anti-pattern is holding a meeting for anything that could be a doc or Slack thread."
+    },
+    {
+        "id": "lead-burnout-002",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "hard",
+        "tags": ["burnout", "prevention"],
+        "question": "Which team lead behavior is MOST effective at preventing developer burnout over time?",
+        "options": [
+            "Providing free snacks and team lunches",
+            "Ensuring the team has clear priorities, autonomy over how work is done, and sustainable pace (no chronic crunch)",
+            "Scheduling more frequent team retrospectives",
+            "Praising individual performance publicly in all-hands meetings"
+        ],
+        "correct": 1,
+        "explanation": "Research (Maslach Burnout Inventory, Google) identifies six root causes of burnout: workload, lack of control, insufficient reward, breakdown in community, absence of fairness, and values conflicts. Clear priorities (reduces overwhelm), autonomy (control), and sustainable pace (workload) address three directly."
+    },
+    {
+        "id": "lead-review-006",
+        "type": "multi-choice",
+        "category": "team-lead",
+        "difficulty": "hard",
+        "tags": ["code-review", "automation"],
+        "question": "Which aspects of code review are best automated and which require human judgment?",
+        "options": [
+            "Automate: formatting, linting, test coverage thresholds",
+            "Automate: business logic correctness",
+            "Human: architecture and design decisions",
+            "Human: whether the code solves the right problem",
+            "Automate: detecting security vulnerabilities via static analysis"
+        ],
+        "correct": [0, 2, 3, 4],
+        "explanation": "Automate everything mechanical: formatting (Prettier), linting (ESLint), coverage (Vitest), and static security analysis (Snyk, CodeQL). Reserve human review for: architecture decisions, whether the solution fits the requirement, business logic correctness (machines cannot know intent), and design trade-offs."
+    },
+    {
+        "id": "lead-tech-debt-004",
+        "type": "multi-choice",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["technical-debt", "classification"],
+        "question": "Martin Fowler's Technical Debt Quadrant classifies debt by two axes. Which combinations are correct?",
+        "options": [
+            "Reckless + Deliberate: 'We don't have time for design'",
+            "Prudent + Deliberate: 'We must ship now and deal with consequences later'",
+            "Reckless + Inadvertent: 'What's layering?'",
+            "Prudent + Inadvertent: 'Now we know how we should have done it'",
+            "Reckless + Prudent: 'Fast and careful at the same time'"
+        ],
+        "correct": [0, 1, 2, 3],
+        "explanation": "Fowler's quadrant: Reckless+Deliberate (ignoring design by choice), Prudent+Deliberate (conscious short-term shortcut), Reckless+Inadvertent (incompetence), Prudent+Inadvertent (learning through delivery). 'Reckless+Prudent' is a contradiction — not a real quadrant cell."
+    },
+    {
+        "id": "lead-roadmap-002",
+        "type": "code-completion",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["roadmap", "planning", "OKR"],
+        "question": "Complete the OKR structure for a frontend team's quarterly goal:",
+        "code": "// OKR format: Objective + Key Results\n\n// ___: Ambitious, qualitative goal\n\"Improve developer experience and reduce onboarding time\"\n\n// ___ (measurable outcomes):\n// KR1: ___ time from git clone to running app from 2h to 15min\n// KR2: Achieve ___ score on developer satisfaction survey (currently 6.2/10)\n// KR3: Zero new engineers take >1 day to merge their first PR",
+        "blanks": ["Objective", "Key Results", "Reduce", "8.0+"],
+        "referenceAnswer": "Objective is the qualitative goal; Key Results are specific, measurable outcomes. KR1 reduces setup time; KR2 targets a satisfaction score; KR3 sets a binary milestone.",
+        "lang": "markdown",
+        "explanation": "OKRs (Objectives and Key Results): the Objective is an inspiring, qualitative direction. Key Results are quantifiable outcomes that prove the objective was achieved — not tasks or outputs. Good KRs are measurable, time-bound, and set at ~70% confidence level (stretch goals)."
+    },
+    {
+        "id": "lead-conflict-001",
+        "type": "code-completion",
+        "category": "team-lead",
+        "difficulty": "hard",
+        "tags": ["conflict-resolution", "leadership"],
+        "question": "Complete the constructive conflict resolution script for a tech lead mediating a disagreement between two developers:",
+        "code": "// Scenario: Dev A wants to use GraphQL; Dev B insists on REST.\n// Tech lead facilitation steps:\n\n// 1. ___ both perspectives without taking sides initially\n// 2. Reframe from positions to interests:\n//    'What problem are you trying to solve with ___?'\n// 3. Identify ___ criteria: latency, flexibility, team familiarity\n// 4. Agree to a ___ or PoC to validate assumptions\n// 5. Document the decision and rationale in an ___",
+        "blanks": ["Hear", "GraphQL / REST", "objective", "spike", "ADR"],
+        "referenceAnswer": "Hear both sides; reframe to interests; define objective criteria; run a spike/PoC; document in an ADR.",
+        "lang": "markdown",
+        "explanation": "Effective tech conflict resolution: avoid positional bargaining (GraphQL vs REST) by identifying underlying interests (flexibility vs simplicity). Establish objective criteria to evaluate options. Run a time-boxed spike to get data. Document the outcome so the debate does not resurface."
+    },
+    {
+        "id": "lead-mentoring-002",
+        "type": "code-completion",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["mentoring", "growth-framework"],
+        "question": "Complete this simplified engineering growth ladder for a frontend team:",
+        "code": "const growthLadder = [\n  {\n    level: 'Trainee',\n    scope: '___',           // single task, guided\n    autonomy: 'needs guidance on every task',\n  },\n  {\n    level: 'Mid',\n    scope: '___',           // owns a feature end-to-end\n    autonomy: 'independent within team norms',\n  },\n  {\n    level: 'Senior',\n    scope: '___',           // drives technical direction for a domain\n    autonomy: 'mentors others, makes architectural decisions',\n  },\n  {\n    level: 'Staff',\n    scope: '___',           // cross-team technical strategy\n    autonomy: 'sets direction across teams',\n  },\n];",
+        "blanks": [
+            "Single component or bug fix",
+            "Feature / small project",
+            "Team domain / system design",
+            "Multi-team / org-wide initiatives"
+        ],
+        "referenceAnswer": "Scope increases from individual task → feature → domain → org-wide. Autonomy grows from guided → independent → mentoring → org leadership.",
+        "lang": "javascript",
+        "explanation": "Engineering ladders define scope of impact and autonomy at each level. Trainee: guided, small scope. Mid: independent feature ownership. Senior: domain ownership + mentoring. Staff: cross-team technical strategy. Clarity on levels helps both performance reviews and career conversations."
+    }
+]

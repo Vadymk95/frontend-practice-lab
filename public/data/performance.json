@@ -1,0 +1,744 @@
+[
+    {
+        "id": "perf-vitals-001",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "easy",
+        "tags": ["core-web-vitals", "lcp", "cls", "inp"],
+        "question": "What are the three current Core Web Vitals measured by Google?",
+        "options": ["FCP, TTI, TBT", "LCP, CLS, INP", "TTFB, FID, LCP", "LCP, FCP, CLS"],
+        "correct": 1,
+        "explanation": "The three Core Web Vitals are: LCP (Largest Contentful Paint — loading), CLS (Cumulative Layout Shift — visual stability), and INP (Interaction to Next Paint — interactivity, replaced FID in 2024). FCP, TTFB, TBT, and TTI are diagnostic metrics."
+    },
+    {
+        "id": "perf-codesplit-001",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "easy",
+        "tags": ["code-splitting", "lazy-loading", "bundles"],
+        "question": "What is the primary goal of code splitting in a JavaScript application?",
+        "options": [
+            "To reduce the number of HTTP requests by combining files",
+            "To break the bundle into smaller chunks that can be loaded on demand, reducing initial parse/execute time",
+            "To enable tree shaking by removing unused exports",
+            "To improve TypeScript compilation speed"
+        ],
+        "correct": 1,
+        "explanation": "Code splitting divides a large JavaScript bundle into smaller chunks that load only when needed (e.g., route-based splitting). This reduces the amount of JavaScript the browser must parse and execute on initial load, directly improving FCP and TTI."
+    },
+    {
+        "id": "perf-treeshake-001",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "easy",
+        "tags": ["tree-shaking", "esm", "bundler"],
+        "question": "What module format is required for tree shaking to work effectively?",
+        "options": [
+            "CommonJS (require/module.exports)",
+            "AMD (define/require)",
+            "ES Modules (import/export)",
+            "UMD (Universal Module Definition)"
+        ],
+        "correct": 2,
+        "explanation": "Tree shaking requires ES Modules because ESM uses static `import`/`export` syntax that can be analyzed at build time. CommonJS uses dynamic `require()` which cannot be statically analyzed, so unused exports can't be eliminated safely."
+    },
+    {
+        "id": "perf-image-001",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "easy",
+        "tags": ["images", "webp", "avif", "optimization"],
+        "question": "What is the main advantage of AVIF over WebP for image optimization?",
+        "options": [
+            "AVIF has wider browser support than WebP",
+            "AVIF typically achieves better compression ratios than WebP at the same visual quality",
+            "AVIF supports animation while WebP does not",
+            "AVIF files load faster because they are parsed on the GPU"
+        ],
+        "correct": 1,
+        "explanation": "AVIF (based on the AV1 codec) generally achieves significantly better compression than WebP at equivalent quality, often 25-50% smaller files. However, AVIF has slightly lower browser support and slower encoding. Both support transparency and animation."
+    },
+    {
+        "id": "perf-font-001",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "easy",
+        "tags": ["fonts", "font-display", "fout", "foit"],
+        "question": "What does `font-display: swap` do?",
+        "options": [
+            "Immediately shows the custom font or hides text until it loads",
+            "Shows a fallback font immediately and swaps to the custom font when it loads",
+            "Blocks rendering until the custom font is loaded, then shows text",
+            "Uses the system font and never loads the custom font"
+        ],
+        "correct": 1,
+        "explanation": "`font-display: swap` shows fallback text immediately (preventing FOIT — Flash of Invisible Text) and swaps to the custom font when it loads (causing FOUT — Flash of Unstyled Text). This is preferred for text readability over `block` which hides text."
+    },
+    {
+        "id": "perf-debounce-001",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "easy",
+        "tags": ["debounce", "throttle", "events"],
+        "question": "What is the key difference between debounce and throttle?",
+        "options": [
+            "Debounce limits calls to once per animation frame; throttle limits calls per second",
+            "Debounce delays execution until after a quiet period; throttle limits execution to at most once per interval regardless of call frequency",
+            "Throttle only works with async functions; debounce works with synchronous functions",
+            "Debounce is for UI events; throttle is for network requests"
+        ],
+        "correct": 1,
+        "explanation": "Debounce waits for a pause in events (e.g., user stops typing for 300ms), then fires once. Throttle guarantees the function fires at most once per interval (e.g., every 100ms) even if called continuously. Use debounce for search inputs; use throttle for scroll/resize handlers."
+    },
+    {
+        "id": "perf-memo-001",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "easy",
+        "tags": ["memoization", "react", "useMemo"],
+        "question": "When should you use `useMemo` in React?",
+        "options": [
+            "On every computed value to prevent unnecessary recalculations",
+            "Only for expensive computations where the cost of calculation outweighs the overhead of memoization",
+            "To memoize event handlers passed to child components",
+            "Whenever a component re-renders more than 3 times"
+        ],
+        "correct": 1,
+        "explanation": "`useMemo` has overhead (cache storage, comparison). It's only beneficial for expensive computations (e.g., heavy filtering/sorting of large lists) or referential stability needed by downstream dependencies. Over-using useMemo makes code complex without benefit."
+    },
+    {
+        "id": "perf-lighthouse-001",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "easy",
+        "tags": ["lighthouse", "performance-score", "metrics"],
+        "question": "What does Lighthouse's Performance score measure?",
+        "options": [
+            "The raw page load time in seconds",
+            "A weighted composite score based on multiple performance metrics including FCP, LCP, TBT, CLS, and Speed Index",
+            "Only the Core Web Vitals collected from real user data",
+            "The number of render-blocking resources on the page"
+        ],
+        "correct": 1,
+        "explanation": "Lighthouse Performance score is a weighted average of: FCP (10%), Speed Index (10%), LCP (25%), Total Blocking Time (30%), and CLS (25%). It's a lab metric, not field data — real user experience (CrUX data) may differ."
+    },
+    {
+        "id": "perf-lazyload-001",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "easy",
+        "tags": ["lazy-loading", "images", "html"],
+        "question": "What does the `loading=\"lazy\"` attribute on an `<img>` tag do?",
+        "options": [
+            "Loads the image using a Service Worker for offline support",
+            "Defers loading the image until it is near the viewport, reducing initial page weight",
+            "Compresses the image before download using the browser's built-in codec",
+            "Loads the image at low quality first, then upgrades to full quality"
+        ],
+        "correct": 1,
+        "explanation": "Native lazy loading (`loading=\"lazy\"`) defers image loading until the image is within a certain distance of the viewport (determined by the browser). This reduces initial page payload and speeds up LCP for above-the-fold content."
+    },
+    {
+        "id": "perf-preconnect-001",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "easy",
+        "tags": ["preconnect", "resource-hints", "dns"],
+        "question": "What does `<link rel=\"preconnect\" href=\"https://api.example.com\">` do?",
+        "options": [
+            "Fetches and caches the HTML from https://api.example.com",
+            "Establishes the TCP/TLS handshake to the origin early, before the resource is actually needed",
+            "Pre-renders the next page to enable instant navigation",
+            "Loads all scripts from api.example.com in parallel"
+        ],
+        "correct": 1,
+        "explanation": "`preconnect` performs DNS resolution, TCP handshake, and TLS negotiation early, eliminating that latency when the resource is later requested. It's most useful for critical third-party origins (analytics, CDN, API). Use `dns-prefetch` as a fallback for older browsers."
+    },
+    {
+        "id": "perf-willchange-001",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "easy",
+        "tags": ["css-performance", "will-change", "compositing"],
+        "question": "What is the correct way to use `will-change: transform`?",
+        "options": [
+            "Apply it to all animated elements globally in your base CSS",
+            "Apply it only just before the animation starts and remove it after the animation ends",
+            "Apply it only to elements with more than 100 child nodes",
+            "Apply it in combination with `transform: translateZ(0)` for maximum effect"
+        ],
+        "correct": 1,
+        "explanation": "`will-change` should be applied shortly before the animation/interaction begins and removed afterward. Applying it globally or permanently wastes GPU memory for elements that aren't currently animating. Many browsers now auto-promote elements based on actual usage, making permanent `will-change` even less necessary."
+    },
+    {
+        "id": "perf-virtuallist-001",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "easy",
+        "tags": ["virtual-list", "windowing", "rendering"],
+        "question": "What problem does virtual/windowed list rendering solve?",
+        "options": [
+            "It reduces network requests by paginating data server-side",
+            "It renders only the visible items (plus a small buffer) instead of all items, dramatically reducing DOM nodes",
+            "It pre-renders off-screen items using Web Workers",
+            "It uses CSS `content-visibility: auto` to skip paint for off-screen items"
+        ],
+        "correct": 1,
+        "explanation": "Virtual list libraries (react-window, TanStack Virtual) only create DOM nodes for visible items. Rendering 10,000 list items creates 10,000 DOM nodes causing massive memory and layout overhead. Virtualization keeps the DOM to ~50-100 nodes regardless of list size."
+    },
+    {
+        "id": "perf-reactmemo-001",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "easy",
+        "tags": ["react", "memo", "re-rendering"],
+        "question": "What does `React.memo()` do?",
+        "options": [
+            "Memoizes the return value of a pure function called inside the component",
+            "Wraps a functional component to skip re-rendering when props haven't changed (shallow comparison)",
+            "Prevents the component from ever re-rendering once mounted",
+            "Caches the component's JSX output in the virtual DOM indefinitely"
+        ],
+        "correct": 1,
+        "explanation": "`React.memo()` is a higher-order component that performs a shallow props comparison. If props haven't changed, React reuses the previous render output. Use it for components that render frequently with the same props. For deep equality or custom logic, provide a second comparison function."
+    },
+    {
+        "id": "perf-ttfb-001",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "easy",
+        "tags": ["ttfb", "server", "network"],
+        "question": "What does TTFB (Time to First Byte) measure and what typically causes a high TTFB?",
+        "options": [
+            "Time for the first DOM element to appear; caused by large HTML files",
+            "Time from navigation start until the first byte of the response body is received; caused by slow server processing, network latency, or missing CDN",
+            "Time for the first JavaScript byte to execute; caused by large script files",
+            "Time for the first image to load; caused by unoptimized images"
+        ],
+        "correct": 1,
+        "explanation": "TTFB measures the time from the browser initiating a request until the first byte of the response is received. High TTFB is typically caused by: slow server/database queries, high network round-trip latency, missing CDN for geographically distant users, or lack of HTTP/2 multiplexing."
+    },
+    {
+        "id": "perf-fcp-001",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "easy",
+        "tags": ["fcp", "rendering", "web-vitals"],
+        "question": "What does FCP (First Contentful Paint) measure?",
+        "options": [
+            "When the browser starts downloading the first resource",
+            "When the first piece of content (text, image, SVG, or canvas) is painted to the screen",
+            "When the page becomes fully interactive",
+            "When the largest element in the viewport finishes painting"
+        ],
+        "correct": 1,
+        "explanation": "FCP marks when the browser renders the first bit of content from the DOM (text, images, SVG, non-white `<canvas>`). It's the user's first visual feedback that something is happening. A good FCP is under 1.8 seconds."
+    },
+    {
+        "id": "perf-bundle-001",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "medium",
+        "tags": ["bundle-analysis", "webpack", "vite"],
+        "question": "What does a bundle analyzer (like rollup-plugin-visualizer or webpack-bundle-analyzer) help you identify?",
+        "options": [
+            "Runtime performance bottlenecks and memory leaks",
+            "Large dependencies, duplicate modules, and opportunities for code splitting",
+            "Unused CSS rules that can be purged",
+            "Security vulnerabilities in npm packages"
+        ],
+        "correct": 1,
+        "explanation": "Bundle analyzers generate visual treemaps of your bundle composition. They reveal: unexpectedly large dependencies, duplicate packages (e.g., multiple lodash versions), modules that should be code-split or lazy-loaded, and polyfills that may not be needed."
+    },
+    {
+        "id": "perf-srcset-001",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "medium",
+        "tags": ["images", "srcset", "responsive"],
+        "question": "What is the purpose of the `srcset` attribute on an `<img>` tag?",
+        "options": [
+            "To provide multiple image formats (WebP, AVIF) for format negotiation",
+            "To provide multiple image resolutions so the browser can choose the most appropriate one based on device pixel ratio and viewport size",
+            "To specify fallback images if the primary image fails to load",
+            "To preload multiple images simultaneously"
+        ],
+        "correct": 1,
+        "explanation": "`srcset` provides a list of image sources with width descriptors (100w, 200w) or pixel density descriptors (1x, 2x). Combined with `sizes`, the browser selects the optimal image for the device. `<picture>` with `<source type>` handles format negotiation (WebP vs AVIF vs JPEG)."
+    },
+    {
+        "id": "perf-css-contain-001",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "medium",
+        "tags": ["css-performance", "contain", "layout"],
+        "question": "What does `CSS contain: layout style paint` achieve?",
+        "options": [
+            "It prevents the element from being affected by external CSS specificity",
+            "It tells the browser the element is independent: changes inside it cannot affect outside elements, enabling rendering optimizations",
+            "It forces the element to be painted on a separate GPU layer",
+            "It prevents CSS animations from running on the element"
+        ],
+        "correct": 1,
+        "explanation": "`contain` tells the browser that the element's subtree is isolated from the rest of the page. `layout` isolation means internal layout changes can't affect external elements, allowing the browser to skip re-laying-out the rest of the page. `content-visibility: auto` implicitly applies `contain: layout style paint`."
+    },
+    {
+        "id": "perf-memoryleak-001",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "medium",
+        "tags": ["memory-leaks", "detached-dom", "gc"],
+        "question": "Which of the following is a common cause of memory leaks in SPAs?",
+        "options": [
+            "Using async/await instead of Promise chains",
+            "Retaining references to detached DOM nodes in JavaScript variables or closures",
+            "Having too many CSS variables defined in :root",
+            "Using `const` instead of `let` for component state"
+        ],
+        "correct": 1,
+        "explanation": "A detached DOM node (removed from the document tree but still referenced in JavaScript) cannot be garbage collected. Common causes: event listeners not removed on component unmount, closures capturing DOM references, and global arrays storing DOM nodes."
+    },
+    {
+        "id": "perf-http-cache-001",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "medium",
+        "tags": ["http-caching", "cache-control", "immutable"],
+        "question": "What is the optimal Cache-Control strategy for hashed static assets (e.g., `app.a1b2c3.js`)?",
+        "options": [
+            "Cache-Control: no-cache",
+            "Cache-Control: max-age=0, must-revalidate",
+            "Cache-Control: public, max-age=31536000, immutable",
+            "Cache-Control: private, max-age=3600"
+        ],
+        "correct": 2,
+        "explanation": "Content-hashed assets (filename changes on every deployment) can be cached indefinitely. `max-age=31536000` (1 year) + `immutable` tells the browser (and CDN) to never revalidate — the hash in the filename guarantees cache busting on new deploys. `immutable` prevents unnecessary conditional requests."
+    },
+    {
+        "id": "perf-webworker-001",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "medium",
+        "tags": ["web-workers", "cpu-intensive", "multithreading"],
+        "question": "What type of task is best offloaded to a Web Worker for performance?",
+        "options": [
+            "DOM manipulation and event handling",
+            "Network requests via fetch",
+            "CPU-intensive computations like image processing, cryptography, or data transformation",
+            "LocalStorage reads and writes"
+        ],
+        "correct": 2,
+        "explanation": "Web Workers run JavaScript on a separate thread, preventing CPU-intensive operations from blocking the main thread and causing UI jank. Tasks like image processing, large data sorting/filtering, cryptographic operations, and complex calculations are ideal. Web Workers cannot access the DOM or localStorage."
+    },
+    {
+        "id": "perf-above-fold-001",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "medium",
+        "tags": ["above-the-fold", "critical-css", "lcp"],
+        "question": "What is 'critical CSS' and how does it improve performance?",
+        "options": [
+            "CSS that must not be removed during tree shaking because it's required for functionality",
+            "Styles required to render above-the-fold content, inlined in `<head>` to avoid a render-blocking stylesheet request",
+            "CSS that applies only to interactive elements like buttons and forms",
+            "Minified CSS delivered through a CDN with Cache-Control: immutable"
+        ],
+        "correct": 1,
+        "explanation": "Critical CSS is the minimal set of styles needed to render the visible viewport. By inlining it in `<style>` in the `<head>`, the browser can paint above-the-fold content without waiting for external stylesheets, improving FCP and LCP. The full stylesheet is loaded asynchronously."
+    },
+    {
+        "id": "perf-perfmark-001",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "medium",
+        "tags": ["performance-mark", "user-timing", "profiling"],
+        "question": "What is the advantage of `performance.mark()` over `console.time()` for production monitoring?",
+        "options": [
+            "performance.mark() is synchronous; console.time() uses microtasks",
+            "performance.mark() entries appear in browser DevTools performance timeline and can be observed via PerformanceObserver for real-user monitoring",
+            "console.time() has higher overhead than performance.mark()",
+            "performance.mark() works in Web Workers; console.time() does not"
+        ],
+        "correct": 1,
+        "explanation": "`performance.mark()` entries are accessible via the Performance Timeline API and appear in DevTools. Most importantly, they can be consumed by `PerformanceObserver` in production to report real-user timing to analytics services. `console.time()` output is only visible in the DevTools console."
+    },
+    {
+        "id": "perf-lcp-001",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "medium",
+        "tags": ["lcp", "web-vitals", "optimization"],
+        "question": "Which of the following has the highest impact on improving LCP for a page with a large hero image?",
+        "options": [
+            "Adding `loading=\"lazy\"` to the hero image",
+            "Using `<link rel=\"preload\" as=\"image\">` for the hero image in the `<head>`",
+            "Compressing the hero image from 1MB to 500KB",
+            "Serving the hero image from a CDN"
+        ],
+        "correct": 1,
+        "explanation": "For the LCP image specifically, `loading=\"lazy\"` should NOT be used (it delays the LCP element). `<link rel=\"preload\">` tells the browser to start fetching the image immediately, before it's discovered in the HTML. Combined with serving from CDN and proper compression, preloading the LCP image is the single highest-impact optimization."
+    },
+    {
+        "id": "perf-useCallback-001",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "medium",
+        "tags": ["react", "useCallback", "referential-equality"],
+        "question": "When does `useCallback` actually prevent a child component from re-rendering?",
+        "options": [
+            "Always — useCallback prevents any function from being recreated",
+            "Only when the child component is wrapped in React.memo and the callback is passed as a prop",
+            "Only when the callback is used as a dependency in the child's useEffect",
+            "When the function is defined with the function keyword instead of arrow syntax"
+        ],
+        "correct": 1,
+        "explanation": "`useCallback` returns the same function reference between renders (given stable deps). But this only prevents re-renders if the child is memoized with `React.memo` — otherwise React always re-renders the child regardless of prop reference stability. `useCallback` without `memo` only helps stabilize effect dependencies."
+    },
+    {
+        "id": "perf-renderblock-001",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "hard",
+        "tags": ["render-blocking", "tbt", "long-tasks"],
+        "question": "What is Total Blocking Time (TBT) and what causes it?",
+        "options": [
+            "The total time blocked by CORS preflight requests during page load",
+            "The sum of 'blocking portions' of all long tasks (tasks exceeding 50ms) between FCP and TTI",
+            "The total time the main thread spends on synchronous XHR requests",
+            "The cumulative time all render-blocking resources delay the first paint"
+        ],
+        "correct": 1,
+        "explanation": "TBT measures the total time the main thread is 'blocked' between FCP and TTI. A task is long if it exceeds 50ms; the blocking portion is the excess over 50ms. High TBT means the page feels unresponsive. Causes: large JS bundles, third-party scripts, non-split vendor chunks. TBT has 30% weight in Lighthouse."
+    },
+    {
+        "id": "perf-cls-font-001",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "hard",
+        "tags": ["cls", "fonts", "font-display", "layout-shift"],
+        "question": "How can `font-display: optional` help improve CLS compared to `font-display: swap`?",
+        "options": [
+            "It loads fonts faster by using HTTP/2 server push",
+            "It only uses the custom font if it loads within a very short block period; otherwise uses the fallback permanently, preventing any layout shift from a late font swap",
+            "It prevents FOUT by keeping text invisible until the custom font loads",
+            "It enables variable font interpolation to avoid metric mismatches"
+        ],
+        "correct": 1,
+        "explanation": "`font-display: optional` gives the custom font an extremely short block period. If it doesn't load in time, the fallback is used for the entire page load and no swap occurs — eliminating FOUT and the associated CLS. The trade-off: the custom font may not appear on slow connections. Best for non-critical fonts."
+    },
+    {
+        "id": "perf-inp-001",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "hard",
+        "tags": ["inp", "long-tasks", "scheduler"],
+        "question": "Which technique helps improve INP by breaking up long event handlers?",
+        "options": [
+            "Using Web Workers to move all event handling off the main thread",
+            "Using `scheduler.postTask()` or `setTimeout(fn, 0)` to yield to the browser between chunks of work",
+            "Replacing addEventListener with passive event listeners",
+            "Using CSS `pointer-events: none` during expensive operations"
+        ],
+        "correct": 1,
+        "explanation": "Long synchronous event handlers block the main thread, delaying the next paint. The solution is to yield to the browser mid-work using `scheduler.postTask()`, `setTimeout(fn, 0)`, or `await Promise.resolve()`. This allows the browser to paint and handle other input between chunks, improving INP responsiveness."
+    },
+    {
+        "id": "perf-multicodevitals-001",
+        "type": "multi-choice",
+        "category": "performance",
+        "difficulty": "easy",
+        "tags": ["core-web-vitals", "lcp", "cls", "inp"],
+        "question": "Which of the following can negatively impact LCP?",
+        "options": [
+            "A hero image without a preload hint",
+            "Render-blocking stylesheets in the head",
+            "A high CLS score on the page",
+            "Slow server response time (high TTFB)",
+            "The LCP element being lazy-loaded"
+        ],
+        "correct": [0, 1, 3, 4],
+        "explanation": "LCP is negatively impacted by: missing preload for the LCP resource, render-blocking CSS delaying rendering, slow TTFB (the browser can't start rendering until HTML arrives), and lazy-loading the LCP element (delays its fetch). CLS is a separate metric and doesn't affect LCP timing."
+    },
+    {
+        "id": "perf-multicode-001",
+        "type": "multi-choice",
+        "category": "performance",
+        "difficulty": "easy",
+        "tags": ["code-splitting", "lazy-loading", "react"],
+        "question": "Which of the following are valid methods for code splitting in a React application?",
+        "options": [
+            "Using React.lazy() with dynamic import()",
+            "Using import() directly in event handlers for on-demand loading",
+            "Using CSS modules instead of styled-components",
+            "Configuring manualChunks in Vite/Rollup",
+            "Adding nomodule to script tags"
+        ],
+        "correct": [0, 1, 3],
+        "explanation": "`React.lazy()` wraps dynamic `import()` for component-level splitting. Direct `import()` in event handlers enables on-demand feature loading. Bundler `manualChunks` config splits vendor libraries. CSS modules don't affect JS code splitting. `nomodule` is for legacy browser targeting, not splitting."
+    },
+    {
+        "id": "perf-multimemo-001",
+        "type": "multi-choice",
+        "category": "performance",
+        "difficulty": "medium",
+        "tags": ["react", "memoization", "useMemo", "useCallback"],
+        "question": "Which of the following scenarios justify using `useMemo`?",
+        "options": [
+            "Filtering and sorting a list of 10,000 items based on user input",
+            "Computing a simple string concatenation like `fullName = firstName + ' ' + lastName`",
+            "Creating a derived value used as a dependency in another useMemo",
+            "Formatting a date that only changes when a `date` prop changes",
+            "Calculating a value inside a component that never re-renders"
+        ],
+        "correct": [0, 2, 3],
+        "explanation": "useMemo is justified for: expensive computations on large datasets, values used as stable references in dependency arrays (to prevent cascading re-memos/effects), and derived values that change infrequently. Simple string ops and values in never-re-rendering components don't benefit from memoization."
+    },
+    {
+        "id": "perf-multiimage-001",
+        "type": "multi-choice",
+        "category": "performance",
+        "difficulty": "medium",
+        "tags": ["images", "optimization", "webp", "avif"],
+        "question": "Which image optimization techniques reduce page weight?",
+        "options": [
+            "Using WebP or AVIF format instead of JPEG/PNG",
+            "Adding width and height attributes to img tags",
+            "Using responsive images with srcset and appropriate sizes",
+            "Lazy loading below-the-fold images",
+            "Serving images via HTTPS"
+        ],
+        "correct": [0, 2, 3],
+        "explanation": "WebP/AVIF reduce file size. `srcset` ensures devices download only the image size they need. Lazy loading defers downloading off-screen images. Width/height attributes prevent CLS but don't reduce file size. HTTPS doesn't affect image file size."
+    },
+    {
+        "id": "perf-multirenderblock-001",
+        "type": "multi-choice",
+        "category": "performance",
+        "difficulty": "medium",
+        "tags": ["render-blocking", "critical-rendering-path", "optimization"],
+        "question": "Which techniques eliminate or reduce render-blocking resources?",
+        "options": [
+            "Adding `async` or `defer` to non-critical scripts",
+            "Inlining critical CSS and loading the full stylesheet asynchronously",
+            "Using `font-display: block` for web fonts",
+            "Serving stylesheets via HTTP/2 push",
+            "Moving stylesheets to the bottom of the body"
+        ],
+        "correct": [0, 1],
+        "explanation": "`async`/`defer` prevent scripts from blocking parsing. Inlining critical CSS and async-loading the rest eliminates CSS render-blocking. `font-display: block` actually causes FOIT (more blocking). HTTP/2 push helps with latency but the stylesheet still blocks. Moving stylesheets to `<body>` causes FOUC and is bad practice."
+    },
+    {
+        "id": "perf-multicachetypes-001",
+        "type": "multi-choice",
+        "category": "performance",
+        "difficulty": "medium",
+        "tags": ["http-caching", "cache-control", "etag"],
+        "question": "Which of the following HTTP caching directives prevent a response from being stored in any cache?",
+        "options": [
+            "Cache-Control: no-store",
+            "Cache-Control: no-cache",
+            "Cache-Control: private",
+            "Cache-Control: must-revalidate",
+            "Pragma: no-cache"
+        ],
+        "correct": [0, 4],
+        "explanation": "`no-store` explicitly prevents any caching. `Pragma: no-cache` is the HTTP/1.0 equivalent. `no-cache` allows storing but requires revalidation. `private` means only the browser can cache (not CDN). `must-revalidate` requires revalidation when stale but still allows caching."
+    },
+    {
+        "id": "perf-multiworker-001",
+        "type": "multi-choice",
+        "category": "performance",
+        "difficulty": "hard",
+        "tags": ["web-workers", "performance", "transferable"],
+        "question": "Which statements about transferring data to/from Web Workers are correct?",
+        "options": [
+            "postMessage always creates a deep copy of the data (structured clone)",
+            "ArrayBuffers can be transferred (zero-copy) using the transferable objects mechanism",
+            "DOM nodes can be transferred to workers using postMessage",
+            "SharedArrayBuffer allows true shared memory between the main thread and workers",
+            "Strings are always transferred by reference"
+        ],
+        "correct": [0, 1, 3],
+        "explanation": "postMessage uses structured clone by default (deep copy, can be slow for large data). ArrayBuffers can be transferred (ownership moves, original becomes detached) for zero-copy performance. SharedArrayBuffer enables true shared memory with Atomics for synchronization. DOM nodes cannot be cloned. Strings are copied, not referenced."
+    },
+    {
+        "id": "perf-multiresource-001",
+        "type": "multi-choice",
+        "category": "performance",
+        "difficulty": "hard",
+        "tags": ["resource-hints", "preload", "prefetch", "preconnect"],
+        "question": "Which of the following statements about resource hints are correct?",
+        "options": [
+            "`preload` with `as=\"script\"` executes the script immediately when it's downloaded",
+            "`prefetch` resources are fetched at low priority and may be ignored on slow connections",
+            "`preconnect` should be used for every third-party domain on the page",
+            "`modulepreload` preloads an ES module and its dependency tree",
+            "`preload` without an `as` attribute is treated as a low-priority generic fetch"
+        ],
+        "correct": [1, 3, 4],
+        "explanation": "Correct: `prefetch` is low-priority and browsers may skip it under data-saver mode. `modulepreload` preloads a module AND its static imports (unlike `preload as='script'`). `preload` without `as` misses browser prioritization. Incorrect: `preload as='script'` fetches but doesn't execute until the `<script>` tag is parsed. `preconnect` to every domain wastes connections — use only for 2-3 critical origins."
+    },
+    {
+        "id": "perf-bug-memoryleak-001",
+        "type": "bug-finding",
+        "category": "performance",
+        "difficulty": "easy",
+        "tags": ["memory-leaks", "react", "useEffect"],
+        "question": "Find the memory leak in this React component:",
+        "code": "function UserProfile({ userId }) {\n  const [data, setData] = useState(null);\n\n  useEffect(() => {\n    fetch(`/api/users/${userId}`)\n      .then(res => res.json())\n      .then(user => setData(user));\n  }, [userId]);\n\n  return <div>{data?.name}</div>;\n}",
+        "correct": "If the component unmounts before the fetch completes, setData is called on an unmounted component, causing a state update on unmounted component warning and potential memory leak",
+        "referenceAnswer": "Add a cleanup flag: in useEffect, set `let cancelled = false` and only call `setData(user)` if `!cancelled`. Return a cleanup function that sets `cancelled = true`. Alternatively, use AbortController to cancel the fetch itself: `const controller = new AbortController(); fetch(url, { signal: controller.signal })` and return `() => controller.abort()`.",
+        "explanation": "React useEffect cleanup prevents stale closures from updating unmounted components. AbortController is the preferred approach as it actually cancels the network request, freeing browser resources."
+    },
+    {
+        "id": "perf-bug-debounce-001",
+        "type": "bug-finding",
+        "category": "performance",
+        "difficulty": "medium",
+        "tags": ["debounce", "react", "hooks"],
+        "question": "Find the bug in this debounced search handler in React:",
+        "code": "function SearchBar() {\n  const [query, setQuery] = useState('');\n\n  const debouncedSearch = debounce((q) => {\n    fetchResults(q);\n  }, 300);\n\n  return (\n    <input\n      value={query}\n      onChange={(e) => {\n        setQuery(e.target.value);\n        debouncedSearch(e.target.value);\n      }}\n    />\n  );\n}",
+        "correct": "A new debounce function is created on every render, so the timer never actually debounces — each keystroke creates a fresh debounced function with its own timer",
+        "referenceAnswer": "The debounced function must be stable across renders. Fix: wrap with useCallback and useMemo, or use useRef: `const debouncedSearch = useRef(debounce((q) => fetchResults(q), 300)).current;` Or use a library hook like `useDebounce`. The debounce instance must be created only once.",
+        "explanation": "In React, any value created inside a function component is recreated on every render. Placing debounce() inside the render function body defeats its purpose — the internal timer resets on every render."
+    },
+    {
+        "id": "perf-bug-virtuallist-001",
+        "type": "bug-finding",
+        "category": "performance",
+        "difficulty": "medium",
+        "tags": ["virtual-list", "react", "keys"],
+        "question": "Find the performance bug in this list rendering:",
+        "code": "function ItemList({ items }) {\n  return (\n    <ul>\n      {items.map((item, index) => (\n        <li key={index}>\n          <ExpensiveItemComponent item={item} />\n        </li>\n      ))}\n    </ul>\n  );\n}",
+        "correct": "Using array index as key causes unnecessary re-renders when the list is reordered, filtered, or items are prepended",
+        "referenceAnswer": "Use a stable, unique identifier from the data as the key (e.g., `key={item.id}`). Index-based keys confuse React's reconciliation when items are reordered — it remounts components unnecessarily instead of reusing them. For large lists, also consider react-window or TanStack Virtual.",
+        "explanation": "React uses keys to identify which items have changed. Index keys mean React doesn't know an item moved — it sees the key '0' pointing to a different item and re-renders/remounts. Stable keys from item identity enable efficient DOM reuse."
+    },
+    {
+        "id": "perf-bug-bundle-001",
+        "type": "bug-finding",
+        "category": "performance",
+        "difficulty": "hard",
+        "tags": ["tree-shaking", "imports", "bundler"],
+        "question": "Why does this import prevent tree shaking of lodash?",
+        "code": "import _ from 'lodash';\n\nfunction formatDate(date) {\n  return _.format(date, 'YYYY-MM-DD');\n}\n\nfunction isEqual(a, b) {\n  return _.isEqual(a, b);\n}",
+        "correct": "Importing the entire lodash default export (CJS build) includes the entire library in the bundle — lodash's CommonJS format cannot be tree-shaken",
+        "referenceAnswer": "Use named imports from lodash-es: `import { isEqual } from 'lodash-es'` or per-method imports: `import isEqual from 'lodash/isEqual'`. The standard `lodash` package uses CommonJS which bundlers cannot tree-shake. `lodash-es` provides ES module builds.",
+        "explanation": "Tree shaking requires static ESM imports. Lodash's default package is CJS, so bundlers must include the entire library. Either use lodash-es (ESM build) with named imports, or import individual methods directly."
+    },
+    {
+        "id": "perf-bug-react-001",
+        "type": "bug-finding",
+        "category": "performance",
+        "difficulty": "hard",
+        "tags": ["react", "useMemo", "referential-stability"],
+        "question": "Find the performance bug in this component:",
+        "code": "function DataGrid({ rows, onSelect }) {\n  const columns = [\n    { key: 'name', label: 'Name' },\n    { key: 'age', label: 'Age' },\n  ];\n\n  const config = {\n    columns,\n    onSelect,\n    pageSize: 25,\n  };\n\n  return <MemoizedGrid config={config} />;\n}",
+        "correct": "A new `columns` array and `config` object are created on every render, so MemoizedGrid always receives new object references and re-renders despite React.memo",
+        "referenceAnswer": "Memoize the stable values: `const columns = useMemo(() => [{ key: 'name', label: 'Name' }, { key: 'age', label: 'Age' }], []);` and `const config = useMemo(() => ({ columns, onSelect, pageSize: 25 }), [columns, onSelect]);`. This preserves referential stability so React.memo's shallow comparison works.",
+        "explanation": "React.memo uses shallow (reference) equality. Object/array literals in render bodies create new references every render. useMemo stabilizes these references — the memoized component only re-renders when actual values change."
+    },
+    {
+        "id": "perf-bug-css-001",
+        "type": "bug-finding",
+        "category": "performance",
+        "difficulty": "hard",
+        "tags": ["css-performance", "will-change", "memory"],
+        "question": "Find the performance anti-pattern in this CSS:",
+        "code": "/* Base styles */\n* {\n  will-change: transform, opacity;\n}\n\n.card {\n  will-change: contents;\n}\n\n.static-header {\n  will-change: transform;\n}",
+        "correct": "Applying will-change to every element (*) and static elements wastes GPU memory by promoting all elements to compositor layers unnecessarily",
+        "referenceAnswer": "Remove `will-change` from the universal selector and static elements entirely. Only add it via JavaScript just before an animation begins, then remove it: `el.style.willChange = 'transform'` before animating, `el.style.willChange = 'auto'` after. `will-change: contents` is particularly problematic as it invalidates all descendants.",
+        "explanation": "Each will-change: transform promotes an element to a GPU layer consuming GPU memory. Applying it globally is a severe anti-pattern that can exhaust GPU memory, especially on mobile devices with limited VRAM."
+    },
+    {
+        "id": "perf-cc-codesplit-001",
+        "type": "code-completion",
+        "category": "performance",
+        "difficulty": "easy",
+        "tags": ["code-splitting", "react", "lazy"],
+        "question": "Complete the React lazy-loaded route component:",
+        "code": "import { ___, Suspense } from 'react';\n\nconst Dashboard = ___(___(() => import('./pages/Dashboard')));\n\nfunction App() {\n  return (\n    <___ fallback={<div>Loading...</div>}>\n      <Dashboard />\n    </___>\n  );\n}",
+        "blanks": ["lazy", "lazy", "", "Suspense", "Suspense"],
+        "lang": "javascript",
+        "referenceAnswer": "React.lazy() accepts a factory function returning a dynamic import(). Suspense provides a fallback UI while the lazy component loads. The chunk is only downloaded when the component is first rendered.",
+        "explanation": "React.lazy + dynamic import() is the standard pattern for route-based code splitting. The Dashboard chunk is downloaded only when the route is visited, reducing initial bundle size."
+    },
+    {
+        "id": "perf-cc-codesplit-002",
+        "type": "code-completion",
+        "category": "performance",
+        "difficulty": "easy",
+        "tags": ["code-splitting", "react", "lazy"],
+        "question": "Complete the route-based code-split component using React.lazy:",
+        "code": "import { lazy, Suspense } from 'react';\n\nconst SettingsPage = ___(___(() => ___('./pages/Settings')));\n\nfunction Router() {\n  return (\n    <Suspense fallback={<Spinner />}>\n      <SettingsPage />\n    </Suspense>\n  );\n}",
+        "blanks": ["lazy", "lazy", "import"],
+        "lang": "javascript",
+        "referenceAnswer": "React.lazy() wraps the dynamic import() call. The import() function is a native browser/bundler feature that creates a separate chunk. When SettingsPage is first rendered, the chunk is downloaded, parsed, and executed.",
+        "explanation": "lazy() and import() together enable route-level code splitting. Each lazy() call typically maps to one bundle chunk. Wrap with Suspense to handle the loading state."
+    },
+    {
+        "id": "perf-cc-debounce-001",
+        "type": "code-completion",
+        "category": "performance",
+        "difficulty": "medium",
+        "tags": ["debounce", "javascript", "performance"],
+        "question": "Complete this debounce implementation:",
+        "code": "function debounce(fn, delay) {\n  let ___;\n  return function(...args) {\n    ___(timerId);\n    timerId = ___(()  => {\n      fn.apply(this, args);\n    }, delay);\n  };\n}",
+        "blanks": ["timerId", "clearTimeout", "setTimeout"],
+        "lang": "javascript",
+        "referenceAnswer": "debounce stores a timer ID. On each call, it clears the previous timer (clearTimeout) and sets a new one (setTimeout). Only if delay milliseconds pass without another call does fn execute.",
+        "explanation": "Debounce works by resetting a timer on each call. The function executes only after the 'quiet period' (delay ms). clearTimeout with an undefined/null id is a no-op, so no special first-call handling is needed."
+    },
+    {
+        "id": "perf-cc-virtuallist-001",
+        "type": "code-completion",
+        "category": "performance",
+        "difficulty": "medium",
+        "tags": ["virtual-list", "windowing", "performance"],
+        "question": "Complete this basic virtual list calculation:",
+        "code": "function getVisibleRange(scrollTop, containerHeight, itemHeight, totalItems) {\n  const startIndex = Math.max(0, Math.floor(___ / itemHeight));\n  const visibleCount = Math.ceil(___ / itemHeight);\n  const endIndex = Math.min(totalItems - 1, startIndex + visibleCount + 1);\n  return { startIndex, endIndex };\n}",
+        "blanks": ["scrollTop", "containerHeight"],
+        "lang": "javascript",
+        "referenceAnswer": "startIndex is derived from scrollTop / itemHeight (which items are scrolled past). visibleCount is containerHeight / itemHeight (how many fit in the viewport). Adding 1 as a buffer prevents visible gaps during fast scrolling.",
+        "explanation": "Virtual list windowing calculates which items are in the visible viewport. Only those items (plus a small overscan buffer) are rendered as DOM nodes. The container uses total height (totalItems * itemHeight) to maintain correct scrollbar behavior."
+    },
+    {
+        "id": "perf-cc-worker-001",
+        "type": "code-completion",
+        "category": "performance",
+        "difficulty": "medium",
+        "tags": ["web-workers", "postMessage", "cpu"],
+        "question": "Complete the Web Worker communication for CPU-intensive work:",
+        "code": "// main.js\nconst worker = new ___('./heavy-worker.js');\nworker.___(({ data }) => {\n  console.log('Result:', data.result);\n});\nworker.___(({ inputData: largeArray }));\n\n// heavy-worker.js\nself.___(({ data }) => {\n  const result = processHeavyData(data.inputData);\n  self.postMessage({ result });\n});",
+        "blanks": ["Worker", "onmessage", "postMessage", "onmessage"],
+        "lang": "javascript",
+        "referenceAnswer": "new Worker() creates the worker thread. worker.onmessage receives messages from the worker. worker.postMessage() sends data to the worker. Inside the worker, self.onmessage receives messages from the main thread.",
+        "explanation": "Web Worker communication is message-based. Both directions use postMessage() and onmessage. Data is structured-cloned (deep copied) unless you pass Transferable objects. This keeps heavy computation off the main thread."
+    },
+    {
+        "id": "perf-cc-perfobserver-001",
+        "type": "code-completion",
+        "category": "performance",
+        "difficulty": "hard",
+        "tags": ["PerformanceObserver", "web-vitals", "monitoring"],
+        "question": "Complete the LCP observation using PerformanceObserver:",
+        "code": "const observer = new ___(entries => {\n  const last = entries.___.at(-1);\n  console.log('LCP:', last.startTime);\n});\n\nobserver.observe({\n  type: '___',\n  buffered: true\n});",
+        "blanks": ["PerformanceObserver", "getEntries", "largest-contentful-paint"],
+        "lang": "javascript",
+        "referenceAnswer": "PerformanceObserver watches for specific performance entry types. `entries.getEntries()` returns the array of new entries. `type: 'largest-contentful-paint'` enables LCP observation. `buffered: true` captures entries that occurred before the observer was registered.",
+        "explanation": "PerformanceObserver is the standard API for observing LCP, FID/INP, CLS, and other performance metrics. `buffered: true` is essential for LCP since it may have already occurred before your JS runs."
+    },
+    {
+        "id": "perf-cc-imagepicture-001",
+        "type": "code-completion",
+        "category": "performance",
+        "difficulty": "hard",
+        "tags": ["images", "picture", "avif", "webp", "srcset"],
+        "question": "Complete the responsive image with format negotiation and responsive sizes:",
+        "code": "<___>\n  <source\n    ___=\"/hero.avif 1x, /hero@2x.avif 2x\"\n    ___=\"image/avif\"\n  />\n  <source\n    srcset=\"/hero.webp 1x, /hero@2x.webp 2x\"\n    type=\"image/webp\"\n  />\n  <img\n    src=\"/hero.jpg\"\n    alt=\"Hero image\"\n    width=\"1200\"\n    height=\"600\"\n    fetchpriority=\"high\"\n  />\n</___ >",
+        "blanks": ["picture", "srcset", "type", "picture"],
+        "lang": "javascript",
+        "referenceAnswer": "The <picture> element enables format negotiation. Browsers pick the first <source> whose type they support. srcset provides resolution variants (1x/2x). The fallback <img> ensures compatibility. fetchpriority='high' on the LCP image speeds up discovery.",
+        "explanation": "This pattern serves AVIF to supporting browsers (best compression), WebP as fallback, and JPEG for legacy browsers. The browser picks the first source it supports. Always include explicit width/height to prevent CLS."
+    }
+]

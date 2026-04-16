@@ -1,0 +1,742 @@
+[
+    {
+        "id": "arch-solid-001",
+        "type": "single-choice",
+        "category": "architecture",
+        "difficulty": "easy",
+        "tags": ["SOLID", "single-responsibility"],
+        "question": "What does the Single Responsibility Principle (SRP) state?",
+        "options": [
+            "A class should have only one method",
+            "A class should have only one reason to change",
+            "A module should export only one function",
+            "A component should render only one element"
+        ],
+        "correct": 1,
+        "explanation": "SRP states that a class (or module) should have only one reason to change — meaning it should encapsulate only one responsibility or concern. This keeps classes focused and easier to maintain."
+    },
+    {
+        "id": "arch-solid-002",
+        "type": "single-choice",
+        "category": "architecture",
+        "difficulty": "easy",
+        "tags": ["SOLID", "open-closed"],
+        "question": "The Open/Closed Principle says that software entities should be:",
+        "options": [
+            "Open for modification, closed for extension",
+            "Open for extension, closed for modification",
+            "Open for both extension and modification",
+            "Closed for both extension and modification"
+        ],
+        "correct": 1,
+        "explanation": "The Open/Closed Principle (OCP) states that entities should be open for extension but closed for modification. You add new behavior by extending (e.g., via inheritance or composition) rather than editing existing code."
+    },
+    {
+        "id": "arch-solid-003",
+        "type": "single-choice",
+        "category": "architecture",
+        "difficulty": "easy",
+        "tags": ["SOLID", "dependency-inversion"],
+        "question": "Which SOLID principle encourages depending on abstractions rather than concretions?",
+        "options": [
+            "Single Responsibility Principle",
+            "Liskov Substitution Principle",
+            "Interface Segregation Principle",
+            "Dependency Inversion Principle"
+        ],
+        "correct": 3,
+        "explanation": "The Dependency Inversion Principle (DIP) states that high-level modules should not depend on low-level modules; both should depend on abstractions. This decouples components and makes them easier to replace or test."
+    },
+    {
+        "id": "arch-dry-001",
+        "type": "single-choice",
+        "category": "architecture",
+        "difficulty": "easy",
+        "tags": ["DRY", "principles"],
+        "question": "What does DRY stand for in software development?",
+        "options": [
+            "Design Reuse Yield",
+            "Don't Repeat Yourself",
+            "Data Rendering Yield",
+            "Dependency Reduction Yield"
+        ],
+        "correct": 1,
+        "explanation": "DRY stands for 'Don't Repeat Yourself'. It means every piece of knowledge or logic should have a single, authoritative representation in the system to avoid inconsistency and maintenance overhead."
+    },
+    {
+        "id": "arch-kiss-001",
+        "type": "single-choice",
+        "category": "architecture",
+        "difficulty": "easy",
+        "tags": ["KISS", "principles"],
+        "question": "What is the core intent of the KISS principle?",
+        "options": [
+            "Keep code abstract and extensible",
+            "Keep implementations as short as possible",
+            "Keep systems as simple as possible",
+            "Keep all services independent"
+        ],
+        "correct": 2,
+        "explanation": "KISS stands for 'Keep It Simple, Stupid' (or 'Keep It Super Simple'). The core intent is to avoid unnecessary complexity — simpler solutions are easier to understand, test, and maintain."
+    },
+    {
+        "id": "arch-pattern-001",
+        "type": "single-choice",
+        "category": "architecture",
+        "difficulty": "easy",
+        "tags": ["design-patterns", "singleton"],
+        "question": "What characteristic defines the Singleton design pattern?",
+        "options": [
+            "It creates multiple instances based on configuration",
+            "It ensures a class has exactly one instance and provides global access to it",
+            "It delegates instantiation to subclasses",
+            "It wraps another object to extend its behavior"
+        ],
+        "correct": 1,
+        "explanation": "The Singleton pattern ensures a class has only one instance and provides a global point of access to it. It is useful for shared resources like configuration objects, loggers, or connection pools."
+    },
+    {
+        "id": "arch-mvc-001",
+        "type": "single-choice",
+        "category": "architecture",
+        "difficulty": "easy",
+        "tags": ["MVC", "architectural-patterns"],
+        "question": "In MVC, which layer is responsible for business logic and data?",
+        "options": ["View", "Controller", "Model", "Router"],
+        "correct": 2,
+        "explanation": "In the Model-View-Controller pattern, the Model handles business logic, data structures, and communication with the data source. The View renders UI and the Controller coordinates interaction between Model and View."
+    },
+    {
+        "id": "arch-flux-001",
+        "type": "single-choice",
+        "category": "architecture",
+        "difficulty": "easy",
+        "tags": ["Flux", "Redux", "state-management"],
+        "question": "What is the key constraint that makes the Flux/Redux pattern predictable?",
+        "options": [
+            "Two-way data binding between store and view",
+            "Unidirectional data flow",
+            "Distributed state across multiple stores",
+            "Asynchronous action dispatching"
+        ],
+        "correct": 1,
+        "explanation": "Flux and Redux enforce unidirectional data flow: Actions → Dispatcher/Store → View. This constraint makes state changes predictable and easy to trace, unlike two-way binding where changes can cascade unpredictably."
+    },
+    {
+        "id": "arch-hoc-001",
+        "type": "single-choice",
+        "category": "architecture",
+        "difficulty": "easy",
+        "tags": ["HOC", "component-design", "React"],
+        "question": "What is a Higher-Order Component (HOC) in React?",
+        "options": [
+            "A component rendered at the root of the application",
+            "A function that takes a component and returns a new enhanced component",
+            "A component that manages its own server-side state",
+            "A component that wraps the React Router"
+        ],
+        "correct": 1,
+        "explanation": "A Higher-Order Component is a function that takes a component as an argument and returns a new component with added behavior. HOCs are a pattern for reusing component logic without modifying the original component."
+    },
+    {
+        "id": "arch-fsd-001",
+        "type": "single-choice",
+        "category": "architecture",
+        "difficulty": "easy",
+        "tags": ["FSD", "Feature-Sliced-Design"],
+        "question": "Which of the following correctly describes the layer order in Feature-Sliced Design (top to bottom, most dependent to least)?",
+        "options": [
+            "shared → entities → features → widgets → pages → app",
+            "app → pages → widgets → features → entities → shared",
+            "features → pages → app → shared → entities → widgets",
+            "entities → shared → features → app → pages → widgets"
+        ],
+        "correct": 1,
+        "explanation": "In FSD, layers are ordered from most dependent at the top to most reusable at the bottom: app → pages → widgets → features → entities → shared. Upper layers can import from lower layers, but not vice versa."
+    },
+    {
+        "id": "arch-yagni-001",
+        "type": "single-choice",
+        "category": "architecture",
+        "difficulty": "easy",
+        "tags": ["YAGNI", "principles"],
+        "question": "What does YAGNI warn against?",
+        "options": [
+            "Writing unit tests before production code",
+            "Implementing features or abstractions before they are actually needed",
+            "Using third-party libraries",
+            "Refactoring code too early"
+        ],
+        "correct": 1,
+        "explanation": "YAGNI (You Aren't Gonna Need It) warns against implementing functionality speculatively — before there is a concrete requirement. Building things 'just in case' adds complexity without immediate value."
+    },
+    {
+        "id": "arch-composition-001",
+        "type": "single-choice",
+        "category": "architecture",
+        "difficulty": "easy",
+        "tags": ["composition", "inheritance"],
+        "question": "Why is 'composition over inheritance' generally preferred in modern frontend architecture?",
+        "options": [
+            "Composition is faster at runtime than inheritance",
+            "Inheritance is not supported in JavaScript",
+            "Composition provides more flexible reuse and avoids tight coupling through deep inheritance chains",
+            "Composition always produces less code than inheritance"
+        ],
+        "correct": 2,
+        "explanation": "Composition allows assembling behavior from small, independent pieces, making it easier to change individual parts without affecting the whole. Deep inheritance chains create tight coupling and fragile base class problems."
+    },
+    {
+        "id": "arch-pattern-002",
+        "type": "single-choice",
+        "category": "architecture",
+        "difficulty": "medium",
+        "tags": ["design-patterns", "observer"],
+        "question": "Which design pattern defines a one-to-many dependency so that when one object changes state, all dependents are notified automatically?",
+        "options": ["Strategy", "Command", "Observer", "Proxy"],
+        "correct": 2,
+        "explanation": "The Observer pattern defines a subscription mechanism (publish-subscribe) where multiple observers are notified when the subject (publisher) changes state. It is the foundation of event systems and reactive libraries."
+    },
+    {
+        "id": "arch-pattern-003",
+        "type": "single-choice",
+        "category": "architecture",
+        "difficulty": "medium",
+        "tags": ["design-patterns", "strategy"],
+        "question": "The Strategy pattern is best described as:",
+        "options": [
+            "Wrapping an object to control access to it",
+            "Defining a family of algorithms, encapsulating each, and making them interchangeable",
+            "Providing a simplified interface to a complex subsystem",
+            "Recording operations so they can be undone"
+        ],
+        "correct": 1,
+        "explanation": "The Strategy pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable. Clients can switch algorithms at runtime without changing the context class that uses them."
+    },
+    {
+        "id": "arch-pattern-004",
+        "type": "single-choice",
+        "category": "architecture",
+        "difficulty": "medium",
+        "tags": ["design-patterns", "facade"],
+        "question": "When is the Facade pattern most useful?",
+        "options": [
+            "When you need to add behavior to objects without modifying their class",
+            "When you need to provide a unified, simplified interface to a complex subsystem",
+            "When you need to create objects without specifying exact classes",
+            "When you need to notify multiple objects of state changes"
+        ],
+        "correct": 1,
+        "explanation": "The Facade pattern provides a simplified interface to a complex subsystem, hiding internal complexity from clients. It reduces coupling between client code and the subsystem's implementation details."
+    },
+    {
+        "id": "arch-mvvm-001",
+        "type": "single-choice",
+        "category": "architecture",
+        "difficulty": "medium",
+        "tags": ["MVVM", "architectural-patterns"],
+        "question": "What distinguishes MVVM from MVC?",
+        "options": [
+            "MVVM has no Model layer",
+            "MVVM introduces a ViewModel that exposes data streams and commands for two-way binding with the View",
+            "MVVM eliminates the need for a Controller entirely",
+            "MVVM enforces unidirectional data flow"
+        ],
+        "correct": 1,
+        "explanation": "MVVM introduces the ViewModel as a layer between Model and View. The ViewModel exposes data and commands that the View binds to (often two-way), so the View has no direct dependency on the Model. This is common in Angular and Vue."
+    },
+    {
+        "id": "arch-microfrontend-001",
+        "type": "single-choice",
+        "category": "architecture",
+        "difficulty": "medium",
+        "tags": ["micro-frontends", "architecture"],
+        "question": "Which of the following is a primary benefit of micro-frontend architecture?",
+        "options": [
+            "Single codebase for all teams to collaborate on",
+            "Reduced bundle sizes because all code is shared",
+            "Independent deployability — teams can release their slice without coordinating with others",
+            "Guaranteed identical tech stacks across all teams"
+        ],
+        "correct": 2,
+        "explanation": "The primary benefit of micro-frontends is independent deployability. Each team owns and deploys their slice autonomously, reducing coordination overhead and release bottlenecks — similar to backend microservices."
+    },
+    {
+        "id": "arch-state-001",
+        "type": "single-choice",
+        "category": "architecture",
+        "difficulty": "medium",
+        "tags": ["state-management", "server-state"],
+        "question": "Which of the following is the best description of 'server state' in a frontend context?",
+        "options": [
+            "State stored in a server-side session that persists across requests",
+            "Async data fetched from an API that lives on the server and must be synchronized",
+            "Global application state managed by Redux",
+            "State derived from URL query parameters"
+        ],
+        "correct": 1,
+        "explanation": "Server state is asynchronous data owned by a remote server (e.g., a REST or GraphQL API). It has unique challenges: it can become stale, multiple clients can modify it, and it requires loading/error states. Libraries like TanStack Query manage this distinctly from client state."
+    },
+    {
+        "id": "arch-monorepo-001",
+        "type": "single-choice",
+        "category": "architecture",
+        "difficulty": "medium",
+        "tags": ["monorepo", "polyrepo"],
+        "question": "Which is a key advantage of a monorepo over a polyrepo setup?",
+        "options": [
+            "Each team has a completely isolated codebase with no shared tooling",
+            "Atomic cross-package refactors and shared tooling configuration",
+            "Independent CI pipelines for every package with no shared artifacts",
+            "Reduced repository size due to separate version histories"
+        ],
+        "correct": 1,
+        "explanation": "Monorepos allow atomic commits that span multiple packages, making cross-package refactors safe and consistent. Shared tooling (lint, test, build config) reduces duplication. The tradeoff is a larger repo and potentially slower CI."
+    },
+    {
+        "id": "arch-bff-001",
+        "type": "single-choice",
+        "category": "architecture",
+        "difficulty": "medium",
+        "tags": ["BFF", "backend-for-frontend"],
+        "question": "What problem does the Backend-for-Frontend (BFF) pattern primarily solve?",
+        "options": [
+            "It replaces microservices with a monolithic backend",
+            "It eliminates the need for API versioning",
+            "It provides a dedicated backend layer that aggregates and shapes data specifically for each frontend client",
+            "It moves all state management to the server"
+        ],
+        "correct": 2,
+        "explanation": "The BFF pattern introduces a dedicated backend layer per frontend type (web, mobile, etc.) that aggregates calls to downstream services and returns exactly the data shape the frontend needs, avoiding over- or under-fetching."
+    },
+    {
+        "id": "arch-di-001",
+        "type": "single-choice",
+        "category": "architecture",
+        "difficulty": "medium",
+        "tags": ["dependency-injection"],
+        "question": "In frontend JavaScript, what is a practical way to implement dependency injection without a DI framework?",
+        "options": [
+            "Using global variables to share services",
+            "Passing dependencies as function arguments or constructor parameters",
+            "Importing services directly at the top of every module",
+            "Using localStorage to share service instances"
+        ],
+        "correct": 1,
+        "explanation": "Dependency injection in its simplest form means receiving dependencies from outside rather than creating them internally. Passing them as function arguments or constructor parameters keeps code testable and decoupled without needing a framework."
+    },
+    {
+        "id": "arch-clean-001",
+        "type": "single-choice",
+        "category": "architecture",
+        "difficulty": "medium",
+        "tags": ["clean-architecture", "layers"],
+        "question": "In Clean Architecture, what is the Dependency Rule?",
+        "options": [
+            "Dependencies must point from outer layers (infrastructure) to inner layers (domain)",
+            "Dependencies must point from inner layers (domain) to outer layers (infrastructure)",
+            "All layers can freely depend on each other",
+            "Only the outermost layer is allowed to have dependencies"
+        ],
+        "correct": 0,
+        "explanation": "The Dependency Rule in Clean Architecture states that source code dependencies must only point inward — from outer layers (frameworks, UI, databases) toward the inner domain layers. The domain never knows about the infrastructure."
+    },
+    {
+        "id": "arch-event-001",
+        "type": "single-choice",
+        "category": "architecture",
+        "difficulty": "medium",
+        "tags": ["event-driven", "decoupling"],
+        "question": "What is the main advantage of event-driven architecture in a frontend application?",
+        "options": [
+            "It forces synchronous communication between all modules",
+            "It eliminates the need for a state management library",
+            "It decouples components so publishers do not need to know about subscribers",
+            "It guarantees message delivery order"
+        ],
+        "correct": 2,
+        "explanation": "Event-driven architecture decouples producers from consumers — the publisher emits an event without knowing who will handle it. This reduces direct dependencies between modules and makes it easier to add or remove features."
+    },
+    {
+        "id": "arch-cqrs-001",
+        "type": "single-choice",
+        "category": "architecture",
+        "difficulty": "hard",
+        "tags": ["CQRS", "patterns"],
+        "question": "What is the core idea behind CQRS (Command Query Responsibility Segregation)?",
+        "options": [
+            "Splitting the database into read and write replicas at the infrastructure level",
+            "Separating the model used to update state (Commands) from the model used to read state (Queries)",
+            "Preventing any component from both reading and writing at the same time",
+            "Using GraphQL mutations for writes and REST GET endpoints for reads"
+        ],
+        "correct": 1,
+        "explanation": "CQRS separates the responsibility for handling commands (write operations that change state) from queries (read operations that return data). Each side can be optimized independently — different models, data stores, or scaling strategies."
+    },
+    {
+        "id": "arch-api-001",
+        "type": "single-choice",
+        "category": "architecture",
+        "difficulty": "hard",
+        "tags": ["API-contract", "versioning"],
+        "question": "Which strategy for API contract evolution is least likely to break existing consumers?",
+        "options": [
+            "Removing unused fields immediately after a refactor",
+            "Adding new required fields to existing responses",
+            "Additive changes only — new optional fields, new endpoints",
+            "Changing field names to be more descriptive"
+        ],
+        "correct": 2,
+        "explanation": "Additive-only changes (new optional fields or new endpoints) are non-breaking because existing consumers ignore fields they do not know about. Removing fields, changing names, or adding required fields all break backward compatibility."
+    },
+    {
+        "id": "arch-solid-004",
+        "type": "multi-choice",
+        "category": "architecture",
+        "difficulty": "medium",
+        "tags": ["SOLID", "principles"],
+        "question": "Which of the following are part of the SOLID principles?",
+        "options": [
+            "Single Responsibility Principle",
+            "Open/Closed Principle",
+            "Don't Repeat Yourself",
+            "Liskov Substitution Principle",
+            "Interface Segregation Principle"
+        ],
+        "correct": [0, 1, 3, 4],
+        "explanation": "SOLID stands for: Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, and Dependency Inversion. DRY (Don't Repeat Yourself) is a separate principle, not part of the SOLID acronym."
+    },
+    {
+        "id": "arch-pattern-005",
+        "type": "multi-choice",
+        "category": "architecture",
+        "difficulty": "medium",
+        "tags": ["design-patterns", "creational"],
+        "question": "Which of the following are creational design patterns?",
+        "options": ["Factory Method", "Singleton", "Observer", "Builder", "Strategy"],
+        "correct": [0, 1, 3],
+        "explanation": "Creational patterns deal with object creation: Factory Method, Singleton, Builder, Abstract Factory, and Prototype. Observer and Strategy are behavioral patterns — they define how objects communicate and algorithms behave."
+    },
+    {
+        "id": "arch-compound-001",
+        "type": "multi-choice",
+        "category": "architecture",
+        "difficulty": "medium",
+        "tags": ["compound-components", "component-design"],
+        "question": "Which benefits does the Compound Components pattern provide?",
+        "options": [
+            "Implicit state sharing via context between parent and children",
+            "Flexible composition without prop drilling",
+            "Automatic server-side rendering of child components",
+            "The ability to rearrange child components in any order",
+            "Elimination of all prop types"
+        ],
+        "correct": [0, 1, 3],
+        "explanation": "Compound components share implicit state via React context between parent and children, allow flexible slot-like composition without prop drilling, and let consumers arrange children freely. They do not handle SSR or remove the need for types."
+    },
+    {
+        "id": "arch-microfrontend-002",
+        "type": "multi-choice",
+        "category": "architecture",
+        "difficulty": "medium",
+        "tags": ["micro-frontends", "challenges"],
+        "question": "Which of the following are genuine challenges of micro-frontend architecture?",
+        "options": [
+            "Consistency of UI/UX across independently deployed slices",
+            "Shared dependency version conflicts between micro-apps",
+            "Inability to use TypeScript in any micro-frontend",
+            "Increased operational complexity (routing, deployment orchestration)",
+            "Cross-micro-frontend communication and shared auth state"
+        ],
+        "correct": [0, 1, 3, 4],
+        "explanation": "Real challenges in micro-frontends include UI consistency (design system drift), duplicate or conflicting shared dependencies, operational complexity, and cross-app communication. TypeScript is fully compatible with any micro-frontend approach."
+    },
+    {
+        "id": "arch-fsd-002",
+        "type": "multi-choice",
+        "category": "architecture",
+        "difficulty": "medium",
+        "tags": ["FSD", "Feature-Sliced-Design"],
+        "question": "Which of the following rules are enforced in Feature-Sliced Design?",
+        "options": [
+            "A lower layer cannot import from a higher layer",
+            "Slices within the same layer can freely import from each other",
+            "The shared layer has no slices — it is a flat collection of segments",
+            "Pages cannot import from widgets",
+            "Features can import from entities"
+        ],
+        "correct": [0, 2, 4],
+        "explanation": "FSD rules: lower layers cannot import from higher layers; slices within the same layer are isolated (no cross-slice imports without explicit public API); the shared layer is flat (no slices); and features may import from entities (which are lower)."
+    },
+    {
+        "id": "arch-state-002",
+        "type": "multi-choice",
+        "category": "architecture",
+        "difficulty": "medium",
+        "tags": ["state-management", "patterns"],
+        "question": "Which of the following correctly describe categories of frontend application state?",
+        "options": [
+            "Local UI state (e.g., modal open/closed)",
+            "Server/remote state (async, potentially stale)",
+            "Network bandwidth state",
+            "URL/navigation state",
+            "Global client state (user preferences, auth)"
+        ],
+        "correct": [0, 1, 3, 4],
+        "explanation": "Frontend state is typically categorized as: local UI state, server state, URL/navigation state, and global client state. 'Network bandwidth state' is not a standard state category — it is a browser API concern."
+    },
+    {
+        "id": "arch-pattern-006",
+        "type": "multi-choice",
+        "category": "architecture",
+        "difficulty": "hard",
+        "tags": ["design-patterns", "structural"],
+        "question": "Which design patterns are classified as structural patterns?",
+        "options": ["Adapter", "Decorator", "Proxy", "Command", "Facade"],
+        "correct": [0, 1, 2, 4],
+        "explanation": "Structural patterns define how objects and classes are composed: Adapter, Decorator, Proxy, Facade, Bridge, Composite, and Flyweight. Command is a behavioral pattern — it encapsulates an operation as an object."
+    },
+    {
+        "id": "arch-perf-001",
+        "type": "multi-choice",
+        "category": "architecture",
+        "difficulty": "hard",
+        "tags": ["performance-budget", "architecture"],
+        "question": "Which of the following should be included in a frontend performance budget?",
+        "options": [
+            "Maximum total JavaScript bundle size",
+            "Core Web Vitals thresholds (LCP, CLS, INP)",
+            "Maximum number of React components in the tree",
+            "Time To Interactive (TTI) limit",
+            "Maximum number of HTTP requests on initial load"
+        ],
+        "correct": [0, 1, 3, 4],
+        "explanation": "A performance budget typically constrains bundle size, Core Web Vitals, TTI, and request counts — all measurable and directly affecting user experience. The number of React components is an implementation detail, not a budget metric."
+    },
+    {
+        "id": "arch-monorepo-002",
+        "type": "multi-choice",
+        "category": "architecture",
+        "difficulty": "hard",
+        "tags": ["monorepo", "polyrepo", "tradeoffs"],
+        "question": "Which of the following are valid advantages of a polyrepo (multi-repo) setup over a monorepo?",
+        "options": [
+            "Complete team autonomy over tech stack and release cadence",
+            "Atomic cross-service refactors are trivially easy",
+            "Smaller, focused CI pipelines per repository",
+            "No risk of one team's change breaking another team's build",
+            "Easier shared tooling updates"
+        ],
+        "correct": [0, 2, 3],
+        "explanation": "Polyrepo advantages: teams have full autonomy over their stack and releases, CI pipelines are small and focused, and one team's changes cannot break another team's build. Cross-service refactors and shared tooling updates are harder — those are monorepo strengths."
+    },
+    {
+        "id": "arch-clean-002",
+        "type": "multi-choice",
+        "category": "architecture",
+        "difficulty": "hard",
+        "tags": ["clean-architecture", "DDD"],
+        "question": "Which of the following are characteristics of a well-designed domain layer in Clean Architecture?",
+        "options": [
+            "No imports from infrastructure or framework layers",
+            "Contains business rules that are independent of UI or database",
+            "Directly calls fetch() to load data",
+            "Contains pure functions or value objects",
+            "Imports React to render domain entities"
+        ],
+        "correct": [0, 1, 3],
+        "explanation": "The domain layer should contain pure business logic with no dependencies on infrastructure or UI. It must not call fetch() or import React — those are outer-layer concerns. It typically uses pure functions, value objects, and entities."
+    },
+    {
+        "id": "arch-api-002",
+        "type": "multi-choice",
+        "category": "architecture",
+        "difficulty": "hard",
+        "tags": ["API-contract", "REST", "GraphQL"],
+        "question": "Which of the following practices help maintain a stable API contract between frontend and backend?",
+        "options": [
+            "Generating TypeScript types from OpenAPI/GraphQL schema",
+            "Contract testing (e.g., Pact) between consumer and provider",
+            "Always rewriting the API from scratch on major changes",
+            "Versioning APIs (e.g., /v1/, /v2/) for breaking changes",
+            "Using semantic versioning for API releases"
+        ],
+        "correct": [0, 1, 3, 4],
+        "explanation": "Stable API contracts rely on generated types (single source of truth), contract tests to catch breaking changes early, API versioning for breaking changes, and semantic versioning to communicate change severity. Rewriting APIs from scratch is destructive to contract stability."
+    },
+    {
+        "id": "arch-proxy-bug-001",
+        "type": "bug-finding",
+        "category": "architecture",
+        "difficulty": "medium",
+        "tags": ["design-patterns", "proxy", "bugs"],
+        "question": "This Proxy class is supposed to add logging around a service. What is the bug?",
+        "code": "class LoggingProxy {\n  constructor(private service: UserService) {}\n\n  getUser(id: string) {\n    console.log(`Getting user ${id}`);\n    this.service.getUser(id);\n    console.log(`Done`);\n  }\n}",
+        "correct": "The result of this.service.getUser(id) is not returned",
+        "referenceAnswer": "The proxy calls this.service.getUser(id) but does not return its result. The caller always receives undefined. Fix: return this.service.getUser(id);",
+        "explanation": "A proxy must transparently forward return values to the caller. Omitting the return statement means the proxy silently swallows the result, breaking all code that depends on the return value."
+    },
+    {
+        "id": "arch-observer-bug-001",
+        "type": "bug-finding",
+        "category": "architecture",
+        "difficulty": "medium",
+        "tags": ["design-patterns", "observer", "memory-leak"],
+        "question": "This EventEmitter usage has a classic architecture bug. Identify it.",
+        "code": "class Dashboard extends React.Component {\n  componentDidMount() {\n    eventBus.on('update', this.handleUpdate);\n  }\n\n  handleUpdate = (data: Data) => {\n    this.setState({ data });\n  };\n\n  render() {\n    return <div>{this.state.data}</div>;\n  }\n}",
+        "correct": "The event listener is never removed in componentWillUnmount, causing a memory leak",
+        "referenceAnswer": "componentWillUnmount is missing: componentWillUnmount() { eventBus.off('update', this.handleUpdate); }. Without cleanup, the listener holds a reference to the unmounted component, causing memory leaks and setState calls on unmounted components.",
+        "explanation": "Every subscription in componentDidMount must have a corresponding unsubscription in componentWillUnmount. This is a fundamental Observer pattern cleanup rule — the subscriber must deregister when it is destroyed."
+    },
+    {
+        "id": "arch-singleton-bug-001",
+        "type": "bug-finding",
+        "category": "architecture",
+        "difficulty": "medium",
+        "tags": ["design-patterns", "singleton", "bugs"],
+        "question": "This Singleton implementation is not thread-safe and has another bug. Find the bugs.",
+        "code": "class Config {\n  private static instance: Config;\n  public apiUrl: string = '';\n\n  static getInstance(): Config {\n    if (!Config.instance) {\n      Config.instance = new Config();\n    }\n    return Config.instance;\n  }\n\n  constructor() {}\n}",
+        "correct": "The constructor is public, allowing direct instantiation and breaking the singleton guarantee",
+        "referenceAnswer": "The constructor must be private: `private constructor() {}`. A public constructor allows `new Config()` to bypass getInstance(), creating multiple instances and violating the singleton contract.",
+        "explanation": "A Singleton must have a private constructor to prevent direct instantiation. The static getInstance() method is the only intended entry point. In JavaScript, note that module-level singletons (exporting an instance) are often simpler and avoid this pitfall."
+    },
+    {
+        "id": "arch-flux-bug-001",
+        "type": "bug-finding",
+        "category": "architecture",
+        "difficulty": "hard",
+        "tags": ["Redux", "Flux", "immutability", "bugs"],
+        "question": "This Redux reducer has a critical bug. Identify it.",
+        "code": "function cartReducer(state = { items: [] }, action) {\n  switch (action.type) {\n    case 'ADD_ITEM':\n      state.items.push(action.item);\n      return state;\n    case 'CLEAR':\n      return { items: [] };\n    default:\n      return state;\n  }\n}",
+        "correct": "The ADD_ITEM case mutates the existing state array directly instead of returning a new state object",
+        "referenceAnswer": "state.items.push() mutates state in place. Redux reducers must return new objects: return { ...state, items: [...state.items, action.item] }. Mutation breaks change detection in React-Redux and time-travel debugging.",
+        "explanation": "Reducers must be pure functions that never mutate the existing state. push() mutates the array in place, so the reference does not change — React-Redux's shallow equality check sees no change and components do not re-render."
+    },
+    {
+        "id": "arch-mvp-bug-001",
+        "type": "bug-finding",
+        "category": "architecture",
+        "difficulty": "hard",
+        "tags": ["MVP", "architectural-patterns", "separation-of-concerns"],
+        "question": "This Presenter in an MVP pattern has an architectural violation. What is it?",
+        "code": "class UserPresenter {\n  constructor(private view: UserView) {}\n\n  async loadUser(id: string) {\n    const response = await fetch(`/api/users/${id}`);\n    const user = await response.json();\n    document.title = `User: ${user.name}`;\n    this.view.displayUser(user);\n  }\n}",
+        "correct": "The Presenter directly manipulates the DOM (document.title), violating the separation of concerns — that is the View's responsibility",
+        "referenceAnswer": "In MVP, the Presenter should not touch the DOM directly. document.title = ... should be delegated to the View: this.view.setTitle(`User: ${user.name}`). The Presenter coordinates logic; the View handles all DOM updates.",
+        "explanation": "In MVP, the Presenter contains presentation logic but never manipulates DOM directly. Direct DOM access belongs to the View. The Presenter calls View methods to update the UI, keeping it decoupled and testable."
+    },
+    {
+        "id": "arch-fsd-bug-001",
+        "type": "bug-finding",
+        "category": "architecture",
+        "difficulty": "hard",
+        "tags": ["FSD", "Feature-Sliced-Design", "import-rules"],
+        "question": "This import in a Feature-Sliced Design codebase violates the architecture. Identify the violation.",
+        "code": "// src/entities/user/model/userStore.ts\nimport { cartFeatureUtils } from '@/features/cart/lib/utils';\nimport { UserSchema } from '@/shared/lib/schemas';\n\nexport const userStore = create(() => ({ ... }));",
+        "correct": "An entity (entities/user) imports from a feature (features/cart), which violates FSD's layer rule — lower layers cannot import from higher layers",
+        "referenceAnswer": "In FSD, entities are a lower layer than features. An entity must never import from a feature. Move the shared utility to @/shared/lib/utils or restructure so the feature imports from the entity, not the other way around.",
+        "explanation": "FSD enforces strict one-directional imports: upper layers (features, pages) import from lower layers (entities, shared), never the reverse. Cross-layer violations create circular dependencies and make the architecture unpredictable."
+    },
+    {
+        "id": "arch-factory-bug-001",
+        "type": "bug-finding",
+        "category": "architecture",
+        "difficulty": "hard",
+        "tags": ["design-patterns", "factory", "bugs"],
+        "question": "This Factory function is supposed to create different chart components. What architectural problem does it have?",
+        "code": "function createChart(type: string) {\n  if (type === 'bar') return new BarChart();\n  if (type === 'line') return new LineChart();\n  if (type === 'pie') return new PieChart();\n  // New chart types require editing this function\n  return null;\n}",
+        "correct": "The factory violates the Open/Closed Principle — every new chart type requires modifying the factory function",
+        "referenceAnswer": "Register chart types in a map: const registry: Record<string, new () => Chart> = { bar: BarChart, line: LineChart, pie: PieChart }; function createChart(type: string) { return registry[type] ? new registry[type]() : null; }. Adding a new type only requires updating the registry, not the factory logic.",
+        "explanation": "The if-else chain in the factory violates OCP — the factory is not closed for modification. Using a registry (map of type → constructor) lets you extend the factory by adding entries without modifying the factory function itself."
+    },
+    {
+        "id": "arch-decorator-001",
+        "type": "code-completion",
+        "category": "architecture",
+        "difficulty": "medium",
+        "tags": ["design-patterns", "decorator"],
+        "question": "Complete the Decorator pattern that wraps a logger to add timestamps:",
+        "code": "interface Logger {\n  log(message: string): void;\n}\n\nclass TimestampLogger implements ___ {\n  constructor(private inner: Logger) {}\n\n  log(message: string): void {\n    const ts = new Date().toISOString();\n    this.inner.___(___`[${ts}] ${message}`);\n  }\n}",
+        "blanks": ["Logger", "log", ""],
+        "referenceAnswer": "TimestampLogger implements Logger, delegates to this.inner.log(), passing the prefixed message string.",
+        "lang": "typescript",
+        "explanation": "A Decorator implements the same interface as the wrapped object and delegates all calls to it, optionally adding behavior before/after. Here TimestampLogger implements Logger and prepends a timestamp before delegating to the inner logger."
+    },
+    {
+        "id": "arch-strategy-001",
+        "type": "code-completion",
+        "category": "architecture",
+        "difficulty": "medium",
+        "tags": ["design-patterns", "strategy"],
+        "question": "Complete the Strategy pattern for sorting. Fill in the interface and the context method:",
+        "code": "interface SortStrategy {\n  sort(data: number[]): ___;\n}\n\nclass Sorter {\n  constructor(private strategy: SortStrategy) {}\n\n  setStrategy(strategy: ___) {\n    this.strategy = strategy;\n  }\n\n  execute(data: number[]): number[] {\n    return this.strategy.___(data);\n  }\n}",
+        "blanks": ["number[]", "SortStrategy", "sort"],
+        "referenceAnswer": "The interface sort method returns number[]; setStrategy accepts SortStrategy; execute delegates to this.strategy.sort(data).",
+        "lang": "typescript",
+        "explanation": "Strategy pattern encapsulates an algorithm behind an interface. The context (Sorter) holds a reference to a strategy and delegates execution to it, allowing runtime algorithm swapping without changing the context."
+    },
+    {
+        "id": "arch-di-002",
+        "type": "code-completion",
+        "category": "architecture",
+        "difficulty": "medium",
+        "tags": ["dependency-injection", "React"],
+        "question": "Complete the React context-based DI container that provides a service to child components:",
+        "code": "const ServiceContext = React.createContext<UserService | ___>(null);\n\nfunction ServiceProvider({ children }: { children: React.ReactNode }) {\n  const service = useMemo(() => new UserService(), []);\n  return (\n    <ServiceContext.___ value={service}>\n      {children}\n    </ServiceContext.___>\n  );\n}\n\nfunction useUserService(): UserService {\n  const service = useContext(___);\n  if (!service) throw new Error('ServiceProvider missing');\n  return service;\n}",
+        "blanks": ["null", "Provider", "Provider", "ServiceContext"],
+        "referenceAnswer": "createContext<UserService | null>(null); Provider wraps children; useContext(ServiceContext) retrieves the injected service.",
+        "lang": "typescript",
+        "explanation": "React Context acts as a DI container. The Provider injects a service instance into the component tree; consumers retrieve it via useContext without needing to know how the service was created, achieving DI without a framework."
+    },
+    {
+        "id": "arch-observer-001",
+        "type": "code-completion",
+        "category": "architecture",
+        "difficulty": "hard",
+        "tags": ["design-patterns", "observer"],
+        "question": "Complete the minimal Observer (EventEmitter) implementation:",
+        "code": "class EventEmitter<T> {\n  private listeners: Array<(data: T) => void> = [];\n\n  on(listener: (data: T) => void): () => void {\n    this.listeners.___(listener);\n    return () => this.___(listener);\n  }\n\n  off(listener: (data: T) => void): void {\n    this.listeners = this.listeners.___(fn => fn !== listener);\n  }\n\n  emit(data: T): void {\n    this.listeners.___(listener => listener(data));\n  }\n}",
+        "blanks": ["push", "off", "filter", "forEach"],
+        "referenceAnswer": "push adds a listener; on returns a cleanup function that calls off; off filters out the listener; emit iterates all listeners.",
+        "lang": "typescript",
+        "explanation": "An EventEmitter holds an array of listener functions. on() registers a listener and returns an unsubscribe closure; off() removes it via filter; emit() notifies all listeners. Returning the cleanup function from on() follows the React useEffect cleanup convention."
+    },
+    {
+        "id": "arch-command-001",
+        "type": "code-completion",
+        "category": "architecture",
+        "difficulty": "hard",
+        "tags": ["design-patterns", "command", "undo"],
+        "question": "Complete the Command pattern implementation with undo support:",
+        "code": "interface Command {\n  execute(): void;\n  ___(): void;\n}\n\nclass CommandHistory {\n  private stack: ___[] = [];\n\n  run(cmd: Command): void {\n    cmd.___();\n    this.stack.___(cmd);\n  }\n\n  undo(): void {\n    const cmd = this.stack.___();\n    if (cmd) cmd.undo();\n  }\n}",
+        "blanks": ["undo", "Command", "execute", "push", "pop"],
+        "referenceAnswer": "Interface declares undo(); stack is Command[]; run calls execute() then pushes to stack; undo() pops the last command and calls its undo().",
+        "lang": "typescript",
+        "explanation": "The Command pattern encapsulates an operation as an object with execute() and undo() methods. A history stack (LIFO) records executed commands. Calling undo() pops the last command and reverses it, enabling multi-level undo functionality."
+    },
+    {
+        "id": "arch-adapter-001",
+        "type": "code-completion",
+        "category": "architecture",
+        "difficulty": "hard",
+        "tags": ["design-patterns", "adapter"],
+        "question": "Complete the Adapter that wraps a legacy user API (returns snake_case) to match the new interface (camelCase):",
+        "code": "interface UserDTO {\n  userId: string;\n  fullName: string;\n}\n\nclass LegacyUserAdapter {\n  constructor(private legacy: LegacyUserApi) {}\n\n  async getUser(id: string): Promise<___> {\n    const raw = await this.legacy.fetch_user(id);\n    return {\n      ___: raw.user_id,\n      ___: raw.full_name,\n    };\n  }\n}",
+        "blanks": ["UserDTO", "userId", "fullName"],
+        "referenceAnswer": "getUser returns Promise<UserDTO>; maps raw.user_id to userId and raw.full_name to fullName.",
+        "lang": "typescript",
+        "explanation": "The Adapter pattern converts an incompatible interface into a compatible one. Here the adapter translates snake_case legacy API responses to the camelCase DTO expected by the rest of the application, insulating the app from the legacy API's shape."
+    },
+    {
+        "id": "arch-renderprops-001",
+        "type": "code-completion",
+        "category": "architecture",
+        "difficulty": "hard",
+        "tags": ["render-props", "component-design"],
+        "question": "Complete this render-prop component that provides mouse position:",
+        "code": "interface MouseProps {\n  x: number;\n  y: number;\n}\n\nfunction MouseTracker({ render }: { render: ___ }) {\n  const [pos, setPos] = useState<MouseProps>({ x: 0, y: 0 });\n\n  const handleMouseMove = (e: React.MouseEvent) => {\n    setPos({ x: e.___, y: e.___ });\n  };\n\n  return <div onMouseMove={___}>{render(pos)}</div>;\n}",
+        "blanks": ["(pos: MouseProps) => React.ReactNode", "clientX", "clientY", "handleMouseMove"],
+        "referenceAnswer": "render prop type is (pos: MouseProps) => React.ReactNode; clientX and clientY from the event; onMouseMove={handleMouseMove}.",
+        "lang": "typescript",
+        "explanation": "Render props pass a function as a prop that receives internal state and returns React nodes. The consumer controls rendering while the component manages behavior (mouse tracking). Hooks have largely replaced this pattern, but it remains relevant in component design interviews."
+    }
+]

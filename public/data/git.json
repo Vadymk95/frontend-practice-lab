@@ -1,0 +1,750 @@
+[
+    {
+        "id": "git-basics-001",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "easy",
+        "tags": ["git", "init", "basics"],
+        "question": "What does `git init` do?",
+        "options": [
+            "Clones a remote repository to the local machine",
+            "Initializes a new Git repository in the current directory",
+            "Installs Git on the operating system",
+            "Resets the current repository to its initial state"
+        ],
+        "correct": 1,
+        "explanation": "git init creates a new, empty Git repository in the current directory by creating a .git subdirectory containing the repository metadata. It does not affect existing files in the directory."
+    },
+    {
+        "id": "git-basics-002",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "easy",
+        "tags": ["git", "staging", "add"],
+        "question": "What is the Git staging area (index)?",
+        "options": [
+            "A remote server that stores the repository",
+            "An intermediate area where changes are prepared before being committed",
+            "The main branch of the repository",
+            "The working directory where files are edited"
+        ],
+        "correct": 1,
+        "explanation": "The staging area (also called the index) is a layer between the working directory and the repository. It holds a snapshot of changes you intend to include in the next commit, allowing you to craft commits incrementally rather than committing every changed file at once."
+    },
+    {
+        "id": "git-basics-003",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "easy",
+        "tags": ["git", "gitignore"],
+        "question": "What is the purpose of a .gitignore file?",
+        "options": [
+            "To list files that Git should automatically commit",
+            "To specify patterns of files and directories that Git should not track",
+            "To store the remote repository URL",
+            "To define branch protection rules"
+        ],
+        "correct": 1,
+        "explanation": ".gitignore lists file patterns (e.g., node_modules/, *.log, .env) that Git should ignore — they will not appear in git status and will not be staged or committed. This keeps sensitive data and build artifacts out of version control."
+    },
+    {
+        "id": "git-basics-004",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "easy",
+        "tags": ["git", "commit", "basics"],
+        "question": "What does `git commit -m \"message\"` do?",
+        "options": [
+            "Pushes staged changes to the remote repository with a message",
+            "Creates a snapshot of the staged changes in the local repository history",
+            "Merges the current branch into main with a commit message",
+            "Amends the last commit with a new message"
+        ],
+        "correct": 1,
+        "explanation": "git commit creates a permanent snapshot of the staged changes in the local repository history with the given message. It does not communicate with a remote — that requires git push."
+    },
+    {
+        "id": "git-basics-005",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "easy",
+        "tags": ["git", "push", "pull"],
+        "question": "What is the difference between `git fetch` and `git pull`?",
+        "options": [
+            "git fetch downloads changes and merges them; git pull only downloads",
+            "git fetch downloads remote changes without merging; git pull downloads and merges (or rebases) them",
+            "git fetch and git pull are identical commands",
+            "git pull fetches from all remotes; git fetch only fetches from origin"
+        ],
+        "correct": 1,
+        "explanation": "git fetch downloads commits, branches, and tags from the remote but does not modify your working branch. git pull is essentially git fetch followed by git merge (or git rebase with --rebase), integrating the remote changes into your current branch."
+    },
+    {
+        "id": "git-branch-001",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "easy",
+        "tags": ["git", "branching"],
+        "question": "Which command creates a new branch AND switches to it in one step?",
+        "options": [
+            "git branch new-feature",
+            "git switch new-feature",
+            "git checkout -b new-feature",
+            "git create new-feature"
+        ],
+        "correct": 2,
+        "explanation": "git checkout -b new-feature creates a new branch named new-feature and immediately switches to it. The modern equivalent is git switch -c new-feature. git branch only creates the branch without switching."
+    },
+    {
+        "id": "git-branch-002",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "easy",
+        "tags": ["git", "HEAD", "detached-HEAD"],
+        "question": "What is a 'detached HEAD' state in Git?",
+        "options": [
+            "A state where HEAD points to a branch that has been deleted",
+            "A state where HEAD points directly to a commit instead of a branch reference",
+            "A corrupted repository state that requires git repair",
+            "A state where the working directory has uncommitted changes"
+        ],
+        "correct": 1,
+        "explanation": "Detached HEAD occurs when HEAD points to a specific commit hash rather than a named branch. Any new commits made in this state will not be on any branch and can be lost when you switch branches. Use git switch -c <new-branch> to attach a branch to the current commit."
+    },
+    {
+        "id": "git-merge-001",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "easy",
+        "tags": ["git", "merge", "fast-forward"],
+        "question": "When does a fast-forward merge occur?",
+        "options": [
+            "When the target branch has commits that the source branch does not have",
+            "When there are merge conflicts that Git resolves automatically",
+            "When the current branch has no new commits since the branch to be merged was created",
+            "When the --squash flag is used"
+        ],
+        "correct": 2,
+        "explanation": "A fast-forward merge occurs when the current branch is a direct ancestor of the branch being merged. Git simply moves the branch pointer forward — no merge commit is created. If the current branch has diverged, a 3-way merge is required."
+    },
+    {
+        "id": "git-stash-001",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "easy",
+        "tags": ["git", "stash"],
+        "question": "What does `git stash` do?",
+        "options": [
+            "Permanently deletes uncommitted changes",
+            "Commits changes with a temporary message",
+            "Saves uncommitted changes (both staged and unstaged) to a stack and restores a clean working directory",
+            "Creates a backup branch with the current changes"
+        ],
+        "correct": 2,
+        "explanation": "git stash temporarily shelves (stashes) uncommitted changes so you can work on something else without committing incomplete work. Use git stash pop or git stash apply to restore the stashed changes later."
+    },
+    {
+        "id": "git-reset-001",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "easy",
+        "tags": ["git", "reset"],
+        "question": "What is the difference between `git reset --soft HEAD~1` and `git reset --hard HEAD~1`?",
+        "options": [
+            "Both are identical — they both undo the last commit and keep the changes staged",
+            "--soft undoes the commit but keeps changes staged; --hard undoes the commit and discards all changes",
+            "--soft deletes the last commit from history; --hard only unstages it",
+            "--hard keeps changes in the working directory; --soft discards them"
+        ],
+        "correct": 1,
+        "explanation": "git reset --soft HEAD~1 moves the branch pointer back one commit but keeps your changes staged, allowing you to re-commit. git reset --hard HEAD~1 moves the pointer back and discards all changes in the working directory and staging area — the changes are gone."
+    },
+    {
+        "id": "git-log-001",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "easy",
+        "tags": ["git", "log"],
+        "question": "Which `git log` flag shows a compact, one-line summary per commit?",
+        "options": ["git log --brief", "git log --oneline", "git log --short", "git log --compact"],
+        "correct": 1,
+        "explanation": "git log --oneline displays each commit on a single line showing the abbreviated commit hash and the commit message subject. This is useful for quickly scanning history. Combine with --graph to visualize branch topology."
+    },
+    {
+        "id": "git-revert-001",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "easy",
+        "tags": ["git", "revert"],
+        "question": "What is the key difference between `git revert` and `git reset` for undoing changes?",
+        "options": [
+            "git revert is faster than git reset",
+            "git revert creates a new commit that reverses changes (safe for shared branches); git reset rewrites history (unsafe for shared branches)",
+            "git reset creates a new commit; git revert rewrites history",
+            "git revert only works on the latest commit; git reset can target any commit"
+        ],
+        "correct": 1,
+        "explanation": "git revert creates a new commit that undoes the effect of a previous commit — history is preserved and the revert is visible to collaborators. git reset rewrites history by moving the branch pointer, making it dangerous on shared branches because it can lose commits others have pulled."
+    },
+    {
+        "id": "git-remote-001",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "easy",
+        "tags": ["git", "remote", "origin"],
+        "question": "What does `origin` refer to in Git?",
+        "options": [
+            "The first commit in the repository",
+            "The default name for the remote repository that was cloned from or first added",
+            "The main branch of the repository",
+            "The local copy of the remote tracking branch"
+        ],
+        "correct": 1,
+        "explanation": "origin is the conventional default name given to a remote repository when you clone it (git clone automatically names the remote 'origin'). You can have multiple remotes with any name; origin is simply a convention, not a technical requirement."
+    },
+    {
+        "id": "git-tag-001",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "easy",
+        "tags": ["git", "tags"],
+        "question": "What is the difference between a lightweight tag and an annotated tag in Git?",
+        "options": [
+            "Lightweight tags can be pushed; annotated tags cannot",
+            "Lightweight tags are just a pointer to a commit; annotated tags are full objects with metadata (tagger, date, message)",
+            "Annotated tags are deleted automatically; lightweight tags are permanent",
+            "They are identical — the names are just aliases"
+        ],
+        "correct": 1,
+        "explanation": "A lightweight tag is simply a named pointer to a commit (like a branch that does not move). An annotated tag is a full Git object with a checksum, tagger name/email, date, and message. Annotated tags are recommended for releases as they carry meaningful metadata."
+    },
+    {
+        "id": "git-cherrypick-001",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "easy",
+        "tags": ["git", "cherry-pick"],
+        "question": "What does `git cherry-pick <commit-hash>` do?",
+        "options": [
+            "Deletes the specified commit from history",
+            "Copies the changes from the specified commit and applies them as a new commit on the current branch",
+            "Merges the branch that contains the specified commit",
+            "Reverts the specified commit on the current branch"
+        ],
+        "correct": 1,
+        "explanation": "git cherry-pick takes the changes introduced by a specific commit and applies them as a new commit on the current branch. The original commit remains on its original branch. It is useful for applying specific bug fixes to release branches without merging everything."
+    },
+    {
+        "id": "git-hooks-001",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "easy",
+        "tags": ["git", "hooks", "pre-commit"],
+        "question": "Where are Git hooks stored in a repository?",
+        "options": [
+            ".github/hooks/",
+            ".git/hooks/",
+            "scripts/hooks/",
+            "package.json hooks section"
+        ],
+        "correct": 1,
+        "explanation": "Git hooks are shell scripts stored in .git/hooks/. They are not committed to the repository by default (since .git/ is not tracked). Tools like Husky solve this by storing hooks in a committed directory and symlinking them into .git/hooks/ during npm install."
+    },
+    {
+        "id": "git-conventional-001",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "easy",
+        "tags": ["git", "conventional-commits"],
+        "question": "In the Conventional Commits specification, what does a `!` after the type indicate?",
+        "options": [
+            "An urgent commit that should be deployed immediately",
+            "A breaking change",
+            "A commit that fails CI checks",
+            "A commit that must be squashed before merging"
+        ],
+        "correct": 1,
+        "explanation": "In Conventional Commits, appending ! after the type (e.g., feat!: or fix(api)!:) indicates a breaking change. It is equivalent to adding BREAKING CHANGE: in the commit footer. This signals that the change is not backward-compatible."
+    },
+    {
+        "id": "git-bisect-001",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "easy",
+        "tags": ["git", "bisect", "debugging"],
+        "question": "What is the purpose of `git bisect`?",
+        "options": [
+            "To split a commit into two smaller commits",
+            "To find the exact commit that introduced a bug using binary search",
+            "To merge two branches at their midpoint",
+            "To display a graph of the repository's commit history"
+        ],
+        "correct": 1,
+        "explanation": "git bisect performs a binary search through commit history to find the commit that introduced a bug. You mark a known-good and known-bad commit; Git checks out the midpoint, you test and mark good/bad, and the process repeats until the culprit commit is identified."
+    },
+    {
+        "id": "git-reflog-001",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "easy",
+        "tags": ["git", "reflog", "recovery"],
+        "question": "What does `git reflog` help you do?",
+        "options": [
+            "View a log of all remote repository changes",
+            "Recover commits or branch states that are no longer referenced by any branch",
+            "Display a formatted log of all commits across all branches",
+            "Roll back a merge to before it happened"
+        ],
+        "correct": 1,
+        "explanation": "git reflog records every movement of HEAD (commits, resets, checkouts, merges). It lets you recover 'lost' commits after a hard reset or accidental branch deletion by finding the commit hash and creating a new branch or cherry-picking from it."
+    },
+    {
+        "id": "git-merge-002",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "medium",
+        "tags": ["git", "rebase", "merge"],
+        "question": "When should you prefer `git rebase` over `git merge` when integrating changes from main into a feature branch?",
+        "options": [
+            "When you want to preserve the full merge history of the feature branch",
+            "When you want a linear commit history on the feature branch, making it easier to read and bisect",
+            "When working on a shared public branch that others have pulled",
+            "When there are merge conflicts — rebase resolves them automatically"
+        ],
+        "correct": 1,
+        "explanation": "Rebasing rewrites the feature branch commits on top of the latest main, producing a linear history that is easier to read with git log --oneline and bisect. Merging preserves the diverged history with a merge commit. Never rebase shared/public branches — it rewrites history and breaks collaborators' local copies."
+    },
+    {
+        "id": "git-rebase-001",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "medium",
+        "tags": ["git", "interactive-rebase"],
+        "question": "What can you accomplish with `git rebase -i HEAD~3`?",
+        "options": [
+            "Rebase the last 3 commits onto a remote branch",
+            "Interactively reorder, edit, squash, or drop the last 3 commits",
+            "Show an interactive diff of the last 3 commits",
+            "Reset the last 3 commits and stage the changes"
+        ],
+        "correct": 1,
+        "explanation": "Interactive rebase (git rebase -i) opens an editor listing the specified commits. You can reorder them, squash multiple into one, edit commit messages (reword), drop commits, or split them. It is a powerful history-cleaning tool before pushing a feature branch."
+    },
+    {
+        "id": "git-conflict-001",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "medium",
+        "tags": ["git", "conflicts", "merge"],
+        "question": "In a Git merge conflict marker, what does the `<<<<<<< HEAD` section represent?",
+        "options": [
+            "Changes from the branch being merged in",
+            "Changes from the remote repository",
+            "The changes that exist in the current branch (the branch you are on)",
+            "The base version before either branch made changes"
+        ],
+        "correct": 2,
+        "explanation": "In a conflict marker: <<<<<<< HEAD shows your current branch's version, >>>>>>> branch-name shows the incoming branch's version, and ======= separates them. You resolve conflicts by editing the file to keep the desired combination and removing the markers."
+    },
+    {
+        "id": "git-squash-001",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "medium",
+        "tags": ["git", "squash", "merge-strategies"],
+        "question": "What does 'squash merge' do when merging a feature branch into main?",
+        "options": [
+            "It rebases all feature commits onto main individually",
+            "It merges with a merge commit that combines all feature commits' changes into a single new commit on main",
+            "It fast-forwards main to the tip of the feature branch",
+            "It keeps all feature commits as-is on main without a merge commit"
+        ],
+        "correct": 1,
+        "explanation": "Squash merge takes all commits from the feature branch, combines their changes, and creates a single new commit on main. This keeps main's history clean (one commit per feature) at the cost of losing individual commit granularity from the feature branch."
+    },
+    {
+        "id": "git-workflow-001",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "medium",
+        "tags": ["git", "gitflow", "trunk-based"],
+        "question": "What is a key characteristic of trunk-based development compared to Gitflow?",
+        "options": [
+            "Trunk-based development requires feature branches to live for several weeks",
+            "Trunk-based development integrates changes directly to main (trunk) at least daily, using short-lived branches",
+            "Trunk-based development prohibits the use of feature branches entirely",
+            "Trunk-based development uses develop, release, and hotfix branches like Gitflow"
+        ],
+        "correct": 1,
+        "explanation": "Trunk-based development integrates small, incremental changes to the main branch frequently (daily or multiple times per day) using short-lived feature branches or direct commits. This reduces integration risk and enables CI/CD. Gitflow uses long-lived develop/release/hotfix branches which increase merge complexity."
+    },
+    {
+        "id": "git-tracking-001",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "medium",
+        "tags": ["git", "remote-tracking", "origin"],
+        "question": "What is `origin/main` (a remote-tracking branch)?",
+        "options": [
+            "A local branch named origin/main",
+            "A read-only local reference that represents the state of main on the remote at the last fetch",
+            "The default merge target for all local branches",
+            "A branch that automatically syncs with the remote on every commit"
+        ],
+        "correct": 1,
+        "explanation": "Remote-tracking branches (e.g., origin/main) are read-only local references updated by git fetch. They represent the last known state of the remote branch. You cannot commit to them directly; they serve as the comparison point when you pull or push."
+    },
+    {
+        "id": "git-diff-001",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "medium",
+        "tags": ["git", "diff"],
+        "question": "What is the difference between `git diff` and `git diff --staged`?",
+        "options": [
+            "git diff shows changes between two branches; git diff --staged shows working directory changes",
+            "git diff shows unstaged changes (working directory vs index); git diff --staged shows staged changes (index vs last commit)",
+            "They are identical",
+            "git diff --staged is only available in Git 2.35+"
+        ],
+        "correct": 1,
+        "explanation": "git diff (without arguments) shows changes between the working directory and the staging area (unstaged changes). git diff --staged (also --cached) shows changes between the staging area and the last commit — what would be included in the next commit."
+    },
+    {
+        "id": "git-codereview-001",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "medium",
+        "tags": ["git", "code-review", "PR"],
+        "question": "What is the primary purpose of a Pull Request (PR) / Merge Request (MR) in a team workflow?",
+        "options": [
+            "To push code directly to the main branch without review",
+            "To request that peers review proposed changes, provide feedback, and approve before merging",
+            "To automatically deploy code to production when opened",
+            "To create a copy of the repository for experimentation"
+        ],
+        "correct": 1,
+        "explanation": "A Pull Request is a formal mechanism for code review. It presents the proposed changes, enables discussion (inline comments, suggestions), runs CI checks, and requires approvals before merging. This collaborative review process catches bugs, improves code quality, and shares knowledge."
+    },
+    {
+        "id": "git-hooks-002",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "medium",
+        "tags": ["git", "hooks", "commit-msg"],
+        "question": "What does the `commit-msg` Git hook allow you to do?",
+        "options": [
+            "Automatically generate commit messages from staged changes",
+            "Validate or transform the commit message before the commit is saved",
+            "Prevent committing when there are no staged changes",
+            "Run tests before every commit"
+        ],
+        "correct": 1,
+        "explanation": "The commit-msg hook runs after you type a commit message but before the commit is finalized. It receives the commit message file path as an argument. Tools like commitlint use this hook to enforce commit message conventions (e.g., Conventional Commits format)."
+    },
+    {
+        "id": "git-bisect-002",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "hard",
+        "tags": ["git", "bisect", "automation"],
+        "question": "How can you automate `git bisect` to run without manual good/bad marking?",
+        "options": [
+            "Use git bisect --auto with a flag file",
+            "Use git bisect run <script> where the script exits 0 for good and non-zero for bad",
+            "Write a .bisect configuration file in the repo root",
+            "Use git bisect watch with a test command"
+        ],
+        "correct": 1,
+        "explanation": "git bisect run <script> automates bisecting by running the provided script on each commit. The script should exit with 0 if the commit is good (bug not present) and a non-zero code if bad (bug present). Git uses these results to narrow down the culprit commit without manual intervention."
+    },
+    {
+        "id": "git-rebase-002",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "hard",
+        "tags": ["git", "rebase", "rebase-onto"],
+        "question": "What does `git rebase --onto main feature-base feature-branch` do?",
+        "options": [
+            "Rebases feature-branch onto main, including all commits since the beginning of feature-branch",
+            "Rebases only the commits on feature-branch that are not on feature-base, placing them onto main",
+            "Merges feature-base and feature-branch into main simultaneously",
+            "Creates a new branch called main from the tip of feature-branch"
+        ],
+        "correct": 1,
+        "explanation": "git rebase --onto <newbase> <upstream> <branch> rebases only the commits that are on <branch> but NOT on <upstream>, applying them onto <newbase>. This is useful for transplanting a sub-branch that was based on a feature branch directly onto main."
+    },
+    {
+        "id": "git-internals-001",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "hard",
+        "tags": ["git", "internals", "objects"],
+        "question": "Which Git object type stores the content of a file at a specific version?",
+        "options": ["commit", "tree", "blob", "tag"],
+        "correct": 2,
+        "explanation": "Git stores file content as blob objects. A tree object represents a directory (mapping filenames to blobs or subtrees). A commit object points to a tree (snapshot), parent commits, and metadata (author, message). Blobs are content-addressed by SHA-1/SHA-256 of their content."
+    },
+    {
+        "id": "git-merge-003",
+        "type": "multi-choice",
+        "category": "git",
+        "difficulty": "easy",
+        "tags": ["git", "merge-strategies"],
+        "question": "Which of the following are valid Git merge strategies or options?",
+        "options": [
+            "Fast-forward merge",
+            "3-way merge (recursive/ort)",
+            "Squash merge",
+            "Hot-swap merge",
+            "Rebase merge"
+        ],
+        "correct": [0, 1, 2, 4],
+        "explanation": "Git merge strategies include fast-forward (simple pointer move), 3-way/recursive merge (creates a merge commit), squash merge (combines all commits into one), and rebase merge (replays commits on top of target). 'Hot-swap merge' does not exist in Git."
+    },
+    {
+        "id": "git-reset-002",
+        "type": "multi-choice",
+        "category": "git",
+        "difficulty": "medium",
+        "tags": ["git", "reset", "modes"],
+        "question": "Which of the following correctly describe the three modes of `git reset`?",
+        "options": [
+            "--soft: moves HEAD, keeps staging area and working directory unchanged",
+            "--mixed: moves HEAD, resets staging area, keeps working directory (default)",
+            "--hard: moves HEAD, resets staging area and working directory",
+            "--force: moves HEAD and pushes the change to remote",
+            "--keep: moves HEAD, resets staging but keeps uncommitted changes"
+        ],
+        "correct": [0, 1, 2],
+        "explanation": "git reset has three modes: --soft (moves HEAD only), --mixed/default (moves HEAD, clears staging), and --hard (moves HEAD, clears staging and working directory). --force is a push flag, not a reset mode. --keep exists but is rarely used and is not a primary mode."
+    },
+    {
+        "id": "git-hooks-003",
+        "type": "multi-choice",
+        "category": "git",
+        "difficulty": "medium",
+        "tags": ["git", "hooks"],
+        "question": "Which of the following are client-side Git hooks that run during a commit workflow?",
+        "options": ["pre-commit", "commit-msg", "prepare-commit-msg", "post-receive", "pre-push"],
+        "correct": [0, 1, 2, 4],
+        "explanation": "Client-side commit hooks: pre-commit (runs before commit message prompt, used for linting/testing), prepare-commit-msg (modifies commit message template), commit-msg (validates the message), and pre-push (runs before git push). post-receive is a server-side hook."
+    },
+    {
+        "id": "git-workflow-002",
+        "type": "multi-choice",
+        "category": "git",
+        "difficulty": "medium",
+        "tags": ["git", "gitflow", "branching"],
+        "question": "Which branches are part of the Gitflow branching model?",
+        "options": ["main", "develop", "feature/*", "hotfix/*", "release/*"],
+        "correct": [0, 1, 2, 3, 4],
+        "explanation": "Gitflow defines: main (stable production code), develop (integration branch), feature/* (new features branched from develop), release/* (release preparation), and hotfix/* (emergency production fixes branched from main). All five branch types are part of the model."
+    },
+    {
+        "id": "git-codereview-002",
+        "type": "multi-choice",
+        "category": "git",
+        "difficulty": "medium",
+        "tags": ["git", "code-review", "best-practices"],
+        "question": "Which of the following are best practices for writing constructive PR comments?",
+        "options": [
+            "Ask questions instead of demands to understand reasoning (e.g., 'What do you think about...')",
+            "Distinguish blocking issues from suggestions (e.g., 'nit:', 'blocker:')",
+            "Use 'you' statements to hold the author accountable (e.g., 'you forgot...')",
+            "Provide specific reasoning or references when requesting changes",
+            "Approve immediately if the code compiles and tests pass"
+        ],
+        "correct": [0, 1, 3],
+        "explanation": "Good PR review etiquette: use questions to explore alternatives, label comment severity (nit/suggestion/blocker), and provide reasoning for change requests. Avoid personal 'you' statements (prefer 'this function' over 'you wrote'). Never approve just because CI passes — semantic correctness matters too."
+    },
+    {
+        "id": "git-conflict-bug-001",
+        "type": "bug-finding",
+        "category": "git",
+        "difficulty": "medium",
+        "tags": ["git", "conflicts", "merge-markers"],
+        "question": "A developer committed this file after resolving a merge conflict. What did they forget?",
+        "code": "function calculateTotal(items) {\n<<<<<<< HEAD\n  return items.reduce((sum, item) => sum + item.price, 0);\n=======\n  return items.reduce((sum, item) => sum + item.cost, 0);\n>>>>>>> feature/pricing-update\n}",
+        "correct": "The merge conflict markers (<<<<<<, =======, >>>>>>>) were committed as-is — the conflict was never actually resolved",
+        "referenceAnswer": "The developer must manually resolve the conflict by choosing one version (or combining them), removing all conflict markers, and committing the clean file. A pre-commit hook or CI lint check can catch this.",
+        "explanation": "Committing unresolved conflict markers is a common mistake. The file is syntactically broken — it contains invalid code from the markers. Tools like eslint, tsc, or a pre-commit hook can detect and block commits with conflict markers."
+    },
+    {
+        "id": "git-rebase-bug-001",
+        "type": "bug-finding",
+        "category": "git",
+        "difficulty": "hard",
+        "tags": ["git", "rebase", "shared-branch"],
+        "question": "A senior dev ran the following command on a shared branch. What is the critical mistake?",
+        "code": "# On branch: feature/shared-api (3 teammates have pulled this branch)\n$ git rebase -i origin/main\n$ git push --force origin feature/shared-api",
+        "correct": "Force-pushing a rebased branch that teammates have already pulled rewrites history they are based on, causing everyone else to have diverged histories and losing their local commits",
+        "referenceAnswer": "Never force-push a shared branch. Options: (1) use git push --force-with-lease (safer — fails if someone else pushed since your last fetch), (2) communicate with the team before rebasing shared branches, or (3) create a new branch from the rebased work instead of force-pushing.",
+        "explanation": "Rebase rewrites commit hashes. If others have pulled the old commits and you force-push new hashes, their branches are now based on orphaned commits. They must manually git reset --hard or git rebase onto the new commits, risking lost work. Only rebase branches no one else has pulled."
+    },
+    {
+        "id": "git-gitignore-bug-001",
+        "type": "bug-finding",
+        "category": "git",
+        "difficulty": "medium",
+        "tags": ["git", "gitignore", "tracked-files"],
+        "question": "A developer added `node_modules/` to .gitignore but it still appears in `git status`. What is the issue?",
+        "code": "# .gitignore\nnode_modules/\n\n# git status output:\nChanges not staged for commit:\n  modified:   node_modules/lodash/package.json",
+        "correct": "node_modules/ was already tracked by Git before .gitignore was updated; .gitignore only prevents untracked files from being added, it does not remove already-tracked files",
+        "referenceAnswer": "Run: git rm -r --cached node_modules/ then commit the change. This removes node_modules from Git's index (tracking) without deleting the files from disk. After this, .gitignore will prevent it from being re-added.",
+        "explanation": ".gitignore only affects untracked files. If a file or directory was committed before being added to .gitignore, Git continues to track it. You must explicitly remove it from the index with git rm --cached."
+    },
+    {
+        "id": "git-log-002",
+        "type": "code-completion",
+        "category": "git",
+        "difficulty": "easy",
+        "tags": ["git", "log"],
+        "question": "Complete the git log command that shows a graphical, one-line branch history with all branches:",
+        "code": "git log ___  ___ ___",
+        "blanks": ["--oneline", "--graph", "--all"],
+        "referenceAnswer": "git log --oneline --graph --all shows a compact ASCII graph of all branches in the repository.",
+        "lang": "bash",
+        "explanation": "--oneline shows one commit per line, --graph draws ASCII branch/merge lines, --all includes all local and remote-tracking branches. Together they provide a compact visual overview of the entire repository history."
+    },
+    {
+        "id": "git-stash-002",
+        "type": "code-completion",
+        "category": "git",
+        "difficulty": "easy",
+        "tags": ["git", "stash"],
+        "question": "Complete these git stash commands: save with a message, list stashes, and apply the most recent:",
+        "code": "git stash ___ 'WIP: refactor auth'\ngit stash ___\ngit stash ___",
+        "blanks": ["push -m", "list", "pop"],
+        "referenceAnswer": "git stash push -m 'message' saves with a label; git stash list shows all stashes; git stash pop applies and removes the top stash.",
+        "lang": "bash",
+        "explanation": "git stash push -m saves the current changes with a descriptive message; git stash list shows all stashes with their stash@{N} identifiers; git stash pop applies the most recent stash and removes it from the stack (use git stash apply to keep it)."
+    },
+    {
+        "id": "git-bisect-003",
+        "type": "code-completion",
+        "category": "git",
+        "difficulty": "medium",
+        "tags": ["git", "bisect"],
+        "question": "Complete the git bisect session to find which commit broke the build:",
+        "code": "git bisect ___\ngit bisect ___ HEAD          # current commit is broken\ngit bisect ___ v1.2.0        # v1.2.0 was working\n# ... Git checks out midpoint commits ...\ngit bisect ___               # end the session",
+        "blanks": ["start", "bad", "good", "reset"],
+        "referenceAnswer": "git bisect start; git bisect bad HEAD; git bisect good v1.2.0; ...mark each checkout; git bisect reset to return to original HEAD.",
+        "lang": "bash",
+        "explanation": "The bisect workflow: start the session, mark bad (broken) and good (working) boundaries, then mark each checkout as good or bad until Git identifies the culprit. git bisect reset returns to the original branch and ends the session."
+    },
+    {
+        "id": "git-rebase-003",
+        "type": "code-completion",
+        "category": "git",
+        "difficulty": "medium",
+        "tags": ["git", "interactive-rebase", "squash"],
+        "question": "You want to squash the last 4 commits into one using interactive rebase. Complete the command and describe the interactive editor action:",
+        "code": "git rebase -i ___~___\n\n# In the editor, change the action for commits 2-4 from 'pick' to:\n# ___",
+        "blanks": ["HEAD", "4", "squash"],
+        "referenceAnswer": "git rebase -i HEAD~4 opens the last 4 commits; change 'pick' to 'squash' (or 's') on commits 2-4 to fold them into the first commit.",
+        "lang": "bash",
+        "explanation": "HEAD~4 references the 4th commit before HEAD. In the interactive editor, 'squash' (or 's') folds a commit into the previous one and combines their messages. 'fixup' does the same but discards the commit message."
+    },
+    {
+        "id": "git-config-001",
+        "type": "code-completion",
+        "category": "git",
+        "difficulty": "medium",
+        "tags": ["git", "config", "global"],
+        "question": "Complete the git commands to set your global user name and email:",
+        "code": "git config ___ user.name \"Vadym Kononenko\"\ngit config ___ user.email \"vadym@example.com\"",
+        "blanks": ["--global", "--global"],
+        "referenceAnswer": "git config --global user.name and git config --global user.email set identity in ~/.gitconfig, used for all repositories.",
+        "lang": "bash",
+        "explanation": "git config --global writes to ~/.gitconfig and applies to all repositories on the machine. Use --local (default) to set per-repository config in .git/config. Use --system for all users on the machine. Identity (name and email) is embedded in every commit."
+    },
+    {
+        "id": "git-workflow-003",
+        "type": "code-completion",
+        "category": "git",
+        "difficulty": "hard",
+        "tags": ["git", "hooks", "husky"],
+        "question": "Complete the Husky + lint-staged configuration in package.json to run ESLint on staged .ts files before commit:",
+        "code": "{\n  \"husky\": {\n    \"hooks\": {\n      \"___\": \"lint-staged\"\n    }\n  },\n  \"lint-staged\": {\n    \"___\": [\"eslint --fix\", \"git add\"]\n  }\n}",
+        "blanks": ["pre-commit", "**/*.ts"],
+        "referenceAnswer": "pre-commit hook runs lint-staged; the glob **/*.ts targets all TypeScript files for eslint --fix followed by git add to stage the auto-fixed files.",
+        "lang": "json",
+        "explanation": "Husky hooks into the pre-commit Git hook; lint-staged runs configured commands only on files staged for the commit. This pattern catches lint errors before they enter the repository without running lint on the entire codebase."
+    },
+    {
+        "id": "git-cherrypick-002",
+        "type": "code-completion",
+        "category": "git",
+        "difficulty": "hard",
+        "tags": ["git", "cherry-pick", "range"],
+        "question": "Complete the command to cherry-pick a range of commits (from abc1234 to def5678 inclusive) onto the current branch:",
+        "code": "git cherry-pick ___..___",
+        "blanks": ["abc1234", "def5678"],
+        "referenceAnswer": "git cherry-pick abc1234..def5678 applies all commits from abc1234 (exclusive) to def5678 (inclusive). Use abc1234^..def5678 to include abc1234 itself.",
+        "lang": "bash",
+        "explanation": "Cherry-picking a range uses the same two-dot syntax as git log. The start commit is exclusive (not included); append ^ to include it. Note that cherry-picking creates new commits with different hashes, so the range's original commits still exist on their original branch."
+    },
+    {
+        "id": "git-branch-003",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "medium",
+        "tags": ["git", "branching", "remote"],
+        "question": "What does `git push -u origin feature/login` do that `git push origin feature/login` does not?",
+        "options": [
+            "It creates the remote branch with force push permissions",
+            "It sets the upstream tracking relationship so future `git push` and `git pull` work without specifying remote and branch",
+            "It immediately opens a pull request on GitHub",
+            "It protects the branch from being deleted remotely"
+        ],
+        "correct": 1,
+        "explanation": "The -u flag (--set-upstream) establishes a tracking relationship between the local branch and the remote branch. After this, you can run git push or git pull without arguments and Git knows which remote and branch to use."
+    },
+    {
+        "id": "git-conventions-001",
+        "type": "single-choice",
+        "category": "git",
+        "difficulty": "easy",
+        "tags": ["git", "conventional-commits", "format"],
+        "question": "Which of the following is a valid Conventional Commit message?",
+        "options": [
+            "Updated the login page",
+            "fix(auth): prevent token expiry from logging out active users",
+            "HOTFIX: critical security patch",
+            "feat - add dark mode toggle"
+        ],
+        "correct": 1,
+        "explanation": "Conventional Commits format: `type(optional-scope): description`. Valid types include feat, fix, chore, docs, style, refactor, test, etc. The scope is optional but recommended. The description is lowercase and imperative. Using dashes, uppercase, or no type violates the spec."
+    },
+    {
+        "id": "git-merge-004",
+        "type": "multi-choice",
+        "category": "git",
+        "difficulty": "hard",
+        "tags": ["git", "merge", "strategies", "comparison"],
+        "question": "You are choosing a merge strategy for a team's PR workflow. Which statements are true about each strategy?",
+        "options": [
+            "Merge commit preserves the full branch history and creates a merge commit on main",
+            "Squash merge produces a clean linear history but loses individual commit granularity",
+            "Rebase merge produces a linear history while preserving individual commits",
+            "All three strategies produce identical git log output",
+            "Squash merge makes git bisect easier because each PR is one atomic commit"
+        ],
+        "correct": [0, 1, 2, 4],
+        "explanation": "Each strategy has tradeoffs: merge commit preserves all history (messy log), squash produces one commit per PR (clean log, bisect-friendly, loses granularity), rebase preserves all commits linearly (clean log, full granularity, rewrites hashes). They produce very different git log outputs."
+    },
+    {
+        "id": "git-workflow-004",
+        "type": "code-completion",
+        "category": "git",
+        "difficulty": "medium",
+        "tags": ["git", "workflow", "pr"],
+        "question": "Complete the typical Git PR workflow commands from branch creation to opening the PR:",
+        "code": "# 1. Create and switch to a new feature branch\ngit ___ -c feature/user-search\n\n# 2. Stage all modified tracked files\ngit ___ -u\n\n# 3. Commit with a conventional commit message\ngit commit -m \"feat(search): add user search with debouncing\"\n\n# 4. Push and set upstream tracking\ngit push ___ origin feature/user-search",
+        "blanks": ["switch", "add", "-u"],
+        "referenceAnswer": "git switch -c creates and switches; git add -u stages all tracked modified files; git push -u sets upstream tracking.",
+        "lang": "bash",
+        "explanation": "git switch -c is the modern equivalent of git checkout -b. git add -u stages modifications and deletions for already-tracked files (unlike git add . which also stages untracked files). git push -u sets upstream so future pushes on this branch need no arguments."
+    }
+]

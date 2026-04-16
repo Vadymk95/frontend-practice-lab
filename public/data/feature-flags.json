@@ -1,0 +1,765 @@
+[
+    {
+        "id": "ff-basics-001",
+        "type": "single-choice",
+        "category": "feature-flags",
+        "difficulty": "easy",
+        "tags": ["feature-flags", "basics"],
+        "question": "What is a feature flag (also called a feature toggle)?",
+        "options": [
+            "A CSS class that toggles component visibility",
+            "A configuration value that enables or disables functionality at runtime without deploying new code",
+            "A Git branch naming convention for new features",
+            "A build-time constant that controls which modules are bundled"
+        ],
+        "correct": 1,
+        "explanation": "A feature flag is a runtime configuration switch that enables or disables functionality without a code deployment. This decouples feature release from code deployment, allowing teams to ship code dark and enable features on demand."
+    },
+    {
+        "id": "ff-types-001",
+        "type": "single-choice",
+        "category": "feature-flags",
+        "difficulty": "easy",
+        "tags": ["feature-flags", "flag-types"],
+        "question": "Which type of feature flag is designed to be short-lived and removed after a full rollout?",
+        "options": [
+            "Ops flag (operational toggle)",
+            "Permission flag",
+            "Experiment flag",
+            "Release flag"
+        ],
+        "correct": 3,
+        "explanation": "Release flags (release toggles) are temporary flags that hide incomplete features during development. They are meant to be removed once the feature is fully rolled out to all users. Keeping them beyond their useful life creates technical debt."
+    },
+    {
+        "id": "ff-killswitch-001",
+        "type": "single-choice",
+        "category": "feature-flags",
+        "difficulty": "easy",
+        "tags": ["feature-flags", "kill-switch", "ops"],
+        "question": "What is a 'kill switch' in the context of feature flags?",
+        "options": [
+            "A flag that permanently deletes user data when triggered",
+            "An ops flag that can immediately disable a problematic feature in production without a deployment",
+            "A flag that terminates the CI pipeline on failure",
+            "A button in the admin panel that stops all feature flag evaluations"
+        ],
+        "correct": 1,
+        "explanation": "A kill switch is an operational (ops) flag used as an emergency off switch. If a feature causes issues in production, the kill switch can disable it instantly without a code deployment or rollback, reducing time-to-recover."
+    },
+    {
+        "id": "ff-rollout-001",
+        "type": "single-choice",
+        "category": "feature-flags",
+        "difficulty": "easy",
+        "tags": ["feature-flags", "gradual-rollout"],
+        "question": "In a percentage-based gradual rollout, what determines which users see the new feature?",
+        "options": [
+            "The user's browser vendor",
+            "A random number generated fresh on each page load",
+            "A deterministic hash of the user's ID (or similar stable identifier) checked against the rollout percentage",
+            "The user's account creation date"
+        ],
+        "correct": 2,
+        "explanation": "Percentage-based rollouts use a deterministic hash of a stable user identifier (e.g., user ID) modulo 100 to decide flag assignment. This ensures the same user always gets the same experience across sessions, unlike a random value that would flip on each request."
+    },
+    {
+        "id": "ff-ab-001",
+        "type": "single-choice",
+        "category": "feature-flags",
+        "difficulty": "easy",
+        "tags": ["feature-flags", "A/B-testing"],
+        "question": "How do feature flags relate to A/B testing?",
+        "options": [
+            "Feature flags and A/B testing are completely unrelated concepts",
+            "Feature flags can be used to implement A/B tests by routing different user cohorts to different flag variants",
+            "A/B testing replaces the need for feature flags",
+            "Feature flags can only be used for A/B tests, not for release management"
+        ],
+        "correct": 1,
+        "explanation": "Feature flags are the mechanism used to implement A/B tests. By assigning users to flag variants (e.g., control vs treatment) and tracking metrics per variant, teams can run controlled experiments. Dedicated tools like LaunchDarkly and GrowthBook combine flag management with experiment analytics."
+    },
+    {
+        "id": "ff-evaluation-001",
+        "type": "single-choice",
+        "category": "feature-flags",
+        "difficulty": "easy",
+        "tags": ["feature-flags", "evaluation", "client-side", "server-side"],
+        "question": "What is the key risk of evaluating feature flags exclusively on the client side?",
+        "options": [
+            "Client-side evaluation is always slower than server-side",
+            "Flag state can be exposed to users who inspect the JavaScript bundle, potentially revealing upcoming features",
+            "Client-side evaluation cannot support percentage-based rollouts",
+            "Browsers do not support feature flag SDKs"
+        ],
+        "correct": 1,
+        "explanation": "Client-side flag evaluation means flag configuration (including disabled flags) is delivered to the browser. Users can inspect the bundle or network responses to discover upcoming features or permission gates. Server-side or edge evaluation keeps sensitive flag logic hidden."
+    },
+    {
+        "id": "ff-cleanup-001",
+        "type": "single-choice",
+        "category": "feature-flags",
+        "difficulty": "easy",
+        "tags": ["feature-flags", "technical-debt", "cleanup"],
+        "question": "What is 'flag debt' and why is it harmful?",
+        "options": [
+            "The financial cost of using a commercial feature flag platform",
+            "The accumulation of stale, unused flags that add code complexity and cognitive overhead without delivering value",
+            "The performance cost of evaluating too many flags on startup",
+            "The risk of a flag being accidentally enabled in production"
+        ],
+        "correct": 1,
+        "explanation": "Flag debt (or toggle debt) accumulates when flags are created but never cleaned up after their purpose is served. Stale flags add dead code paths, complicate testing (each flag doubles the code paths), and create confusion about which code is actually active in production."
+    },
+    {
+        "id": "ff-targeting-001",
+        "type": "single-choice",
+        "category": "feature-flags",
+        "difficulty": "easy",
+        "tags": ["feature-flags", "targeting", "cohorts"],
+        "question": "Which of the following is a valid targeting rule for a feature flag?",
+        "options": [
+            "Enable the flag only for users whose browser tab is in focus",
+            "Enable the flag for users in the 'beta' group whose account plan is 'pro'",
+            "Enable the flag based on the user's CPU speed",
+            "Enable the flag only during weekdays between 9am and 5pm UTC"
+        ],
+        "correct": 1,
+        "explanation": "Targeting rules segment users by attributes (plan type, user group, region, etc.) to control flag exposure. Targeting by beta group and plan type is a standard use case. Browser focus and CPU speed are not standard targeting attributes; time-based rules exist but are uncommon."
+    },
+    {
+        "id": "ff-openfeature-001",
+        "type": "single-choice",
+        "category": "feature-flags",
+        "difficulty": "easy",
+        "tags": ["OpenFeature", "standards"],
+        "question": "What problem does the OpenFeature standard solve?",
+        "options": [
+            "It provides a free open-source feature flag management dashboard",
+            "It defines a vendor-neutral API so applications are not locked into a specific feature flag provider",
+            "It standardizes the JSON format for storing feature flags in files",
+            "It encrypts feature flag payloads to prevent client-side inspection"
+        ],
+        "correct": 1,
+        "explanation": "OpenFeature is a CNCF project that defines a vendor-neutral SDK specification for feature flag evaluation. By coding against the OpenFeature API, you can swap flag providers (LaunchDarkly, Unleash, GrowthBook, etc.) without changing application code."
+    },
+    {
+        "id": "ff-trunkbased-001",
+        "type": "single-choice",
+        "category": "feature-flags",
+        "difficulty": "easy",
+        "tags": ["feature-flags", "trunk-based-development"],
+        "question": "How do feature flags enable trunk-based development?",
+        "options": [
+            "They replace the need for code reviews on the main branch",
+            "They allow incomplete features to be merged to main and deployed while hidden behind a flag, avoiding long-lived feature branches",
+            "They automatically merge feature branches when tests pass",
+            "They prevent any code from being deployed until the flag is enabled"
+        ],
+        "correct": 1,
+        "explanation": "Trunk-based development requires merging to main frequently (at least daily). Feature flags enable this by wrapping incomplete work behind a flag — the code ships to production but is inactive. This avoids merge conflicts from long-lived branches and keeps the trunk deployable."
+    },
+    {
+        "id": "ff-types-002",
+        "type": "single-choice",
+        "category": "feature-flags",
+        "difficulty": "easy",
+        "tags": ["feature-flags", "permission-flags"],
+        "question": "Which flag type is most appropriate for enabling a feature only for paid subscribers?",
+        "options": ["Release flag", "Experiment flag", "Permission flag", "Ops flag"],
+        "correct": 2,
+        "explanation": "Permission flags (permission toggles) control access based on user attributes like subscription tier, role, or organization. They are typically long-lived and managed as part of entitlement logic, unlike release flags which are temporary."
+    },
+    {
+        "id": "ff-bluegreen-001",
+        "type": "single-choice",
+        "category": "feature-flags",
+        "difficulty": "medium",
+        "tags": ["feature-flags", "blue-green-deployment"],
+        "question": "What is the key difference between blue-green deployment and feature flags for releasing new functionality?",
+        "options": [
+            "Blue-green deployment and feature flags achieve exactly the same outcome",
+            "Blue-green swaps entire infrastructure environments (routing level), while feature flags toggle functionality at the application code level",
+            "Feature flags require infrastructure changes; blue-green does not",
+            "Blue-green deployment is only applicable to backend services, not frontends"
+        ],
+        "correct": 1,
+        "explanation": "Blue-green deployment routes traffic between two identical infrastructure environments at the load balancer/DNS level — the entire application switches. Feature flags operate within the application code, enabling per-user or per-feature control with no infrastructure change. They are complementary strategies."
+    },
+    {
+        "id": "ff-react-001",
+        "type": "single-choice",
+        "category": "feature-flags",
+        "difficulty": "medium",
+        "tags": ["feature-flags", "React", "conditional-rendering"],
+        "question": "What is the recommended way to use a feature flag for conditional rendering in a large React app?",
+        "options": [
+            "Inline every flag check as a ternary in JSX throughout the codebase",
+            "Wrap flag access in a custom hook or component so flag keys are not scattered across the codebase",
+            "Use CSS display:none to hide flagged components",
+            "Dynamically import the entire page only when the flag is enabled"
+        ],
+        "correct": 1,
+        "explanation": "Centralizing flag access in a useFeatureFlag hook or a <FeatureFlag> component prevents flag keys from being scattered across the codebase, makes cleanup easier (one place to find all usages), and allows mocking in tests without touching implementation code."
+    },
+    {
+        "id": "ff-testing-001",
+        "type": "single-choice",
+        "category": "feature-flags",
+        "difficulty": "medium",
+        "tags": ["feature-flags", "testing", "mocking"],
+        "question": "When unit testing a component that uses a feature flag, what is the best approach?",
+        "options": [
+            "Always test with the flag enabled and ignore the disabled path",
+            "Mock the flag SDK to return specific values and test both the enabled and disabled code paths",
+            "Skip testing flagged components until the flag is fully rolled out",
+            "Use localStorage overrides in every test file"
+        ],
+        "correct": 1,
+        "explanation": "Testing with feature flags requires testing both paths (enabled and disabled) to ensure neither breaks. Mocking the flag SDK at the test level (e.g., jest.mock or vi.mock) provides clean, isolated control over flag state without side effects."
+    },
+    {
+        "id": "ff-stale-001",
+        "type": "single-choice",
+        "category": "feature-flags",
+        "difficulty": "medium",
+        "tags": ["feature-flags", "stale-flags", "lifecycle"],
+        "question": "A feature flag was enabled for 100% of users 3 months ago and the team forgot about it. What is the correct action?",
+        "options": [
+            "Leave the flag in place as a safety net",
+            "Disable the flag to reduce risk",
+            "Remove the flag and its conditional code paths from the codebase",
+            "Archive the flag in the dashboard but keep the code"
+        ],
+        "correct": 2,
+        "explanation": "Once a flag is at 100% and the rollout is confirmed stable, the flag has served its purpose. The correct action is to remove both the flag from the platform and the dead code path from the codebase. This reduces complexity and eliminates a stale code path that future developers might be confused by."
+    },
+    {
+        "id": "ff-explosion-001",
+        "type": "single-choice",
+        "category": "feature-flags",
+        "difficulty": "medium",
+        "tags": ["feature-flags", "risks", "flag-explosion"],
+        "question": "What is 'flag explosion' and how can it be mitigated?",
+        "options": [
+            "A runtime error when too many flags are evaluated simultaneously",
+            "The uncontrolled growth of flags across a codebase, making it hard to understand which code paths are active; mitigated by flag lifecycle policies and regular cleanup sprints",
+            "A security vulnerability where flags leak to unauthenticated users",
+            "An increase in bundle size caused by the flag SDK"
+        ],
+        "correct": 1,
+        "explanation": "Flag explosion is the accumulation of too many flags with no clear ownership or retirement plan. Each flag multiplies the number of code paths and test cases. Mitigation includes flag lifecycle policies (owner, expiry date), automated stale flag detection, and dedicated cleanup sprints."
+    },
+    {
+        "id": "ff-edge-001",
+        "type": "single-choice",
+        "category": "feature-flags",
+        "difficulty": "medium",
+        "tags": ["feature-flags", "edge-evaluation"],
+        "question": "What is the main advantage of evaluating feature flags at the edge (CDN/edge workers) compared to client-side evaluation?",
+        "options": [
+            "Edge evaluation is faster because it avoids network latency entirely",
+            "Edge evaluation reduces bundle size since the flag SDK is not shipped to the client",
+            "Edge evaluation prevents layout shifts caused by conditional rendering in the browser",
+            "Edge evaluation automatically syncs flags with the database"
+        ],
+        "correct": 2,
+        "explanation": "When flags are evaluated at the edge, the server/CDN serves a pre-resolved response — the client receives only the code for its variant. This prevents the flash/layout shift that happens when the client downloads all variants and then hides the inactive one based on a flag evaluated after hydration."
+    },
+    {
+        "id": "ff-unleash-001",
+        "type": "single-choice",
+        "category": "feature-flags",
+        "difficulty": "medium",
+        "tags": ["feature-flags", "Unleash", "tools"],
+        "question": "Unleash is an open-source feature flag platform. What is its primary evaluation model?",
+        "options": [
+            "All evaluation happens in the browser with no server component",
+            "Flags are evaluated server-side; clients receive pre-evaluated flag decisions via a proxy",
+            "Flags are evaluated by a CDN based on request headers",
+            "Flags are stored in environment variables and evaluated at build time"
+        ],
+        "correct": 1,
+        "explanation": "Unleash evaluates flags on the server. In production setups, an Unleash Proxy sits between the SDK and clients, serving pre-evaluated decisions. This keeps the flag configuration secure and reduces client bundle size while supporting per-user targeting."
+    },
+    {
+        "id": "ff-lifecycle-001",
+        "type": "single-choice",
+        "category": "feature-flags",
+        "difficulty": "medium",
+        "tags": ["feature-flags", "lifecycle"],
+        "question": "Which phase is missing from this feature flag lifecycle: Create → __ → Evaluate → Rollout → Cleanup?",
+        "options": ["Deploy", "Configure (targeting rules and environments)", "Monitor", "Archive"],
+        "correct": 1,
+        "explanation": "The full flag lifecycle is: Create → Configure (set targeting rules, environments, variants) → Evaluate (run in production) → Rollout (increase to 100%) → Cleanup (remove flag and dead code). Configuring targeting rules is a distinct step before the flag goes live."
+    },
+    {
+        "id": "ff-growthbook-001",
+        "type": "single-choice",
+        "category": "feature-flags",
+        "difficulty": "medium",
+        "tags": ["feature-flags", "GrowthBook", "experimentation"],
+        "question": "What differentiates GrowthBook from a standard feature flag tool like Unleash?",
+        "options": [
+            "GrowthBook only supports server-side rendering",
+            "GrowthBook integrates feature flags with statistical experiment analysis (A/B test results and significance)",
+            "GrowthBook requires a paid license for production use",
+            "GrowthBook does not support percentage-based rollouts"
+        ],
+        "correct": 1,
+        "explanation": "GrowthBook is an open-source feature flagging and experimentation platform that combines flag management with built-in statistical analysis of A/B test results. It connects flag variants to business metrics and computes statistical significance, going beyond simple flag on/off control."
+    },
+    {
+        "id": "ff-launchdarkly-001",
+        "type": "single-choice",
+        "category": "feature-flags",
+        "difficulty": "medium",
+        "tags": ["feature-flags", "LaunchDarkly"],
+        "question": "In LaunchDarkly's data model, what is the relationship between a flag and an 'environment'?",
+        "options": [
+            "Each flag can only exist in one environment at a time",
+            "An environment maps to a deployment target (dev/staging/prod); each flag has independent configuration per environment",
+            "Environments are just tags and have no effect on flag evaluation",
+            "Flags must be identical across all environments to ensure consistency"
+        ],
+        "correct": 1,
+        "explanation": "In LaunchDarkly, a flag exists across all environments but has independent targeting rules, default values, and rollout percentages per environment. This allows the same flag to be fully enabled in staging while still at 0% in production."
+    },
+    {
+        "id": "ff-backend-001",
+        "type": "single-choice",
+        "category": "feature-flags",
+        "difficulty": "hard",
+        "tags": ["feature-flags", "backend", "API"],
+        "question": "When a frontend uses a feature flag to show a new UI, the corresponding backend API also has changes guarded by the same flag. What is the safest deployment sequence?",
+        "options": [
+            "Deploy frontend first, then backend",
+            "Deploy both simultaneously to avoid any inconsistency window",
+            "Deploy the backend changes first (backward-compatible), then enable the flag for the frontend",
+            "Enable the flag first, then deploy backend and frontend"
+        ],
+        "correct": 2,
+        "explanation": "The safest sequence is to deploy the backend changes first (ensuring they are backward-compatible with the old frontend), then enable the flag for the frontend. This avoids the frontend calling a new API endpoint that does not yet exist. This is the 'expand-contract' or 'parallel change' pattern."
+    },
+    {
+        "id": "ff-risk-001",
+        "type": "single-choice",
+        "category": "feature-flags",
+        "difficulty": "hard",
+        "tags": ["feature-flags", "risks", "cascading"],
+        "question": "A feature flag service is unreachable at startup. What is the recommended default behavior for the application?",
+        "options": [
+            "Crash the application to prevent undefined behavior",
+            "Enable all flags to maximize feature availability",
+            "Fall back to pre-defined default values (typically 'off' for release flags) to ensure safe degradation",
+            "Block all user requests until the flag service recovers"
+        ],
+        "correct": 2,
+        "explanation": "Flag SDKs should cache the last known flag state and use safe defaults (usually 'off') when the flag service is unreachable. This is the principle of fail-safe defaults — the application continues to work in a known-good state rather than crashing or enabling potentially unstable features."
+    },
+    {
+        "id": "ff-targeting-002",
+        "type": "single-choice",
+        "category": "feature-flags",
+        "difficulty": "hard",
+        "tags": ["feature-flags", "targeting", "sticky"],
+        "question": "Why is 'sticky targeting' important in feature flags?",
+        "options": [
+            "It ensures the same user always receives the same flag variant across sessions and devices",
+            "It prevents users from manually toggling flags in the browser console",
+            "It makes flag changes propagate instantly without cache invalidation",
+            "It pins the flag evaluation to the server that first handled the user's request"
+        ],
+        "correct": 0,
+        "explanation": "Sticky targeting ensures assignment consistency — a user who sees variant A today also sees variant A tomorrow and on a different device. Without stickiness, users could see different experiences across sessions, corrupting A/B test results and creating confusing user experiences."
+    },
+    {
+        "id": "ff-types-003",
+        "type": "multi-choice",
+        "category": "feature-flags",
+        "difficulty": "easy",
+        "tags": ["feature-flags", "flag-types"],
+        "question": "Which of the following are recognized types of feature flags?",
+        "options": [
+            "Release toggle",
+            "Experiment toggle",
+            "Ops toggle",
+            "Build toggle",
+            "Permission toggle"
+        ],
+        "correct": [0, 1, 2, 4],
+        "explanation": "Pete Hodgson's canonical taxonomy defines four flag types: Release (short-lived, hide incomplete work), Experiment (A/B testing), Ops (operational kill switches), and Permission (entitlement-based access). 'Build toggle' is not a recognized category."
+    },
+    {
+        "id": "ff-risks-001",
+        "type": "multi-choice",
+        "category": "feature-flags",
+        "difficulty": "medium",
+        "tags": ["feature-flags", "risks"],
+        "question": "Which of the following are genuine risks associated with overusing feature flags?",
+        "options": [
+            "Combinatorial explosion of code paths making testing impractical",
+            "Performance overhead from evaluating too many flags on each request",
+            "Increased deployment frequency causing more downtime",
+            "Stale flags that represent dead code confusing future developers",
+            "Security risk if sensitive flag configurations are exposed client-side"
+        ],
+        "correct": [0, 1, 3, 4],
+        "explanation": "Real flag risks: combinatorial path explosion (N flags = 2^N paths), performance overhead at scale, stale flags creating confusion, and client-side flag leakage exposing unreleased features. Feature flags do not inherently increase deployment frequency or downtime — that is usually a positive effect."
+    },
+    {
+        "id": "ff-testing-002",
+        "type": "multi-choice",
+        "category": "feature-flags",
+        "difficulty": "medium",
+        "tags": ["feature-flags", "testing"],
+        "question": "Which of the following testing strategies are appropriate for code that uses feature flags?",
+        "options": [
+            "Test both enabled and disabled variants of each flag",
+            "Use dependency injection or mocking to control flag state in tests",
+            "Skip integration tests for flagged code until the flag is at 100%",
+            "Use feature flag overrides in E2E tests to test specific variants",
+            "Remove flag checks before running the test suite to simplify setup"
+        ],
+        "correct": [0, 1, 3],
+        "explanation": "Best practices: always test both flag variants, mock the flag SDK to control state in unit tests, and use flag overrides in E2E tests (most platforms support override headers or query params). Skipping integration tests or removing flag checks are dangerous shortcuts that hide real bugs."
+    },
+    {
+        "id": "ff-evaluation-002",
+        "type": "multi-choice",
+        "category": "feature-flags",
+        "difficulty": "medium",
+        "tags": ["feature-flags", "evaluation", "performance"],
+        "question": "Which of the following are valid optimizations for feature flag evaluation performance?",
+        "options": [
+            "Caching evaluated flag state in memory for the duration of a request",
+            "Re-evaluating every flag on every render cycle",
+            "Using a local cache (SDK streaming) to avoid HTTP requests on each evaluation",
+            "Bootstrapping initial flag state from the server to avoid a loading flash",
+            "Evaluating all flags eagerly at app startup and never updating them"
+        ],
+        "correct": [0, 2, 3],
+        "explanation": "Performance optimizations: cache flag state per-request to avoid repeated SDK calls, use SDK streaming/SSE for near-real-time updates without polling, and bootstrap initial flag state server-side to eliminate loading states. Re-evaluating on every render is wasteful; never updating is only acceptable if flags are static."
+    },
+    {
+        "id": "ff-lifecycle-002",
+        "type": "multi-choice",
+        "category": "feature-flags",
+        "difficulty": "hard",
+        "tags": ["feature-flags", "lifecycle", "best-practices"],
+        "question": "Which of the following practices form a healthy feature flag lifecycle management process?",
+        "options": [
+            "Assign an owner and expiry date to every flag at creation time",
+            "Create all flags as permanent to maximize reuse",
+            "Track flag usage metrics to identify flags that are never evaluated",
+            "Run automated checks in CI to detect flags past their expiry date",
+            "Keep all flag configurations in a separate Git repository from the application code"
+        ],
+        "correct": [0, 2, 3],
+        "explanation": "Healthy flag lifecycle management includes: assigning owners and expiry dates (accountability), tracking evaluation metrics to find dead flags, and automating stale flag detection in CI. Creating all flags as permanent and separating flag config into another repo are anti-patterns that increase debt and friction."
+    },
+    {
+        "id": "ff-ab-002",
+        "type": "multi-choice",
+        "category": "feature-flags",
+        "difficulty": "hard",
+        "tags": ["feature-flags", "A/B-testing", "statistical-validity"],
+        "question": "Which of the following can invalidate the results of an A/B test conducted with feature flags?",
+        "options": [
+            "Peeking at results before reaching the predetermined sample size",
+            "Users switching between variants due to non-sticky targeting",
+            "Running the test for longer than planned to get a larger sample",
+            "Novelty effect — users behave differently just because something is new",
+            "Testing on 100% of users from the start"
+        ],
+        "correct": [0, 1, 3],
+        "explanation": "A/B test validity threats: peeking (stopping early when you see significance inflates false positive rate), non-sticky targeting (users in both groups corrupt the sample), and novelty effect (short-term behavioral change not reflective of long-term usage). Running longer or at 100% are not validity threats in themselves."
+    },
+    {
+        "id": "ff-react-002",
+        "type": "multi-choice",
+        "category": "feature-flags",
+        "difficulty": "medium",
+        "tags": ["feature-flags", "React", "patterns"],
+        "question": "Which React patterns are commonly used to implement feature flag access in a component tree?",
+        "options": [
+            "Custom hook: useFeatureFlag('flag-key')",
+            "Context provider that distributes flag state to the tree",
+            "HOC: withFeatureFlag('flag-key')(Component)",
+            "Direct import of the flag SDK in every component",
+            "Render prop component: <Flag name='flag-key' render={({ enabled }) => ...} />"
+        ],
+        "correct": [0, 1, 2, 4],
+        "explanation": "All four abstraction patterns (hook, context provider, HOC, render prop) are used for feature flags in React. Each centralizes the flag key in one place and allows easy mocking. Direct imports of the SDK in every component make testing and cleanup harder."
+    },
+    {
+        "id": "ff-react-bug-001",
+        "type": "bug-finding",
+        "category": "feature-flags",
+        "difficulty": "medium",
+        "tags": ["feature-flags", "React", "conditional-rendering"],
+        "question": "This feature-flagged component has a bug. What is it?",
+        "code": "function NewDashboard() {\n  const flags = useFlags();\n\n  if (flags['new-dashboard']) {\n    return <Dashboard v2 />;\n  }\n\n  return <Dashboard />;\n}\n\n// Usage:\n<NewDashboard />",
+        "correct": "The flag is re-evaluated inside the render function on every render; if useFlags() triggers a re-render (e.g., streaming updates), the component may flash between variants",
+        "referenceAnswer": "Memoize the flag evaluation or use a stable selector: const isEnabled = useMemo(() => flags['new-dashboard'], [flags]); or rely on the SDK's built-in memoization. Also ensure the flag key 'new-dashboard' is extracted to a constant to prevent typos.",
+        "explanation": "Reading flags in render is correct, but the flag key should be a constant (not a magic string) and the component should avoid unnecessary re-renders from flag streaming. Most importantly, ensure the component handles the loading state before flags are resolved to prevent flickering."
+    },
+    {
+        "id": "ff-async-bug-001",
+        "type": "bug-finding",
+        "category": "feature-flags",
+        "difficulty": "medium",
+        "tags": ["feature-flags", "async", "race-condition"],
+        "question": "This flag initialization code has a race condition. Identify it.",
+        "code": "async function initApp() {\n  renderApp(); // renders before flags are loaded\n  await flagClient.initialize();\n  const flags = flagClient.getAllFlags();\n  applyFlags(flags);\n}",
+        "correct": "renderApp() is called before flagClient.initialize() completes, so the initial render uses no flag state and causes a flash of the unflagged experience",
+        "referenceAnswer": "Await initialization before rendering: await flagClient.initialize(); const flags = flagClient.getAllFlags(); applyFlags(flags); renderApp();. Or bootstrap flags server-side so they are available synchronously on first render.",
+        "explanation": "Rendering before flags are resolved causes a Flash of Unstyled Content (FOUC) for flags — users briefly see the control experience before the treatment is applied. Always initialize and resolve flags before the first render, or show a skeleton/loading state."
+    },
+    {
+        "id": "ff-cleanup-bug-001",
+        "type": "bug-finding",
+        "category": "feature-flags",
+        "difficulty": "hard",
+        "tags": ["feature-flags", "cleanup", "dead-code"],
+        "question": "A developer 'cleaned up' a feature flag but left a bug. Find it.",
+        "code": "// Before cleanup:\nfunction getPrice(item: Item) {\n  if (flags.isEnabled('new-pricing')) {\n    return item.price * 0.9;\n  }\n  return item.price;\n}\n\n// After 'cleanup' (flag removed, new pricing is default):\nfunction getPrice(item: Item) {\n  if (true) {\n    return item.price * 0.9;\n  }\n  return item.price;\n}",
+        "correct": "The developer replaced the flag with `if (true)` instead of removing the conditional entirely, leaving dead unreachable code",
+        "referenceAnswer": "Correct cleanup: function getPrice(item: Item) { return item.price * 0.9; }. The entire if/else should be removed and only the active code path retained. Replacing with `if (true)` is incomplete cleanup that still adds cognitive overhead.",
+        "explanation": "Proper flag cleanup means removing the conditional and keeping only the code path that should be permanent. Using `if (true)` is a common lazy cleanup anti-pattern — it leaves dead code, confuses readers, and misses the entire point of cleanup."
+    },
+    {
+        "id": "ff-react-003",
+        "type": "code-completion",
+        "category": "feature-flags",
+        "difficulty": "easy",
+        "tags": ["feature-flags", "React", "conditional-rendering"],
+        "question": "Complete the FeatureFlag component that conditionally renders children based on a flag:",
+        "code": "interface FeatureFlagProps {\n  name: string;\n  children: React.ReactNode;\n  fallback?: React.ReactNode;\n}\n\nfunction FeatureFlag({ name, children, fallback = null }: FeatureFlagProps) {\n  const isEnabled = useFlag(___);\n  return ___  ? <>{children}</> : <>{___}</>;\n}",
+        "blanks": ["name", "isEnabled", "fallback"],
+        "referenceAnswer": "useFlag(name) evaluates the flag by key; render children when enabled, fallback otherwise.",
+        "lang": "typescript",
+        "explanation": "A FeatureFlag component encapsulates flag logic in one place. It receives the flag name as a prop, evaluates it via a hook, and renders children or a fallback. This prevents the flag key from being scattered as magic strings across the codebase."
+    },
+    {
+        "id": "ff-hook-001",
+        "type": "code-completion",
+        "category": "feature-flags",
+        "difficulty": "medium",
+        "tags": ["feature-flags", "React", "custom-hook"],
+        "question": "Complete the useFeatureFlag hook that reads from a flags context:",
+        "code": "const FlagsContext = React.createContext<Record<string, boolean>>({});\n\nexport function useFeatureFlag(key: ___): boolean {\n  const flags = useContext(___);\n  return flags[___] ?? false;\n}\n\nexport function FlagsProvider({\n  flags,\n  children,\n}: {\n  flags: Record<string, boolean>;\n  children: React.ReactNode;\n}) {\n  return (\n    <FlagsContext.___ value={flags}>{children}</FlagsContext.___>\n  );\n}",
+        "blanks": ["string", "FlagsContext", "key", "Provider", "Provider"],
+        "referenceAnswer": "key is string; useContext(FlagsContext) retrieves flags; flags[key] ?? false provides a safe default; FlagsContext.Provider wraps children.",
+        "lang": "typescript",
+        "explanation": "A custom useFeatureFlag hook wraps context access and provides a safe default (false) when a flag is not found. The FlagsProvider injects the flag map from the SDK into the React tree, making flags available without prop drilling."
+    },
+    {
+        "id": "ff-gradual-001",
+        "type": "code-completion",
+        "category": "feature-flags",
+        "difficulty": "medium",
+        "tags": ["feature-flags", "gradual-rollout", "hashing"],
+        "question": "Complete this simple deterministic percentage-based flag evaluator:",
+        "code": "function isInRollout(userId: string, flagKey: string, percentage: number): boolean {\n  const hash = simpleHash(`${___}-${___}`);\n  return (hash % ___) < percentage;\n}\n\n// simpleHash returns a number 0..Number.MAX_SAFE_INTEGER",
+        "blanks": ["userId", "flagKey", "100"],
+        "referenceAnswer": "Hash the combination of userId and flagKey; take modulo 100; compare to the rollout percentage.",
+        "lang": "typescript",
+        "explanation": "Deterministic rollout hashes the user ID combined with the flag key (to avoid all flags activating for the same users) and maps to 0-99. Users below the percentage threshold see the flag enabled. The same inputs always produce the same output, ensuring sticky assignment."
+    },
+    {
+        "id": "ff-openfeature-002",
+        "type": "code-completion",
+        "category": "feature-flags",
+        "difficulty": "hard",
+        "tags": ["OpenFeature", "standards", "React"],
+        "question": "Complete the OpenFeature-style flag evaluation using a provider:",
+        "code": "import { OpenFeature } from '@openfeature/web-sdk';\n\n// Setup (once at app init)\nOpenFeature.___(new MyFlagProvider());\n\n// In a component:\nfunction PricingPanel() {\n  const client = OpenFeature.___('app');\n  const showNewPricing = client.___(  \n    'new-pricing',\n    ___ // default value\n  );\n  return showNewPricing ? <NewPricing /> : <OldPricing />;\n}",
+        "blanks": ["setProvider", "getClient", "getBooleanValue", "false"],
+        "referenceAnswer": "OpenFeature.setProvider() registers the provider; getClient() retrieves a named client; getBooleanValue('flag-key', false) evaluates the flag with a safe default.",
+        "lang": "typescript",
+        "explanation": "OpenFeature's API: setProvider registers the backend; getClient() returns a named evaluation client; getBooleanValue(key, default) evaluates a boolean flag synchronously with a fallback. This API works identically regardless of which provider (LaunchDarkly, Unleash, etc.) is registered."
+    },
+    {
+        "id": "ff-mock-001",
+        "type": "code-completion",
+        "category": "feature-flags",
+        "difficulty": "hard",
+        "tags": ["feature-flags", "testing", "mocking"],
+        "question": "Complete the Vitest mock setup for testing a component that uses useFeatureFlag:",
+        "code": "import { vi, describe, it, expect } from 'vitest';\nimport { render, screen } from '@testing-library/react';\n\nvi.___(___('@/hooks/useFeatureFlag'), () => ({\n  useFeatureFlag: vi.fn(),\n}));\n\nconst { useFeatureFlag } = await import('@/hooks/useFeatureFlag');\n\ndescribe('PricingPanel', () => {\n  it('shows new pricing when flag is enabled', () => {\n    vi.mocked(useFeatureFlag).___(true);\n    render(<PricingPanel />);\n    expect(screen.getByText('New Pricing')).___();\n  });\n});",
+        "blanks": ["mock", "'@/hooks/useFeatureFlag'", "mockReturnValue", "toBeInTheDocument"],
+        "referenceAnswer": "vi.mock() mocks the module; vi.mocked(useFeatureFlag).mockReturnValue(true) controls the return; toBeInTheDocument() asserts the element is present.",
+        "lang": "typescript",
+        "explanation": "Testing flagged components requires mocking the flag hook to control which variant is tested. vi.mock() replaces the module; vi.mocked().mockReturnValue() sets the return value for each test case. Always test both the enabled and disabled path for complete coverage."
+    },
+    {
+        "id": "ff-provider-001",
+        "type": "code-completion",
+        "category": "feature-flags",
+        "difficulty": "hard",
+        "tags": ["feature-flags", "React", "bootstrap"],
+        "question": "Complete this server-bootstrapped flag provider that avoids a loading state:",
+        "code": "// Server renders: <script>window.__FLAGS__ = { 'new-ui': true }</script>\n\nfunction FlagsProvider({ children }: { children: React.ReactNode }) {\n  const [flags] = useState<Record<string, boolean>>(\n    () => (window as any).___ ?? {}\n  );\n\n  return (\n    <FlagsContext.___ value={___}>\n      {children}\n    </FlagsContext.___>\n  );\n}",
+        "blanks": ["__FLAGS__", "Provider", "flags", "Provider"],
+        "referenceAnswer": "Read window.__FLAGS__ in the useState initializer (lazy init, runs once); provide via FlagsContext.Provider.",
+        "lang": "typescript",
+        "explanation": "Bootstrapping flags from a server-injected window variable eliminates the loading state — flags are available synchronously on the first render. The lazy useState initializer (function form) reads window.__FLAGS__ once at mount, preventing stale closure issues on updates."
+    },
+    {
+        "id": "ff-types-004",
+        "type": "single-choice",
+        "category": "feature-flags",
+        "difficulty": "medium",
+        "tags": ["feature-flags", "ops-flags"],
+        "question": "An ops (operational) feature flag is typically long-lived. What is its primary use case?",
+        "options": [
+            "Hiding an incomplete feature during development",
+            "Running a controlled A/B experiment",
+            "Providing a kill switch for system behavior that may need to be disabled under load or incident",
+            "Restricting access to premium features"
+        ],
+        "correct": 2,
+        "explanation": "Ops flags are permanent or long-lived toggles for system-level behaviors: circuit breakers, fallback modes, third-party service disabling, or algorithmic toggles (e.g., switch recommendation engine). They are managed by operations teams to react to production conditions without a deployment."
+    },
+    {
+        "id": "ff-multivariate-001",
+        "type": "single-choice",
+        "category": "feature-flags",
+        "difficulty": "medium",
+        "tags": ["feature-flags", "multivariate", "A/B/n"],
+        "question": "What is a multivariate feature flag?",
+        "options": [
+            "A flag that can only be true or false",
+            "A flag with more than two variants (e.g., control, treatment-A, treatment-B) for testing multiple variations simultaneously",
+            "A flag that applies to multiple countries at once",
+            "A flag that requires multiple conditions to be true before enabling"
+        ],
+        "correct": 1,
+        "explanation": "A multivariate (A/B/n) flag supports more than two variants, allowing teams to test multiple variations simultaneously (e.g., three different checkout flows). This is more efficient than running sequential A/B tests but requires a larger sample size to achieve statistical significance per variant."
+    },
+    {
+        "id": "ff-context-001",
+        "type": "single-choice",
+        "category": "feature-flags",
+        "difficulty": "hard",
+        "tags": ["feature-flags", "evaluation-context"],
+        "question": "In the OpenFeature standard, what is an 'evaluation context'?",
+        "options": [
+            "The programming language used to evaluate the flag",
+            "The set of attributes (user ID, region, plan, etc.) passed to the flag provider at evaluation time to determine targeting",
+            "The environment (dev/staging/prod) where the flag is evaluated",
+            "The default value returned when the flag service is unavailable"
+        ],
+        "correct": 1,
+        "explanation": "An evaluation context is the set of contextual attributes provided to the flag provider for targeting rule evaluation: user ID, email, region, plan type, custom attributes, etc. Richer context enables more precise targeting without coupling the application to a specific flag provider."
+    },
+    {
+        "id": "ff-naming-001",
+        "type": "single-choice",
+        "category": "feature-flags",
+        "difficulty": "easy",
+        "tags": ["feature-flags", "naming"],
+        "question": "Which feature flag name follows best practices?",
+        "options": [
+            "flag1",
+            "new-feature",
+            "checkout-v2-enable-express-payment",
+            "FEATURE_FLAG_FOR_THE_NEW_CHECKOUT_FLOW_THAT_WAS_REQUESTED_BY_PRODUCT"
+        ],
+        "correct": 2,
+        "explanation": "Good flag names are: descriptive (what feature), scoped (which area), and action-oriented. 'checkout-v2-enable-express-payment' identifies the product area (checkout), iteration (v2), and the exact capability (express payment). Vague names (flag1, new-feature) and extremely long names both reduce maintainability."
+    },
+    {
+        "id": "ff-types-005",
+        "type": "multi-choice",
+        "category": "feature-flags",
+        "difficulty": "hard",
+        "tags": ["feature-flags", "flag-types", "characteristics"],
+        "question": "Which characteristics apply to experiment flags (experiment toggles)?",
+        "options": [
+            "They are short-lived — removed after the experiment concludes",
+            "They require sticky user assignment to ensure valid statistical results",
+            "They are used as emergency kill switches",
+            "They may have multiple variants for A/B/n testing",
+            "They are typically managed by product/data teams, not just engineering"
+        ],
+        "correct": [0, 1, 3, 4],
+        "explanation": "Experiment flags: short-lived (removed after conclusion), require sticky targeting for statistical validity, support multiple variants, and are often managed by product/data teams who design the experiment. Kill switches are ops flags, not experiment flags."
+    },
+    {
+        "id": "ff-sdk-001",
+        "type": "multi-choice",
+        "category": "feature-flags",
+        "difficulty": "medium",
+        "tags": ["feature-flags", "SDK", "streaming"],
+        "question": "Which of the following are features typically provided by a feature flag SDK?",
+        "options": [
+            "Real-time flag updates via streaming (SSE or WebSocket)",
+            "Local caching of flag state to avoid latency on every evaluation",
+            "Automatic A/B test statistical analysis",
+            "Safe default values when the flag service is unreachable",
+            "Flag evaluation history and audit log"
+        ],
+        "correct": [0, 1, 3],
+        "explanation": "Core SDK features: streaming updates (near-real-time flag changes), local caching (no HTTP per evaluation), and safe defaults for resilience. Statistical analysis is a platform-level feature (GrowthBook, LaunchDarkly Experimentation), not a base SDK concern. Audit logs are also platform-level, not SDK-level."
+    },
+    {
+        "id": "ff-architecture-001",
+        "type": "multi-choice",
+        "category": "feature-flags",
+        "difficulty": "hard",
+        "tags": ["feature-flags", "architecture", "edge"],
+        "question": "Which of the following are valid architectural patterns for delivering feature flags to a React application?",
+        "options": [
+            "Client-side SDK: evaluate flags in the browser using a streamed flag ruleset",
+            "Server-side rendering: evaluate flags on the server and hydrate the page with pre-resolved values",
+            "Edge evaluation: evaluate flags at CDN edge workers before serving the HTML",
+            "Compile-time flags: remove dead code at build time using tree shaking",
+            "Database-per-flag: store each flag in a separate database table"
+        ],
+        "correct": [0, 1, 2, 3],
+        "explanation": "Valid patterns: client-side (browser evaluates via SDK), server-side (SSR resolves flags before HTML), edge (CDN worker evaluates before request reaches origin), and compile-time (environment-based dead code elimination, not true runtime flags but valid for static toggles). Database-per-flag is not a recognized architecture pattern."
+    },
+    {
+        "id": "ff-targeting-bug-001",
+        "type": "bug-finding",
+        "category": "feature-flags",
+        "difficulty": "hard",
+        "tags": ["feature-flags", "targeting", "determinism"],
+        "question": "This rollout implementation will cause users to get different experiences on every page refresh. Find the bug.",
+        "code": "function isInRollout(percentage: number): boolean {\n  const random = Math.random() * 100;\n  return random < percentage;\n}",
+        "correct": "Math.random() is non-deterministic — a user may be in the rollout on one request and out on the next, causing inconsistent experiences and corrupting A/B test data",
+        "referenceAnswer": "Use a deterministic hash of a stable user identifier: function isInRollout(userId: string, flagKey: string, percentage: number) { const hash = stableHash(userId + flagKey) % 100; return hash < percentage; }. The same user always gets the same assignment.",
+        "explanation": "Percentage rollouts must use deterministic assignment based on a stable user identifier. Math.random() assigns users randomly on every evaluation, breaking the guarantee that users stay in their assigned variant — this invalidates any experiment metrics and creates a flickering user experience."
+    },
+    {
+        "id": "ff-stale-002",
+        "type": "code-completion",
+        "category": "feature-flags",
+        "difficulty": "medium",
+        "tags": ["feature-flags", "cleanup", "code"],
+        "question": "Complete the clean removal of this feature flag. The flag 'use-new-checkout' is now at 100% and permanent:",
+        "code": "// Before:\nfunction CheckoutPage() {\n  const isNewCheckout = useFeatureFlag('use-new-checkout');\n  if (___) {\n    return <NewCheckout />;\n  }\n  return <OldCheckout />;\n}\n\n// After cleanup (flag removed permanently):\nfunction CheckoutPage() {\n  return ___;\n}",
+        "blanks": ["isNewCheckout", "<NewCheckout />"],
+        "referenceAnswer": "The condition was `if (isNewCheckout)`; after cleanup, return only `<NewCheckout />` — the entire flag check and OldCheckout are removed.",
+        "lang": "typescript",
+        "explanation": "Flag cleanup means removing: the flag evaluation call, the conditional branching, and the dead code path (OldCheckout). The result is a simpler component with one code path. This is the correct end-state — not replacing the condition with `if (true)`."
+    },
+    {
+        "id": "ff-ownership-001",
+        "type": "single-choice",
+        "category": "feature-flags",
+        "difficulty": "medium",
+        "tags": ["feature-flags", "lifecycle", "ownership"],
+        "question": "What information should be recorded when a feature flag is created to ensure it is properly managed?",
+        "options": [
+            "Only the flag key and default value",
+            "Owner (team/person), purpose, flag type, creation date, and expected expiry date",
+            "The full source code of every component the flag affects",
+            "A list of all users who have seen the flag in each variant"
+        ],
+        "correct": 1,
+        "explanation": "Good flag metadata: owner (who is responsible for cleanup), purpose (why it exists), type (release/experiment/ops/permission), creation date, and expiry date. This information enables automated stale flag detection, ownership accountability, and cleanup prioritization. Without it, flags become orphaned technical debt."
+    }
+]

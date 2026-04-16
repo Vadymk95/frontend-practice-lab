@@ -1,0 +1,690 @@
+[
+    {
+        "id": "build-vite-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "easy",
+        "tags": ["vite", "dev-server", "hmr"],
+        "question": "What is the key reason Vite's development server starts so fast compared to webpack-dev-server?",
+        "options": [
+            "Vite uses Rust-based compilation for all files",
+            "Vite skips bundling in development — it serves files as native ES modules, letting the browser handle module resolution",
+            "Vite uses HTTP/3 for module serving",
+            "Vite pre-compiles all files to WebAssembly at startup"
+        ],
+        "correct": 1,
+        "explanation": "Vite exploits native ES modules in modern browsers. In development, it serves source files directly without bundling them. Only files actually requested by the browser are transformed. This makes startup instant regardless of project size, unlike webpack which must bundle everything first."
+    },
+    {
+        "id": "build-webpack-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "easy",
+        "tags": ["webpack", "entry", "output", "loaders"],
+        "question": "What is the purpose of 'loaders' in webpack?",
+        "options": [
+            "To split the bundle into multiple output chunks",
+            "To transform files of non-JavaScript types (CSS, TypeScript, images) into modules webpack can process",
+            "To minify and compress the final bundle",
+            "To inject environment variables into the bundle at build time"
+        ],
+        "correct": 1,
+        "explanation": "Webpack only understands JavaScript and JSON natively. Loaders transform other file types into valid JavaScript modules. Examples: `ts-loader` (TypeScript → JS), `css-loader` (CSS → JS module), `babel-loader` (modern JS → compatible JS). Loaders are configured in the `module.rules` array."
+    },
+    {
+        "id": "build-babel-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "easy",
+        "tags": ["babel", "transpiling", "presets"],
+        "question": "What is the difference between a Babel preset and a Babel plugin?",
+        "options": [
+            "Presets are used in development; plugins are used in production",
+            "A preset is a pre-configured collection of plugins; a plugin transforms one specific syntax feature",
+            "Plugins are faster than presets; presets do additional optimization",
+            "Presets only handle TypeScript; plugins handle everything else"
+        ],
+        "correct": 1,
+        "explanation": "A Babel plugin transforms one specific syntax feature (e.g., `@babel/plugin-transform-arrow-functions`). A preset is a shareable config that bundles multiple plugins (e.g., `@babel/preset-env` bundles all ES2015+ transforms). Presets run in reverse order; plugins run in forward order, before presets."
+    },
+    {
+        "id": "build-semver-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "easy",
+        "tags": ["semver", "npm", "versioning"],
+        "question": "In semantic versioning (semver), what does the caret (^) prefix mean in `\"react\": \"^18.2.0\"`?",
+        "options": [
+            "Only the exact version 18.2.0 is acceptable",
+            "Any version compatible with 18.2.0: >=18.2.0 <19.0.0 (same major, any minor/patch)",
+            "Any version greater than 18.2.0 including major updates",
+            "The minimum version is 18.2.0 but versions over 18.9.9 are excluded"
+        ],
+        "correct": 1,
+        "explanation": "The caret (^) allows updates that don't change the leftmost non-zero digit. For `^18.2.0`: any >=18.2.0 <19.0.0. The tilde (~) only allows patch updates: `~18.2.0` means >=18.2.0 <18.3.0. For versions below 1.0.0, behavior differs."
+    },
+    {
+        "id": "build-esm-cjs-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "easy",
+        "tags": ["esm", "commonjs", "modules"],
+        "question": "What is a key behavioral difference between ES Modules (ESM) and CommonJS?",
+        "options": [
+            "CommonJS supports top-level await; ESM does not",
+            "ESM imports are statically analyzed at parse time; CommonJS require() is dynamic and runs at execution time",
+            "ESM can only be used in browsers; CommonJS is Node.js-only",
+            "CommonJS exports are immutable; ESM exports are mutable references"
+        ],
+        "correct": 1,
+        "explanation": "ESM `import` statements are hoisted and resolved statically before code runs, enabling tree shaking and circular dependency analysis. CJS `require()` executes at runtime and can be conditional or dynamic. Interestingly, ESM exports ARE live bindings (mutations visible to importers), while CJS exports a snapshot."
+    },
+    {
+        "id": "build-sourcemap-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "easy",
+        "tags": ["source-maps", "debugging", "bundler"],
+        "question": "What is the purpose of a source map?",
+        "options": [
+            "To map CSS class names to their original component files",
+            "To map minified/bundled code back to the original source, enabling meaningful stack traces and debugging",
+            "To document which npm packages are included in the bundle",
+            "To list all entry points and their corresponding output files"
+        ],
+        "correct": 1,
+        "explanation": "Source maps (.map files) contain a mapping from bundled/minified code positions back to original source positions. DevTools use them to display original TypeScript/JSX in stack traces and breakpoints despite the browser executing the compiled output."
+    },
+    {
+        "id": "build-envvars-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "easy",
+        "tags": ["environment-variables", "vite", "webpack"],
+        "question": "In Vite, how are environment variables exposed to client-side code?",
+        "options": [
+            "All variables from .env files are automatically available via process.env",
+            "Only variables prefixed with VITE_ are exposed via import.meta.env",
+            "Variables must be explicitly imported from a virtual module",
+            "All Node.js environment variables are available at runtime via window.__env"
+        ],
+        "correct": 1,
+        "explanation": "Vite reads .env files but only exposes variables prefixed with `VITE_` to the client via `import.meta.env.VITE_MY_VAR`. This prefix requirement prevents accidentally leaking server-side secrets (like database credentials) to the browser bundle."
+    },
+    {
+        "id": "build-peerdeps-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "easy",
+        "tags": ["peer-dependencies", "npm", "packages"],
+        "question": "What are `peerDependencies` in package.json?",
+        "options": [
+            "Dependencies shared between sibling packages in a monorepo",
+            "Dependencies that the consuming application must provide — the package expects them to be installed by the user, not automatically",
+            "Development dependencies that are excluded from production builds",
+            "Dependencies installed in a parent directory and shared with child packages"
+        ],
+        "correct": 1,
+        "explanation": "peerDependencies declare that a package works with a specific version of a host package that the consumer must install. For example, a React component library declares `react` as a peer dep — it won't install its own React copy, relying on the consumer's React instead. This prevents duplicate React instances."
+    },
+    {
+        "id": "build-pnpm-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "easy",
+        "tags": ["pnpm", "npm", "yarn", "package-manager"],
+        "question": "What is the key storage innovation that makes pnpm disk-efficient?",
+        "options": [
+            "pnpm compresses packages using zstd before storing them",
+            "pnpm uses a content-addressable store with hard links — packages are stored once globally and hard-linked into node_modules",
+            "pnpm stores all packages in a shared RAM disk",
+            "pnpm deduplicates packages at the JavaScript source level using AST comparison"
+        ],
+        "correct": 1,
+        "explanation": "pnpm maintains a single global content-addressable store (~/.pnpm-store). When you install a package, it's stored once and hard-linked (or reflinked on supported filesystems) into each project's node_modules. This means 10 projects using React 18.2.0 share one copy on disk."
+    },
+    {
+        "id": "build-packagejson-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "easy",
+        "tags": ["package.json", "exports", "module", "main"],
+        "question": "In package.json, what does the `exports` field do that the older `main` field cannot?",
+        "options": [
+            "It specifies which files to include when the package is published to npm",
+            "It defines conditional exports for different environments (ESM vs CJS vs browser vs Node) and can restrict which internal paths are importable",
+            "It maps TypeScript type declarations to their corresponding JavaScript files",
+            "It lists the entry points for all scripts defined in the scripts field"
+        ],
+        "correct": 1,
+        "explanation": "The `exports` field (package.json v9+) enables: conditional exports (different files for require vs import, browser vs Node), subpath exports (controlling which internal paths consumers can import), and encapsulation (deep imports not listed in exports are blocked). `main` only specifies a single CJS entry point."
+    },
+    {
+        "id": "build-rollup-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "easy",
+        "tags": ["rollup", "bundler", "esm"],
+        "question": "Why is Rollup preferred over webpack for building JavaScript libraries?",
+        "options": [
+            "Rollup has better HMR support for library development",
+            "Rollup produces cleaner, smaller bundles for libraries because it outputs pure ESM with excellent tree shaking and no runtime overhead",
+            "Rollup is written in Rust and is therefore faster than webpack",
+            "Rollup automatically handles TypeScript without any plugins"
+        ],
+        "correct": 1,
+        "explanation": "Rollup generates clean ESM output without webpack's module runtime wrapper. For libraries, this means: better tree shaking for consumers, no internal module registry overhead, and smaller bundles. Webpack's runtime is more suited to complex application bundles with dynamic imports and HMR."
+    },
+    {
+        "id": "build-esbuild-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "easy",
+        "tags": ["esbuild", "speed", "go"],
+        "question": "What makes ESBuild significantly faster than Babel or webpack?",
+        "options": [
+            "ESBuild uses browser-native ES module parsing APIs",
+            "ESBuild is written in Go, uses parallel processing, and avoids JavaScript's GC overhead",
+            "ESBuild skips type checking, sourcemaps, and minification by default",
+            "ESBuild only processes entry points, not transitive dependencies"
+        ],
+        "correct": 1,
+        "explanation": "ESBuild is written in Go (natively compiled, no JIT warmup), processes files in parallel threads, uses Go's efficient memory management without GC pauses, and uses a single-pass parsing approach. Benchmarks show it is 10-100x faster than Babel or TypeScript's tsc for transpilation."
+    },
+    {
+        "id": "build-lockfile-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "easy",
+        "tags": ["lockfile", "npm", "reproducibility"],
+        "question": "What is the purpose of a lockfile (package-lock.json / yarn.lock / pnpm-lock.yaml)?",
+        "options": [
+            "To prevent other developers from installing packages until you unlock it",
+            "To record the exact resolved versions and integrity hashes of all installed packages for reproducible installs",
+            "To cache downloaded packages locally to avoid re-downloading them",
+            "To list packages that are forbidden from being updated"
+        ],
+        "correct": 1,
+        "explanation": "Lockfiles record the exact version (including transitive deps) and integrity hash of every installed package. This ensures `npm ci` installs the exact same dependency tree on any machine or CI server, regardless of semver ranges in package.json."
+    },
+    {
+        "id": "build-postcss-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "easy",
+        "tags": ["postcss", "css", "autoprefixer"],
+        "question": "What role does PostCSS play in a typical frontend build pipeline?",
+        "options": [
+            "It converts CSS to JavaScript objects at build time",
+            "It transforms CSS using plugins — common uses include autoprefixing, future syntax support, and minification",
+            "It is a CSS preprocessor like Sass that adds variables and nesting",
+            "It validates CSS against the W3C spec and reports errors"
+        ],
+        "correct": 1,
+        "explanation": "PostCSS is a CSS transformation tool with a plugin ecosystem. It parses CSS to an AST and applies plugins. Common plugins: Autoprefixer (adds vendor prefixes), postcss-preset-env (future CSS syntax), cssnano (minification). It's not a preprocessor — it processes standard or custom CSS syntax."
+    },
+    {
+        "id": "build-turborepo-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "easy",
+        "tags": ["turborepo", "monorepo", "caching"],
+        "question": "What is the primary performance feature of Turborepo in a monorepo?",
+        "options": [
+            "It splits TypeScript compilation across multiple CPU cores automatically",
+            "It caches task outputs (build artifacts, test results) locally and remotely — identical inputs produce cached outputs instantly",
+            "It automatically upgrades all packages to their latest versions",
+            "It replaces npm/yarn/pnpm with a faster custom package manager"
+        ],
+        "correct": 1,
+        "explanation": "Turborepo's key feature is incremental computation with caching. It hashes task inputs (source files, env vars, deps) and stores outputs. If inputs haven't changed, the cached result is replayed instantly. Remote caching (Vercel or self-hosted) shares this cache across the team and CI."
+    },
+    {
+        "id": "build-hmr-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "medium",
+        "tags": ["hmr", "vite", "development"],
+        "question": "How does Vite's Hot Module Replacement (HMR) differ from webpack's HMR?",
+        "options": [
+            "Vite HMR requires a full page reload; webpack HMR can update modules in-place",
+            "Vite HMR invalidates only the changed module and its direct importers using native ESM; webpack HMR requires re-bundling affected chunks",
+            "Vite HMR works via WebSockets; webpack HMR uses long-polling",
+            "Vite HMR is synchronous; webpack HMR uses async module replacement"
+        ],
+        "correct": 1,
+        "explanation": "In Vite, when a module changes, only that module and its importers in the ESM graph are invalidated and re-fetched. Because there's no bundling, updates are surgical and fast. Webpack HMR must re-bundle affected chunks (though webpack 5 improved this). Both use WebSockets for the dev server communication channel."
+    },
+    {
+        "id": "build-tsc-babel-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "medium",
+        "tags": ["typescript", "babel", "tsc", "compilation"],
+        "question": "What is the key difference between using `tsc` and `@babel/preset-typescript` to handle TypeScript?",
+        "options": [
+            "Babel is faster but does not perform type checking — it strips types without checking them",
+            "tsc outputs ES5; Babel outputs ES2015+ only",
+            "Babel requires tsconfig.json; tsc does not support tsconfig",
+            "tsc supports all Babel plugins natively; they are functionally identical"
+        ],
+        "correct": 0,
+        "explanation": "`@babel/preset-typescript` strips TypeScript type annotations without performing type checking — it's just a transform. This is fast but silent about type errors. `tsc` performs full type checking and will fail on type errors. Typical setup: Babel for fast build transforms, tsc for type checking in CI (`tsc --noEmit`)."
+    },
+    {
+        "id": "build-cssmodules-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "medium",
+        "tags": ["css-modules", "scoping", "bundler"],
+        "question": "What problem do CSS Modules solve and how?",
+        "options": [
+            "They optimize CSS by removing unused rules during build",
+            "They scope CSS class names by locally hashing them, preventing global naming collisions",
+            "They enable importing CSS variables into JavaScript files",
+            "They split CSS into separate files per component for lazy loading"
+        ],
+        "correct": 1,
+        "explanation": "CSS Modules transform class names to unique hashed identifiers (e.g., `.button` → `.button_a1b2c3`) at build time. JavaScript imports the mapping object, and the generated CSS uses the hashed names. This provides component-scoped styles without runtime overhead or CSS-in-JS."
+    },
+    {
+        "id": "build-presetenv-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "medium",
+        "tags": ["babel", "preset-env", "browserslist", "polyfills"],
+        "question": "What does `@babel/preset-env` with `useBuiltIns: 'usage'` do?",
+        "options": [
+            "Transforms all modern JavaScript syntax to ES5 unconditionally",
+            "Automatically injects polyfills (via core-js) for only the features actually used in the code, targeting the configured browserslist",
+            "Bundles all polyfills into a single vendor chunk regardless of usage",
+            "Enables all experimental JavaScript proposals by default"
+        ],
+        "correct": 1,
+        "explanation": "`useBuiltIns: 'usage'` analyzes your code and adds polyfill imports only for features you actually use and that aren't supported by your browserslist targets. This produces the minimal polyfill set. `'entry'` imports all polyfills for the targets; `false` (default) doesn't add any polyfills."
+    },
+    {
+        "id": "build-modfed-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "medium",
+        "tags": ["module-federation", "webpack", "microfrontends"],
+        "question": "What problem does webpack's Module Federation solve?",
+        "options": [
+            "It enables multiple webpack configs to build a single bundle in parallel",
+            "It allows multiple independent webpack builds to share code and components at runtime, enabling microfrontend architectures",
+            "It federates TypeScript type definitions across packages in a monorepo",
+            "It automatically splits vendor code into separately cacheable chunks"
+        ],
+        "correct": 1,
+        "explanation": "Module Federation (webpack 5) enables multiple independently deployed applications to dynamically load code from each other at runtime. Application A can expose components that Application B loads without pre-bundling them together. This powers microfrontend architectures where teams deploy independently."
+    },
+    {
+        "id": "build-treeshake-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "medium",
+        "tags": ["tree-shaking", "side-effects", "package.json"],
+        "question": "What does `\"sideEffects\": false` in a library's package.json tell the bundler?",
+        "options": [
+            "The library has no runtime errors and is safe to use in production",
+            "All modules in the package are side-effect-free — unused exports can be safely removed without executing any module-level code",
+            "The library does not polyfill any globals",
+            "The library is compatible with all bundlers without special configuration"
+        ],
+        "correct": 1,
+        "explanation": "`sideEffects: false` tells webpack/Rollup that importing any module from this package doesn't cause side effects (no globals modified, no polyfills injected, no CSS injected). This allows tree shaking to skip the entire module if none of its exports are used. Use `sideEffects: ['*.css', '*.scss']` to whitelist files with real side effects."
+    },
+    {
+        "id": "build-nx-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "medium",
+        "tags": ["nx", "monorepo", "affected"],
+        "question": "What does the `nx affected` command do in an Nx monorepo?",
+        "options": [
+            "It rebuilds all projects to ensure consistent output hashes",
+            "It runs tasks (build, test, lint) only for projects affected by the current git changes and their dependents",
+            "It lists all packages that have peer dependency conflicts",
+            "It monitors the repository for file changes and triggers incremental builds"
+        ],
+        "correct": 1,
+        "explanation": "Nx's `affected` command computes a project graph and determines which projects are impacted by changed files since the base commit. Running `nx affected:test` only tests projects that could be broken by the change, dramatically reducing CI time in large monorepos."
+    },
+    {
+        "id": "build-rolldown-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "hard",
+        "tags": ["rolldown", "vite", "rust", "bundler"],
+        "question": "What is Rolldown and why is it significant for the Vite ecosystem?",
+        "options": [
+            "Rolldown is a webpack-compatible plugin system for Vite",
+            "Rolldown is a Rust-based Rollup-compatible bundler that will replace Rollup and ESBuild in Vite's production build, providing a unified fast bundler",
+            "Rolldown is a CSS bundling tool integrated into Vite 5",
+            "Rolldown is a module federation plugin for Vite applications"
+        ],
+        "correct": 1,
+        "explanation": "Rolldown is a Rust-based bundler with Rollup-compatible plugin API. Vite currently uses ESBuild for development transforms and Rollup for production bundling — two different tools with different plugin APIs. Rolldown aims to unify this with a single Rust-based tool that's much faster than Rollup while maintaining plugin compatibility."
+    },
+    {
+        "id": "build-oxc-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "hard",
+        "tags": ["oxc", "rust", "parser", "vite"],
+        "question": "What is OXC and what role does it play in the modern JavaScript toolchain?",
+        "options": [
+            "OXC is a React rendering engine for server-side rendering",
+            "OXC is a Rust-based JavaScript/TypeScript toolchain providing an ultra-fast parser, linter, transformer, and minifier used by tools like Rolldown and Vite",
+            "OXC is an OCaml-based compiler that provides formal verification for TypeScript",
+            "OXC is a GraphQL code generator for TypeScript"
+        ],
+        "correct": 1,
+        "explanation": "OXC (Oxidation Compiler) is a collection of high-performance JavaScript tools written in Rust: parser, AST, resolver, linter (oxlint), transformer, minifier, and more. It powers Rolldown's internals and is increasingly used by Vite 8+ as its JavaScript transform layer, achieving 50-100x faster transforms than Babel."
+    },
+    {
+        "id": "build-treeshake-adv-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "hard",
+        "tags": ["tree-shaking", "dead-code", "pure-annotations"],
+        "question": "What does the `/*#__PURE__*/` annotation tell bundlers, and when would you use it?",
+        "options": [
+            "It marks a function as having no TypeScript types, allowing the bundler to skip type validation",
+            "It tells the bundler that a function call has no side effects and can be removed if its return value is unused, enabling tree shaking of wrapper functions",
+            "It signals that the file contains only pure CSS with no JavaScript side effects",
+            "It prevents the bundler from code-splitting this module"
+        ],
+        "correct": 1,
+        "explanation": "`/*#__PURE__*/` is a bundler annotation (webpack, Rollup, esbuild) that marks a function CALL as side-effect-free. Without it, `const x = createComponent(Button)` looks like it might have side effects. With `/*#__PURE__*/ createComponent(Button)`, if `x` is unused, the entire call is eliminated. Library authors add this to HOC calls and class expressions."
+    },
+    {
+        "id": "build-multi-vite-001",
+        "type": "multi-choice",
+        "category": "build-tools",
+        "difficulty": "easy",
+        "tags": ["vite", "config", "plugins"],
+        "question": "Which of the following are valid Vite configuration options in `vite.config.ts`?",
+        "options": [
+            "plugins",
+            "resolve.alias",
+            "build.rollupOptions",
+            "loaders (for file type transforms)",
+            "server.port"
+        ],
+        "correct": [0, 1, 2, 4],
+        "explanation": "`plugins`, `resolve.alias`, `build.rollupOptions`, and `server.port` are all valid Vite config options. `loaders` is a webpack concept — Vite uses plugins for file transforms (e.g., `@vitejs/plugin-react` for JSX). Vite's `build.rollupOptions` passes config directly to Rollup."
+    },
+    {
+        "id": "build-multi-pkgjson-001",
+        "type": "multi-choice",
+        "category": "build-tools",
+        "difficulty": "easy",
+        "tags": ["package.json", "exports", "module", "main"],
+        "question": "Which package.json fields can specify entry points for a published npm package?",
+        "options": ["main", "module", "exports", "browser", "types"],
+        "correct": [0, 1, 2, 3],
+        "explanation": "`main` (CJS entry), `module` (ESM entry for bundlers), `exports` (conditional exports map), and `browser` (browser-specific entry) all specify entry points. `types` specifies TypeScript declaration file location, not a runtime entry point."
+    },
+    {
+        "id": "build-multi-treeshake-001",
+        "type": "multi-choice",
+        "category": "build-tools",
+        "difficulty": "medium",
+        "tags": ["tree-shaking", "requirements", "esm"],
+        "question": "Which conditions are required for tree shaking to work effectively?",
+        "options": [
+            "The code must use ES module static imports/exports",
+            "The package must have `\"sideEffects\": false` or a list of side-effect files in package.json",
+            "The code must be written in TypeScript",
+            "The bundler must be configured in production mode",
+            "All imports must use named exports, not default exports"
+        ],
+        "correct": [0, 1, 3],
+        "explanation": "Effective tree shaking requires: static ESM imports (needed for static analysis), `sideEffects` flag (so unused modules can be skipped safely), and production mode (development builds often skip tree shaking for speed). TypeScript is not required. Default exports are tree-shakeable — the issue is when you import the whole namespace."
+    },
+    {
+        "id": "build-multi-webpack-001",
+        "type": "multi-choice",
+        "category": "build-tools",
+        "difficulty": "medium",
+        "tags": ["webpack", "code-splitting", "dynamic-import"],
+        "question": "Which webpack techniques enable code splitting?",
+        "options": [
+            "Multiple entry points in the `entry` config",
+            "Dynamic `import()` expressions in source code",
+            "The `SplitChunksPlugin` (optimization.splitChunks)",
+            "Using `require()` instead of `import`",
+            "Configuring `output.chunkFilename`"
+        ],
+        "correct": [0, 1, 2],
+        "explanation": "Webpack supports: multiple entry points (creates separate initial chunks), dynamic import() (creates async chunks on demand), and SplitChunksPlugin (automatically splits vendor/common code into shared chunks). require() is synchronous and doesn't create async chunks. output.chunkFilename names chunks but doesn't split them."
+    },
+    {
+        "id": "build-multi-npm-001",
+        "type": "multi-choice",
+        "category": "build-tools",
+        "difficulty": "medium",
+        "tags": ["npm", "yarn", "pnpm", "differences"],
+        "question": "Which statements accurately describe differences between npm, yarn, and pnpm?",
+        "options": [
+            "pnpm uses a global content-addressable store with hard links, saving disk space",
+            "yarn workspaces and pnpm workspaces both support monorepo setups natively",
+            "npm install always produces a flat node_modules structure",
+            "pnpm creates a strict, non-flat node_modules where packages cannot access undeclared dependencies",
+            "yarn Berry (v2+) supports Plug'n'Play (PnP) which eliminates node_modules entirely"
+        ],
+        "correct": [0, 1, 3, 4],
+        "explanation": "All four are correct: pnpm's content store saves disk space; yarn and pnpm both have workspace support; pnpm's strict node_modules prevents phantom dependency issues; yarn Berry PnP replaces node_modules with a zip-based store. npm uses a flat node_modules (hoisting) which can expose phantom dependencies."
+    },
+    {
+        "id": "build-multi-babel-001",
+        "type": "multi-choice",
+        "category": "build-tools",
+        "difficulty": "hard",
+        "tags": ["babel", "plugins", "presets", "order"],
+        "question": "Which statements about Babel plugin/preset execution order are correct?",
+        "options": [
+            "Plugins run before presets",
+            "Plugins run in the order they are listed (first to last)",
+            "Presets run in the order they are listed (first to last)",
+            "Presets run in reverse order (last to first)",
+            "Plugin order only matters for transforms that produce conflicting AST changes"
+        ],
+        "correct": [0, 1, 3],
+        "explanation": "Babel's execution order: plugins run first (in listed order, first to last), then presets run in reverse order (last listed runs first). This reverse preset order is counterintuitive but intentional — it allows presets to be listed from newest to oldest (e.g., [preset-env, stage-2]) and have the newest syntax stripped first."
+    },
+    {
+        "id": "build-multi-monorepo-001",
+        "type": "multi-choice",
+        "category": "build-tools",
+        "difficulty": "hard",
+        "tags": ["monorepo", "turborepo", "nx", "workspace"],
+        "question": "Which features are common to both Turborepo and Nx?",
+        "options": [
+            "Remote caching of task outputs",
+            "Affected-only task execution based on git changes",
+            "Built-in code generation scaffolding",
+            "Dependency graph visualization",
+            "Plugin system for framework integrations"
+        ],
+        "correct": [0, 1, 3],
+        "explanation": "Both Turborepo and Nx support: remote caching, affected-based task execution, and dependency graph visualization. Nx has a more extensive plugin ecosystem and built-in code generators. Turborepo is simpler and focused on task orchestration. Nx has richer framework integrations out of the box."
+    },
+    {
+        "id": "build-bug-vite-001",
+        "type": "bug-finding",
+        "category": "build-tools",
+        "difficulty": "easy",
+        "tags": ["vite", "env-vars", "configuration"],
+        "question": "Find the bug in this Vite environment variable usage:",
+        "code": "// .env\nAPI_URL=https://api.example.com\nVITE_APP_TITLE=My App\n\n// component.tsx\nconst apiUrl = process.env.API_URL;\nconst title = import.meta.env.VITE_APP_TITLE;\nconsole.log(apiUrl, title);",
+        "correct": "`process.env.API_URL` is undefined in Vite — only variables prefixed with VITE_ are exposed, and they must be accessed via `import.meta.env`, not `process.env`",
+        "referenceAnswer": "In Vite, only VITE_-prefixed variables are exposed to the browser. Access them via `import.meta.env.VITE_API_URL` not `process.env`. Rename API_URL to VITE_API_URL and access it as `import.meta.env.VITE_API_URL`. The VITE_APP_TITLE access is correct.",
+        "explanation": "Vite uses `import.meta.env` (not `process.env`) and only exposes variables with the `VITE_` prefix for security. `process.env` is Node.js — not available in browser bundles by default."
+    },
+    {
+        "id": "build-bug-babel-001",
+        "type": "bug-finding",
+        "category": "build-tools",
+        "difficulty": "medium",
+        "tags": ["babel", "preset-env", "modules", "esm"],
+        "question": "Find the bug in this Babel configuration that breaks tree shaking:",
+        "code": "// babel.config.json\n{\n  \"presets\": [\n    [\"@babel/preset-env\", {\n      \"targets\": \"> 0.25%, not dead\",\n      \"modules\": \"commonjs\"\n    }]\n  ]\n}",
+        "correct": "`\"modules\": \"commonjs\"` converts ES module imports to CommonJS require(), which disables tree shaking in bundlers that rely on static ESM analysis",
+        "referenceAnswer": "Set `\"modules\": false` to preserve ES module syntax for the bundler (webpack/Rollup/Vite). These bundlers handle module transformation themselves and need static import/export to tree shake. `commonjs` is only appropriate when the output will be run directly by Node.js without a bundler.",
+        "explanation": "Tree shaking requires static ESM imports. When Babel converts import/export to require/module.exports before the bundler sees the code, the bundler can no longer determine which exports are unused. Always use `modules: false` when Babel is part of a bundler pipeline."
+    },
+    {
+        "id": "build-bug-webpack-001",
+        "type": "bug-finding",
+        "category": "build-tools",
+        "difficulty": "medium",
+        "tags": ["webpack", "dynamic-import", "chunk-naming"],
+        "question": "Find the issue with this webpack dynamic import:",
+        "code": "async function loadPage(pageName) {\n  const module = await import(`./pages/${pageName}/index.js`);\n  return module.default;\n}",
+        "correct": "A fully dynamic template literal in import() (variable in the path) forces webpack to create chunks for ALL files matching the glob pattern `./pages/*/index.js`, bundling every possible page even if most are never loaded",
+        "referenceAnswer": "webpack cannot statically analyze a fully dynamic path. It creates a 'context module' including all matching files. If dynamic routing is needed, be more specific: `import(/* webpackChunkName: '[request]' */ `./pages/${pageName}`)` at minimum, or better, use explicit `switch`/map to enable specific chunk names and avoid over-bundling.",
+        "explanation": "webpack handles dynamic imports by analyzing the string template. A completely variable path forces it to include all possible matches as a context module. Restrict the dynamic portion as much as possible or use explicit static imports."
+    },
+    {
+        "id": "build-bug-postcss-001",
+        "type": "bug-finding",
+        "category": "build-tools",
+        "difficulty": "medium",
+        "tags": ["postcss", "autoprefixer", "browserslist"],
+        "question": "Find the bug in this PostCSS configuration:",
+        "code": "// postcss.config.js\nmodule.exports = {\n  plugins: [\n    require('cssnano'),\n    require('autoprefixer'),\n  ]\n};",
+        "correct": "cssnano runs before autoprefixer — cssnano may remove or merge declarations that autoprefixer needs to prefix, resulting in missing vendor prefixes",
+        "referenceAnswer": "Plugin order matters in PostCSS. autoprefixer should run BEFORE cssnano (minification). cssnano may optimize away properties that autoprefixer needs to transform. Correct order: `[require('autoprefixer'), require('cssnano')]`.",
+        "explanation": "PostCSS plugins run sequentially. Minification (cssnano) should always be the last step, after all transformations are complete. Running it before autoprefixer can strip declarations that need prefixing."
+    },
+    {
+        "id": "build-bug-circular-001",
+        "type": "bug-finding",
+        "category": "build-tools",
+        "difficulty": "hard",
+        "tags": ["circular-dependencies", "esm", "bundler"],
+        "question": "Identify the issue this code pattern causes at runtime:",
+        "code": "// a.js\nimport { valueB } from './b.js';\nexport const valueA = valueB + 1;\n\n// b.js\nimport { valueA } from './a.js';\nexport const valueB = valueA + 1;",
+        "correct": "Circular dependency causes one of the values to be `undefined` at initialization time — the module that is evaluated first reads an export from the other that hasn't been assigned yet",
+        "referenceAnswer": "Circular deps in ESM: when a.js is evaluated, it imports valueB from b.js. b.js imports valueA from a.js — but a.js hasn't finished evaluating, so valueA is undefined (its binding exists but isn't initialized). Result: valueB = undefined + 1 = NaN, then valueA = NaN + 1 = NaN. Refactor to break the cycle: extract shared values to a third module (c.js).",
+        "explanation": "ESM handles circular imports via live bindings — the import exists but may be uninitialized ('temporal dead zone' for `const`/`let`). This causes subtle NaN or undefined bugs at module initialization. Circular dependencies should be refactored away."
+    },
+    {
+        "id": "build-bug-peer-001",
+        "type": "bug-finding",
+        "category": "build-tools",
+        "difficulty": "hard",
+        "tags": ["peer-dependencies", "duplicate-react", "npm"],
+        "question": "Find the architectural bug in this library's package.json:",
+        "code": "// my-component-library/package.json\n{\n  \"name\": \"my-component-library\",\n  \"dependencies\": {\n    \"react\": \"^18.0.0\",\n    \"react-dom\": \"^18.0.0\"\n  },\n  \"peerDependencies\": {\n    \"react\": \"^18.0.0\"\n  }\n}",
+        "correct": "Listing react/react-dom in both `dependencies` AND `peerDependencies` will cause duplicate React instances — the library bundles its own React copy instead of using the consumer's",
+        "referenceAnswer": "Move `react` and `react-dom` from `dependencies` to `peerDependencies` only. Libraries should NOT include React as a regular dependency — consumers provide it. Having React in `dependencies` means npm may install a second React instance, breaking hooks (React hooks require a single React instance per app).",
+        "explanation": "React hooks use module-level singletons. Two React instances cause 'Invalid hook call' errors. Libraries must declare React as peerDependency only, not a regular dependency. The consumer's application is responsible for providing the React installation."
+    },
+    {
+        "id": "build-bug-tsconfig-001",
+        "type": "bug-finding",
+        "category": "build-tools",
+        "difficulty": "hard",
+        "tags": ["typescript", "tsconfig", "moduleResolution"],
+        "question": "Find the misconfiguration in this tsconfig.json for a Vite project:",
+        "code": "{\n  \"compilerOptions\": {\n    \"target\": \"ES2020\",\n    \"module\": \"CommonJS\",\n    \"moduleResolution\": \"node\",\n    \"strict\": true,\n    \"esModuleInterop\": true\n  }\n}",
+        "correct": "`\"module\": \"CommonJS\"` and `\"moduleResolution\": \"node\"` are wrong for a Vite project — Vite uses native ESM and requires `\"module\": \"ESNext\"` and `\"moduleResolution\": \"bundler\"` (or \"node16\"/\"nodenext\")",
+        "referenceAnswer": "For Vite + modern TypeScript: use `\"module\": \"ESNext\"`, `\"moduleResolution\": \"bundler\"` (TS 5.0+), and `\"isolatedModules\": true`. CommonJS module mode conflicts with Vite's ESM-first approach. `moduleResolution: bundler` correctly resolves package.json `exports` fields and ESM-specific paths.",
+        "explanation": "TypeScript's tsconfig `module` setting affects how TS emits module code. For Vite, tsc is only used for type checking (not emit), but wrong `moduleResolution` causes incorrect type resolution for ESM packages with `exports` fields. Always use `bundler` resolution mode in Vite projects."
+    },
+    {
+        "id": "build-cc-vite-001",
+        "type": "code-completion",
+        "category": "build-tools",
+        "difficulty": "easy",
+        "tags": ["vite", "config", "alias"],
+        "question": "Complete the Vite config with a path alias and React plugin:",
+        "code": "import { defineConfig } from 'vite';\nimport ___ from '@vitejs/plugin-react';\nimport { resolve } from 'path';\n\nexport default ___(() => ({\n  plugins: [___()],\n  resolve: {\n    ___: {\n      '@': resolve(__dirname, './src'),\n    },\n  },\n}));",
+        "blanks": ["react", "defineConfig", "react", "alias"],
+        "lang": "javascript",
+        "referenceAnswer": "Import the react plugin and use defineConfig for TypeScript autocomplete. plugins: [react()] adds JSX support and React Fast Refresh. resolve.alias maps '@' to the src directory for clean imports.",
+        "explanation": "defineConfig is a helper that provides TypeScript types for the config object. @vitejs/plugin-react adds Babel-based JSX transform and HMR. resolve.alias enables @/ path imports matching tsconfig paths."
+    },
+    {
+        "id": "build-cc-webpack-001",
+        "type": "code-completion",
+        "category": "build-tools",
+        "difficulty": "medium",
+        "tags": ["webpack", "config", "loaders"],
+        "question": "Complete this webpack config to handle TypeScript and CSS files:",
+        "code": "module.exports = {\n  entry: './src/index.ts',\n  ___: {\n    rules: [\n      {\n        test: /\\.tsx?$/,\n        use: '___',\n        exclude: /node_modules/,\n      },\n      {\n        test: /\\.css$/,\n        use: ['style-loader', '___'],\n      },\n    ],\n  },\n  resolve: {\n    extensions: ['.tsx', '.ts', '.js'],\n  },\n};",
+        "blanks": ["module", "ts-loader", "css-loader"],
+        "lang": "javascript",
+        "referenceAnswer": "module.rules contains the array of loader configurations. ts-loader transforms TypeScript files to JavaScript. css-loader resolves CSS imports; style-loader injects them into the DOM. The order matters: loaders run right-to-left, so css-loader runs before style-loader.",
+        "explanation": "webpack loaders in the `use` array run right-to-left. css-loader resolves @import and url() in CSS, producing a JS module. style-loader takes that module and injects a <style> tag into the DOM."
+    },
+    {
+        "id": "build-cc-rollup-001",
+        "type": "code-completion",
+        "category": "build-tools",
+        "difficulty": "medium",
+        "tags": ["rollup", "library", "esm", "cjs"],
+        "question": "Complete this Rollup config to build a library in both ESM and CJS formats:",
+        "code": "export default {\n  input: 'src/index.ts',\n  ___: [\n    {\n      file: 'dist/index.esm.js',\n      format: '___',\n    },\n    {\n      file: 'dist/index.cjs.js',\n      format: '___',\n    },\n  ],\n  external: ['react', 'react-dom'],\n};",
+        "blanks": ["output", "esm", "cjs"],
+        "lang": "javascript",
+        "referenceAnswer": "output is an array for multiple output formats. format: 'esm' produces ES module output with import/export. format: 'cjs' produces CommonJS with require/module.exports. external: ['react'] prevents React from being bundled (it's a peer dependency).",
+        "explanation": "Rollup's output array enables building multiple formats in one pass. Libraries should build both ESM (for bundlers/tree shaking) and CJS (for Node.js require). Always externalize peer dependencies to prevent duplicate instances."
+    },
+    {
+        "id": "build-cc-babel-001",
+        "type": "code-completion",
+        "category": "build-tools",
+        "difficulty": "medium",
+        "tags": ["babel", "config", "preset-env", "react"],
+        "question": "Complete the Babel config for a React TypeScript project with automatic JSX transform:",
+        "code": "module.exports = {\n  presets: [\n    ['@babel/preset-env', { ___ : false }],\n    ['@babel/preset-react', { runtime: '___' }],\n    '@babel/preset-typescript',\n  ],\n};",
+        "blanks": ["modules", "automatic"],
+        "lang": "javascript",
+        "referenceAnswer": "`modules: false` preserves ES module syntax for bundler tree shaking. `runtime: 'automatic'` enables the new JSX transform (React 17+) which doesn't require `import React from 'react'` in every file. Presets run in reverse: typescript first, then react, then env.",
+        "explanation": "modules: false is critical for tree shaking when using Babel with a bundler. runtime: 'automatic' uses the new JSX transform introduced in React 17 that auto-imports the JSX runtime, eliminating the need to import React in every file."
+    },
+    {
+        "id": "build-cc-tsconfig-001",
+        "type": "code-completion",
+        "category": "build-tools",
+        "difficulty": "hard",
+        "tags": ["typescript", "tsconfig", "paths", "moduleResolution"],
+        "question": "Complete the tsconfig.json for a Vite project with path aliases:",
+        "code": "{\n  \"compilerOptions\": {\n    \"target\": \"ES2020\",\n    \"___\": \"ESNext\",\n    \"moduleResolution\": \"___\",\n    \"strict\": true,\n    \"___\": true,\n    \"baseUrl\": \".\",\n    \"paths\": {\n      \"@/*\": [\"src/*\"]\n    }\n  }\n}",
+        "blanks": ["module", "bundler", "isolatedModules"],
+        "lang": "javascript",
+        "referenceAnswer": "`module: ESNext` preserves ESM syntax for Vite. `moduleResolution: bundler` (TS 5.0+) correctly resolves package.json exports fields. `isolatedModules: true` ensures each file can be transpiled independently (required for Babel/esbuild transforms that don't have full type context).",
+        "explanation": "isolatedModules: true catches patterns that break single-file transpilers (like esbuild used by Vite): type-only imports not marked with `import type`, const enums, and namespace re-exports. moduleResolution: bundler enables modern package.json exports field resolution."
+    },
+    {
+        "id": "build-cc-modfed-001",
+        "type": "code-completion",
+        "category": "build-tools",
+        "difficulty": "hard",
+        "tags": ["module-federation", "webpack", "microfrontends"],
+        "question": "Complete the webpack Module Federation config to expose a Button component:",
+        "code": "const { ModuleFederationPlugin } = require('webpack').container;\n\nmodule.exports = {\n  plugins: [\n    new ___({ \n      name: 'componentLib',\n      filename: '___',\n      exposes: {\n        './Button': './src/components/Button',\n      },\n      shared: {\n        react: { ___, requiredVersion: '^18.0.0' },\n      },\n    }),\n  ],\n};",
+        "blanks": ["ModuleFederationPlugin", "remoteEntry.js", "singleton: true"],
+        "lang": "javascript",
+        "referenceAnswer": "ModuleFederationPlugin enables sharing. `filename: 'remoteEntry.js'` is the manifest consumers will import. `exposes` maps public paths to source files. `singleton: true` in shared ensures only one React instance runs — critical for hooks compatibility.",
+        "explanation": "Module Federation's `shared: { react: { singleton: true } }` is essential for React apps — it ensures all federated modules use the same React instance, preventing 'invalid hook call' errors that occur with duplicate React."
+    },
+    {
+        "id": "build-cc-publicsuffix-001",
+        "type": "code-completion",
+        "category": "build-tools",
+        "difficulty": "hard",
+        "tags": ["package.json", "exports", "conditional-exports"],
+        "question": "Complete the package.json exports field for a library with ESM, CJS, and TypeScript support:",
+        "code": "{\n  \"name\": \"my-lib\",\n  \"exports\": {\n    \".\": {\n      \"___\": {\n        \"types\": \"./dist/index.d.ts\",\n        \"default\": \"./dist/index.esm.js\"\n      },\n      \"require\": {\n        \"types\": \"./dist/index.d.cts\",\n        \"___\": \"./dist/index.cjs.js\"\n      }\n    }\n  }\n}",
+        "blanks": ["import", "default"],
+        "lang": "javascript",
+        "referenceAnswer": "The `import` condition matches ESM consumers (import statement or bundlers). The `require` condition matches CJS consumers (require()). `types` in each condition provides TypeScript declarations for the corresponding format. `default` is the fallback within each condition.",
+        "explanation": "Conditional exports let bundlers and Node.js pick the correct format. `import` fires for ESM, `require` fires for CJS. Placing `types` inside each condition ensures TypeScript gets the right declaration file (.d.ts for ESM, .d.cts for CJS). The order of conditions matters — more specific conditions go first."
+    }
+]

@@ -77,9 +77,680 @@
         "difficulty": "easy",
         "tags": ["template-literals", "strings"],
         "question": "Complete the tagged template literal to return the string in uppercase:",
-        "code": "function upper(strings, ...values) {\n  return strings.reduce((acc, str, i) => {\n    return acc + (values[i - 1] ? values[i - 1].__BLANK__ : '') + str;\n  });\n}\nconst name = 'world';\nconsole.log(upper`hello ${name}`); // 'hello WORLD'",
+        "code": "function upper(strings, ...values) {\n  return strings.reduce((acc, str, i) => {\n    return acc + (values[i - 1] ? values[i - 1].___ : '') + str;\n  });\n}\nconst name = 'world';\nconsole.log(upper`hello ${name}`); // 'hello WORLD'",
         "blanks": ["toUpperCase()"],
         "referenceAnswer": "values[i - 1].toUpperCase() converts each interpolated value to uppercase before concatenating.",
         "explanation": "Tagged template literals receive the string parts and interpolated values separately. Calling .toUpperCase() on each value produces the uppercase output."
+    },
+    {
+        "id": "js-scope-001",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "easy",
+        "tags": ["scope", "var", "let", "const"],
+        "question": "What is the key difference between `var` and `let` in terms of scoping?",
+        "options": [
+            "`var` is block-scoped, `let` is function-scoped",
+            "`var` is function-scoped, `let` is block-scoped",
+            "Both are block-scoped",
+            "Both are function-scoped"
+        ],
+        "correct": 1,
+        "explanation": "`var` declarations are scoped to the nearest function (or global), while `let` (and `const`) are scoped to the nearest block `{}`. This means a `let` inside an if-statement is not accessible outside it."
+    },
+    {
+        "id": "js-scope-002",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "easy",
+        "tags": ["scope", "let", "temporal-dead-zone"],
+        "question": "What happens when you access a `let` variable before its declaration in the same block?",
+        "options": [
+            "Returns `undefined`",
+            "Returns `null`",
+            "Throws a ReferenceError (Temporal Dead Zone)",
+            "Returns the value from the outer scope"
+        ],
+        "correct": 2,
+        "explanation": "`let` and `const` exist in a Temporal Dead Zone (TDZ) from the start of the block until the declaration is reached. Accessing them before the declaration throws a ReferenceError."
+    },
+    {
+        "id": "js-coercion-001",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "easy",
+        "tags": ["coercion", "type-conversion"],
+        "question": "What does `1 + '2'` evaluate to in JavaScript?",
+        "options": ["3", "'12'", "NaN", "TypeError"],
+        "correct": 1,
+        "explanation": "When the `+` operator has a string operand, JavaScript coerces the number to a string and performs string concatenation. So `1 + '2'` becomes `'1' + '2'` = `'12'`."
+    },
+    {
+        "id": "js-equality-001",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "easy",
+        "tags": ["equality", "==", "==="],
+        "question": "What is the result of `null == undefined` in JavaScript?",
+        "options": ["false", "true", "TypeError", "ReferenceError"],
+        "correct": 1,
+        "explanation": "`null == undefined` is `true` because the abstract equality algorithm defines them as equal to each other. However, `null === undefined` is `false` because they are different types."
+    },
+    {
+        "id": "js-array-001",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "easy",
+        "tags": ["arrays", "filter"],
+        "question": "Which array method returns a new array containing only elements that pass a provided test?",
+        "options": ["`map()`", "`reduce()`", "`filter()`", "`find()`"],
+        "correct": 2,
+        "explanation": "`filter()` creates a new array with all elements that pass the test implemented by the provided callback function. `map()` transforms elements, `reduce()` accumulates, and `find()` returns the first match."
+    },
+    {
+        "id": "js-destructuring-001",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "easy",
+        "tags": ["destructuring", "objects"],
+        "question": "What is the value of `b` after: `const { a, b = 10 } = { a: 1 }`?",
+        "options": ["undefined", "null", "10", "ReferenceError"],
+        "correct": 2,
+        "explanation": "Object destructuring allows default values using `=`. When the property `b` is absent from the source object, the default value `10` is used instead."
+    },
+    {
+        "id": "js-json-001",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "easy",
+        "tags": ["json", "serialization"],
+        "question": "What does `JSON.stringify({ a: undefined, b: 1 })` return?",
+        "options": ["'{\"a\":undefined,\"b\":1}'", "'{\"b\":1}'", "'{}'", "TypeError"],
+        "correct": 1,
+        "explanation": "`JSON.stringify` silently omits properties with `undefined` values (as well as functions and symbols). Only `b: 1` survives serialization."
+    },
+    {
+        "id": "js-typeof-001",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "easy",
+        "tags": ["typeof", "type-checking"],
+        "question": "What does `typeof function(){}` return?",
+        "options": ["'object'", "'function'", "'callable'", "'undefined'"],
+        "correct": 1,
+        "explanation": "Functions are objects in JavaScript, but `typeof` has a special case: `typeof function(){}` returns `'function'`, not `'object'`. This is the only object subtype that `typeof` distinguishes."
+    },
+    {
+        "id": "js-prototype-001",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "easy",
+        "tags": ["prototypes", "inheritance"],
+        "question": "What does `Object.create(proto)` do?",
+        "options": [
+            "Creates a deep copy of `proto`",
+            "Creates a new object whose prototype is `proto`",
+            "Freezes `proto` to prevent mutations",
+            "Copies all own properties from `proto` to a new object"
+        ],
+        "correct": 1,
+        "explanation": "`Object.create(proto)` creates a brand new object and sets its internal `[[Prototype]]` to `proto`. This is the foundation of prototypal inheritance in JavaScript."
+    },
+    {
+        "id": "js-this-001",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "easy",
+        "tags": ["this", "arrow-functions"],
+        "question": "What is the value of `this` inside an arrow function?",
+        "options": [
+            "The global object (window/globalThis)",
+            "The object that calls the function",
+            "The value of `this` from the enclosing lexical scope",
+            "undefined"
+        ],
+        "correct": 2,
+        "explanation": "Arrow functions do not have their own `this` binding. They inherit `this` from the enclosing lexical (static) scope at the time they are defined."
+    },
+    {
+        "id": "js-date-001",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "easy",
+        "tags": ["Date", "time"],
+        "question": "What does `Date.now()` return?",
+        "options": [
+            "A Date object representing the current time",
+            "A string in ISO 8601 format",
+            "The number of milliseconds elapsed since January 1, 1970 00:00:00 UTC",
+            "The current Unix timestamp in seconds"
+        ],
+        "correct": 2,
+        "explanation": "`Date.now()` returns a Number representing the current time as milliseconds since the Unix epoch (January 1, 1970 UTC). It is faster than `new Date().getTime()` and commonly used for performance measurements."
+    },
+    {
+        "id": "js-hoisting-002",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["hoisting", "functions"],
+        "question": "What is the output of:\n```\nconsole.log(foo());\nfunction foo() { return 42; }\n```",
+        "options": ["undefined", "ReferenceError", "42", "TypeError"],
+        "correct": 2,
+        "explanation": "Function declarations are fully hoisted — both the declaration and the body. This means `foo` is available and callable before its source position in the file."
+    },
+    {
+        "id": "js-closure-002",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["closures", "loops", "var"],
+        "question": "What does this code log?\n```\nfor (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 0);\n}\n```",
+        "options": ["0, 1, 2", "0, 0, 0", "3, 3, 3", "undefined, undefined, undefined"],
+        "correct": 2,
+        "explanation": "Because `var` is function-scoped, all three closures share the same `i`. By the time the setTimeout callbacks execute, the loop has finished and `i` is 3. Using `let` instead would print 0, 1, 2."
+    },
+    {
+        "id": "js-coercion-002",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["coercion", "equality", "=="],
+        "question": "What is the result of `[] == false`?",
+        "options": ["false", "true", "TypeError", "ReferenceError"],
+        "correct": 1,
+        "explanation": "Abstract equality coerces both sides: `false` becomes `0`, `[]` converts to `''` (via ToPrimitive), then `''` converts to `0`. So `0 == 0` is `true`. This is why `===` is preferred."
+    },
+    {
+        "id": "js-async-001",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["async-await", "promises"],
+        "question": "What does an `async` function always return?",
+        "options": [
+            "The raw value returned by the function body",
+            "A Promise, regardless of what the function body returns",
+            "A Promise only if the function body uses `await`",
+            "undefined"
+        ],
+        "correct": 1,
+        "explanation": "An `async` function always returns a Promise. If the function returns a non-Promise value, it is automatically wrapped in `Promise.resolve()`. If it throws, the returned Promise rejects."
+    },
+    {
+        "id": "js-this-002",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["this", "bind", "call", "apply"],
+        "question": "What is the difference between `.call()` and `.apply()`?",
+        "options": [
+            "`.call()` passes arguments as an array, `.apply()` passes them individually",
+            "`.call()` passes arguments individually, `.apply()` passes them as an array",
+            "They are identical — both accept an array",
+            "`.call()` creates a bound copy, `.apply()` invokes immediately"
+        ],
+        "correct": 1,
+        "explanation": "`.call(thisArg, arg1, arg2)` accepts arguments individually. `.apply(thisArg, [arg1, arg2])` accepts arguments as an array. Both invoke the function immediately with the given `this`."
+    },
+    {
+        "id": "js-modules-001",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["modules", "esm", "cjs"],
+        "question": "Which statement is true about ES Modules (ESM) compared to CommonJS (CJS)?",
+        "options": [
+            "ESM uses `require()` and `module.exports`",
+            "ESM imports are dynamic by default",
+            "ESM imports are statically analyzed and produce live bindings",
+            "CJS supports top-level `await`"
+        ],
+        "correct": 2,
+        "explanation": "ESM imports are statically resolved at parse time (enabling tree-shaking) and export live bindings — changes to the exported variable are visible to importers. CJS uses dynamic `require()` and copies values."
+    },
+    {
+        "id": "js-generator-001",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["generators", "iterators"],
+        "question": "What does calling `.next()` on a generator return?",
+        "options": [
+            "The return value of the function",
+            "An object `{ value, done }` where `value` is the yielded value",
+            "A Promise that resolves to the yielded value",
+            "The generator function itself"
+        ],
+        "correct": 1,
+        "explanation": "Each call to `.next()` on a generator returns a `{ value, done }` object. `value` is what was `yield`ed, and `done` is `false` until the generator function returns, after which `done` is `true`."
+    },
+    {
+        "id": "js-array-002",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["arrays", "reduce"],
+        "question": "What does `[1, 2, 3].reduce((acc, x) => acc + x)` return?",
+        "options": ["[1, 3, 6]", "6", "undefined", "NaN"],
+        "correct": 1,
+        "explanation": "When no initial value is provided, `reduce()` uses the first element (`1`) as the accumulator and starts iterating from the second element. So: 1+2=3, then 3+3=6."
+    },
+    {
+        "id": "js-equality-002",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["equality", "NaN", "Number.isNaN"],
+        "question": "Which expression correctly checks if a value is exactly `NaN`?",
+        "options": [
+            "`value === NaN`",
+            "`value == NaN`",
+            "`Number.isNaN(value)`",
+            "`typeof value === 'NaN'`"
+        ],
+        "correct": 2,
+        "explanation": "`NaN` is the only JavaScript value not equal to itself (`NaN !== NaN`), so `===` cannot detect it. The global `isNaN()` coerces its argument first (unreliable). `Number.isNaN()` returns `true` only for the actual `NaN` value without coercion."
+    },
+    {
+        "id": "js-prototype-002",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "hard",
+        "tags": ["prototypes", "instanceof", "prototype-chain"],
+        "question": "What does `instanceof` actually check in JavaScript?",
+        "options": [
+            "Whether the object was created by a specific constructor call",
+            "Whether the constructor's `prototype` property exists anywhere in the object's prototype chain",
+            "Whether the object has the same type as the constructor",
+            "Whether the object has all methods of the constructor"
+        ],
+        "correct": 1,
+        "explanation": "`instanceof` traverses the object's prototype chain looking for the constructor's `prototype` property. It does not check how the object was created, only the prototype linkage."
+    },
+    {
+        "id": "js-proxy-001",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "hard",
+        "tags": ["Proxy", "Reflect", "meta-programming"],
+        "question": "What is the purpose of `Reflect.get(target, prop, receiver)` in a Proxy `get` trap?",
+        "options": [
+            "To bypass the Proxy and access the property directly",
+            "To properly forward the get operation respecting the original `this` binding and prototype chain",
+            "To check if a property exists on the target",
+            "To create a new Proxy on the accessed property"
+        ],
+        "correct": 1,
+        "explanation": "Using `Reflect.get` inside a Proxy trap correctly forwards the operation to the target with the right `receiver` (the `this` for getter functions), preserving prototype chain semantics. Using `target[prop]` can silently break getters."
+    },
+    {
+        "id": "js-scope-003",
+        "type": "multi-choice",
+        "category": "javascript",
+        "difficulty": "easy",
+        "tags": ["scope", "const", "let"],
+        "question": "Which of the following are true about `const`?",
+        "options": [
+            "`const` variables cannot be reassigned",
+            "`const` objects are deeply immutable",
+            "`const` is block-scoped",
+            "`const` variables are hoisted with `undefined`"
+        ],
+        "correct": [0, 2],
+        "explanation": "`const` prevents reassignment of the binding and is block-scoped like `let`. However, it does not make objects deeply immutable — the object's properties can still be mutated. `const` is hoisted but stays in the TDZ until the declaration."
+    },
+    {
+        "id": "js-coercion-003",
+        "type": "multi-choice",
+        "category": "javascript",
+        "difficulty": "easy",
+        "tags": ["coercion", "truthy-falsy"],
+        "question": "Which of the following values are falsy in JavaScript?",
+        "options": ["`0`", "`''` (empty string)", "`[]` (empty array)", "`null`"],
+        "correct": [0, 1, 3],
+        "explanation": "`0`, `''`, `null`, `undefined`, `NaN`, and `false` are the falsy values. An empty array `[]` is truthy — objects (including empty arrays and objects) are always truthy."
+    },
+    {
+        "id": "js-array-003",
+        "type": "multi-choice",
+        "category": "javascript",
+        "difficulty": "easy",
+        "tags": ["arrays", "mutation"],
+        "question": "Which array methods create a NEW array and do NOT mutate the original?",
+        "options": ["`.map()`", "`.sort()`", "`.filter()`", "`.splice()`"],
+        "correct": [0, 2],
+        "explanation": "`.map()` and `.filter()` always return a new array without modifying the original. `.sort()` sorts the array in-place and returns the same array reference. `.splice()` mutates the array and returns the removed elements."
+    },
+    {
+        "id": "js-promise-002",
+        "type": "multi-choice",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["promises", "Promise.all"],
+        "question": "Which statements about `Promise.all()` are correct?",
+        "options": [
+            "It rejects immediately if any input Promise rejects",
+            "It waits for all Promises to settle (fulfil or reject)",
+            "It resolves with an array of fulfilled values when all Promises fulfil",
+            "It resolves with the first fulfilled value"
+        ],
+        "correct": [0, 2],
+        "explanation": "`Promise.all()` resolves with an array of results when ALL promises fulfil, maintaining input order. If ANY promise rejects, `Promise.all()` immediately rejects. Use `Promise.allSettled()` to wait for all to settle regardless."
+    },
+    {
+        "id": "js-object-001",
+        "type": "multi-choice",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["objects", "Object.assign", "shallow-copy"],
+        "question": "Which statements are true about `Object.assign({}, a, b)`?",
+        "options": [
+            "It performs a shallow copy of own enumerable properties",
+            "It performs a deep clone of nested objects",
+            "Properties from `b` overwrite same-named properties from `a`",
+            "It modifies object `a` in place"
+        ],
+        "correct": [0, 2],
+        "explanation": "`Object.assign` copies own enumerable properties shallowly — nested objects are still shared by reference. Later sources (`b`) overwrite earlier ones (`a`) for duplicate keys. The first argument `{}` is the target that gets modified and returned."
+    },
+    {
+        "id": "js-modules-003",
+        "type": "multi-choice",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["modules", "esm", "cjs"],
+        "question": "Which of the following are differences between ES Modules and CommonJS?",
+        "options": [
+            "ESM supports top-level `await`, CJS does not",
+            "CJS `require()` is synchronous, ESM `import` evaluation is asynchronous",
+            "ESM exports are live bindings, CJS exports are copied values",
+            "CJS files can use `import` syntax without transformation"
+        ],
+        "correct": [0, 1, 2],
+        "explanation": "ESM supports top-level await; CJS does not. CJS `require()` blocks the thread synchronously, while ESM loading is asynchronous. ESM exports are live bindings; CJS copies the value at require time. CJS files cannot use `import` syntax natively."
+    },
+    {
+        "id": "js-weakref-001",
+        "type": "multi-choice",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["WeakMap", "WeakSet", "memory"],
+        "question": "Which characteristics are shared by both WeakMap and WeakSet?",
+        "options": [
+            "They hold weak references to their object entries",
+            "They are iterable (support for...of)",
+            "They have no `.size` property",
+            "Their entries can be garbage-collected when no other strong references exist"
+        ],
+        "correct": [0, 2, 3],
+        "explanation": "Both WeakMap and WeakSet hold weak object references and allow garbage collection of their entries. Neither exposes a `.size` property nor supports iteration — this would require strong references to enumerate entries, defeating their purpose."
+    },
+    {
+        "id": "js-error-002",
+        "type": "multi-choice",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["error-handling", "try-catch-finally"],
+        "question": "Which statements about the `finally` block are correct?",
+        "options": [
+            "`finally` always runs, even if `try` has a `return` statement",
+            "A `return` in `finally` overrides a `return` in `try`",
+            "`finally` only runs when an error is thrown",
+            "`finally` can suppress a thrown error by returning a value"
+        ],
+        "correct": [0, 1, 3],
+        "explanation": "`finally` always executes regardless of whether an exception was thrown or a `return` was hit. A `return` in `finally` takes precedence over one in `try`/`catch`. A `return` (or `throw`) in `finally` can also suppress a propagating exception — the finally return value replaces it."
+    },
+    {
+        "id": "js-generator-002",
+        "type": "multi-choice",
+        "category": "javascript",
+        "difficulty": "hard",
+        "tags": ["generators", "iterators"],
+        "question": "Which of the following are true about JavaScript generators?",
+        "options": [
+            "Generator functions are declared with `function*` syntax",
+            "A generator can `yield` multiple times, pausing execution each time",
+            "Calling a generator function immediately executes its body",
+            "Generators implement the iterator protocol"
+        ],
+        "correct": [0, 1, 3],
+        "explanation": "Generators use `function*` syntax, can yield multiple times pausing at each `yield`, and implement the iterator protocol (returning `{ value, done }` from `.next()`). Calling a generator function does NOT execute the body — it returns a generator object; execution starts on the first `.next()` call."
+    },
+    {
+        "id": "js-async-002",
+        "type": "multi-choice",
+        "category": "javascript",
+        "difficulty": "hard",
+        "tags": ["async-await", "error-handling"],
+        "question": "Which of the following correctly handle errors thrown inside an async function?",
+        "options": [
+            "Wrapping the `await` expression in try/catch",
+            "Chaining `.catch()` on the returned Promise from the async function",
+            "Using `.finally()` on the returned Promise to handle errors",
+            "Adding a second argument to the `await` expression"
+        ],
+        "correct": [0, 1],
+        "explanation": "Errors in async functions can be caught with try/catch around `await` calls, or by attaching `.catch()` to the Promise returned by the async function. `.finally()` does not catch errors — it runs after settle regardless. `await` has no second argument syntax."
+    },
+    {
+        "id": "js-event-loop-003",
+        "type": "multi-choice",
+        "category": "javascript",
+        "difficulty": "hard",
+        "tags": ["event-loop", "macrotasks", "tasks"],
+        "question": "Which of the following are macrotasks (tasks) in the JavaScript event loop?",
+        "options": [
+            "`setTimeout` callbacks",
+            "Promise `.then()` callbacks",
+            "`setInterval` callbacks",
+            "DOM event handler callbacks (click, etc.)"
+        ],
+        "correct": [0, 2, 3],
+        "explanation": "Macrotasks include setTimeout, setInterval, DOM event handlers, I/O callbacks, and MessageChannel. Promise `.then()` callbacks are microtasks, which are processed after each task before the next task begins."
+    },
+    {
+        "id": "js-proxy-002",
+        "type": "multi-choice",
+        "category": "javascript",
+        "difficulty": "hard",
+        "tags": ["Proxy", "Reflect", "traps"],
+        "question": "Which of the following are valid Proxy trap (handler) names?",
+        "options": ["`get`", "`set`", "`delete`", "`deleteProperty`"],
+        "correct": [0, 1, 3],
+        "explanation": "Valid Proxy traps include `get`, `set`, `deleteProperty`, `has`, `apply`, `construct`, etc. `delete` is not a trap name — the correct trap for the `delete` operator is `deleteProperty`."
+    },
+    {
+        "id": "js-bug-closure-001",
+        "type": "bug-finding",
+        "category": "javascript",
+        "difficulty": "easy",
+        "tags": ["closures", "loops", "var", "bugs"],
+        "question": "The `adders` array should contain functions that add 0, 1, and 2 respectively. Find the bug:",
+        "code": "const adders = [];\nfor (var i = 0; i < 3; i++) {\n  adders.push(function(x) { return x + i; });\n}\nconsole.log(adders[0](10)); // Expected: 10, Actual: 13",
+        "correct": "`var i` is shared across all closures — by the time any adder is called, `i` is 3",
+        "referenceAnswer": "Replace `var i` with `let i`. Block-scoped `let` creates a new binding per iteration, so each closure captures a distinct value (0, 1, 2).",
+        "explanation": "`var` is function-scoped, meaning all three closures reference the same `i` variable. After the loop, `i === 3`, so every adder computes `x + 3`. Using `let` creates a fresh binding per iteration."
+    },
+    {
+        "id": "js-bug-async-001",
+        "type": "bug-finding",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["async-await", "promises", "bugs"],
+        "question": "Find the bug: this function should fetch all users in parallel.",
+        "code": "async function fetchAllUsers(ids) {\n  const results = [];\n  for (const id of ids) {\n    const user = await fetchUser(id);\n    results.push(user);\n  }\n  return results;\n}",
+        "correct": "Requests are sequential, not parallel — each `await` waits before starting the next fetch",
+        "referenceAnswer": "const results = await Promise.all(ids.map(id => fetchUser(id)));",
+        "explanation": "Awaiting inside a for-of loop creates a sequential chain of async operations. To run them in parallel, map all ids to Promises first and then await `Promise.all()`, which fires all requests simultaneously."
+    },
+    {
+        "id": "js-bug-this-001",
+        "type": "bug-finding",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["this", "event-listeners", "bugs"],
+        "question": "Find the bug: `this.count` should increment when the button is clicked.",
+        "code": "class Counter {\n  constructor() {\n    this.count = 0;\n    document.querySelector('button')\n      .addEventListener('click', function() {\n        this.count++;\n        console.log(this.count);\n      });\n  }\n}",
+        "correct": "`this` inside the regular function callback refers to the button element, not the Counter instance",
+        "referenceAnswer": "Replace the regular function with an arrow function: .addEventListener('click', () => { this.count++; })",
+        "explanation": "Regular function callbacks passed to event listeners have their `this` set to the DOM element that fired the event. Arrow functions do not rebind `this`, so they capture the `this` from the enclosing scope (the Counter instance)."
+    },
+    {
+        "id": "js-bug-coercion-001",
+        "type": "bug-finding",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["coercion", "typeof", "NaN", "bugs"],
+        "question": "Find the bug in this validation function:",
+        "code": "function isValidNumber(value) {\n  return typeof value === 'number';\n}",
+        "correct": "`NaN` passes the check because `typeof NaN === 'number'`",
+        "referenceAnswer": "return typeof value === 'number' && !Number.isNaN(value);",
+        "explanation": "`NaN` (Not a Number) has type `'number'` in JavaScript. A number validation that returns `true` for `NaN` is likely a bug. Always use `Number.isNaN()` to explicitly exclude it."
+    },
+    {
+        "id": "js-bug-prototype-001",
+        "type": "bug-finding",
+        "category": "javascript",
+        "difficulty": "hard",
+        "tags": ["prototypes", "shared-state", "bugs"],
+        "question": "Find the bug: each User instance should have its own `roles` array.",
+        "code": "function User(name) {\n  this.name = name;\n}\nUser.prototype.roles = [];\n\nconst alice = new User('Alice');\nconst bob = new User('Bob');\nalice.roles.push('admin');\nconsole.log(bob.roles); // Expected: [], Actual: ['admin']",
+        "correct": "`roles` is defined on the prototype and shared across all instances — mutating it via one instance affects all",
+        "referenceAnswer": "Move the array initialisation into the constructor: this.roles = []; — each constructor call creates a new array on the instance.",
+        "explanation": "Properties defined on the prototype are shared by all instances via the prototype chain. Arrays (and other objects) are reference types, so mutating the shared array affects every instance. Instance-specific data must be initialised in the constructor."
+    },
+    {
+        "id": "js-bug-promise-001",
+        "type": "bug-finding",
+        "category": "javascript",
+        "difficulty": "hard",
+        "tags": ["promises", "error-handling", "bugs"],
+        "question": "Find the bug in this promise chain:",
+        "code": "fetch('/api/data')\n  .then(res => {\n    if (!res.ok) throw new Error('HTTP error');\n    return res.json();\n  })\n  .then(data => processData(data))\n  .catch(err => {\n    console.error(err);\n    return null;\n  })\n  .then(result => saveToDatabase(result));",
+        "correct": "`saveToDatabase(null)` is called even on errors because `.catch()` returns a fulfilled Promise",
+        "referenceAnswer": "Re-throw inside .catch(): .catch(err => { console.error(err); throw err; }) — this keeps the chain rejected and prevents saveToDatabase from running.",
+        "explanation": "`.catch()` returns a fulfilled Promise with its return value. Any `.then()` chained after a `.catch()` runs when the error was handled. To stop the chain on error, re-throw inside `.catch()`."
+    },
+    {
+        "id": "js-bug-scope-001",
+        "type": "bug-finding",
+        "category": "javascript",
+        "difficulty": "hard",
+        "tags": ["scope", "var", "hoisting", "bugs"],
+        "question": "Find the bug: the function should throw for unknown types, but instead silently returns `undefined`.",
+        "code": "function getMultiplier(type) {\n  if (type === 'a') {\n    var result = 1;\n  } else if (type === 'b') {\n    var result = 2;\n  } else if (type === 'c') {\n    var result = 3;\n  }\n  return result;\n}",
+        "correct": "For unknown types, `result` is never assigned and `var` hoisting causes it to silently return `undefined`",
+        "referenceAnswer": "Add an else clause: else { throw new Error('Unknown type: ' + type); }",
+        "explanation": "`var result` is hoisted to the top of the function as `undefined`. When no branch matches, the value is never assigned and `undefined` is returned silently. This is a classic silent failure enabled by `var` hoisting and the missing else/default branch."
+    },
+    {
+        "id": "js-bug-equality-001",
+        "type": "bug-finding",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["equality", "==", "===", "bugs"],
+        "question": "Find the bug: the function should only accept the number zero, not any falsy value.",
+        "code": "function isZero(value) {\n  return !value;\n}",
+        "correct": "`!value` returns true for all falsy values (null, undefined, '', false, NaN), not just 0",
+        "referenceAnswer": "return value === 0; — strict equality checks both value and type, accepting only the number zero.",
+        "explanation": "The `!` operator coerces the value to boolean. All falsy values (`null`, `undefined`, `''`, `false`, `NaN`, `0`) pass the check. Using `=== 0` (strict equality) correctly identifies only the number zero."
+    },
+    {
+        "id": "js-completion-destructuring-001",
+        "type": "code-completion",
+        "category": "javascript",
+        "difficulty": "easy",
+        "tags": ["destructuring", "arrays"],
+        "question": "Complete the array destructuring to swap two variables without a temporary variable:",
+        "code": "let a = 1;\nlet b = 2;\n[___, ___] = [b, a];\nconsole.log(a, b); // 2 1",
+        "blanks": ["a", "b"],
+        "referenceAnswer": "[a, b] = [b, a]; — Creates a temporary array [2, 1] on the right, then destructures it into a and b.",
+        "explanation": "Array destructuring assignment allows elegant variable swapping. The right-hand side `[b, a]` creates a new array with the current values, and then destructuring assigns them in the new order."
+    },
+    {
+        "id": "js-completion-closure-001",
+        "type": "code-completion",
+        "category": "javascript",
+        "difficulty": "easy",
+        "tags": ["closures", "memoization"],
+        "question": "Complete the memoization function using a closure:",
+        "code": "function memoize(fn) {\n  const cache = ___;\n  return function(...args) {\n    const key = JSON.stringify(args);\n    if (___ cache[key]) {\n      return cache[key];\n    }\n    cache[key] = fn(...args);\n    return cache[key];\n  };\n}",
+        "blanks": ["{}", "key in"],
+        "referenceAnswer": "const cache = {}; and `key in cache` — the `in` operator correctly handles cached falsy values like 0 or false.",
+        "explanation": "The closure over `cache` persists between calls. Using `key in cache` (rather than `cache[key]`) correctly handles cached falsy values like `0` or `false`. JSON.stringify is a simple but imperfect key — it fails for non-serialisable arguments."
+    },
+    {
+        "id": "js-completion-promise-001",
+        "type": "code-completion",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["promises", "async-await"],
+        "question": "Complete the function to run all fetch calls in parallel and collect every result:",
+        "code": "async function fetchAll(urls) {\n  const promises = urls.map(url => fetch(url).then(r => r.json()));\n  const results = await ___;\n  return results;\n}",
+        "blanks": ["Promise.all(promises)"],
+        "referenceAnswer": "await Promise.all(promises) — fires all fetches in parallel and waits for all to resolve, returning an array of results in input order.",
+        "explanation": "`Promise.all()` accepts an array of Promises and returns a single Promise that resolves with an array of all fulfilled values, running all requests concurrently."
+    },
+    {
+        "id": "js-completion-error-001",
+        "type": "code-completion",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["error-handling", "custom-errors"],
+        "question": "Complete the custom error class so it passes `instanceof Error` correctly:",
+        "code": "class NetworkError extends ___ {\n  constructor(message, statusCode) {\n    ___(message);\n    this.name = 'NetworkError';\n    this.statusCode = statusCode;\n  }\n}\n\nconst err = new NetworkError('Not Found', 404);\nconsole.log(err instanceof Error); // true",
+        "blanks": ["Error", "super"],
+        "referenceAnswer": "Extending Error and calling super(message) sets up the prototype chain correctly and sets the message property.",
+        "explanation": "Custom errors must extend the built-in `Error` class and call `super(message)` to properly initialise the error message and prototype chain. Without `super()`, `this` is inaccessible in the constructor."
+    },
+    {
+        "id": "js-completion-generator-001",
+        "type": "code-completion",
+        "category": "javascript",
+        "difficulty": "hard",
+        "tags": ["generators", "iterators"],
+        "question": "Complete the infinite counter generator:",
+        "code": "function* ___(start = 0) {\n  let i = start;\n  while (true) {\n    ___ i++;\n  }\n}\nconst gen = counter(5);\nconsole.log(gen.next().value); // 5\nconsole.log(gen.next().value); // 6",
+        "blanks": ["counter", "yield"],
+        "referenceAnswer": "function* counter(start = 0) { let i = start; while(true) { yield i++; } }",
+        "explanation": "Generator functions use `function*` syntax. The `yield` keyword pauses execution and emits a value. `i++` returns the current value of `i` and then increments it, so the generator emits 5, 6, 7, ... indefinitely."
+    },
+    {
+        "id": "js-completion-proxy-001",
+        "type": "code-completion",
+        "category": "javascript",
+        "difficulty": "hard",
+        "tags": ["Proxy", "Reflect", "meta-programming"],
+        "question": "Complete the validation Proxy that throws if a property value is not a number:",
+        "code": "const numericObject = new Proxy({}, {\n  ___(target, prop, value, receiver) {\n    if (typeof value !== 'number') {\n      throw new TypeError(`${prop} must be a number`);\n    }\n    return ___(target, prop, value, receiver);\n  }\n});",
+        "blanks": ["set", "Reflect.set"],
+        "referenceAnswer": "The 'set' trap intercepts property assignments. Reflect.set() forwards the assignment to the target object and returns a boolean indicating success.",
+        "explanation": "The Proxy `set` trap receives (target, prop, value, receiver). After validation, `Reflect.set()` performs the actual assignment, respecting setters in the prototype chain. Always return the result of Reflect.set() from the trap."
+    },
+    {
+        "id": "js-completion-iterator-001",
+        "type": "code-completion",
+        "category": "javascript",
+        "difficulty": "hard",
+        "tags": ["iterators", "Symbol.iterator"],
+        "question": "Complete the range object to make it iterable with `for...of`:",
+        "code": "const range = {\n  from: 1,\n  to: 5,\n  [___]() {\n    let current = this.from;\n    const last = this.to;\n    return {\n      next() {\n        if (current <= last) {\n          return { value: current++, done: false };\n        }\n        return { value: undefined, done: ___ };\n      }\n    };\n  }\n};",
+        "blanks": ["Symbol.iterator", "true"],
+        "referenceAnswer": "Symbol.iterator is the well-known symbol that marks an object as iterable. The iterator returns { done: true } to signal completion.",
+        "explanation": "The iterable protocol requires a `[Symbol.iterator]()` method. It returns an iterator with `.next()` that yields `{ value, done: false }` for each item and `{ value: undefined, done: true }` when exhausted."
+    },
+    {
+        "id": "js-completion-weakmap-001",
+        "type": "code-completion",
+        "category": "javascript",
+        "difficulty": "hard",
+        "tags": ["WeakMap", "private-data", "encapsulation"],
+        "question": "Complete the private data pattern using WeakMap:",
+        "code": "const _private = new ___();\n\nclass Person {\n  constructor(name, age) {\n    ___.set(this, { name, age });\n  }\n  greet() {\n    const { name } = _private.get(this);\n    return `Hello, I'm ${name}`;\n  }\n}",
+        "blanks": ["WeakMap", "_private"],
+        "referenceAnswer": "new WeakMap() creates the private store. _private.set(this, data) associates instance data with the instance.",
+        "explanation": "WeakMap is ideal for storing private instance data — keys are instances, values are private objects. When an instance is garbage collected, its WeakMap entry disappears automatically with no memory leak."
     }
 ]

@@ -1,0 +1,780 @@
+[
+    {
+        "id": "api-rest-001",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "easy",
+        "tags": ["rest", "methods"],
+        "question": "Which HTTP method should be used to partially update a resource?",
+        "options": ["PUT", "POST", "PATCH", "DELETE"],
+        "correct": 2,
+        "explanation": "PATCH applies a partial update to a resource. PUT replaces the entire resource. POST creates a new resource. Use PATCH when you want to change only specific fields without sending the full representation."
+    },
+    {
+        "id": "api-rest-002",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "easy",
+        "tags": ["rest", "status-codes"],
+        "question": "Which HTTP status code indicates that a resource was successfully created?",
+        "options": ["200 OK", "201 Created", "204 No Content", "202 Accepted"],
+        "correct": 1,
+        "explanation": "201 Created is the correct response for a successful POST that created a new resource. The response should include a Location header pointing to the new resource."
+    },
+    {
+        "id": "api-rest-003",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "easy",
+        "tags": ["rest", "idempotency"],
+        "question": "Which HTTP methods are idempotent according to the HTTP specification?",
+        "options": ["POST and PATCH", "GET, PUT, DELETE, and HEAD", "GET and POST", "Only GET"],
+        "correct": 1,
+        "explanation": "GET, PUT, DELETE, HEAD, and OPTIONS are idempotent — calling them multiple times produces the same server state. POST and PATCH are not idempotent by spec; multiple calls can create multiple resources or result in different states."
+    },
+    {
+        "id": "api-fetch-001",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "easy",
+        "tags": ["fetch", "api"],
+        "question": "What does the fetch() API return?",
+        "options": [
+            "The parsed JSON directly",
+            "An XMLHttpRequest object",
+            "A Promise that resolves to a Response object",
+            "An Observable stream"
+        ],
+        "correct": 2,
+        "explanation": "fetch() returns a Promise<Response>. You must then call response.json(), response.text(), or similar methods to extract the body. Unlike axios, fetch does not throw for non-2xx status codes."
+    },
+    {
+        "id": "api-fetch-002",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "easy",
+        "tags": ["fetch", "abort-controller"],
+        "question": "How do you cancel an in-flight fetch request?",
+        "options": [
+            "Call fetch.cancel()",
+            "Use an AbortController and pass its signal to fetch",
+            "Set a timeout on the Promise",
+            "Call response.cancel()"
+        ],
+        "correct": 1,
+        "explanation": "Create an AbortController, pass controller.signal to fetch({ signal }), and call controller.abort() to cancel. The fetch Promise rejects with an AbortError."
+    },
+    {
+        "id": "api-headers-001",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "easy",
+        "tags": ["headers", "content-type"],
+        "question": "Which Content-Type header value should be used when sending JSON in a POST request body?",
+        "options": [
+            "text/plain",
+            "application/x-www-form-urlencoded",
+            "application/json",
+            "multipart/form-data"
+        ],
+        "correct": 2,
+        "explanation": "application/json tells the server the request body is JSON-encoded. application/x-www-form-urlencoded is for HTML form submissions, and multipart/form-data is for file uploads."
+    },
+    {
+        "id": "api-graphql-001",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "easy",
+        "tags": ["graphql", "basics"],
+        "question": "In GraphQL, what is the difference between a Query and a Mutation?",
+        "options": [
+            "Queries return arrays; mutations return objects",
+            "Queries are for reading data; mutations are for creating, updating, or deleting data",
+            "Mutations run in real time; queries are cached",
+            "There is no functional difference"
+        ],
+        "correct": 1,
+        "explanation": "Queries are read-only operations; mutations modify server state. By convention, mutations also return the updated data, allowing the client to update its cache without a follow-up query."
+    },
+    {
+        "id": "api-status-001",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "easy",
+        "tags": ["rest", "status-codes"],
+        "question": "Which HTTP status code should an API return when a client sends invalid input data?",
+        "options": [
+            "500 Internal Server Error",
+            "404 Not Found",
+            "400 Bad Request",
+            "401 Unauthorized"
+        ],
+        "correct": 2,
+        "explanation": "400 Bad Request indicates the server cannot process the request due to a client error (invalid syntax, missing required fields, etc.). 500 is for unexpected server failures."
+    },
+    {
+        "id": "api-tanstack-001",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "easy",
+        "tags": ["tanstack-query", "stale-time"],
+        "question": "In TanStack Query, what does staleTime control?",
+        "options": [
+            "How long the data is kept in cache before being garbage collected",
+            "How long fetched data is considered fresh before a background refetch is triggered",
+            "The delay before the loading state is shown",
+            "The interval for automatic polling"
+        ],
+        "correct": 1,
+        "explanation": "staleTime defines how long query data stays 'fresh'. While fresh, TanStack Query serves from cache and does not refetch on component mount or window focus. gcTime (formerly cacheTime) controls how long unused data stays in cache before garbage collection."
+    },
+    {
+        "id": "api-pagination-001",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "easy",
+        "tags": ["pagination"],
+        "question": "What is the main advantage of cursor-based pagination over offset-based pagination?",
+        "options": [
+            "It is easier to implement",
+            "It supports random access to any page",
+            "It avoids duplicates and skips when items are inserted or deleted between page requests",
+            "It requires fewer database indexes"
+        ],
+        "correct": 2,
+        "explanation": "Cursor-based pagination anchors to a specific record so inserts or deletes before that record do not shift results, preventing duplicate or missing items. Offset pagination can skip or repeat items when the dataset changes between requests."
+    },
+    {
+        "id": "api-bff-pattern-001",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "easy",
+        "tags": ["bff", "architecture"],
+        "question": "What problem does the Backend for Frontend (BFF) pattern primarily solve?",
+        "options": [
+            "It replaces microservices with a monolith",
+            "It provides a dedicated server layer tailored to the needs of a specific client, aggregating and shaping data from multiple services",
+            "It serves static assets faster via a CDN",
+            "It eliminates the need for authentication"
+        ],
+        "correct": 1,
+        "explanation": "A BFF is a server-side component owned by the frontend team. It aggregates data from multiple downstream APIs, transforms it into the exact shape the client needs, and handles concerns like authentication, reducing over-fetching and chatty clients."
+    },
+    {
+        "id": "api-auth-001",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "easy",
+        "tags": ["authentication", "authorization-header"],
+        "question": "How should a Bearer token be sent to a REST API?",
+        "options": [
+            "As a query parameter: ?token=<value>",
+            "In the Authorization header: 'Bearer <token>'",
+            "In the request body as JSON",
+            "In a custom X-Auth-Token header"
+        ],
+        "correct": 1,
+        "explanation": "The standard way to send Bearer tokens is in the Authorization HTTP header with the format 'Bearer <token>'. Query parameters expose tokens in server logs and browser history."
+    },
+    {
+        "id": "api-rest-004",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "easy",
+        "tags": ["rest", "status-codes"],
+        "question": "What does a 401 Unauthorized response mean compared to 403 Forbidden?",
+        "options": [
+            "401 means not authenticated (no valid credentials); 403 means authenticated but not permitted",
+            "401 means the resource does not exist; 403 means it was deleted",
+            "They are interchangeable",
+            "401 means rate limited; 403 means IP banned"
+        ],
+        "correct": 0,
+        "explanation": "401 indicates that authentication is required or the provided credentials are invalid. 403 means the server understood the request and the client is authenticated, but lacks the required permissions."
+    },
+    {
+        "id": "api-rest-005",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "easy",
+        "tags": ["rest", "idempotency"],
+        "question": "Which HTTP status code indicates the request was successful but there is no content to return?",
+        "options": ["200 OK", "201 Created", "204 No Content", "202 Accepted"],
+        "correct": 2,
+        "explanation": "204 No Content is used for successful operations that have no response body, such as DELETE or a PUT that does not return the updated resource."
+    },
+    {
+        "id": "api-retry-001",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "easy",
+        "tags": ["retry", "rate-limiting"],
+        "question": "What is exponential backoff in the context of API retry logic?",
+        "options": [
+            "Retrying immediately until success",
+            "Increasing the wait time between retries exponentially (e.g., 1s, 2s, 4s, 8s)",
+            "Reducing request payload size on each retry",
+            "Switching to a different API endpoint on each retry"
+        ],
+        "correct": 1,
+        "explanation": "Exponential backoff doubles the delay between each retry attempt (plus optional jitter). This prevents thundering-herd problems when many clients retry simultaneously after a service outage."
+    },
+    {
+        "id": "api-graphql-002",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "medium",
+        "tags": ["graphql", "n-plus-one"],
+        "question": "The N+1 problem in GraphQL occurs when:",
+        "options": [
+            "A query requests N fields and each requires N database calls",
+            "A resolver fetches a list of N items, then makes a separate database query for each item's related data",
+            "A subscription sends N+1 events per second",
+            "A fragment is used more than N times"
+        ],
+        "correct": 1,
+        "explanation": "The N+1 problem happens when resolving a list of N items triggers N additional queries for related data. The standard solution is the DataLoader pattern, which batches and deduplicates those N queries into a single query."
+    },
+    {
+        "id": "api-tanstack-002",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "medium",
+        "tags": ["tanstack-query", "invalidation"],
+        "question": "After a mutation succeeds and you want to refresh related list data, the correct TanStack Query approach is:",
+        "options": [
+            "Reload the entire page",
+            "Call queryClient.invalidateQueries with the relevant query key",
+            "Set staleTime to 0 globally",
+            "Call queryClient.resetQueries"
+        ],
+        "correct": 1,
+        "explanation": "queryClient.invalidateQueries marks matching queries as stale and schedules a refetch if they have active observers. This is the canonical way to synchronize server state after a mutation."
+    },
+    {
+        "id": "api-versioning-001",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "medium",
+        "tags": ["api-versioning"],
+        "question": "Which API versioning strategy embeds the version in the URL path (e.g., /api/v2/users)?",
+        "options": [
+            "Header versioning",
+            "Query parameter versioning",
+            "URI path versioning",
+            "Media type versioning"
+        ],
+        "correct": 2,
+        "explanation": "URI path versioning places the version in the URL (/v1/, /v2/). It is highly visible and cache-friendly but can cause route proliferation. Header versioning (Accept: application/vnd.api+json;version=2) is cleaner but less visible."
+    },
+    {
+        "id": "api-error-format-001",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "medium",
+        "tags": ["error-handling", "rfc-7807"],
+        "question": "RFC 7807 (Problem Details) defines a standard error response format. Which field is mandatory?",
+        "options": ["title", "detail", "type", "status"],
+        "correct": 2,
+        "explanation": "RFC 7807 requires the 'type' field (a URI reference that identifies the problem type). All other fields (title, status, detail, instance) are optional but strongly recommended for machine-readable and human-readable error responses."
+    },
+    {
+        "id": "api-websocket-001",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "medium",
+        "tags": ["websocket", "sse"],
+        "question": "What is the key difference between WebSockets and Server-Sent Events (SSE)?",
+        "options": [
+            "SSE is bidirectional; WebSocket is unidirectional",
+            "WebSocket is bidirectional (full-duplex); SSE is unidirectional (server to client only)",
+            "WebSocket works only over HTTP/2; SSE works over HTTP/1.1",
+            "They are identical protocols"
+        ],
+        "correct": 1,
+        "explanation": "WebSocket establishes a full-duplex channel allowing both sides to send messages. SSE is a one-way stream from server to client over a standard HTTP connection, making it simpler and automatically reconnecting."
+    },
+    {
+        "id": "api-tanstack-003",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "medium",
+        "tags": ["tanstack-query", "optimistic-updates"],
+        "question": "In TanStack Query, optimistic updates are implemented in onMutate by:",
+        "options": [
+            "Calling queryClient.refetchQueries immediately",
+            "Cancelling outgoing queries, reading current cache, updating cache optimistically, and returning the snapshot to onError",
+            "Setting isPending to false manually",
+            "Calling the mutation twice"
+        ],
+        "correct": 1,
+        "explanation": "The pattern: (1) cancelQueries to prevent race conditions, (2) getQueryData to snapshot current state, (3) setQueryData to apply the optimistic update, (4) return the snapshot. onError uses the snapshot to rollback via setQueryData."
+    },
+    {
+        "id": "api-graphql-003",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "medium",
+        "tags": ["graphql", "fragments"],
+        "question": "GraphQL fragments are used to:",
+        "options": [
+            "Split a query across multiple HTTP requests",
+            "Define reusable selections of fields on a type, reducing duplication across queries",
+            "Cache specific parts of the response",
+            "Enable partial query execution"
+        ],
+        "correct": 1,
+        "explanation": "Fragments define named, reusable field selections on a specific type. They eliminate duplication when the same fields are needed in multiple queries or mutations, and are fundamental to co-location patterns in component-driven GraphQL."
+    },
+    {
+        "id": "api-json-001",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "medium",
+        "tags": ["json", "error-handling"],
+        "question": "fetch() resolves (does not reject) for 4xx and 5xx responses. How should you handle these errors?",
+        "options": [
+            "Wrap fetch in a try/catch block",
+            "Check response.ok or response.status and throw manually",
+            "Use response.error() method",
+            "Set errorMode: 'throw' in fetch options"
+        ],
+        "correct": 1,
+        "explanation": "fetch only rejects for network errors. For HTTP error status codes, response.ok is false. You must check it and throw manually (e.g., if (!response.ok) throw new Error(response.statusText)) to surface HTTP errors."
+    },
+    {
+        "id": "api-openapi-001",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "medium",
+        "tags": ["openapi", "swagger"],
+        "question": "What is the purpose of an OpenAPI specification file?",
+        "options": [
+            "To deploy the API automatically",
+            "To provide a machine-readable description of a REST API's endpoints, request/response schemas, and authentication",
+            "To generate database migrations",
+            "To configure CORS on the server"
+        ],
+        "correct": 1,
+        "explanation": "An OpenAPI (formerly Swagger) spec is a language-agnostic, machine-readable contract for a REST API. It enables automatic generation of documentation, client SDKs, server stubs, and validation."
+    },
+    {
+        "id": "api-sse-001",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "medium",
+        "tags": ["sse", "eventsource"],
+        "question": "What browser API is used to consume a Server-Sent Events stream?",
+        "options": ["WebSocket", "EventSource", "BroadcastChannel", "ReadableStream"],
+        "correct": 1,
+        "explanation": "EventSource is the native browser API for SSE. It opens a persistent HTTP connection and dispatches 'message' events when the server sends data. It automatically reconnects and supports last-event-id."
+    },
+    {
+        "id": "api-rest-006",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "hard",
+        "tags": ["rest", "hateoas"],
+        "question": "HATEOAS (Hypermedia As The Engine Of Application State) requires that API responses:",
+        "options": [
+            "Always return HTML instead of JSON",
+            "Include links to related actions and resources, allowing clients to navigate the API dynamically",
+            "Cache all responses on the client",
+            "Use GraphQL under the hood"
+        ],
+        "correct": 1,
+        "explanation": "HATEOAS is a REST constraint where responses include hypermedia links describing available actions. Clients navigate the API by following links rather than hardcoding URLs, making the API self-describing and decoupled from client assumptions."
+    },
+    {
+        "id": "api-bff-pattern-002",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "hard",
+        "tags": ["bff", "architecture"],
+        "question": "In a microservices architecture, what is the main risk of having one BFF shared across all clients?",
+        "options": [
+            "It increases deployment complexity",
+            "It becomes a bottleneck and accumulates conflicting requirements from different clients, defeating the purpose of client-tailored APIs",
+            "It cannot handle authentication",
+            "It prevents horizontal scaling"
+        ],
+        "correct": 1,
+        "explanation": "A shared BFF must accommodate conflicting requirements from mobile, desktop, and other clients, reintroducing the over-fetching and API bloat problems the BFF pattern was meant to solve. The canonical recommendation is one BFF per client type."
+    },
+    {
+        "id": "api-graphql-004",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "hard",
+        "tags": ["graphql", "subscriptions"],
+        "question": "GraphQL Subscriptions are typically implemented using:",
+        "options": [
+            "Long-polling HTTP requests",
+            "WebSockets or Server-Sent Events to push updates to the client",
+            "Periodic polling via GraphQL queries",
+            "REST webhooks"
+        ],
+        "correct": 1,
+        "explanation": "GraphQL Subscriptions require a persistent connection for server-initiated pushes. WebSockets (via graphql-ws or subscriptions-transport-ws) are the most common transport. SSE is also used when only server-to-client messages are needed."
+    },
+    {
+        "id": "api-tanstack-004",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "hard",
+        "tags": ["tanstack-query", "gctime"],
+        "question": "In TanStack Query v5, what does gcTime (formerly cacheTime) control?",
+        "options": [
+            "How long data is considered fresh before refetching",
+            "How long inactive query data stays in memory before being garbage collected",
+            "The maximum age of a cached response from the server",
+            "The timeout for individual fetch requests"
+        ],
+        "correct": 1,
+        "explanation": "gcTime (garbage collection time) defines how long a query's data lingers in memory after there are no active subscribers. After this duration the data is removed. The default is 5 minutes."
+    },
+    {
+        "id": "api-pagination-002",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "hard",
+        "tags": ["pagination", "keyset"],
+        "question": "Keyset pagination (also called seek pagination) differs from cursor pagination in that:",
+        "options": [
+            "It uses an opaque cursor token instead of raw column values",
+            "It uses the actual indexed column values (e.g., created_at + id) directly in the WHERE clause for O(1) seeks",
+            "It supports bidirectional navigation",
+            "It only works with MongoDB"
+        ],
+        "correct": 1,
+        "explanation": "Keyset pagination uses a WHERE clause like WHERE (created_at, id) < (:last_created_at, :last_id) ORDER BY created_at DESC, id DESC. It leverages composite indexes for constant-time seeks regardless of page depth, unlike offset which degrades linearly."
+    },
+    {
+        "id": "api-rest-007",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "hard",
+        "tags": ["rest", "caching"],
+        "question": "Which HTTP header combination tells a CDN to cache a response for 1 hour but require revalidation if it becomes stale?",
+        "options": [
+            "Cache-Control: no-cache",
+            "Cache-Control: max-age=3600, must-revalidate",
+            "Expires: <timestamp>",
+            "Cache-Control: no-store"
+        ],
+        "correct": 1,
+        "explanation": "max-age=3600 allows caching for 3600 seconds. must-revalidate requires the cache to contact the origin once the max-age expires rather than serving a stale response. no-store disables caching entirely."
+    },
+    {
+        "id": "api-rest-008",
+        "type": "multi-choice",
+        "category": "api-bff",
+        "difficulty": "easy",
+        "tags": ["rest", "methods"],
+        "question": "Which HTTP methods should be safe (read-only, no side effects) according to REST conventions? (select all that apply)",
+        "options": ["GET", "POST", "HEAD", "OPTIONS", "DELETE"],
+        "correct": [0, 2, 3],
+        "explanation": "GET, HEAD, and OPTIONS are defined as safe methods — they should not modify server state. POST creates resources; DELETE removes them. Safe methods can be cached and retried freely."
+    },
+    {
+        "id": "api-fetch-003",
+        "type": "multi-choice",
+        "category": "api-bff",
+        "difficulty": "medium",
+        "tags": ["fetch", "axios"],
+        "question": "Which of the following are differences between fetch and axios? (select all that apply)",
+        "options": [
+            "fetch does not throw for HTTP error status codes; axios does",
+            "axios automatically parses JSON responses; fetch requires response.json()",
+            "fetch supports request interceptors natively; axios does not",
+            "axios supports upload progress events; fetch does not",
+            "fetch is only available in browsers; axios works in Node.js too"
+        ],
+        "correct": [0, 1, 3],
+        "explanation": "fetch resolves for any HTTP status; axios rejects for 4xx/5xx. axios auto-parses JSON. axios has built-in upload progress via XMLHttpRequest. Both work in Node.js (fetch natively in Node 18+; axios via XMLHttpRequest polyfill). fetch does NOT have native interceptors — you must wrap it."
+    },
+    {
+        "id": "api-graphql-005",
+        "type": "multi-choice",
+        "category": "api-bff",
+        "difficulty": "medium",
+        "tags": ["graphql", "advantages"],
+        "question": "Which problems does GraphQL solve compared to REST? (select all that apply)",
+        "options": [
+            "Over-fetching (receiving more data than needed)",
+            "Under-fetching / N+1 requests (needing multiple round-trips for related data)",
+            "Automatic caching at the HTTP layer",
+            "Strongly-typed schema and automatic documentation",
+            "Built-in file upload support"
+        ],
+        "correct": [0, 1, 3],
+        "explanation": "GraphQL allows clients to specify exactly the fields they need (solves over-fetching), fetch nested relations in one query (solves under-fetching), and provides a type-safe schema. HTTP-level caching is harder with GraphQL (all POSTs to one endpoint). File uploads require multipart extensions."
+    },
+    {
+        "id": "api-tanstack-005",
+        "type": "multi-choice",
+        "category": "api-bff",
+        "difficulty": "medium",
+        "tags": ["tanstack-query", "patterns"],
+        "question": "Which TanStack Query behaviors occur when a component mounts if the data is already cached but stale? (select all that apply)",
+        "options": [
+            "The component immediately receives the stale cached data",
+            "A background refetch is triggered",
+            "The component shows a loading spinner",
+            "The cache is cleared before the refetch",
+            "isFetching is true during the background refetch"
+        ],
+        "correct": [0, 1, 4],
+        "explanation": "When data is stale, TanStack Query returns the cached data immediately (no loading flash), triggers a background refetch, and sets isFetching=true during the refetch. The cache is not cleared; it is updated when the fresh data arrives."
+    },
+    {
+        "id": "api-error-format-002",
+        "type": "multi-choice",
+        "category": "api-bff",
+        "difficulty": "hard",
+        "tags": ["error-handling", "rfc-7807"],
+        "question": "Which fields are defined in the RFC 7807 Problem Details object? (select all that apply)",
+        "options": ["type", "title", "status", "detail", "instance"],
+        "correct": [0, 1, 2, 3, 4],
+        "explanation": "RFC 7807 defines five standard members: type (URI identifying the problem), title (short human-readable summary), status (HTTP status code), detail (human-readable explanation), and instance (URI reference to the specific occurrence). All are optional except type."
+    },
+    {
+        "id": "api-pagination-003",
+        "type": "multi-choice",
+        "category": "api-bff",
+        "difficulty": "medium",
+        "tags": ["pagination", "patterns"],
+        "question": "Which are true about offset-based pagination? (select all that apply)",
+        "options": [
+            "It supports random access to any page number",
+            "It can produce duplicates when items are added before the current page",
+            "It performs consistently at any page depth",
+            "It is simple to implement and understand",
+            "It degrades in performance at high offsets in many SQL databases"
+        ],
+        "correct": [0, 1, 3, 4],
+        "explanation": "Offset pagination supports random page access and is simple to implement, but can skip/duplicate rows when the dataset changes and suffers performance degradation at high offsets because the database must scan all preceding rows."
+    },
+    {
+        "id": "api-rest-009",
+        "type": "multi-choice",
+        "category": "api-bff",
+        "difficulty": "hard",
+        "tags": ["rest", "design"],
+        "question": "Which practices align with RESTful API design principles? (select all that apply)",
+        "options": [
+            "Using nouns for resource URLs (/users/123) not verbs (/getUser)",
+            "Using GET /users/123/delete to delete a resource",
+            "Returning appropriate HTTP status codes",
+            "Stateless server — no session stored on the server",
+            "Using nested resources for relationships: /users/123/orders"
+        ],
+        "correct": [0, 2, 3, 4],
+        "explanation": "RESTful design uses nouns not verbs, correct status codes, stateless servers, and nested resources for relationships. Using GET /delete is a violation of both REST and HTTP semantics (GET must be safe)."
+    },
+    {
+        "id": "api-auth-002",
+        "type": "multi-choice",
+        "category": "api-bff",
+        "difficulty": "hard",
+        "tags": ["authentication", "spa"],
+        "question": "Which approaches are valid for authenticating API requests from a SPA? (select all that apply)",
+        "options": [
+            "JWT in Authorization header (Bearer scheme)",
+            "HttpOnly cookie with session ID managed by the BFF",
+            "API key in query parameters",
+            "OAuth 2.0 Authorization Code with PKCE",
+            "Basic Auth in every request"
+        ],
+        "correct": [0, 1, 3],
+        "explanation": "JWTs in headers, HttpOnly session cookies via a BFF, and OAuth 2.0 PKCE are proper approaches. API keys in query params are logged in URLs and not suited for browser clients. Basic Auth sends credentials on every request and should only be used internally over mTLS."
+    },
+    {
+        "id": "api-bug-fetch-001",
+        "type": "bug-finding",
+        "category": "api-bff",
+        "difficulty": "medium",
+        "tags": ["fetch", "error-handling"],
+        "question": "Find the bug in this fetch wrapper:",
+        "code": "async function getUser(id) {\n  try {\n    const response = await fetch(`/api/users/${id}`);\n    return await response.json();\n  } catch (error) {\n    console.error('Request failed', error);\n    return null;\n  }\n}",
+        "correct": "HTTP error responses (4xx/5xx) are not detected — only network errors are caught",
+        "referenceAnswer": "fetch only rejects for network failures, not HTTP errors. Add a check after await fetch: if (!response.ok) throw new Error(`HTTP ${response.status}`); before calling response.json().",
+        "explanation": "A 404 or 500 response resolves the fetch promise. Without checking response.ok, the function silently returns null or attempts to parse an error body as JSON, obscuring the real failure."
+    },
+    {
+        "id": "api-bug-abort-001",
+        "type": "bug-finding",
+        "category": "api-bff",
+        "difficulty": "medium",
+        "tags": ["fetch", "abort-controller", "react"],
+        "question": "Find the bug in this React data-fetching hook:",
+        "code": "function useUser(id) {\n  const [data, setData] = useState(null);\n\n  useEffect(() => {\n    fetch(`/api/users/${id}`)\n      .then(r => r.json())\n      .then(setData);\n  }, [id]);\n\n  return data;\n}",
+        "correct": "No cleanup: if id changes or the component unmounts, a previous in-flight request can call setData on an unmounted component or overwrite newer data",
+        "referenceAnswer": "Add an AbortController and return a cleanup function: const controller = new AbortController(); fetch(url, { signal: controller.signal }); return () => controller.abort(); This cancels the previous request when id changes.",
+        "explanation": "Without abort cleanup, stale responses can overwrite fresh data (race condition) and update state after unmount, causing memory leaks and incorrect UI."
+    },
+    {
+        "id": "api-bug-tanstack-001",
+        "type": "bug-finding",
+        "category": "api-bff",
+        "difficulty": "hard",
+        "tags": ["tanstack-query", "optimistic-update"],
+        "question": "Find the bug in this TanStack Query optimistic update:",
+        "code": "const mutation = useMutation({\n  mutationFn: updateTodo,\n  onMutate: async (updatedTodo) => {\n    queryClient.setQueryData(['todos'], (old) =>\n      old.map(t => t.id === updatedTodo.id ? updatedTodo : t)\n    );\n  },\n  onError: () => {\n    queryClient.invalidateQueries({ queryKey: ['todos'] });\n  },\n});",
+        "correct": "Missing cancelQueries before optimistic update — an in-flight refetch can overwrite the optimistic state; also missing snapshot return and rollback in onError",
+        "referenceAnswer": "In onMutate: (1) await queryClient.cancelQueries({queryKey:['todos']}), (2) const snapshot = queryClient.getQueryData(['todos']), (3) apply optimistic update, (4) return { snapshot }. In onError: queryClient.setQueryData(['todos'], context.snapshot).",
+        "explanation": "Without cancellation a racing refetch can overwrite the optimistic update immediately. Without saving the snapshot there is no way to roll back correctly on error."
+    },
+    {
+        "id": "api-bug-graphql-001",
+        "type": "bug-finding",
+        "category": "api-bff",
+        "difficulty": "hard",
+        "tags": ["graphql", "n-plus-one"],
+        "question": "Identify the N+1 problem in this GraphQL resolver:",
+        "code": "const resolvers = {\n  Query: {\n    posts: () => db.posts.findAll(),\n  },\n  Post: {\n    author: (post) => db.users.findById(post.authorId),\n  },\n};",
+        "correct": "The author resolver fires a separate DB query for every post, causing N additional queries for N posts",
+        "referenceAnswer": "Use DataLoader to batch author lookups: const userLoader = new DataLoader(ids => db.users.findByIds(ids)); author: (post) => userLoader.load(post.authorId). DataLoader batches all IDs within a single event-loop tick into one query.",
+        "explanation": "With 100 posts the naive resolver runs 1 query for posts + 100 queries for authors = 101 queries. DataLoader collapses the 100 author queries into 1, solving the N+1 problem."
+    },
+    {
+        "id": "api-bug-retry-001",
+        "type": "bug-finding",
+        "category": "api-bff",
+        "difficulty": "medium",
+        "tags": ["retry", "backoff"],
+        "question": "Find the issue in this retry implementation:",
+        "code": "async function fetchWithRetry(url, retries = 3) {\n  for (let i = 0; i < retries; i++) {\n    try {\n      return await fetch(url);\n    } catch {\n      if (i === retries - 1) throw new Error('Max retries exceeded');\n      await new Promise(r => setTimeout(r, 1000));\n    }\n  }\n}",
+        "correct": "Fixed 1-second delay causes thundering-herd problems; also retries on all errors including 4xx (client errors that will never succeed)",
+        "referenceAnswer": "Use exponential backoff with jitter: 1000 * 2**i + Math.random() * 1000. Also check response.ok and do NOT retry 4xx status codes — only retry on 5xx and network errors.",
+        "explanation": "Constant-delay retries from many clients hit a recovering server simultaneously. Exponential backoff with jitter spreads retry storms. Retrying 400 or 404 wastes resources since the error is permanent."
+    },
+    {
+        "id": "api-bug-cors-001",
+        "type": "bug-finding",
+        "category": "api-bff",
+        "difficulty": "hard",
+        "tags": ["cors", "credentials"],
+        "question": "Find the bug in this fetch call that is supposed to send cookies:",
+        "code": "const response = await fetch('https://api.example.com/profile', {\n  method: 'GET',\n  headers: {\n    'Content-Type': 'application/json',\n  },\n});",
+        "correct": "credentials: 'include' is missing — cookies are not sent in cross-origin requests by default",
+        "referenceAnswer": "Add credentials: 'include' to the fetch options. The server must also respond with Access-Control-Allow-Credentials: true and Access-Control-Allow-Origin set to the specific origin (not wildcard).",
+        "explanation": "By default fetch uses credentials: 'same-origin'. For cross-origin requests to send cookies or Authorization headers, credentials: 'include' must be explicitly set."
+    },
+    {
+        "id": "api-bug-json-001",
+        "type": "bug-finding",
+        "category": "api-bff",
+        "difficulty": "medium",
+        "tags": ["json", "error-handling"],
+        "question": "Find the potential runtime error in this API response handler:",
+        "code": "async function createPost(data) {\n  const response = await fetch('/api/posts', {\n    method: 'POST',\n    headers: { 'Content-Type': 'application/json' },\n    body: JSON.stringify(data),\n  });\n  const json = await response.json();\n  return json;\n}",
+        "correct": "204 No Content or other responses without a body will cause response.json() to throw a JSON parse error",
+        "referenceAnswer": "Check the response status and Content-Type before parsing: if (response.status === 204 || response.headers.get('content-length') === '0') return null; Also guard with response.ok check before parsing.",
+        "explanation": "A POST that returns 201 with an empty body or 204 has no JSON body. Calling response.json() on an empty body throws a SyntaxError. Always check the response before parsing."
+    },
+    {
+        "id": "api-cc-fetch-001",
+        "type": "code-completion",
+        "category": "api-bff",
+        "difficulty": "easy",
+        "tags": ["fetch", "error-handling"],
+        "question": "Complete this robust fetch wrapper that throws on HTTP errors:",
+        "code": "async function apiFetch(url: string, options?: RequestInit) {\n  const response = await ___(url, options);\n  if (!response.___) {\n    throw new Error(`HTTP error: ${response.status}`);\n  }\n  return response.___();\n}",
+        "blanks": ["fetch", "ok", "json"],
+        "referenceAnswer": "fetch() returns a Response. response.ok is false for 4xx/5xx. response.json() parses the body as JSON.",
+        "lang": "typescript",
+        "explanation": "Checking response.ok converts silent HTTP failures into thrown errors, making them catchable at the call site. This is the minimal pattern for a robust fetch wrapper."
+    },
+    {
+        "id": "api-cc-abort-001",
+        "type": "code-completion",
+        "category": "api-bff",
+        "difficulty": "medium",
+        "tags": ["fetch", "abort-controller", "react"],
+        "question": "Complete this useEffect that fetches data and cancels on cleanup:",
+        "code": "useEffect(() => {\n  const controller = new ___();\n  fetch(`/api/items/${id}`, { signal: controller.___ })\n    .then(r => r.json())\n    .then(setData)\n    .catch(err => { if (err.name !== '___') console.error(err); });\n  return () => controller.___();\n}, [id]);",
+        "blanks": ["AbortController", "signal", "AbortError", "abort"],
+        "referenceAnswer": "new AbortController() creates the controller. controller.signal is passed to fetch. AbortError is the error name thrown when aborted — it should be silenced. controller.abort() is called in cleanup.",
+        "lang": "typescript",
+        "explanation": "This pattern prevents state updates after unmount and race conditions when the dependency changes. Silencing AbortError avoids logging expected cancellations as actual errors."
+    },
+    {
+        "id": "api-cc-tanstack-001",
+        "type": "code-completion",
+        "category": "api-bff",
+        "difficulty": "medium",
+        "tags": ["tanstack-query", "use-query"],
+        "question": "Complete this TanStack Query hook that fetches a user and stays fresh for 5 minutes:",
+        "code": "export function useUser(id: string) {\n  return useQuery({\n    queryKey: ['user', ___],\n    queryFn: () => fetchUser(id),\n    ___: 5 * 60 * 1000,\n    enabled: ___,\n  });\n}",
+        "blanks": ["id", "staleTime", "!!id"],
+        "referenceAnswer": "Include id in the queryKey so different users have separate cache entries. staleTime prevents unnecessary refetches. enabled: !!id skips the query when id is undefined/empty.",
+        "lang": "typescript",
+        "explanation": "The queryKey must include all variables the queryFn depends on. staleTime avoids refetching data that is still fresh. enabled prevents queries with invalid parameters."
+    },
+    {
+        "id": "api-cc-backoff-001",
+        "type": "code-completion",
+        "category": "api-bff",
+        "difficulty": "hard",
+        "tags": ["retry", "backoff"],
+        "question": "Complete this exponential-backoff-with-jitter delay calculator:",
+        "code": "function getRetryDelay(attempt: number, baseMs = 1000, maxMs = 30000): number {\n  const exponential = baseMs * ___(2, attempt);\n  const jitter = Math.random() * baseMs;\n  return ___(exponential + jitter, ___);\n}",
+        "blanks": ["Math.pow", "Math.min", "maxMs"],
+        "referenceAnswer": "Math.pow(2, attempt) computes the exponential growth. Math.random() * baseMs adds jitter to spread retry storms. Math.min caps the delay at maxMs to prevent unreasonably long waits.",
+        "lang": "typescript",
+        "explanation": "Full jitter (random between 0 and the exponential value) is one of AWS's recommended backoff strategies. The cap prevents delays from growing indefinitely."
+    },
+    {
+        "id": "api-cc-openapi-001",
+        "type": "code-completion",
+        "category": "api-bff",
+        "difficulty": "medium",
+        "tags": ["openapi", "rfc-7807"],
+        "question": "Complete this RFC 7807 Problem Details error response builder:",
+        "code": "interface ProblemDetails {\n  type: string;\n  title: string;\n  status: number;\n  detail?: string;\n}\n\nfunction problemDetails(status: number, title: string, detail?: string): ProblemDetails {\n  return {\n    type: `https://httpstatuses.com/${___}`,\n    ___,\n    ___,\n    detail,\n  };\n}",
+        "blanks": ["status", "title", "status"],
+        "referenceAnswer": "The type URI should identify the problem type (using the status code is a simple default). title and status are required recommended fields. detail is optional.",
+        "lang": "typescript",
+        "explanation": "RFC 7807 standardises error responses so clients can parse them generically. Using httpstatuses.com as the type URI is a common shortcut when you don't have custom problem type URIs."
+    },
+    {
+        "id": "api-cc-graphql-001",
+        "type": "code-completion",
+        "category": "api-bff",
+        "difficulty": "hard",
+        "tags": ["graphql", "dataloader"],
+        "question": "Complete this DataLoader setup to batch user lookups by IDs:",
+        "code": "import DataLoader from 'dataloader';\n\nconst userLoader = new ___(async (ids: readonly string[]) => {\n  const users = await db.users.findByIds(___(ids));\n  return ids.___(id => users.find(u => u.id === id) ?? null);\n});\n\nexport { userLoader };",
+        "blanks": ["DataLoader", "Array.from", "map"],
+        "referenceAnswer": "DataLoader expects a batch function receiving a readonly array. Array.from converts it to a mutable array for DB queries. The return value must be an array aligned with the input IDs order — map ensures this.",
+        "lang": "typescript",
+        "explanation": "DataLoader batches all .load() calls within one event-loop tick. The batch function must return an array where each element corresponds to the input ID at the same index, or null if not found."
+    },
+    {
+        "id": "api-cc-pagination-001",
+        "type": "code-completion",
+        "category": "api-bff",
+        "difficulty": "hard",
+        "tags": ["pagination", "cursor"],
+        "question": "Complete this TanStack Query infinite-scroll hook using cursor-based pagination:",
+        "code": "export function useInfinitePosts() {\n  return useInfiniteQuery({\n    queryKey: ['posts'],\n    queryFn: ({ ___ }) => fetchPosts({ cursor: pageParam }),\n    initialPageParam: ___,\n    getNextPageParam: (lastPage) => lastPage.___,\n  });\n}",
+        "blanks": ["pageParam", "null", "nextCursor"],
+        "referenceAnswer": "pageParam holds the cursor for the current page. initialPageParam: null starts from the beginning. getNextPageParam extracts the nextCursor from the last page response — if null/undefined, infinite scroll stops.",
+        "lang": "typescript",
+        "explanation": "useInfiniteQuery manages paginated data automatically. getNextPageParam returning undefined signals no more pages. The cursor is passed as pageParam to each queryFn call."
+    },
+    {
+        "id": "api-cc-sse-001",
+        "type": "code-completion",
+        "category": "api-bff",
+        "difficulty": "medium",
+        "tags": ["sse", "eventsource"],
+        "question": "Complete this React hook that subscribes to a Server-Sent Events stream:",
+        "code": "export function useSSE(url: string) {\n  const [data, setData] = useState<string | null>(null);\n\n  useEffect(() => {\n    const es = new ___(url);\n    es.addEventListener('___', (event) => {\n      setData(event.data);\n    });\n    return () => es.___();\n  }, [url]);\n\n  return data;\n}",
+        "blanks": ["EventSource", "message", "close"],
+        "referenceAnswer": "new EventSource(url) opens the SSE connection. The 'message' event fires for unnamed server events. es.close() terminates the connection on cleanup to prevent memory leaks.",
+        "lang": "typescript",
+        "explanation": "EventSource automatically reconnects on disconnect. Close it in cleanup to prevent stale listeners and reconnection attempts after the component unmounts."
+    }
+]
