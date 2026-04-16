@@ -10,13 +10,21 @@
 
 ---
 
-## [2026-03] rolldown-vite over standard vite
+## ~~[2026-03] rolldown-vite over standard vite~~ — SUPERSEDED by [2026-04] Vite 8 migration
 
-**Decision**: Using `npm:rolldown-vite` aliased as `vite`.
+**Was**: Using `npm:rolldown-vite` aliased as `vite` (experimental, pre-stable).
 
-**Why**: Rust-based bundler with significantly faster build times. OXC minifier used instead of esbuild/terser.
+**Superseded**: Story 6.7 migrated to **Vite 8 with stable native Rolldown**. See below.
 
-**Risk**: Pre-stable. Some vite plugins may be incompatible. Monitor and revert to standard vite if plugins break. Tracked in SKELETONS.md.
+---
+
+## [2026-04] Vite 8 migration — stable Rolldown (Story 6.7)
+
+**Decision**: Migrated from `rolldown-vite@7.x` (experimental) to `vite@^8.0.0` (Rolldown native, stable).
+
+**Why**: Vite 8 ships Rolldown as the official bundler — no longer an experimental alias. OXC minifier retained. All plugins confirmed compatible (see SKELETONS.md). Node.js ≥ 20.19 or ≥ 22.12 required (project runs Node 24).
+
+**Trade-offs**: None for this project — plugin matrix was verified clean. The `overrides` in `package.json` are security patches only (axios, follow-redirects, serialize-javascript), not bundler workarounds.
 
 ---
 
@@ -28,11 +36,11 @@
 
 ---
 
-## [2026-03] @vitejs/plugin-react v5 (not v6) — intentional hold
+## ~~[2026-03] @vitejs/plugin-react v5 (not v6)~~ — SUPERSEDED
 
-**Decision**: Holding on @vitejs/plugin-react v5.x.
+**Was**: Holding on v5.x because v6 requires Vite 8+.
 
-**Why**: v6 requires Vite 8+. We're on rolldown-vite 7.x. v6 also removes Babel as a dependency, requiring migration to `@rolldown/plugin-babel` for any Babel usage (currently none, but worth tracking).
+**Superseded**: Story 6.7 upgraded to `@vitejs/plugin-react@6.0.1` alongside Vite 8. Babel dependency removed as expected — no Babel usage in this project.
 
 ---
 
@@ -59,16 +67,6 @@
 **Why**: Without a production build step, broken Vite/Rollup/`tsc -b` paths could pass CI. Audit at moderate+ fails the pipeline on registry-reported issues. Dependabot reduces manual drift for security patches. These add **CI minutes only**, not local dev overhead.
 
 **Trade-offs**: `audit-level=moderate` may fail on moderate+ advisories that have no fix yet — then pin, ignore with documented exception, or wait for upstream (team choice).
-
----
-
-## [2026-03] npm registry: `rolldown-vite@7.x` deprecation notice
-
-**Context**: `npm ci` may print that `rolldown-vite@7.3.1` is deprecated in favor of migrating to Vite 8.
-
-**Decision**: Stay on the pinned `rolldown-vite` 7.x line until a deliberate upgrade path to Vite 8 (or stable Rolldown) is tested end-to-end.
-
-**Why**: The warning is registry metadata, not a build failure; early migration without a validated plugin matrix risks regressions. Track upstream release notes before bumping.
 
 ---
 
