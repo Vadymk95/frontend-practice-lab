@@ -7,7 +7,7 @@ import { ResetWeightsDialog } from '@/components/features/ResetWeightsDialog';
 import { useAppHeader } from './useAppHeader';
 
 export const AppHeader: FC = () => {
-    const { theme, setTheme, resetDialog } = useAppHeader();
+    const { theme, setTheme, language, handleLanguageToggle, resetDialog } = useAppHeader();
     const { t } = useTranslation('common');
 
     return (
@@ -19,9 +19,10 @@ export const AppHeader: FC = () => {
                         <button
                             type="button"
                             aria-label={t('header.toggleLanguage')}
+                            onClick={handleLanguageToggle}
                             className="rounded px-2 py-1 text-sm text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-alt"
                         >
-                            {t('header.languageLabel')}
+                            {language === 'ru' ? 'EN' : 'RU'}
                         </button>
                         <button
                             type="button"

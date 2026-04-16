@@ -2,7 +2,7 @@ export const SUPPORTED_LANGUAGES = ['en', 'ru'] as const;
 
 export type SupportedLanguage = (typeof SUPPORTED_LANGUAGES)[number];
 
-export const DEFAULT_LANGUAGE: SupportedLanguage = 'en';
+export const DEFAULT_LANGUAGE: SupportedLanguage = 'ru';
 
 export const DEFAULT_NAMESPACES = ['common', 'errors', 'home'] as const;
 

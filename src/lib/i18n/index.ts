@@ -19,7 +19,7 @@ import {
  *
  * Setup:
  * - HTTP Backend: Loads translations from /public/locales/{lng}/{ns}.json
- * - Language Detector: Detects language from localStorage → browser → fallback 'en'
+ * - Language Detector: Detects language from localStorage → browser → fallback 'ru'
  * - Lazy Loading: Loads namespaces on demand (except default namespaces)
  * - Caching: Built-in i18next caching prevents redundant downloads
  *
