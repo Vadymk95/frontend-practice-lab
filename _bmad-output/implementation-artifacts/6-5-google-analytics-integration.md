@@ -1,6 +1,6 @@
 # Story 6.5: Google Analytics Integration
 
-Status: review
+Status: done
 
 ## Story
 
@@ -251,6 +251,14 @@ Find existing call sites by searching for store actions and hooks:
 - `src/components/common/PwaInstallToast/usePwaInstallToast.ts` (modified — pwa_install_prompt)
 - `src/components/common/PwaUpdateToast/usePwaUpdateToast.ts` (modified — pwa_update_applied)
 
+### Review Findings
+
+- [x] [Review][Patch] pwa_install_prompt fires on every re-visit to /summary while conditions met [usePwaInstallToast.ts] — fixed: added installPromptTrackedRef guard so event fires only once per session
+- [x] [Review][Patch] GA gtag config called with empty string when VITE_GA_ID unset in dev [index.html] — fixed: wrapped gtag('js',...) + gtag('config',...) in `if ('%VITE_GA_ID%')` guard
+- [x] [Review][Patch] isCorrectAnswer returns false for multi-choice and bug-finding — session_complete score inaccurate for mixed-type sessions [useSummaryPage.ts:14] — fixed: implemented multi-choice (sorted index array comparison) and bug-finding ('gotIt' check)
+- [x] [Review][Defer] Store index.ts barrel re-exports violate state-management.mdc "no index.ts re-exports" rule — pre-existing across all stores, not introduced by 6.5
+
 ### Change Log
 
 - feat(analytics): implement Google Analytics integration with 11-event taxonomy (2026-04-16)
+- fix(analytics): code review patches — duplicate pwa event, GA empty-ID guard, isCorrectAnswer completeness (2026-04-16)

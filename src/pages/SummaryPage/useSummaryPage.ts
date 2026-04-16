@@ -18,7 +18,15 @@ function isCorrectAnswer(question: Question, answer: unknown): boolean {
     if (question.type === 'code-completion') {
         return answer === 'correct';
     }
-    // multi-choice, bug-finding handled in future stories
+    if (question.type === 'multi-choice') {
+        if (!Array.isArray(answer)) return false;
+        const sorted = [...(answer as number[])].sort().join(',');
+        const correctSorted = [...question.correct].sort().join(',');
+        return sorted === correctSorted;
+    }
+    if (question.type === 'bug-finding') {
+        return answer === 'gotIt';
+    }
     return false;
 }
 

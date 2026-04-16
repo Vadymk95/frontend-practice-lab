@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { track } from '@/lib/analytics';
@@ -15,6 +15,7 @@ export const usePwaInstallToast = () => {
     const [promptEvent, setPromptEvent] = useState<BeforeInstallPromptEvent | null>(null);
     const [isVisible, setIsVisible] = useState(false);
     const location = useLocation();
+    const installPromptTrackedRef = useRef(false);
 
     useEffect(() => {
         const handler = (e: Event) => {
@@ -32,7 +33,10 @@ export const usePwaInstallToast = () => {
             !sessionStorage.getItem(DISMISSED_KEY)
         ) {
             setIsVisible(true);
-            track('pwa_install_prompt', {});
+            if (!installPromptTrackedRef.current) {
+                installPromptTrackedRef.current = true;
+                track('pwa_install_prompt', {});
+            }
         }
     }, [location.pathname, promptEvent]);
 
