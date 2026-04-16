@@ -23,7 +23,30 @@ interface ManifestEntry {
     };
 }
 
+const DISPLAY_NAME_MAP: Record<string, string> = {
+    'ai-llm': 'AI / LLM',
+    'api-bff': 'API & BFF',
+    architecture: 'Architecture',
+    'best-practices': 'Best Practices',
+    'browser-internals': 'Browser Internals',
+    'build-tools': 'Build Tools',
+    css: 'CSS',
+    'feature-flags': 'Feature Flags',
+    git: 'Git',
+    html: 'HTML',
+    javascript: 'JavaScript',
+    nextjs: 'Next.js',
+    performance: 'Performance',
+    react: 'React',
+    security: 'Security',
+    'team-lead': 'Team Lead',
+    testing: 'Testing',
+    typescript: 'TypeScript'
+};
+
 function toDisplayName(slug: string): string {
+    if (DISPLAY_NAME_MAP[slug]) return DISPLAY_NAME_MAP[slug];
+    // fallback for any future categories not yet in the map
     return slug
         .split('-')
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))

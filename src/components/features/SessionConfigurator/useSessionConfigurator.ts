@@ -122,6 +122,12 @@ export function useSessionConfigurator(initialConfig?: SessionConfig) {
         );
     }, []);
 
+    const allSelected = categories.length > 0 && selectedCategories.length === categories.length;
+
+    const handleSelectAll = useCallback(() => {
+        setSelectedCategories(allSelected ? [] : categories.map((c) => c.slug));
+    }, [allSelected, categories]);
+
     const handleDifficultyChange = useCallback((value: Difficulty) => {
         setDifficulty(value);
     }, []);
@@ -212,7 +218,9 @@ export function useSessionConfigurator(initialConfig?: SessionConfig) {
         categoryCountMap,
         errorRates,
         isStartEnabled,
+        allSelected,
         handleCategoryToggle,
+        handleSelectAll,
         handleDifficultyChange,
         handleModeChange,
         handleQuestionCountChange,

@@ -34,7 +34,9 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
         categoryCountMap,
         errorRates,
         isStartEnabled,
+        allSelected,
         handleCategoryToggle,
+        handleSelectAll,
         handleDifficultyChange,
         handleModeChange,
         handleQuestionCountChange,
@@ -60,9 +62,20 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
         <div className="flex flex-col gap-6 pb-24 lg:pb-0">
             {/* Category Grid */}
             <section>
-                <h2 className="text-sm font-medium text-foreground mb-3">
-                    {t('configurator.categories.label')}
-                </h2>
+                <div className="flex items-center justify-between mb-3">
+                    <h2 className="text-sm font-medium text-foreground">
+                        {t('configurator.categories.label')}
+                    </h2>
+                    <button
+                        type="button"
+                        onClick={handleSelectAll}
+                        className="text-xs text-accent-alt hover:underline"
+                    >
+                        {allSelected
+                            ? t('configurator.categories.deselectAll')
+                            : t('configurator.categories.selectAll')}
+                    </button>
+                </div>
                 <TooltipProvider>
                     <div
                         role="group"
