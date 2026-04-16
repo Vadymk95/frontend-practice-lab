@@ -1,6 +1,6 @@
 # Story 6.7: Vite 8 Migration
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 

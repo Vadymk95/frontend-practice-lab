@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { ErrorBoundary } from '@/components/common/ErrorBoundary';
+import { PwaInstallToast } from '@/components/common/PwaInstallToast';
 import { AppHeader } from '@/components/layout/AppHeader';
 import { Footer } from '@/components/layout/Footer';
 import { Main } from '@/components/layout/Main';
@@ -27,6 +28,7 @@ export const App: FC = () => {
                 <AppHeader />
                 <Main />
                 <Footer />
+                <PwaInstallToast />
             </div>
         </ErrorBoundary>
     );

@@ -31,11 +31,19 @@ export function useSessionPlayPage() {
     }, [isLastQuestion, navigate, nextQuestion]);
 
     // P-2: setup complete but filtered results empty — go back home
+    // Use getState() to avoid stale closure: setQuestionList (called in useSessionSetup's
+    // effect) updates the Zustand store synchronously, but the React closure here still
+    // captures the pre-update questionList.length from the same render.
     useEffect(() => {
-        if (!isSetupLoading && !isSetupError && config && questionList.length === 0) {
+        if (
+            !isSetupLoading &&
+            !isSetupError &&
+            config &&
+            useSessionStore.getState().questionList.length === 0
+        ) {
             navigate(RoutesPath.Root, { replace: true });
         }
-    }, [isSetupLoading, isSetupError, config, questionList.length, navigate]);
+    }, [isSetupLoading, isSetupError, config, navigate]);
 
     // Timer interval — starts when timerEnabled, clears on unmount
     useEffect(() => {

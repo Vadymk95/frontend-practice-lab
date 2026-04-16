@@ -6,6 +6,7 @@ import { visualizer } from 'rollup-plugin-visualizer';
 import { defineConfig } from 'vite';
 import compression from 'vite-plugin-compression';
 import eslint from 'vite-plugin-eslint2';
+import { VitePWA } from 'vite-plugin-pwa';
 import svgr from 'vite-plugin-svgr';
 import { webfontDownload } from 'vite-plugin-webfont-dl';
 
@@ -40,6 +41,43 @@ export default defineConfig(({ command }) => ({
         }),
         // Downloads fonts from @import in CSS and bundles them locally (0 external requests)
         webfontDownload(),
+        VitePWA({
+            registerType: 'prompt',
+            injectRegister: 'auto',
+            manifest: {
+                name: 'InterviewOS',
+                short_name: 'InterviewOS',
+                description: 'Frontend interview preparation',
+                theme_color: '#0a0a0a',
+                background_color: '#0a0a0a',
+                display: 'standalone',
+                orientation: 'portrait',
+                start_url: '/',
+                icons: [
+                    { src: '/icons/192x192.png', sizes: '192x192', type: 'image/png' },
+                    {
+                        src: '/icons/512x512.png',
+                        sizes: '512x512',
+                        type: 'image/png',
+                        purpose: 'any maskable'
+                    },
+                    { src: '/icons/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }
+                ]
+            },
+            workbox: {
+                globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}', 'data/*.json'],
+                runtimeCaching: [
+                    {
+                        urlPattern: /^\/data\/.+\.json$/,
+                        handler: 'CacheFirst',
+                        options: {
+                            cacheName: 'question-data',
+                            expiration: { maxAgeSeconds: 86400 }
+                        }
+                    }
+                ]
+            }
+        }),
         // Bundle analyzer: only runs when ANALYZE=true env variable is set
         // Usage: ANALYZE=true npm run build
         ...(process.env.ANALYZE === 'true'

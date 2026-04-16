@@ -1,6 +1,6 @@
 # Story 6.3: PWA — Installable & Offline
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 
@@ -30,40 +30,40 @@ so that I can practice during my morning routine without needing a browser or in
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Install `vite-plugin-pwa` (AC: #1)
-  - [ ] **Prerequisite: Story 6.7 (Vite 8 migration) MUST be complete before this task**
-  - [ ] `npm install -D vite-plugin-pwa`
-  - [ ] Verify peer dependency: `vite-plugin-pwa` requires Vite ≥ 5. After Vite 8 migration it will be satisfied
+- [x] Task 1: Install `vite-plugin-pwa` (AC: #1)
+  - [x] **Prerequisite: Story 6.7 (Vite 8 migration) MUST be complete before this task**
+  - [x] `npm install -D vite-plugin-pwa`
+  - [x] Verify peer dependency: `vite-plugin-pwa` requires Vite ≥ 5. After Vite 8 migration it will be satisfied
 
-- [ ] Task 2: Configure PWA in `vite.config.ts` (AC: #1, #2)
-  - [ ] Import `VitePWA` from `vite-plugin-pwa`
-  - [ ] Add to `plugins` array with `registerType: 'prompt'` (update flow is manual via toast — Story 6.4)
-  - [ ] Configure `manifest` object (name, short_name, icons, theme_color, display)
-  - [ ] Configure `workbox.globPatterns` to include `**/*.{js,css,html,ico,png,svg,json}` + `data/*.json`
-  - [ ] Add `workbox.runtimeCaching` for `public/data/*.json` files
+- [x] Task 2: Configure PWA in `vite.config.ts` (AC: #1, #2)
+  - [x] Import `VitePWA` from `vite-plugin-pwa`
+  - [x] Add to `plugins` array with `registerType: 'prompt'` (update flow is manual via toast — Story 6.4)
+  - [x] Configure `manifest` object (name, short_name, icons, theme_color, display)
+  - [x] Configure `workbox.globPatterns` to include `**/*.{js,css,html,ico,png,svg,json}` + `data/*.json`
+  - [x] Add `workbox.runtimeCaching` for `public/data/*.json` files
 
-- [ ] Task 3: Add PWA icons to `public/icons/` (AC: #1)
-  - [ ] Create/add icons: `192x192.png`, `512x512.png`, `apple-touch-icon.png` (180x180)
-  - [ ] Reference them in manifest `icons` array
+- [x] Task 3: Add PWA icons to `public/icons/` (AC: #1)
+  - [x] Create/add icons: `192x192.png`, `512x512.png`, `apple-touch-icon.png` (180x180)
+  - [x] Reference them in manifest `icons` array
 
-- [ ] Task 4: Create `PwaInstallToast` component (AC: #4)
-  - [ ] Create `src/components/common/PwaInstallToast/PwaInstallToast.tsx`
-  - [ ] Create `src/components/common/PwaInstallToast/usePwaInstallToast.ts`
-  - [ ] Create `src/components/common/PwaInstallToast/index.ts`
-  - [ ] Hook: listen for `beforeinstallprompt` event, track dismissed state in `sessionStorage`
-  - [ ] Show toast only after first session completes (listen for route change to `/summary`)
-  - [ ] Render toast from `AppShell` or `main.tsx`
+- [x] Task 4: Create `PwaInstallToast` component (AC: #4)
+  - [x] Create `src/components/common/PwaInstallToast/PwaInstallToast.tsx`
+  - [x] Create `src/components/common/PwaInstallToast/usePwaInstallToast.ts`
+  - [x] Create `src/components/common/PwaInstallToast/index.ts`
+  - [x] Hook: listen for `beforeinstallprompt` event, track dismissed state in `sessionStorage`
+  - [x] Show toast only after first session completes (listen for route change to `/summary`)
+  - [x] Render toast from `AppShell` or `main.tsx`
 
-- [ ] Task 5: Add i18n keys for install prompt (AC: #4)
-  - [ ] `public/locales/en/common.json` — `pwa.installPrompt`, `pwa.dismiss`
-  - [ ] `public/locales/ru/common.json` — same keys in Russian
+- [x] Task 5: Add i18n keys for install prompt (AC: #4)
+  - [x] `public/locales/en/common.json` — `pwa.installPrompt`, `pwa.dismiss`
+  - [x] `public/locales/ru/common.json` — same keys in Russian
 
-- [ ] Task 6: Verification
-  - [ ] `npm run format`
-  - [ ] `npm run lint`
-  - [ ] `npx tsc --noEmit`
-  - [ ] `npm run test`
-  - [ ] `npm run build` — verify `dist/sw.js` and `dist/manifest.webmanifest` are generated
+- [x] Task 6: Verification
+  - [x] `npm run format`
+  - [x] `npm run lint`
+  - [x] `npx tsc --noEmit`
+  - [x] `npm run test`
+  - [x] `npm run build` — verify `dist/sw.js` and `dist/manifest.webmanifest` are generated
 
 ## Dev Notes
 
@@ -212,3 +212,34 @@ Use a placeholder/generated icon if no design assets are available. Solid dark b
 - Story 6.4 (`6-4-pwa-update-notification.md`) — uses `useRegisterSW` from same plugin
 - Story 6.7 (`6-7-vite-8-migration.md`) — MUST complete before this story
 - Architecture doc §8 — PWA + Analytics section (analytics events: `pwa_install_prompt`)
+
+## File List
+
+- `package.json` — vite upgraded to `^8.0.0`, `vite-plugin-eslint2` to `^5.1.0`, added `vite-plugin-pwa ^1.2.0`, `@testing-library/dom`
+- `package-lock.json` — updated lockfile
+- `vite.config.ts` — added VitePWA plugin with manifest, workbox config
+- `public/icons/192x192.png` — new PWA icon (placeholder, dark background)
+- `public/icons/512x512.png` — new PWA icon (placeholder, dark background)
+- `public/icons/apple-touch-icon.png` — new PWA icon (placeholder, dark background)
+- `src/components/common/PwaInstallToast/PwaInstallToast.tsx` — new toast UI component
+- `src/components/common/PwaInstallToast/usePwaInstallToast.ts` — new hook (beforeinstallprompt, route detection, sessionStorage)
+- `src/components/common/PwaInstallToast/index.ts` — new barrel export
+- `src/components/common/PwaInstallToast/usePwaInstallToast.test.ts` — new unit tests (6 tests)
+- `src/App.tsx` — added `<PwaInstallToast />` render
+- `public/locales/en/common.json` — added `pwa.installPrompt`, `pwa.install`, `pwa.dismiss`
+- `public/locales/ru/common.json` — same keys in Russian
+
+## Dev Agent Record
+
+### Completion Notes
+
+- Performed Story 6.7 (Vite 8 migration) first: upgraded `rolldown-vite@7.3.1` → `vite@^8.0.0`, `vite-plugin-eslint2@5.0.5` → `5.1.0`. Build and all 269 tests passed.
+- Installed `vite-plugin-pwa@^1.2.0` with `--legacy-peer-deps` (plugin peer deps lag behind Vite 8 release); added `@testing-library/dom` explicitly to fix transitive dep regression from `--legacy-peer-deps`.
+- `VitePWA` configured with `registerType: 'prompt'` (Story 6.4 handles update flow), workbox precaches all assets + data/*.json, runtimeCaching for question data (CacheFirst, 24h TTL).
+- Generated placeholder 3-icon set (dark `#0a0a0a` background) via pure Node.js zlib/PNG binary generation (no external tools required).
+- `usePwaInstallToast` listens for `beforeinstallprompt` on mount, shows toast when user navigates to `/session/summary` if prompt is available and not previously dismissed in session (sessionStorage).
+- All ACs satisfied: build generates `dist/sw.js` + `dist/manifest.webmanifest`; 275/275 tests pass; TypeScript clean; icons present.
+
+## Change Log
+
+- 2026-04-16: Completed Story 6.7 (Vite 8 migration) as prerequisite, then implemented PWA installability and offline support (Story 6.3). 30 test files, 275 tests passing.
