@@ -1,6 +1,9 @@
 export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use --silent 2>/dev/null || true
 
+echo "→ audit"
+npm audit --audit-level=moderate || { echo "❌ Security audit failed. Fix vulnerabilities before push."; exit 1; }
+
 echo "→ format:check"
 npm run format:check || { echo "❌ Formatting check failed. Run 'npm run format' and re-commit."; exit 1; }
 
