@@ -4,10 +4,12 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { usePwaUpdateToast } from './usePwaUpdateToast';
 
 const mockUpdateServiceWorker = vi.fn();
+const mockSetter = vi.fn();
 
 vi.mock('virtual:pwa-register/react', () => ({
     useRegisterSW: vi.fn(() => ({
-        needRefresh: [false],
+        needRefresh: [false, mockSetter],
+        offlineReady: [false, mockSetter],
         updateServiceWorker: mockUpdateServiceWorker
     }))
 }));
@@ -26,9 +28,9 @@ describe('usePwaUpdateToast', () => {
 
     it('isVisible is false when needRefresh is false', () => {
         vi.mocked(useRegisterSW).mockReturnValue({
-            needRefresh: [false],
-            updateServiceWorker: mockUpdateServiceWorker,
-            offlineReady: [false]
+            needRefresh: [false, mockSetter],
+            offlineReady: [false, mockSetter],
+            updateServiceWorker: mockUpdateServiceWorker
         });
 
         const { result } = renderHook(() => usePwaUpdateToast());
@@ -37,9 +39,9 @@ describe('usePwaUpdateToast', () => {
 
     it('isVisible is true when needRefresh is true and not dismissed', () => {
         vi.mocked(useRegisterSW).mockReturnValue({
-            needRefresh: [true],
-            updateServiceWorker: mockUpdateServiceWorker,
-            offlineReady: [false]
+            needRefresh: [true, mockSetter],
+            offlineReady: [false, mockSetter],
+            updateServiceWorker: mockUpdateServiceWorker
         });
 
         const { result } = renderHook(() => usePwaUpdateToast());
@@ -48,9 +50,9 @@ describe('usePwaUpdateToast', () => {
 
     it('handleDismiss sets dismissed and writes to sessionStorage', () => {
         vi.mocked(useRegisterSW).mockReturnValue({
-            needRefresh: [true],
-            updateServiceWorker: mockUpdateServiceWorker,
-            offlineReady: [false]
+            needRefresh: [true, mockSetter],
+            offlineReady: [false, mockSetter],
+            updateServiceWorker: mockUpdateServiceWorker
         });
 
         const { result } = renderHook(() => usePwaUpdateToast());
@@ -65,9 +67,9 @@ describe('usePwaUpdateToast', () => {
 
     it('isVisible is false after handleDismiss', () => {
         vi.mocked(useRegisterSW).mockReturnValue({
-            needRefresh: [true],
-            updateServiceWorker: mockUpdateServiceWorker,
-            offlineReady: [false]
+            needRefresh: [true, mockSetter],
+            offlineReady: [false, mockSetter],
+            updateServiceWorker: mockUpdateServiceWorker
         });
 
         const { result } = renderHook(() => usePwaUpdateToast());
@@ -82,9 +84,9 @@ describe('usePwaUpdateToast', () => {
 
     it('handleUpdate calls updateServiceWorker(true)', () => {
         vi.mocked(useRegisterSW).mockReturnValue({
-            needRefresh: [true],
-            updateServiceWorker: mockUpdateServiceWorker,
-            offlineReady: [false]
+            needRefresh: [true, mockSetter],
+            offlineReady: [false, mockSetter],
+            updateServiceWorker: mockUpdateServiceWorker
         });
 
         const { result } = renderHook(() => usePwaUpdateToast());
@@ -99,9 +101,9 @@ describe('usePwaUpdateToast', () => {
     it('isVisible is false when already dismissed (sessionStorage pre-set)', () => {
         sessionStorage.setItem('pwa_update_dismissed', '1');
         vi.mocked(useRegisterSW).mockReturnValue({
-            needRefresh: [true],
-            updateServiceWorker: mockUpdateServiceWorker,
-            offlineReady: [false]
+            needRefresh: [true, mockSetter],
+            offlineReady: [false, mockSetter],
+            updateServiceWorker: mockUpdateServiceWorker
         });
 
         const { result } = renderHook(() => usePwaUpdateToast());
