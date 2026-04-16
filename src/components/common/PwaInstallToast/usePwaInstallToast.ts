@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { track } from '@/lib/analytics';
@@ -13,7 +13,7 @@ const DISMISSED_KEY = 'pwa_prompt_dismissed';
 
 export const usePwaInstallToast = () => {
     const [promptEvent, setPromptEvent] = useState<BeforeInstallPromptEvent | null>(null);
-    const [isVisible, setIsVisible] = useState(false);
+    const [dismissed, setDismissed] = useState(() => !!sessionStorage.getItem(DISMISSED_KEY));
     const location = useLocation();
     const installPromptTrackedRef = useRef(false);
 
@@ -26,33 +26,29 @@ export const usePwaInstallToast = () => {
         return () => window.removeEventListener('beforeinstallprompt', handler);
     }, []);
 
+    const isVisible =
+        location.pathname === RoutesPath.SessionSummary && promptEvent !== null && !dismissed;
+
     useEffect(() => {
-        if (
-            location.pathname === RoutesPath.SessionSummary &&
-            promptEvent !== null &&
-            !sessionStorage.getItem(DISMISSED_KEY)
-        ) {
-            setIsVisible(true);
-            if (!installPromptTrackedRef.current) {
-                installPromptTrackedRef.current = true;
-                track('pwa_install_prompt', {});
-            }
+        if (isVisible && !installPromptTrackedRef.current) {
+            installPromptTrackedRef.current = true;
+            track('pwa_install_prompt', {});
         }
-    }, [location.pathname, promptEvent]);
+    }, [isVisible]);
 
-    const dismiss = () => {
-        setIsVisible(false);
+    const dismiss = useCallback(() => {
+        setDismissed(true);
         sessionStorage.setItem(DISMISSED_KEY, '1');
-    };
+    }, []);
 
-    const install = async () => {
+    const install = useCallback(async () => {
         if (!promptEvent) return;
         await promptEvent.prompt();
         const result = await promptEvent.userChoice;
         if (result.outcome === 'accepted') {
             dismiss();
         }
-    };
+    }, [promptEvent, dismiss]);
 
     return { isVisible, dismiss, install, isAvailable: promptEvent !== null };
 };
