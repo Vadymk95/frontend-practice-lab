@@ -14,9 +14,12 @@ const makeQuestion = (id: string): Question => ({
     category: 'javascript',
     difficulty: 'easy',
     tags: [],
-    question: `Question ${id}`,
-    explanation: `Explanation ${id}`,
-    options: ['A', 'B'],
+    question: { en: `Question ${id}`, ru: `Question ${id}` },
+    explanation: { en: `Explanation ${id}`, ru: `Explanation ${id}` },
+    options: [
+        { en: 'A', ru: 'A' },
+        { en: 'B', ru: 'B' }
+    ],
     correct: 0
 });
 

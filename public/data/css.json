@@ -5,15 +5,33 @@
         "category": "css",
         "difficulty": "easy",
         "tags": ["box-model", "width"],
-        "question": "By default (box-sizing: content-box), what does the CSS width property control?",
+        "question": {
+            "en": "By default (box-sizing: content-box), what does the CSS width property control?",
+            "ru": "Что по умолчанию (box-sizing: content-box) задаёт CSS-свойство width?"
+        },
         "options": [
-            "Total width including padding and border",
-            "Width of the content area only",
-            "Width of the margin box",
-            "Minimum width of the element"
+            {
+                "en": "Total width including padding and border",
+                "ru": "Полную ширину, включая padding и border"
+            },
+            {
+                "en": "Width of the content area only",
+                "ru": "Ширину только области контента"
+            },
+            {
+                "en": "Width of the margin box",
+                "ru": "Ширину margin box"
+            },
+            {
+                "en": "Minimum width of the element",
+                "ru": "Минимальную ширину элемента"
+            }
         ],
         "correct": 1,
-        "explanation": "By default, width sets the content area width only. Padding and border are added on top. box-sizing: border-box includes padding and border within the declared width."
+        "explanation": {
+            "en": "By default, width sets the content area width only. Padding and border are added on top. box-sizing: border-box includes padding and border within the declared width.",
+            "ru": "По умолчанию width задаёт только ширину области контента. Padding и border добавляются сверху. box-sizing: border-box включает padding и border в объявленную ширину."
+        }
     },
     {
         "id": "css-specificity-001",
@@ -21,10 +39,33 @@
         "category": "css",
         "difficulty": "easy",
         "tags": ["specificity", "cascade"],
-        "question": "Which selector has the highest specificity?",
-        "options": ["div p", ".container p", "#header p", "* p"],
+        "question": {
+            "en": "Which selector has the highest specificity?",
+            "ru": "У какого селектора наибольшая специфичность?"
+        },
+        "options": [
+            {
+                "en": "div p",
+                "ru": "div p"
+            },
+            {
+                "en": ".container p",
+                "ru": ".container p"
+            },
+            {
+                "en": "#header p",
+                "ru": "#header p"
+            },
+            {
+                "en": "* p",
+                "ru": "* p"
+            }
+        ],
         "correct": 2,
-        "explanation": "IDs have specificity (0,1,0,0). #header p = (0,1,0,1). .container p = (0,0,1,1). div p = (0,0,0,2). The universal selector * contributes 0."
+        "explanation": {
+            "en": "IDs have specificity (0,1,0,0). #header p = (0,1,0,1). .container p = (0,0,1,1). div p = (0,0,0,2). The universal selector * contributes 0.",
+            "ru": "У id специфичность (0,1,0,0). #header p = (0,1,0,1). .container p = (0,0,1,1). div p = (0,0,0,2). Универсальный селектор * даёт 0."
+        }
     },
     {
         "id": "css-display-inline-001",
@@ -32,15 +73,33 @@
         "category": "css",
         "difficulty": "easy",
         "tags": ["display", "inline", "inline-block"],
-        "question": "What is the key difference between display: inline and display: inline-block?",
+        "question": {
+            "en": "What is the key difference between display: inline and display: inline-block?",
+            "ru": "В чём ключевое отличие display: inline от display: inline-block?"
+        },
         "options": [
-            "inline-block creates a new block formatting context; inline does not",
-            "inline-block respects width, height, and vertical margin/padding; inline ignores them",
-            "inline allows multiple elements per row; inline-block forces one per row",
-            "They are identical"
+            {
+                "en": "inline-block creates a new block formatting context; inline does not",
+                "ru": "inline-block создаёт новый block formatting context, а inline — нет"
+            },
+            {
+                "en": "inline-block respects width, height, and vertical margin/padding; inline ignores them",
+                "ru": "inline-block учитывает width, height и вертикальные margin/padding, а inline их игнорирует"
+            },
+            {
+                "en": "inline allows multiple elements per row; inline-block forces one per row",
+                "ru": "inline позволяет несколько элементов в строке, а inline-block вынуждает по одному в строке"
+            },
+            {
+                "en": "They are identical",
+                "ru": "Они идентичны"
+            }
         ],
         "correct": 1,
-        "explanation": "display: inline ignores width, height, and vertical margin. display: inline-block stays in the inline flow but respects all box model dimensions."
+        "explanation": {
+            "en": "display: inline ignores width, height, and vertical margin. display: inline-block stays in the inline flow but respects all box model dimensions.",
+            "ru": "display: inline игнорирует width, height и вертикальные margin. display: inline-block остаётся в инлайновом потоке, но учитывает все размеры box model."
+        }
     },
     {
         "id": "css-units-em-rem-001",
@@ -48,15 +107,33 @@
         "category": "css",
         "difficulty": "easy",
         "tags": ["units", "em", "rem"],
-        "question": "What is the difference between em and rem units?",
+        "question": {
+            "en": "What is the difference between em and rem units?",
+            "ru": "В чём разница между единицами em и rem?"
+        },
         "options": [
-            "em is relative to the root font-size; rem is relative to the parent",
-            "em is relative to the element's own font-size (or parent for other properties); rem is always relative to the root <html> font-size",
-            "em and rem are identical",
-            "rem is only supported in modern browsers"
+            {
+                "en": "em is relative to the root font-size; rem is relative to the parent",
+                "ru": "em относителен корневому font-size, а rem — родительскому"
+            },
+            {
+                "en": "em is relative to the element's own font-size (or parent for other properties); rem is always relative to the root <html> font-size",
+                "ru": "em относителен font-size самого элемента (или родителя для остальных свойств), а rem всегда относителен font-size корневого <html>"
+            },
+            {
+                "en": "em and rem are identical",
+                "ru": "em и rem идентичны"
+            },
+            {
+                "en": "rem is only supported in modern browsers",
+                "ru": "rem поддерживается только в современных браузерах"
+            }
         ],
         "correct": 1,
-        "explanation": "em is relative to the current element's font-size (or parent for non-font properties). rem is always relative to the root <html> font-size — predictable and unaffected by nesting."
+        "explanation": {
+            "en": "em is relative to the current element's font-size (or parent for non-font properties). rem is always relative to the root <html> font-size — predictable and unaffected by nesting.",
+            "ru": "em относителен font-size текущего элемента (или родителя для нешрифтовых свойств). rem всегда относителен font-size корневого <html> — предсказуем и не зависит от вложенности."
+        }
     },
     {
         "id": "css-flexbox-direction-001",
@@ -64,10 +141,33 @@
         "category": "css",
         "difficulty": "easy",
         "tags": ["flexbox", "flex-direction"],
-        "question": "What is the default value of flex-direction?",
-        "options": ["column", "row-reverse", "row", "column-reverse"],
+        "question": {
+            "en": "What is the default value of flex-direction?",
+            "ru": "Каково значение flex-direction по умолчанию?"
+        },
+        "options": [
+            {
+                "en": "column",
+                "ru": "column"
+            },
+            {
+                "en": "row-reverse",
+                "ru": "row-reverse"
+            },
+            {
+                "en": "row",
+                "ru": "row"
+            },
+            {
+                "en": "column-reverse",
+                "ru": "column-reverse"
+            }
+        ],
         "correct": 2,
-        "explanation": "The default flex-direction is row — items are arranged left-to-right. The main axis runs horizontally; the cross axis runs vertically."
+        "explanation": {
+            "en": "The default flex-direction is row — items are arranged left-to-right. The main axis runs horizontally; the cross axis runs vertically.",
+            "ru": "Значение flex-direction по умолчанию — row: элементы выстраиваются слева направо. Главная ось горизонтальна, поперечная — вертикальна."
+        }
     },
     {
         "id": "css-position-relative-001",
@@ -75,15 +175,33 @@
         "category": "css",
         "difficulty": "easy",
         "tags": ["positioning", "relative"],
-        "question": "What does position: relative do to an element?",
+        "question": {
+            "en": "What does position: relative do to an element?",
+            "ru": "Что position: relative делает с элементом?"
+        },
         "options": [
-            "Removes it from normal flow",
-            "Positions it relative to the viewport",
-            "Keeps it in normal flow, allows top/right/bottom/left offsets, and creates a containing block for absolute children",
-            "Makes it scroll with a fixed offset"
+            {
+                "en": "Removes it from normal flow",
+                "ru": "Убирает его из нормального потока"
+            },
+            {
+                "en": "Positions it relative to the viewport",
+                "ru": "Позиционирует его относительно viewport"
+            },
+            {
+                "en": "Keeps it in normal flow, allows top/right/bottom/left offsets, and creates a containing block for absolute children",
+                "ru": "Оставляет его в нормальном потоке, позволяет смещение через top/right/bottom/left и создаёт containing block для absolute-потомков"
+            },
+            {
+                "en": "Makes it scroll with a fixed offset",
+                "ru": "Заставляет его прокручиваться с фиксированным смещением"
+            }
         ],
         "correct": 2,
-        "explanation": "position: relative keeps the element in normal flow (space is reserved), allows offset with top/right/bottom/left, and creates a containing block for absolutely positioned descendants."
+        "explanation": {
+            "en": "position: relative keeps the element in normal flow (space is reserved), allows offset with top/right/bottom/left, and creates a containing block for absolutely positioned descendants.",
+            "ru": "position: relative оставляет элемент в нормальном потоке (место под него резервируется), разрешает смещение через top/right/bottom/left и создаёт containing block для absolute-потомков."
+        }
     },
     {
         "id": "css-colors-hsl-001",
@@ -91,15 +209,33 @@
         "category": "css",
         "difficulty": "easy",
         "tags": ["colors", "hsl"],
-        "question": "In hsl(120, 100%, 50%), what does 120 represent?",
+        "question": {
+            "en": "In hsl(120, 100%, 50%), what does 120 represent?",
+            "ru": "Что означает 120 в hsl(120, 100%, 50%)?"
+        },
         "options": [
-            "Saturation",
-            "Lightness",
-            "Hue in degrees on the color wheel",
-            "Alpha/opacity"
+            {
+                "en": "Saturation",
+                "ru": "Насыщенность (saturation)"
+            },
+            {
+                "en": "Lightness",
+                "ru": "Светлоту (lightness)"
+            },
+            {
+                "en": "Hue in degrees on the color wheel",
+                "ru": "Тон (hue) в градусах по цветовому кругу"
+            },
+            {
+                "en": "Alpha/opacity",
+                "ru": "Альфу/прозрачность"
+            }
         ],
         "correct": 2,
-        "explanation": "In HSL, the first value is hue in degrees (0–360°): 0°=red, 120°=green, 240°=blue. Second is saturation (0–100%); third is lightness (0–100%)."
+        "explanation": {
+            "en": "In HSL, the first value is hue in degrees (0–360°): 0°=red, 120°=green, 240°=blue. Second is saturation (0–100%); third is lightness (0–100%).",
+            "ru": "В HSL первое значение — hue в градусах (0–360°): 0° — красный, 120° — зелёный, 240° — синий. Второе — saturation (0–100%), третье — lightness (0–100%)."
+        }
     },
     {
         "id": "css-pseudo-active-001",
@@ -107,10 +243,33 @@
         "category": "css",
         "difficulty": "easy",
         "tags": ["pseudo-classes", "active"],
-        "question": "Which pseudo-class applies while an element is being pressed but not yet released?",
-        "options": [":focus", ":hover", ":active", ":visited"],
+        "question": {
+            "en": "Which pseudo-class applies while an element is being pressed but not yet released?",
+            "ru": "Какой псевдокласс срабатывает, пока элемент нажат, но ещё не отпущен?"
+        },
+        "options": [
+            {
+                "en": ":focus",
+                "ru": ":focus"
+            },
+            {
+                "en": ":hover",
+                "ru": ":hover"
+            },
+            {
+                "en": ":active",
+                "ru": ":active"
+            },
+            {
+                "en": ":visited",
+                "ru": ":visited"
+            }
+        ],
         "correct": 2,
-        "explanation": ":active applies between mousedown and mouseup. :hover applies while the pointer is over the element. :focus applies when the element has keyboard or click focus."
+        "explanation": {
+            "en": ":active applies between mousedown and mouseup. :hover applies while the pointer is over the element. :focus applies when the element has keyboard or click focus.",
+            "ru": ":active действует между mousedown и mouseup. :hover — пока указатель над элементом. :focus — когда элемент получил фокус с клавиатуры или клика."
+        }
     },
     {
         "id": "css-variables-define-001",
@@ -118,15 +277,33 @@
         "category": "css",
         "difficulty": "easy",
         "tags": ["custom-properties", "variables"],
-        "question": "How do you define a CSS custom property on the root element?",
+        "question": {
+            "en": "How do you define a CSS custom property on the root element?",
+            "ru": "Как объявить CSS-кастомное свойство на корневом элементе?"
+        },
         "options": [
-            "$primary: blue;",
-            "@variable --primary: blue;",
-            ":root { --primary: blue; }",
-            "html { var(--primary): blue; }"
+            {
+                "en": "$primary: blue;",
+                "ru": "$primary: blue;"
+            },
+            {
+                "en": "@variable --primary: blue;",
+                "ru": "@variable --primary: blue;"
+            },
+            {
+                "en": ":root { --primary: blue; }",
+                "ru": ":root { --primary: blue; }"
+            },
+            {
+                "en": "html { var(--primary): blue; }",
+                "ru": "html { var(--primary): blue; }"
+            }
         ],
         "correct": 2,
-        "explanation": "CSS custom properties use a -- prefix inside a selector rule. :root is the conventional location for global variables, matching the root <html> element."
+        "explanation": {
+            "en": "CSS custom properties use a -- prefix inside a selector rule. :root is the conventional location for global variables, matching the root <html> element.",
+            "ru": "CSS-кастомные свойства используют префикс -- внутри правила селектора. :root — принятое место для глобальных переменных, совпадающее с корневым <html>."
+        }
     },
     {
         "id": "css-boxmodel-border-box-001",
@@ -134,15 +311,33 @@
         "category": "css",
         "difficulty": "easy",
         "tags": ["box-model", "box-sizing"],
-        "question": "What does box-sizing: border-box do?",
+        "question": {
+            "en": "What does box-sizing: border-box do?",
+            "ru": "Что делает box-sizing: border-box?"
+        },
         "options": [
-            "Adds a visible border to all elements",
-            "Makes width and height include content, padding, and border (not margin)",
-            "Enables box-shadow on borders",
-            "Applies only to block elements"
+            {
+                "en": "Adds a visible border to all elements",
+                "ru": "Добавляет всем элементам видимую рамку"
+            },
+            {
+                "en": "Makes width and height include content, padding, and border (not margin)",
+                "ru": "Включает в width и height контент, padding и border (но не margin)"
+            },
+            {
+                "en": "Enables box-shadow on borders",
+                "ru": "Включает box-shadow для рамок"
+            },
+            {
+                "en": "Applies only to block elements",
+                "ru": "Применяется только к блочным элементам"
+            }
         ],
         "correct": 1,
-        "explanation": "box-sizing: border-box includes padding and border in the declared width/height. The element stays at the declared size. Margin is never included in either mode."
+        "explanation": {
+            "en": "box-sizing: border-box includes padding and border in the declared width/height. The element stays at the declared size. Margin is never included in either mode.",
+            "ru": "box-sizing: border-box включает padding и border в объявленные width/height. Элемент остаётся размером как объявлено. Margin не входит ни в один из режимов."
+        }
     },
     {
         "id": "css-reset-normalize-001",
@@ -150,15 +345,33 @@
         "category": "css",
         "difficulty": "easy",
         "tags": ["reset", "normalize"],
-        "question": "What is the main difference between a CSS reset and CSS Normalize?",
+        "question": {
+            "en": "What is the main difference between a CSS reset and CSS Normalize?",
+            "ru": "В чём главное отличие CSS reset от CSS Normalize?"
+        },
         "options": [
-            "A reset removes all browser defaults; Normalize makes them consistent while preserving useful ones",
-            "Normalize removes all defaults; a reset makes them consistent",
-            "They are identical",
-            "A reset only affects typography"
+            {
+                "en": "A reset removes all browser defaults; Normalize makes them consistent while preserving useful ones",
+                "ru": "Reset убирает все браузерные дефолты, а Normalize приводит их к единообразию, сохраняя полезные"
+            },
+            {
+                "en": "Normalize removes all defaults; a reset makes them consistent",
+                "ru": "Normalize убирает все дефолты, а reset приводит их к единообразию"
+            },
+            {
+                "en": "They are identical",
+                "ru": "Они идентичны"
+            },
+            {
+                "en": "A reset only affects typography",
+                "ru": "Reset влияет только на типографику"
+            }
         ],
         "correct": 0,
-        "explanation": "CSS resets strip all browser defaults to a blank slate. CSS Normalize makes defaults consistent across browsers while keeping useful ones like heading sizes."
+        "explanation": {
+            "en": "CSS resets strip all browser defaults to a blank slate. CSS Normalize makes defaults consistent across browsers while keeping useful ones like heading sizes.",
+            "ru": "CSS reset обнуляет все браузерные дефолты до чистого листа. CSS Normalize делает дефолты одинаковыми в разных браузерах, сохраняя полезные — например, размеры заголовков."
+        }
     },
     {
         "id": "css-media-minwidth-001",
@@ -166,15 +379,33 @@
         "category": "css",
         "difficulty": "medium",
         "tags": ["media-queries", "mobile-first"],
-        "question": "Which approach is recommended for mobile-first responsive CSS?",
+        "question": {
+            "en": "Which approach is recommended for mobile-first responsive CSS?",
+            "ru": "Какой подход рекомендуется для mobile-first адаптивного CSS?"
+        },
         "options": [
-            "Use max-width queries to progressively remove styles",
-            "Use min-width queries to progressively add styles for larger screens",
-            "Write all styles for 1440px and scale down",
-            "Use device-width instead of width"
+            {
+                "en": "Use max-width queries to progressively remove styles",
+                "ru": "Использовать max-width медиа-запросы, постепенно убирая стили"
+            },
+            {
+                "en": "Use min-width queries to progressively add styles for larger screens",
+                "ru": "Использовать min-width медиа-запросы, постепенно добавляя стили для больших экранов"
+            },
+            {
+                "en": "Write all styles for 1440px and scale down",
+                "ru": "Писать все стили под 1440px и масштабировать вниз"
+            },
+            {
+                "en": "Use device-width instead of width",
+                "ru": "Использовать device-width вместо width"
+            }
         ],
         "correct": 1,
-        "explanation": "Mobile-first CSS starts with small-screen styles and adds/overrides with min-width media queries for larger viewports, producing leaner CSS for mobile."
+        "explanation": {
+            "en": "Mobile-first CSS starts with small-screen styles and adds/overrides with min-width media queries for larger viewports, producing leaner CSS for mobile.",
+            "ru": "Mobile-first CSS начинается со стилей для маленьких экранов и добавляет/переопределяет их через min-width медиа-запросы для больших viewport, давая более лёгкий CSS на мобильных."
+        }
     },
     {
         "id": "css-grid-fr-001",
@@ -182,15 +413,33 @@
         "category": "css",
         "difficulty": "medium",
         "tags": ["grid", "fr"],
-        "question": "What does the fr unit represent in CSS Grid?",
+        "question": {
+            "en": "What does the fr unit represent in CSS Grid?",
+            "ru": "Что означает единица fr в CSS Grid?"
+        },
         "options": [
-            "A fixed pixel fraction",
-            "A fraction of available free space after fixed tracks are allocated",
-            "Font-relative unit equal to font-size",
-            "A percentage of the parent width"
+            {
+                "en": "A fixed pixel fraction",
+                "ru": "Фиксированную пиксельную долю"
+            },
+            {
+                "en": "A fraction of available free space after fixed tracks are allocated",
+                "ru": "Долю свободного пространства после распределения фиксированных треков"
+            },
+            {
+                "en": "Font-relative unit equal to font-size",
+                "ru": "Шрифтозависимую единицу, равную font-size"
+            },
+            {
+                "en": "A percentage of the parent width",
+                "ru": "Процент от ширины родителя"
+            }
         ],
         "correct": 1,
-        "explanation": "fr (fraction) represents a share of remaining free space. grid-template-columns: 1fr 2fr 1fr — middle column gets twice the free space of each outer column."
+        "explanation": {
+            "en": "fr (fraction) represents a share of remaining free space. grid-template-columns: 1fr 2fr 1fr — middle column gets twice the free space of each outer column.",
+            "ru": "fr (fraction) — это доля оставшегося свободного пространства. grid-template-columns: 1fr 2fr 1fr — средний столбец получает вдвое больше свободного места, чем каждый крайний."
+        }
     },
     {
         "id": "css-stacking-context-001",
@@ -198,15 +447,33 @@
         "category": "css",
         "difficulty": "medium",
         "tags": ["z-index", "stacking-context"],
-        "question": "Which of the following creates a new stacking context?",
+        "question": {
+            "en": "Which of the following creates a new stacking context?",
+            "ru": "Что из перечисленного создаёт новый stacking context?"
+        },
         "options": [
-            "position: static with z-index: 10",
-            "opacity: 0.5",
-            "display: block",
-            "margin: 0 auto"
+            {
+                "en": "position: static with z-index: 10",
+                "ru": "position: static с z-index: 10"
+            },
+            {
+                "en": "opacity: 0.5",
+                "ru": "opacity: 0.5"
+            },
+            {
+                "en": "display: block",
+                "ru": "display: block"
+            },
+            {
+                "en": "margin: 0 auto",
+                "ru": "margin: 0 auto"
+            }
         ],
         "correct": 1,
-        "explanation": "opacity < 1 creates a new stacking context. Other triggers: positioned elements with non-auto z-index, transform, filter, will-change, isolation: isolate. position: static ignores z-index."
+        "explanation": {
+            "en": "opacity < 1 creates a new stacking context. Other triggers: positioned elements with non-auto z-index, transform, filter, will-change, isolation: isolate. position: static ignores z-index.",
+            "ru": "opacity < 1 создаёт новый stacking context. Другие триггеры: позиционированные элементы с z-index отличным от auto, transform, filter, will-change, isolation: isolate. position: static игнорирует z-index."
+        }
     },
     {
         "id": "css-transition-shorthand-001",
@@ -214,15 +481,33 @@
         "category": "css",
         "difficulty": "medium",
         "tags": ["transitions", "timing-function"],
-        "question": "What does `transition: opacity 300ms ease-in-out 100ms` mean?",
+        "question": {
+            "en": "What does `transition: opacity 300ms ease-in-out 100ms` mean?",
+            "ru": "Что означает `transition: opacity 300ms ease-in-out 100ms`?"
+        },
         "options": [
-            "Animate opacity over 300ms with ease-in-out timing, starting after 100ms delay",
-            "Animate opacity over 100ms ending at 300ms",
-            "Animate all properties over 300ms",
-            "Delay 300ms then run for 100ms"
+            {
+                "en": "Animate opacity over 300ms with ease-in-out timing, starting after 100ms delay",
+                "ru": "Анимировать opacity 300ms с timing-функцией ease-in-out, начиная после задержки 100ms"
+            },
+            {
+                "en": "Animate opacity over 100ms ending at 300ms",
+                "ru": "Анимировать opacity 100ms, заканчивая на 300ms"
+            },
+            {
+                "en": "Animate all properties over 300ms",
+                "ru": "Анимировать все свойства 300ms"
+            },
+            {
+                "en": "Delay 300ms then run for 100ms",
+                "ru": "Задержка 300ms, затем выполнение 100ms"
+            }
         ],
         "correct": 0,
-        "explanation": "Transition shorthand order: property duration timing-function delay. So: animate opacity, 300ms, ease-in-out curve, 100ms delay."
+        "explanation": {
+            "en": "Transition shorthand order: property duration timing-function delay. So: animate opacity, 300ms, ease-in-out curve, 100ms delay.",
+            "ru": "Порядок в шорткате transition: property duration timing-function delay. То есть: анимируем opacity, длительность 300ms, кривая ease-in-out, задержка 100ms."
+        }
     },
     {
         "id": "css-selectors-child-001",
@@ -230,15 +515,33 @@
         "category": "css",
         "difficulty": "medium",
         "tags": ["selectors", "combinators"],
-        "question": "What is the difference between `div p` and `div > p`?",
+        "question": {
+            "en": "What is the difference between `div p` and `div > p`?",
+            "ru": "В чём разница между `div p` и `div > p`?"
+        },
         "options": [
-            "They are identical",
-            "div p selects all <p> descendants; div > p selects only direct <p> children",
-            "div > p selects all <p> elements; div p selects only the first child",
-            "div p is for classes; div > p is for IDs"
+            {
+                "en": "They are identical",
+                "ru": "Они идентичны"
+            },
+            {
+                "en": "div p selects all <p> descendants; div > p selects only direct <p> children",
+                "ru": "div p выбирает всех <p>-потомков, а div > p — только прямых <p>-детей"
+            },
+            {
+                "en": "div > p selects all <p> elements; div p selects only the first child",
+                "ru": "div > p выбирает все элементы <p>, а div p — только первого ребёнка"
+            },
+            {
+                "en": "div p is for classes; div > p is for IDs",
+                "ru": "div p — для классов, а div > p — для id"
+            }
         ],
         "correct": 1,
-        "explanation": "The descendant combinator (space) matches any depth. The child combinator (>) matches only direct children. div > p will not match a <p> nested inside another element within the div."
+        "explanation": {
+            "en": "The descendant combinator (space) matches any depth. The child combinator (>) matches only direct children. div > p will not match a <p> nested inside another element within the div.",
+            "ru": "Комбинатор потомка (пробел) матчит на любой глубине. Комбинатор прямого ребёнка (>) матчит только прямых детей. div > p не совпадёт с <p>, вложенным в другой элемент внутри div."
+        }
     },
     {
         "id": "css-clamp-001",
@@ -246,15 +549,33 @@
         "category": "css",
         "difficulty": "medium",
         "tags": ["clamp", "fluid-typography"],
-        "question": "What does clamp(16px, 2vw, 24px) produce?",
+        "question": {
+            "en": "What does clamp(16px, 2vw, 24px) produce?",
+            "ru": "Что возвращает clamp(16px, 2vw, 24px)?"
+        },
         "options": [
-            "Always returns 2vw",
-            "Returns 2vw clamped between a 16px minimum and 24px maximum",
-            "Returns the maximum of all three",
-            "Clamps the element's width"
+            {
+                "en": "Always returns 2vw",
+                "ru": "Всегда возвращает 2vw"
+            },
+            {
+                "en": "Returns 2vw clamped between a 16px minimum and 24px maximum",
+                "ru": "Возвращает 2vw, ограниченное минимумом 16px и максимумом 24px"
+            },
+            {
+                "en": "Returns the maximum of all three",
+                "ru": "Возвращает максимум из трёх значений"
+            },
+            {
+                "en": "Clamps the element's width",
+                "ru": "Ограничивает ширину элемента"
+            }
         ],
         "correct": 1,
-        "explanation": "clamp(MIN, VAL, MAX) uses VAL but never goes below MIN or above MAX. Ideal for fluid typography that scales with the viewport within a safe range."
+        "explanation": {
+            "en": "clamp(MIN, VAL, MAX) uses VAL but never goes below MIN or above MAX. Ideal for fluid typography that scales with the viewport within a safe range.",
+            "ru": "clamp(MIN, VAL, MAX) использует VAL, но не опускается ниже MIN и не поднимается выше MAX. Идеален для fluid-типографики, масштабирующейся с viewport в безопасном диапазоне."
+        }
     },
     {
         "id": "css-pseudo-before-content-001",
@@ -262,15 +583,33 @@
         "category": "css",
         "difficulty": "medium",
         "tags": ["pseudo-elements", "content"],
-        "question": "Which CSS declaration is required for ::before and ::after to appear?",
+        "question": {
+            "en": "Which CSS declaration is required for ::before and ::after to appear?",
+            "ru": "Какое CSS-объявление обязательно, чтобы ::before и ::after отобразились?"
+        },
         "options": [
-            "display: block",
-            "position: absolute",
-            "content property (any value, including empty string)",
-            "z-index: 1"
+            {
+                "en": "display: block",
+                "ru": "display: block"
+            },
+            {
+                "en": "position: absolute",
+                "ru": "position: absolute"
+            },
+            {
+                "en": "content property (any value, including empty string)",
+                "ru": "Свойство content (любое значение, включая пустую строку)"
+            },
+            {
+                "en": "z-index: 1",
+                "ru": "z-index: 1"
+            }
         ],
         "correct": 2,
-        "explanation": "The content property is mandatory for ::before and ::after. Without it the pseudo-elements are not generated. The value can be empty string, text, counter(), or attr()."
+        "explanation": {
+            "en": "The content property is mandatory for ::before and ::after. Without it the pseudo-elements are not generated. The value can be empty string, text, counter(), or attr().",
+            "ru": "Свойство content обязательно для ::before и ::after. Без него псевдоэлементы не генерируются. Значением может быть пустая строка, текст, counter() или attr()."
+        }
     },
     {
         "id": "css-bem-001",
@@ -278,15 +617,33 @@
         "category": "css",
         "difficulty": "medium",
         "tags": ["bem", "naming"],
-        "question": "In BEM, what does `.card__title--featured` represent?",
+        "question": {
+            "en": "In BEM, what does `.card__title--featured` represent?",
+            "ru": "Что в BEM означает `.card__title--featured`?"
+        },
         "options": [
-            "A block 'card__title' with modifier 'featured'",
-            "An element 'title' of block 'card' with modifier 'featured'",
-            "A block 'card' with child 'title-featured'",
-            "A pseudo-element state"
+            {
+                "en": "A block 'card__title' with modifier 'featured'",
+                "ru": "Блок 'card__title' с модификатором 'featured'"
+            },
+            {
+                "en": "An element 'title' of block 'card' with modifier 'featured'",
+                "ru": "Элемент 'title' блока 'card' с модификатором 'featured'"
+            },
+            {
+                "en": "A block 'card' with child 'title-featured'",
+                "ru": "Блок 'card' с дочерним 'title-featured'"
+            },
+            {
+                "en": "A pseudo-element state",
+                "ru": "Состояние псевдоэлемента"
+            }
         ],
         "correct": 1,
-        "explanation": "BEM: Block__Element--Modifier. card = Block, title = Element (double underscore), featured = Modifier (double hyphen)."
+        "explanation": {
+            "en": "BEM: Block__Element--Modifier. card = Block, title = Element (double underscore), featured = Modifier (double hyphen).",
+            "ru": "BEM: Block__Element--Modifier. card — блок, title — элемент (двойное подчёркивание), featured — модификатор (двойной дефис)."
+        }
     },
     {
         "id": "css-float-layout-001",
@@ -294,15 +651,33 @@
         "category": "css",
         "difficulty": "medium",
         "tags": ["float", "layout"],
-        "question": "Why is float generally discouraged for page layout today?",
+        "question": {
+            "en": "Why is float generally discouraged for page layout today?",
+            "ru": "Почему float сегодня обычно не рекомендуют использовать для раскладки страницы?"
+        },
         "options": [
-            "Floats are deprecated in CSS3",
-            "Floats collapse parent height, require clearfix hacks, and are harder to reason about than Flexbox/Grid",
-            "Floats only work in Chrome",
-            "Floats cannot combine with other CSS properties"
+            {
+                "en": "Floats are deprecated in CSS3",
+                "ru": "Float объявлен устаревшим в CSS3"
+            },
+            {
+                "en": "Floats collapse parent height, require clearfix hacks, and are harder to reason about than Flexbox/Grid",
+                "ru": "Float схлопывает высоту родителя, требует clearfix-хаков и хуже поддаётся анализу, чем Flexbox/Grid"
+            },
+            {
+                "en": "Floats only work in Chrome",
+                "ru": "Float работает только в Chrome"
+            },
+            {
+                "en": "Floats cannot combine with other CSS properties",
+                "ru": "Float нельзя сочетать с другими CSS-свойствами"
+            }
         ],
         "correct": 1,
-        "explanation": "Floats cause parent height collapse and require clearfix techniques. Flexbox and Grid solve the same layout problems cleanly."
+        "explanation": {
+            "en": "Floats cause parent height collapse and require clearfix techniques. Flexbox and Grid solve the same layout problems cleanly.",
+            "ru": "Float приводит к схлопыванию высоты родителя и требует техник clearfix. Flexbox и Grid решают те же задачи раскладки чисто и понятно."
+        }
     },
     {
         "id": "css-transform-gpu-001",
@@ -310,15 +685,33 @@
         "category": "css",
         "difficulty": "hard",
         "tags": ["transform", "performance", "compositor"],
-        "question": "Why does transform: translateZ(0) improve animation performance?",
+        "question": {
+            "en": "Why does transform: translateZ(0) improve animation performance?",
+            "ru": "Почему transform: translateZ(0) улучшает производительность анимаций?"
+        },
         "options": [
-            "It promotes the element to a GPU compositor layer for off-main-thread animation",
-            "It reduces DOM depth",
-            "It disables JS on the element",
-            "It forces the browser to skip layout"
+            {
+                "en": "It promotes the element to a GPU compositor layer for off-main-thread animation",
+                "ru": "Он продвигает элемент в отдельный GPU compositor layer для анимации вне основного потока"
+            },
+            {
+                "en": "It reduces DOM depth",
+                "ru": "Он уменьшает глубину DOM"
+            },
+            {
+                "en": "It disables JS on the element",
+                "ru": "Он отключает JS на элементе"
+            },
+            {
+                "en": "It forces the browser to skip layout",
+                "ru": "Он заставляет браузер пропустить layout"
+            }
         ],
         "correct": 0,
-        "explanation": "transform: translateZ(0) promotes the element to its own GPU compositor layer. Composited layers animate off the main thread, avoiding layout/paint recalculations. will-change: transform is the modern equivalent."
+        "explanation": {
+            "en": "transform: translateZ(0) promotes the element to its own GPU compositor layer. Composited layers animate off the main thread, avoiding layout/paint recalculations. will-change: transform is the modern equivalent.",
+            "ru": "transform: translateZ(0) продвигает элемент в собственный GPU compositor layer. Композитные слои анимируются вне основного потока, избегая пересчёта layout и paint. will-change: transform — современный эквивалент."
+        }
     },
     {
         "id": "css-container-queries-001",
@@ -326,15 +719,33 @@
         "category": "css",
         "difficulty": "hard",
         "tags": ["responsive", "container-queries"],
-        "question": "What problem do Container Queries solve that media queries cannot?",
+        "question": {
+            "en": "What problem do Container Queries solve that media queries cannot?",
+            "ru": "Какую задачу решают Container Queries, которую не решают media queries?"
+        },
         "options": [
-            "Querying dark mode preference",
-            "A component styling itself based on its container's size, not the viewport",
-            "Making media queries obsolete",
-            "Enabling JS-based breakpoints"
+            {
+                "en": "Querying dark mode preference",
+                "ru": "Определение предпочтения тёмной темы"
+            },
+            {
+                "en": "A component styling itself based on its container's size, not the viewport",
+                "ru": "Компонент может стилизоваться в зависимости от размера своего контейнера, а не viewport"
+            },
+            {
+                "en": "Making media queries obsolete",
+                "ru": "Делают media queries устаревшими"
+            },
+            {
+                "en": "Enabling JS-based breakpoints",
+                "ru": "Включают брейкпойнты на основе JS"
+            }
         ],
         "correct": 1,
-        "explanation": "Media queries respond to viewport dimensions. Container queries let a component respond to its containing element's dimensions — a card in a narrow sidebar vs. wide main area can look different."
+        "explanation": {
+            "en": "Media queries respond to viewport dimensions. Container queries let a component respond to its containing element's dimensions — a card in a narrow sidebar vs. wide main area can look different.",
+            "ru": "Media queries реагируют на размеры viewport. Container queries позволяют компоненту реагировать на размеры своего контейнера — карточка в узком sidebar и в широкой основной области может выглядеть по-разному."
+        }
     },
     {
         "id": "css-boxmodel-layers-001",
@@ -342,10 +753,37 @@
         "category": "css",
         "difficulty": "easy",
         "tags": ["box-model"],
-        "question": "Which layers make up the CSS box model from innermost to outermost?",
-        "options": ["Content", "Padding", "Border", "Margin", "Outline"],
+        "question": {
+            "en": "Which layers make up the CSS box model from innermost to outermost?",
+            "ru": "Какие слои составляют CSS box model от внутреннего к внешнему?"
+        },
+        "options": [
+            {
+                "en": "Content",
+                "ru": "Content"
+            },
+            {
+                "en": "Padding",
+                "ru": "Padding"
+            },
+            {
+                "en": "Border",
+                "ru": "Border"
+            },
+            {
+                "en": "Margin",
+                "ru": "Margin"
+            },
+            {
+                "en": "Outline",
+                "ru": "Outline"
+            }
+        ],
         "correct": [0, 1, 2, 3],
-        "explanation": "CSS box model: content → padding → border → margin. Outline renders outside the border but is NOT part of the box model — it does not affect layout."
+        "explanation": {
+            "en": "CSS box model: content → padding → border → margin. Outline renders outside the border but is NOT part of the box model — it does not affect layout.",
+            "ru": "CSS box model: content → padding → border → margin. Outline рисуется снаружи border, но НЕ входит в box model — он не влияет на layout."
+        }
     },
     {
         "id": "css-flexbox-container-001",
@@ -353,10 +791,37 @@
         "category": "css",
         "difficulty": "easy",
         "tags": ["flexbox", "alignment"],
-        "question": "Which properties on a flex container control alignment of flex items?",
-        "options": ["justify-content", "align-items", "align-self", "align-content", "flex-grow"],
+        "question": {
+            "en": "Which properties on a flex container control alignment of flex items?",
+            "ru": "Какие свойства flex-контейнера управляют выравниванием flex-элементов?"
+        },
+        "options": [
+            {
+                "en": "justify-content",
+                "ru": "justify-content"
+            },
+            {
+                "en": "align-items",
+                "ru": "align-items"
+            },
+            {
+                "en": "align-self",
+                "ru": "align-self"
+            },
+            {
+                "en": "align-content",
+                "ru": "align-content"
+            },
+            {
+                "en": "flex-grow",
+                "ru": "flex-grow"
+            }
+        ],
         "correct": [0, 1, 3],
-        "explanation": "justify-content aligns on the main axis. align-items aligns on the cross axis. align-content aligns flex lines (multi-line). align-self is on the item, not container. flex-grow controls growth, not alignment."
+        "explanation": {
+            "en": "justify-content aligns on the main axis. align-items aligns on the cross axis. align-content aligns flex lines (multi-line). align-self is on the item, not container. flex-grow controls growth, not alignment.",
+            "ru": "justify-content выравнивает по главной оси. align-items — по поперечной. align-content выравнивает flex-линии (в многострочном случае). align-self задаётся на элементе, а не контейнере. flex-grow управляет ростом, а не выравниванием."
+        }
     },
     {
         "id": "css-pseudo-nth-001",
@@ -364,16 +829,37 @@
         "category": "css",
         "difficulty": "easy",
         "tags": ["pseudo-classes", "structural"],
-        "question": "Which pseudo-class selectors can target the third <li> in a <ul>?",
+        "question": {
+            "en": "Which pseudo-class selectors can target the third <li> in a <ul>?",
+            "ru": "Какие селекторы на псевдоклассах могут выбрать третий <li> внутри <ul>?"
+        },
         "options": [
-            "li:nth-child(3)",
-            "li:nth-of-type(3)",
-            "li:last-child",
-            "li:first-child + li + li",
-            "li:eq(2)"
+            {
+                "en": "li:nth-child(3)",
+                "ru": "li:nth-child(3)"
+            },
+            {
+                "en": "li:nth-of-type(3)",
+                "ru": "li:nth-of-type(3)"
+            },
+            {
+                "en": "li:last-child",
+                "ru": "li:last-child"
+            },
+            {
+                "en": "li:first-child + li + li",
+                "ru": "li:first-child + li + li"
+            },
+            {
+                "en": "li:eq(2)",
+                "ru": "li:eq(2)"
+            }
         ],
         "correct": [0, 1, 3],
-        "explanation": "li:nth-child(3) and li:nth-of-type(3) select the third item. li:first-child + li + li uses adjacent sibling combinators. li:eq(2) is jQuery, not standard CSS."
+        "explanation": {
+            "en": "li:nth-child(3) and li:nth-of-type(3) select the third item. li:first-child + li + li uses adjacent sibling combinators. li:eq(2) is jQuery, not standard CSS.",
+            "ru": "li:nth-child(3) и li:nth-of-type(3) выбирают третий элемент. li:first-child + li + li использует комбинаторы соседа. li:eq(2) — это jQuery, а не стандартный CSS."
+        }
     },
     {
         "id": "css-colors-formats-001",
@@ -381,16 +867,37 @@
         "category": "css",
         "difficulty": "easy",
         "tags": ["colors", "formats"],
-        "question": "Which are valid CSS color formats?",
+        "question": {
+            "en": "Which are valid CSS color formats?",
+            "ru": "Какие из форматов цвета в CSS валидны?"
+        },
         "options": [
-            "#3b82f6",
-            "rgb(59, 130, 246)",
-            "hsl(217, 91%, 60%)",
-            "color(59, 130, 246)",
-            "oklch(56% 0.2 264)"
+            {
+                "en": "#3b82f6",
+                "ru": "#3b82f6"
+            },
+            {
+                "en": "rgb(59, 130, 246)",
+                "ru": "rgb(59, 130, 246)"
+            },
+            {
+                "en": "hsl(217, 91%, 60%)",
+                "ru": "hsl(217, 91%, 60%)"
+            },
+            {
+                "en": "color(59, 130, 246)",
+                "ru": "color(59, 130, 246)"
+            },
+            {
+                "en": "oklch(56% 0.2 264)",
+                "ru": "oklch(56% 0.2 264)"
+            }
         ],
         "correct": [0, 1, 2, 4],
-        "explanation": "Hex (#3b82f6), rgb(), hsl(), and oklch() are all valid CSS color formats. color(59, 130, 246) is not valid — the correct syntax for color() function requires a color space identifier: color(srgb 0.23 0.51 0.96)."
+        "explanation": {
+            "en": "Hex (#3b82f6), rgb(), hsl(), and oklch() are all valid CSS color formats. color(59, 130, 246) is not valid — the correct syntax for color() function requires a color space identifier: color(srgb 0.23 0.51 0.96).",
+            "ru": "Hex (#3b82f6), rgb(), hsl() и oklch() — валидные форматы цвета в CSS. color(59, 130, 246) невалиден: корректный синтаксис функции color() требует идентификатора цветового пространства — color(srgb 0.23 0.51 0.96)."
+        }
     },
     {
         "id": "css-units-viewport-001",
@@ -398,10 +905,37 @@
         "category": "css",
         "difficulty": "medium",
         "tags": ["units", "viewport", "dvh"],
-        "question": "Which viewport units respond to the dynamic viewport (accounting for mobile browser UI)?",
-        "options": ["vh", "dvh", "vw", "dvw", "lvh"],
+        "question": {
+            "en": "Which viewport units respond to the dynamic viewport (accounting for mobile browser UI)?",
+            "ru": "Какие viewport-единицы реагируют на динамический viewport (с учётом UI мобильного браузера)?"
+        },
+        "options": [
+            {
+                "en": "vh",
+                "ru": "vh"
+            },
+            {
+                "en": "dvh",
+                "ru": "dvh"
+            },
+            {
+                "en": "vw",
+                "ru": "vw"
+            },
+            {
+                "en": "dvw",
+                "ru": "dvw"
+            },
+            {
+                "en": "lvh",
+                "ru": "lvh"
+            }
+        ],
         "correct": [1, 3],
-        "explanation": "dvh and dvw are dynamic viewport units that update when browser UI shows/hides. vh and vw use the initial viewport. lvh uses large viewport (UI hidden). svh uses small viewport (UI shown)."
+        "explanation": {
+            "en": "dvh and dvw are dynamic viewport units that update when browser UI shows/hides. vh and vw use the initial viewport. lvh uses large viewport (UI hidden). svh uses small viewport (UI shown).",
+            "ru": "dvh и dvw — динамические viewport-единицы, которые обновляются при появлении/скрытии UI браузера. vh и vw используют начальный viewport. lvh — large viewport (UI скрыт). svh — small viewport (UI показан)."
+        }
     },
     {
         "id": "css-grid-placement-001",
@@ -409,10 +943,37 @@
         "category": "css",
         "difficulty": "medium",
         "tags": ["grid", "placement"],
-        "question": "Which CSS Grid properties explicitly place a grid item?",
-        "options": ["grid-column", "grid-row", "grid-area", "grid-template", "place-items"],
+        "question": {
+            "en": "Which CSS Grid properties explicitly place a grid item?",
+            "ru": "Какие свойства CSS Grid явно размещают grid-элемент?"
+        },
+        "options": [
+            {
+                "en": "grid-column",
+                "ru": "grid-column"
+            },
+            {
+                "en": "grid-row",
+                "ru": "grid-row"
+            },
+            {
+                "en": "grid-area",
+                "ru": "grid-area"
+            },
+            {
+                "en": "grid-template",
+                "ru": "grid-template"
+            },
+            {
+                "en": "place-items",
+                "ru": "place-items"
+            }
+        ],
         "correct": [0, 1, 2],
-        "explanation": "grid-column, grid-row, and grid-area explicitly place items. grid-template defines the container structure. place-items aligns items within their cells."
+        "explanation": {
+            "en": "grid-column, grid-row, and grid-area explicitly place items. grid-template defines the container structure. place-items aligns items within their cells.",
+            "ru": "grid-column, grid-row и grid-area явно размещают элементы. grid-template определяет структуру контейнера. place-items выравнивает элементы внутри их ячеек."
+        }
     },
     {
         "id": "css-variables-behavior-001",
@@ -420,16 +981,37 @@
         "category": "css",
         "difficulty": "medium",
         "tags": ["custom-properties", "behavior"],
-        "question": "Which statements about CSS custom properties are correct?",
+        "question": {
+            "en": "Which statements about CSS custom properties are correct?",
+            "ru": "Какие утверждения о CSS-кастомных свойствах верны?"
+        },
         "options": [
-            "Custom properties cascade and are inherited by default",
-            "Custom properties can be updated with JS via element.style.setProperty()",
-            "Custom properties work inside calc() via var()",
-            "Custom properties are resolved at parse time like SASS variables",
-            "Custom property names are case-sensitive"
+            {
+                "en": "Custom properties cascade and are inherited by default",
+                "ru": "Кастомные свойства участвуют в каскаде и наследуются по умолчанию"
+            },
+            {
+                "en": "Custom properties can be updated with JS via element.style.setProperty()",
+                "ru": "Кастомные свойства можно обновлять из JS через element.style.setProperty()"
+            },
+            {
+                "en": "Custom properties work inside calc() via var()",
+                "ru": "Кастомные свойства работают внутри calc() через var()"
+            },
+            {
+                "en": "Custom properties are resolved at parse time like SASS variables",
+                "ru": "Кастомные свойства вычисляются на этапе парсинга, как переменные SASS"
+            },
+            {
+                "en": "Custom property names are case-sensitive",
+                "ru": "Имена кастомных свойств чувствительны к регистру"
+            }
         ],
         "correct": [0, 1, 2, 4],
-        "explanation": "Custom properties cascade/inherit (A), are JS-mutable (B), work in calc() (C), and are case-sensitive (E). They are resolved at computed-value time (dynamic), NOT parse time — D is false."
+        "explanation": {
+            "en": "Custom properties cascade/inherit (A), are JS-mutable (B), work in calc() (C), and are case-sensitive (E). They are resolved at computed-value time (dynamic), NOT parse time — D is false.",
+            "ru": "Кастомные свойства каскадируются и наследуются (A), изменяются из JS (B), работают в calc() (C) и чувствительны к регистру (E). Они вычисляются на этапе computed-value (динамически), а НЕ на этапе парсинга — D ложно."
+        }
     },
     {
         "id": "css-media-features-001",
@@ -437,16 +1019,37 @@
         "category": "css",
         "difficulty": "medium",
         "tags": ["media-queries", "features"],
-        "question": "Which media features exist for user accessibility preferences?",
+        "question": {
+            "en": "Which media features exist for user accessibility preferences?",
+            "ru": "Какие media features существуют для пользовательских accessibility-предпочтений?"
+        },
         "options": [
-            "prefers-color-scheme",
-            "prefers-reduced-motion",
-            "prefers-contrast",
-            "prefers-font-size",
-            "forced-colors"
+            {
+                "en": "prefers-color-scheme",
+                "ru": "prefers-color-scheme"
+            },
+            {
+                "en": "prefers-reduced-motion",
+                "ru": "prefers-reduced-motion"
+            },
+            {
+                "en": "prefers-contrast",
+                "ru": "prefers-contrast"
+            },
+            {
+                "en": "prefers-font-size",
+                "ru": "prefers-font-size"
+            },
+            {
+                "en": "forced-colors",
+                "ru": "forced-colors"
+            }
         ],
         "correct": [0, 1, 2, 4],
-        "explanation": "prefers-color-scheme, prefers-reduced-motion, prefers-contrast, and forced-colors all exist. prefers-font-size does not exist."
+        "explanation": {
+            "en": "prefers-color-scheme, prefers-reduced-motion, prefers-contrast, and forced-colors all exist. prefers-font-size does not exist.",
+            "ru": "prefers-color-scheme, prefers-reduced-motion, prefers-contrast и forced-colors существуют. prefers-font-size не существует."
+        }
     },
     {
         "id": "css-selectors-attribute-001",
@@ -454,16 +1057,37 @@
         "category": "css",
         "difficulty": "hard",
         "tags": ["selectors", "attribute-selectors"],
-        "question": "Which attribute selectors match <a href=\"https://example.com/page\">?",
+        "question": {
+            "en": "Which attribute selectors match <a href=\"https://example.com/page\">?",
+            "ru": "Какие селекторы по атрибуту совпадут с <a href=\"https://example.com/page\">?"
+        },
         "options": [
-            "[href]",
-            "[href^=\"https\"]",
-            "[href$=\".com\"]",
-            "[href*=\"example\"]",
-            "[href~=\"https://example.com/page\"]"
+            {
+                "en": "[href]",
+                "ru": "[href]"
+            },
+            {
+                "en": "[href^=\"https\"]",
+                "ru": "[href^=\"https\"]"
+            },
+            {
+                "en": "[href$=\".com\"]",
+                "ru": "[href$=\".com\"]"
+            },
+            {
+                "en": "[href*=\"example\"]",
+                "ru": "[href*=\"example\"]"
+            },
+            {
+                "en": "[href~=\"https://example.com/page\"]",
+                "ru": "[href~=\"https://example.com/page\"]"
+            }
         ],
         "correct": [0, 1, 3],
-        "explanation": "[href] matches any href. ^= matches prefix 'https'. $= requires suffix '.com' but value ends with '/page'. *= matches substring 'example'. ~= matches a whitespace-separated word — the full URL is one token."
+        "explanation": {
+            "en": "[href] matches any href. ^= matches prefix 'https'. $= requires suffix '.com' but value ends with '/page'. *= matches substring 'example'. ~= matches a whitespace-separated word — the full URL is one token.",
+            "ru": "[href] совпадает с любым href. ^= матчит префикс 'https'. $= требует суффикса '.com', но значение оканчивается на '/page'. *= матчит подстроку 'example'. ~= матчит слово, разделённое пробелами — весь URL здесь одним токеном."
+        }
     },
     {
         "id": "css-animations-fillmode-001",
@@ -471,16 +1095,37 @@
         "category": "css",
         "difficulty": "hard",
         "tags": ["animations", "fill-mode"],
-        "question": "Which animation properties affect styles applied before or after the animation runs?",
+        "question": {
+            "en": "Which animation properties affect styles applied before or after the animation runs?",
+            "ru": "Какие animation-свойства влияют на стили, применяемые до или после выполнения анимации?"
+        },
         "options": [
-            "animation-fill-mode",
-            "animation-delay",
-            "animation-iteration-count",
-            "animation-direction",
-            "animation-play-state"
+            {
+                "en": "animation-fill-mode",
+                "ru": "animation-fill-mode"
+            },
+            {
+                "en": "animation-delay",
+                "ru": "animation-delay"
+            },
+            {
+                "en": "animation-iteration-count",
+                "ru": "animation-iteration-count"
+            },
+            {
+                "en": "animation-direction",
+                "ru": "animation-direction"
+            },
+            {
+                "en": "animation-play-state",
+                "ru": "animation-play-state"
+            }
         ],
         "correct": [0, 1, 3],
-        "explanation": "animation-fill-mode persists styles before/after. Negative animation-delay starts mid-animation. animation-direction (reverse/alternate) affects start/end styles. iteration-count controls repetitions only. play-state pauses/resumes."
+        "explanation": {
+            "en": "animation-fill-mode persists styles before/after. Negative animation-delay starts mid-animation. animation-direction (reverse/alternate) affects start/end styles. iteration-count controls repetitions only. play-state pauses/resumes.",
+            "ru": "animation-fill-mode сохраняет стили до/после. Отрицательный animation-delay запускает анимацию с середины. animation-direction (reverse/alternate) влияет на начальные/конечные стили. iteration-count управляет только количеством повторов. play-state ставит на паузу или возобновляет."
+        }
     },
     {
         "id": "css-bug-specificity-001",
@@ -488,11 +1133,17 @@
         "category": "css",
         "difficulty": "easy",
         "tags": ["specificity"],
-        "question": "Find why the button text is not red as intended:",
+        "question": {
+            "en": "Find why the button text is not red as intended:",
+            "ru": "Найдите, почему текст кнопки не красный, как задумано:"
+        },
         "code": ".btn {\n  color: blue;\n}\n\n/* intended override */\nbutton {\n  color: red;\n}",
         "correct": "The class selector .btn (0,0,1,0) has higher specificity than the type selector button (0,0,0,1), so blue wins regardless of source order",
         "referenceAnswer": "Fix: button.btn { color: red; } which has specificity (0,0,1,1) and beats .btn alone. Alternatively use a more specific class.",
-        "explanation": "Specificity: (inline, IDs, classes/pseudo-classes/attrs, elements). A class beats a type selector. Source order only breaks ties at equal specificity."
+        "explanation": {
+            "en": "Specificity: (inline, IDs, classes/pseudo-classes/attrs, elements). A class beats a type selector. Source order only breaks ties at equal specificity.",
+            "ru": "Специфичность: (inline, id, классы/псевдоклассы/атрибуты, элементы). Класс обыгрывает селектор по типу. Порядок в исходнике решает только при равной специфичности."
+        }
     },
     {
         "id": "css-bug-flexbox-001",
@@ -500,11 +1151,17 @@
         "category": "css",
         "difficulty": "easy",
         "tags": ["flexbox", "align-items"],
-        "question": "Find the bug: flex items should be centered vertically but appear at the top:",
+        "question": {
+            "en": "Find the bug: flex items should be centered vertically but appear at the top:",
+            "ru": "Найдите баг: flex-элементы должны быть отцентрированы по вертикали, но оказываются у верхнего края:"
+        },
         "code": ".container {\n  display: flex;\n  justify-content: center;\n  height: 200px;\n}\n\n.item {\n  width: 50px;\n  height: 50px;\n}",
         "correct": "align-items is missing from the container — items default to the start of the cross axis",
         "referenceAnswer": "Add align-items: center to .container. justify-content centers on the main (horizontal) axis; align-items centers on the cross (vertical) axis.",
-        "explanation": "justify-content = main axis. align-items = cross axis. For vertical centering in a row flex container, you need align-items: center on a container with a defined height."
+        "explanation": {
+            "en": "justify-content = main axis. align-items = cross axis. For vertical centering in a row flex container, you need align-items: center on a container with a defined height.",
+            "ru": "justify-content — главная ось. align-items — поперечная ось. Для вертикального центрирования в row-flex контейнере нужен align-items: center и заданная высота контейнера."
+        }
     },
     {
         "id": "css-bug-zindex-001",
@@ -512,11 +1169,17 @@
         "category": "css",
         "difficulty": "medium",
         "tags": ["z-index", "positioning"],
-        "question": "Find why z-index: 100 has no effect:",
+        "question": {
+            "en": "Find why z-index: 100 has no effect:",
+            "ru": "Найдите, почему z-index: 100 не имеет эффекта:"
+        },
         "code": ".tooltip {\n  z-index: 100;\n  background: black;\n  color: white;\n  padding: 4px;\n}",
         "correct": "z-index has no effect because .tooltip is missing a position property — z-index only works on positioned elements",
         "referenceAnswer": "Add position: relative (or absolute/fixed) to .tooltip. Without a non-static position, z-index is ignored.",
-        "explanation": "z-index requires a positioned element. On position: static (the default), z-index is always ignored by browsers."
+        "explanation": {
+            "en": "z-index requires a positioned element. On position: static (the default), z-index is always ignored by browsers.",
+            "ru": "z-index требует позиционированного элемента. На position: static (значении по умолчанию) браузер всегда игнорирует z-index."
+        }
     },
     {
         "id": "css-bug-animation-fillmode-001",
@@ -524,11 +1187,17 @@
         "category": "css",
         "difficulty": "medium",
         "tags": ["animation", "fill-mode"],
-        "question": "Find the bug: the element should stay visible after the animation but snaps back to invisible:",
+        "question": {
+            "en": "Find the bug: the element should stay visible after the animation but snaps back to invisible:",
+            "ru": "Найдите баг: элемент должен оставаться видимым после анимации, но скачком становится невидимым:"
+        },
         "code": "@keyframes fadeIn {\n  from { opacity: 0; }\n  to { opacity: 1; }\n}\n\n.element {\n  animation: fadeIn 500ms ease-in;\n  opacity: 0;\n}",
         "correct": "animation-fill-mode: forwards is missing — without it, the element reverts to opacity: 0 when the animation ends",
         "referenceAnswer": "Add forwards to the animation shorthand: animation: fadeIn 500ms ease-in forwards;",
-        "explanation": "By default, animations do not retain their end state. animation-fill-mode: forwards applies the final keyframe values after the animation completes."
+        "explanation": {
+            "en": "By default, animations do not retain their end state. animation-fill-mode: forwards applies the final keyframe values after the animation completes.",
+            "ru": "По умолчанию анимации не сохраняют конечное состояние. animation-fill-mode: forwards применяет значения последнего keyframe после завершения анимации."
+        }
     },
     {
         "id": "css-bug-grid-overflow-001",
@@ -536,11 +1205,17 @@
         "category": "css",
         "difficulty": "medium",
         "tags": ["grid", "overflow", "responsive"],
-        "question": "Find the bug: grid columns overflow their container on small screens:",
+        "question": {
+            "en": "Find the bug: grid columns overflow their container on small screens:",
+            "ru": "Найдите баг: колонки grid выходят за пределы контейнера на маленьких экранах:"
+        },
         "code": ".grid {\n  display: grid;\n  grid-template-columns: repeat(3, 200px);\n}",
         "correct": "Fixed 200px columns do not adapt to small viewports — on screens narrower than 600px the grid overflows the container",
         "referenceAnswer": "Use responsive columns: grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) to create fluid columns that wrap automatically on small screens.",
-        "explanation": "Fixed-width grid columns do not respond to viewport size. minmax() with auto-fit/auto-fill creates responsive columns that wrap gracefully."
+        "explanation": {
+            "en": "Fixed-width grid columns do not respond to viewport size. minmax() with auto-fit/auto-fill creates responsive columns that wrap gracefully.",
+            "ru": "Grid-колонки фиксированной ширины не реагируют на размер viewport. minmax() в связке с auto-fit/auto-fill создаёт адаптивные колонки, которые аккуратно переносятся на новую строку."
+        }
     },
     {
         "id": "css-bug-variable-001",
@@ -548,11 +1223,17 @@
         "category": "css",
         "difficulty": "hard",
         "tags": ["custom-properties", "fallback"],
-        "question": "Find the bug: the button should be blue but appears transparent:",
+        "question": {
+            "en": "Find the bug: the button should be blue but appears transparent:",
+            "ru": "Найдите баг: кнопка должна быть синей, но выглядит прозрачной:"
+        },
         "code": ":root {\n  --btn-color: ;\n}\n\n.btn {\n  background-color: var(--btn-color, blue);\n}",
         "correct": "--btn-color is explicitly set to an empty value (whitespace). This is a valid CSS value, so the fallback 'blue' is NOT triggered",
         "referenceAnswer": "Remove the --btn-color declaration or assign a real value. The var() fallback only activates when the property is not defined or guaranteed-invalid.",
-        "explanation": "A custom property set to empty (--btn-color: ;) IS a valid declaration. The var() fallback only fires when the property is unset — not when it is explicitly set to empty."
+        "explanation": {
+            "en": "A custom property set to empty (--btn-color: ;) IS a valid declaration. The var() fallback only fires when the property is unset — not when it is explicitly set to empty.",
+            "ru": "Кастомное свойство со значением-пустышкой (--btn-color: ;) — это валидное объявление. Fallback в var() срабатывает только когда свойство не задано, а не когда оно явно установлено пустым."
+        }
     },
     {
         "id": "css-bug-transform-center-001",
@@ -560,11 +1241,17 @@
         "category": "css",
         "difficulty": "hard",
         "tags": ["transform", "centering"],
-        "question": "Find the bug: the element's top-left corner is at center instead of the element being centered:",
+        "question": {
+            "en": "Find the bug: the element's top-left corner is at center instead of the element being centered:",
+            "ru": "Найдите баг: в центре оказывается левый верхний угол элемента, а не сам элемент:"
+        },
         "code": ".container {\n  position: relative;\n  width: 400px;\n  height: 400px;\n}\n\n.centered {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 100px;\n  height: 80px;\n}",
         "correct": "top/left: 50% positions the top-left corner at center. transform: translate(-50%, -50%) is missing to shift the element back by half its own dimensions",
         "referenceAnswer": "Add transform: translate(-50%, -50%) to .centered.",
-        "explanation": "top: 50% + left: 50% moves the top-left corner to container center. transform: translate(-50%, -50%) then shifts left by 50% of own width and up by 50% of own height, centering the element."
+        "explanation": {
+            "en": "top: 50% + left: 50% moves the top-left corner to container center. transform: translate(-50%, -50%) then shifts left by 50% of own width and up by 50% of own height, centering the element.",
+            "ru": "top: 50% + left: 50% помещают в центр контейнера левый верхний угол. transform: translate(-50%, -50%) затем сдвигает элемент влево на 50% собственной ширины и вверх на 50% собственной высоты, центрируя его."
+        }
     },
     {
         "id": "css-bug-mobile-first-001",
@@ -572,11 +1259,17 @@
         "category": "css",
         "difficulty": "hard",
         "tags": ["media-queries", "source-order"],
-        "question": "Find the bug: at desktop viewport (800px) the font-size should be 48px but shows 24px:",
+        "question": {
+            "en": "Find the bug: at desktop viewport (800px) the font-size should be 48px but shows 24px:",
+            "ru": "Найдите баг: при десктопном viewport (800px) font-size должен быть 48px, но показывает 24px:"
+        },
         "code": "@media (min-width: 768px) {\n  .hero { font-size: 48px; }\n}\n\n.hero { font-size: 24px; }",
         "correct": "Source order is wrong. The base .hero { font-size: 24px } appears AFTER the media query, so it overrides the 48px rule at equal specificity due to later source order",
         "referenceAnswer": "Place base styles BEFORE the media query: .hero { font-size: 24px; } then @media (min-width: 768px) { .hero { font-size: 48px; } }",
-        "explanation": "CSS rules with equal specificity are resolved by source order — later rules win. The base style must come before min-width media queries in mobile-first CSS."
+        "explanation": {
+            "en": "CSS rules with equal specificity are resolved by source order — later rules win. The base style must come before min-width media queries in mobile-first CSS.",
+            "ru": "CSS-правила с равной специфичностью разрешаются по порядку в исходнике — выигрывает правило, идущее позже. В mobile-first CSS базовые стили должны идти до min-width медиа-запросов."
+        }
     },
     {
         "id": "css-complete-flexbox-001",
@@ -584,12 +1277,18 @@
         "category": "css",
         "difficulty": "easy",
         "tags": ["flexbox", "centering"],
-        "question": "Complete the CSS to center a child element both horizontally and vertically:",
+        "question": {
+            "en": "Complete the CSS to center a child element both horizontally and vertically:",
+            "ru": "Дополните CSS, чтобы отцентрировать дочерний элемент и по горизонтали, и по вертикали:"
+        },
         "code": ".parent {\n  ___: flex;\n  ___-content: center;\n  align-___: center;\n  height: 100vh;\n}",
         "blanks": ["display", "justify", "items"],
         "referenceAnswer": "display: flex enables flexbox. justify-content: center on main axis. align-items: center on cross axis.",
         "lang": "css",
-        "explanation": "The flex centering pattern: display: flex + justify-content: center + align-items: center. The parent needs a defined height for vertical centering."
+        "explanation": {
+            "en": "The flex centering pattern: display: flex + justify-content: center + align-items: center. The parent needs a defined height for vertical centering.",
+            "ru": "Паттерн центрирования через flex: display: flex + justify-content: center + align-items: center. Родителю нужна заданная высота для вертикального центрирования."
+        }
     },
     {
         "id": "css-complete-variables-001",
@@ -597,12 +1296,18 @@
         "category": "css",
         "difficulty": "easy",
         "tags": ["custom-properties", "var", "fallback"],
-        "question": "Complete the custom property definition and usage with a fallback:",
+        "question": {
+            "en": "Complete the custom property definition and usage with a fallback:",
+            "ru": "Дополните объявление и использование кастомного свойства с fallback:"
+        },
         "code": ":root {\n  ___primary: #3b82f6;\n}\n\n.button {\n  background-color: ___(--primary);\n  padding: var(--spacing, ___);\n}",
         "blanks": ["--", "var", "1rem"],
         "referenceAnswer": "--primary defines the property (double-dash prefix). var(--primary) reads it. var(--spacing, 1rem) uses 1rem as fallback if --spacing is unset.",
         "lang": "css",
-        "explanation": "Custom properties start with --. They are read with var(). The second argument to var() is the fallback used when the property is not defined."
+        "explanation": {
+            "en": "Custom properties start with --. They are read with var(). The second argument to var() is the fallback used when the property is not defined.",
+            "ru": "Кастомные свойства начинаются с --. Читаются через var(). Второй аргумент var() — fallback, который используется, если свойство не определено."
+        }
     },
     {
         "id": "css-complete-grid-areas-001",
@@ -610,12 +1315,18 @@
         "category": "css",
         "difficulty": "medium",
         "tags": ["grid", "template-areas"],
-        "question": "Complete the CSS Grid layout with named areas:",
+        "question": {
+            "en": "Complete the CSS Grid layout with named areas:",
+            "ru": "Дополните раскладку CSS Grid с именованными областями:"
+        },
         "code": ".layout {\n  display: grid;\n  grid-template-___:\n    'header header'\n    'sidebar main'\n    'footer footer';\n  grid-template-columns: 250px ___;\n}\n\n.header { grid-area: ___; }",
         "blanks": ["areas", "1fr", "header"],
         "referenceAnswer": "grid-template-areas defines named regions. 250px 1fr gives sidebar fixed width and main the remaining space. grid-area: header places the element in the named region.",
         "lang": "css",
-        "explanation": "Named grid areas make layout intentions readable. Each child uses grid-area with the matching name. The areas string map must be rectangular."
+        "explanation": {
+            "en": "Named grid areas make layout intentions readable. Each child uses grid-area with the matching name. The areas string map must be rectangular.",
+            "ru": "Именованные grid-области делают раскладку читабельной. Каждый ребёнок использует grid-area с соответствующим именем. Карта областей должна быть прямоугольной."
+        }
     },
     {
         "id": "css-complete-animation-001",
@@ -623,12 +1334,18 @@
         "category": "css",
         "difficulty": "medium",
         "tags": ["animation", "fill-mode", "prefers-reduced-motion"],
-        "question": "Complete the slide-in animation that retains its end state and respects reduced motion:",
+        "question": {
+            "en": "Complete the slide-in animation that retains its end state and respects reduced motion:",
+            "ru": "Дополните анимацию slide-in, которая сохраняет конечное состояние и учитывает reduced motion:"
+        },
         "code": "@keyframes slideIn {\n  from { transform: translateY(___); opacity: 0; }\n  to { transform: translateY(0); opacity: 1; }\n}\n\n.card {\n  animation: slideIn 400ms ease-out ___;\n}\n\n@media (prefers-reduced-motion: ___) {\n  .card { animation: none; }\n}",
         "blanks": ["-20px", "forwards", "reduce"],
         "referenceAnswer": "translateY(-20px) starts above. forwards retains the visible end state. prefers-reduced-motion: reduce disables animation for users who prefer less motion.",
         "lang": "css",
-        "explanation": "animation-fill-mode: forwards preserves the final keyframe after completion. prefers-reduced-motion: reduce is essential for users with vestibular disorders."
+        "explanation": {
+            "en": "animation-fill-mode: forwards preserves the final keyframe after completion. prefers-reduced-motion: reduce is essential for users with vestibular disorders.",
+            "ru": "animation-fill-mode: forwards сохраняет последний keyframe после завершения анимации. prefers-reduced-motion: reduce важен для пользователей с вестибулярными нарушениями."
+        }
     },
     {
         "id": "css-complete-responsive-001",
@@ -636,12 +1353,18 @@
         "category": "css",
         "difficulty": "medium",
         "tags": ["responsive", "clamp"],
-        "question": "Complete the fluid typography using clamp():",
+        "question": {
+            "en": "Complete the fluid typography using clamp():",
+            "ru": "Дополните fluid-типографику через clamp():"
+        },
         "code": "body {\n  font-size: ___(1rem, 2.5vw, 1.25rem);\n}\n\nh1 {\n  font-size: clamp(___, 5vw, 3rem);\n}",
         "blanks": ["clamp", "1.75rem"],
         "referenceAnswer": "clamp() creates fluid values. Body text: fluid between 1rem and 1.25rem. h1: fluid from 1.75rem minimum up to 3rem maximum.",
         "lang": "css",
-        "explanation": "clamp() creates responsive values without breakpoints. The preferred value uses viewport units to scale smoothly between the minimum and maximum."
+        "explanation": {
+            "en": "clamp() creates responsive values without breakpoints. The preferred value uses viewport units to scale smoothly between the minimum and maximum.",
+            "ru": "clamp() задаёт адаптивные значения без брейкпойнтов. Предпочитаемое значение использует viewport-единицы, чтобы плавно масштабироваться между минимумом и максимумом."
+        }
     },
     {
         "id": "css-complete-layers-001",
@@ -649,12 +1372,18 @@
         "category": "css",
         "difficulty": "hard",
         "tags": ["cascade", "layers"],
-        "question": "Complete the CSS Cascade Layers setup:",
+        "question": {
+            "en": "Complete the CSS Cascade Layers setup:",
+            "ru": "Дополните настройку CSS Cascade Layers:"
+        },
         "code": "@___ base, components, utilities;\n\n@layer base {\n  * { box-sizing: ___-box; }\n}\n\n@layer utilities {\n  .hidden { display: none ___important; }\n}",
         "blanks": ["layer", "border", "!"],
         "referenceAnswer": "@layer declares and orders layers. border-box applies globally in base. !important on .hidden ensures the utility always works regardless of component styles.",
         "lang": "css",
-        "explanation": "@layer name1, name2 defines cascade order — later layers override earlier ones at equal specificity. !important within a layer is valid."
+        "explanation": {
+            "en": "@layer name1, name2 defines cascade order — later layers override earlier ones at equal specificity. !important within a layer is valid.",
+            "ru": "@layer name1, name2 определяет порядок каскада — более поздние слои переопределяют предыдущие при равной специфичности. !important внутри слоя валиден."
+        }
     },
     {
         "id": "css-complete-stacking-001",
@@ -662,12 +1391,18 @@
         "category": "css",
         "difficulty": "hard",
         "tags": ["z-index", "stacking-context", "isolation"],
-        "question": "Complete the CSS to create an isolated stacking context without visual side effects:",
+        "question": {
+            "en": "Complete the CSS to create an isolated stacking context without visual side effects:",
+            "ru": "Дополните CSS, чтобы создать изолированный stacking context без визуальных побочных эффектов:"
+        },
         "code": ".modal-wrapper {\n  ___: isolate;\n}\n\n.backdrop {\n  position: ___;\n  inset: 0;\n  background: rgba(0,0,0,0.5);\n}\n\n.modal-content {\n  position: relative;\n  z-index: ___;\n  background: white;\n}",
         "blanks": ["isolation", "fixed", "1"],
         "referenceAnswer": "isolation: isolate creates a stacking context without changing visual properties. position: fixed makes the backdrop cover the viewport. z-index: 1 stacks content above the backdrop within the isolated context.",
         "lang": "css",
-        "explanation": "isolation: isolate creates a clean stacking context without opacity hacks. The backdrop and modal-content form an isolated z-index stack that doesn't interfere with the rest of the page."
+        "explanation": {
+            "en": "isolation: isolate creates a clean stacking context without opacity hacks. The backdrop and modal-content form an isolated z-index stack that doesn't interfere with the rest of the page.",
+            "ru": "isolation: isolate создаёт чистый stacking context без хаков с opacity. Backdrop и modal-content образуют изолированный z-index-стек, не мешающий остальной странице."
+        }
     },
     {
         "id": "css-complete-counter-001",
@@ -675,12 +1410,18 @@
         "category": "css",
         "difficulty": "hard",
         "tags": ["pseudo-elements", "counters"],
-        "question": "Complete the automatic step numbering using CSS counters:",
+        "question": {
+            "en": "Complete the automatic step numbering using CSS counters:",
+            "ru": "Дополните автоматическую нумерацию шагов через CSS-счётчики:"
+        },
         "code": ".steps {\n  counter-___: step;\n}\n\n.step::___ {\n  counter-___: step;\n  content: ___(step) '. ';\n  font-weight: bold;\n}",
         "blanks": ["reset", "before", "increment", "counter"],
         "referenceAnswer": "counter-reset initializes. ::before creates the pseudo-element. counter-increment advances per element. counter() retrieves the value as content.",
         "lang": "css",
-        "explanation": "CSS counters enable automatic numbering without JS. counter-reset initializes, counter-increment advances per element, and counter() reads the current value for the content property."
+        "explanation": {
+            "en": "CSS counters enable automatic numbering without JS. counter-reset initializes, counter-increment advances per element, and counter() reads the current value for the content property.",
+            "ru": "CSS-счётчики позволяют автоматически нумеровать без JS. counter-reset инициализирует, counter-increment увеличивает на каждом элементе, а counter() читает текущее значение для свойства content."
+        }
     },
     {
         "id": "css-multi-easy-001",
@@ -688,10 +1429,37 @@
         "category": "css",
         "difficulty": "easy",
         "tags": ["positioning", "z-index", "stacking"],
-        "question": "Which of the following are valid values for the CSS position property?",
-        "options": ["static", "relative", "absolute", "floating", "sticky"],
+        "question": {
+            "en": "Which of the following are valid values for the CSS position property?",
+            "ru": "Какие из перечисленных значений валидны для CSS-свойства position?"
+        },
+        "options": [
+            {
+                "en": "static",
+                "ru": "static"
+            },
+            {
+                "en": "relative",
+                "ru": "relative"
+            },
+            {
+                "en": "absolute",
+                "ru": "absolute"
+            },
+            {
+                "en": "floating",
+                "ru": "floating"
+            },
+            {
+                "en": "sticky",
+                "ru": "sticky"
+            }
+        ],
         "correct": [0, 1, 2, 4],
-        "explanation": "Valid position values are: static (default), relative, absolute, fixed, and sticky. 'floating' is not a valid position value — float is a separate property."
+        "explanation": {
+            "en": "Valid position values are: static (default), relative, absolute, fixed, and sticky. 'floating' is not a valid position value — float is a separate property.",
+            "ru": "Валидные значения position: static (по умолчанию), relative, absolute, fixed и sticky. 'floating' не является валидным значением — float это отдельное свойство."
+        }
     },
     {
         "id": "css-multi-medium-001",
@@ -699,9 +1467,36 @@
         "category": "css",
         "difficulty": "medium",
         "tags": ["selectors", "pseudo-classes", "specificity"],
-        "question": "Which CSS pseudo-classes match form inputs based on their validation state?",
-        "options": [":valid", ":invalid", ":required", ":optional", ":disabled-when-invalid"],
+        "question": {
+            "en": "Which CSS pseudo-classes match form inputs based on their validation state?",
+            "ru": "Какие CSS-псевдоклассы матчат form-инпуты по состоянию валидации?"
+        },
+        "options": [
+            {
+                "en": ":valid",
+                "ru": ":valid"
+            },
+            {
+                "en": ":invalid",
+                "ru": ":invalid"
+            },
+            {
+                "en": ":required",
+                "ru": ":required"
+            },
+            {
+                "en": ":optional",
+                "ru": ":optional"
+            },
+            {
+                "en": ":disabled-when-invalid",
+                "ru": ":disabled-when-invalid"
+            }
+        ],
         "correct": [0, 1, 2, 3],
-        "explanation": ":valid and :invalid match based on constraint validation (required, pattern, etc.). :required matches inputs with the required attribute. :optional matches inputs without required. :disabled-when-invalid does not exist."
+        "explanation": {
+            "en": ":valid and :invalid match based on constraint validation (required, pattern, etc.). :required matches inputs with the required attribute. :optional matches inputs without required. :disabled-when-invalid does not exist.",
+            "ru": ":valid и :invalid срабатывают на основе constraint validation (required, pattern и т.д.). :required матчит инпуты с атрибутом required. :optional — инпуты без required. :disabled-when-invalid не существует."
+        }
     }
 ]

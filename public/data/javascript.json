@@ -5,15 +5,33 @@
         "category": "javascript",
         "difficulty": "easy",
         "tags": ["closures", "scope"],
-        "question": "What is a closure in JavaScript?",
+        "question": {
+            "en": "What is a closure in JavaScript?",
+            "ru": "Что такое замыкание (closure) в JavaScript?"
+        },
         "options": [
-            "A function that is called immediately after it is defined",
-            "A function that retains access to its lexical scope even when executed outside that scope",
-            "A function with no return value",
-            "A built-in JavaScript method for closing browser tabs"
+            {
+                "en": "A function that is called immediately after it is defined",
+                "ru": "Функция, которая вызывается сразу после своего определения"
+            },
+            {
+                "en": "A function that retains access to its lexical scope even when executed outside that scope",
+                "ru": "Функция, которая сохраняет доступ к своей лексической области видимости даже при выполнении вне этой области"
+            },
+            {
+                "en": "A function with no return value",
+                "ru": "Функция без возвращаемого значения"
+            },
+            {
+                "en": "A built-in JavaScript method for closing browser tabs",
+                "ru": "Встроенный метод JavaScript для закрытия вкладок браузера"
+            }
         ],
         "correct": 1,
-        "explanation": "A closure is a function that retains access to variables from its outer (enclosing) lexical scope even after the outer function has finished executing."
+        "explanation": {
+            "en": "A closure is a function that retains access to variables from its outer (enclosing) lexical scope even after the outer function has finished executing.",
+            "ru": "Замыкание — это функция, которая сохраняет доступ к переменным из внешней (охватывающей) лексической области видимости даже после того, как внешняя функция завершила выполнение."
+        }
     },
     {
         "id": "js-hoisting-001",
@@ -21,10 +39,33 @@
         "category": "javascript",
         "difficulty": "easy",
         "tags": ["hoisting", "var", "let"],
-        "question": "What will `console.log(x)` output before `var x = 5` is declared?",
-        "options": ["5", "undefined", "ReferenceError", "null"],
+        "question": {
+            "en": "What will `console.log(x)` output before `var x = 5` is declared?",
+            "ru": "Что выведет `console.log(x)` до объявления `var x = 5`?"
+        },
+        "options": [
+            {
+                "en": "5",
+                "ru": "5"
+            },
+            {
+                "en": "undefined",
+                "ru": "undefined"
+            },
+            {
+                "en": "ReferenceError",
+                "ru": "ReferenceError"
+            },
+            {
+                "en": "null",
+                "ru": "null"
+            }
+        ],
         "correct": 1,
-        "explanation": "var declarations are hoisted to the top of their scope and initialized with `undefined`. The assignment stays in place, so accessing x before the assignment gives `undefined`."
+        "explanation": {
+            "en": "var declarations are hoisted to the top of their scope and initialized with `undefined`. The assignment stays in place, so accessing x before the assignment gives `undefined`.",
+            "ru": "Объявления var всплывают (hoisting) в начало своей области видимости и инициализируются значением `undefined`. Присваивание остаётся на месте, поэтому обращение к x до присваивания возвращает `undefined`."
+        }
     },
     {
         "id": "js-promise-001",
@@ -32,15 +73,33 @@
         "category": "javascript",
         "difficulty": "medium",
         "tags": ["promises", "async"],
-        "question": "Which of the following are valid ways to handle a rejected Promise?",
+        "question": {
+            "en": "Which of the following are valid ways to handle a rejected Promise?",
+            "ru": "Какие из перечисленных способов являются корректными для обработки отклонённого Promise?"
+        },
         "options": [
-            "Using `.catch()` at the end of the chain",
-            "Using the second argument of `.then(onFulfilled, onRejected)`",
-            "Using try/catch inside an async function",
-            "Using `.finally()` to handle rejections"
+            {
+                "en": "Using `.catch()` at the end of the chain",
+                "ru": "Использование `.catch()` в конце цепочки"
+            },
+            {
+                "en": "Using the second argument of `.then(onFulfilled, onRejected)`",
+                "ru": "Использование второго аргумента `.then(onFulfilled, onRejected)`"
+            },
+            {
+                "en": "Using try/catch inside an async function",
+                "ru": "Использование try/catch внутри async-функции"
+            },
+            {
+                "en": "Using `.finally()` to handle rejections",
+                "ru": "Использование `.finally()` для обработки отклонений"
+            }
         ],
         "correct": [0, 1, 2],
-        "explanation": "Rejected promises can be handled with .catch(), the second argument of .then(), or try/catch in async functions. .finally() runs regardless of outcome but does not handle rejections."
+        "explanation": {
+            "en": "Rejected promises can be handled with .catch(), the second argument of .then(), or try/catch in async functions. .finally() runs regardless of outcome but does not handle rejections.",
+            "ru": "Отклонённые промисы можно обрабатывать через .catch(), второй аргумент .then() или try/catch в async-функциях. .finally() выполняется независимо от результата, но не обрабатывает отклонения."
+        }
     },
     {
         "id": "js-event-loop-001",
@@ -48,15 +107,33 @@
         "category": "javascript",
         "difficulty": "hard",
         "tags": ["event-loop", "microtasks", "macrotasks"],
-        "question": "Which of the following are microtasks in JavaScript?",
+        "question": {
+            "en": "Which of the following are microtasks in JavaScript?",
+            "ru": "Какие из перечисленных задач являются microtasks в JavaScript?"
+        },
         "options": [
-            "Promise callbacks (.then/.catch)",
-            "setTimeout callbacks",
-            "queueMicrotask() callbacks",
-            "setInterval callbacks"
+            {
+                "en": "Promise callbacks (.then/.catch)",
+                "ru": "Коллбэки Promise (.then/.catch)"
+            },
+            {
+                "en": "setTimeout callbacks",
+                "ru": "Коллбэки setTimeout"
+            },
+            {
+                "en": "queueMicrotask() callbacks",
+                "ru": "Коллбэки queueMicrotask()"
+            },
+            {
+                "en": "setInterval callbacks",
+                "ru": "Коллбэки setInterval"
+            }
         ],
         "correct": [0, 2],
-        "explanation": "Microtasks include Promise callbacks and queueMicrotask(). setTimeout and setInterval are macrotasks (tasks) processed after all microtasks in the current queue are done."
+        "explanation": {
+            "en": "Microtasks include Promise callbacks and queueMicrotask(). setTimeout and setInterval are macrotasks (tasks) processed after all microtasks in the current queue are done.",
+            "ru": "К microtasks относятся коллбэки Promise и queueMicrotask(). setTimeout и setInterval — это macrotasks (tasks), которые обрабатываются после того, как выполнены все microtasks из текущей очереди."
+        }
     },
     {
         "id": "js-bug-typeof-001",
@@ -64,11 +141,17 @@
         "category": "javascript",
         "difficulty": "medium",
         "tags": ["typeof", "null", "bugs"],
-        "question": "Find the bug in this type-checking function:",
+        "question": {
+            "en": "Find the bug in this type-checking function:",
+            "ru": "Найдите баг в этой функции проверки типа:"
+        },
         "code": "function isObject(value) {\n  return typeof value === 'object';\n}",
         "correct": "null passes the check because typeof null === 'object'",
         "referenceAnswer": "The function returns true for null because typeof null === 'object' is a well-known JavaScript bug. Fix: return value !== null && typeof value === 'object';",
-        "explanation": "typeof null === 'object' is a historical JavaScript quirk. Always add a null check when using typeof to verify objects."
+        "explanation": {
+            "en": "typeof null === 'object' is a historical JavaScript quirk. Always add a null check when using typeof to verify objects.",
+            "ru": "typeof null === 'object' — это историческая особенность JavaScript. При проверке объектов через typeof всегда добавляйте проверку на null."
+        }
     },
     {
         "id": "js-template-001",
@@ -76,11 +159,17 @@
         "category": "javascript",
         "difficulty": "easy",
         "tags": ["template-literals", "strings"],
-        "question": "Complete the tagged template literal to return the string in uppercase:",
+        "question": {
+            "en": "Complete the tagged template literal to return the string in uppercase:",
+            "ru": "Дополните tagged template literal так, чтобы он возвращал строку в верхнем регистре:"
+        },
         "code": "function upper(strings, ...values) {\n  return strings.reduce((acc, str, i) => {\n    return acc + (values[i - 1] ? values[i - 1].___ : '') + str;\n  });\n}\nconst name = 'world';\nconsole.log(upper`hello ${name}`); // 'hello WORLD'",
         "blanks": ["toUpperCase()"],
         "referenceAnswer": "values[i - 1].toUpperCase() converts each interpolated value to uppercase before concatenating.",
-        "explanation": "Tagged template literals receive the string parts and interpolated values separately. Calling .toUpperCase() on each value produces the uppercase output."
+        "explanation": {
+            "en": "Tagged template literals receive the string parts and interpolated values separately. Calling .toUpperCase() on each value produces the uppercase output.",
+            "ru": "Tagged template literals получают строковые фрагменты и интерполируемые значения отдельно. Вызов .toUpperCase() на каждом значении приводит их к верхнему регистру."
+        }
     },
     {
         "id": "js-scope-001",
@@ -88,15 +177,33 @@
         "category": "javascript",
         "difficulty": "easy",
         "tags": ["scope", "var", "let", "const"],
-        "question": "What is the key difference between `var` and `let` in terms of scoping?",
+        "question": {
+            "en": "What is the key difference between `var` and `let` in terms of scoping?",
+            "ru": "В чём ключевое различие между `var` и `let` с точки зрения области видимости?"
+        },
         "options": [
-            "`var` is block-scoped, `let` is function-scoped",
-            "`var` is function-scoped, `let` is block-scoped",
-            "Both are block-scoped",
-            "Both are function-scoped"
+            {
+                "en": "`var` is block-scoped, `let` is function-scoped",
+                "ru": "`var` имеет блочную область видимости, `let` — функциональную"
+            },
+            {
+                "en": "`var` is function-scoped, `let` is block-scoped",
+                "ru": "`var` имеет функциональную область видимости, `let` — блочную"
+            },
+            {
+                "en": "Both are block-scoped",
+                "ru": "Оба имеют блочную область видимости"
+            },
+            {
+                "en": "Both are function-scoped",
+                "ru": "Оба имеют функциональную область видимости"
+            }
         ],
         "correct": 1,
-        "explanation": "`var` declarations are scoped to the nearest function (or global), while `let` (and `const`) are scoped to the nearest block `{}`. This means a `let` inside an if-statement is not accessible outside it."
+        "explanation": {
+            "en": "`var` declarations are scoped to the nearest function (or global), while `let` (and `const`) are scoped to the nearest block `{}`. This means a `let` inside an if-statement is not accessible outside it.",
+            "ru": "Объявления `var` ограничены ближайшей функцией (или глобальной областью), а `let` (и `const`) — ближайшим блоком `{}`. Это значит, что `let` внутри if-блока недоступен снаружи."
+        }
     },
     {
         "id": "js-scope-002",
@@ -104,15 +211,33 @@
         "category": "javascript",
         "difficulty": "easy",
         "tags": ["scope", "let", "temporal-dead-zone"],
-        "question": "What happens when you access a `let` variable before its declaration in the same block?",
+        "question": {
+            "en": "What happens when you access a `let` variable before its declaration in the same block?",
+            "ru": "Что произойдёт при обращении к переменной `let` до её объявления в том же блоке?"
+        },
         "options": [
-            "Returns `undefined`",
-            "Returns `null`",
-            "Throws a ReferenceError (Temporal Dead Zone)",
-            "Returns the value from the outer scope"
+            {
+                "en": "Returns `undefined`",
+                "ru": "Вернётся `undefined`"
+            },
+            {
+                "en": "Returns `null`",
+                "ru": "Вернётся `null`"
+            },
+            {
+                "en": "Throws a ReferenceError (Temporal Dead Zone)",
+                "ru": "Будет выброшен ReferenceError (Temporal Dead Zone)"
+            },
+            {
+                "en": "Returns the value from the outer scope",
+                "ru": "Вернётся значение из внешней области видимости"
+            }
         ],
         "correct": 2,
-        "explanation": "`let` and `const` exist in a Temporal Dead Zone (TDZ) from the start of the block until the declaration is reached. Accessing them before the declaration throws a ReferenceError."
+        "explanation": {
+            "en": "`let` and `const` exist in a Temporal Dead Zone (TDZ) from the start of the block until the declaration is reached. Accessing them before the declaration throws a ReferenceError.",
+            "ru": "`let` и `const` находятся в Temporal Dead Zone (TDZ) от начала блока до момента их объявления. Обращение к ним до объявления выбрасывает ReferenceError."
+        }
     },
     {
         "id": "js-coercion-001",
@@ -120,10 +245,33 @@
         "category": "javascript",
         "difficulty": "easy",
         "tags": ["coercion", "type-conversion"],
-        "question": "What does `1 + '2'` evaluate to in JavaScript?",
-        "options": ["3", "'12'", "NaN", "TypeError"],
+        "question": {
+            "en": "What does `1 + '2'` evaluate to in JavaScript?",
+            "ru": "Во что вычислится выражение `1 + '2'` в JavaScript?"
+        },
+        "options": [
+            {
+                "en": "3",
+                "ru": "3"
+            },
+            {
+                "en": "'12'",
+                "ru": "'12'"
+            },
+            {
+                "en": "NaN",
+                "ru": "NaN"
+            },
+            {
+                "en": "TypeError",
+                "ru": "TypeError"
+            }
+        ],
         "correct": 1,
-        "explanation": "When the `+` operator has a string operand, JavaScript coerces the number to a string and performs string concatenation. So `1 + '2'` becomes `'1' + '2'` = `'12'`."
+        "explanation": {
+            "en": "When the `+` operator has a string operand, JavaScript coerces the number to a string and performs string concatenation. So `1 + '2'` becomes `'1' + '2'` = `'12'`.",
+            "ru": "Когда у оператора `+` один из операндов — строка, JavaScript приводит число к строке и выполняет конкатенацию. Так `1 + '2'` превращается в `'1' + '2'` = `'12'`."
+        }
     },
     {
         "id": "js-equality-001",
@@ -131,10 +279,33 @@
         "category": "javascript",
         "difficulty": "easy",
         "tags": ["equality", "==", "==="],
-        "question": "What is the result of `null == undefined` in JavaScript?",
-        "options": ["false", "true", "TypeError", "ReferenceError"],
+        "question": {
+            "en": "What is the result of `null == undefined` in JavaScript?",
+            "ru": "Каков результат выражения `null == undefined` в JavaScript?"
+        },
+        "options": [
+            {
+                "en": "false",
+                "ru": "false"
+            },
+            {
+                "en": "true",
+                "ru": "true"
+            },
+            {
+                "en": "TypeError",
+                "ru": "TypeError"
+            },
+            {
+                "en": "ReferenceError",
+                "ru": "ReferenceError"
+            }
+        ],
         "correct": 1,
-        "explanation": "`null == undefined` is `true` because the abstract equality algorithm defines them as equal to each other. However, `null === undefined` is `false` because they are different types."
+        "explanation": {
+            "en": "`null == undefined` is `true` because the abstract equality algorithm defines them as equal to each other. However, `null === undefined` is `false` because they are different types.",
+            "ru": "`null == undefined` даёт `true`, потому что алгоритм абстрактного равенства считает их равными друг другу. При этом `null === undefined` — `false`, так как это разные типы."
+        }
     },
     {
         "id": "js-array-001",
@@ -142,10 +313,33 @@
         "category": "javascript",
         "difficulty": "easy",
         "tags": ["arrays", "filter"],
-        "question": "Which array method returns a new array containing only elements that pass a provided test?",
-        "options": ["`map()`", "`reduce()`", "`filter()`", "`find()`"],
+        "question": {
+            "en": "Which array method returns a new array containing only elements that pass a provided test?",
+            "ru": "Какой метод массива возвращает новый массив, содержащий только элементы, прошедшие заданную проверку?"
+        },
+        "options": [
+            {
+                "en": "`map()`",
+                "ru": "`map()`"
+            },
+            {
+                "en": "`reduce()`",
+                "ru": "`reduce()`"
+            },
+            {
+                "en": "`filter()`",
+                "ru": "`filter()`"
+            },
+            {
+                "en": "`find()`",
+                "ru": "`find()`"
+            }
+        ],
         "correct": 2,
-        "explanation": "`filter()` creates a new array with all elements that pass the test implemented by the provided callback function. `map()` transforms elements, `reduce()` accumulates, and `find()` returns the first match."
+        "explanation": {
+            "en": "`filter()` creates a new array with all elements that pass the test implemented by the provided callback function. `map()` transforms elements, `reduce()` accumulates, and `find()` returns the first match.",
+            "ru": "`filter()` создаёт новый массив из всех элементов, прошедших проверку в переданном коллбэке. `map()` преобразует элементы, `reduce()` аккумулирует значения, а `find()` возвращает первое совпадение."
+        }
     },
     {
         "id": "js-destructuring-001",
@@ -153,10 +347,33 @@
         "category": "javascript",
         "difficulty": "easy",
         "tags": ["destructuring", "objects"],
-        "question": "What is the value of `b` after: `const { a, b = 10 } = { a: 1 }`?",
-        "options": ["undefined", "null", "10", "ReferenceError"],
+        "question": {
+            "en": "What is the value of `b` after: `const { a, b = 10 } = { a: 1 }`?",
+            "ru": "Каким будет значение `b` после `const { a, b = 10 } = { a: 1 }`?"
+        },
+        "options": [
+            {
+                "en": "undefined",
+                "ru": "undefined"
+            },
+            {
+                "en": "null",
+                "ru": "null"
+            },
+            {
+                "en": "10",
+                "ru": "10"
+            },
+            {
+                "en": "ReferenceError",
+                "ru": "ReferenceError"
+            }
+        ],
         "correct": 2,
-        "explanation": "Object destructuring allows default values using `=`. When the property `b` is absent from the source object, the default value `10` is used instead."
+        "explanation": {
+            "en": "Object destructuring allows default values using `=`. When the property `b` is absent from the source object, the default value `10` is used instead.",
+            "ru": "Деструктуризация объектов позволяет задавать значения по умолчанию через `=`. Когда свойство `b` отсутствует в исходном объекте, используется значение по умолчанию `10`."
+        }
     },
     {
         "id": "js-json-001",
@@ -164,10 +381,33 @@
         "category": "javascript",
         "difficulty": "easy",
         "tags": ["json", "serialization"],
-        "question": "What does `JSON.stringify({ a: undefined, b: 1 })` return?",
-        "options": ["'{\"a\":undefined,\"b\":1}'", "'{\"b\":1}'", "'{}'", "TypeError"],
+        "question": {
+            "en": "What does `JSON.stringify({ a: undefined, b: 1 })` return?",
+            "ru": "Что вернёт `JSON.stringify({ a: undefined, b: 1 })`?"
+        },
+        "options": [
+            {
+                "en": "'{\"a\":undefined,\"b\":1}'",
+                "ru": "'{\"a\":undefined,\"b\":1}'"
+            },
+            {
+                "en": "'{\"b\":1}'",
+                "ru": "'{\"b\":1}'"
+            },
+            {
+                "en": "'{}'",
+                "ru": "'{}'"
+            },
+            {
+                "en": "TypeError",
+                "ru": "TypeError"
+            }
+        ],
         "correct": 1,
-        "explanation": "`JSON.stringify` silently omits properties with `undefined` values (as well as functions and symbols). Only `b: 1` survives serialization."
+        "explanation": {
+            "en": "`JSON.stringify` silently omits properties with `undefined` values (as well as functions and symbols). Only `b: 1` survives serialization.",
+            "ru": "`JSON.stringify` молча пропускает свойства со значением `undefined` (а также функции и символы). В сериализации остаётся только `b: 1`."
+        }
     },
     {
         "id": "js-typeof-001",
@@ -175,10 +415,33 @@
         "category": "javascript",
         "difficulty": "easy",
         "tags": ["typeof", "type-checking"],
-        "question": "What does `typeof function(){}` return?",
-        "options": ["'object'", "'function'", "'callable'", "'undefined'"],
+        "question": {
+            "en": "What does `typeof function(){}` return?",
+            "ru": "Что возвращает `typeof function(){}`?"
+        },
+        "options": [
+            {
+                "en": "'object'",
+                "ru": "'object'"
+            },
+            {
+                "en": "'function'",
+                "ru": "'function'"
+            },
+            {
+                "en": "'callable'",
+                "ru": "'callable'"
+            },
+            {
+                "en": "'undefined'",
+                "ru": "'undefined'"
+            }
+        ],
         "correct": 1,
-        "explanation": "Functions are objects in JavaScript, but `typeof` has a special case: `typeof function(){}` returns `'function'`, not `'object'`. This is the only object subtype that `typeof` distinguishes."
+        "explanation": {
+            "en": "Functions are objects in JavaScript, but `typeof` has a special case: `typeof function(){}` returns `'function'`, not `'object'`. This is the only object subtype that `typeof` distinguishes.",
+            "ru": "Функции в JavaScript являются объектами, но у `typeof` есть особый случай: `typeof function(){}` возвращает `'function'`, а не `'object'`. Это единственный подтип объекта, который `typeof` различает."
+        }
     },
     {
         "id": "js-prototype-001",
@@ -186,15 +449,33 @@
         "category": "javascript",
         "difficulty": "easy",
         "tags": ["prototypes", "inheritance"],
-        "question": "What does `Object.create(proto)` do?",
+        "question": {
+            "en": "What does `Object.create(proto)` do?",
+            "ru": "Что делает `Object.create(proto)`?"
+        },
         "options": [
-            "Creates a deep copy of `proto`",
-            "Creates a new object whose prototype is `proto`",
-            "Freezes `proto` to prevent mutations",
-            "Copies all own properties from `proto` to a new object"
+            {
+                "en": "Creates a deep copy of `proto`",
+                "ru": "Создаёт глубокую копию `proto`"
+            },
+            {
+                "en": "Creates a new object whose prototype is `proto`",
+                "ru": "Создаёт новый объект, прототипом которого является `proto`"
+            },
+            {
+                "en": "Freezes `proto` to prevent mutations",
+                "ru": "Замораживает `proto`, запрещая мутации"
+            },
+            {
+                "en": "Copies all own properties from `proto` to a new object",
+                "ru": "Копирует все собственные свойства `proto` в новый объект"
+            }
         ],
         "correct": 1,
-        "explanation": "`Object.create(proto)` creates a brand new object and sets its internal `[[Prototype]]` to `proto`. This is the foundation of prototypal inheritance in JavaScript."
+        "explanation": {
+            "en": "`Object.create(proto)` creates a brand new object and sets its internal `[[Prototype]]` to `proto`. This is the foundation of prototypal inheritance in JavaScript.",
+            "ru": "`Object.create(proto)` создаёт новый объект и устанавливает его внутренний `[[Prototype]]` в `proto`. Это фундамент прототипного наследования в JavaScript."
+        }
     },
     {
         "id": "js-this-001",
@@ -202,15 +483,33 @@
         "category": "javascript",
         "difficulty": "easy",
         "tags": ["this", "arrow-functions"],
-        "question": "What is the value of `this` inside an arrow function?",
+        "question": {
+            "en": "What is the value of `this` inside an arrow function?",
+            "ru": "Чему равен `this` внутри стрелочной функции?"
+        },
         "options": [
-            "The global object (window/globalThis)",
-            "The object that calls the function",
-            "The value of `this` from the enclosing lexical scope",
-            "undefined"
+            {
+                "en": "The global object (window/globalThis)",
+                "ru": "Глобальному объекту (window/globalThis)"
+            },
+            {
+                "en": "The object that calls the function",
+                "ru": "Объекту, который вызывает функцию"
+            },
+            {
+                "en": "The value of `this` from the enclosing lexical scope",
+                "ru": "Значению `this` из охватывающей лексической области видимости"
+            },
+            {
+                "en": "undefined",
+                "ru": "undefined"
+            }
         ],
         "correct": 2,
-        "explanation": "Arrow functions do not have their own `this` binding. They inherit `this` from the enclosing lexical (static) scope at the time they are defined."
+        "explanation": {
+            "en": "Arrow functions do not have their own `this` binding. They inherit `this` from the enclosing lexical (static) scope at the time they are defined.",
+            "ru": "Стрелочные функции не имеют собственной привязки `this`. Они наследуют `this` из охватывающей лексической (статической) области видимости на момент определения."
+        }
     },
     {
         "id": "js-date-001",
@@ -218,15 +517,33 @@
         "category": "javascript",
         "difficulty": "easy",
         "tags": ["Date", "time"],
-        "question": "What does `Date.now()` return?",
+        "question": {
+            "en": "What does `Date.now()` return?",
+            "ru": "Что возвращает `Date.now()`?"
+        },
         "options": [
-            "A Date object representing the current time",
-            "A string in ISO 8601 format",
-            "The number of milliseconds elapsed since January 1, 1970 00:00:00 UTC",
-            "The current Unix timestamp in seconds"
+            {
+                "en": "A Date object representing the current time",
+                "ru": "Объект Date, представляющий текущее время"
+            },
+            {
+                "en": "A string in ISO 8601 format",
+                "ru": "Строку в формате ISO 8601"
+            },
+            {
+                "en": "The number of milliseconds elapsed since January 1, 1970 00:00:00 UTC",
+                "ru": "Количество миллисекунд, прошедших с 1 января 1970 года 00:00:00 UTC"
+            },
+            {
+                "en": "The current Unix timestamp in seconds",
+                "ru": "Текущий Unix-таймстамп в секундах"
+            }
         ],
         "correct": 2,
-        "explanation": "`Date.now()` returns a Number representing the current time as milliseconds since the Unix epoch (January 1, 1970 UTC). It is faster than `new Date().getTime()` and commonly used for performance measurements."
+        "explanation": {
+            "en": "`Date.now()` returns a Number representing the current time as milliseconds since the Unix epoch (January 1, 1970 UTC). It is faster than `new Date().getTime()` and commonly used for performance measurements.",
+            "ru": "`Date.now()` возвращает число — текущее время в миллисекундах с момента Unix epoch (1 января 1970 UTC). Он работает быстрее, чем `new Date().getTime()`, и часто используется для измерения производительности."
+        }
     },
     {
         "id": "js-hoisting-002",
@@ -234,10 +551,33 @@
         "category": "javascript",
         "difficulty": "medium",
         "tags": ["hoisting", "functions"],
-        "question": "What is the output of:\n```\nconsole.log(foo());\nfunction foo() { return 42; }\n```",
-        "options": ["undefined", "ReferenceError", "42", "TypeError"],
+        "question": {
+            "en": "What is the output of:\n```\nconsole.log(foo());\nfunction foo() { return 42; }\n```",
+            "ru": "Какой вывод у кода:\n```\nconsole.log(foo());\nfunction foo() { return 42; }\n```"
+        },
+        "options": [
+            {
+                "en": "undefined",
+                "ru": "undefined"
+            },
+            {
+                "en": "ReferenceError",
+                "ru": "ReferenceError"
+            },
+            {
+                "en": "42",
+                "ru": "42"
+            },
+            {
+                "en": "TypeError",
+                "ru": "TypeError"
+            }
+        ],
         "correct": 2,
-        "explanation": "Function declarations are fully hoisted — both the declaration and the body. This means `foo` is available and callable before its source position in the file."
+        "explanation": {
+            "en": "Function declarations are fully hoisted — both the declaration and the body. This means `foo` is available and callable before its source position in the file.",
+            "ru": "Function declarations всплывают целиком — и объявление, и тело. Поэтому `foo` доступна и вызываема до её позиции в исходном коде."
+        }
     },
     {
         "id": "js-closure-002",
@@ -245,10 +585,33 @@
         "category": "javascript",
         "difficulty": "medium",
         "tags": ["closures", "loops", "var"],
-        "question": "What does this code log?\n```\nfor (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 0);\n}\n```",
-        "options": ["0, 1, 2", "0, 0, 0", "3, 3, 3", "undefined, undefined, undefined"],
+        "question": {
+            "en": "What does this code log?\n```\nfor (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 0);\n}\n```",
+            "ru": "Что выведет этот код?\n```\nfor (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 0);\n}\n```"
+        },
+        "options": [
+            {
+                "en": "0, 1, 2",
+                "ru": "0, 1, 2"
+            },
+            {
+                "en": "0, 0, 0",
+                "ru": "0, 0, 0"
+            },
+            {
+                "en": "3, 3, 3",
+                "ru": "3, 3, 3"
+            },
+            {
+                "en": "undefined, undefined, undefined",
+                "ru": "undefined, undefined, undefined"
+            }
+        ],
         "correct": 2,
-        "explanation": "Because `var` is function-scoped, all three closures share the same `i`. By the time the setTimeout callbacks execute, the loop has finished and `i` is 3. Using `let` instead would print 0, 1, 2."
+        "explanation": {
+            "en": "Because `var` is function-scoped, all three closures share the same `i`. By the time the setTimeout callbacks execute, the loop has finished and `i` is 3. Using `let` instead would print 0, 1, 2.",
+            "ru": "Поскольку `var` имеет функциональную область видимости, все три замыкания разделяют одну и ту же переменную `i`. К моменту выполнения коллбэков setTimeout цикл завершён и `i` равен 3. С `let` вывод был бы 0, 1, 2."
+        }
     },
     {
         "id": "js-coercion-002",
@@ -256,10 +619,33 @@
         "category": "javascript",
         "difficulty": "medium",
         "tags": ["coercion", "equality", "=="],
-        "question": "What is the result of `[] == false`?",
-        "options": ["false", "true", "TypeError", "ReferenceError"],
+        "question": {
+            "en": "What is the result of `[] == false`?",
+            "ru": "Каков результат выражения `[] == false`?"
+        },
+        "options": [
+            {
+                "en": "false",
+                "ru": "false"
+            },
+            {
+                "en": "true",
+                "ru": "true"
+            },
+            {
+                "en": "TypeError",
+                "ru": "TypeError"
+            },
+            {
+                "en": "ReferenceError",
+                "ru": "ReferenceError"
+            }
+        ],
         "correct": 1,
-        "explanation": "Abstract equality coerces both sides: `false` becomes `0`, `[]` converts to `''` (via ToPrimitive), then `''` converts to `0`. So `0 == 0` is `true`. This is why `===` is preferred."
+        "explanation": {
+            "en": "Abstract equality coerces both sides: `false` becomes `0`, `[]` converts to `''` (via ToPrimitive), then `''` converts to `0`. So `0 == 0` is `true`. This is why `===` is preferred.",
+            "ru": "Абстрактное равенство приводит обе стороны: `false` становится `0`, `[]` преобразуется в `''` (через ToPrimitive), затем `''` преобразуется в `0`. В итоге `0 == 0` даёт `true`. Именно поэтому предпочтительнее использовать `===`."
+        }
     },
     {
         "id": "js-async-001",
@@ -267,15 +653,33 @@
         "category": "javascript",
         "difficulty": "medium",
         "tags": ["async-await", "promises"],
-        "question": "What does an `async` function always return?",
+        "question": {
+            "en": "What does an `async` function always return?",
+            "ru": "Что всегда возвращает `async`-функция?"
+        },
         "options": [
-            "The raw value returned by the function body",
-            "A Promise, regardless of what the function body returns",
-            "A Promise only if the function body uses `await`",
-            "undefined"
+            {
+                "en": "The raw value returned by the function body",
+                "ru": "Исходное значение, возвращённое телом функции"
+            },
+            {
+                "en": "A Promise, regardless of what the function body returns",
+                "ru": "Promise, независимо от того, что возвращает тело функции"
+            },
+            {
+                "en": "A Promise only if the function body uses `await`",
+                "ru": "Promise только если тело функции использует `await`"
+            },
+            {
+                "en": "undefined",
+                "ru": "undefined"
+            }
         ],
         "correct": 1,
-        "explanation": "An `async` function always returns a Promise. If the function returns a non-Promise value, it is automatically wrapped in `Promise.resolve()`. If it throws, the returned Promise rejects."
+        "explanation": {
+            "en": "An `async` function always returns a Promise. If the function returns a non-Promise value, it is automatically wrapped in `Promise.resolve()`. If it throws, the returned Promise rejects.",
+            "ru": "`async`-функция всегда возвращает Promise. Если функция возвращает значение, не являющееся Promise, оно автоматически оборачивается в `Promise.resolve()`. При выбросе исключения возвращённый Promise отклоняется."
+        }
     },
     {
         "id": "js-this-002",
@@ -283,15 +687,33 @@
         "category": "javascript",
         "difficulty": "medium",
         "tags": ["this", "bind", "call", "apply"],
-        "question": "What is the difference between `.call()` and `.apply()`?",
+        "question": {
+            "en": "What is the difference between `.call()` and `.apply()`?",
+            "ru": "В чём различие между `.call()` и `.apply()`?"
+        },
         "options": [
-            "`.call()` passes arguments as an array, `.apply()` passes them individually",
-            "`.call()` passes arguments individually, `.apply()` passes them as an array",
-            "They are identical — both accept an array",
-            "`.call()` creates a bound copy, `.apply()` invokes immediately"
+            {
+                "en": "`.call()` passes arguments as an array, `.apply()` passes them individually",
+                "ru": "`.call()` передаёт аргументы массивом, `.apply()` — по отдельности"
+            },
+            {
+                "en": "`.call()` passes arguments individually, `.apply()` passes them as an array",
+                "ru": "`.call()` передаёт аргументы по отдельности, `.apply()` — массивом"
+            },
+            {
+                "en": "They are identical — both accept an array",
+                "ru": "Они идентичны — оба принимают массив"
+            },
+            {
+                "en": "`.call()` creates a bound copy, `.apply()` invokes immediately",
+                "ru": "`.call()` создаёт привязанную копию, `.apply()` вызывает немедленно"
+            }
         ],
         "correct": 1,
-        "explanation": "`.call(thisArg, arg1, arg2)` accepts arguments individually. `.apply(thisArg, [arg1, arg2])` accepts arguments as an array. Both invoke the function immediately with the given `this`."
+        "explanation": {
+            "en": "`.call(thisArg, arg1, arg2)` accepts arguments individually. `.apply(thisArg, [arg1, arg2])` accepts arguments as an array. Both invoke the function immediately with the given `this`.",
+            "ru": "`.call(thisArg, arg1, arg2)` принимает аргументы по отдельности. `.apply(thisArg, [arg1, arg2])` принимает их массивом. Оба метода немедленно вызывают функцию с указанным `this`."
+        }
     },
     {
         "id": "js-modules-001",
@@ -299,15 +721,33 @@
         "category": "javascript",
         "difficulty": "medium",
         "tags": ["modules", "esm", "cjs"],
-        "question": "Which statement is true about ES Modules (ESM) compared to CommonJS (CJS)?",
+        "question": {
+            "en": "Which statement is true about ES Modules (ESM) compared to CommonJS (CJS)?",
+            "ru": "Какое утверждение верно об ES Modules (ESM) по сравнению с CommonJS (CJS)?"
+        },
         "options": [
-            "ESM uses `require()` and `module.exports`",
-            "ESM imports are dynamic by default",
-            "ESM imports are statically analyzed and produce live bindings",
-            "CJS supports top-level `await`"
+            {
+                "en": "ESM uses `require()` and `module.exports`",
+                "ru": "ESM использует `require()` и `module.exports`"
+            },
+            {
+                "en": "ESM imports are dynamic by default",
+                "ru": "Импорты ESM по умолчанию динамические"
+            },
+            {
+                "en": "ESM imports are statically analyzed and produce live bindings",
+                "ru": "Импорты ESM статически анализируются и создают live bindings"
+            },
+            {
+                "en": "CJS supports top-level `await`",
+                "ru": "CJS поддерживает top-level `await`"
+            }
         ],
         "correct": 2,
-        "explanation": "ESM imports are statically resolved at parse time (enabling tree-shaking) and export live bindings — changes to the exported variable are visible to importers. CJS uses dynamic `require()` and copies values."
+        "explanation": {
+            "en": "ESM imports are statically resolved at parse time (enabling tree-shaking) and export live bindings — changes to the exported variable are visible to importers. CJS uses dynamic `require()` and copies values.",
+            "ru": "Импорты ESM разрешаются статически на этапе парсинга (что даёт tree-shaking) и экспортируют live bindings — изменения экспортируемой переменной видны импортёрам. CJS использует динамический `require()` и копирует значения."
+        }
     },
     {
         "id": "js-generator-001",
@@ -315,15 +755,33 @@
         "category": "javascript",
         "difficulty": "medium",
         "tags": ["generators", "iterators"],
-        "question": "What does calling `.next()` on a generator return?",
+        "question": {
+            "en": "What does calling `.next()` on a generator return?",
+            "ru": "Что возвращает вызов `.next()` у генератора?"
+        },
         "options": [
-            "The return value of the function",
-            "An object `{ value, done }` where `value` is the yielded value",
-            "A Promise that resolves to the yielded value",
-            "The generator function itself"
+            {
+                "en": "The return value of the function",
+                "ru": "Возвращаемое значение функции"
+            },
+            {
+                "en": "An object `{ value, done }` where `value` is the yielded value",
+                "ru": "Объект `{ value, done }`, где `value` — это значение, переданное через yield"
+            },
+            {
+                "en": "A Promise that resolves to the yielded value",
+                "ru": "Promise, который резолвится в yielded-значение"
+            },
+            {
+                "en": "The generator function itself",
+                "ru": "Саму функцию-генератор"
+            }
         ],
         "correct": 1,
-        "explanation": "Each call to `.next()` on a generator returns a `{ value, done }` object. `value` is what was `yield`ed, and `done` is `false` until the generator function returns, after which `done` is `true`."
+        "explanation": {
+            "en": "Each call to `.next()` on a generator returns a `{ value, done }` object. `value` is what was `yield`ed, and `done` is `false` until the generator function returns, after which `done` is `true`.",
+            "ru": "Каждый вызов `.next()` у генератора возвращает объект `{ value, done }`. `value` — это то, что было передано через `yield`, а `done` равен `false` до тех пор, пока функция-генератор не вернёт значение; после этого `done` становится `true`."
+        }
     },
     {
         "id": "js-array-002",
@@ -331,10 +789,33 @@
         "category": "javascript",
         "difficulty": "medium",
         "tags": ["arrays", "reduce"],
-        "question": "What does `[1, 2, 3].reduce((acc, x) => acc + x)` return?",
-        "options": ["[1, 3, 6]", "6", "undefined", "NaN"],
+        "question": {
+            "en": "What does `[1, 2, 3].reduce((acc, x) => acc + x)` return?",
+            "ru": "Что вернёт `[1, 2, 3].reduce((acc, x) => acc + x)`?"
+        },
+        "options": [
+            {
+                "en": "[1, 3, 6]",
+                "ru": "[1, 3, 6]"
+            },
+            {
+                "en": "6",
+                "ru": "6"
+            },
+            {
+                "en": "undefined",
+                "ru": "undefined"
+            },
+            {
+                "en": "NaN",
+                "ru": "NaN"
+            }
+        ],
         "correct": 1,
-        "explanation": "When no initial value is provided, `reduce()` uses the first element (`1`) as the accumulator and starts iterating from the second element. So: 1+2=3, then 3+3=6."
+        "explanation": {
+            "en": "When no initial value is provided, `reduce()` uses the first element (`1`) as the accumulator and starts iterating from the second element. So: 1+2=3, then 3+3=6.",
+            "ru": "Когда начальное значение не передано, `reduce()` использует первый элемент (`1`) как аккумулятор и начинает итерацию со второго элемента. То есть: 1+2=3, затем 3+3=6."
+        }
     },
     {
         "id": "js-equality-002",
@@ -342,15 +823,33 @@
         "category": "javascript",
         "difficulty": "medium",
         "tags": ["equality", "NaN", "Number.isNaN"],
-        "question": "Which expression correctly checks if a value is exactly `NaN`?",
+        "question": {
+            "en": "Which expression correctly checks if a value is exactly `NaN`?",
+            "ru": "Какое выражение корректно проверяет, что значение — это именно `NaN`?"
+        },
         "options": [
-            "`value === NaN`",
-            "`value == NaN`",
-            "`Number.isNaN(value)`",
-            "`typeof value === 'NaN'`"
+            {
+                "en": "`value === NaN`",
+                "ru": "`value === NaN`"
+            },
+            {
+                "en": "`value == NaN`",
+                "ru": "`value == NaN`"
+            },
+            {
+                "en": "`Number.isNaN(value)`",
+                "ru": "`Number.isNaN(value)`"
+            },
+            {
+                "en": "`typeof value === 'NaN'`",
+                "ru": "`typeof value === 'NaN'`"
+            }
         ],
         "correct": 2,
-        "explanation": "`NaN` is the only JavaScript value not equal to itself (`NaN !== NaN`), so `===` cannot detect it. The global `isNaN()` coerces its argument first (unreliable). `Number.isNaN()` returns `true` only for the actual `NaN` value without coercion."
+        "explanation": {
+            "en": "`NaN` is the only JavaScript value not equal to itself (`NaN !== NaN`), so `===` cannot detect it. The global `isNaN()` coerces its argument first (unreliable). `Number.isNaN()` returns `true` only for the actual `NaN` value without coercion.",
+            "ru": "`NaN` — единственное значение в JavaScript, не равное самому себе (`NaN !== NaN`), поэтому `===` его не обнаружит. Глобальный `isNaN()` сначала приводит аргумент (ненадёжно). `Number.isNaN()` возвращает `true` только для настоящего `NaN` без приведения типов."
+        }
     },
     {
         "id": "js-prototype-002",
@@ -358,15 +857,33 @@
         "category": "javascript",
         "difficulty": "hard",
         "tags": ["prototypes", "instanceof", "prototype-chain"],
-        "question": "What does `instanceof` actually check in JavaScript?",
+        "question": {
+            "en": "What does `instanceof` actually check in JavaScript?",
+            "ru": "Что на самом деле проверяет `instanceof` в JavaScript?"
+        },
         "options": [
-            "Whether the object was created by a specific constructor call",
-            "Whether the constructor's `prototype` property exists anywhere in the object's prototype chain",
-            "Whether the object has the same type as the constructor",
-            "Whether the object has all methods of the constructor"
+            {
+                "en": "Whether the object was created by a specific constructor call",
+                "ru": "Был ли объект создан конкретным вызовом конструктора"
+            },
+            {
+                "en": "Whether the constructor's `prototype` property exists anywhere in the object's prototype chain",
+                "ru": "Присутствует ли свойство `prototype` конструктора где-либо в цепочке прототипов объекта"
+            },
+            {
+                "en": "Whether the object has the same type as the constructor",
+                "ru": "Имеет ли объект тот же тип, что и конструктор"
+            },
+            {
+                "en": "Whether the object has all methods of the constructor",
+                "ru": "Имеет ли объект все методы конструктора"
+            }
         ],
         "correct": 1,
-        "explanation": "`instanceof` traverses the object's prototype chain looking for the constructor's `prototype` property. It does not check how the object was created, only the prototype linkage."
+        "explanation": {
+            "en": "`instanceof` traverses the object's prototype chain looking for the constructor's `prototype` property. It does not check how the object was created, only the prototype linkage.",
+            "ru": "`instanceof` обходит цепочку прототипов объекта в поисках свойства `prototype` конструктора. Он не проверяет, как был создан объект, — только связь по прототипам."
+        }
     },
     {
         "id": "js-proxy-001",
@@ -374,15 +891,33 @@
         "category": "javascript",
         "difficulty": "hard",
         "tags": ["Proxy", "Reflect", "meta-programming"],
-        "question": "What is the purpose of `Reflect.get(target, prop, receiver)` in a Proxy `get` trap?",
+        "question": {
+            "en": "What is the purpose of `Reflect.get(target, prop, receiver)` in a Proxy `get` trap?",
+            "ru": "Для чего используется `Reflect.get(target, prop, receiver)` внутри ловушки `get` у Proxy?"
+        },
         "options": [
-            "To bypass the Proxy and access the property directly",
-            "To properly forward the get operation respecting the original `this` binding and prototype chain",
-            "To check if a property exists on the target",
-            "To create a new Proxy on the accessed property"
+            {
+                "en": "To bypass the Proxy and access the property directly",
+                "ru": "Чтобы обойти Proxy и обратиться к свойству напрямую"
+            },
+            {
+                "en": "To properly forward the get operation respecting the original `this` binding and prototype chain",
+                "ru": "Чтобы корректно пробросить операцию get, сохранив исходную привязку `this` и цепочку прототипов"
+            },
+            {
+                "en": "To check if a property exists on the target",
+                "ru": "Чтобы проверить, существует ли свойство у target"
+            },
+            {
+                "en": "To create a new Proxy on the accessed property",
+                "ru": "Чтобы создать новый Proxy на запрашиваемом свойстве"
+            }
         ],
         "correct": 1,
-        "explanation": "Using `Reflect.get` inside a Proxy trap correctly forwards the operation to the target with the right `receiver` (the `this` for getter functions), preserving prototype chain semantics. Using `target[prop]` can silently break getters."
+        "explanation": {
+            "en": "Using `Reflect.get` inside a Proxy trap correctly forwards the operation to the target with the right `receiver` (the `this` for getter functions), preserving prototype chain semantics. Using `target[prop]` can silently break getters.",
+            "ru": "Использование `Reflect.get` внутри ловушки Proxy корректно пробрасывает операцию в target с правильным `receiver` (тот `this`, который используется в getter-функциях), сохраняя семантику цепочки прототипов. Запись `target[prop]` может незаметно сломать геттеры."
+        }
     },
     {
         "id": "js-scope-003",
@@ -390,15 +925,33 @@
         "category": "javascript",
         "difficulty": "easy",
         "tags": ["scope", "const", "let"],
-        "question": "Which of the following are true about `const`?",
+        "question": {
+            "en": "Which of the following are true about `const`?",
+            "ru": "Какие из утверждений о `const` верны?"
+        },
         "options": [
-            "`const` variables cannot be reassigned",
-            "`const` objects are deeply immutable",
-            "`const` is block-scoped",
-            "`const` variables are hoisted with `undefined`"
+            {
+                "en": "`const` variables cannot be reassigned",
+                "ru": "Переменные `const` нельзя переприсваивать"
+            },
+            {
+                "en": "`const` objects are deeply immutable",
+                "ru": "Объекты, объявленные через `const`, глубоко иммутабельны"
+            },
+            {
+                "en": "`const` is block-scoped",
+                "ru": "`const` имеет блочную область видимости"
+            },
+            {
+                "en": "`const` variables are hoisted with `undefined`",
+                "ru": "Переменные `const` всплывают со значением `undefined`"
+            }
         ],
         "correct": [0, 2],
-        "explanation": "`const` prevents reassignment of the binding and is block-scoped like `let`. However, it does not make objects deeply immutable — the object's properties can still be mutated. `const` is hoisted but stays in the TDZ until the declaration."
+        "explanation": {
+            "en": "`const` prevents reassignment of the binding and is block-scoped like `let`. However, it does not make objects deeply immutable — the object's properties can still be mutated. `const` is hoisted but stays in the TDZ until the declaration.",
+            "ru": "`const` запрещает переприсваивание связывания и имеет блочную область видимости, как и `let`. Однако он не делает объекты глубоко иммутабельными — свойства объекта всё ещё можно изменять. `const` всплывает, но остаётся в TDZ до своего объявления."
+        }
     },
     {
         "id": "js-coercion-003",
@@ -406,10 +959,33 @@
         "category": "javascript",
         "difficulty": "easy",
         "tags": ["coercion", "truthy-falsy"],
-        "question": "Which of the following values are falsy in JavaScript?",
-        "options": ["`0`", "`''` (empty string)", "`[]` (empty array)", "`null`"],
+        "question": {
+            "en": "Which of the following values are falsy in JavaScript?",
+            "ru": "Какие из перечисленных значений являются falsy в JavaScript?"
+        },
+        "options": [
+            {
+                "en": "`0`",
+                "ru": "`0`"
+            },
+            {
+                "en": "`''` (empty string)",
+                "ru": "`''` (пустая строка)"
+            },
+            {
+                "en": "`[]` (empty array)",
+                "ru": "`[]` (пустой массив)"
+            },
+            {
+                "en": "`null`",
+                "ru": "`null`"
+            }
+        ],
         "correct": [0, 1, 3],
-        "explanation": "`0`, `''`, `null`, `undefined`, `NaN`, and `false` are the falsy values. An empty array `[]` is truthy — objects (including empty arrays and objects) are always truthy."
+        "explanation": {
+            "en": "`0`, `''`, `null`, `undefined`, `NaN`, and `false` are the falsy values. An empty array `[]` is truthy — objects (including empty arrays and objects) are always truthy.",
+            "ru": "К falsy-значениям относятся `0`, `''`, `null`, `undefined`, `NaN` и `false`. Пустой массив `[]` является truthy — объекты (включая пустые массивы и объекты) всегда truthy."
+        }
     },
     {
         "id": "js-array-003",
@@ -417,10 +993,33 @@
         "category": "javascript",
         "difficulty": "easy",
         "tags": ["arrays", "mutation"],
-        "question": "Which array methods create a NEW array and do NOT mutate the original?",
-        "options": ["`.map()`", "`.sort()`", "`.filter()`", "`.splice()`"],
+        "question": {
+            "en": "Which array methods create a NEW array and do NOT mutate the original?",
+            "ru": "Какие методы массива создают НОВЫЙ массив и НЕ мутируют исходный?"
+        },
+        "options": [
+            {
+                "en": "`.map()`",
+                "ru": "`.map()`"
+            },
+            {
+                "en": "`.sort()`",
+                "ru": "`.sort()`"
+            },
+            {
+                "en": "`.filter()`",
+                "ru": "`.filter()`"
+            },
+            {
+                "en": "`.splice()`",
+                "ru": "`.splice()`"
+            }
+        ],
         "correct": [0, 2],
-        "explanation": "`.map()` and `.filter()` always return a new array without modifying the original. `.sort()` sorts the array in-place and returns the same array reference. `.splice()` mutates the array and returns the removed elements."
+        "explanation": {
+            "en": "`.map()` and `.filter()` always return a new array without modifying the original. `.sort()` sorts the array in-place and returns the same array reference. `.splice()` mutates the array and returns the removed elements.",
+            "ru": "`.map()` и `.filter()` всегда возвращают новый массив, не изменяя исходный. `.sort()` сортирует массив на месте и возвращает ссылку на тот же массив. `.splice()` мутирует массив и возвращает удалённые элементы."
+        }
     },
     {
         "id": "js-promise-002",
@@ -428,15 +1027,33 @@
         "category": "javascript",
         "difficulty": "medium",
         "tags": ["promises", "Promise.all"],
-        "question": "Which statements about `Promise.all()` are correct?",
+        "question": {
+            "en": "Which statements about `Promise.all()` are correct?",
+            "ru": "Какие утверждения о `Promise.all()` корректны?"
+        },
         "options": [
-            "It rejects immediately if any input Promise rejects",
-            "It waits for all Promises to settle (fulfil or reject)",
-            "It resolves with an array of fulfilled values when all Promises fulfil",
-            "It resolves with the first fulfilled value"
+            {
+                "en": "It rejects immediately if any input Promise rejects",
+                "ru": "Он немедленно отклоняется, если отклоняется любой из входных Promise"
+            },
+            {
+                "en": "It waits for all Promises to settle (fulfil or reject)",
+                "ru": "Он ждёт, пока все Promise перейдут в settled-состояние (fulfilled или rejected)"
+            },
+            {
+                "en": "It resolves with an array of fulfilled values when all Promises fulfil",
+                "ru": "Он резолвится массивом fulfilled-значений, когда все Promise успешно выполнены"
+            },
+            {
+                "en": "It resolves with the first fulfilled value",
+                "ru": "Он резолвится первым fulfilled-значением"
+            }
         ],
         "correct": [0, 2],
-        "explanation": "`Promise.all()` resolves with an array of results when ALL promises fulfil, maintaining input order. If ANY promise rejects, `Promise.all()` immediately rejects. Use `Promise.allSettled()` to wait for all to settle regardless."
+        "explanation": {
+            "en": "`Promise.all()` resolves with an array of results when ALL promises fulfil, maintaining input order. If ANY promise rejects, `Promise.all()` immediately rejects. Use `Promise.allSettled()` to wait for all to settle regardless.",
+            "ru": "`Promise.all()` резолвится массивом результатов, когда ВСЕ промисы успешно выполнены, сохраняя порядок входных. Если ЛЮБОЙ промис отклоняется, `Promise.all()` немедленно отклоняется. Используйте `Promise.allSettled()`, чтобы дождаться завершения всех независимо от результата."
+        }
     },
     {
         "id": "js-object-001",
@@ -444,15 +1061,33 @@
         "category": "javascript",
         "difficulty": "medium",
         "tags": ["objects", "Object.assign", "shallow-copy"],
-        "question": "Which statements are true about `Object.assign({}, a, b)`?",
+        "question": {
+            "en": "Which statements are true about `Object.assign({}, a, b)`?",
+            "ru": "Какие утверждения о `Object.assign({}, a, b)` верны?"
+        },
         "options": [
-            "It performs a shallow copy of own enumerable properties",
-            "It performs a deep clone of nested objects",
-            "Properties from `b` overwrite same-named properties from `a`",
-            "It modifies object `a` in place"
+            {
+                "en": "It performs a shallow copy of own enumerable properties",
+                "ru": "Он выполняет поверхностное копирование собственных перечисляемых свойств"
+            },
+            {
+                "en": "It performs a deep clone of nested objects",
+                "ru": "Он выполняет глубокое клонирование вложенных объектов"
+            },
+            {
+                "en": "Properties from `b` overwrite same-named properties from `a`",
+                "ru": "Свойства из `b` перезаписывают одноимённые свойства из `a`"
+            },
+            {
+                "en": "It modifies object `a` in place",
+                "ru": "Он модифицирует объект `a` на месте"
+            }
         ],
         "correct": [0, 2],
-        "explanation": "`Object.assign` copies own enumerable properties shallowly — nested objects are still shared by reference. Later sources (`b`) overwrite earlier ones (`a`) for duplicate keys. The first argument `{}` is the target that gets modified and returned."
+        "explanation": {
+            "en": "`Object.assign` copies own enumerable properties shallowly — nested objects are still shared by reference. Later sources (`b`) overwrite earlier ones (`a`) for duplicate keys. The first argument `{}` is the target that gets modified and returned.",
+            "ru": "`Object.assign` поверхностно копирует собственные перечисляемые свойства — вложенные объекты по-прежнему разделяются по ссылке. Более поздние источники (`b`) перезаписывают более ранние (`a`) при совпадении ключей. Первый аргумент `{}` — это target, который модифицируется и возвращается."
+        }
     },
     {
         "id": "js-modules-003",
@@ -460,15 +1095,33 @@
         "category": "javascript",
         "difficulty": "medium",
         "tags": ["modules", "esm", "cjs"],
-        "question": "Which of the following are differences between ES Modules and CommonJS?",
+        "question": {
+            "en": "Which of the following are differences between ES Modules and CommonJS?",
+            "ru": "Какие из перечисленных пунктов являются различиями между ES Modules и CommonJS?"
+        },
         "options": [
-            "ESM supports top-level `await`, CJS does not",
-            "CJS `require()` is synchronous, ESM `import` evaluation is asynchronous",
-            "ESM exports are live bindings, CJS exports are copied values",
-            "CJS files can use `import` syntax without transformation"
+            {
+                "en": "ESM supports top-level `await`, CJS does not",
+                "ru": "ESM поддерживает top-level `await`, CJS — нет"
+            },
+            {
+                "en": "CJS `require()` is synchronous, ESM `import` evaluation is asynchronous",
+                "ru": "`require()` в CJS синхронный, а вычисление `import` в ESM — асинхронное"
+            },
+            {
+                "en": "ESM exports are live bindings, CJS exports are copied values",
+                "ru": "Экспорты ESM — это live bindings, экспорты CJS — копии значений"
+            },
+            {
+                "en": "CJS files can use `import` syntax without transformation",
+                "ru": "CJS-файлы могут использовать синтаксис `import` без преобразования"
+            }
         ],
         "correct": [0, 1, 2],
-        "explanation": "ESM supports top-level await; CJS does not. CJS `require()` blocks the thread synchronously, while ESM loading is asynchronous. ESM exports are live bindings; CJS copies the value at require time. CJS files cannot use `import` syntax natively."
+        "explanation": {
+            "en": "ESM supports top-level await; CJS does not. CJS `require()` blocks the thread synchronously, while ESM loading is asynchronous. ESM exports are live bindings; CJS copies the value at require time. CJS files cannot use `import` syntax natively.",
+            "ru": "ESM поддерживает top-level await, CJS — нет. `require()` в CJS блокирует поток синхронно, а загрузка ESM асинхронна. Экспорты ESM — это live bindings, CJS копирует значение в момент require. CJS-файлы не могут использовать синтаксис `import` нативно."
+        }
     },
     {
         "id": "js-weakref-001",
@@ -476,15 +1129,33 @@
         "category": "javascript",
         "difficulty": "medium",
         "tags": ["WeakMap", "WeakSet", "memory"],
-        "question": "Which characteristics are shared by both WeakMap and WeakSet?",
+        "question": {
+            "en": "Which characteristics are shared by both WeakMap and WeakSet?",
+            "ru": "Какие характеристики общие для WeakMap и WeakSet?"
+        },
         "options": [
-            "They hold weak references to their object entries",
-            "They are iterable (support for...of)",
-            "They have no `.size` property",
-            "Their entries can be garbage-collected when no other strong references exist"
+            {
+                "en": "They hold weak references to their object entries",
+                "ru": "Они хранят слабые ссылки на свои записи-объекты"
+            },
+            {
+                "en": "They are iterable (support for...of)",
+                "ru": "Они итерируемы (поддерживают for...of)"
+            },
+            {
+                "en": "They have no `.size` property",
+                "ru": "У них нет свойства `.size`"
+            },
+            {
+                "en": "Their entries can be garbage-collected when no other strong references exist",
+                "ru": "Их записи могут быть собраны garbage collector'ом, когда других сильных ссылок не остаётся"
+            }
         ],
         "correct": [0, 2, 3],
-        "explanation": "Both WeakMap and WeakSet hold weak object references and allow garbage collection of their entries. Neither exposes a `.size` property nor supports iteration — this would require strong references to enumerate entries, defeating their purpose."
+        "explanation": {
+            "en": "Both WeakMap and WeakSet hold weak object references and allow garbage collection of their entries. Neither exposes a `.size` property nor supports iteration — this would require strong references to enumerate entries, defeating their purpose.",
+            "ru": "И WeakMap, и WeakSet хранят слабые ссылки на объекты и позволяют garbage collector'у освобождать их записи. Ни один из них не предоставляет свойство `.size` и не поддерживает итерацию — это потребовало бы сильных ссылок для перечисления записей, что лишило бы их смысла."
+        }
     },
     {
         "id": "js-error-002",
@@ -492,15 +1163,33 @@
         "category": "javascript",
         "difficulty": "medium",
         "tags": ["error-handling", "try-catch-finally"],
-        "question": "Which statements about the `finally` block are correct?",
+        "question": {
+            "en": "Which statements about the `finally` block are correct?",
+            "ru": "Какие утверждения о блоке `finally` корректны?"
+        },
         "options": [
-            "`finally` always runs, even if `try` has a `return` statement",
-            "A `return` in `finally` overrides a `return` in `try`",
-            "`finally` only runs when an error is thrown",
-            "`finally` can suppress a thrown error by returning a value"
+            {
+                "en": "`finally` always runs, even if `try` has a `return` statement",
+                "ru": "`finally` выполняется всегда, даже если в `try` есть `return`"
+            },
+            {
+                "en": "A `return` in `finally` overrides a `return` in `try`",
+                "ru": "`return` в `finally` переопределяет `return` в `try`"
+            },
+            {
+                "en": "`finally` only runs when an error is thrown",
+                "ru": "`finally` выполняется только при выбросе исключения"
+            },
+            {
+                "en": "`finally` can suppress a thrown error by returning a value",
+                "ru": "`finally` может подавить выброшенную ошибку, вернув значение"
+            }
         ],
         "correct": [0, 1, 3],
-        "explanation": "`finally` always executes regardless of whether an exception was thrown or a `return` was hit. A `return` in `finally` takes precedence over one in `try`/`catch`. A `return` (or `throw`) in `finally` can also suppress a propagating exception — the finally return value replaces it."
+        "explanation": {
+            "en": "`finally` always executes regardless of whether an exception was thrown or a `return` was hit. A `return` in `finally` takes precedence over one in `try`/`catch`. A `return` (or `throw`) in `finally` can also suppress a propagating exception — the finally return value replaces it.",
+            "ru": "`finally` выполняется всегда, независимо от того, было ли выброшено исключение или сработал `return`. `return` в `finally` имеет приоритет над `return` в `try`/`catch`. `return` (или `throw`) в `finally` также может подавить распространяющееся исключение — значение из finally заменяет его."
+        }
     },
     {
         "id": "js-generator-002",
@@ -508,15 +1197,33 @@
         "category": "javascript",
         "difficulty": "hard",
         "tags": ["generators", "iterators"],
-        "question": "Which of the following are true about JavaScript generators?",
+        "question": {
+            "en": "Which of the following are true about JavaScript generators?",
+            "ru": "Какие из утверждений о генераторах в JavaScript верны?"
+        },
         "options": [
-            "Generator functions are declared with `function*` syntax",
-            "A generator can `yield` multiple times, pausing execution each time",
-            "Calling a generator function immediately executes its body",
-            "Generators implement the iterator protocol"
+            {
+                "en": "Generator functions are declared with `function*` syntax",
+                "ru": "Функции-генераторы объявляются синтаксисом `function*`"
+            },
+            {
+                "en": "A generator can `yield` multiple times, pausing execution each time",
+                "ru": "Генератор может выполнять `yield` многократно, приостанавливая выполнение каждый раз"
+            },
+            {
+                "en": "Calling a generator function immediately executes its body",
+                "ru": "Вызов функции-генератора сразу выполняет её тело"
+            },
+            {
+                "en": "Generators implement the iterator protocol",
+                "ru": "Генераторы реализуют iterator protocol"
+            }
         ],
         "correct": [0, 1, 3],
-        "explanation": "Generators use `function*` syntax, can yield multiple times pausing at each `yield`, and implement the iterator protocol (returning `{ value, done }` from `.next()`). Calling a generator function does NOT execute the body — it returns a generator object; execution starts on the first `.next()` call."
+        "explanation": {
+            "en": "Generators use `function*` syntax, can yield multiple times pausing at each `yield`, and implement the iterator protocol (returning `{ value, done }` from `.next()`). Calling a generator function does NOT execute the body — it returns a generator object; execution starts on the first `.next()` call.",
+            "ru": "Генераторы используют синтаксис `function*`, могут выполнять yield многократно, приостанавливаясь на каждом `yield`, и реализуют iterator protocol (возвращая `{ value, done }` из `.next()`). Вызов функции-генератора НЕ выполняет её тело — он возвращает объект-генератор; выполнение начинается с первого вызова `.next()`."
+        }
     },
     {
         "id": "js-async-002",
@@ -524,15 +1231,33 @@
         "category": "javascript",
         "difficulty": "hard",
         "tags": ["async-await", "error-handling"],
-        "question": "Which of the following correctly handle errors thrown inside an async function?",
+        "question": {
+            "en": "Which of the following correctly handle errors thrown inside an async function?",
+            "ru": "Какие из подходов корректно обрабатывают ошибки, выброшенные внутри async-функции?"
+        },
         "options": [
-            "Wrapping the `await` expression in try/catch",
-            "Chaining `.catch()` on the returned Promise from the async function",
-            "Using `.finally()` on the returned Promise to handle errors",
-            "Adding a second argument to the `await` expression"
+            {
+                "en": "Wrapping the `await` expression in try/catch",
+                "ru": "Обёртывание выражения `await` в try/catch"
+            },
+            {
+                "en": "Chaining `.catch()` on the returned Promise from the async function",
+                "ru": "Добавление `.catch()` к Promise, возвращённому async-функцией"
+            },
+            {
+                "en": "Using `.finally()` on the returned Promise to handle errors",
+                "ru": "Использование `.finally()` на возвращённом Promise для обработки ошибок"
+            },
+            {
+                "en": "Adding a second argument to the `await` expression",
+                "ru": "Добавление второго аргумента к выражению `await`"
+            }
         ],
         "correct": [0, 1],
-        "explanation": "Errors in async functions can be caught with try/catch around `await` calls, or by attaching `.catch()` to the Promise returned by the async function. `.finally()` does not catch errors — it runs after settle regardless. `await` has no second argument syntax."
+        "explanation": {
+            "en": "Errors in async functions can be caught with try/catch around `await` calls, or by attaching `.catch()` to the Promise returned by the async function. `.finally()` does not catch errors — it runs after settle regardless. `await` has no second argument syntax.",
+            "ru": "Ошибки в async-функциях можно ловить через try/catch вокруг вызовов `await` или через `.catch()` на Promise, возвращённом async-функцией. `.finally()` не ловит ошибки — он выполняется после settle независимо от результата. У `await` нет синтаксиса со вторым аргументом."
+        }
     },
     {
         "id": "js-event-loop-003",
@@ -540,15 +1265,33 @@
         "category": "javascript",
         "difficulty": "hard",
         "tags": ["event-loop", "macrotasks", "tasks"],
-        "question": "Which of the following are macrotasks (tasks) in the JavaScript event loop?",
+        "question": {
+            "en": "Which of the following are macrotasks (tasks) in the JavaScript event loop?",
+            "ru": "Какие из перечисленных задач относятся к macrotasks (tasks) в event loop JavaScript?"
+        },
         "options": [
-            "`setTimeout` callbacks",
-            "Promise `.then()` callbacks",
-            "`setInterval` callbacks",
-            "DOM event handler callbacks (click, etc.)"
+            {
+                "en": "`setTimeout` callbacks",
+                "ru": "Коллбэки `setTimeout`"
+            },
+            {
+                "en": "Promise `.then()` callbacks",
+                "ru": "Коллбэки `.then()` у Promise"
+            },
+            {
+                "en": "`setInterval` callbacks",
+                "ru": "Коллбэки `setInterval`"
+            },
+            {
+                "en": "DOM event handler callbacks (click, etc.)",
+                "ru": "Коллбэки обработчиков DOM-событий (click и др.)"
+            }
         ],
         "correct": [0, 2, 3],
-        "explanation": "Macrotasks include setTimeout, setInterval, DOM event handlers, I/O callbacks, and MessageChannel. Promise `.then()` callbacks are microtasks, which are processed after each task before the next task begins."
+        "explanation": {
+            "en": "Macrotasks include setTimeout, setInterval, DOM event handlers, I/O callbacks, and MessageChannel. Promise `.then()` callbacks are microtasks, which are processed after each task before the next task begins.",
+            "ru": "К macrotasks относятся setTimeout, setInterval, обработчики DOM-событий, I/O-коллбэки и MessageChannel. Коллбэки `.then()` у Promise — это microtasks, которые обрабатываются после каждой task до начала следующей."
+        }
     },
     {
         "id": "js-proxy-002",
@@ -556,10 +1299,33 @@
         "category": "javascript",
         "difficulty": "hard",
         "tags": ["Proxy", "Reflect", "traps"],
-        "question": "Which of the following are valid Proxy trap (handler) names?",
-        "options": ["`get`", "`set`", "`delete`", "`deleteProperty`"],
+        "question": {
+            "en": "Which of the following are valid Proxy trap (handler) names?",
+            "ru": "Какие из перечисленных имён являются валидными ловушками (handlers) Proxy?"
+        },
+        "options": [
+            {
+                "en": "`get`",
+                "ru": "`get`"
+            },
+            {
+                "en": "`set`",
+                "ru": "`set`"
+            },
+            {
+                "en": "`delete`",
+                "ru": "`delete`"
+            },
+            {
+                "en": "`deleteProperty`",
+                "ru": "`deleteProperty`"
+            }
+        ],
         "correct": [0, 1, 3],
-        "explanation": "Valid Proxy traps include `get`, `set`, `deleteProperty`, `has`, `apply`, `construct`, etc. `delete` is not a trap name — the correct trap for the `delete` operator is `deleteProperty`."
+        "explanation": {
+            "en": "Valid Proxy traps include `get`, `set`, `deleteProperty`, `has`, `apply`, `construct`, etc. `delete` is not a trap name — the correct trap for the `delete` operator is `deleteProperty`.",
+            "ru": "К валидным ловушкам Proxy относятся `get`, `set`, `deleteProperty`, `has`, `apply`, `construct` и др. `delete` не является именем ловушки — корректная ловушка для оператора `delete` — это `deleteProperty`."
+        }
     },
     {
         "id": "js-bug-closure-001",
@@ -567,11 +1333,17 @@
         "category": "javascript",
         "difficulty": "easy",
         "tags": ["closures", "loops", "var", "bugs"],
-        "question": "The `adders` array should contain functions that add 0, 1, and 2 respectively. Find the bug:",
+        "question": {
+            "en": "The `adders` array should contain functions that add 0, 1, and 2 respectively. Find the bug:",
+            "ru": "Массив `adders` должен содержать функции, прибавляющие 0, 1 и 2 соответственно. Найдите баг:"
+        },
         "code": "const adders = [];\nfor (var i = 0; i < 3; i++) {\n  adders.push(function(x) { return x + i; });\n}\nconsole.log(adders[0](10)); // Expected: 10, Actual: 13",
         "correct": "`var i` is shared across all closures — by the time any adder is called, `i` is 3",
         "referenceAnswer": "Replace `var i` with `let i`. Block-scoped `let` creates a new binding per iteration, so each closure captures a distinct value (0, 1, 2).",
-        "explanation": "`var` is function-scoped, meaning all three closures reference the same `i` variable. After the loop, `i === 3`, so every adder computes `x + 3`. Using `let` creates a fresh binding per iteration."
+        "explanation": {
+            "en": "`var` is function-scoped, meaning all three closures reference the same `i` variable. After the loop, `i === 3`, so every adder computes `x + 3`. Using `let` creates a fresh binding per iteration.",
+            "ru": "`var` имеет функциональную область видимости, поэтому все три замыкания ссылаются на одну и ту же переменную `i`. После цикла `i === 3`, и каждый adder вычисляет `x + 3`. Использование `let` создаёт новое связывание на каждой итерации."
+        }
     },
     {
         "id": "js-bug-async-001",
@@ -579,11 +1351,17 @@
         "category": "javascript",
         "difficulty": "medium",
         "tags": ["async-await", "promises", "bugs"],
-        "question": "Find the bug: this function should fetch all users in parallel.",
+        "question": {
+            "en": "Find the bug: this function should fetch all users in parallel.",
+            "ru": "Найдите баг: эта функция должна загружать всех пользователей параллельно."
+        },
         "code": "async function fetchAllUsers(ids) {\n  const results = [];\n  for (const id of ids) {\n    const user = await fetchUser(id);\n    results.push(user);\n  }\n  return results;\n}",
         "correct": "Requests are sequential, not parallel — each `await` waits before starting the next fetch",
         "referenceAnswer": "const results = await Promise.all(ids.map(id => fetchUser(id)));",
-        "explanation": "Awaiting inside a for-of loop creates a sequential chain of async operations. To run them in parallel, map all ids to Promises first and then await `Promise.all()`, which fires all requests simultaneously."
+        "explanation": {
+            "en": "Awaiting inside a for-of loop creates a sequential chain of async operations. To run them in parallel, map all ids to Promises first and then await `Promise.all()`, which fires all requests simultaneously.",
+            "ru": "Вызов await внутри цикла for-of создаёт последовательную цепочку асинхронных операций. Чтобы запустить их параллельно, сначала преобразуйте все id в Promise, а затем дождитесь `Promise.all()`, который запускает все запросы одновременно."
+        }
     },
     {
         "id": "js-bug-this-001",
@@ -591,11 +1369,17 @@
         "category": "javascript",
         "difficulty": "medium",
         "tags": ["this", "event-listeners", "bugs"],
-        "question": "Find the bug: `this.count` should increment when the button is clicked.",
+        "question": {
+            "en": "Find the bug: `this.count` should increment when the button is clicked.",
+            "ru": "Найдите баг: `this.count` должен увеличиваться при клике по кнопке."
+        },
         "code": "class Counter {\n  constructor() {\n    this.count = 0;\n    document.querySelector('button')\n      .addEventListener('click', function() {\n        this.count++;\n        console.log(this.count);\n      });\n  }\n}",
         "correct": "`this` inside the regular function callback refers to the button element, not the Counter instance",
         "referenceAnswer": "Replace the regular function with an arrow function: .addEventListener('click', () => { this.count++; })",
-        "explanation": "Regular function callbacks passed to event listeners have their `this` set to the DOM element that fired the event. Arrow functions do not rebind `this`, so they capture the `this` from the enclosing scope (the Counter instance)."
+        "explanation": {
+            "en": "Regular function callbacks passed to event listeners have their `this` set to the DOM element that fired the event. Arrow functions do not rebind `this`, so they capture the `this` from the enclosing scope (the Counter instance).",
+            "ru": "У обычных функций-коллбэков, переданных в event listener, `this` указывает на DOM-элемент, сгенерировавший событие. Стрелочные функции не переопределяют `this`, поэтому они захватывают `this` из охватывающей области видимости (экземпляра Counter)."
+        }
     },
     {
         "id": "js-bug-coercion-001",
@@ -603,11 +1387,17 @@
         "category": "javascript",
         "difficulty": "medium",
         "tags": ["coercion", "typeof", "NaN", "bugs"],
-        "question": "Find the bug in this validation function:",
+        "question": {
+            "en": "Find the bug in this validation function:",
+            "ru": "Найдите баг в этой функции валидации:"
+        },
         "code": "function isValidNumber(value) {\n  return typeof value === 'number';\n}",
         "correct": "`NaN` passes the check because `typeof NaN === 'number'`",
         "referenceAnswer": "return typeof value === 'number' && !Number.isNaN(value);",
-        "explanation": "`NaN` (Not a Number) has type `'number'` in JavaScript. A number validation that returns `true` for `NaN` is likely a bug. Always use `Number.isNaN()` to explicitly exclude it."
+        "explanation": {
+            "en": "`NaN` (Not a Number) has type `'number'` in JavaScript. A number validation that returns `true` for `NaN` is likely a bug. Always use `Number.isNaN()` to explicitly exclude it.",
+            "ru": "`NaN` (Not a Number) в JavaScript имеет тип `'number'`. Валидация числа, возвращающая `true` для `NaN`, — это, скорее всего, баг. Всегда используйте `Number.isNaN()`, чтобы явно его исключать."
+        }
     },
     {
         "id": "js-bug-prototype-001",
@@ -615,11 +1405,17 @@
         "category": "javascript",
         "difficulty": "hard",
         "tags": ["prototypes", "shared-state", "bugs"],
-        "question": "Find the bug: each User instance should have its own `roles` array.",
+        "question": {
+            "en": "Find the bug: each User instance should have its own `roles` array.",
+            "ru": "Найдите баг: каждый экземпляр User должен иметь собственный массив `roles`."
+        },
         "code": "function User(name) {\n  this.name = name;\n}\nUser.prototype.roles = [];\n\nconst alice = new User('Alice');\nconst bob = new User('Bob');\nalice.roles.push('admin');\nconsole.log(bob.roles); // Expected: [], Actual: ['admin']",
         "correct": "`roles` is defined on the prototype and shared across all instances — mutating it via one instance affects all",
         "referenceAnswer": "Move the array initialisation into the constructor: this.roles = []; — each constructor call creates a new array on the instance.",
-        "explanation": "Properties defined on the prototype are shared by all instances via the prototype chain. Arrays (and other objects) are reference types, so mutating the shared array affects every instance. Instance-specific data must be initialised in the constructor."
+        "explanation": {
+            "en": "Properties defined on the prototype are shared by all instances via the prototype chain. Arrays (and other objects) are reference types, so mutating the shared array affects every instance. Instance-specific data must be initialised in the constructor.",
+            "ru": "Свойства, определённые на прототипе, разделяются всеми экземплярами через цепочку прототипов. Массивы (и другие объекты) — это ссылочные типы, поэтому мутация общего массива затрагивает все экземпляры. Данные, специфичные для экземпляра, должны инициализироваться в конструкторе."
+        }
     },
     {
         "id": "js-bug-promise-001",
@@ -627,11 +1423,17 @@
         "category": "javascript",
         "difficulty": "hard",
         "tags": ["promises", "error-handling", "bugs"],
-        "question": "Find the bug in this promise chain:",
+        "question": {
+            "en": "Find the bug in this promise chain:",
+            "ru": "Найдите баг в этой цепочке промисов:"
+        },
         "code": "fetch('/api/data')\n  .then(res => {\n    if (!res.ok) throw new Error('HTTP error');\n    return res.json();\n  })\n  .then(data => processData(data))\n  .catch(err => {\n    console.error(err);\n    return null;\n  })\n  .then(result => saveToDatabase(result));",
         "correct": "`saveToDatabase(null)` is called even on errors because `.catch()` returns a fulfilled Promise",
         "referenceAnswer": "Re-throw inside .catch(): .catch(err => { console.error(err); throw err; }) — this keeps the chain rejected and prevents saveToDatabase from running.",
-        "explanation": "`.catch()` returns a fulfilled Promise with its return value. Any `.then()` chained after a `.catch()` runs when the error was handled. To stop the chain on error, re-throw inside `.catch()`."
+        "explanation": {
+            "en": "`.catch()` returns a fulfilled Promise with its return value. Any `.then()` chained after a `.catch()` runs when the error was handled. To stop the chain on error, re-throw inside `.catch()`.",
+            "ru": "`.catch()` возвращает fulfilled Promise со своим возвращённым значением. Любой `.then()`, добавленный после `.catch()`, выполняется, если ошибка была обработана. Чтобы прервать цепочку при ошибке, перебросьте её внутри `.catch()`."
+        }
     },
     {
         "id": "js-bug-scope-001",
@@ -639,11 +1441,17 @@
         "category": "javascript",
         "difficulty": "hard",
         "tags": ["scope", "var", "hoisting", "bugs"],
-        "question": "Find the bug: the function should throw for unknown types, but instead silently returns `undefined`.",
+        "question": {
+            "en": "Find the bug: the function should throw for unknown types, but instead silently returns `undefined`.",
+            "ru": "Найдите баг: функция должна выбрасывать исключение для неизвестных типов, но вместо этого молча возвращает `undefined`."
+        },
         "code": "function getMultiplier(type) {\n  if (type === 'a') {\n    var result = 1;\n  } else if (type === 'b') {\n    var result = 2;\n  } else if (type === 'c') {\n    var result = 3;\n  }\n  return result;\n}",
         "correct": "For unknown types, `result` is never assigned and `var` hoisting causes it to silently return `undefined`",
         "referenceAnswer": "Add an else clause: else { throw new Error('Unknown type: ' + type); }",
-        "explanation": "`var result` is hoisted to the top of the function as `undefined`. When no branch matches, the value is never assigned and `undefined` is returned silently. This is a classic silent failure enabled by `var` hoisting and the missing else/default branch."
+        "explanation": {
+            "en": "`var result` is hoisted to the top of the function as `undefined`. When no branch matches, the value is never assigned and `undefined` is returned silently. This is a classic silent failure enabled by `var` hoisting and the missing else/default branch.",
+            "ru": "`var result` всплывает в начало функции как `undefined`. Если ни одна ветка не срабатывает, значение так и не присваивается, и `undefined` возвращается молча. Это классический случай тихого сбоя, возможного из-за hoisting'а `var` и отсутствия else/default-ветки."
+        }
     },
     {
         "id": "js-bug-equality-001",
@@ -651,11 +1459,17 @@
         "category": "javascript",
         "difficulty": "medium",
         "tags": ["equality", "==", "===", "bugs"],
-        "question": "Find the bug: the function should only accept the number zero, not any falsy value.",
+        "question": {
+            "en": "Find the bug: the function should only accept the number zero, not any falsy value.",
+            "ru": "Найдите баг: функция должна принимать только число ноль, а не любое falsy-значение."
+        },
         "code": "function isZero(value) {\n  return !value;\n}",
         "correct": "`!value` returns true for all falsy values (null, undefined, '', false, NaN), not just 0",
         "referenceAnswer": "return value === 0; — strict equality checks both value and type, accepting only the number zero.",
-        "explanation": "The `!` operator coerces the value to boolean. All falsy values (`null`, `undefined`, `''`, `false`, `NaN`, `0`) pass the check. Using `=== 0` (strict equality) correctly identifies only the number zero."
+        "explanation": {
+            "en": "The `!` operator coerces the value to boolean. All falsy values (`null`, `undefined`, `''`, `false`, `NaN`, `0`) pass the check. Using `=== 0` (strict equality) correctly identifies only the number zero.",
+            "ru": "Оператор `!` приводит значение к boolean. Проверку проходят все falsy-значения (`null`, `undefined`, `''`, `false`, `NaN`, `0`). Использование `=== 0` (строгое равенство) корректно выделяет только число ноль."
+        }
     },
     {
         "id": "js-completion-destructuring-001",
@@ -663,11 +1477,17 @@
         "category": "javascript",
         "difficulty": "easy",
         "tags": ["destructuring", "arrays"],
-        "question": "Complete the array destructuring to swap two variables without a temporary variable:",
+        "question": {
+            "en": "Complete the array destructuring to swap two variables without a temporary variable:",
+            "ru": "Дополните деструктуризацию массива, чтобы поменять местами две переменные без временной переменной:"
+        },
         "code": "let a = 1;\nlet b = 2;\n[___, ___] = [b, a];\nconsole.log(a, b); // 2 1",
         "blanks": ["a", "b"],
         "referenceAnswer": "[a, b] = [b, a]; — Creates a temporary array [2, 1] on the right, then destructures it into a and b.",
-        "explanation": "Array destructuring assignment allows elegant variable swapping. The right-hand side `[b, a]` creates a new array with the current values, and then destructuring assigns them in the new order."
+        "explanation": {
+            "en": "Array destructuring assignment allows elegant variable swapping. The right-hand side `[b, a]` creates a new array with the current values, and then destructuring assigns them in the new order.",
+            "ru": "Присваивание через деструктуризацию массива позволяет элегантно менять переменные местами. Правая часть `[b, a]` создаёт новый массив с текущими значениями, а затем деструктуризация присваивает их в новом порядке."
+        }
     },
     {
         "id": "js-completion-closure-001",
@@ -675,11 +1495,17 @@
         "category": "javascript",
         "difficulty": "easy",
         "tags": ["closures", "memoization"],
-        "question": "Complete the memoization function using a closure:",
+        "question": {
+            "en": "Complete the memoization function using a closure:",
+            "ru": "Дополните функцию мемоизации, используя замыкание:"
+        },
         "code": "function memoize(fn) {\n  const cache = ___;\n  return function(...args) {\n    const key = JSON.stringify(args);\n    if (___ cache[key]) {\n      return cache[key];\n    }\n    cache[key] = fn(...args);\n    return cache[key];\n  };\n}",
         "blanks": ["{}", "key in"],
         "referenceAnswer": "const cache = {}; and `key in cache` — the `in` operator correctly handles cached falsy values like 0 or false.",
-        "explanation": "The closure over `cache` persists between calls. Using `key in cache` (rather than `cache[key]`) correctly handles cached falsy values like `0` or `false`. JSON.stringify is a simple but imperfect key — it fails for non-serialisable arguments."
+        "explanation": {
+            "en": "The closure over `cache` persists between calls. Using `key in cache` (rather than `cache[key]`) correctly handles cached falsy values like `0` or `false`. JSON.stringify is a simple but imperfect key — it fails for non-serialisable arguments.",
+            "ru": "Замыкание над `cache` сохраняется между вызовами. Использование `key in cache` (вместо `cache[key]`) корректно обрабатывает закэшированные falsy-значения вроде `0` или `false`. JSON.stringify — простой, но несовершенный ключ: он не работает для неcериализуемых аргументов."
+        }
     },
     {
         "id": "js-completion-promise-001",
@@ -687,11 +1513,17 @@
         "category": "javascript",
         "difficulty": "medium",
         "tags": ["promises", "async-await"],
-        "question": "Complete the function to run all fetch calls in parallel and collect every result:",
+        "question": {
+            "en": "Complete the function to run all fetch calls in parallel and collect every result:",
+            "ru": "Дополните функцию, чтобы запустить все вызовы fetch параллельно и собрать все результаты:"
+        },
         "code": "async function fetchAll(urls) {\n  const promises = urls.map(url => fetch(url).then(r => r.json()));\n  const results = await ___;\n  return results;\n}",
         "blanks": ["Promise.all(promises)"],
         "referenceAnswer": "await Promise.all(promises) — fires all fetches in parallel and waits for all to resolve, returning an array of results in input order.",
-        "explanation": "`Promise.all()` accepts an array of Promises and returns a single Promise that resolves with an array of all fulfilled values, running all requests concurrently."
+        "explanation": {
+            "en": "`Promise.all()` accepts an array of Promises and returns a single Promise that resolves with an array of all fulfilled values, running all requests concurrently.",
+            "ru": "`Promise.all()` принимает массив Promise и возвращает единый Promise, который резолвится массивом всех fulfilled-значений, запуская все запросы конкурентно."
+        }
     },
     {
         "id": "js-completion-error-001",
@@ -699,11 +1531,17 @@
         "category": "javascript",
         "difficulty": "medium",
         "tags": ["error-handling", "custom-errors"],
-        "question": "Complete the custom error class so it passes `instanceof Error` correctly:",
+        "question": {
+            "en": "Complete the custom error class so it passes `instanceof Error` correctly:",
+            "ru": "Дополните кастомный класс ошибки так, чтобы он корректно проходил проверку `instanceof Error`:"
+        },
         "code": "class NetworkError extends ___ {\n  constructor(message, statusCode) {\n    ___(message);\n    this.name = 'NetworkError';\n    this.statusCode = statusCode;\n  }\n}\n\nconst err = new NetworkError('Not Found', 404);\nconsole.log(err instanceof Error); // true",
         "blanks": ["Error", "super"],
         "referenceAnswer": "Extending Error and calling super(message) sets up the prototype chain correctly and sets the message property.",
-        "explanation": "Custom errors must extend the built-in `Error` class and call `super(message)` to properly initialise the error message and prototype chain. Without `super()`, `this` is inaccessible in the constructor."
+        "explanation": {
+            "en": "Custom errors must extend the built-in `Error` class and call `super(message)` to properly initialise the error message and prototype chain. Without `super()`, `this` is inaccessible in the constructor.",
+            "ru": "Кастомные ошибки должны наследоваться от встроенного класса `Error` и вызывать `super(message)`, чтобы корректно инициализировать сообщение ошибки и цепочку прототипов. Без `super()` `this` недоступен в конструкторе."
+        }
     },
     {
         "id": "js-completion-generator-001",
@@ -711,11 +1549,17 @@
         "category": "javascript",
         "difficulty": "hard",
         "tags": ["generators", "iterators"],
-        "question": "Complete the infinite counter generator:",
+        "question": {
+            "en": "Complete the infinite counter generator:",
+            "ru": "Дополните бесконечный генератор-счётчик:"
+        },
         "code": "function* ___(start = 0) {\n  let i = start;\n  while (true) {\n    ___ i++;\n  }\n}\nconst gen = counter(5);\nconsole.log(gen.next().value); // 5\nconsole.log(gen.next().value); // 6",
         "blanks": ["counter", "yield"],
         "referenceAnswer": "function* counter(start = 0) { let i = start; while(true) { yield i++; } }",
-        "explanation": "Generator functions use `function*` syntax. The `yield` keyword pauses execution and emits a value. `i++` returns the current value of `i` and then increments it, so the generator emits 5, 6, 7, ... indefinitely."
+        "explanation": {
+            "en": "Generator functions use `function*` syntax. The `yield` keyword pauses execution and emits a value. `i++` returns the current value of `i` and then increments it, so the generator emits 5, 6, 7, ... indefinitely.",
+            "ru": "Функции-генераторы используют синтаксис `function*`. Ключевое слово `yield` приостанавливает выполнение и отдаёт значение. `i++` возвращает текущее значение `i`, а затем инкрементирует его, поэтому генератор бесконечно отдаёт 5, 6, 7, ..."
+        }
     },
     {
         "id": "js-completion-proxy-001",
@@ -723,11 +1567,17 @@
         "category": "javascript",
         "difficulty": "hard",
         "tags": ["Proxy", "Reflect", "meta-programming"],
-        "question": "Complete the validation Proxy that throws if a property value is not a number:",
+        "question": {
+            "en": "Complete the validation Proxy that throws if a property value is not a number:",
+            "ru": "Дополните валидирующий Proxy, который выбрасывает исключение, если значение свойства не число:"
+        },
         "code": "const numericObject = new Proxy({}, {\n  ___(target, prop, value, receiver) {\n    if (typeof value !== 'number') {\n      throw new TypeError(`${prop} must be a number`);\n    }\n    return ___(target, prop, value, receiver);\n  }\n});",
         "blanks": ["set", "Reflect.set"],
         "referenceAnswer": "The 'set' trap intercepts property assignments. Reflect.set() forwards the assignment to the target object and returns a boolean indicating success.",
-        "explanation": "The Proxy `set` trap receives (target, prop, value, receiver). After validation, `Reflect.set()` performs the actual assignment, respecting setters in the prototype chain. Always return the result of Reflect.set() from the trap."
+        "explanation": {
+            "en": "The Proxy `set` trap receives (target, prop, value, receiver). After validation, `Reflect.set()` performs the actual assignment, respecting setters in the prototype chain. Always return the result of Reflect.set() from the trap.",
+            "ru": "Ловушка `set` у Proxy получает (target, prop, value, receiver). После валидации `Reflect.set()` выполняет фактическое присваивание, соблюдая сеттеры в цепочке прототипов. Всегда возвращайте результат Reflect.set() из ловушки."
+        }
     },
     {
         "id": "js-completion-iterator-001",
@@ -735,11 +1585,17 @@
         "category": "javascript",
         "difficulty": "hard",
         "tags": ["iterators", "Symbol.iterator"],
-        "question": "Complete the range object to make it iterable with `for...of`:",
+        "question": {
+            "en": "Complete the range object to make it iterable with `for...of`:",
+            "ru": "Дополните объект range, чтобы он стал итерируемым через `for...of`:"
+        },
         "code": "const range = {\n  from: 1,\n  to: 5,\n  [___]() {\n    let current = this.from;\n    const last = this.to;\n    return {\n      next() {\n        if (current <= last) {\n          return { value: current++, done: false };\n        }\n        return { value: undefined, done: ___ };\n      }\n    };\n  }\n};",
         "blanks": ["Symbol.iterator", "true"],
         "referenceAnswer": "Symbol.iterator is the well-known symbol that marks an object as iterable. The iterator returns { done: true } to signal completion.",
-        "explanation": "The iterable protocol requires a `[Symbol.iterator]()` method. It returns an iterator with `.next()` that yields `{ value, done: false }` for each item and `{ value: undefined, done: true }` when exhausted."
+        "explanation": {
+            "en": "The iterable protocol requires a `[Symbol.iterator]()` method. It returns an iterator with `.next()` that yields `{ value, done: false }` for each item and `{ value: undefined, done: true }` when exhausted.",
+            "ru": "Протокол iterable требует наличия метода `[Symbol.iterator]()`. Он возвращает итератор с `.next()`, который отдаёт `{ value, done: false }` для каждого элемента и `{ value: undefined, done: true }`, когда элементы исчерпаны."
+        }
     },
     {
         "id": "js-completion-weakmap-001",
@@ -747,10 +1603,16 @@
         "category": "javascript",
         "difficulty": "hard",
         "tags": ["WeakMap", "private-data", "encapsulation"],
-        "question": "Complete the private data pattern using WeakMap:",
+        "question": {
+            "en": "Complete the private data pattern using WeakMap:",
+            "ru": "Дополните паттерн приватных данных с использованием WeakMap:"
+        },
         "code": "const _private = new ___();\n\nclass Person {\n  constructor(name, age) {\n    ___.set(this, { name, age });\n  }\n  greet() {\n    const { name } = _private.get(this);\n    return `Hello, I'm ${name}`;\n  }\n}",
         "blanks": ["WeakMap", "_private"],
         "referenceAnswer": "new WeakMap() creates the private store. _private.set(this, data) associates instance data with the instance.",
-        "explanation": "WeakMap is ideal for storing private instance data — keys are instances, values are private objects. When an instance is garbage collected, its WeakMap entry disappears automatically with no memory leak."
+        "explanation": {
+            "en": "WeakMap is ideal for storing private instance data — keys are instances, values are private objects. When an instance is garbage collected, its WeakMap entry disappears automatically with no memory leak.",
+            "ru": "WeakMap идеально подходит для хранения приватных данных экземпляров — ключами являются экземпляры, значениями — приватные объекты. Когда экземпляр собирается garbage collector'ом, его запись в WeakMap автоматически исчезает без утечек памяти."
+        }
     }
 ]

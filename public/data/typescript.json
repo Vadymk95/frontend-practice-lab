@@ -5,15 +5,33 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["generics", "types"],
-        "question": "What does `T extends keyof U` mean in a generic constraint?",
+        "question": {
+            "en": "What does `T extends keyof U` mean in a generic constraint?",
+            "ru": "Что означает `T extends keyof U` в ограничении generic-параметра?"
+        },
         "options": [
-            "T must be a subtype of U",
-            "T must be one of the property names of U",
-            "T must extend the class U",
-            "T must be equal to U"
+            {
+                "en": "T must be a subtype of U",
+                "ru": "T должен быть подтипом U"
+            },
+            {
+                "en": "T must be one of the property names of U",
+                "ru": "T должен быть одним из имён свойств U"
+            },
+            {
+                "en": "T must extend the class U",
+                "ru": "T должен наследоваться от класса U"
+            },
+            {
+                "en": "T must be equal to U",
+                "ru": "T должен быть равен U"
+            }
         ],
         "correct": 1,
-        "explanation": "keyof U produces a union of all property keys of type U. T extends keyof U means T must be assignable to one of those keys."
+        "explanation": {
+            "en": "keyof U produces a union of all property keys of type U. T extends keyof U means T must be assignable to one of those keys.",
+            "ru": "keyof U даёт union всех ключей свойств типа U. T extends keyof U означает, что T должен быть совместим с одним из этих ключей."
+        }
     },
     {
         "id": "ts-utility-001",
@@ -21,15 +39,33 @@
         "category": "typescript",
         "difficulty": "easy",
         "tags": ["utility-types", "Partial", "Required"],
-        "question": "What does `Partial<T>` do in TypeScript?",
+        "question": {
+            "en": "What does `Partial<T>` do in TypeScript?",
+            "ru": "Что делает `Partial<T>` в TypeScript?"
+        },
         "options": [
-            "Makes all properties of T required",
-            "Makes all properties of T optional",
-            "Removes all optional properties from T",
-            "Creates a readonly version of T"
+            {
+                "en": "Makes all properties of T required",
+                "ru": "Делает все свойства T обязательными"
+            },
+            {
+                "en": "Makes all properties of T optional",
+                "ru": "Делает все свойства T опциональными"
+            },
+            {
+                "en": "Removes all optional properties from T",
+                "ru": "Удаляет из T все опциональные свойства"
+            },
+            {
+                "en": "Creates a readonly version of T",
+                "ru": "Создаёт readonly-версию T"
+            }
         ],
         "correct": 1,
-        "explanation": "Partial<T> constructs a type with all properties of T set to optional. It is equivalent to adding '?' to every property."
+        "explanation": {
+            "en": "Partial<T> constructs a type with all properties of T set to optional. It is equivalent to adding '?' to every property.",
+            "ru": "Partial<T> создаёт тип, в котором все свойства T помечены как опциональные. Это эквивалентно добавлению '?' к каждому свойству."
+        }
     },
     {
         "id": "ts-narrowing-001",
@@ -37,15 +73,33 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["narrowing", "type-guards"],
-        "question": "Which of the following are valid type narrowing techniques in TypeScript?",
+        "question": {
+            "en": "Which of the following are valid type narrowing techniques in TypeScript?",
+            "ru": "Какие из перечисленных способов являются валидными техниками narrowing в TypeScript?"
+        },
         "options": [
-            "typeof checks (e.g., typeof x === 'string')",
-            "instanceof checks (e.g., x instanceof Date)",
-            "in operator (e.g., 'key' in obj)",
-            "as keyword (type assertions)"
+            {
+                "en": "typeof checks (e.g., typeof x === 'string')",
+                "ru": "Проверки через typeof (например, typeof x === 'string')"
+            },
+            {
+                "en": "instanceof checks (e.g., x instanceof Date)",
+                "ru": "Проверки через instanceof (например, x instanceof Date)"
+            },
+            {
+                "en": "in operator (e.g., 'key' in obj)",
+                "ru": "Оператор in (например, 'key' in obj)"
+            },
+            {
+                "en": "as keyword (type assertions)",
+                "ru": "Ключевое слово as (type assertions)"
+            }
         ],
         "correct": [0, 1, 2],
-        "explanation": "typeof, instanceof, and in are all valid narrowing techniques that TypeScript understands. Type assertions (as) do not narrow — they just override the type without a runtime check."
+        "explanation": {
+            "en": "typeof, instanceof, and in are all valid narrowing techniques that TypeScript understands. Type assertions (as) do not narrow — they just override the type without a runtime check.",
+            "ru": "typeof, instanceof и in — валидные техники narrowing, которые TypeScript понимает. Type assertions (as) не сужают тип — они просто переопределяют его без runtime-проверки."
+        }
     },
     {
         "id": "ts-mapped-001",
@@ -53,15 +107,33 @@
         "category": "typescript",
         "difficulty": "hard",
         "tags": ["mapped-types", "advanced"],
-        "question": "In a mapped type `{ [K in keyof T]: T[K] }`, which modifiers can be added?",
+        "question": {
+            "en": "In a mapped type `{ [K in keyof T]: T[K] }`, which modifiers can be added?",
+            "ru": "Какие модификаторы можно добавить в mapped type `{ [K in keyof T]: T[K] }`?"
+        },
         "options": [
-            "readonly (e.g., readonly [K in keyof T])",
-            "optional (e.g., [K in keyof T]?)",
-            "Removing readonly with -readonly",
-            "Removing optional with -?"
+            {
+                "en": "readonly (e.g., readonly [K in keyof T])",
+                "ru": "readonly (например, readonly [K in keyof T])"
+            },
+            {
+                "en": "optional (e.g., [K in keyof T]?)",
+                "ru": "optional (например, [K in keyof T]?)"
+            },
+            {
+                "en": "Removing readonly with -readonly",
+                "ru": "Удаление readonly через -readonly"
+            },
+            {
+                "en": "Removing optional with -?",
+                "ru": "Удаление опциональности через -?"
+            }
         ],
         "correct": [0, 1, 2, 3],
-        "explanation": "Mapped types support adding/removing readonly and optional modifiers using +/- prefixes. Both +readonly and -readonly, as well as +? and -? are valid."
+        "explanation": {
+            "en": "Mapped types support adding/removing readonly and optional modifiers using +/- prefixes. Both +readonly and -readonly, as well as +? and -? are valid.",
+            "ru": "Mapped types поддерживают добавление и удаление модификаторов readonly и optional через префиксы +/-. Валидны как +readonly и -readonly, так и +? и -?."
+        }
     },
     {
         "id": "ts-bug-assertion-001",
@@ -69,11 +141,17 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["type-assertion", "bugs", "safety"],
-        "question": "Find the issue with this TypeScript code:",
+        "question": {
+            "en": "Find the issue with this TypeScript code:",
+            "ru": "Найдите проблему в этом TypeScript-коде:"
+        },
         "code": "function getLength(value: string | number): number {\n  return (value as string).length;\n}",
         "correct": "When value is a number, (value as string).length returns undefined at runtime",
         "referenceAnswer": "The as string assertion bypasses TypeScript's type checking. When value is a number, .length returns undefined at runtime. Fix: use narrowing — if (typeof value === 'string') return value.length; return String(value).length;",
-        "explanation": "Type assertions (as) are a way to override TypeScript's inference but do not perform runtime checks. Always prefer type narrowing over assertions for safety."
+        "explanation": {
+            "en": "Type assertions (as) are a way to override TypeScript's inference but do not perform runtime checks. Always prefer type narrowing over assertions for safety.",
+            "ru": "Type assertions (as) позволяют переопределить inference TypeScript, но не выполняют runtime-проверок. Ради безопасности всегда предпочитайте narrowing вместо assertion."
+        }
     },
     {
         "id": "ts-template-literal-001",
@@ -81,11 +159,17 @@
         "category": "typescript",
         "difficulty": "hard",
         "tags": ["template-literal-types", "advanced"],
-        "question": "Complete the template literal type that creates event names by prepending 'on' to a capitalized string:",
+        "question": {
+            "en": "Complete the template literal type that creates event names by prepending 'on' to a capitalized string:",
+            "ru": "Дополните template literal type, который формирует имена событий, добавляя 'on' перед капитализированной строкой:"
+        },
         "code": "type EventName<T extends string> = `__BLANK__${Capitalize<T>}`;\n// EventName<'click'> should be 'onClick'\n// EventName<'change'> should be 'onChange'",
         "blanks": ["on"],
         "referenceAnswer": "Template literal types use backtick syntax with ${} interpolation. Prefixing with 'on' and using Capitalize<T> produces camelCase event handler names.",
-        "explanation": "Template literal types in TypeScript allow constructing new string literal types by combining type patterns with template literal syntax."
+        "explanation": {
+            "en": "Template literal types in TypeScript allow constructing new string literal types by combining type patterns with template literal syntax.",
+            "ru": "Template literal types в TypeScript позволяют строить новые string literal типы, комбинируя паттерны типов с синтаксисом template literals."
+        }
     },
     {
         "id": "ts-basic-001",
@@ -93,10 +177,33 @@
         "category": "typescript",
         "difficulty": "easy",
         "tags": ["basic-types", "primitives"],
-        "question": "Which of the following is NOT a TypeScript primitive type?",
-        "options": ["string", "boolean", "object", "symbol"],
+        "question": {
+            "en": "Which of the following is NOT a TypeScript primitive type?",
+            "ru": "Что из перечисленного НЕ является примитивным типом TypeScript?"
+        },
+        "options": [
+            {
+                "en": "string",
+                "ru": "string"
+            },
+            {
+                "en": "boolean",
+                "ru": "boolean"
+            },
+            {
+                "en": "object",
+                "ru": "object"
+            },
+            {
+                "en": "symbol",
+                "ru": "symbol"
+            }
+        ],
         "correct": 2,
-        "explanation": "string, boolean, number, bigint, symbol, undefined, and null are TypeScript primitive types. 'object' is not a primitive — it represents any non-primitive value."
+        "explanation": {
+            "en": "string, boolean, number, bigint, symbol, undefined, and null are TypeScript primitive types. 'object' is not a primitive — it represents any non-primitive value.",
+            "ru": "Примитивные типы TypeScript — это string, boolean, number, bigint, symbol, undefined и null. 'object' не является примитивом — он представляет любое не-примитивное значение."
+        }
     },
     {
         "id": "ts-basic-002",
@@ -104,15 +211,33 @@
         "category": "typescript",
         "difficulty": "easy",
         "tags": ["basic-types", "any", "unknown"],
-        "question": "What is the key difference between `any` and `unknown` in TypeScript?",
+        "question": {
+            "en": "What is the key difference between `any` and `unknown` in TypeScript?",
+            "ru": "В чём ключевое отличие между `any` и `unknown` в TypeScript?"
+        },
         "options": [
-            "any allows any operations; unknown requires a type check before use",
-            "unknown allows any operations; any requires a type check before use",
-            "They are identical — both disable type checking",
-            "any is deprecated in TypeScript 5.x"
+            {
+                "en": "any allows any operations; unknown requires a type check before use",
+                "ru": "any допускает любые операции; unknown требует проверки типа перед использованием"
+            },
+            {
+                "en": "unknown allows any operations; any requires a type check before use",
+                "ru": "unknown допускает любые операции; any требует проверки типа перед использованием"
+            },
+            {
+                "en": "They are identical — both disable type checking",
+                "ru": "Они идентичны — оба отключают проверку типов"
+            },
+            {
+                "en": "any is deprecated in TypeScript 5.x",
+                "ru": "any объявлен устаревшим в TypeScript 5.x"
+            }
         ],
         "correct": 0,
-        "explanation": "With 'any', you can perform any operation without checks. With 'unknown', you must narrow the type first (via typeof, instanceof, or a type guard) before performing type-specific operations."
+        "explanation": {
+            "en": "With 'any', you can perform any operation without checks. With 'unknown', you must narrow the type first (via typeof, instanceof, or a type guard) before performing type-specific operations.",
+            "ru": "С any можно выполнять любые операции без проверок. С unknown сначала нужно сузить тип (через typeof, instanceof или type guard), прежде чем выполнять операции, специфичные для конкретного типа."
+        }
     },
     {
         "id": "ts-basic-003",
@@ -120,15 +245,33 @@
         "category": "typescript",
         "difficulty": "easy",
         "tags": ["basic-types", "never"],
-        "question": "When does a function return type of `never` apply?",
+        "question": {
+            "en": "When does a function return type of `never` apply?",
+            "ru": "В каком случае функция имеет возвращаемый тип `never`?"
+        },
         "options": [
-            "When the function returns undefined",
-            "When the function always throws or never terminates",
-            "When the function returns null",
-            "When the function has no return statement"
+            {
+                "en": "When the function returns undefined",
+                "ru": "Когда функция возвращает undefined"
+            },
+            {
+                "en": "When the function always throws or never terminates",
+                "ru": "Когда функция всегда выбрасывает исключение или никогда не завершается"
+            },
+            {
+                "en": "When the function returns null",
+                "ru": "Когда функция возвращает null"
+            },
+            {
+                "en": "When the function has no return statement",
+                "ru": "Когда у функции нет оператора return"
+            }
         ],
         "correct": 1,
-        "explanation": "never represents values that never occur. A function returning never either always throws an error or has an infinite loop — it never reaches a return point."
+        "explanation": {
+            "en": "never represents values that never occur. A function returning never either always throws an error or has an infinite loop — it never reaches a return point.",
+            "ru": "never описывает значения, которых никогда не бывает. Функция с типом возврата never либо всегда выбрасывает ошибку, либо содержит бесконечный цикл — она никогда не доходит до точки возврата."
+        }
     },
     {
         "id": "ts-inference-001",
@@ -136,10 +279,33 @@
         "category": "typescript",
         "difficulty": "easy",
         "tags": ["type-inference", "basics"],
-        "question": "What type does TypeScript infer for `const x = [1, 2, 3]`?",
-        "options": ["Array<any>", "number[]", "[1, 2, 3]", "ReadonlyArray<number>"],
+        "question": {
+            "en": "What type does TypeScript infer for `const x = [1, 2, 3]`?",
+            "ru": "Какой тип TypeScript выведет для `const x = [1, 2, 3]`?"
+        },
+        "options": [
+            {
+                "en": "Array<any>",
+                "ru": "Array<any>"
+            },
+            {
+                "en": "number[]",
+                "ru": "number[]"
+            },
+            {
+                "en": "[1, 2, 3]",
+                "ru": "[1, 2, 3]"
+            },
+            {
+                "en": "ReadonlyArray<number>",
+                "ru": "ReadonlyArray<number>"
+            }
+        ],
         "correct": 1,
-        "explanation": "TypeScript infers number[] for a mutable array literal. To get the tuple type [1, 2, 3] you need 'as const'. ReadonlyArray<number> is not inferred automatically."
+        "explanation": {
+            "en": "TypeScript infers number[] for a mutable array literal. To get the tuple type [1, 2, 3] you need 'as const'. ReadonlyArray<number> is not inferred automatically.",
+            "ru": "Для мутабельного литерала массива TypeScript выводит number[]. Чтобы получить tuple-тип [1, 2, 3], нужен 'as const'. ReadonlyArray<number> автоматически не выводится."
+        }
     },
     {
         "id": "ts-inference-002",
@@ -147,10 +313,33 @@
         "category": "typescript",
         "difficulty": "easy",
         "tags": ["type-inference", "const"],
-        "question": "What type does TypeScript infer for `const x = 'hello' as const`?",
-        "options": ["string", "'hello'", "const string", "readonly string"],
+        "question": {
+            "en": "What type does TypeScript infer for `const x = 'hello' as const`?",
+            "ru": "Какой тип TypeScript выведет для `const x = 'hello' as const`?"
+        },
+        "options": [
+            {
+                "en": "string",
+                "ru": "string"
+            },
+            {
+                "en": "'hello'",
+                "ru": "'hello'"
+            },
+            {
+                "en": "const string",
+                "ru": "const string"
+            },
+            {
+                "en": "readonly string",
+                "ru": "readonly string"
+            }
+        ],
         "correct": 1,
-        "explanation": "The 'as const' assertion widens a string to its literal type. 'const x = \"hello\" as const' gives x the type 'hello' (the literal), not the broad string type."
+        "explanation": {
+            "en": "The 'as const' assertion widens a string to its literal type. 'const x = \"hello\" as const' gives x the type 'hello' (the literal), not the broad string type.",
+            "ru": "Assertion 'as const' сужает строку до её литерального типа. 'const x = \"hello\" as const' даёт x тип 'hello' (литерал), а не широкий тип string."
+        }
     },
     {
         "id": "ts-union-001",
@@ -158,15 +347,33 @@
         "category": "typescript",
         "difficulty": "easy",
         "tags": ["union-types", "basics"],
-        "question": "What is a union type in TypeScript?",
+        "question": {
+            "en": "What is a union type in TypeScript?",
+            "ru": "Что такое union type в TypeScript?"
+        },
         "options": [
-            "A type that combines all properties of two types",
-            "A type that can be one of several types",
-            "A type that requires all listed types to be implemented",
-            "A generic constraint"
+            {
+                "en": "A type that combines all properties of two types",
+                "ru": "Тип, объединяющий все свойства двух типов"
+            },
+            {
+                "en": "A type that can be one of several types",
+                "ru": "Тип, который может быть одним из нескольких типов"
+            },
+            {
+                "en": "A type that requires all listed types to be implemented",
+                "ru": "Тип, который требует реализации всех перечисленных типов"
+            },
+            {
+                "en": "A generic constraint",
+                "ru": "Ограничение generic-параметра"
+            }
         ],
         "correct": 1,
-        "explanation": "A union type (A | B) means a value can be of type A OR type B. It is different from an intersection type (A & B) which requires a value to satisfy both."
+        "explanation": {
+            "en": "A union type (A | B) means a value can be of type A OR type B. It is different from an intersection type (A & B) which requires a value to satisfy both.",
+            "ru": "Union type (A | B) означает, что значение может быть типа A ИЛИ типа B. Это отличается от intersection type (A & B), который требует, чтобы значение удовлетворяло обоим типам."
+        }
     },
     {
         "id": "ts-interface-001",
@@ -174,15 +381,33 @@
         "category": "typescript",
         "difficulty": "easy",
         "tags": ["interfaces", "types", "declaration-merging"],
-        "question": "Which feature is unique to `interface` and NOT available with `type` aliases?",
+        "question": {
+            "en": "Which feature is unique to `interface` and NOT available with `type` aliases?",
+            "ru": "Какая возможность доступна только у `interface` и НЕ поддерживается `type`-алиасами?"
+        },
         "options": [
-            "Extending other types",
-            "Declaration merging",
-            "Describing function signatures",
-            "Using generics"
+            {
+                "en": "Extending other types",
+                "ru": "Расширение других типов"
+            },
+            {
+                "en": "Declaration merging",
+                "ru": "Declaration merging"
+            },
+            {
+                "en": "Describing function signatures",
+                "ru": "Описание сигнатур функций"
+            },
+            {
+                "en": "Using generics",
+                "ru": "Использование generics"
+            }
         ],
         "correct": 1,
-        "explanation": "Interfaces support declaration merging: two interface declarations with the same name are automatically merged. Type aliases cannot be merged — redeclaring one is a compile error."
+        "explanation": {
+            "en": "Interfaces support declaration merging: two interface declarations with the same name are automatically merged. Type aliases cannot be merged — redeclaring one is a compile error.",
+            "ru": "Interface поддерживают declaration merging: два объявления interface с одинаковым именем автоматически объединяются. Type-алиасы объединить нельзя — повторное объявление вызовет ошибку компиляции."
+        }
     },
     {
         "id": "ts-enum-001",
@@ -190,15 +415,33 @@
         "category": "typescript",
         "difficulty": "easy",
         "tags": ["enums", "const-enum"],
-        "question": "What is the main advantage of `const enum` over a regular `enum`?",
+        "question": {
+            "en": "What is the main advantage of `const enum` over a regular `enum`?",
+            "ru": "В чём главное преимущество `const enum` перед обычным `enum`?"
+        },
         "options": [
-            "const enum supports string values; regular enum does not",
-            "const enum values are inlined at compile time, producing no runtime object",
-            "const enum allows computed values; regular enum does not",
-            "const enum can be used across modules; regular enum cannot"
+            {
+                "en": "const enum supports string values; regular enum does not",
+                "ru": "const enum поддерживает строковые значения, а обычный enum — нет"
+            },
+            {
+                "en": "const enum values are inlined at compile time, producing no runtime object",
+                "ru": "Значения const enum инлайнятся на этапе компиляции и не создают runtime-объект"
+            },
+            {
+                "en": "const enum allows computed values; regular enum does not",
+                "ru": "const enum позволяет вычисляемые значения, а обычный enum — нет"
+            },
+            {
+                "en": "const enum can be used across modules; regular enum cannot",
+                "ru": "const enum можно использовать между модулями, а обычный enum — нельзя"
+            }
         ],
         "correct": 1,
-        "explanation": "const enum members are inlined as literal values in the emitted JavaScript, so no enum object exists at runtime. This reduces bundle size but makes the enum unavailable for dynamic lookups."
+        "explanation": {
+            "en": "const enum members are inlined as literal values in the emitted JavaScript, so no enum object exists at runtime. This reduces bundle size but makes the enum unavailable for dynamic lookups.",
+            "ru": "Члены const enum подставляются как литеральные значения в скомпилированный JavaScript, поэтому enum-объекта в рантайме не существует. Это уменьшает размер бандла, но делает enum недоступным для динамических обращений."
+        }
     },
     {
         "id": "ts-readonly-001",
@@ -206,15 +449,33 @@
         "category": "typescript",
         "difficulty": "easy",
         "tags": ["readonly", "immutability"],
-        "question": "What does the `readonly` modifier on an array type (`readonly number[]`) prevent?",
+        "question": {
+            "en": "What does the `readonly` modifier on an array type (`readonly number[]`) prevent?",
+            "ru": "Что запрещает модификатор `readonly` у типа массива (`readonly number[]`)?"
+        },
         "options": [
-            "Reading array elements",
-            "Passing the array to functions",
-            "Mutating the array (push, pop, splice, etc.)",
-            "Creating the array with a literal"
+            {
+                "en": "Reading array elements",
+                "ru": "Чтение элементов массива"
+            },
+            {
+                "en": "Passing the array to functions",
+                "ru": "Передачу массива в функции"
+            },
+            {
+                "en": "Mutating the array (push, pop, splice, etc.)",
+                "ru": "Мутацию массива (push, pop, splice и т. д.)"
+            },
+            {
+                "en": "Creating the array with a literal",
+                "ru": "Создание массива через литерал"
+            }
         ],
         "correct": 2,
-        "explanation": "readonly number[] (equivalently ReadonlyArray<number>) disallows any mutation methods like push, pop, or direct index assignment. The array can still be read and passed around freely."
+        "explanation": {
+            "en": "readonly number[] (equivalently ReadonlyArray<number>) disallows any mutation methods like push, pop, or direct index assignment. The array can still be read and passed around freely.",
+            "ru": "readonly number[] (эквивалент ReadonlyArray<number>) запрещает любые мутирующие методы, такие как push, pop, или прямое присваивание по индексу. При этом массив можно свободно читать и передавать."
+        }
     },
     {
         "id": "ts-tuple-001",
@@ -222,15 +483,33 @@
         "category": "typescript",
         "difficulty": "easy",
         "tags": ["tuples", "basic-types"],
-        "question": "Which declaration correctly types a tuple of a string followed by a number?",
+        "question": {
+            "en": "Which declaration correctly types a tuple of a string followed by a number?",
+            "ru": "Какое объявление корректно типизирует tuple из строки и следующего за ней числа?"
+        },
         "options": [
-            "let pair: [number, string] = ['hello', 42];",
-            "let pair: [string, number] = ['hello', 42];",
-            "let pair: (string | number)[] = ['hello', 42];",
-            "let pair: Array<string, number> = ['hello', 42];"
+            {
+                "en": "let pair: [number, string] = ['hello', 42];",
+                "ru": "let pair: [number, string] = ['hello', 42];"
+            },
+            {
+                "en": "let pair: [string, number] = ['hello', 42];",
+                "ru": "let pair: [string, number] = ['hello', 42];"
+            },
+            {
+                "en": "let pair: (string | number)[] = ['hello', 42];",
+                "ru": "let pair: (string | number)[] = ['hello', 42];"
+            },
+            {
+                "en": "let pair: Array<string, number> = ['hello', 42];",
+                "ru": "let pair: Array<string, number> = ['hello', 42];"
+            }
         ],
         "correct": 1,
-        "explanation": "A tuple type [string, number] precisely describes an array of exactly two elements: a string at index 0 and a number at index 1."
+        "explanation": {
+            "en": "A tuple type [string, number] precisely describes an array of exactly two elements: a string at index 0 and a number at index 1.",
+            "ru": "Tuple-тип [string, number] точно описывает массив ровно из двух элементов: строка по индексу 0 и число по индексу 1."
+        }
     },
     {
         "id": "ts-keyof-001",
@@ -238,15 +517,33 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["keyof", "typeof", "advanced-types"],
-        "question": "What is the result of `keyof { a: string; b: number; c: boolean }`?",
+        "question": {
+            "en": "What is the result of `keyof { a: string; b: number; c: boolean }`?",
+            "ru": "Каков результат `keyof { a: string; b: number; c: boolean }`?"
+        },
         "options": [
-            "string",
-            "string | number | symbol",
-            "'a' | 'b' | 'c'",
-            "{ a: string; b: number; c: boolean }"
+            {
+                "en": "string",
+                "ru": "string"
+            },
+            {
+                "en": "string | number | symbol",
+                "ru": "string | number | symbol"
+            },
+            {
+                "en": "'a' | 'b' | 'c'",
+                "ru": "'a' | 'b' | 'c'"
+            },
+            {
+                "en": "{ a: string; b: number; c: boolean }",
+                "ru": "{ a: string; b: number; c: boolean }"
+            }
         ],
         "correct": 2,
-        "explanation": "keyof produces a union of the string (and symbol) property keys of a type. For { a: string; b: number; c: boolean }, keyof yields the literal union 'a' | 'b' | 'c'."
+        "explanation": {
+            "en": "keyof produces a union of the string (and symbol) property keys of a type. For { a: string; b: number; c: boolean }, keyof yields the literal union 'a' | 'b' | 'c'.",
+            "ru": "keyof возвращает union строковых (и символьных) ключей свойств типа. Для { a: string; b: number; c: boolean } keyof даёт литеральный union 'a' | 'b' | 'c'."
+        }
     },
     {
         "id": "ts-typeof-001",
@@ -254,15 +551,33 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["typeof", "type-queries"],
-        "question": "What does the `typeof` type operator do in TypeScript (at the type level)?",
+        "question": {
+            "en": "What does the `typeof` type operator do in TypeScript (at the type level)?",
+            "ru": "Что делает оператор типа `typeof` в TypeScript (на уровне типов)?"
+        },
         "options": [
-            "Returns the JavaScript runtime type string of a value",
-            "Extracts the TypeScript type of a variable or property",
-            "Converts a value to its string representation",
-            "Checks if a value is defined"
+            {
+                "en": "Returns the JavaScript runtime type string of a value",
+                "ru": "Возвращает JavaScript runtime-строку типа значения"
+            },
+            {
+                "en": "Extracts the TypeScript type of a variable or property",
+                "ru": "Извлекает TypeScript-тип переменной или свойства"
+            },
+            {
+                "en": "Converts a value to its string representation",
+                "ru": "Преобразует значение в его строковое представление"
+            },
+            {
+                "en": "Checks if a value is defined",
+                "ru": "Проверяет, определено ли значение"
+            }
         ],
         "correct": 1,
-        "explanation": "At the type level, typeof (in a type position) extracts the TypeScript type of a variable, property, or function. At runtime, typeof is still the JavaScript operator that returns a string."
+        "explanation": {
+            "en": "At the type level, typeof (in a type position) extracts the TypeScript type of a variable, property, or function. At runtime, typeof is still the JavaScript operator that returns a string.",
+            "ru": "На уровне типов (в позиции типа) typeof извлекает TypeScript-тип переменной, свойства или функции. В рантайме typeof остаётся JavaScript-оператором, возвращающим строку."
+        }
     },
     {
         "id": "ts-utility-002",
@@ -270,15 +585,33 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["utility-types", "Pick", "Omit"],
-        "question": "Given `type User = { id: number; name: string; email: string }`, what does `Pick<User, 'id' | 'name'>` produce?",
+        "question": {
+            "en": "Given `type User = { id: number; name: string; email: string }`, what does `Pick<User, 'id' | 'name'>` produce?",
+            "ru": "Дано `type User = { id: number; name: string; email: string }`. Что даёт `Pick<User, 'id' | 'name'>`?"
+        },
         "options": [
-            "{ email: string }",
-            "{ id: number; name: string }",
-            "{ id: number; name: string; email: string }",
-            "{ name: string }"
+            {
+                "en": "{ email: string }",
+                "ru": "{ email: string }"
+            },
+            {
+                "en": "{ id: number; name: string }",
+                "ru": "{ id: number; name: string }"
+            },
+            {
+                "en": "{ id: number; name: string; email: string }",
+                "ru": "{ id: number; name: string; email: string }"
+            },
+            {
+                "en": "{ name: string }",
+                "ru": "{ name: string }"
+            }
         ],
         "correct": 1,
-        "explanation": "Pick<T, K> constructs a new type by selecting only the properties K from T. Pick<User, 'id' | 'name'> keeps only id and name, dropping email."
+        "explanation": {
+            "en": "Pick<T, K> constructs a new type by selecting only the properties K from T. Pick<User, 'id' | 'name'> keeps only id and name, dropping email.",
+            "ru": "Pick<T, K> создаёт новый тип, отбирая из T только свойства K. Pick<User, 'id' | 'name'> оставляет только id и name, отбрасывая email."
+        }
     },
     {
         "id": "ts-utility-003",
@@ -286,15 +619,33 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["utility-types", "Record"],
-        "question": "What does `Record<string, number>` represent?",
+        "question": {
+            "en": "What does `Record<string, number>` represent?",
+            "ru": "Что представляет собой `Record<string, number>`?"
+        },
         "options": [
-            "An array of numbers",
-            "A Map with string keys and number values",
-            "An object type with string keys and number values",
-            "A function that maps strings to numbers"
+            {
+                "en": "An array of numbers",
+                "ru": "Массив чисел"
+            },
+            {
+                "en": "A Map with string keys and number values",
+                "ru": "Map со строковыми ключами и числовыми значениями"
+            },
+            {
+                "en": "An object type with string keys and number values",
+                "ru": "Объектный тип со строковыми ключами и числовыми значениями"
+            },
+            {
+                "en": "A function that maps strings to numbers",
+                "ru": "Функцию, отображающую строки в числа"
+            }
         ],
         "correct": 2,
-        "explanation": "Record<K, V> is equivalent to { [key in K]: V }. Record<string, number> describes an object where every string key maps to a number value."
+        "explanation": {
+            "en": "Record<K, V> is equivalent to { [key in K]: V }. Record<string, number> describes an object where every string key maps to a number value.",
+            "ru": "Record<K, V> эквивалентен { [key in K]: V }. Record<string, number> описывает объект, в котором каждому строковому ключу соответствует значение number."
+        }
     },
     {
         "id": "ts-utility-004",
@@ -302,10 +653,33 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["utility-types", "ReturnType", "Parameters"],
-        "question": "Given `function greet(name: string): string { return 'Hi ' + name; }`, what is `ReturnType<typeof greet>`?",
-        "options": ["void", "string", "(name: string) => string", "never"],
+        "question": {
+            "en": "Given `function greet(name: string): string { return 'Hi ' + name; }`, what is `ReturnType<typeof greet>`?",
+            "ru": "Дано `function greet(name: string): string { return 'Hi ' + name; }`. Чему равен `ReturnType<typeof greet>`?"
+        },
+        "options": [
+            {
+                "en": "void",
+                "ru": "void"
+            },
+            {
+                "en": "string",
+                "ru": "string"
+            },
+            {
+                "en": "(name: string) => string",
+                "ru": "(name: string) => string"
+            },
+            {
+                "en": "never",
+                "ru": "never"
+            }
+        ],
         "correct": 1,
-        "explanation": "ReturnType<T> extracts the return type of a function type T. typeof greet gives the function type, and ReturnType extracts string — the return type of greet."
+        "explanation": {
+            "en": "ReturnType<T> extracts the return type of a function type T. typeof greet gives the function type, and ReturnType extracts string — the return type of greet.",
+            "ru": "ReturnType<T> извлекает тип возврата функционального типа T. typeof greet даёт тип функции, а ReturnType извлекает string — тип, возвращаемый greet."
+        }
     },
     {
         "id": "ts-discriminated-001",
@@ -313,15 +687,33 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["discriminated-unions", "type-guards"],
-        "question": "What makes a union a 'discriminated union'?",
+        "question": {
+            "en": "What makes a union a 'discriminated union'?",
+            "ru": "Что делает union «discriminated union»?"
+        },
         "options": [
-            "All members share every property",
-            "All members have a common literal-typed property that distinguishes them",
-            "The union uses the & operator instead of |",
-            "All members extend a common base class"
+            {
+                "en": "All members share every property",
+                "ru": "Все члены union имеют одинаковый набор свойств"
+            },
+            {
+                "en": "All members have a common literal-typed property that distinguishes them",
+                "ru": "Все члены имеют общее свойство с литеральным типом, различающее их"
+            },
+            {
+                "en": "The union uses the & operator instead of |",
+                "ru": "Union использует оператор & вместо |"
+            },
+            {
+                "en": "All members extend a common base class",
+                "ru": "Все члены наследуются от общего базового класса"
+            }
         ],
         "correct": 1,
-        "explanation": "A discriminated union has a common 'discriminant' property with a unique literal type per variant (e.g., kind: 'circle' | 'square'). TypeScript uses this to narrow the type in switch/if statements."
+        "explanation": {
+            "en": "A discriminated union has a common 'discriminant' property with a unique literal type per variant (e.g., kind: 'circle' | 'square'). TypeScript uses this to narrow the type in switch/if statements.",
+            "ru": "В discriminated union есть общее свойство-«дискриминант» с уникальным литеральным типом для каждого варианта (например, kind: 'circle' | 'square'). TypeScript использует его для narrowing в switch/if."
+        }
     },
     {
         "id": "ts-guard-001",
@@ -329,10 +721,33 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["type-guards", "user-defined-guards"],
-        "question": "What is the return type annotation needed to write a custom type guard function?",
-        "options": ["boolean", "asserts value is T", "value is T", "T | false"],
+        "question": {
+            "en": "What is the return type annotation needed to write a custom type guard function?",
+            "ru": "Какая аннотация возвращаемого типа нужна для пользовательской функции-type guard?"
+        },
+        "options": [
+            {
+                "en": "boolean",
+                "ru": "boolean"
+            },
+            {
+                "en": "asserts value is T",
+                "ru": "asserts value is T"
+            },
+            {
+                "en": "value is T",
+                "ru": "value is T"
+            },
+            {
+                "en": "T | false",
+                "ru": "T | false"
+            }
+        ],
         "correct": 2,
-        "explanation": "A type guard function uses the return type annotation 'param is T'. When the function returns true, TypeScript narrows the type of param to T in the calling scope."
+        "explanation": {
+            "en": "A type guard function uses the return type annotation 'param is T'. When the function returns true, TypeScript narrows the type of param to T in the calling scope.",
+            "ru": "Функция-type guard использует аннотацию возврата 'param is T'. Когда функция возвращает true, TypeScript сужает тип param до T в вызывающей области видимости."
+        }
     },
     {
         "id": "ts-strict-001",
@@ -340,15 +755,33 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["strict-mode", "tsconfig", "strictNullChecks"],
-        "question": "Which tsconfig flag, when enabled, makes `null` and `undefined` not assignable to other types by default?",
+        "question": {
+            "en": "Which tsconfig flag, when enabled, makes `null` and `undefined` not assignable to other types by default?",
+            "ru": "Какой флаг tsconfig, будучи включённым, по умолчанию запрещает присваивать `null` и `undefined` другим типам?"
+        },
         "options": [
-            "noImplicitAny",
-            "strictNullChecks",
-            "strictFunctionTypes",
-            "useUnknownInCatchVariables"
+            {
+                "en": "noImplicitAny",
+                "ru": "noImplicitAny"
+            },
+            {
+                "en": "strictNullChecks",
+                "ru": "strictNullChecks"
+            },
+            {
+                "en": "strictFunctionTypes",
+                "ru": "strictFunctionTypes"
+            },
+            {
+                "en": "useUnknownInCatchVariables",
+                "ru": "useUnknownInCatchVariables"
+            }
         ],
         "correct": 1,
-        "explanation": "strictNullChecks separates null and undefined from all other types. Without it, null/undefined can be assigned to any type, hiding many common bugs."
+        "explanation": {
+            "en": "strictNullChecks separates null and undefined from all other types. Without it, null/undefined can be assigned to any type, hiding many common bugs.",
+            "ru": "strictNullChecks отделяет null и undefined от всех остальных типов. Без него null/undefined можно присвоить любому типу, что скрывает множество типичных багов."
+        }
     },
     {
         "id": "ts-conditional-001",
@@ -356,15 +789,33 @@
         "category": "typescript",
         "difficulty": "hard",
         "tags": ["conditional-types", "advanced"],
-        "question": "What does `T extends U ? X : Y` evaluate to when T is a union type like `A | B`?",
+        "question": {
+            "en": "What does `T extends U ? X : Y` evaluate to when T is a union type like `A | B`?",
+            "ru": "Во что вычисляется `T extends U ? X : Y`, когда T — union вида `A | B`?"
+        },
         "options": [
-            "It evaluates once for the entire union: (A | B) extends U ? X : Y",
-            "It distributes over the union: (A extends U ? X : Y) | (B extends U ? X : Y)",
-            "It always resolves to X | Y",
-            "It is a compile error — conditional types don't support unions"
+            {
+                "en": "It evaluates once for the entire union: (A | B) extends U ? X : Y",
+                "ru": "Вычисляется один раз для всего union: (A | B) extends U ? X : Y"
+            },
+            {
+                "en": "It distributes over the union: (A extends U ? X : Y) | (B extends U ? X : Y)",
+                "ru": "Дистрибутивно применяется к union: (A extends U ? X : Y) | (B extends U ? X : Y)"
+            },
+            {
+                "en": "It always resolves to X | Y",
+                "ru": "Всегда сводится к X | Y"
+            },
+            {
+                "en": "It is a compile error — conditional types don't support unions",
+                "ru": "Это ошибка компиляции — conditional types не поддерживают union"
+            }
         ],
         "correct": 1,
-        "explanation": "When T is a bare type parameter in a conditional type, TypeScript distributes the condition over each union member. This is called distributive conditional types."
+        "explanation": {
+            "en": "When T is a bare type parameter in a conditional type, TypeScript distributes the condition over each union member. This is called distributive conditional types.",
+            "ru": "Когда T является «голым» параметром типа в conditional type, TypeScript дистрибутивно применяет условие к каждому члену union. Это называется distributive conditional types."
+        }
     },
     {
         "id": "ts-infer-001",
@@ -372,15 +823,33 @@
         "category": "typescript",
         "difficulty": "hard",
         "tags": ["infer", "conditional-types", "advanced"],
-        "question": "What does the `infer` keyword do in a conditional type?",
+        "question": {
+            "en": "What does the `infer` keyword do in a conditional type?",
+            "ru": "Что делает ключевое слово `infer` в conditional type?"
+        },
         "options": [
-            "Forces TypeScript to infer a generic parameter automatically",
-            "Declares a type variable to be captured from the matched type in the extends clause",
-            "Removes a type from a union",
-            "Marks a type as inferred (not explicitly annotated)"
+            {
+                "en": "Forces TypeScript to infer a generic parameter automatically",
+                "ru": "Заставляет TypeScript автоматически выводить generic-параметр"
+            },
+            {
+                "en": "Declares a type variable to be captured from the matched type in the extends clause",
+                "ru": "Объявляет типовую переменную, которая захватывается из сопоставленного типа в extends-клаузе"
+            },
+            {
+                "en": "Removes a type from a union",
+                "ru": "Удаляет тип из union"
+            },
+            {
+                "en": "Marks a type as inferred (not explicitly annotated)",
+                "ru": "Помечает тип как выведенный (не аннотированный явно)"
+            }
         ],
         "correct": 1,
-        "explanation": "infer introduces a new type variable within a conditional type's extends clause. When the condition matches, the captured type is bound to that variable and available in the true branch."
+        "explanation": {
+            "en": "infer introduces a new type variable within a conditional type's extends clause. When the condition matches, the captured type is bound to that variable and available in the true branch.",
+            "ru": "infer вводит новую типовую переменную в extends-клаузе conditional type. Когда условие выполняется, захваченный тип привязывается к этой переменной и доступен в true-ветке."
+        }
     },
     {
         "id": "ts-overload-001",
@@ -388,15 +857,33 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["function-overloads", "functions"],
-        "question": "In TypeScript function overloads, what is the role of the 'implementation signature'?",
+        "question": {
+            "en": "In TypeScript function overloads, what is the role of the 'implementation signature'?",
+            "ru": "Какова роль «implementation signature» в перегрузках функций TypeScript?"
+        },
         "options": [
-            "It is the only signature visible to callers",
-            "It provides the actual function body and must be compatible with all overload signatures, but is not visible to callers",
-            "It is the first overload listed and takes priority",
-            "It must be declared with the 'override' keyword"
+            {
+                "en": "It is the only signature visible to callers",
+                "ru": "Это единственная сигнатура, видимая вызывающему коду"
+            },
+            {
+                "en": "It provides the actual function body and must be compatible with all overload signatures, but is not visible to callers",
+                "ru": "Она содержит фактическое тело функции и должна быть совместима со всеми overload-сигнатурами, но не видна вызывающему коду"
+            },
+            {
+                "en": "It is the first overload listed and takes priority",
+                "ru": "Это первая объявленная перегрузка, имеющая приоритет"
+            },
+            {
+                "en": "It must be declared with the 'override' keyword",
+                "ru": "Её нужно объявлять с ключевым словом 'override'"
+            }
         ],
         "correct": 1,
-        "explanation": "The implementation signature contains the function body. It must cover all overload cases but is not part of the public type — callers can only see the named overload signatures above it."
+        "explanation": {
+            "en": "The implementation signature contains the function body. It must cover all overload cases but is not part of the public type — callers can only see the named overload signatures above it.",
+            "ru": "Implementation signature содержит тело функции. Она должна покрывать все случаи перегрузок, но не является частью публичного типа — вызывающему коду видны только объявленные выше overload-сигнатуры."
+        }
     },
     {
         "id": "ts-class-001",
@@ -404,15 +891,33 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["classes", "access-modifiers"],
-        "question": "What is the difference between `private` and `#` (ECMAScript private fields) in TypeScript classes?",
+        "question": {
+            "en": "What is the difference between `private` and `#` (ECMAScript private fields) in TypeScript classes?",
+            "ru": "В чём разница между `private` и `#` (приватные поля ECMAScript) в классах TypeScript?"
+        },
         "options": [
-            "They are identical — TypeScript treats them the same way",
-            "private is enforced only at compile time; # is enforced at runtime in JavaScript",
-            "# is deprecated; private is preferred",
-            "private fields are readable via Object.keys(); # fields are not"
+            {
+                "en": "They are identical — TypeScript treats them the same way",
+                "ru": "Они идентичны — TypeScript обрабатывает их одинаково"
+            },
+            {
+                "en": "private is enforced only at compile time; # is enforced at runtime in JavaScript",
+                "ru": "private действует только на этапе компиляции; # обеспечивается на уровне рантайма в JavaScript"
+            },
+            {
+                "en": "# is deprecated; private is preferred",
+                "ru": "# устарел; предпочтителен private"
+            },
+            {
+                "en": "private fields are readable via Object.keys(); # fields are not",
+                "ru": "Поля private доступны через Object.keys(); поля # — нет"
+            }
         ],
         "correct": 1,
-        "explanation": "TypeScript's private keyword is a compile-time-only restriction that disappears in JavaScript output. ECMAScript private fields (#name) are truly private at runtime and cannot be accessed outside the class even in plain JS."
+        "explanation": {
+            "en": "TypeScript's private keyword is a compile-time-only restriction that disappears in JavaScript output. ECMAScript private fields (#name) are truly private at runtime and cannot be accessed outside the class even in plain JS.",
+            "ru": "Ключевое слово private в TypeScript — это ограничение только на этапе компиляции, которое исчезает в JavaScript. Приватные поля ECMAScript (#name) действительно приватны в рантайме — к ним нельзя обратиться вне класса даже в чистом JS."
+        }
     },
     {
         "id": "ts-decorator-001",
@@ -420,15 +925,33 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["decorators", "metadata"],
-        "question": "What tsconfig flag must be enabled to use TypeScript (legacy) decorators?",
+        "question": {
+            "en": "What tsconfig flag must be enabled to use TypeScript (legacy) decorators?",
+            "ru": "Какой флаг tsconfig нужно включить для использования (legacy) декораторов TypeScript?"
+        },
         "options": [
-            "useDefineForClassFields",
-            "experimentalDecorators",
-            "emitDecoratorMetadata",
-            "target: ES2022"
+            {
+                "en": "useDefineForClassFields",
+                "ru": "useDefineForClassFields"
+            },
+            {
+                "en": "experimentalDecorators",
+                "ru": "experimentalDecorators"
+            },
+            {
+                "en": "emitDecoratorMetadata",
+                "ru": "emitDecoratorMetadata"
+            },
+            {
+                "en": "target: ES2022",
+                "ru": "target: ES2022"
+            }
         ],
         "correct": 1,
-        "explanation": "Legacy TypeScript decorators require experimentalDecorators: true in tsconfig. The newer TC39 Stage 3 decorators do not require this flag in TypeScript 5.x."
+        "explanation": {
+            "en": "Legacy TypeScript decorators require experimentalDecorators: true in tsconfig. The newer TC39 Stage 3 decorators do not require this flag in TypeScript 5.x.",
+            "ru": "Legacy-декораторы TypeScript требуют experimentalDecorators: true в tsconfig. Новые декораторы TC39 Stage 3 в TypeScript 5.x этот флаг не требуют."
+        }
     },
     {
         "id": "ts-module-aug-001",
@@ -436,15 +959,33 @@
         "category": "typescript",
         "difficulty": "hard",
         "tags": ["module-augmentation", "declaration-merging"],
-        "question": "How do you add a property to an existing module's exported interface (module augmentation)?",
+        "question": {
+            "en": "How do you add a property to an existing module's exported interface (module augmentation)?",
+            "ru": "Как добавить свойство в уже экспортируемый из модуля interface (module augmentation)?"
+        },
         "options": [
-            "Import the module and use Object.assign on the interface",
-            "Redeclare the interface in the same file with the new property",
-            "Use 'declare module \"module-name\"' block with the extended interface",
-            "Use 'extends' keyword on the imported interface"
+            {
+                "en": "Import the module and use Object.assign on the interface",
+                "ru": "Импортировать модуль и вызвать Object.assign на interface"
+            },
+            {
+                "en": "Redeclare the interface in the same file with the new property",
+                "ru": "Повторно объявить interface в том же файле с новым свойством"
+            },
+            {
+                "en": "Use 'declare module \"module-name\"' block with the extended interface",
+                "ru": "Использовать блок 'declare module \"module-name\"' с расширенным interface"
+            },
+            {
+                "en": "Use 'extends' keyword on the imported interface",
+                "ru": "Использовать ключевое слово 'extends' на импортированном interface"
+            }
         ],
         "correct": 2,
-        "explanation": "Module augmentation uses a 'declare module \"name\" { ... }' block. This merges new declarations into the module's existing type definitions without modifying the original package."
+        "explanation": {
+            "en": "Module augmentation uses a 'declare module \"name\" { ... }' block. This merges new declarations into the module's existing type definitions without modifying the original package.",
+            "ru": "Module augmentation реализуется через блок 'declare module \"name\" { ... }'. Он объединяет новые объявления с существующими типами модуля, не изменяя оригинальный пакет."
+        }
     },
     {
         "id": "ts-tsconfig-001",
@@ -452,15 +993,33 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["tsconfig", "strict-mode"],
-        "question": "What does enabling `strict: true` in tsconfig.json do?",
+        "question": {
+            "en": "What does enabling `strict: true` in tsconfig.json do?",
+            "ru": "Что происходит при включении `strict: true` в tsconfig.json?"
+        },
         "options": [
-            "It only enables strictNullChecks",
-            "It enables a single 'strict' check that prevents all type errors",
-            "It enables a family of strict type checks including strictNullChecks, noImplicitAny, strictFunctionTypes, and others",
-            "It sets the target to the latest ECMAScript version"
+            {
+                "en": "It only enables strictNullChecks",
+                "ru": "Включается только strictNullChecks"
+            },
+            {
+                "en": "It enables a single 'strict' check that prevents all type errors",
+                "ru": "Включается единая «strict»-проверка, устраняющая все ошибки типов"
+            },
+            {
+                "en": "It enables a family of strict type checks including strictNullChecks, noImplicitAny, strictFunctionTypes, and others",
+                "ru": "Включается семейство строгих проверок типов, включая strictNullChecks, noImplicitAny, strictFunctionTypes и другие"
+            },
+            {
+                "en": "It sets the target to the latest ECMAScript version",
+                "ru": "target устанавливается в последнюю версию ECMAScript"
+            }
         ],
         "correct": 2,
-        "explanation": "strict: true is a shorthand that enables multiple strictness flags at once: strictNullChecks, noImplicitAny, strictFunctionTypes, strictBindCallApply, strictPropertyInitialization, and noImplicitThis."
+        "explanation": {
+            "en": "strict: true is a shorthand that enables multiple strictness flags at once: strictNullChecks, noImplicitAny, strictFunctionTypes, strictBindCallApply, strictPropertyInitialization, and noImplicitThis.",
+            "ru": "strict: true — это сокращение, одновременно включающее несколько флагов строгости: strictNullChecks, noImplicitAny, strictFunctionTypes, strictBindCallApply, strictPropertyInitialization и noImplicitThis."
+        }
     },
     {
         "id": "ts-intersection-001",
@@ -468,15 +1027,33 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["intersection-types", "composition"],
-        "question": "What does the type `{ name: string } & { age: number }` represent?",
+        "question": {
+            "en": "What does the type `{ name: string } & { age: number }` represent?",
+            "ru": "Что представляет собой тип `{ name: string } & { age: number }`?"
+        },
         "options": [
-            "A type that is either { name: string } or { age: number }",
-            "A type that has both name (string) and age (number) properties",
-            "A type with a name property typed as string | number",
-            "An error — you cannot intersect object types"
+            {
+                "en": "A type that is either { name: string } or { age: number }",
+                "ru": "Тип, который является либо { name: string }, либо { age: number }"
+            },
+            {
+                "en": "A type that has both name (string) and age (number) properties",
+                "ru": "Тип, имеющий оба свойства: name (string) и age (number)"
+            },
+            {
+                "en": "A type with a name property typed as string | number",
+                "ru": "Тип со свойством name типа string | number"
+            },
+            {
+                "en": "An error — you cannot intersect object types",
+                "ru": "Ошибка — объектные типы нельзя пересекать"
+            }
         ],
         "correct": 1,
-        "explanation": "The intersection operator (&) combines types so the result must satisfy all members. The result has both name: string and age: number. This is commonly used for mixins and composition."
+        "explanation": {
+            "en": "The intersection operator (&) combines types so the result must satisfy all members. The result has both name: string and age: number. This is commonly used for mixins and composition.",
+            "ru": "Оператор intersection (&) объединяет типы так, что результат должен удовлетворять всем членам. В результате присутствуют и name: string, и age: number. Это обычно используется для миксинов и композиции."
+        }
     },
     {
         "id": "ts-multi-001",
@@ -484,10 +1061,33 @@
         "category": "typescript",
         "difficulty": "easy",
         "tags": ["basic-types", "primitives"],
-        "question": "Which of the following are TypeScript primitive types?",
-        "options": ["string", "Array", "symbol", "bigint"],
+        "question": {
+            "en": "Which of the following are TypeScript primitive types?",
+            "ru": "Какие из перечисленных являются примитивными типами TypeScript?"
+        },
+        "options": [
+            {
+                "en": "string",
+                "ru": "string"
+            },
+            {
+                "en": "Array",
+                "ru": "Array"
+            },
+            {
+                "en": "symbol",
+                "ru": "symbol"
+            },
+            {
+                "en": "bigint",
+                "ru": "bigint"
+            }
+        ],
         "correct": [0, 2, 3],
-        "explanation": "TypeScript's primitive types are: string, number, boolean, bigint, symbol, null, and undefined. Array is an object type, not a primitive."
+        "explanation": {
+            "en": "TypeScript's primitive types are: string, number, boolean, bigint, symbol, null, and undefined. Array is an object type, not a primitive.",
+            "ru": "Примитивные типы TypeScript: string, number, boolean, bigint, symbol, null и undefined. Array — это объектный тип, а не примитив."
+        }
     },
     {
         "id": "ts-multi-002",
@@ -495,10 +1095,33 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["utility-types", "built-in"],
-        "question": "Which of the following are built-in TypeScript utility types?",
-        "options": ["Partial<T>", "DeepReadonly<T>", "Readonly<T>", "Required<T>"],
+        "question": {
+            "en": "Which of the following are built-in TypeScript utility types?",
+            "ru": "Какие из перечисленных являются встроенными utility types TypeScript?"
+        },
+        "options": [
+            {
+                "en": "Partial<T>",
+                "ru": "Partial<T>"
+            },
+            {
+                "en": "DeepReadonly<T>",
+                "ru": "DeepReadonly<T>"
+            },
+            {
+                "en": "Readonly<T>",
+                "ru": "Readonly<T>"
+            },
+            {
+                "en": "Required<T>",
+                "ru": "Required<T>"
+            }
+        ],
         "correct": [0, 2, 3],
-        "explanation": "Partial<T>, Readonly<T>, and Required<T> are all built-in TypeScript utility types. DeepReadonly<T> is not built-in — it requires a custom recursive mapped type."
+        "explanation": {
+            "en": "Partial<T>, Readonly<T>, and Required<T> are all built-in TypeScript utility types. DeepReadonly<T> is not built-in — it requires a custom recursive mapped type.",
+            "ru": "Partial<T>, Readonly<T> и Required<T> — встроенные utility types TypeScript. DeepReadonly<T> не встроен — он требует кастомного рекурсивного mapped type."
+        }
     },
     {
         "id": "ts-multi-003",
@@ -506,15 +1129,33 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["interfaces", "types"],
-        "question": "Which statements are true about `interface` vs `type` aliases in TypeScript?",
+        "question": {
+            "en": "Which statements are true about `interface` vs `type` aliases in TypeScript?",
+            "ru": "Какие утверждения об `interface` и `type`-алиасах в TypeScript верны?"
+        },
         "options": [
-            "Both can describe object shapes",
-            "Only interfaces support declaration merging",
-            "Only type aliases can represent union types",
-            "Both can use generics"
+            {
+                "en": "Both can describe object shapes",
+                "ru": "Оба могут описывать форму объектов"
+            },
+            {
+                "en": "Only interfaces support declaration merging",
+                "ru": "Declaration merging поддерживают только interface"
+            },
+            {
+                "en": "Only type aliases can represent union types",
+                "ru": "Только type-алиасы могут напрямую описывать union-типы"
+            },
+            {
+                "en": "Both can use generics",
+                "ru": "Оба могут использовать generics"
+            }
         ],
         "correct": [0, 1, 2, 3],
-        "explanation": "All four statements are true: both describe object shapes and support generics; only interfaces merge; only type aliases can directly represent union types (interface cannot be a union)."
+        "explanation": {
+            "en": "All four statements are true: both describe object shapes and support generics; only interfaces merge; only type aliases can directly represent union types (interface cannot be a union).",
+            "ru": "Все четыре утверждения верны: оба описывают форму объектов и поддерживают generics; объединяются только interface; напрямую описывать union-типы могут только type-алиасы (interface не может быть union)."
+        }
     },
     {
         "id": "ts-multi-004",
@@ -522,10 +1163,33 @@
         "category": "typescript",
         "difficulty": "hard",
         "tags": ["strict-mode", "tsconfig"],
-        "question": "Which flags are included when `strict: true` is set in tsconfig?",
-        "options": ["strictNullChecks", "noImplicitAny", "noUnusedLocals", "strictFunctionTypes"],
+        "question": {
+            "en": "Which flags are included when `strict: true` is set in tsconfig?",
+            "ru": "Какие флаги включаются при `strict: true` в tsconfig?"
+        },
+        "options": [
+            {
+                "en": "strictNullChecks",
+                "ru": "strictNullChecks"
+            },
+            {
+                "en": "noImplicitAny",
+                "ru": "noImplicitAny"
+            },
+            {
+                "en": "noUnusedLocals",
+                "ru": "noUnusedLocals"
+            },
+            {
+                "en": "strictFunctionTypes",
+                "ru": "strictFunctionTypes"
+            }
+        ],
         "correct": [0, 1, 3],
-        "explanation": "strict: true enables: strictNullChecks, noImplicitAny, strictFunctionTypes, strictBindCallApply, strictPropertyInitialization, noImplicitThis, and alwaysStrict. noUnusedLocals is a separate flag not included in strict."
+        "explanation": {
+            "en": "strict: true enables: strictNullChecks, noImplicitAny, strictFunctionTypes, strictBindCallApply, strictPropertyInitialization, noImplicitThis, and alwaysStrict. noUnusedLocals is a separate flag not included in strict.",
+            "ru": "strict: true включает: strictNullChecks, noImplicitAny, strictFunctionTypes, strictBindCallApply, strictPropertyInitialization, noImplicitThis и alwaysStrict. noUnusedLocals — отдельный флаг, не входящий в strict."
+        }
     },
     {
         "id": "ts-multi-005",
@@ -533,15 +1197,33 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["type-guards", "narrowing"],
-        "question": "Which expressions can TypeScript use to narrow a type inside a conditional block?",
+        "question": {
+            "en": "Which expressions can TypeScript use to narrow a type inside a conditional block?",
+            "ru": "Какие выражения TypeScript может использовать для narrowing внутри условного блока?"
+        },
         "options": [
-            "typeof value === 'number'",
-            "value instanceof Date",
-            "'property' in value",
-            "value as SpecificType"
+            {
+                "en": "typeof value === 'number'",
+                "ru": "typeof value === 'number'"
+            },
+            {
+                "en": "value instanceof Date",
+                "ru": "value instanceof Date"
+            },
+            {
+                "en": "'property' in value",
+                "ru": "'property' in value"
+            },
+            {
+                "en": "value as SpecificType",
+                "ru": "value as SpecificType"
+            }
         ],
         "correct": [0, 1, 2],
-        "explanation": "typeof, instanceof, and 'in' checks all narrow types. Type assertions (as) do not narrow — they override the type without a runtime check and TypeScript does not use them for control-flow narrowing."
+        "explanation": {
+            "en": "typeof, instanceof, and 'in' checks all narrow types. Type assertions (as) do not narrow — they override the type without a runtime check and TypeScript does not use them for control-flow narrowing.",
+            "ru": "Проверки typeof, instanceof и 'in' сужают типы. Type assertions (as) не сужают — они переопределяют тип без runtime-проверки, и TypeScript не использует их для control-flow narrowing."
+        }
     },
     {
         "id": "ts-multi-006",
@@ -549,15 +1231,33 @@
         "category": "typescript",
         "difficulty": "hard",
         "tags": ["conditional-types", "infer", "advanced"],
-        "question": "Which statements about the `infer` keyword in conditional types are correct?",
+        "question": {
+            "en": "Which statements about the `infer` keyword in conditional types are correct?",
+            "ru": "Какие утверждения о ключевом слове `infer` в conditional types верны?"
+        },
         "options": [
-            "infer can only be used in the extends clause of a conditional type",
-            "infer introduces a type variable that is captured during pattern matching",
-            "infer can be used outside of conditional types",
-            "Multiple infer variables can appear in the same conditional type"
+            {
+                "en": "infer can only be used in the extends clause of a conditional type",
+                "ru": "infer можно использовать только в extends-клаузе conditional type"
+            },
+            {
+                "en": "infer introduces a type variable that is captured during pattern matching",
+                "ru": "infer вводит типовую переменную, которая захватывается при сопоставлении с шаблоном"
+            },
+            {
+                "en": "infer can be used outside of conditional types",
+                "ru": "infer можно использовать вне conditional types"
+            },
+            {
+                "en": "Multiple infer variables can appear in the same conditional type",
+                "ru": "В одном conditional type может быть несколько переменных infer"
+            }
         ],
         "correct": [0, 1, 3],
-        "explanation": "infer is only valid in the extends clause of a conditional type. It introduces a type variable that captures a matched type. Multiple infer variables are allowed in the same extends clause."
+        "explanation": {
+            "en": "infer is only valid in the extends clause of a conditional type. It introduces a type variable that captures a matched type. Multiple infer variables are allowed in the same extends clause.",
+            "ru": "infer валиден только в extends-клаузе conditional type. Он вводит типовую переменную, захватывающую сопоставленный тип. В одной extends-клаузе допускается несколько переменных infer."
+        }
     },
     {
         "id": "ts-multi-007",
@@ -565,15 +1265,33 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["generics", "constraints"],
-        "question": "Which generic constraints are valid TypeScript syntax?",
+        "question": {
+            "en": "Which generic constraints are valid TypeScript syntax?",
+            "ru": "Какие ограничения generic-параметров являются валидным синтаксисом TypeScript?"
+        },
         "options": [
-            "function f<T extends string>(x: T)",
-            "function f<T extends { length: number }>(x: T)",
-            "function f<T super string>(x: T)",
-            "function f<T extends keyof U, U>(x: T, y: U)"
+            {
+                "en": "function f<T extends string>(x: T)",
+                "ru": "function f<T extends string>(x: T)"
+            },
+            {
+                "en": "function f<T extends { length: number }>(x: T)",
+                "ru": "function f<T extends { length: number }>(x: T)"
+            },
+            {
+                "en": "function f<T super string>(x: T)",
+                "ru": "function f<T super string>(x: T)"
+            },
+            {
+                "en": "function f<T extends keyof U, U>(x: T, y: U)",
+                "ru": "function f<T extends keyof U, U>(x: T, y: U)"
+            }
         ],
         "correct": [0, 1, 3],
-        "explanation": "TypeScript uses 'extends' for generic constraints. 'super' is not a valid constraint keyword in TypeScript generics. All three extends forms are valid."
+        "explanation": {
+            "en": "TypeScript uses 'extends' for generic constraints. 'super' is not a valid constraint keyword in TypeScript generics. All three extends forms are valid.",
+            "ru": "Для ограничений generic-параметров TypeScript использует 'extends'. 'super' не является валидным ключевым словом для ограничений в generics TypeScript. Все три формы с extends валидны."
+        }
     },
     {
         "id": "ts-multi-008",
@@ -581,15 +1299,33 @@
         "category": "typescript",
         "difficulty": "hard",
         "tags": ["mapped-types", "template-literal-types"],
-        "question": "Which of the following produce a new type from an existing type without using utility types?",
+        "question": {
+            "en": "Which of the following produce a new type from an existing type without using utility types?",
+            "ru": "Какие из перечисленных конструкций создают новый тип из существующего без использования utility types?"
+        },
         "options": [
-            "{ [K in keyof T]: boolean }",
-            "T[keyof T]",
-            "T extends U ? T : never",
-            "T & { extraProp: string }"
+            {
+                "en": "{ [K in keyof T]: boolean }",
+                "ru": "{ [K in keyof T]: boolean }"
+            },
+            {
+                "en": "T[keyof T]",
+                "ru": "T[keyof T]"
+            },
+            {
+                "en": "T extends U ? T : never",
+                "ru": "T extends U ? T : never"
+            },
+            {
+                "en": "T & { extraProp: string }",
+                "ru": "T & { extraProp: string }"
+            }
         ],
         "correct": [0, 1, 2, 3],
-        "explanation": "All four are valid type-level expressions. Mapped types, indexed access types, conditional types, and intersection types all produce new types from existing ones."
+        "explanation": {
+            "en": "All four are valid type-level expressions. Mapped types, indexed access types, conditional types, and intersection types all produce new types from existing ones.",
+            "ru": "Все четыре — валидные выражения уровня типов. Mapped types, indexed access types, conditional types и intersection types создают новые типы из существующих."
+        }
     },
     {
         "id": "ts-multi-009",
@@ -597,15 +1333,33 @@
         "category": "typescript",
         "difficulty": "easy",
         "tags": ["enums"],
-        "question": "Which statements about TypeScript enums are correct?",
+        "question": {
+            "en": "Which statements about TypeScript enums are correct?",
+            "ru": "Какие утверждения о TypeScript enum верны?"
+        },
         "options": [
-            "Numeric enums auto-increment from the first value",
-            "String enums do not auto-increment",
-            "const enums are erased at compile time",
-            "Enums can be used as types and as values"
+            {
+                "en": "Numeric enums auto-increment from the first value",
+                "ru": "Числовые enum автоматически инкрементируются от первого значения"
+            },
+            {
+                "en": "String enums do not auto-increment",
+                "ru": "Строковые enum не инкрементируются автоматически"
+            },
+            {
+                "en": "const enums are erased at compile time",
+                "ru": "const enum стираются на этапе компиляции"
+            },
+            {
+                "en": "Enums can be used as types and as values",
+                "ru": "Enum можно использовать и как тип, и как значение"
+            }
         ],
         "correct": [0, 1, 2, 3],
-        "explanation": "All four are correct: numeric enums increment automatically; string enums require explicit values; const enums are inlined and erased; enums serve as both value (runtime) and type (compile-time)."
+        "explanation": {
+            "en": "All four are correct: numeric enums increment automatically; string enums require explicit values; const enums are inlined and erased; enums serve as both value (runtime) and type (compile-time).",
+            "ru": "Все четыре верны: числовые enum инкрементируются автоматически; строковые enum требуют явных значений; const enum инлайнятся и стираются; enum служат одновременно и значением (в рантайме), и типом (на этапе компиляции)."
+        }
     },
     {
         "id": "ts-multi-010",
@@ -613,10 +1367,33 @@
         "category": "typescript",
         "difficulty": "hard",
         "tags": ["declaration-merging", "module-augmentation"],
-        "question": "Which of the following support declaration merging in TypeScript?",
-        "options": ["interface", "namespace", "type alias", "enum"],
+        "question": {
+            "en": "Which of the following support declaration merging in TypeScript?",
+            "ru": "Какие из перечисленных конструкций поддерживают declaration merging в TypeScript?"
+        },
+        "options": [
+            {
+                "en": "interface",
+                "ru": "interface"
+            },
+            {
+                "en": "namespace",
+                "ru": "namespace"
+            },
+            {
+                "en": "type alias",
+                "ru": "type alias"
+            },
+            {
+                "en": "enum",
+                "ru": "enum"
+            }
+        ],
         "correct": [0, 1, 3],
-        "explanation": "Interfaces, namespaces, and enums all support declaration merging. Type aliases do not — redeclaring a type alias with the same name is a compile error."
+        "explanation": {
+            "en": "Interfaces, namespaces, and enums all support declaration merging. Type aliases do not — redeclaring a type alias with the same name is a compile error.",
+            "ru": "Declaration merging поддерживают interface, namespace и enum. Type-алиасы — нет: повторное объявление type-алиаса с тем же именем вызовет ошибку компиляции."
+        }
     },
     {
         "id": "ts-multi-011",
@@ -624,10 +1401,33 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["classes", "access-modifiers"],
-        "question": "Which access modifiers are available for class members in TypeScript?",
-        "options": ["public", "private", "protected", "internal"],
+        "question": {
+            "en": "Which access modifiers are available for class members in TypeScript?",
+            "ru": "Какие модификаторы доступа доступны для членов класса в TypeScript?"
+        },
+        "options": [
+            {
+                "en": "public",
+                "ru": "public"
+            },
+            {
+                "en": "private",
+                "ru": "private"
+            },
+            {
+                "en": "protected",
+                "ru": "protected"
+            },
+            {
+                "en": "internal",
+                "ru": "internal"
+            }
+        ],
         "correct": [0, 1, 2],
-        "explanation": "TypeScript class members support public (default), private, and protected. There is no 'internal' modifier in TypeScript (unlike C#)."
+        "explanation": {
+            "en": "TypeScript class members support public (default), private, and protected. There is no 'internal' modifier in TypeScript (unlike C#).",
+            "ru": "Члены классов TypeScript поддерживают public (по умолчанию), private и protected. Модификатора 'internal' в TypeScript нет (в отличие от C#)."
+        }
     },
     {
         "id": "ts-multi-012",
@@ -635,10 +1435,33 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["tsconfig", "compiler-options"],
-        "question": "Which tsconfig options affect how TypeScript emits output?",
-        "options": ["target", "module", "strict", "outDir"],
+        "question": {
+            "en": "Which tsconfig options affect how TypeScript emits output?",
+            "ru": "Какие опции tsconfig влияют на то, как TypeScript генерирует выходной код?"
+        },
+        "options": [
+            {
+                "en": "target",
+                "ru": "target"
+            },
+            {
+                "en": "module",
+                "ru": "module"
+            },
+            {
+                "en": "strict",
+                "ru": "strict"
+            },
+            {
+                "en": "outDir",
+                "ru": "outDir"
+            }
+        ],
         "correct": [0, 1, 3],
-        "explanation": "target sets the ECMAScript version of emitted code, module sets the module system, and outDir sets the output directory. strict affects type checking but does not change the shape of emitted JavaScript."
+        "explanation": {
+            "en": "target sets the ECMAScript version of emitted code, module sets the module system, and outDir sets the output directory. strict affects type checking but does not change the shape of emitted JavaScript.",
+            "ru": "target задаёт версию ECMAScript генерируемого кода, module — систему модулей, outDir — директорию вывода. strict влияет на проверку типов, но не меняет вид генерируемого JavaScript."
+        }
     },
     {
         "id": "ts-bug-001",
@@ -646,11 +1469,17 @@
         "category": "typescript",
         "difficulty": "easy",
         "tags": ["null-safety", "strictNullChecks", "bugs"],
-        "question": "Find the bug in this TypeScript code (strictNullChecks is enabled):",
+        "question": {
+            "en": "Find the bug in this TypeScript code (strictNullChecks is enabled):",
+            "ru": "Найдите баг в этом TypeScript-коде (strictNullChecks включён):"
+        },
         "code": "function greet(name: string | null): string {\n  return 'Hello, ' + name.toUpperCase();\n}",
         "correct": "name can be null, so calling name.toUpperCase() will throw at runtime",
         "referenceAnswer": "When name is null, accessing .toUpperCase() throws 'Cannot read properties of null'. Fix: add a null check — return 'Hello, ' + (name ?? 'stranger').toUpperCase();",
-        "explanation": "With strictNullChecks enabled, TypeScript flags this: 'name' is possibly 'null'. Always handle null/undefined before calling methods on nullable values."
+        "explanation": {
+            "en": "With strictNullChecks enabled, TypeScript flags this: 'name' is possibly 'null'. Always handle null/undefined before calling methods on nullable values.",
+            "ru": "При включённом strictNullChecks TypeScript сообщает: 'name' is possibly 'null'. Всегда обрабатывайте null/undefined перед вызовом методов на nullable-значениях."
+        }
     },
     {
         "id": "ts-bug-002",
@@ -658,11 +1487,17 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["generics", "constraints", "bugs"],
-        "question": "Find the TypeScript error in this generic function:",
+        "question": {
+            "en": "Find the TypeScript error in this generic function:",
+            "ru": "Найдите ошибку TypeScript в этой generic-функции:"
+        },
         "code": "function getFirstElement<T>(arr: T[]): T {\n  return arr[0];\n}",
         "correct": "The function returns T but arr[0] can be undefined when the array is empty",
         "referenceAnswer": "When the array is empty, arr[0] is undefined, but the return type is T (not T | undefined). Fix the return type to T | undefined, or add a runtime check with a default value.",
-        "explanation": "Array index access does not automatically produce T | undefined without the noUncheckedIndexedAccess tsconfig flag. Explicitly typing the return as T | undefined makes the function safer."
+        "explanation": {
+            "en": "Array index access does not automatically produce T | undefined without the noUncheckedIndexedAccess tsconfig flag. Explicitly typing the return as T | undefined makes the function safer.",
+            "ru": "Доступ по индексу к массиву не даёт автоматически T | undefined без флага tsconfig noUncheckedIndexedAccess. Явное указание возвращаемого типа как T | undefined делает функцию безопаснее."
+        }
     },
     {
         "id": "ts-bug-003",
@@ -670,11 +1505,17 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["enums", "const-enum", "bugs"],
-        "question": "Identify the issue with this code that uses a const enum across module boundaries:",
+        "question": {
+            "en": "Identify the issue with this code that uses a const enum across module boundaries:",
+            "ru": "Определите проблему в этом коде, использующем const enum между модулями:"
+        },
         "code": "// constants.ts\nexport const enum Direction {\n  Up = 'UP',\n  Down = 'DOWN'\n}\n\n// consumer.ts\nimport { Direction } from './constants';\nconsole.log(Direction[Direction.Up]);",
         "correct": "const enum reverse mappings do not work at runtime; the enum object is erased",
         "referenceAnswer": "const enums are inlined at compile time and no runtime object is emitted. Reverse lookups like Direction[Direction.Up] fail at runtime because Direction does not exist. Use a regular enum if you need reverse mapping.",
-        "explanation": "const enums are purely a compile-time construct. The enum object is not present in the emitted JavaScript, so any runtime lookup will throw a ReferenceError."
+        "explanation": {
+            "en": "const enums are purely a compile-time construct. The enum object is not present in the emitted JavaScript, so any runtime lookup will throw a ReferenceError.",
+            "ru": "const enum — чисто compile-time-конструкция. Enum-объект отсутствует в сгенерированном JavaScript, поэтому любое обращение к нему в рантайме приведёт к ReferenceError."
+        }
     },
     {
         "id": "ts-bug-004",
@@ -682,11 +1523,17 @@
         "category": "typescript",
         "difficulty": "hard",
         "tags": ["conditional-types", "distributive", "bugs"],
-        "question": "Why does this conditional type produce an unexpected result?",
+        "question": {
+            "en": "Why does this conditional type produce an unexpected result?",
+            "ru": "Почему этот conditional type даёт неожиданный результат?"
+        },
         "code": "type IsString<T> = T extends string ? true : false;\ntype Result = IsString<string | number>; // expected: false, got: boolean",
         "correct": "Distributive conditional types distribute over unions, so IsString<string | number> becomes true | false = boolean",
         "referenceAnswer": "Because T is a bare type parameter, the condition distributes: IsString<string> | IsString<number> = true | false = boolean. To prevent distribution, wrap T in a tuple: type IsString<T> = [T] extends [string] ? true : false.",
-        "explanation": "Distributive conditional types automatically split union members. Wrapping T in [T] prevents distribution and evaluates the condition on the entire union at once."
+        "explanation": {
+            "en": "Distributive conditional types automatically split union members. Wrapping T in [T] prevents distribution and evaluates the condition on the entire union at once.",
+            "ru": "Distributive conditional types автоматически раскладывают union на члены. Обёртывание T в [T] отключает дистрибутивность, и условие вычисляется сразу на всём union."
+        }
     },
     {
         "id": "ts-bug-005",
@@ -694,11 +1541,17 @@
         "category": "typescript",
         "difficulty": "easy",
         "tags": ["interface", "type-annotation", "bugs"],
-        "question": "Find the TypeScript error in this code:",
+        "question": {
+            "en": "Find the TypeScript error in this code:",
+            "ru": "Найдите ошибку TypeScript в этом коде:"
+        },
         "code": "interface User {\n  name: string;\n  age: number;\n}\n\nconst user: User = {\n  name: 'Alice',\n  age: 30,\n  role: 'admin'\n};",
         "correct": "Object literal has extra property 'role' not in User — TypeScript excess property checking rejects this",
         "referenceAnswer": "TypeScript's excess property checking reports an error when an object literal contains properties not present in the target type. Remove 'role' or add it to the User interface, or assign via an intermediate variable to bypass the check.",
-        "explanation": "Excess property checking only applies to fresh object literals assigned directly to a typed variable. Assigning the same object via an intermediate variable would not trigger the error."
+        "explanation": {
+            "en": "Excess property checking only applies to fresh object literals assigned directly to a typed variable. Assigning the same object via an intermediate variable would not trigger the error.",
+            "ru": "Excess property checking применяется только к «свежим» литералам объектов, присваиваемым напрямую типизированной переменной. Присваивание того же объекта через промежуточную переменную такую ошибку не вызовет."
+        }
     },
     {
         "id": "ts-bug-006",
@@ -706,11 +1559,17 @@
         "category": "typescript",
         "difficulty": "hard",
         "tags": ["function-overloads", "bugs"],
-        "question": "Find the problem with these function overloads:",
+        "question": {
+            "en": "Find the problem with these function overloads:",
+            "ru": "Найдите проблему с этими перегрузками функции:"
+        },
         "code": "function format(value: string): string;\nfunction format(value: number): string;\nfunction format(value: string | number): string {\n  return String(value);\n}\n\nconst result = format(true);",
         "correct": "Calling format(true) passes a boolean, which matches neither overload signature, causing a compile error",
         "referenceAnswer": "The overload signatures only accept string or number. Passing true (boolean) does not match any overload, so TypeScript reports 'No overload matches this call'. The implementation signature is not visible to callers.",
-        "explanation": "Only the overload signatures (not the implementation signature) are visible to callers. If a call doesn't match any overload, it is rejected — even if the implementation would handle the value at runtime."
+        "explanation": {
+            "en": "Only the overload signatures (not the implementation signature) are visible to callers. If a call doesn't match any overload, it is rejected — even if the implementation would handle the value at runtime.",
+            "ru": "Вызывающему коду видны только overload-сигнатуры, а не implementation signature. Если вызов не соответствует ни одной перегрузке, он отклоняется — даже если implementation смогла бы обработать это значение в рантайме."
+        }
     },
     {
         "id": "ts-bug-007",
@@ -718,11 +1577,17 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["readonly", "mutation", "bugs"],
-        "question": "Find the TypeScript error in this code:",
+        "question": {
+            "en": "Find the TypeScript error in this code:",
+            "ru": "Найдите ошибку TypeScript в этом коде:"
+        },
         "code": "function addItem(list: readonly string[], item: string): void {\n  list.push(item);\n}",
         "correct": "Calling push on a readonly array is a compile error — readonly arrays do not allow mutation",
         "referenceAnswer": "readonly string[] (or ReadonlyArray<string>) forbids methods that mutate the array, including push, pop, splice, and direct index assignment. Fix: return a new array instead — return [...list, item] — and change the return type.",
-        "explanation": "readonly on an array type disallows all mutation operations. This is a compile-time-only constraint enforced by TypeScript."
+        "explanation": {
+            "en": "readonly on an array type disallows all mutation operations. This is a compile-time-only constraint enforced by TypeScript.",
+            "ru": "readonly у типа массива запрещает любые мутирующие операции. Это ограничение действует только на этапе компиляции и обеспечивается TypeScript."
+        }
     },
     {
         "id": "ts-bug-008",
@@ -730,11 +1595,17 @@
         "category": "typescript",
         "difficulty": "hard",
         "tags": ["mapped-types", "template-literal-types", "bugs"],
-        "question": "What is wrong with this mapped type?",
+        "question": {
+            "en": "What is wrong with this mapped type?",
+            "ru": "Что не так с этим mapped type?"
+        },
         "code": "type Getters<T> = {\n  [K in keyof T as `get${K}`]: () => T[K];\n};",
         "correct": "K from keyof T can be a symbol or number, but template literal types only accept string — this causes a type error",
         "referenceAnswer": "keyof T includes string, number, and symbol keys. Template literal types only accept string | number | bigint | boolean | null | undefined. Symbols are not allowed. Fix: constrain K with 'K extends string': [K in keyof T as K extends string ? `get${Capitalize<K>}` : never]",
-        "explanation": "To use a type in a template literal, it must be assignable to string | number | bigint | boolean | null | undefined. Symbol keys from keyof T must be excluded."
+        "explanation": {
+            "en": "To use a type in a template literal, it must be assignable to string | number | bigint | boolean | null | undefined. Symbol keys from keyof T must be excluded.",
+            "ru": "Чтобы использовать тип в template literal, он должен быть совместим с string | number | bigint | boolean | null | undefined. Символьные ключи из keyof T необходимо исключать."
+        }
     },
     {
         "id": "ts-completion-001",
@@ -742,11 +1613,17 @@
         "category": "typescript",
         "difficulty": "easy",
         "tags": ["utility-types", "Omit"],
-        "question": "Complete the type that represents a User without the 'password' field:",
+        "question": {
+            "en": "Complete the type that represents a User without the 'password' field:",
+            "ru": "Дополните тип, представляющий User без поля 'password':"
+        },
         "code": "type User = {\n  id: number;\n  email: string;\n  password: string;\n};\n\ntype PublicUser = ___<User, 'password'>;",
         "blanks": ["Omit"],
         "referenceAnswer": "Omit<T, K> constructs a type by removing properties K from T. Omit<User, 'password'> yields { id: number; email: string }.",
-        "explanation": "Omit is the complement of Pick. Use Omit when you want most properties of a type except a few known ones."
+        "explanation": {
+            "en": "Omit is the complement of Pick. Use Omit when you want most properties of a type except a few known ones.",
+            "ru": "Omit — дополняющий к Pick utility type. Используйте Omit, когда нужно большинство свойств типа, кроме нескольких известных."
+        }
     },
     {
         "id": "ts-completion-002",
@@ -754,11 +1631,17 @@
         "category": "typescript",
         "difficulty": "easy",
         "tags": ["type-guards", "user-defined-guards"],
-        "question": "Complete the type guard function signature:",
+        "question": {
+            "en": "Complete the type guard function signature:",
+            "ru": "Дополните сигнатуру функции-type guard:"
+        },
         "code": "function isString(value: unknown): value ___ string {\n  return typeof value === 'string';\n}",
         "blanks": ["is"],
         "referenceAnswer": "The 'is' keyword in the return type annotation 'value is string' tells TypeScript this is a type predicate. When the function returns true, TypeScript narrows value to string in the calling scope.",
-        "explanation": "Type predicate syntax is 'paramName is Type'. It enables TypeScript to understand custom type guard functions for control-flow narrowing."
+        "explanation": {
+            "en": "Type predicate syntax is 'paramName is Type'. It enables TypeScript to understand custom type guard functions for control-flow narrowing.",
+            "ru": "Синтаксис type predicate — 'paramName is Type'. Он даёт TypeScript понимать пользовательские функции-type guard для control-flow narrowing."
+        }
     },
     {
         "id": "ts-completion-003",
@@ -766,11 +1649,17 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["generics", "constraints", "keyof"],
-        "question": "Complete the function that safely retrieves a property from an object:",
+        "question": {
+            "en": "Complete the function that safely retrieves a property from an object:",
+            "ru": "Дополните функцию, которая безопасно получает свойство объекта:"
+        },
         "code": "function getProperty<T, K ___ keyof T>(obj: T, key: K): T[K] {\n  return obj[key];\n}",
         "blanks": ["extends"],
         "referenceAnswer": "K extends keyof T constrains K to be one of the valid property keys of T. This ensures that obj[key] is type-safe and returns T[K].",
-        "explanation": "This is a classic pattern for safe property access. The constraint K extends keyof T prevents passing arbitrary strings and ensures the return type T[K] is correctly inferred."
+        "explanation": {
+            "en": "This is a classic pattern for safe property access. The constraint K extends keyof T prevents passing arbitrary strings and ensures the return type T[K] is correctly inferred.",
+            "ru": "Это классический паттерн для безопасного доступа к свойствам. Ограничение K extends keyof T не позволяет передавать произвольные строки и обеспечивает корректный вывод возвращаемого типа T[K]."
+        }
     },
     {
         "id": "ts-completion-004",
@@ -778,11 +1667,17 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["conditional-types", "infer", "ReturnType"],
-        "question": "Complete this custom ReturnType implementation using conditional types:",
+        "question": {
+            "en": "Complete this custom ReturnType implementation using conditional types:",
+            "ru": "Дополните эту кастомную реализацию ReturnType через conditional types:"
+        },
         "code": "type MyReturnType<T> = T extends (...args: any[]) => ___ R ? R : never;",
         "blanks": ["infer"],
         "referenceAnswer": "The infer keyword captures the return type R from the function type. If T matches a function shape, R is bound to its return type; otherwise the result is never.",
-        "explanation": "This is how TypeScript's built-in ReturnType<T> is implemented. infer R in the extends clause captures the return type into the variable R."
+        "explanation": {
+            "en": "This is how TypeScript's built-in ReturnType<T> is implemented. infer R in the extends clause captures the return type into the variable R.",
+            "ru": "Именно так реализован встроенный ReturnType<T> в TypeScript. infer R в extends-клаузе захватывает тип возврата в переменную R."
+        }
     },
     {
         "id": "ts-completion-005",
@@ -790,11 +1685,17 @@
         "category": "typescript",
         "difficulty": "hard",
         "tags": ["mapped-types", "utility-types", "Readonly"],
-        "question": "Complete this deep readonly mapped type:",
+        "question": {
+            "en": "Complete this deep readonly mapped type:",
+            "ru": "Дополните этот deep readonly mapped type:"
+        },
         "code": "type DeepReadonly<T> = {\n  readonly [K in keyof T]: T[K] extends object ? ___<T[K]> : T[K];\n};",
         "blanks": ["DeepReadonly"],
         "referenceAnswer": "Recursive mapped types call themselves on nested object properties. DeepReadonly<T[K]> recursively applies readonly to nested objects until reaching primitives.",
-        "explanation": "Recursive conditional mapped types allow deep transformations. The condition T[K] extends object ensures only object properties are recursed into, leaving primitives unchanged."
+        "explanation": {
+            "en": "Recursive conditional mapped types allow deep transformations. The condition T[K] extends object ensures only object properties are recursed into, leaving primitives unchanged.",
+            "ru": "Рекурсивные conditional mapped types позволяют делать глубокие преобразования. Условие T[K] extends object гарантирует, что рекурсия идёт только по объектным свойствам, а примитивы остаются без изменений."
+        }
     },
     {
         "id": "ts-completion-006",
@@ -802,11 +1703,17 @@
         "category": "typescript",
         "difficulty": "hard",
         "tags": ["template-literal-types", "mapped-types"],
-        "question": "Complete this type that converts all keys of an object to their getter names:",
+        "question": {
+            "en": "Complete this type that converts all keys of an object to their getter names:",
+            "ru": "Дополните тип, который преобразует все ключи объекта в имена соответствующих геттеров:"
+        },
         "code": "type WithGetters<T> = {\n  [K in keyof T as K extends string ? `get${___<K>}` : never]: () => T[K];\n};",
         "blanks": ["Capitalize"],
         "referenceAnswer": "Capitalize<K> transforms the first character of string literal type K to uppercase. Combined with a template literal, this produces getter names like getName, getAge from name, age.",
-        "explanation": "TypeScript provides Capitalize, Uncapitalize, Uppercase, and Lowercase as built-in string manipulation types for use with template literal types."
+        "explanation": {
+            "en": "TypeScript provides Capitalize, Uncapitalize, Uppercase, and Lowercase as built-in string manipulation types for use with template literal types.",
+            "ru": "TypeScript предоставляет Capitalize, Uncapitalize, Uppercase и Lowercase — встроенные типы для работы со строками, предназначенные для использования с template literal types."
+        }
     },
     {
         "id": "ts-completion-007",
@@ -814,11 +1721,17 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["discriminated-unions", "exhaustiveness"],
-        "question": "Complete the exhaustive switch helper that ensures all union cases are handled:",
+        "question": {
+            "en": "Complete the exhaustive switch helper that ensures all union cases are handled:",
+            "ru": "Дополните helper для exhaustive switch, гарантирующий обработку всех случаев union:"
+        },
         "code": "function assertNever(value: ___): never {\n  throw new Error(`Unexpected value: ${value}`);\n}",
         "blanks": ["never"],
         "referenceAnswer": "Typing the parameter as never means TypeScript will only allow calling assertNever in branches where the type has been narrowed to never (i.e., all union members have been handled). If a case is missed, TypeScript reports an error.",
-        "explanation": "The assertNever pattern leverages the never type to enforce exhaustive checks in switch statements. If you add a new union member without handling it, the default branch will produce a type error."
+        "explanation": {
+            "en": "The assertNever pattern leverages the never type to enforce exhaustive checks in switch statements. If you add a new union member without handling it, the default branch will produce a type error.",
+            "ru": "Паттерн assertNever использует тип never для принудительной exhaustiveness-проверки в switch. Если добавить новый член union без его обработки, default-ветка вызовет ошибку типов."
+        }
     },
     {
         "id": "ts-completion-008",
@@ -826,12 +1739,18 @@
         "category": "typescript",
         "difficulty": "hard",
         "tags": ["infer", "conditional-types", "tuples"],
-        "question": "Complete this type that extracts the first element type from a tuple:",
+        "question": {
+            "en": "Complete this type that extracts the first element type from a tuple:",
+            "ru": "Дополните тип, извлекающий тип первого элемента из tuple:"
+        },
         "code": "type Head<T extends any[]> = T extends [infer ___, ...any[]] ? H : never;",
         "blanks": ["H"],
         "referenceAnswer": "infer H captures the first element's type from the tuple pattern [H, ...rest]. If T matches this shape, H is returned; otherwise never.",
         "lang": "typescript",
-        "explanation": "Tuple inference with infer allows extracting specific positional element types. This pattern mirrors the array destructuring syntax at the type level."
+        "explanation": {
+            "en": "Tuple inference with infer allows extracting specific positional element types. This pattern mirrors the array destructuring syntax at the type level.",
+            "ru": "Вывод типов tuple через infer позволяет извлекать типы конкретных позиционных элементов. Этот паттерн повторяет синтаксис деструктуризации массива на уровне типов."
+        }
     },
     {
         "id": "ts-advanced-001",
@@ -839,15 +1758,33 @@
         "category": "typescript",
         "difficulty": "hard",
         "tags": ["conditional-types", "never", "filtering"],
-        "question": "What does `type NonNullable<T> = T extends null | undefined ? never : T` do when T is `string | null | undefined`?",
+        "question": {
+            "en": "What does `type NonNullable<T> = T extends null | undefined ? never : T` do when T is `string | null | undefined`?",
+            "ru": "Что делает `type NonNullable<T> = T extends null | undefined ? never : T`, когда T — это `string | null | undefined`?"
+        },
         "options": [
-            "Returns string | null | undefined unchanged",
-            "Returns string by removing null and undefined from the union",
-            "Returns never",
-            "Causes a compile error"
+            {
+                "en": "Returns string | null | undefined unchanged",
+                "ru": "Возвращает string | null | undefined без изменений"
+            },
+            {
+                "en": "Returns string by removing null and undefined from the union",
+                "ru": "Возвращает string, удаляя null и undefined из union"
+            },
+            {
+                "en": "Returns never",
+                "ru": "Возвращает never"
+            },
+            {
+                "en": "Causes a compile error",
+                "ru": "Вызывает ошибку компиляции"
+            }
         ],
         "correct": 1,
-        "explanation": "Due to distribution, the conditional evaluates each union member: string extends null|undefined? never: string = string; null extends null|undefined? never: null = never; undefined extends null|undefined? never: undefined = never. Union result: string | never | never = string."
+        "explanation": {
+            "en": "Due to distribution, the conditional evaluates each union member: string extends null|undefined? never: string = string; null extends null|undefined? never: null = never; undefined extends null|undefined? never: undefined = never. Union result: string | never | never = string.",
+            "ru": "Благодаря дистрибутивности условие вычисляется для каждого члена union: string extends null|undefined? never: string = string; null extends null|undefined? never: null = never; undefined extends null|undefined? never: undefined = never. Результирующий union: string | never | never = string."
+        }
     },
     {
         "id": "ts-advanced-002",
@@ -855,10 +1792,33 @@
         "category": "typescript",
         "difficulty": "hard",
         "tags": ["template-literal-types", "advanced"],
-        "question": "What is the result of `type T = 'get' | 'set'` combined with `type Methods = `${T}Name``?",
-        "options": ["'getsetName'", "'getName' | 'setName'", "'get' | 'set'", "string"],
+        "question": {
+            "en": "What is the result of `type T = 'get' | 'set'` combined with `type Methods = `${T}Name``?",
+            "ru": "Каков результат комбинации `type T = 'get' | 'set'` и `type Methods = `${T}Name``?"
+        },
+        "options": [
+            {
+                "en": "'getsetName'",
+                "ru": "'getsetName'"
+            },
+            {
+                "en": "'getName' | 'setName'",
+                "ru": "'getName' | 'setName'"
+            },
+            {
+                "en": "'get' | 'set'",
+                "ru": "'get' | 'set'"
+            },
+            {
+                "en": "string",
+                "ru": "string"
+            }
+        ],
         "correct": 1,
-        "explanation": "Template literal types distribute over union members interpolated inside them. `${T}Name` where T is 'get' | 'set' produces 'getName' | 'setName'."
+        "explanation": {
+            "en": "Template literal types distribute over union members interpolated inside them. `${T}Name` where T is 'get' | 'set' produces 'getName' | 'setName'.",
+            "ru": "Template literal types дистрибутивно применяются к членам union, подставленного внутрь. `${T}Name`, где T — 'get' | 'set', даёт 'getName' | 'setName'."
+        }
     },
     {
         "id": "ts-advanced-003",
@@ -866,15 +1826,33 @@
         "category": "typescript",
         "difficulty": "hard",
         "tags": ["mapped-types", "remapping", "as"],
-        "question": "In a mapped type `{ [K in keyof T as NewKey<K>]: T[K] }`, what does `as NewKey<K>` do?",
+        "question": {
+            "en": "In a mapped type `{ [K in keyof T as NewKey<K>]: T[K] }`, what does `as NewKey<K>` do?",
+            "ru": "Что делает `as NewKey<K>` в mapped type `{ [K in keyof T as NewKey<K>]: T[K] }`?"
+        },
         "options": [
-            "Casts the key type to NewKey<K> at runtime",
-            "Remaps (renames) the keys using the NewKey type transformation",
-            "Filters out keys where NewKey<K> is string",
-            "Adds NewKey<K> as an alias for K"
+            {
+                "en": "Casts the key type to NewKey<K> at runtime",
+                "ru": "Приводит тип ключа к NewKey<K> в рантайме"
+            },
+            {
+                "en": "Remaps (renames) the keys using the NewKey type transformation",
+                "ru": "Переименовывает ключи, применяя преобразование NewKey"
+            },
+            {
+                "en": "Filters out keys where NewKey<K> is string",
+                "ru": "Отфильтровывает ключи, для которых NewKey<K> равен string"
+            },
+            {
+                "en": "Adds NewKey<K> as an alias for K",
+                "ru": "Добавляет NewKey<K> как алиас для K"
+            }
         ],
         "correct": 1,
-        "explanation": "Key remapping with 'as' in a mapped type allows transforming the key names. The 'as' clause receives the current key type K and produces the new key type. If the result is never, the key is omitted."
+        "explanation": {
+            "en": "Key remapping with 'as' in a mapped type allows transforming the key names. The 'as' clause receives the current key type K and produces the new key type. If the result is never, the key is omitted.",
+            "ru": "Key remapping через 'as' в mapped type позволяет преобразовывать имена ключей. Клауза 'as' получает текущий тип ключа K и возвращает новый тип ключа. Если результат — never, ключ пропускается."
+        }
     },
     {
         "id": "ts-advanced-004",
@@ -882,15 +1860,33 @@
         "category": "typescript",
         "difficulty": "hard",
         "tags": ["variance", "function-types", "contravariance"],
-        "question": "If `Animal` is a supertype of `Dog`, which assignment is valid for function types (strictFunctionTypes enabled)?",
+        "question": {
+            "en": "If `Animal` is a supertype of `Dog`, which assignment is valid for function types (strictFunctionTypes enabled)?",
+            "ru": "Если `Animal` — супертип `Dog`, какое присваивание валидно для функциональных типов (strictFunctionTypes включён)?"
+        },
         "options": [
-            "let f: (x: Animal) => void = (x: Dog) => {}; // covariant parameter",
-            "let f: (x: Dog) => void = (x: Animal) => {}; // contravariant parameter",
-            "Both assignments are valid",
-            "Neither assignment is valid"
+            {
+                "en": "let f: (x: Animal) => void = (x: Dog) => {}; // covariant parameter",
+                "ru": "let f: (x: Animal) => void = (x: Dog) => {}; // covariant parameter"
+            },
+            {
+                "en": "let f: (x: Dog) => void = (x: Animal) => {}; // contravariant parameter",
+                "ru": "let f: (x: Dog) => void = (x: Animal) => {}; // contravariant parameter"
+            },
+            {
+                "en": "Both assignments are valid",
+                "ru": "Оба присваивания валидны"
+            },
+            {
+                "en": "Neither assignment is valid",
+                "ru": "Ни одно из присваиваний не валидно"
+            }
         ],
         "correct": 1,
-        "explanation": "With strictFunctionTypes, function parameter types are checked contravariantly. A function accepting Animal (more general) can be used where a function accepting Dog is expected. The reverse is not safe."
+        "explanation": {
+            "en": "With strictFunctionTypes, function parameter types are checked contravariantly. A function accepting Animal (more general) can be used where a function accepting Dog is expected. The reverse is not safe.",
+            "ru": "При strictFunctionTypes типы параметров функций проверяются контравариантно. Функцию, принимающую Animal (более общий тип), можно использовать там, где ожидается функция, принимающая Dog. Обратное направление небезопасно."
+        }
     },
     {
         "id": "ts-advanced-005",
@@ -898,15 +1894,33 @@
         "category": "typescript",
         "difficulty": "hard",
         "tags": ["satisfies", "type-checking"],
-        "question": "What is the benefit of using the `satisfies` operator (TypeScript 4.9+)?",
+        "question": {
+            "en": "What is the benefit of using the `satisfies` operator (TypeScript 4.9+)?",
+            "ru": "В чём преимущество использования оператора `satisfies` (TypeScript 4.9+)?"
+        },
         "options": [
-            "It casts a value to the specified type, like 'as'",
-            "It validates that a value matches a type while preserving the value's specific literal type",
-            "It makes all properties of a type required",
-            "It is equivalent to a type annotation"
+            {
+                "en": "It casts a value to the specified type, like 'as'",
+                "ru": "Приводит значение к указанному типу, как 'as'"
+            },
+            {
+                "en": "It validates that a value matches a type while preserving the value's specific literal type",
+                "ru": "Проверяет соответствие значения типу, сохраняя при этом конкретный литеральный тип значения"
+            },
+            {
+                "en": "It makes all properties of a type required",
+                "ru": "Делает все свойства типа обязательными"
+            },
+            {
+                "en": "It is equivalent to a type annotation",
+                "ru": "Эквивалентен аннотации типа"
+            }
         ],
         "correct": 1,
-        "explanation": "satisfies checks that a value conforms to a type but infers the narrowest possible type for the variable, unlike a type annotation which widens to the annotated type. This preserves literal types while still validating shape."
+        "explanation": {
+            "en": "satisfies checks that a value conforms to a type but infers the narrowest possible type for the variable, unlike a type annotation which widens to the annotated type. This preserves literal types while still validating shape.",
+            "ru": "satisfies проверяет, соответствует ли значение типу, но выводит для переменной максимально узкий тип — в отличие от аннотации, которая расширяет тип до указанного. Это сохраняет литеральные типы, при этом валидируя форму."
+        }
     },
     {
         "id": "ts-advanced-006",
@@ -914,15 +1928,33 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["index-signatures", "types"],
-        "question": "What does an index signature `{ [key: string]: number }` allow?",
+        "question": {
+            "en": "What does an index signature `{ [key: string]: number }` allow?",
+            "ru": "Что разрешает index signature `{ [key: string]: number }`?"
+        },
         "options": [
-            "Only string properties with number values declared at compile time",
-            "Any string-keyed property with a number value, including dynamic keys",
-            "Iterating over the object with a for...in loop only",
-            "Only numeric-indexed access like arrays"
+            {
+                "en": "Only string properties with number values declared at compile time",
+                "ru": "Только строковые свойства с числовыми значениями, объявленные на этапе компиляции"
+            },
+            {
+                "en": "Any string-keyed property with a number value, including dynamic keys",
+                "ru": "Любое свойство со строковым ключом и числовым значением, включая динамические ключи"
+            },
+            {
+                "en": "Iterating over the object with a for...in loop only",
+                "ru": "Только итерацию по объекту через цикл for...in"
+            },
+            {
+                "en": "Only numeric-indexed access like arrays",
+                "ru": "Только доступ по числовому индексу, как у массивов"
+            }
         ],
         "correct": 1,
-        "explanation": "An index signature declares that an object can have any number of properties with string keys and number values, including dynamically added ones. It loosens the type to allow dynamic access patterns."
+        "explanation": {
+            "en": "An index signature declares that an object can have any number of properties with string keys and number values, including dynamically added ones. It loosens the type to allow dynamic access patterns.",
+            "ru": "Index signature объявляет, что объект может иметь любое количество свойств со строковыми ключами и числовыми значениями, включая динамически добавляемые. Она ослабляет тип, разрешая паттерны динамического доступа."
+        }
     },
     {
         "id": "ts-advanced-007",
@@ -930,10 +1962,33 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["optional-chaining", "nullish-coalescing", "types"],
-        "question": "What is the type of `user?.address?.city` when `user` is `{ address?: { city: string } } | null`?",
-        "options": ["string", "string | null", "string | undefined", "string | null | undefined"],
+        "question": {
+            "en": "What is the type of `user?.address?.city` when `user` is `{ address?: { city: string } } | null`?",
+            "ru": "Какого типа `user?.address?.city`, если `user` имеет тип `{ address?: { city: string } } | null`?"
+        },
+        "options": [
+            {
+                "en": "string",
+                "ru": "string"
+            },
+            {
+                "en": "string | null",
+                "ru": "string | null"
+            },
+            {
+                "en": "string | undefined",
+                "ru": "string | undefined"
+            },
+            {
+                "en": "string | null | undefined",
+                "ru": "string | null | undefined"
+            }
+        ],
         "correct": 2,
-        "explanation": "Optional chaining (?.) short-circuits to undefined (not null) when any part of the chain is null or undefined. So user?.address?.city produces string | undefined."
+        "explanation": {
+            "en": "Optional chaining (?.) short-circuits to undefined (not null) when any part of the chain is null or undefined. So user?.address?.city produces string | undefined.",
+            "ru": "Optional chaining (?.) при null или undefined в любой части цепочки коротко замыкается на undefined (не null). Поэтому user?.address?.city имеет тип string | undefined."
+        }
     },
     {
         "id": "ts-advanced-008",
@@ -941,15 +1996,33 @@
         "category": "typescript",
         "difficulty": "easy",
         "tags": ["type-assertion", "non-null"],
-        "question": "What does the non-null assertion operator `!` do in TypeScript?",
+        "question": {
+            "en": "What does the non-null assertion operator `!` do in TypeScript?",
+            "ru": "Что делает оператор non-null assertion `!` в TypeScript?"
+        },
         "options": [
-            "Checks at runtime that a value is not null",
-            "Tells the TypeScript compiler to treat a value as non-null/non-undefined, bypassing null checks",
-            "Converts null to an empty string",
-            "Removes undefined from a type permanently"
+            {
+                "en": "Checks at runtime that a value is not null",
+                "ru": "Проверяет в рантайме, что значение не равно null"
+            },
+            {
+                "en": "Tells the TypeScript compiler to treat a value as non-null/non-undefined, bypassing null checks",
+                "ru": "Говорит компилятору TypeScript считать значение non-null/non-undefined, минуя null-проверки"
+            },
+            {
+                "en": "Converts null to an empty string",
+                "ru": "Преобразует null в пустую строку"
+            },
+            {
+                "en": "Removes undefined from a type permanently",
+                "ru": "Окончательно удаляет undefined из типа"
+            }
         ],
         "correct": 1,
-        "explanation": "The postfix ! operator is a TypeScript-only compile-time assertion that removes null and undefined from a type. It has no runtime behavior — if the value is actually null at runtime, errors will occur."
+        "explanation": {
+            "en": "The postfix ! operator is a TypeScript-only compile-time assertion that removes null and undefined from a type. It has no runtime behavior — if the value is actually null at runtime, errors will occur.",
+            "ru": "Постфиксный оператор ! — это чисто compile-time assertion TypeScript, удаляющий null и undefined из типа. В рантайме он ничего не делает: если значение действительно null, произойдёт ошибка."
+        }
     },
     {
         "id": "ts-advanced-009",
@@ -957,15 +2030,33 @@
         "category": "typescript",
         "difficulty": "medium",
         "tags": ["declaration-merging", "namespace"],
-        "question": "What is a practical use of namespace-interface declaration merging?",
+        "question": {
+            "en": "What is a practical use of namespace-interface declaration merging?",
+            "ru": "Какое практическое применение у declaration merging между namespace и interface?"
+        },
         "options": [
-            "Adding runtime methods to an interface",
-            "Adding static properties or nested types to a function or class type",
-            "Extending an enum with new members",
-            "Creating a class that implements multiple interfaces"
+            {
+                "en": "Adding runtime methods to an interface",
+                "ru": "Добавление runtime-методов к interface"
+            },
+            {
+                "en": "Adding static properties or nested types to a function or class type",
+                "ru": "Добавление статических свойств или вложенных типов к функциональному или классовому типу"
+            },
+            {
+                "en": "Extending an enum with new members",
+                "ru": "Расширение enum новыми членами"
+            },
+            {
+                "en": "Creating a class that implements multiple interfaces",
+                "ru": "Создание класса, реализующего несколько interface"
+            }
         ],
         "correct": 1,
-        "explanation": "Merging a namespace with a function or class adds static members and nested types. This pattern is common in library typings to attach sub-types or constants to a function type."
+        "explanation": {
+            "en": "Merging a namespace with a function or class adds static members and nested types. This pattern is common in library typings to attach sub-types or constants to a function type.",
+            "ru": "Объединение namespace с функцией или классом добавляет статические члены и вложенные типы. Этот паттерн часто встречается в типизациях библиотек для прикрепления вложенных типов или констант к функциональному типу."
+        }
     },
     {
         "id": "ts-advanced-010",
@@ -973,14 +2064,32 @@
         "category": "typescript",
         "difficulty": "easy",
         "tags": ["basic-types", "void"],
-        "question": "What is the difference between `void` and `undefined` as return types in TypeScript?",
+        "question": {
+            "en": "What is the difference between `void` and `undefined` as return types in TypeScript?",
+            "ru": "В чём разница между `void` и `undefined` в качестве возвращаемых типов в TypeScript?"
+        },
         "options": [
-            "They are identical and interchangeable",
-            "void means the return value is intentionally ignored; undefined means the function explicitly returns undefined",
-            "void is for async functions; undefined is for sync functions",
-            "undefined is broader — it includes void"
+            {
+                "en": "They are identical and interchangeable",
+                "ru": "Они идентичны и взаимозаменяемы"
+            },
+            {
+                "en": "void means the return value is intentionally ignored; undefined means the function explicitly returns undefined",
+                "ru": "void означает, что возвращаемое значение намеренно игнорируется; undefined означает, что функция явно возвращает undefined"
+            },
+            {
+                "en": "void is for async functions; undefined is for sync functions",
+                "ru": "void — для асинхронных функций; undefined — для синхронных"
+            },
+            {
+                "en": "undefined is broader — it includes void",
+                "ru": "undefined шире — он включает в себя void"
+            }
         ],
         "correct": 1,
-        "explanation": "void signals intent: the caller should not use the return value. A function typed as void may still return undefined in practice. undefined is the actual value type. Contextual void (in callbacks) also allows returning values, which is a key TypeScript distinction."
+        "explanation": {
+            "en": "void signals intent: the caller should not use the return value. A function typed as void may still return undefined in practice. undefined is the actual value type. Contextual void (in callbacks) also allows returning values, which is a key TypeScript distinction.",
+            "ru": "void сигнализирует о намерении: вызывающему коду не следует использовать возвращаемое значение. На практике функция с типом void всё равно может возвращать undefined. undefined — это реальный тип значения. Контекстный void (в колбэках) также позволяет возвращать значения — это важное различие в TypeScript."
+        }
     }
 ]

@@ -5,15 +5,33 @@
         "category": "react",
         "difficulty": "easy",
         "tags": ["hooks", "useState"],
-        "question": "What does the `useState` hook return?",
+        "question": {
+            "en": "What does the `useState` hook return?",
+            "ru": "Что возвращает хук `useState`?"
+        },
         "options": [
-            "Just the current state value",
-            "A getter and a setter function as separate return values",
-            "An array containing the current state value and a function to update it",
-            "An object with `value` and `setValue` properties"
+            {
+                "en": "Just the current state value",
+                "ru": "Только текущее значение state"
+            },
+            {
+                "en": "A getter and a setter function as separate return values",
+                "ru": "Геттер и сеттер как два отдельных возвращаемых значения"
+            },
+            {
+                "en": "An array containing the current state value and a function to update it",
+                "ru": "Массив из текущего значения state и функции для его обновления"
+            },
+            {
+                "en": "An object with `value` and `setValue` properties",
+                "ru": "Объект со свойствами `value` и `setValue`"
+            }
         ],
         "correct": 2,
-        "explanation": "`useState` returns a two-element array: the current state value and a dispatch function to update it. Destructuring — `const [count, setCount] = useState(0)` — is the idiomatic way to consume both."
+        "explanation": {
+            "en": "`useState` returns a two-element array: the current state value and a dispatch function to update it. Destructuring — `const [count, setCount] = useState(0)` — is the idiomatic way to consume both.",
+            "ru": "`useState` возвращает массив из двух элементов: текущее значение state и dispatch-функцию для его обновления. Идиоматический способ — деструктуризация: `const [count, setCount] = useState(0)`."
+        }
     },
     {
         "id": "react-hooks-002",
@@ -21,15 +39,33 @@
         "category": "react",
         "difficulty": "easy",
         "tags": ["hooks", "useEffect", "lifecycle"],
-        "question": "When does a `useEffect` with an **empty** dependency array `[]` run?",
+        "question": {
+            "en": "When does a `useEffect` with an **empty** dependency array `[]` run?",
+            "ru": "Когда выполняется `useEffect` с **пустым** массивом зависимостей `[]`?"
+        },
         "options": [
-            "On every render",
-            "Only after the initial render (mount)",
-            "Only when props change",
-            "Only when the component is about to unmount"
+            {
+                "en": "On every render",
+                "ru": "На каждом рендере"
+            },
+            {
+                "en": "Only after the initial render (mount)",
+                "ru": "Только после первого рендера (маунт)"
+            },
+            {
+                "en": "Only when props change",
+                "ru": "Только при изменении props"
+            },
+            {
+                "en": "Only when the component is about to unmount",
+                "ru": "Только непосредственно перед анмаунтом компонента"
+            }
         ],
         "correct": 1,
-        "explanation": "An empty dependency array tells React the effect has no reactive values to watch. It runs once after the first render — equivalent to `componentDidMount` — and its cleanup runs once on unmount."
+        "explanation": {
+            "en": "An empty dependency array tells React the effect has no reactive values to watch. It runs once after the first render — equivalent to `componentDidMount` — and its cleanup runs once on unmount.",
+            "ru": "Пустой массив зависимостей говорит React, что у эффекта нет реактивных значений для отслеживания. Он выполняется один раз после первого рендера — аналог `componentDidMount`, — а cleanup отрабатывает один раз при анмаунте."
+        }
     },
     {
         "id": "react-lifecycle-001",
@@ -37,15 +73,33 @@
         "category": "react",
         "difficulty": "easy",
         "tags": ["lifecycle", "hooks", "useEffect"],
-        "question": "Which hook call is the closest functional-component equivalent of `componentDidMount`?",
+        "question": {
+            "en": "Which hook call is the closest functional-component equivalent of `componentDidMount`?",
+            "ru": "Какой вызов хука ближе всего к аналогу `componentDidMount` в функциональных компонентах?"
+        },
         "options": [
-            "useEffect(() => { ... }) — no dependency array",
-            "useEffect(() => { ... }, []) — empty dependency array",
-            "useLayoutEffect(() => { ... }) — no dependency array",
-            "useRef(() => { ... })"
+            {
+                "en": "useEffect(() => { ... }) — no dependency array",
+                "ru": "useEffect(() => { ... }) — без массива зависимостей"
+            },
+            {
+                "en": "useEffect(() => { ... }, []) — empty dependency array",
+                "ru": "useEffect(() => { ... }, []) — с пустым массивом зависимостей"
+            },
+            {
+                "en": "useLayoutEffect(() => { ... }) — no dependency array",
+                "ru": "useLayoutEffect(() => { ... }) — без массива зависимостей"
+            },
+            {
+                "en": "useRef(() => { ... })",
+                "ru": "useRef(() => { ... })"
+            }
         ],
         "correct": 1,
-        "explanation": "`useEffect` with an empty `[]` runs exactly once after the initial paint, mirroring `componentDidMount`. Omitting the array causes the effect to run after every render, which is closer to `componentDidUpdate`."
+        "explanation": {
+            "en": "`useEffect` with an empty `[]` runs exactly once after the initial paint, mirroring `componentDidMount`. Omitting the array causes the effect to run after every render, which is closer to `componentDidUpdate`.",
+            "ru": "`useEffect` с пустым `[]` выполняется ровно один раз после первой отрисовки — это и есть аналог `componentDidMount`. Если массив не указывать, эффект будет вызываться после каждого рендера, что ближе к `componentDidUpdate`."
+        }
     },
     {
         "id": "react-refs-001",
@@ -53,15 +107,33 @@
         "category": "react",
         "difficulty": "easy",
         "tags": ["refs", "useRef"],
-        "question": "What does `useRef()` return?",
+        "question": {
+            "en": "What does `useRef()` return?",
+            "ru": "Что возвращает `useRef()`?"
+        },
         "options": [
-            "A mutable value that triggers a re-render when changed",
-            "A plain mutable object `{ current: initialValue }` that persists for the component's lifetime",
-            "An immutable snapshot of the current DOM node",
-            "A callback that React calls with the DOM node once it is mounted"
+            {
+                "en": "A mutable value that triggers a re-render when changed",
+                "ru": "Изменяемое значение, которое триггерит ре-рендер при изменении"
+            },
+            {
+                "en": "A plain mutable object `{ current: initialValue }` that persists for the component's lifetime",
+                "ru": "Обычный изменяемый объект `{ current: initialValue }`, который живёт столько же, сколько и компонент"
+            },
+            {
+                "en": "An immutable snapshot of the current DOM node",
+                "ru": "Неизменяемый снимок текущего DOM-узла"
+            },
+            {
+                "en": "A callback that React calls with the DOM node once it is mounted",
+                "ru": "Колбэк, который React вызывает с DOM-узлом после его маунта"
+            }
         ],
         "correct": 1,
-        "explanation": "`useRef` returns `{ current: initialValue }`. The object is stable across renders — mutating `.current` does **not** trigger a re-render. It is commonly used to hold a DOM node reference or any mutable value you want to persist without causing renders."
+        "explanation": {
+            "en": "`useRef` returns `{ current: initialValue }`. The object is stable across renders — mutating `.current` does **not** trigger a re-render. It is commonly used to hold a DOM node reference or any mutable value you want to persist without causing renders.",
+            "ru": "`useRef` возвращает `{ current: initialValue }`. Сам объект стабилен между рендерами — мутация `.current` **не** вызывает ре-рендер. Обычно используется для хранения ссылки на DOM-узел или любого изменяемого значения, которое нужно сохранять без триггера рендера."
+        }
     },
     {
         "id": "react-context-001",
@@ -69,15 +141,33 @@
         "category": "react",
         "difficulty": "easy",
         "tags": ["context", "useContext"],
-        "question": "What does `useContext(MyContext)` return?",
+        "question": {
+            "en": "What does `useContext(MyContext)` return?",
+            "ru": "Что возвращает `useContext(MyContext)`?"
+        },
         "options": [
-            "The Context object itself (same as `MyContext`)",
-            "The current context value from the nearest `<MyContext.Provider>` above in the tree",
-            "A function to update the context value",
-            "Always the default value passed to `createContext()`"
+            {
+                "en": "The Context object itself (same as `MyContext`)",
+                "ru": "Сам объект Context (то же самое, что и `MyContext`)"
+            },
+            {
+                "en": "The current context value from the nearest `<MyContext.Provider>` above in the tree",
+                "ru": "Текущее значение контекста из ближайшего `<MyContext.Provider>` выше по дереву"
+            },
+            {
+                "en": "A function to update the context value",
+                "ru": "Функцию для обновления значения контекста"
+            },
+            {
+                "en": "Always the default value passed to `createContext()`",
+                "ru": "Всегда дефолтное значение, переданное в `createContext()`"
+            }
         ],
         "correct": 1,
-        "explanation": "`useContext` reads the value provided by the nearest `<MyContext.Provider>` ancestor. If no matching Provider exists, it falls back to the default value supplied to `createContext()`. The component re-renders whenever the Provider's value changes."
+        "explanation": {
+            "en": "`useContext` reads the value provided by the nearest `<MyContext.Provider>` ancestor. If no matching Provider exists, it falls back to the default value supplied to `createContext()`. The component re-renders whenever the Provider's value changes.",
+            "ru": "`useContext` читает значение из ближайшего предка `<MyContext.Provider>`. Если подходящего Provider нет, используется дефолтное значение, переданное в `createContext()`. Компонент ре-рендерится при каждом изменении значения Provider."
+        }
     },
     {
         "id": "react-hooks-003",
@@ -85,15 +175,33 @@
         "category": "react",
         "difficulty": "medium",
         "tags": ["hooks", "useCallback", "performance"],
-        "question": "What is the primary purpose of `useCallback`?",
+        "question": {
+            "en": "What is the primary purpose of `useCallback`?",
+            "ru": "Какова основная задача `useCallback`?"
+        },
         "options": [
-            "To memoize the return value of an expensive computation",
-            "To memoize a function reference so it is not re-created on every render",
-            "To prevent a component from re-rendering",
-            "To cache API responses between renders"
+            {
+                "en": "To memoize the return value of an expensive computation",
+                "ru": "Мемоизировать результат дорогого вычисления"
+            },
+            {
+                "en": "To memoize a function reference so it is not re-created on every render",
+                "ru": "Мемоизировать ссылку на функцию, чтобы она не пересоздавалась на каждом рендере"
+            },
+            {
+                "en": "To prevent a component from re-rendering",
+                "ru": "Предотвратить ре-рендер компонента"
+            },
+            {
+                "en": "To cache API responses between renders",
+                "ru": "Кэшировать ответы API между рендерами"
+            }
         ],
         "correct": 1,
-        "explanation": "`useCallback(fn, deps)` returns the same function reference across re-renders as long as the dependencies stay the same. This is useful when passing callbacks to memoized child components (`React.memo`) or as stable dependencies in other hooks, avoiding unnecessary re-renders or effect re-runs."
+        "explanation": {
+            "en": "`useCallback(fn, deps)` returns the same function reference across re-renders as long as the dependencies stay the same. This is useful when passing callbacks to memoized child components (`React.memo`) or as stable dependencies in other hooks, avoiding unnecessary re-renders or effect re-runs.",
+            "ru": "`useCallback(fn, deps)` возвращает одну и ту же ссылку на функцию между ре-рендерами, пока зависимости не меняются. Это полезно при передаче колбэков в мемоизированные дочерние компоненты (`React.memo`) или как стабильные зависимости в других хуках — позволяет избежать лишних ре-рендеров и повторных запусков эффектов."
+        }
     },
     {
         "id": "react-reconciliation-001",
@@ -101,15 +209,33 @@
         "category": "react",
         "difficulty": "medium",
         "tags": ["reconciliation", "keys", "lists"],
-        "question": "Why should you **avoid** using array indices as `key` props in a dynamic list?",
+        "question": {
+            "en": "Why should you **avoid** using array indices as `key` props in a dynamic list?",
+            "ru": "Почему стоит **избегать** использования индексов массива в качестве `key` в динамическом списке?"
+        },
         "options": [
-            "React ignores numeric keys and expects string keys",
-            "Indices shift when items are added, removed, or reordered, so React incorrectly reuses existing component instances and their state",
-            "Using indices disables the reconciliation algorithm entirely",
-            "Array indices are not valid key values — React throws a warning"
+            {
+                "en": "React ignores numeric keys and expects string keys",
+                "ru": "React игнорирует числовые ключи и ожидает строковые"
+            },
+            {
+                "en": "Indices shift when items are added, removed, or reordered, so React incorrectly reuses existing component instances and their state",
+                "ru": "Индексы сдвигаются при добавлении, удалении или перестановке элементов, из-за чего React некорректно переиспользует инстансы компонентов и их state"
+            },
+            {
+                "en": "Using indices disables the reconciliation algorithm entirely",
+                "ru": "Использование индексов полностью отключает алгоритм сверки (reconciliation)"
+            },
+            {
+                "en": "Array indices are not valid key values — React throws a warning",
+                "ru": "Индексы массива — невалидные значения для key, React выбросит предупреждение"
+            }
         ],
         "correct": 1,
-        "explanation": "React uses `key` to match elements between renders. When the list order changes, index-based keys reassign to different items — React reuses the component instance (including local state and DOM) for the wrong item. Stable, unique IDs (e.g. `item.id`) guarantee correct reuse and proper state/DOM association."
+        "explanation": {
+            "en": "React uses `key` to match elements between renders. When the list order changes, index-based keys reassign to different items — React reuses the component instance (including local state and DOM) for the wrong item. Stable, unique IDs (e.g. `item.id`) guarantee correct reuse and proper state/DOM association.",
+            "ru": "React использует `key`, чтобы сопоставлять элементы между рендерами. Когда порядок списка меняется, индексы-ключи перепривязываются к другим элементам — React переиспользует инстанс компонента (вместе с его локальным state и DOM) для неверного элемента. Стабильные уникальные ID (например, `item.id`) гарантируют корректное переиспользование и правильную привязку state/DOM."
+        }
     },
     {
         "id": "react-re-renders-001",
@@ -117,15 +243,33 @@
         "category": "react",
         "difficulty": "medium",
         "tags": ["re-renders", "performance", "state", "context"],
-        "question": "Which of the following **cause** a functional React component to re-render? (Select all that apply)",
+        "question": {
+            "en": "Which of the following **cause** a functional React component to re-render? (Select all that apply)",
+            "ru": "Что из перечисленного **вызывает** ре-рендер функционального React-компонента? (Выберите все подходящие варианты)"
+        },
         "options": [
-            "A parent component re-rendering (when the child is not wrapped in `React.memo`)",
-            "Mutating a `useRef` value directly via `.current`",
-            "The `useContext` value changing in the nearest Provider",
-            "Calling a `useState` setter with the identical primitive value (e.g. `setCount(0)` when count is already `0`)"
+            {
+                "en": "A parent component re-rendering (when the child is not wrapped in `React.memo`)",
+                "ru": "Ре-рендер родительского компонента (когда ребёнок не обёрнут в `React.memo`)"
+            },
+            {
+                "en": "Mutating a `useRef` value directly via `.current`",
+                "ru": "Мутация значения `useRef` напрямую через `.current`"
+            },
+            {
+                "en": "The `useContext` value changing in the nearest Provider",
+                "ru": "Изменение значения `useContext` в ближайшем Provider"
+            },
+            {
+                "en": "Calling a `useState` setter with the identical primitive value (e.g. `setCount(0)` when count is already `0`)",
+                "ru": "Вызов сеттера `useState` с тем же примитивным значением (например, `setCount(0)`, когда count уже `0`)"
+            }
         ],
         "correct": [0, 2],
-        "explanation": "A child re-renders when its parent re-renders (unless `React.memo` blocks it) and when consumed context value changes. Mutating a ref's `.current` never schedules a render. Calling a `useState` setter with a value that is `Object.is`-equal to the current state causes React to bail out — no re-render is scheduled."
+        "explanation": {
+            "en": "A child re-renders when its parent re-renders (unless `React.memo` blocks it) and when consumed context value changes. Mutating a ref's `.current` never schedules a render. Calling a `useState` setter with a value that is `Object.is`-equal to the current state causes React to bail out — no re-render is scheduled.",
+            "ru": "Дочерний компонент ре-рендерится при ре-рендере родителя (если это не блокирует `React.memo`) и при изменении значения потребляемого контекста. Мутация `.current` у ref никогда не планирует рендер. Вызов сеттера `useState` со значением, `Object.is`-равным текущему state, заставляет React сделать bail out — ре-рендер не планируется."
+        }
     },
     {
         "id": "react-hooks-004",
@@ -133,15 +277,33 @@
         "category": "react",
         "difficulty": "medium",
         "tags": ["hooks", "useMemo", "performance"],
-        "question": "What does `useMemo` return?",
+        "question": {
+            "en": "What does `useMemo` return?",
+            "ru": "Что возвращает `useMemo`?"
+        },
         "options": [
-            "A memoized callback function",
-            "The memoized result of calling the provided factory function, recalculated only when dependencies change",
-            "A ref to a cached value",
-            "A boolean indicating whether the computation ran in the current render"
+            {
+                "en": "A memoized callback function",
+                "ru": "Мемоизированную колбэк-функцию"
+            },
+            {
+                "en": "The memoized result of calling the provided factory function, recalculated only when dependencies change",
+                "ru": "Мемоизированный результат вызова переданной фабричной функции, пересчитываемый только при изменении зависимостей"
+            },
+            {
+                "en": "A ref to a cached value",
+                "ru": "Ref на закэшированное значение"
+            },
+            {
+                "en": "A boolean indicating whether the computation ran in the current render",
+                "ru": "Булево значение, указывающее, выполнялось ли вычисление в текущем рендере"
+            }
         ],
         "correct": 1,
-        "explanation": "`useMemo(() => compute(a, b), [a, b])` returns the cached result of `compute(a, b)`. React only re-runs the factory when `a` or `b` changes. Unlike `useCallback` (which memoizes the function itself), `useMemo` memoizes the function's return value."
+        "explanation": {
+            "en": "`useMemo(() => compute(a, b), [a, b])` returns the cached result of `compute(a, b)`. React only re-runs the factory when `a` or `b` changes. Unlike `useCallback` (which memoizes the function itself), `useMemo` memoizes the function's return value.",
+            "ru": "`useMemo(() => compute(a, b), [a, b])` возвращает закэшированный результат `compute(a, b)`. React перезапускает фабрику только при изменении `a` или `b`. В отличие от `useCallback` (который мемоизирует саму функцию), `useMemo` мемоизирует возвращаемое значение функции."
+        }
     },
     {
         "id": "react-bug-stale-001",
@@ -149,11 +311,17 @@
         "category": "react",
         "difficulty": "medium",
         "tags": ["hooks", "useEffect", "stale-closure", "bugs"],
-        "question": "Find the bug in this counter component:",
+        "question": {
+            "en": "Find the bug in this counter component:",
+            "ru": "Найдите баг в этом компоненте-счётчике:"
+        },
         "code": "function Counter() {\n  const [count, setCount] = useState(0);\n\n  useEffect(() => {\n    const id = setInterval(() => {\n      setCount(count + 1);\n    }, 1000);\n    return () => clearInterval(id);\n  }, []);\n\n  return <div>{count}</div>;\n}",
         "correct": "Stale closure: `count` is captured as 0 on mount and never updates, so the counter never advances past 1",
         "referenceAnswer": "The effect runs once and closes over `count = 0`. Every tick calls `setCount(0 + 1)`, setting state to 1 indefinitely. Fix: use the functional updater form — `setCount(c => c + 1)` — which always receives the latest state value and requires no dependency on `count`.",
-        "explanation": "When a `useEffect` with an empty dependency array closes over state, it captures the value from the initial render and never re-reads it. The functional updater `setCount(prev => prev + 1)` avoids this problem by computing the next state from the current one instead of a captured snapshot."
+        "explanation": {
+            "en": "When a `useEffect` with an empty dependency array closes over state, it captures the value from the initial render and never re-reads it. The functional updater `setCount(prev => prev + 1)` avoids this problem by computing the next state from the current one instead of a captured snapshot.",
+            "ru": "Когда `useEffect` с пустым массивом зависимостей замыкается над state, он захватывает значение из первого рендера и больше его не перечитывает. Функциональный апдейтер `setCount(prev => prev + 1)` решает проблему, так как вычисляет следующий state из текущего, а не из захваченного снимка."
+        }
     },
     {
         "id": "react-bug-fetch-001",
@@ -161,11 +329,17 @@
         "category": "react",
         "difficulty": "medium",
         "tags": ["hooks", "useEffect", "async", "race-condition", "bugs"],
-        "question": "Find the bug in this data-fetching component:",
+        "question": {
+            "en": "Find the bug in this data-fetching component:",
+            "ru": "Найдите баг в этом компоненте, загружающем данные:"
+        },
         "code": "function UserProfile({ userId }) {\n  const [user, setUser] = useState(null);\n\n  useEffect(() => {\n    fetch(`/api/users/${userId}`)\n      .then(res => res.json())\n      .then(data => setUser(data));\n  }, [userId]);\n\n  return <div>{user?.name}</div>;\n}",
         "correct": "Race condition: if `userId` changes while a fetch is in-flight, the stale response may resolve after the newer one and overwrite it",
         "referenceAnswer": "Add an `ignore` flag in the effect and check it before calling `setUser`:\n\n```js\nuseEffect(() => {\n  let ignore = false;\n  fetch(`/api/users/${userId}`)\n    .then(res => res.json())\n    .then(data => { if (!ignore) setUser(data); });\n  return () => { ignore = true; };\n}, [userId]);\n```\n\nAlternatively, use an `AbortController` to cancel the in-flight request on cleanup.",
-        "explanation": "Without cleanup, every render triggered by a `userId` change fires a new fetch. If the first request resolves after the second, stale data overwrites the correct result. Setting an `ignore` flag (or aborting via `AbortController`) in the cleanup function prevents this race condition."
+        "explanation": {
+            "en": "Without cleanup, every render triggered by a `userId` change fires a new fetch. If the first request resolves after the second, stale data overwrites the correct result. Setting an `ignore` flag (or aborting via `AbortController`) in the cleanup function prevents this race condition.",
+            "ru": "Без cleanup каждый рендер, вызванный изменением `userId`, запускает новый fetch. Если первый запрос отрезолвится позже второго, устаревшие данные перезапишут корректный результат. Установка флага `ignore` (или отмена через `AbortController`) в функции очистки предотвращает эту гонку."
+        }
     },
     {
         "id": "react-completion-usecallback-001",
@@ -173,12 +347,18 @@
         "category": "react",
         "difficulty": "medium",
         "tags": ["hooks", "useCallback", "performance"],
-        "question": "Fill in the blanks to memoize `handleSubmit` so it is only recreated when `onSearch` or `query` changes:",
+        "question": {
+            "en": "Fill in the blanks to memoize `handleSubmit` so it is only recreated when `onSearch` or `query` changes:",
+            "ru": "Заполните пропуски, чтобы мемоизировать `handleSubmit` так, чтобы он пересоздавался только при изменении `onSearch` или `query`:"
+        },
         "code": "function SearchBox({ onSearch }) {\n  const [query, setQuery] = useState('');\n\n  const handleSubmit = ___(  \n    () => {\n      onSearch(query);\n    },\n    ___\n  );\n\n  return (\n    <input\n      value={query}\n      onChange={e => setQuery(e.target.value)}\n      onKeyDown={e => e.key === 'Enter' && handleSubmit()}\n    />\n  );\n}",
         "blanks": ["useCallback", "[onSearch, query]"],
         "lang": "jsx",
         "referenceAnswer": "function SearchBox({ onSearch }) {\n  const [query, setQuery] = useState('');\n\n  const handleSubmit = useCallback(\n    () => {\n      onSearch(query);\n    },\n    [onSearch, query]\n  );\n\n  return (\n    <input\n      value={query}\n      onChange={e => setQuery(e.target.value)}\n      onKeyDown={e => e.key === 'Enter' && handleSubmit()}\n    />\n  );\n}",
-        "explanation": "`useCallback(fn, deps)` returns a stable function reference that only changes when one of its dependencies changes. Here both `onSearch` (a prop that may change between renders) and `query` (state used inside the callback) must be listed as dependencies to keep the memoized function consistent with the latest values."
+        "explanation": {
+            "en": "`useCallback(fn, deps)` returns a stable function reference that only changes when one of its dependencies changes. Here both `onSearch` (a prop that may change between renders) and `query` (state used inside the callback) must be listed as dependencies to keep the memoized function consistent with the latest values.",
+            "ru": "`useCallback(fn, deps)` возвращает стабильную ссылку на функцию, которая меняется только при изменении одной из зависимостей. Здесь и `onSearch` (пропс, который может меняться между рендерами), и `query` (state, используемый внутри колбэка) должны быть указаны в зависимостях, чтобы мемоизированная функция всегда работала с актуальными значениями."
+        }
     },
     {
         "id": "react-error-boundary-001",
@@ -186,15 +366,33 @@
         "category": "react",
         "difficulty": "hard",
         "tags": ["error-boundary", "lifecycle", "class-components"],
-        "question": "Which of the following can React Error Boundaries catch? (Select all that apply)",
+        "question": {
+            "en": "Which of the following can React Error Boundaries catch? (Select all that apply)",
+            "ru": "Что из перечисленного могут перехватывать React Error Boundaries? (Выберите все подходящие варианты)"
+        },
         "options": [
-            "Errors thrown during rendering in a child component tree",
-            "Errors thrown inside `onClick` or other event handler functions",
-            "Errors thrown in lifecycle methods of child class components",
-            "Errors thrown inside `setTimeout` or `requestAnimationFrame` callbacks"
+            {
+                "en": "Errors thrown during rendering in a child component tree",
+                "ru": "Ошибки, выброшенные при рендеринге дочернего поддерева компонентов"
+            },
+            {
+                "en": "Errors thrown inside `onClick` or other event handler functions",
+                "ru": "Ошибки, выброшенные внутри `onClick` или других обработчиков событий"
+            },
+            {
+                "en": "Errors thrown in lifecycle methods of child class components",
+                "ru": "Ошибки, выброшенные в методах жизненного цикла дочерних классовых компонентов"
+            },
+            {
+                "en": "Errors thrown inside `setTimeout` or `requestAnimationFrame` callbacks",
+                "ru": "Ошибки, выброшенные в колбэках `setTimeout` или `requestAnimationFrame`"
+            }
         ],
         "correct": [0, 2],
-        "explanation": "Error boundaries (implemented via `getDerivedStateFromError` / `componentDidCatch`) only catch errors that occur **during React's rendering pipeline**: the render phase and lifecycle methods of child components. They do **not** catch errors in event handlers (use regular try/catch there) or asynchronous code such as `setTimeout` callbacks, which run outside of React's call stack."
+        "explanation": {
+            "en": "Error boundaries (implemented via `getDerivedStateFromError` / `componentDidCatch`) only catch errors that occur **during React's rendering pipeline**: the render phase and lifecycle methods of child components. They do **not** catch errors in event handlers (use regular try/catch there) or asynchronous code such as `setTimeout` callbacks, which run outside of React's call stack.",
+            "ru": "Error boundaries (реализованные через `getDerivedStateFromError` / `componentDidCatch`) ловят только ошибки, возникающие **в рамках рендер-пайплайна React**: в render-фазе и в lifecycle-методах дочерних компонентов. Они **не** ловят ошибки в обработчиках событий (там используйте обычный try/catch) и в асинхронном коде вроде колбэков `setTimeout`, которые выполняются вне call-стека React."
+        }
     },
     {
         "id": "react-suspense-001",
@@ -202,15 +400,33 @@
         "category": "react",
         "difficulty": "hard",
         "tags": ["suspense", "concurrent", "lazy", "performance"],
-        "question": "Which of the following statements about `React.Suspense` are correct? (Select all that apply)",
+        "question": {
+            "en": "Which of the following statements about `React.Suspense` are correct? (Select all that apply)",
+            "ru": "Какие из утверждений о `React.Suspense` верны? (Выберите все подходящие варианты)"
+        },
         "options": [
-            "Suspense shows its `fallback` while lazy-loaded components (via `React.lazy`) are loading",
-            "Suspense catches JavaScript runtime errors thrown during rendering",
-            "When a child component throws a Promise (suspends), React renders the nearest Suspense `fallback` instead",
-            "Wrapping a component in Suspense prevents it from ever unmounting"
+            {
+                "en": "Suspense shows its `fallback` while lazy-loaded components (via `React.lazy`) are loading",
+                "ru": "Suspense показывает свой `fallback`, пока загружаются lazy-компоненты (через `React.lazy`)"
+            },
+            {
+                "en": "Suspense catches JavaScript runtime errors thrown during rendering",
+                "ru": "Suspense ловит runtime-ошибки JavaScript, выброшенные во время рендеринга"
+            },
+            {
+                "en": "When a child component throws a Promise (suspends), React renders the nearest Suspense `fallback` instead",
+                "ru": "Когда дочерний компонент выбрасывает Promise (саспендится), React вместо него рендерит `fallback` ближайшего Suspense"
+            },
+            {
+                "en": "Wrapping a component in Suspense prevents it from ever unmounting",
+                "ru": "Оборачивание компонента в Suspense не даёт ему анмаунтиться"
+            }
         ],
         "correct": [0, 2],
-        "explanation": "Suspense operates on the 'throw a Promise' protocol: when a child component throws a Promise (indicating pending async work), React walks up the tree to the nearest `<Suspense>` boundary and displays its `fallback`. This works natively with `React.lazy` and data libraries like Relay or SWR in Suspense mode. Suspense does **not** catch synchronous errors — that is Error Boundary territory — and has no effect on unmounting."
+        "explanation": {
+            "en": "Suspense operates on the 'throw a Promise' protocol: when a child component throws a Promise (indicating pending async work), React walks up the tree to the nearest `<Suspense>` boundary and displays its `fallback`. This works natively with `React.lazy` and data libraries like Relay or SWR in Suspense mode. Suspense does **not** catch synchronous errors — that is Error Boundary territory — and has no effect on unmounting.",
+            "ru": "Suspense работает по протоколу «throw a Promise»: когда дочерний компонент выбрасывает Promise (сигнализируя о незавершённой асинхронной работе), React поднимается по дереву до ближайшей границы `<Suspense>` и показывает её `fallback`. Это нативно работает с `React.lazy` и data-библиотеками вроде Relay или SWR в Suspense-режиме. Suspense **не** ловит синхронные ошибки — это зона ответственности Error Boundary — и никак не влияет на анмаунт."
+        }
     },
     {
         "id": "react-completion-portal-001",
@@ -218,12 +434,18 @@
         "category": "react",
         "difficulty": "hard",
         "tags": ["portals", "ReactDOM", "modal"],
-        "question": "Fill in the blanks to render the modal content into a DOM node outside the React root using a Portal:",
+        "question": {
+            "en": "Fill in the blanks to render the modal content into a DOM node outside the React root using a Portal:",
+            "ru": "Заполните пропуски, чтобы отрендерить содержимое модалки в DOM-узел вне React-рута, используя Portal:"
+        },
         "code": "import ReactDOM from 'react-dom';\n\nfunction Modal({ children, isOpen }) {\n  if (!isOpen) return null;\n\n  return ___(  \n    <div className=\"modal-overlay\">\n      <div className=\"modal-content\">{children}</div>\n    </div>,\n    ___('modal-root')\n  );\n}",
         "blanks": ["ReactDOM.createPortal", "document.getElementById"],
         "lang": "jsx",
         "referenceAnswer": "import ReactDOM from 'react-dom';\n\nfunction Modal({ children, isOpen }) {\n  if (!isOpen) return null;\n\n  return ReactDOM.createPortal(\n    <div className=\"modal-overlay\">\n      <div className=\"modal-content\">{children}</div>\n    </div>,\n    document.getElementById('modal-root')\n  );\n}",
-        "explanation": "`ReactDOM.createPortal(children, domNode)` renders React children into a different DOM node than the component's parent, while keeping the component in the normal React tree for event bubbling and context propagation. This is the standard pattern for modals, tooltips, and drawers that must break out of `overflow: hidden` or `z-index` stacking contexts. The target `#modal-root` element must exist in `index.html`."
+        "explanation": {
+            "en": "`ReactDOM.createPortal(children, domNode)` renders React children into a different DOM node than the component's parent, while keeping the component in the normal React tree for event bubbling and context propagation. This is the standard pattern for modals, tooltips, and drawers that must break out of `overflow: hidden` or `z-index` stacking contexts. The target `#modal-root` element must exist in `index.html`.",
+            "ru": "`ReactDOM.createPortal(children, domNode)` рендерит React-детей в DOM-узел, отличный от родительского, при этом компонент остаётся в обычном React-дереве — всплытие событий и проброс контекста работают как обычно. Это стандартный паттерн для модалок, тултипов и drawer-ов, которым нужно вырваться из `overflow: hidden` или stacking-контекста `z-index`. Целевой элемент `#modal-root` должен существовать в `index.html`."
+        }
     },
     {
         "id": "react-forwardref-001",
@@ -231,15 +453,33 @@
         "category": "react",
         "difficulty": "easy",
         "tags": ["refs", "forwardRef"],
-        "question": "What is the purpose of `React.forwardRef`?",
+        "question": {
+            "en": "What is the purpose of `React.forwardRef`?",
+            "ru": "Для чего нужен `React.forwardRef`?"
+        },
         "options": [
-            "To create a ref that updates on every render",
-            "To allow a parent component to pass a ref down to a child component's DOM node or instance",
-            "To forward props to a nested component automatically",
-            "To share a single ref object between multiple components"
+            {
+                "en": "To create a ref that updates on every render",
+                "ru": "Создать ref, который обновляется на каждом рендере"
+            },
+            {
+                "en": "To allow a parent component to pass a ref down to a child component's DOM node or instance",
+                "ru": "Позволить родительскому компоненту пробросить ref до DOM-узла или инстанса дочернего компонента"
+            },
+            {
+                "en": "To forward props to a nested component automatically",
+                "ru": "Автоматически пробрасывать props до вложенного компонента"
+            },
+            {
+                "en": "To share a single ref object between multiple components",
+                "ru": "Расшарить один ref-объект между несколькими компонентами"
+            }
         ],
         "correct": 1,
-        "explanation": "By default, refs do not pass through function components. `React.forwardRef((props, ref) => ...)` lets you explicitly forward the ref received by a component to an inner DOM element or another component, enabling parents to imperatively access child internals."
+        "explanation": {
+            "en": "By default, refs do not pass through function components. `React.forwardRef((props, ref) => ...)` lets you explicitly forward the ref received by a component to an inner DOM element or another component, enabling parents to imperatively access child internals.",
+            "ru": "По умолчанию refs не пробрасываются через функциональные компоненты. `React.forwardRef((props, ref) => ...)` позволяет явно передать полученный компонентом ref во внутренний DOM-элемент или в другой компонент — так родитель получает императивный доступ к внутренностям ребёнка."
+        }
     },
     {
         "id": "react-useimperativehandle-001",
@@ -247,15 +487,33 @@
         "category": "react",
         "difficulty": "medium",
         "tags": ["refs", "useImperativeHandle", "forwardRef"],
-        "question": "What does `useImperativeHandle` allow you to do?",
+        "question": {
+            "en": "What does `useImperativeHandle` allow you to do?",
+            "ru": "Что позволяет делать `useImperativeHandle`?"
+        },
         "options": [
-            "Imperatively update a component's state from outside React",
-            "Customize the value exposed to a parent via a forwarded ref",
-            "Bypass the reconciliation algorithm for specific DOM nodes",
-            "Create a ref that is shared across sibling components"
+            {
+                "en": "Imperatively update a component's state from outside React",
+                "ru": "Императивно обновлять state компонента снаружи React"
+            },
+            {
+                "en": "Customize the value exposed to a parent via a forwarded ref",
+                "ru": "Настраивать значение, которое родитель получает через проброшенный ref"
+            },
+            {
+                "en": "Bypass the reconciliation algorithm for specific DOM nodes",
+                "ru": "Обходить алгоритм reconciliation для конкретных DOM-узлов"
+            },
+            {
+                "en": "Create a ref that is shared across sibling components",
+                "ru": "Создавать ref, общий для соседних компонентов"
+            }
         ],
         "correct": 1,
-        "explanation": "`useImperativeHandle(ref, () => ({ ... }), deps)` is used inside a `forwardRef`-wrapped component to control exactly what the parent can access via the ref. Instead of exposing the raw DOM node, you expose a curated API (e.g. `{ focus, reset }`), maintaining proper encapsulation."
+        "explanation": {
+            "en": "`useImperativeHandle(ref, () => ({ ... }), deps)` is used inside a `forwardRef`-wrapped component to control exactly what the parent can access via the ref. Instead of exposing the raw DOM node, you expose a curated API (e.g. `{ focus, reset }`), maintaining proper encapsulation.",
+            "ru": "`useImperativeHandle(ref, () => ({ ... }), deps)` используется внутри компонента, обёрнутого в `forwardRef`, чтобы точно задать, что именно родитель получает через ref. Вместо сырого DOM-узла вы отдаёте наружу продуманный API (например, `{ focus, reset }`), сохраняя инкапсуляцию."
+        }
     },
     {
         "id": "react-usereducer-001",
@@ -263,15 +521,33 @@
         "category": "react",
         "difficulty": "easy",
         "tags": ["hooks", "useReducer", "state"],
-        "question": "When would you prefer `useReducer` over `useState`?",
+        "question": {
+            "en": "When would you prefer `useReducer` over `useState`?",
+            "ru": "Когда стоит предпочесть `useReducer` вместо `useState`?"
+        },
         "options": [
-            "When you need to store a single boolean value",
-            "When the next state depends on many related sub-values or transition logic is complex",
-            "When you want state that persists between page navigations",
-            "When you need state shared across multiple components"
+            {
+                "en": "When you need to store a single boolean value",
+                "ru": "Когда нужно хранить одно булево значение"
+            },
+            {
+                "en": "When the next state depends on many related sub-values or transition logic is complex",
+                "ru": "Когда следующий state зависит от множества связанных подзначений или логика переходов сложная"
+            },
+            {
+                "en": "When you want state that persists between page navigations",
+                "ru": "Когда нужен state, переживающий навигацию между страницами"
+            },
+            {
+                "en": "When you need state shared across multiple components",
+                "ru": "Когда state должен быть общим для нескольких компонентов"
+            }
         ],
         "correct": 1,
-        "explanation": "`useReducer` centralises complex state transitions into a pure reducer function. It shines when state has multiple related fields, when next state depends on the previous one in non-trivial ways, or when you want to test state logic in isolation. For simple independent values, `useState` is more ergonomic."
+        "explanation": {
+            "en": "`useReducer` centralises complex state transitions into a pure reducer function. It shines when state has multiple related fields, when next state depends on the previous one in non-trivial ways, or when you want to test state logic in isolation. For simple independent values, `useState` is more ergonomic.",
+            "ru": "`useReducer` централизует сложные переходы state в чистую функцию-редьюсер. Он хорош, когда у state несколько связанных полей, когда следующий state нетривиально зависит от предыдущего или когда логику state хочется тестировать изолированно. Для простых независимых значений эргономичнее `useState`."
+        }
     },
     {
         "id": "react-useid-001",
@@ -279,15 +555,33 @@
         "category": "react",
         "difficulty": "easy",
         "tags": ["hooks", "useId", "accessibility"],
-        "question": "What problem does the `useId` hook solve?",
+        "question": {
+            "en": "What problem does the `useId` hook solve?",
+            "ru": "Какую проблему решает хук `useId`?"
+        },
         "options": [
-            "It generates a unique component key for lists",
-            "It generates a stable, unique ID that is consistent between server and client renders, safe for use in HTML attributes like `id` and `aria-*`",
-            "It replaces UUID libraries for generating random IDs",
-            "It tracks which component instance rendered last"
+            {
+                "en": "It generates a unique component key for lists",
+                "ru": "Генерирует уникальный key для компонентов в списках"
+            },
+            {
+                "en": "It generates a stable, unique ID that is consistent between server and client renders, safe for use in HTML attributes like `id` and `aria-*`",
+                "ru": "Генерирует стабильный уникальный ID, согласованный между серверным и клиентским рендером, безопасный для использования в HTML-атрибутах вроде `id` и `aria-*`"
+            },
+            {
+                "en": "It replaces UUID libraries for generating random IDs",
+                "ru": "Заменяет UUID-библиотеки для генерации случайных ID"
+            },
+            {
+                "en": "It tracks which component instance rendered last",
+                "ru": "Отслеживает, какой инстанс компонента рендерился последним"
+            }
         ],
         "correct": 1,
-        "explanation": "`useId` generates a deterministic, unique ID that matches between server-side rendering and client hydration, avoiding hydration mismatches. It is ideal for linking `<label htmlFor>` to `<input id>` or populating `aria-labelledby` — scenarios that need stable IDs without manual coordination."
+        "explanation": {
+            "en": "`useId` generates a deterministic, unique ID that matches between server-side rendering and client hydration, avoiding hydration mismatches. It is ideal for linking `<label htmlFor>` to `<input id>` or populating `aria-labelledby` — scenarios that need stable IDs without manual coordination.",
+            "ru": "`useId` генерирует детерминированный уникальный ID, совпадающий между SSR и клиентской гидрацией — никаких hydration mismatch. Идеально подходит для связи `<label htmlFor>` с `<input id>` или заполнения `aria-labelledby` — сценариев, где нужны стабильные ID без ручной синхронизации."
+        }
     },
     {
         "id": "react-usetransition-001",
@@ -295,15 +589,33 @@
         "category": "react",
         "difficulty": "medium",
         "tags": ["hooks", "useTransition", "concurrent", "performance"],
-        "question": "What does `useTransition` return and what is it used for?",
+        "question": {
+            "en": "What does `useTransition` return and what is it used for?",
+            "ru": "Что возвращает `useTransition` и для чего он нужен?"
+        },
         "options": [
-            "A boolean and a function; used to mark a state update as non-urgent so the UI stays responsive",
-            "A promise and a resolver; used to defer async operations",
-            "An animation controller; used to animate component mount/unmount",
-            "A cleanup function; used to cancel in-flight effects"
+            {
+                "en": "A boolean and a function; used to mark a state update as non-urgent so the UI stays responsive",
+                "ru": "Булево значение и функцию; используется для пометки обновления state как несрочного, чтобы UI оставался отзывчивым"
+            },
+            {
+                "en": "A promise and a resolver; used to defer async operations",
+                "ru": "Promise и resolver; используется для отложенного выполнения асинхронных операций"
+            },
+            {
+                "en": "An animation controller; used to animate component mount/unmount",
+                "ru": "Контроллер анимации; используется для анимации маунта/анмаунта компонента"
+            },
+            {
+                "en": "A cleanup function; used to cancel in-flight effects",
+                "ru": "Функцию очистки; используется для отмены выполняющихся эффектов"
+            }
         ],
         "correct": 0,
-        "explanation": "`const [isPending, startTransition] = useTransition()`. Wrapping a state update in `startTransition` tells React it is non-urgent — React can interrupt it to handle higher-priority updates (like typing). `isPending` is `true` while the transition is in progress, letting you show a deferred loading indicator without blocking the input."
+        "explanation": {
+            "en": "`const [isPending, startTransition] = useTransition()`. Wrapping a state update in `startTransition` tells React it is non-urgent — React can interrupt it to handle higher-priority updates (like typing). `isPending` is `true` while the transition is in progress, letting you show a deferred loading indicator without blocking the input.",
+            "ru": "`const [isPending, startTransition] = useTransition()`. Оборачивание обновления state в `startTransition` говорит React, что оно несрочное — React может прервать его ради более приоритетных апдейтов (например, набора текста). `isPending` равен `true`, пока переход выполняется, — это позволяет показать отложенный индикатор загрузки, не блокируя ввод."
+        }
     },
     {
         "id": "react-usedeferredvalue-001",
@@ -311,15 +623,33 @@
         "category": "react",
         "difficulty": "medium",
         "tags": ["hooks", "useDeferredValue", "concurrent", "performance"],
-        "question": "What is the difference between `useDeferredValue` and `useTransition`?",
+        "question": {
+            "en": "What is the difference between `useDeferredValue` and `useTransition`?",
+            "ru": "В чём разница между `useDeferredValue` и `useTransition`?"
+        },
         "options": [
-            "They are identical — both defer state updates",
-            "`useDeferredValue` defers a derived value you receive (e.g. a prop), while `useTransition` wraps the state update you control",
-            "`useDeferredValue` only works with strings; `useTransition` works with any value",
-            "`useTransition` requires a Suspense boundary; `useDeferredValue` does not"
+            {
+                "en": "They are identical — both defer state updates",
+                "ru": "Они идентичны — оба откладывают обновления state"
+            },
+            {
+                "en": "`useDeferredValue` defers a derived value you receive (e.g. a prop), while `useTransition` wraps the state update you control",
+                "ru": "`useDeferredValue` откладывает полученное значение (например, пропс), а `useTransition` оборачивает обновление state, которым вы управляете сами"
+            },
+            {
+                "en": "`useDeferredValue` only works with strings; `useTransition` works with any value",
+                "ru": "`useDeferredValue` работает только со строками, а `useTransition` — с любым значением"
+            },
+            {
+                "en": "`useTransition` requires a Suspense boundary; `useDeferredValue` does not",
+                "ru": "`useTransition` требует границы Suspense, `useDeferredValue` — нет"
+            }
         ],
         "correct": 1,
-        "explanation": "Use `useDeferredValue` when you receive a value you don't control (e.g. a prop or context value) and want to keep showing stale content while a heavy re-render of a child catches up. Use `useTransition` when you own the state update and want to mark it as non-urgent at the call site. Both enable the same concurrent deferral mechanism."
+        "explanation": {
+            "en": "Use `useDeferredValue` when you receive a value you don't control (e.g. a prop or context value) and want to keep showing stale content while a heavy re-render of a child catches up. Use `useTransition` when you own the state update and want to mark it as non-urgent at the call site. Both enable the same concurrent deferral mechanism.",
+            "ru": "Используйте `useDeferredValue`, когда получаете значение извне (пропс или значение контекста) и хотите продолжать показывать устаревший контент, пока тяжёлый ре-рендер ребёнка догоняет. Используйте `useTransition`, когда сами владеете обновлением state и хотите пометить его как несрочное в месте вызова. Оба хука задействуют один и тот же механизм concurrent-отложенного рендеринга."
+        }
     },
     {
         "id": "react-memo-001",
@@ -327,15 +657,33 @@
         "category": "react",
         "difficulty": "easy",
         "tags": ["React.memo", "performance", "re-renders"],
-        "question": "What does `React.memo` do to a component?",
+        "question": {
+            "en": "What does `React.memo` do to a component?",
+            "ru": "Что делает `React.memo` с компонентом?"
+        },
         "options": [
-            "It makes the component asynchronous",
-            "It prevents the component from ever re-rendering",
-            "It skips re-rendering if props have not changed (shallow comparison by default)",
-            "It memoizes the component's return value for the entire session"
+            {
+                "en": "It makes the component asynchronous",
+                "ru": "Делает компонент асинхронным"
+            },
+            {
+                "en": "It prevents the component from ever re-rendering",
+                "ru": "Полностью запрещает ре-рендер компонента"
+            },
+            {
+                "en": "It skips re-rendering if props have not changed (shallow comparison by default)",
+                "ru": "Пропускает ре-рендер, если props не изменились (по умолчанию — поверхностное сравнение)"
+            },
+            {
+                "en": "It memoizes the component's return value for the entire session",
+                "ru": "Мемоизирует возвращаемое значение компонента на всю сессию"
+            }
         ],
         "correct": 2,
-        "explanation": "`React.memo(Component)` is a higher-order component that compares old and new props with shallow equality before re-rendering. If props are the same, React reuses the last rendered output. A custom comparison function can be passed as the second argument for deep or selective comparison."
+        "explanation": {
+            "en": "`React.memo(Component)` is a higher-order component that compares old and new props with shallow equality before re-rendering. If props are the same, React reuses the last rendered output. A custom comparison function can be passed as the second argument for deep or selective comparison.",
+            "ru": "`React.memo(Component)` — это HOC, который перед ре-рендером сравнивает старые и новые props поверхностно (shallow equality). Если props не изменились, React переиспользует прошлый результат рендера. Вторым аргументом можно передать кастомную функцию сравнения для глубокого или выборочного сопоставления."
+        }
     },
     {
         "id": "react-lazy-suspense-001",
@@ -343,15 +691,33 @@
         "category": "react",
         "difficulty": "easy",
         "tags": ["lazy", "Suspense", "code-splitting"],
-        "question": "What must you wrap a `React.lazy`-loaded component with in the JSX tree?",
+        "question": {
+            "en": "What must you wrap a `React.lazy`-loaded component with in the JSX tree?",
+            "ru": "Во что нужно обернуть компонент, загружаемый через `React.lazy`, в JSX-дереве?"
+        },
         "options": [
-            "React.StrictMode",
-            "React.Fragment",
-            "React.Suspense with a `fallback` prop",
-            "React.ErrorBoundary"
+            {
+                "en": "React.StrictMode",
+                "ru": "React.StrictMode"
+            },
+            {
+                "en": "React.Fragment",
+                "ru": "React.Fragment"
+            },
+            {
+                "en": "React.Suspense with a `fallback` prop",
+                "ru": "React.Suspense с пропсом `fallback`"
+            },
+            {
+                "en": "React.ErrorBoundary",
+                "ru": "React.ErrorBoundary"
+            }
         ],
         "correct": 2,
-        "explanation": "`React.lazy(() => import('./Component'))` returns a component that suspends while the bundle chunk is loading. React requires a `<Suspense fallback={<Spinner />}>` ancestor to render while the import resolves. Without it, React throws an error."
+        "explanation": {
+            "en": "`React.lazy(() => import('./Component'))` returns a component that suspends while the bundle chunk is loading. React requires a `<Suspense fallback={<Spinner />}>` ancestor to render while the import resolves. Without it, React throws an error.",
+            "ru": "`React.lazy(() => import('./Component'))` возвращает компонент, который саспендится, пока грузится чанк бандла. React требует, чтобы выше по дереву был `<Suspense fallback={<Spinner />}>` — он рендерится, пока резолвится импорт. Без него React бросит ошибку."
+        }
     },
     {
         "id": "react-ssr-001",
@@ -359,15 +725,33 @@
         "category": "react",
         "difficulty": "medium",
         "tags": ["ssr", "renderToString", "hydration"],
-        "question": "What does `ReactDOMServer.renderToString()` produce?",
+        "question": {
+            "en": "What does `ReactDOMServer.renderToString()` produce?",
+            "ru": "Что возвращает `ReactDOMServer.renderToString()`?"
+        },
         "options": [
-            "A React element tree that can be passed to `ReactDOM.render`",
-            "An HTML string with React data attributes that can be hydrated on the client",
-            "A static HTML string with no hydration metadata",
-            "A stream of HTML chunks for progressive rendering"
+            {
+                "en": "A React element tree that can be passed to `ReactDOM.render`",
+                "ru": "Дерево React-элементов, которое можно передать в `ReactDOM.render`"
+            },
+            {
+                "en": "An HTML string with React data attributes that can be hydrated on the client",
+                "ru": "HTML-строку с React data-атрибутами, которую можно гидрировать на клиенте"
+            },
+            {
+                "en": "A static HTML string with no hydration metadata",
+                "ru": "Статическую HTML-строку без метаданных для гидрации"
+            },
+            {
+                "en": "A stream of HTML chunks for progressive rendering",
+                "ru": "Стрим HTML-чанков для прогрессивного рендеринга"
+            }
         ],
         "correct": 1,
-        "explanation": "`renderToString` synchronously generates an HTML string that includes React's internal `data-reactroot` and checksum attributes. The client then calls `hydrateRoot` (React 18) or `ReactDOM.hydrate` to attach event handlers without re-rendering from scratch. For streaming, use `renderToPipeableStream` instead."
+        "explanation": {
+            "en": "`renderToString` synchronously generates an HTML string that includes React's internal `data-reactroot` and checksum attributes. The client then calls `hydrateRoot` (React 18) or `ReactDOM.hydrate` to attach event handlers without re-rendering from scratch. For streaming, use `renderToPipeableStream` instead.",
+            "ru": "`renderToString` синхронно генерирует HTML-строку, включающую внутренние React-атрибуты `data-reactroot` и контрольные суммы. Далее клиент вызывает `hydrateRoot` (React 18) или `ReactDOM.hydrate`, чтобы навесить обработчики событий без ре-рендера с нуля. Для стриминга используйте `renderToPipeableStream`."
+        }
     },
     {
         "id": "react-controlled-001",
@@ -375,15 +759,33 @@
         "category": "react",
         "difficulty": "easy",
         "tags": ["controlled", "uncontrolled", "forms"],
-        "question": "What is a **controlled** component in React?",
+        "question": {
+            "en": "What is a **controlled** component in React?",
+            "ru": "Что такое **контролируемый** (controlled) компонент в React?"
+        },
         "options": [
-            "A component that cannot accept user input",
-            "A component whose form element value is driven by React state and updated via an `onChange` handler",
-            "A component wrapped in `React.memo`",
-            "A component that controls its children's props via cloneElement"
+            {
+                "en": "A component that cannot accept user input",
+                "ru": "Компонент, который не принимает ввод пользователя"
+            },
+            {
+                "en": "A component whose form element value is driven by React state and updated via an `onChange` handler",
+                "ru": "Компонент, чьё значение form-элемента управляется React state и обновляется через обработчик `onChange`"
+            },
+            {
+                "en": "A component wrapped in `React.memo`",
+                "ru": "Компонент, обёрнутый в `React.memo`"
+            },
+            {
+                "en": "A component that controls its children's props via cloneElement",
+                "ru": "Компонент, который управляет props своих детей через cloneElement"
+            }
         ],
         "correct": 1,
-        "explanation": "In a controlled component, the input's `value` prop is bound to React state and every user keystroke calls an `onChange` handler that updates that state. React is the single source of truth for the value. An uncontrolled component lets the DOM manage its own state, accessed via a ref."
+        "explanation": {
+            "en": "In a controlled component, the input's `value` prop is bound to React state and every user keystroke calls an `onChange` handler that updates that state. React is the single source of truth for the value. An uncontrolled component lets the DOM manage its own state, accessed via a ref.",
+            "ru": "У контролируемого компонента пропс `value` инпута привязан к React state, и каждое нажатие клавиши вызывает обработчик `onChange`, обновляющий этот state. React — единственный источник истины для значения. Неконтролируемый (uncontrolled) компонент позволяет DOM самому хранить состояние, а доступ к нему идёт через ref."
+        }
     },
     {
         "id": "react-lifting-state-001",
@@ -391,15 +793,33 @@
         "category": "react",
         "difficulty": "easy",
         "tags": ["state", "lifting-state", "props"],
-        "question": "When two sibling components need to share the same state, the recommended React pattern is to:",
+        "question": {
+            "en": "When two sibling components need to share the same state, the recommended React pattern is to:",
+            "ru": "Когда двум соседним компонентам нужно разделять один state, рекомендуемый React-паттерн — это:"
+        },
         "options": [
-            "Store the state in localStorage and sync via useEffect",
-            "Lift the state up to their closest common ancestor and pass it down as props",
-            "Duplicate the state in both components and keep them in sync manually",
-            "Use a global Redux store for any shared state"
+            {
+                "en": "Store the state in localStorage and sync via useEffect",
+                "ru": "Хранить state в localStorage и синхронизировать через useEffect"
+            },
+            {
+                "en": "Lift the state up to their closest common ancestor and pass it down as props",
+                "ru": "Поднять state до ближайшего общего предка и прокинуть его вниз через props"
+            },
+            {
+                "en": "Duplicate the state in both components and keep them in sync manually",
+                "ru": "Продублировать state в обоих компонентах и синхронизировать их вручную"
+            },
+            {
+                "en": "Use a global Redux store for any shared state",
+                "ru": "Использовать глобальный Redux-стор для любого общего state"
+            }
         ],
         "correct": 1,
-        "explanation": "Lifting state up moves state to the nearest common ancestor, which then passes the value and updater down as props. This keeps the data flow unidirectional and avoids sync bugs. Context or external stores are appropriate escalations when prop drilling becomes excessive."
+        "explanation": {
+            "en": "Lifting state up moves state to the nearest common ancestor, which then passes the value and updater down as props. This keeps the data flow unidirectional and avoids sync bugs. Context or external stores are appropriate escalations when prop drilling becomes excessive.",
+            "ru": "Подъём state перемещает его в ближайшего общего предка, который затем передаёт значение и апдейтер вниз через props. Так поток данных остаётся однонаправленным и исключает баги синхронизации. Context или внешние сторы — уместная эскалация, когда prop drilling становится чрезмерным."
+        }
     },
     {
         "id": "react-composition-001",
@@ -407,15 +827,33 @@
         "category": "react",
         "difficulty": "easy",
         "tags": ["composition", "inheritance", "patterns"],
-        "question": "React documentation recommends composition over inheritance for component reuse. Which mechanism best exemplifies composition?",
+        "question": {
+            "en": "React documentation recommends composition over inheritance for component reuse. Which mechanism best exemplifies composition?",
+            "ru": "Документация React рекомендует композицию вместо наследования для переиспользования компонентов. Какой механизм лучше всего иллюстрирует композицию?"
+        },
         "options": [
-            "Extending `React.Component` in a child class",
-            "Using the `children` prop to pass JSX subtrees into a component",
-            "Calling `super(props)` in a constructor",
-            "Using `static defaultProps` on a class component"
+            {
+                "en": "Extending `React.Component` in a child class",
+                "ru": "Наследование `React.Component` в дочернем классе"
+            },
+            {
+                "en": "Using the `children` prop to pass JSX subtrees into a component",
+                "ru": "Использование пропса `children` для передачи JSX-поддеревьев внутрь компонента"
+            },
+            {
+                "en": "Calling `super(props)` in a constructor",
+                "ru": "Вызов `super(props)` в конструкторе"
+            },
+            {
+                "en": "Using `static defaultProps` on a class component",
+                "ru": "Использование `static defaultProps` на классовом компоненте"
+            }
         ],
         "correct": 1,
-        "explanation": "Composition via `children` (or named slot props like `header`, `footer`) lets you build flexible, container-style components without creating inheritance hierarchies. React discourages inheritance beyond `React.Component` itself, favouring small composable pieces connected through props."
+        "explanation": {
+            "en": "Composition via `children` (or named slot props like `header`, `footer`) lets you build flexible, container-style components without creating inheritance hierarchies. React discourages inheritance beyond `React.Component` itself, favouring small composable pieces connected through props.",
+            "ru": "Композиция через `children` (или именованные slot-пропсы вроде `header`, `footer`) позволяет строить гибкие компоненты-контейнеры без иерархий наследования. React не советует наследование глубже `React.Component` и предпочитает мелкие композируемые кусочки, связанные через props."
+        }
     },
     {
         "id": "react-synthetic-events-001",
@@ -423,15 +861,33 @@
         "category": "react",
         "difficulty": "medium",
         "tags": ["events", "synthetic-events"],
-        "question": "What are React's synthetic events?",
+        "question": {
+            "en": "What are React's synthetic events?",
+            "ru": "Что такое синтетические события (synthetic events) в React?"
+        },
         "options": [
-            "Custom events dispatched with `document.dispatchEvent`",
-            "React's cross-browser wrapper around native DOM events that normalises inconsistencies",
-            "Events that fire only inside React portals",
-            "Artificial events injected during testing"
+            {
+                "en": "Custom events dispatched with `document.dispatchEvent`",
+                "ru": "Кастомные события, диспатчатся через `document.dispatchEvent`"
+            },
+            {
+                "en": "React's cross-browser wrapper around native DOM events that normalises inconsistencies",
+                "ru": "Кроссбраузерная обёртка React поверх нативных DOM-событий, сглаживающая расхождения"
+            },
+            {
+                "en": "Events that fire only inside React portals",
+                "ru": "События, срабатывающие только внутри React-порталов"
+            },
+            {
+                "en": "Artificial events injected during testing",
+                "ru": "Искусственные события, внедряемые во время тестирования"
+            }
         ],
         "correct": 1,
-        "explanation": "React wraps native browser events in `SyntheticEvent` objects that implement the W3C spec consistently across all browsers. In React 17+ events are attached at the root container (not `document`), enabling multiple React roots. Synthetic events are pooled in older React; in React 17+ pooling was removed so you can safely read them asynchronously."
+        "explanation": {
+            "en": "React wraps native browser events in `SyntheticEvent` objects that implement the W3C spec consistently across all browsers. In React 17+ events are attached at the root container (not `document`), enabling multiple React roots. Synthetic events are pooled in older React; in React 17+ pooling was removed so you can safely read them asynchronously.",
+            "ru": "React оборачивает нативные браузерные события в объекты `SyntheticEvent`, которые единообразно реализуют спецификацию W3C во всех браузерах. В React 17+ события навешиваются на корневой контейнер (а не на `document`), что позволяет иметь несколько React-рутов. В старом React synthetic-события пулились; в React 17+ пулинг убрали — их можно безопасно читать асинхронно."
+        }
     },
     {
         "id": "react-batching-001",
@@ -439,15 +895,33 @@
         "category": "react",
         "difficulty": "medium",
         "tags": ["batching", "react-18", "performance"],
-        "question": "What changed about state update batching in React 18?",
+        "question": {
+            "en": "What changed about state update batching in React 18?",
+            "ru": "Что изменилось в батчинге обновлений state в React 18?"
+        },
         "options": [
-            "React 18 removed batching entirely for simplicity",
-            "React 18 extended automatic batching to updates inside `setTimeout`, `Promise`, and native event handlers — not just React event handlers",
-            "React 18 batches updates only when `useTransition` is used",
-            "Batching in React 18 is opt-in via a new `useBatch` hook"
+            {
+                "en": "React 18 removed batching entirely for simplicity",
+                "ru": "React 18 полностью убрал батчинг ради простоты"
+            },
+            {
+                "en": "React 18 extended automatic batching to updates inside `setTimeout`, `Promise`, and native event handlers — not just React event handlers",
+                "ru": "React 18 распространил автоматический батчинг на обновления внутри `setTimeout`, `Promise` и нативных обработчиков событий — а не только внутри React-обработчиков"
+            },
+            {
+                "en": "React 18 batches updates only when `useTransition` is used",
+                "ru": "React 18 батчит обновления только при использовании `useTransition`"
+            },
+            {
+                "en": "Batching in React 18 is opt-in via a new `useBatch` hook",
+                "ru": "В React 18 батчинг подключается через новый хук `useBatch`"
+            }
         ],
         "correct": 1,
-        "explanation": "In React 17 and earlier, automatic batching only happened inside React-managed event handlers. React 18 introduced automatic batching everywhere — inside `setTimeout`, `Promise.then`, native `addEventListener` callbacks, etc. — so multiple `setState` calls in those contexts now produce a single re-render. You can opt out per-update with `ReactDOM.flushSync`."
+        "explanation": {
+            "en": "In React 17 and earlier, automatic batching only happened inside React-managed event handlers. React 18 introduced automatic batching everywhere — inside `setTimeout`, `Promise.then`, native `addEventListener` callbacks, etc. — so multiple `setState` calls in those contexts now produce a single re-render. You can opt out per-update with `ReactDOM.flushSync`.",
+            "ru": "В React 17 и раньше автоматический батчинг работал только внутри управляемых React обработчиков событий. React 18 включил автоматический батчинг повсюду — внутри `setTimeout`, `Promise.then`, колбэков нативного `addEventListener` и т. д., — поэтому несколько вызовов `setState` в таких контекстах теперь приводят к одному ре-рендеру. Отказаться для отдельного апдейта можно через `ReactDOM.flushSync`."
+        }
     },
     {
         "id": "react-strictmode-001",
@@ -455,15 +929,33 @@
         "category": "react",
         "difficulty": "medium",
         "tags": ["StrictMode", "development", "effects"],
-        "question": "In React 18 development mode, `React.StrictMode` intentionally mounts components **twice**. What does this reveal?",
+        "question": {
+            "en": "In React 18 development mode, `React.StrictMode` intentionally mounts components **twice**. What does this reveal?",
+            "ru": "В dev-режиме React 18 `React.StrictMode` намеренно маунтит компоненты **дважды**. Что это помогает выявить?"
+        },
         "options": [
-            "Components that are too slow to render",
-            "Side effects that are not properly cleaned up, because effects run → cleanup → run again",
-            "Components using deprecated lifecycle methods",
-            "Memory leaks caused by context subscriptions"
+            {
+                "en": "Components that are too slow to render",
+                "ru": "Компоненты, которые рендерятся слишком медленно"
+            },
+            {
+                "en": "Side effects that are not properly cleaned up, because effects run → cleanup → run again",
+                "ru": "Сайд-эффекты, у которых не сделана корректная очистка: эффекты отрабатывают → cleanup → запускаются снова"
+            },
+            {
+                "en": "Components using deprecated lifecycle methods",
+                "ru": "Компоненты, использующие устаревшие lifecycle-методы"
+            },
+            {
+                "en": "Memory leaks caused by context subscriptions",
+                "ru": "Утечки памяти из-за подписок на контекст"
+            }
         ],
         "correct": 1,
-        "explanation": "React 18 StrictMode simulates fast-refresh / state restoration by mounting, unmounting, and remounting each component. Effects fire twice (mount → cleanup → mount) in development only. This surfaces missing cleanup functions — e.g. uncleared intervals, unremoved event listeners, or subscriptions — that would otherwise cause subtle bugs in production."
+        "explanation": {
+            "en": "React 18 StrictMode simulates fast-refresh / state restoration by mounting, unmounting, and remounting each component. Effects fire twice (mount → cleanup → mount) in development only. This surfaces missing cleanup functions — e.g. uncleared intervals, unremoved event listeners, or subscriptions — that would otherwise cause subtle bugs in production.",
+            "ru": "StrictMode в React 18 имитирует fast-refresh / восстановление state, маунтя, анмаунтя и снова маунтя каждый компонент. Эффекты срабатывают дважды (mount → cleanup → mount), но только в dev. Это помогает обнаружить отсутствующие функции очистки — например, несброшенные интервалы, неудалённые слушатели событий или подписки, — которые иначе породили бы тонкие баги в продакшне."
+        }
     },
     {
         "id": "react-custom-hooks-001",
@@ -471,15 +963,33 @@
         "category": "react",
         "difficulty": "easy",
         "tags": ["custom-hooks", "hooks", "patterns"],
-        "question": "What is the naming convention for custom hooks, and why does it matter?",
+        "question": {
+            "en": "What is the naming convention for custom hooks, and why does it matter?",
+            "ru": "Какое соглашение по именованию кастомных хуков и почему это важно?"
+        },
         "options": [
-            "They must start with `use`; otherwise the React linter cannot enforce the Rules of Hooks for that function",
-            "They must end with `Hook`; React checks for this suffix at runtime",
-            "They must be defined inside a component; otherwise they lose access to the fiber",
-            "They must be exported; React tree-shakes unexported hooks"
+            {
+                "en": "They must start with `use`; otherwise the React linter cannot enforce the Rules of Hooks for that function",
+                "ru": "Они должны начинаться с `use`, иначе React-линтер не сможет применять к такой функции Rules of Hooks"
+            },
+            {
+                "en": "They must end with `Hook`; React checks for this suffix at runtime",
+                "ru": "Они должны заканчиваться на `Hook`; React проверяет этот суффикс в рантайме"
+            },
+            {
+                "en": "They must be defined inside a component; otherwise they lose access to the fiber",
+                "ru": "Они должны быть определены внутри компонента, иначе теряют доступ к fiber"
+            },
+            {
+                "en": "They must be exported; React tree-shakes unexported hooks",
+                "ru": "Они должны быть экспортированы; React выкидывает неэкспортированные хуки при tree-shaking"
+            }
         ],
         "correct": 0,
-        "explanation": "The `use` prefix is the signal that a function is a hook and must obey the Rules of Hooks (called at the top level, only inside components or other hooks). The `eslint-plugin-react-hooks` relies on this convention to statically enforce the rules. Functions named differently can call hooks but won't be linted as hooks."
+        "explanation": {
+            "en": "The `use` prefix is the signal that a function is a hook and must obey the Rules of Hooks (called at the top level, only inside components or other hooks). The `eslint-plugin-react-hooks` relies on this convention to statically enforce the rules. Functions named differently can call hooks but won't be linted as hooks.",
+            "ru": "Префикс `use` — это маркер, что функция является хуком и должна подчиняться Rules of Hooks (вызываться только на верхнем уровне, только внутри компонентов или других хуков). `eslint-plugin-react-hooks` опирается на это соглашение, чтобы проверять правила статически. Функции с другим именем могут вызывать хуки, но линтер не будет считать их хуками."
+        }
     },
     {
         "id": "react-bug-missing-key-001",
@@ -487,11 +997,17 @@
         "category": "react",
         "difficulty": "easy",
         "tags": ["lists", "keys", "bugs"],
-        "question": "What is wrong with this component?",
+        "question": {
+            "en": "What is wrong with this component?",
+            "ru": "Что не так с этим компонентом?"
+        },
         "code": "function TodoList({ todos }) {\n  return (\n    <ul>\n      {todos.map((todo) => (\n        <li>{todo.text}</li>\n      ))}\n    </ul>\n  );\n}",
         "correct": "Missing `key` prop on the `<li>` element inside the map",
         "referenceAnswer": "Each `<li>` needs a unique, stable `key` prop. Fix: `<li key={todo.id}>{todo.text}</li>`. React uses keys to efficiently reconcile list updates.",
-        "explanation": "When rendering lists, React needs a `key` prop on each root element returned from `map` to track element identity across renders. Without keys, React falls back to order-based diffing, which can cause incorrect state association and poor performance on insertions/deletions."
+        "explanation": {
+            "en": "When rendering lists, React needs a `key` prop on each root element returned from `map` to track element identity across renders. Without keys, React falls back to order-based diffing, which can cause incorrect state association and poor performance on insertions/deletions.",
+            "ru": "При рендере списков React нужен пропс `key` на каждом корневом элементе, возвращаемом из `map`, чтобы отслеживать идентичность элементов между рендерами. Без ключей React откатывается к diff-у по порядку, что может привести к неверной привязке state и к просадке производительности при вставках/удалениях."
+        }
     },
     {
         "id": "react-bug-usememo-001",
@@ -499,11 +1015,17 @@
         "category": "react",
         "difficulty": "hard",
         "tags": ["hooks", "useMemo", "bugs", "referential-equality"],
-        "question": "Why does this component re-render every time, despite the `useMemo`?",
+        "question": {
+            "en": "Why does this component re-render every time, despite the `useMemo`?",
+            "ru": "Почему этот компонент ре-рендерится каждый раз, несмотря на `useMemo`?"
+        },
         "code": "function Parent() {\n  const [count, setCount] = useState(0);\n\n  const config = useMemo(() => ({ threshold: 10 }), [count]);\n\n  return (\n    <>\n      <button onClick={() => setCount(c => c + 1)}>Increment</button>\n      <Child config={config} />\n    </>\n  );\n}\n\nconst Child = React.memo(({ config }) => {\n  return <div>{config.threshold}</div>;\n});",
         "correct": "`config` is memoized, but it re-creates a new object on every `count` change because `count` is in the dependency array, while `count` is not used inside the factory",
         "referenceAnswer": "Remove `count` from the `useMemo` dependency array since the factory does not use it: `useMemo(() => ({ threshold: 10 }), [])`. With `[count]` as the dep, every increment creates a new object reference, causing `React.memo` to see a prop change and re-render `Child`.",
-        "explanation": "`useMemo` only avoids recalculation when dependencies stay the same. Including `count` in deps even though the factory doesn't use it causes the memoized value to change on every counter increment. `React.memo` then detects a new object reference and re-renders. Always list only the values the factory actually reads."
+        "explanation": {
+            "en": "`useMemo` only avoids recalculation when dependencies stay the same. Including `count` in deps even though the factory doesn't use it causes the memoized value to change on every counter increment. `React.memo` then detects a new object reference and re-renders. Always list only the values the factory actually reads.",
+            "ru": "`useMemo` избегает пересчёта только пока зависимости не меняются. Добавление `count` в deps, при том что фабрика его не использует, заставляет мемоизированное значение меняться на каждом инкременте счётчика. `React.memo` видит новую ссылку на объект и делает ре-рендер. Всегда указывайте в deps только те значения, которые фабрика реально читает."
+        }
     },
     {
         "id": "react-bug-forwardref-001",
@@ -511,11 +1033,17 @@
         "category": "react",
         "difficulty": "medium",
         "tags": ["forwardRef", "refs", "bugs"],
-        "question": "Why does `inputRef.current` remain `null` after mount?",
+        "question": {
+            "en": "Why does `inputRef.current` remain `null` after mount?",
+            "ru": "Почему `inputRef.current` остаётся `null` после маунта?"
+        },
         "code": "function FancyInput({ placeholder }) {\n  return <input placeholder={placeholder} />;\n}\n\nfunction Form() {\n  const inputRef = useRef(null);\n\n  useEffect(() => {\n    inputRef.current.focus();\n  }, []);\n\n  return <FancyInput ref={inputRef} placeholder=\"Name\" />;\n}",
         "correct": "`FancyInput` is a function component that does not forward the ref — refs cannot be attached to function components by default",
         "referenceAnswer": "Wrap `FancyInput` with `React.forwardRef`:\n```jsx\nconst FancyInput = React.forwardRef(({ placeholder }, ref) => (\n  <input ref={ref} placeholder={placeholder} />\n));\n```\nNow the ref is forwarded to the actual DOM `<input>` element.",
-        "explanation": "Passing a `ref` prop to a plain function component does nothing — React drops it silently (and logs a warning). `React.forwardRef` is required to accept a ref argument and attach it to an inner DOM node or expose an imperative handle."
+        "explanation": {
+            "en": "Passing a `ref` prop to a plain function component does nothing — React drops it silently (and logs a warning). `React.forwardRef` is required to accept a ref argument and attach it to an inner DOM node or expose an imperative handle.",
+            "ru": "Передача пропса `ref` обычному функциональному компоненту ничего не даёт — React молча его игнорирует (и пишет warning). Чтобы компонент принял аргумент ref и навесил его на внутренний DOM-узел или отдал императивный handle, нужен `React.forwardRef`."
+        }
     },
     {
         "id": "react-completion-usereducer-001",
@@ -523,12 +1051,18 @@
         "category": "react",
         "difficulty": "medium",
         "tags": ["hooks", "useReducer", "state"],
-        "question": "Fill in the blanks to implement a counter with `useReducer`:",
+        "question": {
+            "en": "Fill in the blanks to implement a counter with `useReducer`:",
+            "ru": "Заполните пропуски, чтобы реализовать счётчик на `useReducer`:"
+        },
         "code": "const initialState = { count: 0 };\n\nfunction reducer(state, action) {\n  switch (action.___) {\n    case 'increment':\n      return { count: state.count + 1 };\n    case 'decrement':\n      return { count: state.count - 1 };\n    default:\n      return state;\n  }\n}\n\nfunction Counter() {\n  const [state, dispatch] = ___(reducer, initialState);\n\n  return (\n    <>\n      <button onClick={() => dispatch({ ___: 'decrement' })}>-</button>\n      <span>{state.count}</span>\n      <button onClick={() => dispatch({ ___: 'increment' })}>+</button>\n    </>\n  );\n}",
         "blanks": ["type", "useReducer", "type", "type"],
         "lang": "jsx",
         "referenceAnswer": "const initialState = { count: 0 };\n\nfunction reducer(state, action) {\n  switch (action.type) {\n    case 'increment':\n      return { count: state.count + 1 };\n    case 'decrement':\n      return { count: state.count - 1 };\n    default:\n      return state;\n  }\n}\n\nfunction Counter() {\n  const [state, dispatch] = useReducer(reducer, initialState);\n\n  return (\n    <>\n      <button onClick={() => dispatch({ type: 'decrement' })}>-</button>\n      <span>{state.count}</span>\n      <button onClick={() => dispatch({ type: 'increment' })}>+</button>\n    </>\n  );\n}",
-        "explanation": "`useReducer(reducer, initialState)` returns the current state and a `dispatch` function. Actions are plain objects with a `type` field (convention). The reducer is a pure function that returns the next state based on the current state and action, making state transitions explicit and testable."
+        "explanation": {
+            "en": "`useReducer(reducer, initialState)` returns the current state and a `dispatch` function. Actions are plain objects with a `type` field (convention). The reducer is a pure function that returns the next state based on the current state and action, making state transitions explicit and testable.",
+            "ru": "`useReducer(reducer, initialState)` возвращает текущий state и функцию `dispatch`. Экшены — обычные объекты с полем `type` (по соглашению). Reducer — чистая функция, которая возвращает следующий state на основе текущего и экшена, делая переходы state явными и тестируемыми."
+        }
     },
     {
         "id": "react-completion-forwardref-001",
@@ -536,12 +1070,18 @@
         "category": "react",
         "difficulty": "medium",
         "tags": ["forwardRef", "useImperativeHandle", "refs"],
-        "question": "Fill in the blanks to expose only a `focus()` method from `CustomInput` via a ref:",
+        "question": {
+            "en": "Fill in the blanks to expose only a `focus()` method from `CustomInput` via a ref:",
+            "ru": "Заполните пропуски, чтобы наружу через ref у `CustomInput` был доступен только метод `focus()`:"
+        },
         "code": "const CustomInput = ___(function CustomInput(props, ref) {\n  const inputRef = useRef(null);\n\n  ___(ref, () => ({\n    focus: () => inputRef.current.focus()\n  }), []);\n\n  return <input ref={inputRef} {...props} />;\n});",
         "blanks": ["React.forwardRef", "useImperativeHandle"],
         "lang": "jsx",
         "referenceAnswer": "const CustomInput = React.forwardRef(function CustomInput(props, ref) {\n  const inputRef = useRef(null);\n\n  useImperativeHandle(ref, () => ({\n    focus: () => inputRef.current.focus()\n  }), []);\n\n  return <input ref={inputRef} {...props} />;\n});",
-        "explanation": "`React.forwardRef` passes the parent-provided ref as the second argument. `useImperativeHandle` replaces the ref's exposed value with the returned object, so the parent only sees `{ focus }` instead of the raw DOM node. This encapsulates internal implementation details."
+        "explanation": {
+            "en": "`React.forwardRef` passes the parent-provided ref as the second argument. `useImperativeHandle` replaces the ref's exposed value with the returned object, so the parent only sees `{ focus }` instead of the raw DOM node. This encapsulates internal implementation details.",
+            "ru": "`React.forwardRef` передаёт родительский ref вторым аргументом. `useImperativeHandle` подменяет значение ref на возвращаемый объект, так что родитель видит только `{ focus }` вместо сырого DOM-узла. Это инкапсулирует внутренние детали реализации."
+        }
     },
     {
         "id": "react-usetransition-002",
@@ -549,15 +1089,33 @@
         "category": "react",
         "difficulty": "hard",
         "tags": ["useTransition", "concurrent", "startTransition"],
-        "question": "Which of the following statements about `startTransition` are correct? (Select all that apply)",
+        "question": {
+            "en": "Which of the following statements about `startTransition` are correct? (Select all that apply)",
+            "ru": "Какие из утверждений о `startTransition` верны? (Выберите все подходящие варианты)"
+        },
         "options": [
-            "Updates inside `startTransition` can be interrupted by higher-priority updates",
-            "`startTransition` makes a network request non-blocking",
-            "While a transition is pending, the UI stays interactive — inputs and clicks are not blocked",
-            "You can `await` a `startTransition` call to know when the transition is committed"
+            {
+                "en": "Updates inside `startTransition` can be interrupted by higher-priority updates",
+                "ru": "Обновления внутри `startTransition` могут быть прерваны более приоритетными апдейтами"
+            },
+            {
+                "en": "`startTransition` makes a network request non-blocking",
+                "ru": "`startTransition` делает сетевой запрос неблокирующим"
+            },
+            {
+                "en": "While a transition is pending, the UI stays interactive — inputs and clicks are not blocked",
+                "ru": "Пока переход (transition) в процессе, UI остаётся интерактивным — ввод и клики не блокируются"
+            },
+            {
+                "en": "You can `await` a `startTransition` call to know when the transition is committed",
+                "ru": "Вызов `startTransition` можно `await`-ить, чтобы узнать, когда transition закоммитился"
+            }
         ],
         "correct": [0, 2],
-        "explanation": "`startTransition` marks a state update as interruptible. If a higher-priority update (like a keystroke) arrives, React pauses the transition render, applies the urgent update, and then resumes. The UI never freezes because React always applies urgent updates first. `startTransition` is synchronous and returns `void` — it does not return a Promise."
+        "explanation": {
+            "en": "`startTransition` marks a state update as interruptible. If a higher-priority update (like a keystroke) arrives, React pauses the transition render, applies the urgent update, and then resumes. The UI never freezes because React always applies urgent updates first. `startTransition` is synchronous and returns `void` — it does not return a Promise.",
+            "ru": "`startTransition` помечает обновление state как прерываемое. Если приходит более приоритетный апдейт (например, нажатие клавиши), React приостанавливает рендер transition, применяет срочный апдейт и потом возвращается. UI никогда не фризится, потому что React всегда применяет срочные апдейты первыми. `startTransition` синхронный и возвращает `void` — это не Promise."
+        }
     },
     {
         "id": "react-rtl-001",
@@ -565,15 +1123,33 @@
         "category": "react",
         "difficulty": "medium",
         "tags": ["testing", "react-testing-library", "best-practices"],
-        "question": "Which of the following are best practices when writing tests with React Testing Library? (Select all that apply)",
+        "question": {
+            "en": "Which of the following are best practices when writing tests with React Testing Library? (Select all that apply)",
+            "ru": "Что из перечисленного является best practice при написании тестов на React Testing Library? (Выберите все подходящие варианты)"
+        },
         "options": [
-            "Prefer queries that reflect accessibility semantics (`getByRole`, `getByLabelText`) over `getByTestId`",
-            "Use `act()` explicitly around every state change to avoid warnings",
-            "Test component behaviour from the user's perspective rather than testing implementation details",
-            "Always mock all child components to isolate the component under test"
+            {
+                "en": "Prefer queries that reflect accessibility semantics (`getByRole`, `getByLabelText`) over `getByTestId`",
+                "ru": "Предпочитать запросы с accessibility-семантикой (`getByRole`, `getByLabelText`) вместо `getByTestId`"
+            },
+            {
+                "en": "Use `act()` explicitly around every state change to avoid warnings",
+                "ru": "Явно оборачивать каждое изменение state в `act()`, чтобы избежать warning-ов"
+            },
+            {
+                "en": "Test component behaviour from the user's perspective rather than testing implementation details",
+                "ru": "Тестировать поведение компонента с точки зрения пользователя, а не детали реализации"
+            },
+            {
+                "en": "Always mock all child components to isolate the component under test",
+                "ru": "Всегда мокать все дочерние компоненты, чтобы изолировать тестируемый компонент"
+            }
         ],
         "correct": [0, 2],
-        "explanation": "RTL's philosophy is to write tests that resemble how users interact with the UI. Semantic queries (`getByRole`, `getByLabelText`) make tests resilient and implicitly verify accessibility. RTL wraps most utilities in `act` automatically; wrapping manually is only needed for edge cases. Mocking every child is an implementation detail anti-pattern — test the integrated tree unless isolation is strictly necessary."
+        "explanation": {
+            "en": "RTL's philosophy is to write tests that resemble how users interact with the UI. Semantic queries (`getByRole`, `getByLabelText`) make tests resilient and implicitly verify accessibility. RTL wraps most utilities in `act` automatically; wrapping manually is only needed for edge cases. Mocking every child is an implementation detail anti-pattern — test the integrated tree unless isolation is strictly necessary.",
+            "ru": "Философия RTL — писать тесты, похожие на взаимодействие пользователя с UI. Семантические запросы (`getByRole`, `getByLabelText`) делают тесты устойчивыми и неявно проверяют accessibility. RTL автоматически оборачивает большинство утилит в `act`; вручную это нужно только в краевых случаях. Мокать каждого ребёнка — антипаттерн, завязанный на детали реализации: тестируйте интегрированное дерево, если изоляция не обязательна."
+        }
     },
     {
         "id": "react-batching-002",
@@ -581,15 +1157,33 @@
         "category": "react",
         "difficulty": "hard",
         "tags": ["batching", "flushSync", "react-18"],
-        "question": "Which of the following are true about `ReactDOM.flushSync`? (Select all that apply)",
+        "question": {
+            "en": "Which of the following are true about `ReactDOM.flushSync`? (Select all that apply)",
+            "ru": "Что из перечисленного верно про `ReactDOM.flushSync`? (Выберите все подходящие варианты)"
+        },
         "options": [
-            "It forces React to flush all pending state updates synchronously before returning",
-            "It is useful when you need to read an updated DOM measurement immediately after a state change",
-            "It can be called inside a React event handler without any side effects",
-            "It cancels any ongoing concurrent transitions"
+            {
+                "en": "It forces React to flush all pending state updates synchronously before returning",
+                "ru": "Заставляет React синхронно применить все отложенные обновления state до возврата"
+            },
+            {
+                "en": "It is useful when you need to read an updated DOM measurement immediately after a state change",
+                "ru": "Полезен, когда нужно сразу после изменения state прочитать обновлённые размеры DOM"
+            },
+            {
+                "en": "It can be called inside a React event handler without any side effects",
+                "ru": "Его можно вызвать внутри React-обработчика событий без каких-либо побочных эффектов"
+            },
+            {
+                "en": "It cancels any ongoing concurrent transitions",
+                "ru": "Он отменяет все выполняющиеся concurrent-переходы"
+            }
         ],
         "correct": [0, 1],
-        "explanation": "`flushSync(() => setState(...))` forces React to process all state updates inside the callback synchronously and flush them to the DOM before the call returns. This is useful in rare cases like reading DOM layout after an update or integrating with third-party libraries. It should be used sparingly as it opts out of React's performance optimisations. Calling it inside a render or another `flushSync` throws."
+        "explanation": {
+            "en": "`flushSync(() => setState(...))` forces React to process all state updates inside the callback synchronously and flush them to the DOM before the call returns. This is useful in rare cases like reading DOM layout after an update or integrating with third-party libraries. It should be used sparingly as it opts out of React's performance optimisations. Calling it inside a render or another `flushSync` throws.",
+            "ru": "`flushSync(() => setState(...))` заставляет React синхронно обработать все обновления state внутри колбэка и применить их к DOM до возврата из вызова. Это полезно в редких случаях — например, для чтения layout DOM после апдейта или интеграции со сторонними библиотеками. Пользоваться им стоит осторожно, так как он отключает оптимизации React. Вызов внутри рендера или другого `flushSync` бросает ошибку."
+        }
     },
     {
         "id": "react-context-performance-001",
@@ -597,15 +1191,33 @@
         "category": "react",
         "difficulty": "hard",
         "tags": ["context", "performance", "re-renders"],
-        "question": "Which of the following strategies help prevent unnecessary re-renders caused by Context? (Select all that apply)",
+        "question": {
+            "en": "Which of the following strategies help prevent unnecessary re-renders caused by Context? (Select all that apply)",
+            "ru": "Какие из стратегий помогают избежать лишних ре-рендеров, вызванных Context? (Выберите все подходящие варианты)"
+        },
         "options": [
-            "Split one large Context into multiple smaller, focused Contexts",
-            "Memoize the context value with `useMemo` to prevent a new object reference on every render",
-            "Always store context values in a ref instead of state",
-            "Use `React.memo` on consumers to skip re-renders when context changes"
+            {
+                "en": "Split one large Context into multiple smaller, focused Contexts",
+                "ru": "Разбить один большой Context на несколько более мелких и сфокусированных"
+            },
+            {
+                "en": "Memoize the context value with `useMemo` to prevent a new object reference on every render",
+                "ru": "Мемоизировать значение контекста через `useMemo`, чтобы не создавать новую ссылку на объект на каждом рендере"
+            },
+            {
+                "en": "Always store context values in a ref instead of state",
+                "ru": "Всегда хранить значения контекста в ref вместо state"
+            },
+            {
+                "en": "Use `React.memo` on consumers to skip re-renders when context changes",
+                "ru": "Оборачивать потребителей в `React.memo`, чтобы пропускать ре-рендеры при изменении контекста"
+            }
         ],
         "correct": [0, 1],
-        "explanation": "Every consumer of a Context re-renders when the context value changes reference. Splitting contexts means changes to one don't affect unrelated consumers. Memoizing the value object with `useMemo` prevents a new reference being created on every parent render when the underlying data hasn't changed. `React.memo` does NOT help with context — it only compares props, not context subscriptions."
+        "explanation": {
+            "en": "Every consumer of a Context re-renders when the context value changes reference. Splitting contexts means changes to one don't affect unrelated consumers. Memoizing the value object with `useMemo` prevents a new reference being created on every parent render when the underlying data hasn't changed. `React.memo` does NOT help with context — it only compares props, not context subscriptions.",
+            "ru": "Каждый потребитель Context ре-рендерится, когда ссылка на значение контекста меняется. Разделение контекстов означает, что изменения в одном не затрагивают несвязанных потребителей. Мемоизация объекта-значения через `useMemo` не даёт создавать новую ссылку на каждый рендер родителя, когда данные по сути не менялись. `React.memo` в контекстах НЕ помогает — он сравнивает только props, но не подписки на контекст."
+        }
     },
     {
         "id": "react-compound-001",
@@ -613,15 +1225,33 @@
         "category": "react",
         "difficulty": "hard",
         "tags": ["compound-components", "patterns", "context"],
-        "question": "Which of the following are characteristics of the compound component pattern? (Select all that apply)",
+        "question": {
+            "en": "Which of the following are characteristics of the compound component pattern? (Select all that apply)",
+            "ru": "Что из перечисленного характеризует паттерн compound components? (Выберите все подходящие варианты)"
+        },
         "options": [
-            "Child components share implicit state via a private Context provided by the parent",
-            "Consumers get a declarative, composable API without needing to wire up explicit props between siblings",
-            "All child components must be defined in the same file as the parent",
-            "The pattern is commonly used for UI elements like `<Select>`, `<Tabs>`, and `<Accordion>`"
+            {
+                "en": "Child components share implicit state via a private Context provided by the parent",
+                "ru": "Дочерние компоненты неявно разделяют state через приватный Context, предоставленный родителем"
+            },
+            {
+                "en": "Consumers get a declarative, composable API without needing to wire up explicit props between siblings",
+                "ru": "Потребитель получает декларативный, композируемый API без необходимости явно прокидывать props между соседями"
+            },
+            {
+                "en": "All child components must be defined in the same file as the parent",
+                "ru": "Все дочерние компоненты обязаны быть определены в одном файле с родителем"
+            },
+            {
+                "en": "The pattern is commonly used for UI elements like `<Select>`, `<Tabs>`, and `<Accordion>`",
+                "ru": "Паттерн часто используется для UI-элементов вроде `<Select>`, `<Tabs>` и `<Accordion>`"
+            }
         ],
         "correct": [0, 1, 3],
-        "explanation": "Compound components use a parent-provided Context to share state implicitly between co-branded child components (e.g. `<Tabs.List>`, `<Tabs.Panel>`). Consumers compose children freely without prop wiring. Children can live in separate files. This pattern is ubiquitous in UI libraries — `<Select>` + `<Option>`, `<Accordion>` + `<AccordionItem>`, etc."
+        "explanation": {
+            "en": "Compound components use a parent-provided Context to share state implicitly between co-branded child components (e.g. `<Tabs.List>`, `<Tabs.Panel>`). Consumers compose children freely without prop wiring. Children can live in separate files. This pattern is ubiquitous in UI libraries — `<Select>` + `<Option>`, `<Accordion>` + `<AccordionItem>`, etc.",
+            "ru": "Compound-компоненты используют Context, предоставленный родителем, чтобы неявно разделять state между связанными дочерними компонентами (например, `<Tabs.List>`, `<Tabs.Panel>`). Потребитель свободно композирует детей без прокидывания props. Дети могут жить в разных файлах. Этот паттерн повсеместно встречается в UI-библиотеках — `<Select>` + `<Option>`, `<Accordion>` + `<AccordionItem>` и т. п."
+        }
     },
     {
         "id": "react-bug-context-value-001",
@@ -629,11 +1259,17 @@
         "category": "react",
         "difficulty": "medium",
         "tags": ["context", "performance", "bugs"],
-        "question": "Why do all consumers of this Context re-render on every parent render, even when `count` and `setCount` haven't changed?",
+        "question": {
+            "en": "Why do all consumers of this Context re-render on every parent render, even when `count` and `setCount` haven't changed?",
+            "ru": "Почему все потребители этого Context ре-рендерятся на каждый рендер родителя, даже когда `count` и `setCount` не меняются?"
+        },
         "code": "function AppProvider({ children }) {\n  const [count, setCount] = useState(0);\n\n  return (\n    <AppContext.Provider value={{ count, setCount }}>\n      {children}\n    </AppContext.Provider>\n  );\n}",
         "correct": "The `value` prop is a new object literal `{ count, setCount }` created on every render, so React sees a new reference and re-renders all consumers",
         "referenceAnswer": "Memoize the context value:\n```jsx\nconst value = useMemo(() => ({ count, setCount }), [count, setCount]);\nreturn <AppContext.Provider value={value}>{children}</AppContext.Provider>;\n```\nNow a new object is only created when `count` or `setCount` actually changes.",
-        "explanation": "React compares context values using `Object.is`. An inline `{ count, setCount }` literal creates a new object reference on every render of `AppProvider`, so React always sees a changed context and re-renders every consumer. Wrapping the value in `useMemo` stabilises the reference."
+        "explanation": {
+            "en": "React compares context values using `Object.is`. An inline `{ count, setCount }` literal creates a new object reference on every render of `AppProvider`, so React always sees a changed context and re-renders every consumer. Wrapping the value in `useMemo` stabilises the reference.",
+            "ru": "React сравнивает значения контекста через `Object.is`. Инлайновый литерал `{ count, setCount }` создаёт новую ссылку на каждом рендере `AppProvider`, поэтому React всегда видит изменившийся контекст и ре-рендерит каждого потребителя. Оборачивание значения в `useMemo` стабилизирует ссылку."
+        }
     },
     {
         "id": "react-bug-useeffect-deps-001",
@@ -641,11 +1277,17 @@
         "category": "react",
         "difficulty": "medium",
         "tags": ["hooks", "useEffect", "dependencies", "bugs"],
-        "question": "What is the issue with this effect?",
+        "question": {
+            "en": "What is the issue with this effect?",
+            "ru": "В чём проблема этого эффекта?"
+        },
         "code": "function Timer({ onTick }) {\n  useEffect(() => {\n    const id = setInterval(onTick, 1000);\n    return () => clearInterval(id);\n  }, []);\n\n  return <div>Timer running</div>;\n}",
         "correct": "`onTick` is used inside the effect but omitted from the dependency array, causing the effect to always call the initial version of `onTick` (stale closure)",
         "referenceAnswer": "Either add `onTick` to the dependency array (effect re-registers when `onTick` changes) or use a ref to hold the latest version:\n```jsx\nconst onTickRef = useRef(onTick);\nuseEffect(() => { onTickRef.current = onTick; });\nuseEffect(() => {\n  const id = setInterval(() => onTickRef.current(), 1000);\n  return () => clearInterval(id);\n}, []);\n```",
-        "explanation": "The React exhaustive-deps lint rule flags missing dependencies. `onTick` is a prop that may change between renders. If it's omitted from deps, the effect closes over the initial function reference. Adding `onTick` to deps causes the timer to re-register on every render where `onTick` changes. The ref pattern avoids this by always reading the latest callback without adding it as a dependency."
+        "explanation": {
+            "en": "The React exhaustive-deps lint rule flags missing dependencies. `onTick` is a prop that may change between renders. If it's omitted from deps, the effect closes over the initial function reference. Adding `onTick` to deps causes the timer to re-register on every render where `onTick` changes. The ref pattern avoids this by always reading the latest callback without adding it as a dependency.",
+            "ru": "Lint-правило React exhaustive-deps подсвечивает пропущенные зависимости. `onTick` — это пропс, который может меняться между рендерами. Если не добавить его в deps, эффект замкнётся на первоначальной ссылке на функцию. Если добавить `onTick` в deps, таймер будет пере-регистрироваться на каждом рендере, где `onTick` меняется. Паттерн с ref решает это: он всегда читает актуальный колбэк без добавления в зависимости."
+        }
     },
     {
         "id": "react-completion-context-001",
@@ -653,12 +1295,18 @@
         "category": "react",
         "difficulty": "easy",
         "tags": ["context", "createContext", "useContext"],
-        "question": "Fill in the blanks to create a theme context and consume it in a child component:",
+        "question": {
+            "en": "Fill in the blanks to create a theme context and consume it in a child component:",
+            "ru": "Заполните пропуски, чтобы создать theme context и потреблять его в дочернем компоненте:"
+        },
         "code": "const ThemeContext = ___(null);\n\nfunction ThemeProvider({ children }) {\n  const [theme, setTheme] = useState('light');\n  return (\n    <ThemeContext.___ value={{ theme, setTheme }}>\n      {children}\n    </ThemeContext.___>\n  );\n}\n\nfunction ThemedButton() {\n  const { theme } = ___(ThemeContext);\n  return <button className={theme}>Click</button>;\n}",
         "blanks": ["React.createContext", "Provider", "Provider", "useContext"],
         "lang": "jsx",
         "referenceAnswer": "const ThemeContext = React.createContext(null);\n\nfunction ThemeProvider({ children }) {\n  const [theme, setTheme] = useState('light');\n  return (\n    <ThemeContext.Provider value={{ theme, setTheme }}>\n      {children}\n    </ThemeContext.Provider>\n  );\n}\n\nfunction ThemedButton() {\n  const { theme } = useContext(ThemeContext);\n  return <button className={theme}>Click</button>;\n}",
-        "explanation": "`React.createContext(defaultValue)` creates a Context object with a `.Provider` component. The `value` prop on `<Context.Provider>` sets the current context value for all descendants. `useContext(Context)` reads the nearest Provider's value. The default value (here `null`) is used only when no Provider is present in the tree."
+        "explanation": {
+            "en": "`React.createContext(defaultValue)` creates a Context object with a `.Provider` component. The `value` prop on `<Context.Provider>` sets the current context value for all descendants. `useContext(Context)` reads the nearest Provider's value. The default value (here `null`) is used only when no Provider is present in the tree.",
+            "ru": "`React.createContext(defaultValue)` создаёт объект Context с компонентом `.Provider`. Пропс `value` у `<Context.Provider>` задаёт текущее значение контекста для всех потомков. `useContext(Context)` читает значение ближайшего Provider. Дефолтное значение (здесь `null`) используется, только если Provider в дереве отсутствует."
+        }
     },
     {
         "id": "react-completion-custombhook-001",
@@ -666,12 +1314,18 @@
         "category": "react",
         "difficulty": "medium",
         "tags": ["custom-hooks", "useEffect", "useState"],
-        "question": "Fill in the blanks to complete a `useWindowWidth` custom hook:",
+        "question": {
+            "en": "Fill in the blanks to complete a `useWindowWidth` custom hook:",
+            "ru": "Заполните пропуски, чтобы дописать кастомный хук `useWindowWidth`:"
+        },
         "code": "function useWindowWidth() {\n  const [width, ___] = useState(window.innerWidth);\n\n  ___((() => {\n    const handler = () => setWidth(window.innerWidth);\n    window.addEventListener('resize', handler);\n    return () => window.removeEventListener('resize', ___);\n  }), []);\n\n  return width;\n}",
         "blanks": ["setWidth", "useEffect", "handler"],
         "lang": "jsx",
         "referenceAnswer": "function useWindowWidth() {\n  const [width, setWidth] = useState(window.innerWidth);\n\n  useEffect(() => {\n    const handler = () => setWidth(window.innerWidth);\n    window.addEventListener('resize', handler);\n    return () => window.removeEventListener('resize', handler);\n  }, []);\n\n  return width;\n}",
-        "explanation": "Custom hooks encapsulate stateful logic: here `useState` tracks the current width and `useEffect` subscribes to the `resize` event on mount. The cleanup function (returned from the effect) removes the listener on unmount, preventing memory leaks. The hook returns the current width, which any component can consume."
+        "explanation": {
+            "en": "Custom hooks encapsulate stateful logic: here `useState` tracks the current width and `useEffect` subscribes to the `resize` event on mount. The cleanup function (returned from the effect) removes the listener on unmount, preventing memory leaks. The hook returns the current width, which any component can consume.",
+            "ru": "Кастомные хуки инкапсулируют stateful-логику: здесь `useState` хранит текущую ширину, а `useEffect` подписывается на событие `resize` при маунте. Функция очистки (возвращаемая из эффекта) снимает слушатель при анмаунте, предотвращая утечки памяти. Хук возвращает текущую ширину, которой может пользоваться любой компонент."
+        }
     },
     {
         "id": "react-multi-choice-hooks-rules-001",
@@ -679,15 +1333,33 @@
         "category": "react",
         "difficulty": "medium",
         "tags": ["hooks", "rules-of-hooks"],
-        "question": "Which of the following are violations of the Rules of Hooks? (Select all that apply)",
+        "question": {
+            "en": "Which of the following are violations of the Rules of Hooks? (Select all that apply)",
+            "ru": "Что из перечисленного нарушает Rules of Hooks? (Выберите все подходящие варианты)"
+        },
         "options": [
-            "Calling `useState` inside a `for` loop",
-            "Calling a custom hook from another custom hook",
-            "Calling `useEffect` after an early `return` statement in a component",
-            "Calling hooks at the top level of a functional component"
+            {
+                "en": "Calling `useState` inside a `for` loop",
+                "ru": "Вызов `useState` внутри цикла `for`"
+            },
+            {
+                "en": "Calling a custom hook from another custom hook",
+                "ru": "Вызов кастомного хука из другого кастомного хука"
+            },
+            {
+                "en": "Calling `useEffect` after an early `return` statement in a component",
+                "ru": "Вызов `useEffect` после ранней инструкции `return` в компоненте"
+            },
+            {
+                "en": "Calling hooks at the top level of a functional component",
+                "ru": "Вызов хуков на верхнем уровне функционального компонента"
+            }
         ],
         "correct": [0, 2],
-        "explanation": "The Rules of Hooks require that hooks are called at the top level (not inside loops, conditions, or after early returns) and only from React functions (components or custom hooks). This ensures React can maintain a consistent call order between renders, which is how React tracks which state belongs to which hook. Options B and D are both valid usages."
+        "explanation": {
+            "en": "The Rules of Hooks require that hooks are called at the top level (not inside loops, conditions, or after early returns) and only from React functions (components or custom hooks). This ensures React can maintain a consistent call order between renders, which is how React tracks which state belongs to which hook. Options B and D are both valid usages.",
+            "ru": "Rules of Hooks требуют, чтобы хуки вызывались на верхнем уровне (не внутри циклов, условий или после раннего return) и только из React-функций (компонентов или кастомных хуков). Это позволяет React поддерживать стабильный порядок вызовов между рендерами — именно так React отслеживает, какой state какому хуку принадлежит. Варианты B и D — абсолютно валидные."
+        }
     },
     {
         "id": "react-lazy-data-001",
@@ -695,15 +1367,33 @@
         "category": "react",
         "difficulty": "hard",
         "tags": ["lazy", "Suspense", "data-fetching"],
-        "question": "To enable a component to suspend while fetching data (using the Suspense protocol), the data fetching library must:",
+        "question": {
+            "en": "To enable a component to suspend while fetching data (using the Suspense protocol), the data fetching library must:",
+            "ru": "Чтобы компонент мог саспендиться во время загрузки данных (по протоколу Suspense), библиотека для работы с данными должна:"
+        },
         "options": [
-            "Use `useEffect` and set a loading state",
-            "Throw a Promise while data is pending; re-render when the Promise resolves",
-            "Return `undefined` from the component until data is available",
-            "Call `ReactDOM.flushSync` to force a synchronous fetch"
+            {
+                "en": "Use `useEffect` and set a loading state",
+                "ru": "Использовать `useEffect` и выставлять loading-state"
+            },
+            {
+                "en": "Throw a Promise while data is pending; re-render when the Promise resolves",
+                "ru": "Выбрасывать Promise, пока данные не готовы, и ре-рендерить после его резолва"
+            },
+            {
+                "en": "Return `undefined` from the component until data is available",
+                "ru": "Возвращать из компонента `undefined`, пока данные недоступны"
+            },
+            {
+                "en": "Call `ReactDOM.flushSync` to force a synchronous fetch",
+                "ru": "Вызывать `ReactDOM.flushSync`, чтобы сделать fetch синхронным"
+            }
         ],
         "correct": 1,
-        "explanation": "The Suspense data-fetching protocol requires that during render, if data is not yet available, the component (or its cache layer) throws a Promise. React catches it, renders the nearest `<Suspense>` fallback, and re-renders the component once the Promise resolves. Libraries like Relay, SWR (experimental), and React Query implement this protocol."
+        "explanation": {
+            "en": "The Suspense data-fetching protocol requires that during render, if data is not yet available, the component (or its cache layer) throws a Promise. React catches it, renders the nearest `<Suspense>` fallback, and re-renders the component once the Promise resolves. Libraries like Relay, SWR (experimental), and React Query implement this protocol.",
+            "ru": "Протокол Suspense для загрузки данных требует, чтобы во время рендера, если данные ещё не готовы, компонент (или его слой кэша) выбросил Promise. React его ловит, рендерит fallback ближайшего `<Suspense>` и повторно рендерит компонент после резолва Promise. Этот протокол реализуют Relay, SWR (экспериментально), React Query и т. п."
+        }
     },
     {
         "id": "react-multi-choice-memo-patterns-001",
@@ -711,15 +1401,33 @@
         "category": "react",
         "difficulty": "hard",
         "tags": ["React.memo", "useMemo", "useCallback", "performance"],
-        "question": "Which of the following are valid reasons to use `React.memo` on a component? (Select all that apply)",
+        "question": {
+            "en": "Which of the following are valid reasons to use `React.memo` on a component? (Select all that apply)",
+            "ru": "Что из перечисленного — валидные причины использовать `React.memo` на компоненте? (Выберите все подходящие варианты)"
+        },
         "options": [
-            "The component receives the same props frequently and its render is computationally expensive",
-            "The component is a pure display component that relies only on its props",
-            "The parent re-renders often for reasons unrelated to the memoized component's props",
-            "You want to prevent the component from ever unmounting"
+            {
+                "en": "The component receives the same props frequently and its render is computationally expensive",
+                "ru": "Компонент часто получает одни и те же props, и его рендер вычислительно дорогой"
+            },
+            {
+                "en": "The component is a pure display component that relies only on its props",
+                "ru": "Компонент — чистый display-компонент, зависящий только от своих props"
+            },
+            {
+                "en": "The parent re-renders often for reasons unrelated to the memoized component's props",
+                "ru": "Родитель часто ре-рендерится по причинам, не связанным с props мемоизируемого компонента"
+            },
+            {
+                "en": "You want to prevent the component from ever unmounting",
+                "ru": "Вы хотите запретить компоненту анмаунтиться"
+            }
         ],
         "correct": [0, 1, 2],
-        "explanation": "`React.memo` is worthwhile when: the component is expensive to render AND receives unchanged props during parent re-renders. If the component is a cheap leaf node, the shallow-comparison overhead outweighs the savings. `React.memo` has no effect on mounting/unmounting — it only skips re-renders."
+        "explanation": {
+            "en": "`React.memo` is worthwhile when: the component is expensive to render AND receives unchanged props during parent re-renders. If the component is a cheap leaf node, the shallow-comparison overhead outweighs the savings. `React.memo` has no effect on mounting/unmounting — it only skips re-renders.",
+            "ru": "`React.memo` оправдан, когда компонент дорого рендерится И получает неизменные props при ре-рендерах родителя. Если компонент — дешёвый листовой узел, накладные расходы на поверхностное сравнение перевешивают выигрыш. На маунт/анмаунт `React.memo` не влияет — он только пропускает ре-рендеры."
+        }
     },
     {
         "id": "react-bug-controlled-uncontrolled-001",
@@ -727,11 +1435,17 @@
         "category": "react",
         "difficulty": "medium",
         "tags": ["controlled", "uncontrolled", "forms", "bugs"],
-        "question": "What warning does React log for this input, and why?",
+        "question": {
+            "en": "What warning does React log for this input, and why?",
+            "ru": "Какое предупреждение React выведет для этого инпута и почему?"
+        },
         "code": "function Form() {\n  const [value, setValue] = useState(undefined);\n\n  return (\n    <input\n      value={value}\n      onChange={e => setValue(e.target.value)}\n    />\n  );\n}",
         "correct": "React warns about switching from an uncontrolled to a controlled input because the initial `value` is `undefined` (treated as uncontrolled), then changes to a string (controlled)",
         "referenceAnswer": "Initialise state with an empty string instead of `undefined`:\n```jsx\nconst [value, setValue] = useState('');\n```\nWhen `value` is `undefined`, React treats the input as uncontrolled. When it becomes a string, React switches it to controlled — this transition is not allowed and triggers a warning.",
-        "explanation": "React determines controlled vs uncontrolled at mount time based on whether `value` is `undefined` or a defined value. Passing `undefined` means uncontrolled (DOM manages state); passing any other value (including `''`) means controlled (React manages state). Switching between modes is an error. Always initialise state to `''` for controlled text inputs."
+        "explanation": {
+            "en": "React determines controlled vs uncontrolled at mount time based on whether `value` is `undefined` or a defined value. Passing `undefined` means uncontrolled (DOM manages state); passing any other value (including `''`) means controlled (React manages state). Switching between modes is an error. Always initialise state to `''` for controlled text inputs.",
+            "ru": "React определяет controlled/uncontrolled в момент маунта по тому, является ли `value` `undefined` или нет. `undefined` означает uncontrolled (состоянием владеет DOM); любое другое значение (включая `''`) — controlled (состоянием владеет React). Переключение между режимами — ошибка. Для controlled текстовых инпутов всегда инициализируйте state пустой строкой `''`."
+        }
     },
     {
         "id": "react-completion-usetransition-001",
@@ -739,11 +1453,17 @@
         "category": "react",
         "difficulty": "medium",
         "tags": ["useTransition", "concurrent", "performance"],
-        "question": "Fill in the blanks to mark a search state update as a non-urgent transition:",
+        "question": {
+            "en": "Fill in the blanks to mark a search state update as a non-urgent transition:",
+            "ru": "Заполните пропуски, чтобы пометить обновление state поиска как несрочный transition:"
+        },
         "code": "function SearchPage() {\n  const [query, setQuery] = useState('');\n  const [___, startTransition] = ___();\n\n  function handleChange(e) {\n    setQuery(e.target.value);\n    ___((() => {\n      setSearchResults(performSearch(e.target.value));\n    }));\n  }\n\n  return (\n    <>\n      {isPending && <Spinner />}\n      <input value={query} onChange={handleChange} />\n    </>\n  );\n}",
         "blanks": ["isPending", "useTransition", "startTransition"],
         "lang": "jsx",
         "referenceAnswer": "function SearchPage() {\n  const [query, setQuery] = useState('');\n  const [isPending, startTransition] = useTransition();\n\n  function handleChange(e) {\n    setQuery(e.target.value);\n    startTransition(() => {\n      setSearchResults(performSearch(e.target.value));\n    });\n  }\n\n  return (\n    <>\n      {isPending && <Spinner />}\n      <input value={query} onChange={handleChange} />\n    </>\n  );\n}",
-        "explanation": "`useTransition()` returns `[isPending, startTransition]`. The urgent `setQuery` update (keeping the input responsive) runs immediately. The expensive `setSearchResults` update is wrapped in `startTransition`, making it interruptible. If the user types again before it finishes, React discards the in-progress search render and starts fresh. `isPending` drives the loading indicator."
+        "explanation": {
+            "en": "`useTransition()` returns `[isPending, startTransition]`. The urgent `setQuery` update (keeping the input responsive) runs immediately. The expensive `setSearchResults` update is wrapped in `startTransition`, making it interruptible. If the user types again before it finishes, React discards the in-progress search render and starts fresh. `isPending` drives the loading indicator.",
+            "ru": "`useTransition()` возвращает `[isPending, startTransition]`. Срочный апдейт `setQuery` (инпут остаётся отзывчивым) выполняется немедленно. Дорогой апдейт `setSearchResults` оборачивается в `startTransition` и становится прерываемым. Если пользователь снова напечатает что-то до его завершения, React отбрасывает незаконченный рендер поиска и начинает заново. `isPending` управляет индикатором загрузки."
+        }
     }
 ]

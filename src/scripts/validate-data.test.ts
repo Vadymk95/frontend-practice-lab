@@ -13,9 +13,14 @@ const VALID_QUESTION = {
     category: 'test',
     difficulty: 'easy',
     tags: ['test'],
-    question: 'What is 2+2?',
-    explanation: 'Basic arithmetic.',
-    options: ['3', '4', '5', '6'],
+    question: { en: 'What is 2+2?', ru: 'What is 2+2?' },
+    explanation: { en: 'Basic arithmetic.', ru: 'Basic arithmetic.' },
+    options: [
+        { en: '3', ru: '3' },
+        { en: '4', ru: '4' },
+        { en: '5', ru: '5' },
+        { en: '6', ru: '6' }
+    ],
     correct: 1
 };
 
