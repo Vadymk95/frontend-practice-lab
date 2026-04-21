@@ -7,15 +7,15 @@ test.describe('Header controls', () => {
 
     test('theme toggle switches dark/light class on html element', async ({ page }) => {
         const html = page.locator('html');
-        const initialClass = await html.getAttribute('class');
-        const isDark = initialClass?.includes('dark');
+        const initialClass = (await html.getAttribute('class')) ?? '';
+        const isDark = initialClass.includes('dark');
 
         const themeBtn = page.getByRole('button', {
             name: /Switch to|Переключить на/i
         });
         await themeBtn.click();
 
-        const newClass = await html.getAttribute('class');
+        const newClass = (await html.getAttribute('class')) ?? '';
         if (isDark) {
             expect(newClass).not.toContain('dark');
         } else {
@@ -25,13 +25,13 @@ test.describe('Header controls', () => {
 
     test('theme toggle persists on reload', async ({ page }) => {
         const html = page.locator('html');
-        const initialClass = await html.getAttribute('class');
-        const isDark = initialClass?.includes('dark');
+        const initialClass = (await html.getAttribute('class')) ?? '';
+        const isDark = initialClass.includes('dark');
 
         await page.getByRole('button', { name: /Switch to|Переключить на/i }).click();
 
         await page.reload();
-        const newClass = await html.getAttribute('class');
+        const newClass = (await html.getAttribute('class')) ?? '';
         if (isDark) {
             expect(newClass).not.toContain('dark');
         } else {
