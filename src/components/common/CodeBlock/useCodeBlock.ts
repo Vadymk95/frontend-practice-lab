@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { useTheme } from '@/hooks/ui/useTheme';
 import { getHighlighter } from '@/lib/shiki';
 
 interface UseCodeBlockProps {
@@ -14,18 +15,20 @@ interface UseCodeBlockReturn {
 }
 
 export function useCodeBlock({ code, lang = 'javascript' }: UseCodeBlockProps): UseCodeBlockReturn {
+    const { theme } = useTheme();
     const [highlightedHtml, setHighlightedHtml] = useState<string | null>(null);
     const [isCopied, setIsCopied] = useState(false);
     const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     useEffect(() => {
         let cancelled = false;
+        const shikiTheme = theme === 'light' ? 'github-light' : 'github-dark';
         setHighlightedHtml(null);
         getHighlighter()
             .then((h) => {
                 if (!cancelled) {
                     try {
-                        setHighlightedHtml(h.codeToHtml(code, { lang, theme: 'github-dark' }));
+                        setHighlightedHtml(h.codeToHtml(code, { lang, theme: shikiTheme }));
                     } catch {
                         // unsupported language or invalid code — keep fallback
                     }
@@ -37,7 +40,7 @@ export function useCodeBlock({ code, lang = 'javascript' }: UseCodeBlockProps): 
         return () => {
             cancelled = true;
         };
-    }, [code, lang]);
+    }, [code, lang, theme]);
 
     useEffect(
         () => () => {

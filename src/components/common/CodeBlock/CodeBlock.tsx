@@ -19,7 +19,7 @@ export const CodeBlock: FC<CodeBlockProps> = ({ code, lang = 'javascript', class
     return (
         <div
             className={cn(
-                'relative rounded-none border border-border bg-[#0d1117] font-mono text-sm',
+                'relative rounded-none border border-border bg-white font-mono text-sm dark:bg-[#0d1117]',
                 className
             )}
         >
