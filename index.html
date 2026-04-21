@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="ru">
     <!-- lang attribute will be updated dynamically by i18next -->
     <head>
         <meta charset="UTF-8" />
@@ -12,18 +12,28 @@
 
         <!-- Inter Font is downloaded and bundled by vite-plugin-webfont-dl -->
 
-        <!-- Google Analytics — only initialised when VITE_GA_ID is set at build time -->
+        <script>
+            (function () {
+                try {
+                    var raw = localStorage.getItem('ios_theme');
+                    var t = raw ? raw.replace(/^"|"$/g, '') : null;
+                    if (t !== 'light') document.documentElement.classList.add('dark');
+                } catch (e) {}
+            })();
+        </script>
+
+        <!-- GA:START -->
+        <!-- Google Analytics — stripped at build time when VITE_GA_ID is unset -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=%VITE_GA_ID%"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
             function gtag() {
                 dataLayer.push(arguments);
             }
-            if ('%VITE_GA_ID%') {
-                gtag('js', new Date());
-                gtag('config', '%VITE_GA_ID%');
-            }
+            gtag('js', new Date());
+            gtag('config', '%VITE_GA_ID%');
         </script>
+        <!-- GA:END -->
     </head>
     <body>
         <div id="root" class="root-container"></div>

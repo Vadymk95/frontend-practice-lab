@@ -10,6 +10,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 import svgr from 'vite-plugin-svgr';
 import { webfontDownload } from 'vite-plugin-webfont-dl';
 
+import { htmlGaGate } from './vite-plugins/html-ga-gate';
 import { htmlOptimize } from './vite-plugins/html-optimize';
 import { i18nHmr } from './vite-plugins/i18n-hmr';
 
@@ -32,6 +33,8 @@ export default defineConfig(({ command }) => ({
         svgr(),
         // Prevents FOUC by ensuring CSS loads before JavaScript
         htmlOptimize(),
+        // Strips the GA block from index.html when VITE_GA_ID is unset at build time
+        htmlGaGate(),
         // Hot reload for i18n translation files in development
         i18nHmr(),
         compression({
