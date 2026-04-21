@@ -5,8 +5,20 @@ import { expect, test } from '@playwright/test';
 async function fetchManifest(baseURL: string) {
     const res = await fetch(`${baseURL}/data/manifest.json`);
     return res.json() as Promise<
-        { slug: string; displayName: string; counts: { total: number } }[]
+        { slug: string; displayName: string; counts: { total: number; quiz: number } }[]
     >;
+}
+
+// UI renders category display names through i18n (default locale: ru).
+// Resolve the same way as useCategoryDisplay: locale key wins, manifest.displayName is fallback.
+async function fetchCategoryDisplayMap(baseURL: string): Promise<Record<string, string>> {
+    const res = await fetch(`${baseURL}/locales/ru/home.json`);
+    const home = (await res.json()) as { categories?: Record<string, { display?: string }> };
+    const map: Record<string, string> = {};
+    for (const [slug, v] of Object.entries(home.categories ?? {})) {
+        if (v?.display) map[slug] = v.display;
+    }
+    return map;
 }
 
 test.describe('Categories — display names', () => {
@@ -15,13 +27,15 @@ test.describe('Categories — display names', () => {
         baseURL
     }) => {
         const manifest = await fetchManifest(baseURL!);
+        const displayMap = await fetchCategoryDisplayMap(baseURL!);
         await page.goto('/');
         await page.waitForSelector('[role="checkbox"]', { timeout: 10000 });
 
-        for (const { displayName } of manifest) {
+        for (const { slug, displayName } of manifest) {
+            const name = displayMap[slug] ?? displayName;
             await expect(
-                page.locator('[role="checkbox"]').filter({ hasText: displayName }),
-                `Category "${displayName}" should be visible`
+                page.locator('[role="checkbox"]').filter({ hasText: name }),
+                `Category "${name}" (slug: ${slug}) should be visible`
             ).toBeVisible();
         }
     });
