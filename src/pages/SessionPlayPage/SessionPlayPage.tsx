@@ -1,10 +1,9 @@
-import { type FC, useCallback, useEffect, useRef, useState } from 'react';
+import { type FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { ErrorState } from '@/components/common/ErrorState';
 import { QuestionCard } from '@/components/features/QuestionCard';
 import { Button } from '@/components/ui/button';
-import { useQuestionKeyboard } from '@/hooks/ui/useQuestionKeyboard';
 import { formatTimer } from '@/lib/utils/formatTimer';
 
 import { useSessionPlayPage } from './useSessionPlayPage';
@@ -16,100 +15,26 @@ export const SessionPlayPage: FC = () => {
         isSetupLoading,
         isSetupError,
         questionCount,
-        currentQuestion,
         isAnswered,
         timerEnabled,
         timerMs,
-        handleNext,
-        onRetry
-    } = useSessionPlayPage();
-
-    const [multiHasSelection, setMultiHasSelection] = useState(false);
-    const checkFnRef = useRef<(() => void) | null>(null);
-
-    const [codeCompletionAllFilled, setCodeCompletionAllFilled] = useState(false);
-    const [bugFindingCanSubmit, setBugFindingCanSubmit] = useState(false);
-    const submitFnRef = useRef<(() => void) | null>(null);
-    const selectFnRef = useRef<((idx: number) => void) | null>(null);
-
-    const handleSelectionChange = useCallback((hasSelection: boolean) => {
-        setMultiHasSelection(hasSelection);
-    }, []);
-
-    const handleCheckRegister = useCallback((checkFn: () => void) => {
-        checkFnRef.current = checkFn;
-    }, []);
-
-    const handleCheck = useCallback(() => {
-        checkFnRef.current?.();
-    }, []);
-
-    const handleAllBlanksFilled = useCallback((filled: boolean) => {
-        setCodeCompletionAllFilled(filled);
-    }, []);
-
-    const handleBugFindingCanSubmit = useCallback((canSubmit: boolean) => {
-        setBugFindingCanSubmit(canSubmit);
-    }, []);
-
-    const handleSubmitRegister = useCallback((submitFn: () => void) => {
-        submitFnRef.current = submitFn;
-    }, []);
-
-    const handleSubmit = useCallback(() => {
-        submitFnRef.current?.();
-    }, []);
-
-    const handleSelectOptionRegister = useCallback((fn: (idx: number) => void) => {
-        selectFnRef.current = fn;
-    }, []);
-
-    const handleSelectOption = useCallback((idx: number) => {
-        selectFnRef.current?.(idx);
-    }, []);
-
-    useEffect(() => {
-        setMultiHasSelection(false);
-        checkFnRef.current = null;
-        setCodeCompletionAllFilled(false);
-        setBugFindingCanSubmit(false);
-        submitFnRef.current = null;
-        selectFnRef.current = null;
-    }, [currentQuestion?.id]);
-
-    const isMultiChoice = currentQuestion?.type === 'multi-choice';
-    const isCodeCompletion = currentQuestion?.type === 'code-completion';
-    const isBugFinding = currentQuestion?.type === 'bug-finding';
-
-    const optionCount =
-        currentQuestion?.type === 'single-choice' || currentQuestion?.type === 'multi-choice'
-            ? currentQuestion.options.length
-            : 0;
-
-    const handleKeyboardSubmit = useCallback(() => {
-        if (isAnswered) {
-            handleNext();
-        } else if (isMultiChoice) {
-            handleCheck();
-        } else if (isCodeCompletion || isBugFinding) {
-            handleSubmit();
-        }
-    }, [
-        isAnswered,
         isMultiChoice,
         isCodeCompletion,
         isBugFinding,
+        multiHasSelection,
+        codeCompletionAllFilled,
+        bugFindingCanSubmit,
         handleNext,
         handleCheck,
-        handleSubmit
-    ]);
-
-    useQuestionKeyboard({
-        optionCount,
-        onSelectOption: handleSelectOption,
-        onSubmit: handleKeyboardSubmit,
-        isAnswered
-    });
+        handleSubmit,
+        onRetry,
+        onSelectionChange,
+        onCheckRegister,
+        onSubmitRegister,
+        onAllBlanksFilled,
+        onBugFindingCanSubmit,
+        onSelectOptionRegister
+    } = useSessionPlayPage();
 
     if (isSetupError) {
         return <ErrorState message={tSession('errors.fetchQuestions')} onRetry={onRetry} />;
@@ -137,12 +62,12 @@ export const SessionPlayPage: FC = () => {
             )}
 
             <QuestionCard
-                onSelectionChange={handleSelectionChange}
-                onCheckRegister={handleCheckRegister}
-                onSubmitRegister={handleSubmitRegister}
-                onAllBlanksFilled={handleAllBlanksFilled}
-                onBugFindingCanSubmit={handleBugFindingCanSubmit}
-                onSelectOptionRegister={handleSelectOptionRegister}
+                onSelectionChange={onSelectionChange}
+                onCheckRegister={onCheckRegister}
+                onSubmitRegister={onSubmitRegister}
+                onAllBlanksFilled={onAllBlanksFilled}
+                onBugFindingCanSubmit={onBugFindingCanSubmit}
+                onSelectOptionRegister={onSelectOptionRegister}
             />
 
             {/* Desktop inline — Check button (multi-choice, not yet answered) */}

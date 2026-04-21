@@ -1,12 +1,43 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useSessionSetup } from '@/hooks/session/useSessionSetup';
+import { useQuestionKeyboard } from '@/hooks/ui/useQuestionKeyboard';
 import { track } from '@/lib/analytics';
+import type { Question } from '@/lib/data/schema';
 import { RoutesPath } from '@/router/routes';
 import { useSessionStore } from '@/store/session';
 
-export function useSessionPlayPage() {
+export interface SessionPlayPageState {
+    isSetupLoading: boolean;
+    isSetupError: boolean;
+    questionCount: number;
+    currentQuestion: Question | null;
+    isAnswered: boolean;
+    timerEnabled: boolean;
+    timerMs: number;
+
+    isMultiChoice: boolean;
+    isCodeCompletion: boolean;
+    isBugFinding: boolean;
+    multiHasSelection: boolean;
+    codeCompletionAllFilled: boolean;
+    bugFindingCanSubmit: boolean;
+
+    handleNext: () => void;
+    handleCheck: () => void;
+    handleSubmit: () => void;
+    onRetry: () => void;
+
+    onSelectionChange: (hasSelection: boolean) => void;
+    onCheckRegister: (checkFn: () => void) => void;
+    onSubmitRegister: (submitFn: () => void) => void;
+    onAllBlanksFilled: (filled: boolean) => void;
+    onBugFindingCanSubmit: (canSubmit: boolean) => void;
+    onSelectOptionRegister: (fn: (idx: number) => void) => void;
+}
+
+export function useSessionPlayPage(): SessionPlayPageState {
     const navigate = useNavigate();
     const { isLoading: isSetupLoading, isError: isSetupError, refetch } = useSessionSetup();
     const config = useSessionStore.use.config();
@@ -74,16 +105,119 @@ export function useSessionPlayPage() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [timerEnabled]); // only start once when timer is enabled
 
+    const [multiHasSelection, setMultiHasSelection] = useState(false);
+    const [codeCompletionAllFilled, setCodeCompletionAllFilled] = useState(false);
+    const [bugFindingCanSubmit, setBugFindingCanSubmit] = useState(false);
+
+    const checkFnRef = useRef<(() => void) | null>(null);
+    const submitFnRef = useRef<(() => void) | null>(null);
+    const selectFnRef = useRef<((idx: number) => void) | null>(null);
+
+    const onSelectionChange = useCallback((hasSelection: boolean) => {
+        setMultiHasSelection(hasSelection);
+    }, []);
+
+    const onCheckRegister = useCallback((checkFn: () => void) => {
+        checkFnRef.current = checkFn;
+    }, []);
+
+    const handleCheck = useCallback(() => {
+        checkFnRef.current?.();
+    }, []);
+
+    const onAllBlanksFilled = useCallback((filled: boolean) => {
+        setCodeCompletionAllFilled(filled);
+    }, []);
+
+    const onBugFindingCanSubmit = useCallback((canSubmit: boolean) => {
+        setBugFindingCanSubmit(canSubmit);
+    }, []);
+
+    const onSubmitRegister = useCallback((submitFn: () => void) => {
+        submitFnRef.current = submitFn;
+    }, []);
+
+    const handleSubmit = useCallback(() => {
+        submitFnRef.current?.();
+    }, []);
+
+    const onSelectOptionRegister = useCallback((fn: (idx: number) => void) => {
+        selectFnRef.current = fn;
+    }, []);
+
+    const handleSelectOption = useCallback((idx: number) => {
+        selectFnRef.current?.(idx);
+    }, []);
+
+    useEffect(() => {
+        setMultiHasSelection(false);
+        checkFnRef.current = null;
+        setCodeCompletionAllFilled(false);
+        setBugFindingCanSubmit(false);
+        submitFnRef.current = null;
+        selectFnRef.current = null;
+    }, [currentQuestion?.id]);
+
+    const isMultiChoice = currentQuestion?.type === 'multi-choice';
+    const isCodeCompletion = currentQuestion?.type === 'code-completion';
+    const isBugFinding = currentQuestion?.type === 'bug-finding';
+
+    const optionCount =
+        currentQuestion?.type === 'single-choice' || currentQuestion?.type === 'multi-choice'
+            ? currentQuestion.options.length
+            : 0;
+
+    const handleKeyboardSubmit = useCallback(() => {
+        if (isAnswered) {
+            handleNext();
+        } else if (isMultiChoice) {
+            handleCheck();
+        } else if (isCodeCompletion || isBugFinding) {
+            handleSubmit();
+        }
+    }, [
+        isAnswered,
+        isMultiChoice,
+        isCodeCompletion,
+        isBugFinding,
+        handleNext,
+        handleCheck,
+        handleSubmit
+    ]);
+
+    useQuestionKeyboard({
+        optionCount,
+        onSelectOption: handleSelectOption,
+        onSubmit: handleKeyboardSubmit,
+        isAnswered
+    });
+
     return {
         isSetupLoading,
         isSetupError,
         questionCount: questionList.length,
-        currentIndex,
         currentQuestion,
         isAnswered,
         timerEnabled,
         timerMs,
+
+        isMultiChoice,
+        isCodeCompletion,
+        isBugFinding,
+        multiHasSelection,
+        codeCompletionAllFilled,
+        bugFindingCanSubmit,
+
         handleNext,
-        onRetry: refetch
+        handleCheck,
+        handleSubmit,
+        onRetry: refetch,
+
+        onSelectionChange,
+        onCheckRegister,
+        onSubmitRegister,
+        onAllBlanksFilled,
+        onBugFindingCanSubmit,
+        onSelectOptionRegister
     };
 }
