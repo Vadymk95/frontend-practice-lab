@@ -299,17 +299,25 @@ export const DevPlayground: FC = () => {
                                 category: 'javascript',
                                 difficulty: 'medium',
                                 tags: ['closures'],
-                                question: 'Find the bug in this closure:',
+                                question: {
+                                    en: 'Find the bug in this closure:',
+                                    ru: 'Найдите баг в этом замыкании:'
+                                },
                                 code: `for (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 100);\n}`,
                                 options: [
-                                    'var should be let',
-                                    'setTimeout delay is wrong',
-                                    'console.log is wrong'
+                                    { en: 'var should be let', ru: 'var должен быть let' },
+                                    {
+                                        en: 'setTimeout delay is wrong',
+                                        ru: 'неверная задержка setTimeout'
+                                    },
+                                    { en: 'console.log is wrong', ru: 'неверный console.log' }
                                 ],
-                                correct: 'var should be let',
+                                correct: 0,
                                 referenceAnswer: `for (let i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 100);\n}`,
-                                explanation:
-                                    'var is function-scoped. By the time the timeouts fire, i is 3. Using let creates a new binding per iteration.'
+                                explanation: {
+                                    en: 'var is function-scoped. By the time the timeouts fire, i is 3. Using let creates a new binding per iteration.',
+                                    ru: 'var имеет функциональную область видимости. Когда срабатывают таймеры, i уже равен 3. let создаёт новую привязку на каждой итерации.'
+                                }
                             }}
                             onSubmitRegister={() => {}}
                             onSelfAssessRegister={() => {}}
@@ -326,12 +334,17 @@ export const DevPlayground: FC = () => {
                                 category: 'javascript',
                                 difficulty: 'easy',
                                 tags: ['types'],
-                                question: 'What is wrong with this comparison?',
+                                question: {
+                                    en: 'What is wrong with this comparison?',
+                                    ru: 'Что не так с этим сравнением?'
+                                },
                                 code: `if (userAge == "18") {\n  grantAccess();\n}`,
                                 correct: 'uses loose equality instead of strict',
                                 referenceAnswer: `if (userAge === 18) {\n  grantAccess();\n}`,
-                                explanation:
-                                    'Use === for type-safe comparison. == coerces types which can lead to unexpected behavior.'
+                                explanation: {
+                                    en: 'Use === for type-safe comparison. == coerces types which can lead to unexpected behavior.',
+                                    ru: 'Используйте === для строгого сравнения. == приводит типы, что может приводить к неожиданному поведению.'
+                                }
                             }}
                             onSubmitRegister={() => {}}
                             onSelfAssessRegister={() => {}}
@@ -355,12 +368,17 @@ export const DevPlayground: FC = () => {
                                 category: 'javascript',
                                 difficulty: 'easy',
                                 tags: ['variables'],
-                                question: 'Complete the function body:',
+                                question: {
+                                    en: 'Complete the function body:',
+                                    ru: 'Дополните тело функции:'
+                                },
                                 code: 'function add(a, b) {\n  return __BLANK__ + __BLANK__;\n}',
                                 blanks: ['a', 'b'],
                                 referenceAnswer: 'function add(a, b) {\n  return a + b;\n}',
-                                explanation:
-                                    'Add the two parameters. Both a and b are the function arguments.'
+                                explanation: {
+                                    en: 'Add the two parameters. Both a and b are the function arguments.',
+                                    ru: 'Сложите два параметра. a и b — аргументы функции.'
+                                }
                             }}
                             onSubmitRegister={() => {}}
                             onAllBlanksFilled={() => {}}
