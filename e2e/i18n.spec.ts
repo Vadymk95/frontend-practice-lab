@@ -83,9 +83,9 @@ test.describe('i18n — question content switches between RU and EN', () => {
 
         // Toggle to EN — same question, English text
         await toggleLanguage(page);
-        await expect(questionHeading).toBeVisible();
+        // Wait for the heading to re-render with translated text before reading it
+        await expect(questionHeading).not.toHaveText(ruText, { timeout: 3000 });
         const enText = (await questionHeading.textContent()) ?? '';
-        expect(enText).not.toBe(ruText);
         // English prompt should not contain Cyrillic
         expect(enText).not.toMatch(/[а-яА-ЯёЁ]/);
     });

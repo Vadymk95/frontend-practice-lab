@@ -15,13 +15,12 @@ async function dispatchInstallPrompt(page: import('@playwright/test').Page) {
 }
 
 /** Complete a 1-question session and arrive at /session/summary.
- *  Uses difficulty=easy + mode=quiz to guarantee a single-choice question. */
+ *  Skips the question regardless of type — PWA tests care about the toast,
+ *  not the answer flow, so we avoid coupling to question-type specifics. */
 async function completeMiniSession(page: import('@playwright/test').Page) {
     await page.goto('/');
     await page.waitForSelector('[role="checkbox"]', { timeout: 10000 });
     await page.locator('[role="checkbox"]').first().click();
-    await page.getByRole('radio', { name: /Лёгкий|Easy/i }).click();
-    await page.getByRole('radio', { name: /Тест|Quiz/i }).click();
     await page.locator('input[type="number"]').fill('1');
     await page
         .getByRole('button', { name: /Начать|Start/i })
@@ -29,8 +28,7 @@ async function completeMiniSession(page: import('@playwright/test').Page) {
         .click();
     await page.waitForURL('**/session/play');
     await page.waitForSelector('article h2', { timeout: 8000 });
-    await page.locator('[role="radiogroup"]').waitFor({ timeout: 5000 });
-    await page.locator('[role="radio"]').first().click();
+    await page.getByRole('button', { name: /Пропустить|Skip/i }).click();
     await page.getByRole('button', { name: /Далее|Next/i }).click();
     await page.waitForURL('**/session/summary', { timeout: 5000 });
 }

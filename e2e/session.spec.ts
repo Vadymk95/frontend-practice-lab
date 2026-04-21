@@ -1,16 +1,16 @@
 import { expect, test } from '@playwright/test';
 
-/** Start a 1-question session: first category, difficulty=easy, mode=quiz, count=1.
- *  With difficulty=easy + mode=quiz, only single-choice questions are available,
- *  so waitForQuestion / answerAndNext can reliably use [role="radio"]. */
+/** Start a 1-question session: React category, difficulty=easy, mode=quiz, count=1.
+ *  React has no easy multi-choice questions — combined with easy+quiz this
+ *  guarantees a single-choice question, so [role="radio"] assertions are stable. */
 async function startMinSession(page: import('@playwright/test').Page) {
     await page.goto('/');
     // Wait for categories to load before clicking
     await page.waitForSelector('[role="checkbox"]', { timeout: 10000 });
-    await page.locator('[role="checkbox"]').first().click();
+    await page.getByRole('checkbox', { name: 'React' }).click();
     // Set difficulty to easy (guarantees only easy questions)
     await page.getByRole('radio', { name: /Лёгкий|Easy/i }).click();
-    // Set mode to quiz (filters to single-choice + multi-choice; combined with easy → single-choice only)
+    // Set mode to quiz (filters to single-choice + multi-choice; React has 0 easy multi-choice → single-choice only)
     await page.getByRole('radio', { name: /Тест|Quiz/i }).click();
     await page.locator('input[type="number"]').fill('1');
     await page
