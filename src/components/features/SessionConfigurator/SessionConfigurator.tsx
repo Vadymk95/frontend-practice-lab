@@ -1,3 +1,4 @@
+import { Bookmark } from 'lucide-react';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -5,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { useCategoryDisplay } from '@/hooks/data/useCategoryDisplay';
 import type { SessionConfig } from '@/lib/storage/types';
 import { cn } from '@/lib/utils';
 
@@ -20,6 +22,7 @@ interface SessionConfiguratorProps {
 
 export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfig }) => {
     const { t } = useTranslation('home');
+    const getCategoryName = useCategoryDisplay();
     const {
         categories,
         isLoading,
@@ -103,7 +106,9 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
                                                 count === 0 && 'opacity-50'
                                             )}
                                         >
-                                            <span>{cat.displayName}</span>
+                                            <span>
+                                                {getCategoryName(cat.slug, cat.displayName)}
+                                            </span>
                                             <span className="flex items-center gap-1 shrink-0">
                                                 {showBadge && (
                                                     <span className="bg-destructive/20 text-destructive text-[10px] px-1 rounded">
@@ -273,11 +278,17 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
                 </div>
             )}
 
-            {/* Sticky Start Button (mobile) */}
+            {/* Sticky Start Button (mobile) — icon-only Save preset keeps Start dominant */}
             <div className="fixed bottom-0 left-0 right-0 border-t border-border bg-surface px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] flex items-center gap-2 lg:hidden">
                 {isStartEnabled && (
-                    <Button variant="outline" onClick={handleSavePreset}>
-                        {t('configurator.savePreset')}
+                    <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={handleSavePreset}
+                        aria-label={t('configurator.savePreset')}
+                        title={t('configurator.savePreset')}
+                    >
+                        <Bookmark size={18} aria-hidden="true" />
                     </Button>
                 )}
                 <Button className="flex-1" disabled={!isStartEnabled} onClick={handleStart}>

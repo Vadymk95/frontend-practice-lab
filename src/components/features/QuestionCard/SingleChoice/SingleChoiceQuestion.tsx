@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 
 import type { SingleChoiceQuestion as SingleChoiceQuestionType } from '@/lib/data/schema';
+import { useLocalized } from '@/lib/i18n/localized';
 
 import { AnswerOption } from '../AnswerOption';
 import { ExplanationPanel } from '../ExplanationPanel';
@@ -22,6 +23,7 @@ export const SingleChoiceQuestion: FC<Props> = ({
         isSkipped,
         onSelectOptionRegister
     );
+    const pick = useLocalized();
 
     return (
         <div className="flex flex-col gap-2">
@@ -30,7 +32,7 @@ export const SingleChoiceQuestion: FC<Props> = ({
                     <AnswerOption
                         key={index}
                         index={index}
-                        text={option}
+                        text={pick(option)}
                         isSelected={selectedIndex === index}
                         isAnswered={isAnswered}
                         isCorrect={question.correct === index}
@@ -39,7 +41,7 @@ export const SingleChoiceQuestion: FC<Props> = ({
                     />
                 ))}
             </div>
-            {isAnswered && <ExplanationPanel explanation={question.explanation} />}
+            {isAnswered && <ExplanationPanel explanation={pick(question.explanation)} />}
         </div>
     );
 };

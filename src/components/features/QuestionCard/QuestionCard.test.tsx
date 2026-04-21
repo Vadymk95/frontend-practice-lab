@@ -13,9 +13,20 @@ const mockQuestion: SingleChoiceQuestion = {
     category: 'JavaScript',
     difficulty: 'medium',
     tags: [],
-    question: 'What does typeof null return?',
-    explanation: 'null is a primitive but typeof returns object.',
-    options: ['null', 'undefined', 'object', 'number'],
+    question: {
+        en: 'What does typeof null return?',
+        ru: 'What does typeof null return?'
+    },
+    explanation: {
+        en: 'null is a primitive but typeof returns object.',
+        ru: 'null is a primitive but typeof returns object.'
+    },
+    options: [
+        { en: 'null', ru: 'null' },
+        { en: 'undefined', ru: 'undefined' },
+        { en: 'object', ru: 'object' },
+        { en: 'number', ru: 'number' }
+    ],
     correct: 2
 };
 
@@ -191,9 +202,17 @@ describe('QuestionCard', () => {
             category: 'JavaScript',
             difficulty: 'medium',
             tags: [],
-            question: 'Which are truthy?',
-            explanation: 'Empty array and non-zero numbers are truthy.',
-            options: ['0', '[]', '""', '1'],
+            question: { en: 'Which are truthy?', ru: 'Which are truthy?' },
+            explanation: {
+                en: 'Empty array and non-zero numbers are truthy.',
+                ru: 'Empty array and non-zero numbers are truthy.'
+            },
+            options: [
+                { en: '0', ru: '0' },
+                { en: '[]', ru: '[]' },
+                { en: '""', ru: '""' },
+                { en: '1', ru: '1' }
+            ],
             correct: [1, 3]
         };
         useSessionStore.setState({

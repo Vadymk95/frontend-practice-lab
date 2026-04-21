@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 
 import type { MultiChoiceQuestion as MultiChoiceQuestionData } from '@/lib/data/schema';
+import { useLocalized } from '@/lib/i18n/localized';
 
 import { AnswerOption } from '../AnswerOption';
 import { ExplanationPanel } from '../ExplanationPanel';
@@ -28,6 +29,7 @@ export const MultiChoiceQuestion: FC<Props> = ({
         onCheckRegister,
         onSelectOptionRegister
     );
+    const pick = useLocalized();
 
     return (
         <div className="flex flex-col gap-2">
@@ -41,7 +43,7 @@ export const MultiChoiceQuestion: FC<Props> = ({
                         <AnswerOption
                             key={`${question.id}-${index}`}
                             index={index}
-                            text={option}
+                            text={pick(option)}
                             variant="checkbox"
                             isSelected={isSelected}
                             isAnswered={isChecked}
@@ -53,7 +55,7 @@ export const MultiChoiceQuestion: FC<Props> = ({
                     );
                 })}
             </div>
-            {isChecked && <ExplanationPanel explanation={question.explanation} />}
+            {isChecked && <ExplanationPanel explanation={pick(question.explanation)} />}
         </div>
     );
 };

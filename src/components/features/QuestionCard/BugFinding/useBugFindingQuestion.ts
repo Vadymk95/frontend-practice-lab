@@ -67,7 +67,10 @@ export function useBugFindingQuestion({
             if (!textAnswer.trim()) return;
         }
         setIsSubmitted(true);
-        const rawAnswer = question.options ? question.options[selectedOption!] : textAnswer.trim();
+        // Persist the EN branch as a stable, language-agnostic key for option choices.
+        const rawAnswer = question.options
+            ? question.options[selectedOption!].en
+            : textAnswer.trim();
         setAnswer(question.id, rawAnswer);
     }, [isSubmitted, question, selectedOption, textAnswer, setAnswer]);
 

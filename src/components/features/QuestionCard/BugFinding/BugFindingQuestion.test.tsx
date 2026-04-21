@@ -22,12 +22,19 @@ const makeBugFindingQuestion = (
     category: 'javascript',
     difficulty: 'medium',
     tags: ['test'],
-    question: 'Find the bug in this code',
+    question: { en: 'Find the bug in this code', ru: 'Find the bug in this code' },
     code: 'for (var i = 0; i < 3; i++) { setTimeout(() => console.log(i), 100); }',
-    options: ['var should be let', 'setTimeout delay is wrong', 'Arrow function is wrong'],
-    correct: 'var should be let',
+    options: [
+        { en: 'var should be let', ru: 'var should be let' },
+        { en: 'setTimeout delay is wrong', ru: 'setTimeout delay is wrong' },
+        { en: 'Arrow function is wrong', ru: 'Arrow function is wrong' }
+    ],
+    correct: 0,
     referenceAnswer: 'for (let i = 0; i < 3; i++) { setTimeout(() => console.log(i), 100); }',
-    explanation: 'var is function-scoped; use let for block-scoped binding.',
+    explanation: {
+        en: 'var is function-scoped; use let for block-scoped binding.',
+        ru: 'var is function-scoped; use let for block-scoped binding.'
+    },
     ...overrides
 });
 

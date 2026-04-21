@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import type { ManifestEntry } from '@/hooks/data/useCategories';
 import { useCategories } from '@/hooks/data/useCategories';
+import { useCategoryDisplay } from '@/hooks/data/useCategoryDisplay';
 import type { SessionConfig } from '@/lib/storage/types';
 import { RoutesPath } from '@/router/routes';
 import { usePresetStore } from '@/store/presets';
@@ -13,10 +14,15 @@ type Difficulty = SessionConfig['difficulty'];
 type Mode = SessionConfig['mode'];
 type Order = SessionConfig['order'];
 
-export function generatePresetName(config: SessionConfig, categories: ManifestEntry[]): string {
+export function generatePresetName(
+    config: SessionConfig,
+    categories: ManifestEntry[],
+    resolveName: (slug: string, fallback?: string) => string = (_slug, fallback) =>
+        fallback ?? _slug
+): string {
     const catLabels = categories
         .filter((c) => config.categories.includes(c.slug))
-        .map((c) => c.displayName);
+        .map((c) => resolveName(c.slug, c.displayName));
     const catPart = catLabels.slice(0, 2).join('+') + (catLabels.length > 2 ? '+…' : '');
     return `${catPart} · ${config.difficulty} · ${config.questionCount}q`;
 }
@@ -65,6 +71,7 @@ export function useSessionConfigurator(initialConfig?: SessionConfig) {
     const setConfig = useSessionStore.use.setConfig();
     const savePreset = usePresetStore.use.savePreset();
     const errorRates = useProgressStore.use.errorRates();
+    const getCategoryName = useCategoryDisplay();
 
     const [selectedCategories, setSelectedCategories] = useState<string[]>(
         initialConfig?.categories ?? []
@@ -190,7 +197,7 @@ export function useSessionConfigurator(initialConfig?: SessionConfig) {
             order,
             timerEnabled
         };
-        const name = generatePresetName(config, categories);
+        const name = generatePresetName(config, categories, getCategoryName);
         savePreset(config, name);
     }, [
         isStartEnabled,
@@ -202,7 +209,8 @@ export function useSessionConfigurator(initialConfig?: SessionConfig) {
         order,
         timerEnabled,
         categories,
-        savePreset
+        savePreset,
+        getCategoryName
     ]);
 
     return {

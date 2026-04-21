@@ -5,6 +5,7 @@ import { CodeBlock } from '@/components/common/CodeBlock';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import type { BugFindingQuestion as BugFindingQuestionData } from '@/lib/data/schema';
+import { useLocalized } from '@/lib/i18n/localized';
 
 import { AnswerOption } from '../AnswerOption';
 import { ExplanationPanel } from '../ExplanationPanel';
@@ -28,6 +29,7 @@ export const BugFindingQuestion: FC<Props> = ({
     onCanSubmitChange
 }) => {
     const { t } = useTranslation('question');
+    const pick = useLocalized();
     const {
         selectedOption,
         textAnswer,
@@ -54,11 +56,13 @@ export const BugFindingQuestion: FC<Props> = ({
                         <AnswerOption
                             key={`${question.id}-${index}`}
                             index={index}
-                            text={option}
+                            text={pick(option)}
                             variant="radio"
                             isSelected={selectedOption === index}
                             isAnswered={isSubmitted}
-                            isCorrect={option === question.correct}
+                            isCorrect={
+                                typeof question.correct === 'number' && question.correct === index
+                            }
                             isMissed={false}
                             isDisabled={isSubmitted}
                             onSelect={() => onSelectOption(index)}
@@ -83,7 +87,7 @@ export const BugFindingQuestion: FC<Props> = ({
                         </p>
                         <CodeBlock code={question.referenceAnswer} lang="javascript" />
                     </div>
-                    <ExplanationPanel explanation={question.explanation} />
+                    <ExplanationPanel explanation={pick(question.explanation)} />
 
                     {selfAssessment === null && (
                         <div className="flex gap-3">

@@ -12,9 +12,14 @@ const makeQuestion = (id = 'q-1'): SingleChoiceQuestion => ({
     category: 'javascript',
     difficulty: 'easy',
     tags: [],
-    question: 'What is 2+2?',
-    explanation: 'Because math.',
-    options: ['2', '4', '6', '8'],
+    question: { en: 'What is 2+2?', ru: 'What is 2+2?' },
+    explanation: { en: 'Because math.', ru: 'Because math.' },
+    options: [
+        { en: '2', ru: '2' },
+        { en: '4', ru: '4' },
+        { en: '6', ru: '6' },
+        { en: '8', ru: '8' }
+    ],
     correct: 1
 });
 

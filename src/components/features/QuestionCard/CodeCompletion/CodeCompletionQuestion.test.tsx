@@ -22,11 +22,11 @@ const makeCodeCompletionQuestion = (
     category: 'javascript',
     difficulty: 'medium',
     tags: ['test'],
-    question: 'Complete the function:',
+    question: { en: 'Complete the function:', ru: 'Complete the function:' },
     code: 'function add(a, b) {\n  return __BLANK__ + __BLANK__;\n}',
     blanks: ['a', 'b'],
     referenceAnswer: 'function add(a, b) {\n  return a + b;\n}',
-    explanation: 'Add the two parameters.',
+    explanation: { en: 'Add the two parameters.', ru: 'Add the two parameters.' },
     ...overrides
 });
 

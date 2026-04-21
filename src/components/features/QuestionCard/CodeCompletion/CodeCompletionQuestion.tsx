@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { CodeBlock } from '@/components/common/CodeBlock';
 import type { CodeCompletionQuestion as CodeCompletionQuestionData } from '@/lib/data/schema';
+import { useLocalized } from '@/lib/i18n/localized';
 import { cn } from '@/lib/utils';
 
 import { ExplanationPanel } from '../ExplanationPanel';
@@ -22,6 +23,7 @@ export const CodeCompletionQuestion: FC<Props> = ({
     onAllBlanksFilled
 }) => {
     const { t } = useTranslation('question');
+    const pick = useLocalized();
     const { segments, blanksInput, isSubmitted, blankResults, onBlankChange } =
         useCodeCompletionQuestion({ question, isSkipped, onSubmitRegister, onAllBlanksFilled });
 
@@ -87,7 +89,7 @@ export const CodeCompletionQuestion: FC<Props> = ({
                             lang={question.lang ?? 'javascript'}
                         />
                     </div>
-                    <ExplanationPanel explanation={question.explanation} />
+                    <ExplanationPanel explanation={pick(question.explanation)} />
                 </>
             )}
         </div>

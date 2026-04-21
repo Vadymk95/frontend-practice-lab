@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useCategories, type ManifestEntry } from '@/hooks/data/useCategories';
+import { useCategoryDisplay } from '@/hooks/data/useCategoryDisplay';
 import { CategoryFileSchema } from '@/lib/data/schema';
 import { useProgressStore, useProgressStoreBase } from '@/store/progress/progressStore';
 
@@ -17,6 +18,7 @@ export interface UseResetWeightsDialogReturn {
 
 export const useResetWeightsDialog = (): UseResetWeightsDialogReturn => {
     const { t } = useTranslation('common');
+    const getCategoryName = useCategoryDisplay();
     const [isOpen, setIsOpen] = useState(false);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -71,7 +73,9 @@ export const useResetWeightsDialog = (): UseResetWeightsDialogReturn => {
 
             const category = categories.find((c) => c.slug === slug);
             showSuccess(
-                t('resetWeights.successCategory', { category: category?.displayName ?? slug })
+                t('resetWeights.successCategory', {
+                    category: getCategoryName(slug, category?.displayName)
+                })
             );
         } catch {
             // Store unchanged on fetch/parse failure — no UI feedback needed

@@ -8,6 +8,7 @@ const noopAllFilled = (_: boolean) => {};
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { useLocalized } from '@/lib/i18n/localized';
 
 import { BugFindingQuestion } from './BugFinding';
 import { CodeCompletionQuestion } from './CodeCompletion';
@@ -35,6 +36,7 @@ export const QuestionCard: FC<QuestionCardProps> = ({
     onSelectOptionRegister
 }) => {
     const { t } = useTranslation('question');
+    const pick = useLocalized();
     const { question, currentIndex, questionCount, isAnswered, handleBack, isSkipped, handleSkip } =
         useQuestionCard();
     const [resetKey, setResetKey] = useState(0);
@@ -75,7 +77,7 @@ export const QuestionCard: FC<QuestionCardProps> = ({
                 <Badge variant="outline">{question.category}</Badge>
                 <Badge variant="outline">{t(`difficulty.${question.difficulty}`)}</Badge>
             </div>
-            <h2 className="text-base font-medium">{question.question}</h2>
+            <h2 className="text-base font-medium">{pick(question.question)}</h2>
             {question.type === 'single-choice' && (
                 <SingleChoiceQuestion
                     key={resetKey}

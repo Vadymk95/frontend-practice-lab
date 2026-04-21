@@ -10,6 +10,7 @@ import {
     DialogTitle
 } from '@/components/ui/dialog';
 import type { ManifestEntry } from '@/hooks/data/useCategories';
+import { useCategoryDisplay } from '@/hooks/data/useCategoryDisplay';
 
 interface ResetWeightsDialogProps {
     isOpen: boolean;
@@ -29,6 +30,7 @@ export function ResetWeightsDialog({
     successMessage
 }: ResetWeightsDialogProps) {
     const { t } = useTranslation('common');
+    const getCategoryName = useCategoryDisplay();
 
     return (
         <Dialog open={isOpen} onOpenChange={(open) => !open && close()}>
@@ -63,7 +65,7 @@ export function ResetWeightsDialog({
                                             onClick={() => resetCategory(cat.slug)}
                                         >
                                             {t('resetWeights.resetCategory', {
-                                                category: cat.displayName
+                                                category: getCategoryName(cat.slug, cat.displayName)
                                             })}
                                         </Button>
                                     </li>

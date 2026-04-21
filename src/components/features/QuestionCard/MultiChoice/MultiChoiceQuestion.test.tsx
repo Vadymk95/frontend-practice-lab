@@ -13,10 +13,18 @@ const makeQuestion = (overrides: Partial<MultiChoiceQuestion> = {}): MultiChoice
     category: 'javascript',
     difficulty: 'medium',
     tags: ['test'],
-    question: 'Select all correct answers',
-    options: ['Option A', 'Option B', 'Option C', 'Option D'],
+    question: { en: 'Select all correct answers', ru: 'Select all correct answers' },
+    options: [
+        { en: 'Option A', ru: 'Option A' },
+        { en: 'Option B', ru: 'Option B' },
+        { en: 'Option C', ru: 'Option C' },
+        { en: 'Option D', ru: 'Option D' }
+    ],
     correct: [0, 2],
-    explanation: 'Options A and C are correct.',
+    explanation: {
+        en: 'Options A and C are correct.',
+        ru: 'Options A and C are correct.'
+    },
     ...overrides
 });
 
