@@ -65,11 +65,13 @@ export function useCodeCompletionQuestion({
         if (isSubmitted) return;
         if (!blanksInput.every((v) => v.trim() !== '')) return;
 
-        const results = question.blanks.map((expected, i) =>
-            blanksInput[i].trim().toLowerCase() === expected.trim().toLowerCase()
+        const results = question.blanks.map((expected, i) => {
+            const input = blanksInput[i];
+            return input !== undefined &&
+                input.trim().toLowerCase() === expected.trim().toLowerCase()
                 ? ('correct' as const)
-                : ('incorrect' as const)
-        );
+                : ('incorrect' as const);
+        });
         const allCorrect = results.every((r) => r === 'correct');
         setBlankResults(results);
         setIsSubmitted(true);

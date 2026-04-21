@@ -61,16 +61,19 @@ export function useBugFindingQuestion({
 
     const onSubmit = useCallback(() => {
         if (isSubmitted) return;
+        let rawAnswer: string;
         if (question.options) {
             if (selectedOption === null) return;
+            // Persist the EN branch as a stable, language-agnostic key for option choices.
+            const option = question.options[selectedOption];
+            if (!option) return;
+            rawAnswer = option.en;
         } else {
-            if (!textAnswer.trim()) return;
+            const trimmed = textAnswer.trim();
+            if (!trimmed) return;
+            rawAnswer = trimmed;
         }
         setIsSubmitted(true);
-        // Persist the EN branch as a stable, language-agnostic key for option choices.
-        const rawAnswer = question.options
-            ? question.options[selectedOption!].en
-            : textAnswer.trim();
         setAnswer(question.id, rawAnswer);
     }, [isSubmitted, question, selectedOption, textAnswer, setAnswer]);
 
