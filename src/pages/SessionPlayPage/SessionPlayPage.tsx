@@ -3,10 +3,16 @@ import { useTranslation } from 'react-i18next';
 
 import { ErrorState } from '@/components/common/ErrorState';
 import { QuestionCard } from '@/components/features/QuestionCard';
-import { Button } from '@/components/ui/button';
+import { SessionActionBar } from '@/components/features/SessionActionBar';
 import { formatTimer } from '@/lib/utils/formatTimer';
 
 import { useSessionPlayPage } from './useSessionPlayPage';
+
+interface ActionBarState {
+    label: string;
+    onClick: () => void;
+    disabled: boolean;
+}
 
 export const SessionPlayPage: FC = () => {
     const { t: tSession } = useTranslation('session');
@@ -48,6 +54,24 @@ export const SessionPlayPage: FC = () => {
         );
     }
 
+    const actionBar: ActionBarState | null = isAnswered
+        ? { label: tSession('next'), onClick: handleNext, disabled: false }
+        : isMultiChoice
+          ? { label: tQuestion('check'), onClick: handleCheck, disabled: !multiHasSelection }
+          : isCodeCompletion
+            ? {
+                  label: tQuestion('submit'),
+                  onClick: handleSubmit,
+                  disabled: !codeCompletionAllFilled
+              }
+            : isBugFinding
+              ? {
+                    label: tQuestion('submit'),
+                    onClick: handleSubmit,
+                    disabled: !bugFindingCanSubmit
+                }
+              : null;
+
     return (
         <div className="flex flex-col gap-4 pb-24 lg:pb-0">
             {timerEnabled && (
@@ -70,82 +94,12 @@ export const SessionPlayPage: FC = () => {
                 onSelectOptionRegister={onSelectOptionRegister}
             />
 
-            {/* Desktop inline — Check button (multi-choice, not yet answered) */}
-            {isMultiChoice && !isAnswered && (
-                <div className="hidden lg:flex justify-end mt-2">
-                    <Button disabled={!multiHasSelection} onClick={handleCheck}>
-                        {tQuestion('check')}
-                    </Button>
-                </div>
-            )}
-
-            {/* Desktop inline — Submit button (code-completion, not yet answered) */}
-            {isCodeCompletion && !isAnswered && (
-                <div className="hidden lg:flex justify-end mt-2">
-                    <Button disabled={!codeCompletionAllFilled} onClick={handleSubmit}>
-                        {tQuestion('submit')}
-                    </Button>
-                </div>
-            )}
-
-            {/* Desktop inline — Submit button (bug-finding, not yet answered) */}
-            {isBugFinding && !isAnswered && (
-                <div className="hidden lg:flex justify-end mt-2">
-                    <Button disabled={!bugFindingCanSubmit} onClick={handleSubmit}>
-                        {tQuestion('submit')}
-                    </Button>
-                </div>
-            )}
-
-            {/* Desktop inline — Next button (answered) */}
-            {isAnswered && (
-                <div className="hidden lg:flex justify-end mt-2">
-                    <Button onClick={handleNext}>{tSession('next')}</Button>
-                </div>
-            )}
-
-            {/* Mobile sticky — Check button (multi-choice, not yet answered) */}
-            {isMultiChoice && !isAnswered && (
-                <div className="lg:hidden fixed bottom-0 left-0 right-0 border-t border-border bg-background px-4 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
-                    <Button disabled={!multiHasSelection} onClick={handleCheck} className="w-full">
-                        {tQuestion('check')}
-                    </Button>
-                </div>
-            )}
-
-            {/* Mobile sticky — Submit button (code-completion, not yet answered) */}
-            {isCodeCompletion && !isAnswered && (
-                <div className="lg:hidden fixed bottom-0 left-0 right-0 border-t border-border bg-background px-4 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
-                    <Button
-                        disabled={!codeCompletionAllFilled}
-                        onClick={handleSubmit}
-                        className="w-full"
-                    >
-                        {tQuestion('submit')}
-                    </Button>
-                </div>
-            )}
-
-            {/* Mobile sticky — Submit button (bug-finding, not yet answered) */}
-            {isBugFinding && !isAnswered && (
-                <div className="lg:hidden fixed bottom-0 left-0 right-0 border-t border-border bg-background px-4 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
-                    <Button
-                        disabled={!bugFindingCanSubmit}
-                        onClick={handleSubmit}
-                        className="w-full"
-                    >
-                        {tQuestion('submit')}
-                    </Button>
-                </div>
-            )}
-
-            {/* Mobile sticky — Next button (answered) */}
-            {isAnswered && (
-                <div className="lg:hidden fixed bottom-0 left-0 right-0 border-t border-border bg-background px-4 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
-                    <Button onClick={handleNext} className="w-full">
-                        {tSession('next')}
-                    </Button>
-                </div>
+            {actionBar && (
+                <SessionActionBar
+                    label={actionBar.label}
+                    onClick={actionBar.onClick}
+                    disabled={actionBar.disabled}
+                />
             )}
         </div>
     );
