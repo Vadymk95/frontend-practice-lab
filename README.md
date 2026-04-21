@@ -2,7 +2,7 @@
 
 Personal mobile-first interview preparation SPA for frontend engineers. Daily habit tool to combat cognitive atrophy from AI-assisted workflows.
 
-Covers **trainee → principal/staff engineer** depth across 18 topic categories with an adaptive algorithm that surfaces weak areas more frequently.
+Covers **trainee → principal/staff engineer** depth across 18 topic categories (955 bilingual RU/EN questions) with an adaptive algorithm that surfaces weak areas more frequently.
 
 ## Stack
 

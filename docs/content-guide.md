@@ -18,6 +18,31 @@ This guide documents how to add and edit questions in InterviewOS — both manua
 
 ---
 
+## Bilingual content (RU / EN)
+
+Every user-facing natural-language field (`question`, `explanation`, and option entries) is a **`{ en, ru }` object**, not a plain string:
+
+```json
+"question": {
+    "en": "What is a closure in JavaScript?",
+    "ru": "Что такое замыкание в JavaScript?"
+}
+```
+
+The UI picks `en` or `ru` via `useLocalized()` based on the active i18n language.
+
+**Language-agnostic fields stay strings** (they are source code / identifiers / technical references):
+
+- `id`, `category`, `tags[]`
+- `code` (code snippets)
+- `blanks[]` (code-completion expected tokens — identifiers, expressions)
+- `referenceAnswer` (bug-finding / code-completion — technical post-mortem kept English-only by convention)
+- `correct` when it is a number (index) or a free-text code description in `bug-finding`
+
+If you add a question manually, both `en` and `ru` must be non-empty. The validator does not check translation quality, but an empty string will fail the schema.
+
+---
+
 ## 1. Base Fields (All Question Types)
 
 Every question — regardless of type — must include these fields:
@@ -29,8 +54,8 @@ Every question — regardless of type — must include these fields:
 | `category`    | `string`                                                                        | ✅       | Matches the JSON filename slug, e.g. `"javascript"` for `javascript.json`.             |
 | `difficulty`  | `"easy"` \| `"medium"` \| `"hard"`                                              | ✅       | Used by the adaptive algorithm to weight questions.                                    |
 | `tags`        | `string[]`                                                                      | ✅       | Descriptive topic tags. Can be an empty array `[]`, but prefer meaningful tags.        |
-| `question`    | `string`                                                                        | ✅       | Question text. Markdown is supported.                                                  |
-| `explanation` | `string`                                                                        | ✅       | Explanation shown after the user reveals the answer. Markdown supported.               |
+| `question`    | `{ en: string; ru: string }`                                                    | ✅       | Question text (bilingual). Markdown is supported inside each locale.                   |
+| `explanation` | `{ en: string; ru: string }`                                                    | ✅       | Explanation shown after the user reveals the answer (bilingual). Markdown supported.   |
 
 The source of truth for all schemas is [`src/lib/data/schema.ts`](../src/lib/data/schema.ts).
 
@@ -42,10 +67,10 @@ One correct answer out of multiple options.
 
 ### Additional fields
 
-| Field     | Type       | Required | Description                                    |
-| --------- | ---------- | -------- | ---------------------------------------------- |
-| `options` | `string[]` | ✅       | List of answer choices shown to the user.      |
-| `correct` | `number`   | ✅       | Zero-based index of the single correct option. |
+| Field     | Type                           | Required | Description                                    |
+| --------- | ------------------------------ | -------- | ---------------------------------------------- |
+| `options` | `{ en: string; ru: string }[]` | ✅       | List of answer choices (bilingual per entry).  |
+| `correct` | `number`                       | ✅       | Zero-based index of the single correct option. |
 
 ### JSON example
 
@@ -56,15 +81,33 @@ One correct answer out of multiple options.
     "category": "javascript",
     "difficulty": "easy",
     "tags": ["closures", "scope"],
-    "question": "What is a closure in JavaScript?",
+    "question": {
+        "en": "What is a closure in JavaScript?",
+        "ru": "Что такое замыкание в JavaScript?"
+    },
     "options": [
-        "A function that is called immediately after it is defined",
-        "A function that retains access to its lexical scope even when executed outside that scope",
-        "A function with no return value",
-        "A built-in JavaScript method for closing browser tabs"
+        {
+            "en": "A function that is called immediately after it is defined",
+            "ru": "Функция, вызываемая сразу после определения"
+        },
+        {
+            "en": "A function that retains access to its lexical scope even when executed outside that scope",
+            "ru": "Функция, сохраняющая доступ к своей лексической области видимости даже при выполнении вне неё"
+        },
+        {
+            "en": "A function with no return value",
+            "ru": "Функция без возвращаемого значения"
+        },
+        {
+            "en": "A built-in JavaScript method for closing browser tabs",
+            "ru": "Встроенный метод JavaScript для закрытия вкладок браузера"
+        }
     ],
     "correct": 1,
-    "explanation": "A closure is a function that retains access to variables from its outer (enclosing) lexical scope even after the outer function has finished executing."
+    "explanation": {
+        "en": "A closure is a function that retains access to variables from its outer (enclosing) lexical scope even after the outer function has finished executing.",
+        "ru": "Замыкание — это функция, которая сохраняет доступ к переменным внешней (охватывающей) лексической области видимости даже после того, как внешняя функция завершила выполнение."
+    }
 }
 ```
 
@@ -78,10 +121,10 @@ One or more correct answers out of multiple options.
 
 ### Additional fields
 
-| Field     | Type       | Required | Description                                            |
-| --------- | ---------- | -------- | ------------------------------------------------------ |
-| `options` | `string[]` | ✅       | List of answer choices shown to the user.              |
-| `correct` | `number[]` | ✅       | Zero-based indices of **all** correct options (array). |
+| Field     | Type                           | Required | Description                                            |
+| --------- | ------------------------------ | -------- | ------------------------------------------------------ |
+| `options` | `{ en: string; ru: string }[]` | ✅       | List of answer choices (bilingual per entry).          |
+| `correct` | `number[]`                     | ✅       | Zero-based indices of **all** correct options (array). |
 
 ### JSON example
 
@@ -92,15 +135,33 @@ One or more correct answers out of multiple options.
     "category": "javascript",
     "difficulty": "medium",
     "tags": ["promises", "async"],
-    "question": "Which of the following are valid ways to handle a rejected Promise?",
+    "question": {
+        "en": "Which of the following are valid ways to handle a rejected Promise?",
+        "ru": "Какие из следующих способов обработки отклонённого Promise являются корректными?"
+    },
     "options": [
-        "Using `.catch()` at the end of the chain",
-        "Using the second argument of `.then(onFulfilled, onRejected)`",
-        "Using try/catch inside an async function",
-        "Using `.finally()` to handle rejections"
+        {
+            "en": "Using `.catch()` at the end of the chain",
+            "ru": "Использование `.catch()` в конце цепочки"
+        },
+        {
+            "en": "Using the second argument of `.then(onFulfilled, onRejected)`",
+            "ru": "Использование второго аргумента `.then(onFulfilled, onRejected)`"
+        },
+        {
+            "en": "Using try/catch inside an async function",
+            "ru": "Использование try/catch внутри async-функции"
+        },
+        {
+            "en": "Using `.finally()` to handle rejections",
+            "ru": "Использование `.finally()` для обработки отклонений"
+        }
     ],
     "correct": [0, 1, 2],
-    "explanation": "Rejected promises can be handled with .catch(), the second argument of .then(), or try/catch in async functions. .finally() runs regardless of outcome but does not handle rejections."
+    "explanation": {
+        "en": "Rejected promises can be handled with .catch(), the second argument of .then(), or try/catch in async functions. .finally() runs regardless of outcome but does not handle rejections.",
+        "ru": "Отклонённые promise можно обработать через .catch(), второй аргумент .then() или try/catch в async-функциях. .finally() выполняется независимо от исхода, но не обрабатывает отклонения."
+    }
 }
 ```
 
@@ -114,14 +175,14 @@ The user reads a code snippet and identifies the bug.
 
 ### Additional fields
 
-| Field             | Type       | Required | Description                                                                                             |
-| ----------------- | ---------- | -------- | ------------------------------------------------------------------------------------------------------- |
-| `code`            | `string`   | ✅       | Code snippet containing the bug. Use `\n` for newlines.                                                 |
-| `correct`         | `string`   | ✅       | Short description of the bug (shown as the correct answer).                                             |
-| `referenceAnswer` | `string`   | ✅       | Full explanation of the fix (shown in the review panel).                                                |
-| `options`         | `string[]` | ❌       | Optional multiple-choice options. If omitted, the user types a free answer. Minimum 1 item if provided. |
+| Field             | Type                           | Required | Description                                                                                                                   |
+| ----------------- | ------------------------------ | -------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `code`            | `string`                       | ✅       | Code snippet containing the bug. Use `\n` for newlines. Language-agnostic (not translated).                                   |
+| `correct`         | `number \| string`             | ✅       | Index of the correct option when `options` is present; otherwise a short free-text bug description.                           |
+| `referenceAnswer` | `string`                       | ✅       | Full explanation of the fix. Kept English-only by convention (technical post-mortem).                                         |
+| `options`         | `{ en: string; ru: string }[]` | ❌       | Optional multiple-choice options (bilingual per entry). If omitted, the user types a free answer. Minimum 1 item if provided. |
 
-### JSON example
+### JSON example (free-text mode — no `options`)
 
 ```json
 {
@@ -130,11 +191,17 @@ The user reads a code snippet and identifies the bug.
     "category": "javascript",
     "difficulty": "medium",
     "tags": ["typeof", "null", "bugs"],
-    "question": "Find the bug in this type-checking function:",
+    "question": {
+        "en": "Find the bug in this type-checking function:",
+        "ru": "Найдите ошибку в этой функции проверки типа:"
+    },
     "code": "function isObject(value) {\n  return typeof value === 'object';\n}",
     "correct": "null passes the check because typeof null === 'object'",
     "referenceAnswer": "The function returns true for null because typeof null === 'object' is a well-known JavaScript bug. Fix: return value !== null && typeof value === 'object';",
-    "explanation": "typeof null === 'object' is a historical JavaScript quirk. Always add a null check when using typeof to verify objects."
+    "explanation": {
+        "en": "typeof null === 'object' is a historical JavaScript quirk. Always add a null check when using typeof to verify objects.",
+        "ru": "typeof null === 'object' — исторический квирк JavaScript. Всегда добавляйте проверку на null при использовании typeof для проверки объектов."
+    }
 }
 ```
 
@@ -146,12 +213,12 @@ The user fills in the blanks (`___`) in a code template.
 
 ### Additional fields
 
-| Field             | Type       | Required | Description                                                                |
-| ----------------- | ---------- | -------- | -------------------------------------------------------------------------- |
-| `code`            | `string`   | ✅       | Code template with `___` (triple underscore) marking each blank.           |
-| `blanks`          | `string[]` | ✅       | Expected fill-in values for each blank, in order of appearance.            |
-| `referenceAnswer` | `string`   | ✅       | Complete code without blanks, shown as a reference after the user answers. |
-| `lang`            | `string`   | ❌       | Language for syntax highlighting (default: `"javascript"`).                |
+| Field             | Type       | Required | Description                                                                                                       |
+| ----------------- | ---------- | -------- | ----------------------------------------------------------------------------------------------------------------- |
+| `code`            | `string`   | ✅       | Code template with `___` (triple underscore) marking each blank. Language-agnostic (not translated).              |
+| `blanks`          | `string[]` | ✅       | Expected fill-in values for each blank, in order of appearance. Identifiers/expressions — not translated.         |
+| `referenceAnswer` | `string`   | ✅       | Complete code or rationale shown after the user answers. Kept English-only by convention (technical post-mortem). |
+| `lang`            | `string`   | ❌       | Language for syntax highlighting (default: `"javascript"`).                                                       |
 
 ### JSON example
 
@@ -162,12 +229,18 @@ The user fills in the blanks (`___`) in a code template.
     "category": "javascript",
     "difficulty": "easy",
     "tags": ["template-literals", "strings"],
-    "question": "Complete the tagged template literal to return the string in uppercase:",
+    "question": {
+        "en": "Complete the tagged template literal to return the string in uppercase:",
+        "ru": "Дополните тегированный шаблонный литерал, чтобы вернуть строку в верхнем регистре:"
+    },
     "code": "function upper(strings, ...values) {\n  return strings.reduce((acc, str, i) => {\n    return acc + (values[i - 1] ? values[i - 1].___  : '') + str;\n  });\n}\nconst name = 'world';\nconsole.log(upper`hello ${name}`); // 'hello WORLD'",
     "blanks": ["toUpperCase()"],
     "lang": "javascript",
     "referenceAnswer": "values[i - 1].toUpperCase() converts each interpolated value to uppercase before concatenating.",
-    "explanation": "Tagged template literals receive the string parts and interpolated values separately. Calling .toUpperCase() on each value produces the uppercase output."
+    "explanation": {
+        "en": "Tagged template literals receive the string parts and interpolated values separately. Calling .toUpperCase() on each value produces the uppercase output.",
+        "ru": "Тегированные шаблонные литералы получают строковые части и интерполированные значения раздельно. Вызов .toUpperCase() на каждом значении даёт вывод в верхнем регистре."
+    }
 }
 ```
 
@@ -256,7 +329,8 @@ Copy and fill in this template when asking an AI agent to generate questions:
 
 ```
 Generate 5 questions for category "javascript", difficulty "medium", type "single-choice".
-Follow docs/content-guide.md schema exactly.
+Follow docs/content-guide.md schema exactly — ALL user-facing text fields (`question`, `explanation`, each `options[]` entry) MUST be `{ en: "...", ru: "..." }` bilingual objects. Both locales required, both non-empty, RU must be natural Russian (not transliteration).
+Language-agnostic fields (`code`, `blanks`, `referenceAnswer`) stay plain strings and are NOT translated.
 ID format: js-{topic}-NNN (use the next available sequence number based on existing IDs).
 Output: raw JSON array only, no markdown fences, no commentary.
 ```

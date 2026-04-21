@@ -55,3 +55,12 @@ Skipping hooks (`--no-verify`) bypasses all checks — don't do it.
 ## ESLint flat config
 
 `eslint.config.js` is the only ESLint config. Do not add a legacy `.eslintrc.*` — flat config owns all rules; a second config file risks confusion and stale docs.
+
+## Bilingual question schema — `{ en, ru }` required
+
+User-visible question fields are `LocalizedString = { en: string; ru: string }` objects, not plain strings. This applies to `question`, `explanation`, and option `value`s.
+
+- Both `en` and `ru` are required — schema rejects single-language entries
+- Language-agnostic fields stay plain strings: `id`, `category`, `tags`, `code`, `blanks[]`, `referenceAnswer`, and `correct` (when number or code-string for bug-finding)
+- Render via `useLocalized(field)` from `src/lib/i18n/localized.ts` — reactive to language toggle
+- See `docs/content-guide.md` for examples and the AI-agent contribution prompt

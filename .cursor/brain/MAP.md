@@ -57,10 +57,12 @@ app start → i18next init → loads common + errors + lazy page namespaces
 ## Data / Questions
 
 ```
-public/data/manifest.json     — category list and counts
-public/data/<slug>.json       — question payloads per category
-src/lib/data/schema.ts        — Zod schema (build/CI validation)
-src/hooks/data/             — category loading helpers
+public/data/manifest.json        — category list and counts
+public/data/<slug>.json          — question payloads per category (bilingual RU/EN)
+src/lib/data/schema.ts           — Zod schema (build/CI validation)
+src/lib/i18n/localized.ts        — useLocalized() hook: picks { en, ru } by active lang
+src/hooks/data/useCategoryDisplay.ts — resolves category display names via i18n
+src/hooks/data/                  — category loading helpers
 ```
 
 Storage for client prefs: `src/lib/storage/` (localStorage abstraction).
