@@ -30,7 +30,7 @@ export const AppHeader: FC = () => {
                             onClick={handleLanguageToggle}
                             className="rounded px-2 py-1 text-sm text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-alt"
                         >
-                            {language === 'ru' ? 'EN' : 'RU'}
+                            {language.toUpperCase()}
                         </button>
                         <button
                             type="button"

@@ -45,12 +45,18 @@ export default defineConfig(({ command }) => ({
         // Downloads fonts from @import in CSS and bundles them locally (0 external requests)
         webfontDownload(),
         VitePWA({
-            registerType: 'autoUpdate',
+            // Prompt mode: user confirms update via PwaUpdateToast.
+            // autoUpdate would silently force-reload and is incompatible with
+            // a needRefresh-driven toast (vite-plugin-pwa docs).
+            registerType: 'prompt',
             injectRegister: 'auto',
             manifest: {
+                id: '/',
+                scope: '/',
                 name: 'InterviewOS',
                 short_name: 'InterviewOS',
                 description: 'Frontend interview preparation',
+                lang: 'ru',
                 theme_color: '#0a0a0a',
                 background_color: '#0a0a0a',
                 display: 'standalone',
@@ -58,30 +64,34 @@ export default defineConfig(({ command }) => ({
                 start_url: '/',
                 icons: [
                     { src: '/icons/192x192.png', sizes: '192x192', type: 'image/png' },
-                    {
-                        src: '/icons/512x512.png',
-                        sizes: '512x512',
-                        type: 'image/png',
-                        purpose: 'any maskable'
-                    },
+                    { src: '/icons/512x512.png', sizes: '512x512', type: 'image/png' },
                     { src: '/icons/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }
+                ],
+                screenshots: [
+                    {
+                        src: '/screenshots/home-desktop.png',
+                        sizes: '1901x954',
+                        type: 'image/png',
+                        form_factor: 'wide',
+                        label: 'Главная — выбор категорий и конфигуратор сессии'
+                    },
+                    {
+                        src: '/screenshots/home-mobile.png',
+                        sizes: '390x841',
+                        type: 'image/png',
+                        form_factor: 'narrow',
+                        label: 'Главная — мобильный вид'
+                    }
                 ]
             },
             workbox: {
-                // Force new SW to activate immediately without waiting for tabs to close
-                skipWaiting: true,
-                clientsClaim: true,
-                globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}', 'data/*.json'],
-                runtimeCaching: [
-                    {
-                        urlPattern: /^\/data\/.+\.json$/,
-                        handler: 'CacheFirst',
-                        options: {
-                            cacheName: 'question-data',
-                            expiration: { maxAgeSeconds: 86400 }
-                        }
-                    }
-                ]
+                // Question JSON lives at stable URLs; Workbox precache revisions still
+                // change when file contents change, so data tracks the deployed app — unlike
+                // runtime CacheFirst (meant for third-party).
+                globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2,webmanifest,json}'],
+                // Screenshots render only in the install sheet — no reason to ship
+                // them inside the service worker precache.
+                globIgnores: ['**/screenshots/**']
             }
         }),
         // Bundle analyzer: only runs when ANALYZE=true env variable is set

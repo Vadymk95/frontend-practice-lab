@@ -29,51 +29,44 @@ Use the shadcn CLI per project `components.json`; primitives land in `src/compon
 
 ## State Boundaries
 
-```
-Zustand  →  global client state (user, session, progress, UI, presets, …)
-TanStack →  server data, caching, background refetch
-Local    →  component-only state (useState)
-```
+- **Zustand** — global client state (user, session, progress, UI, presets, and related)
+- **TanStack Query** — server data, caching, background refetch
+- **Local** — component-only state via React local state
 
 ## Routing
 
-| Path              | Page            | Notes                          |
-| ----------------- | --------------- | ------------------------------ |
-| `/`               | HomePage        | index route, not lazy          |
-| `/session/play`   | SessionPlayPage | lazy + WithSuspense            |
-| `/session/summary`| SummaryPage     | lazy + WithSuspense            |
-| `*`               | NotFoundPage    | lazy + WithSuspense            |
-| `/dev-playground` | DevPlayground   | **DEV only** — omitted in prod |
+| Path               | Page            | Notes                 |
+| ------------------ | --------------- | --------------------- |
+| `/`                | HomePage        | index route, not lazy |
+| `/session/play`    | SessionPlayPage | lazy + WithSuspense   |
+| `/session/summary` | SummaryPage     | lazy + WithSuspense   |
+| `*`                | NotFoundPage    | lazy + WithSuspense   |
+| `/dev-playground`  | DevPlayground   | **DEV only** — omitted in prod |
 
 ## i18n Flow
 
-```
-app start → i18next init → loads common + errors + lazy page namespaces
-→ RootProviders renders (isI18nReady gate)
-→ document.lang set
-→ HMR: useI18nReload watches public/locales/** in dev
-```
+On startup, i18next initializes and loads the `common` and `errors` bundles plus lazy page namespaces. `RootProviders` blocks the tree until the app is i18n-ready, then `document.lang` is set. In dev, `useI18nReload` watches `public/locales/**` for HMR.
 
 ## Data / Questions
 
-```
-public/data/manifest.json        — category list and counts
-public/data/<slug>.json          — question payloads per category (bilingual RU/EN)
-src/lib/data/schema.ts           — Zod schema (build/CI validation)
-src/lib/i18n/localized.ts        — useLocalized() hook: picks { en, ru } by active lang
-src/hooks/data/useCategoryDisplay.ts — resolves category display names via i18n
-src/hooks/data/                  — category loading helpers
-```
+| Location | Role |
+| -------- | ---- |
+| `public/data/manifest.json` | Category list and per-category counts |
+| `public/data/<slug>.json` | Question payloads per category (bilingual RU/EN) |
+| `src/lib/data/schema.ts` | Zod schema; validated at build and in CI |
+| `src/lib/i18n/localized.ts` | `useLocalized()` — picks en/ru by active language |
+| `src/hooks/data/useCategoryDisplay.ts` | Resolves category display names via i18n |
+| `src/hooks/data/` | Category loading helpers |
 
-Storage for client prefs: `src/lib/storage/` (localStorage abstraction).
+Client preferences: `src/lib/storage/` (localStorage abstraction).
 
 ## Analytics
 
-```
-src/hooks/analytics/useAnalytics.ts  — UI-layer analytics hook for question interactions
-src/lib/analytics/events.ts          — canonical analytics event names/payload contracts
-src/lib/analytics/index.ts           — analytics module public entry point
-```
+| Location | Role |
+| -------- | ---- |
+| `src/hooks/analytics/useAnalytics.ts` | UI-layer hook for question interactions |
+| `src/lib/analytics/events.ts` | Canonical event names and payload contracts |
+| `src/lib/analytics/index.ts` | Public entry of the analytics module |
 
 ## Algorithm / Session
 
@@ -81,21 +74,16 @@ Adaptive selection and session orchestration live under `src/lib/algorithm/`; wi
 
 ## CSS / Theming
 
-```
-src/index.css — single source of truth for Tailwind v4:
-  @import "tailwindcss"    — base + utilities
-  @import "tw-animate-css" — animation utilities
-  @custom-variant dark     — class-based dark mode
-  @theme inline {}         — maps TW utility names → CSS variables
-  :root / .dark {}         — HSL design tokens
-```
+Single file `src/index.css`: Tailwind v4 import, animation utilities (`tw-animate-css`), class-based dark mode (`@custom-variant dark`), design tokens in `@theme inline` mapping utilities to CSS variables, HSL tokens on `:root` and `.dark`. Brand color uses `--primary` on `:root`. New color tokens: add HSL in `:root`, then map in `@theme inline`.
 
-Brand color: `--primary` in `:root`. New color token: add HSL in `:root`, then map in `@theme inline`.
+## PWA
+
+Authoritative note: `.cursor/brain/PWA.md` — update strategy (prompt), precache policy, manifest, iOS/Android meta, Firebase cache headers, intentional omissions (maskable icon policy, screenshot dimensions, `robots.txt`).
 
 ## CI / Supply chain
 
-| Artifact                   | Role                                                                 |
-| -------------------------- | -------------------------------------------------------------------- |
-| `.github/workflows/ci.yml` | PR + push `master`: audit (moderate+), lint, format, type-check, data validation, unit + e2e tests |
-| `.github/workflows/deploy.yml` | Push `master`: lint, format, type-check, data validation, test, build, Firebase deploy |
-| `.github/dependabot.yml`   | Weekly npm version PRs (limit 8 open)                                |
+| Artifact                        | Role                                                                 |
+| ------------------------------- | -------------------------------------------------------------------- |
+| `.github/workflows/ci.yml`     | PR + push `master`: audit (moderate+), lint, format, type-check, data validation, unit + e2e tests |
+| `.github/workflows/deploy.yml`  | Push `master`: lint, format, type-check, data validation, test, build, Firebase deploy |
+| `.github/dependabot.yml`       | Weekly npm version PRs (limit 8 open)                                |

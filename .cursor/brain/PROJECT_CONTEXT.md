@@ -31,7 +31,7 @@ PRD: `_bmad-output/planning-artifacts/prd.md`
 ```
 src/
   components/
-    common/       # App-level: ErrorBoundary, etc.
+    common/       # App-level: ErrorBoundary, PWA install/update toasts, …
     layout/       # Header, Footer, Main
     ui/           # shadcn primitives
   hocs/           # WithSuspense

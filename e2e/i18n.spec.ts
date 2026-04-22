@@ -60,8 +60,8 @@ test.describe('i18n — question content switches between RU and EN', () => {
         // Ensure we're in RU (default, but be explicit — earlier specs may have left state)
         const langBtn = page.getByRole('button', { name: /Toggle language|Переключить язык/i });
         const langLabel = await langBtn.textContent();
-        // Button shows the TARGET language (EN when currently RU, RU when currently EN)
-        if (!langLabel?.toUpperCase().includes('EN')) {
+        // Button shows the CURRENT language (RU when in RU, EN when in EN)
+        if (!langLabel?.toUpperCase().includes('RU')) {
             await langBtn.click();
         }
 

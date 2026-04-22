@@ -39,10 +39,10 @@ test.describe('Header controls', () => {
         }
     });
 
-    test('language toggle switches button label between EN and RU', async ({ page }) => {
+    test('language toggle shows current code (EN/RU) and flips on click', async ({ page }) => {
         const langBtn = page.getByRole('button', { name: /Toggle language|Переключить язык/i });
 
-        // Default is Russian — button shows EN (to switch to English)
+        // Default is Russian — button shows RU (the current language)
         await expect(langBtn).toContainText(/EN|RU/);
         const initialText = await langBtn.textContent();
 
