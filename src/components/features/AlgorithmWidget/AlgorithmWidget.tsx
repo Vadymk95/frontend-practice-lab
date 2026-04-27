@@ -27,11 +27,11 @@ export const AlgorithmWidget: FC<AlgorithmWidgetProps> = ({ onCategorySelect }) 
                             key={cat.slug}
                             type="button"
                             onClick={() => onCategorySelect(cat.slug)}
-                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border bg-background text-sm hover:bg-muted transition-colors"
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border bg-background text-sm hover:bg-muted transition-colors max-w-full"
                             aria-label={`${name} ${Math.round(cat.errorRate * 100)}%`}
                         >
-                            <span>{name}</span>
-                            <span className="text-[11px] text-destructive font-medium">
+                            <span className="min-w-0 wrap-break-words leading-tight">{name}</span>
+                            <span className="text-[11px] text-destructive font-medium shrink-0">
                                 {Math.round(cat.errorRate * 100)}%
                             </span>
                         </button>
