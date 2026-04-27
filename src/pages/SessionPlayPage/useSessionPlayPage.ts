@@ -20,9 +20,15 @@ export interface SessionPlayPageState {
     isMultiChoice: boolean;
     isCodeCompletion: boolean;
     isBugFinding: boolean;
+    isBugFindingPendingSelfAssess: boolean;
     multiHasSelection: boolean;
     codeCompletionAllFilled: boolean;
     bugFindingCanSubmit: boolean;
+
+    isEndDialogOpen: boolean;
+    openEndDialog: () => void;
+    closeEndDialog: () => void;
+    confirmEndSession: () => void;
 
     handleNext: () => void;
     handleCheck: () => void;
@@ -45,13 +51,24 @@ export function useSessionPlayPage(): SessionPlayPageState {
     const currentIndex = useSessionStore.use.currentIndex();
     const answers = useSessionStore.use.answers();
     const nextQuestion = useSessionStore.use.nextQuestion();
+    const resetSession = useSessionStore.use.resetSession();
     const timerMs = useSessionStore.use.timerMs();
     const setTimerMs = useSessionStore.use.setTimerMs();
 
     const timerEnabled = config?.timerEnabled ?? false;
 
     const currentQuestion = questionList[currentIndex] ?? null;
-    const isAnswered = currentQuestion !== null && answers[currentQuestion.id] !== undefined;
+    const rawAnswer = currentQuestion ? answers[currentQuestion.id] : undefined;
+    // Bug-finding requires explicit self-assessment ('gotIt' | 'missedIt') before scoring
+    // is meaningful (see useSummaryPage.isCorrectAnswer). Until then, suppress Next so the
+    // user can't accidentally skip the assessment and have the answer count as wrong.
+    const isBugFindingPendingSelfAssess =
+        currentQuestion?.type === 'bug-finding' &&
+        rawAnswer !== undefined &&
+        rawAnswer !== 'gotIt' &&
+        rawAnswer !== 'missedIt';
+    const isAnswered =
+        currentQuestion !== null && rawAnswer !== undefined && !isBugFindingPendingSelfAssess;
     const isLastQuestion = questionList.length > 0 && currentIndex === questionList.length - 1;
 
     const sessionCompletedRef = useRef(false);
@@ -64,6 +81,27 @@ export function useSessionPlayPage(): SessionPlayPageState {
             nextQuestion();
         }
     }, [isLastQuestion, navigate, nextQuestion]);
+
+    const [isEndDialogOpen, setIsEndDialogOpen] = useState(false);
+
+    const openEndDialog = useCallback(() => setIsEndDialogOpen(true), []);
+    const closeEndDialog = useCallback(() => setIsEndDialogOpen(false), []);
+
+    const confirmEndSession = useCallback(() => {
+        // Track abandonment here so the unmount cleanup doesn't re-emit a duplicate event
+        // after we wipe the store. Mirrors the cleanup-effect contract.
+        const state = useSessionStore.getState();
+        if (state.questionList.length > 0 && Object.keys(state.answers).length > 0) {
+            track('session_abandoned', {
+                answered: Object.keys(state.answers).length,
+                total: state.questionList.length
+            });
+        }
+        sessionCompletedRef.current = true;
+        setIsEndDialogOpen(false);
+        resetSession();
+        navigate(RoutesPath.Root);
+    }, [navigate, resetSession]);
 
     // Fire session_abandoned when navigating away mid-session without completing
     useEffect(() => {
@@ -204,9 +242,15 @@ export function useSessionPlayPage(): SessionPlayPageState {
         isMultiChoice,
         isCodeCompletion,
         isBugFinding,
+        isBugFindingPendingSelfAssess,
         multiHasSelection,
         codeCompletionAllFilled,
         bugFindingCanSubmit,
+
+        isEndDialogOpen,
+        openEndDialog,
+        closeEndDialog,
+        confirmEndSession,
 
         handleNext,
         handleCheck,
