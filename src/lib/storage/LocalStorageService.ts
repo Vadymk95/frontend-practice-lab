@@ -1,3 +1,15 @@
+import type { z } from 'zod';
+
+import {
+    ErrorRatesSchema,
+    LanguageSchema,
+    LastSessionResultsSchema,
+    PresetsSchema,
+    RecordsSchema,
+    StreakSchema,
+    ThemeSchema,
+    WeightsSchema
+} from './schemas';
 import type { SessionPreset, StorageService, StreakData } from './types';
 
 const STORAGE_KEYS = {
@@ -11,11 +23,12 @@ const STORAGE_KEYS = {
     LAST_SESSION_RESULTS: 'ios_last_session_results'
 } as const;
 
-function readJson<T>(key: string, fallback: T): T {
+function readJson<T>(key: string, fallback: T, schema: z.ZodType<T>): T {
     try {
         const raw = localStorage.getItem(key);
         if (raw === null) return fallback;
-        return JSON.parse(raw) as T;
+        const result = schema.safeParse(JSON.parse(raw));
+        return result.success ? result.data : fallback;
     } catch {
         return fallback;
     }
@@ -31,7 +44,7 @@ function writeJson<T>(key: string, value: T): void {
 
 class LocalStorageService implements StorageService {
     getWeights(): Record<string, number> {
-        return readJson<Record<string, number>>(STORAGE_KEYS.WEIGHTS, {});
+        return readJson(STORAGE_KEYS.WEIGHTS, {}, WeightsSchema);
     }
 
     setWeights(weights: Record<string, number>): void {
@@ -39,7 +52,7 @@ class LocalStorageService implements StorageService {
     }
 
     getErrorRates(): Record<string, number> {
-        return readJson<Record<string, number>>(STORAGE_KEYS.ERROR_RATES, {});
+        return readJson(STORAGE_KEYS.ERROR_RATES, {}, ErrorRatesSchema);
     }
 
     setErrorRates(rates: Record<string, number>): void {
@@ -47,7 +60,7 @@ class LocalStorageService implements StorageService {
     }
 
     getStreak(): StreakData {
-        return readJson<StreakData>(STORAGE_KEYS.STREAK, { current: 0, lastActivityDate: '' });
+        return readJson(STORAGE_KEYS.STREAK, { current: 0, lastActivityDate: '' }, StreakSchema);
     }
 
     setStreak(data: StreakData): void {
@@ -55,7 +68,7 @@ class LocalStorageService implements StorageService {
     }
 
     getRecords(): Record<string, number> {
-        return readJson<Record<string, number>>(STORAGE_KEYS.RECORDS, {});
+        return readJson(STORAGE_KEYS.RECORDS, {}, RecordsSchema);
     }
 
     setRecord(key: string, ms: number): void {
@@ -65,8 +78,7 @@ class LocalStorageService implements StorageService {
     }
 
     getTheme(): 'dark' | 'light' {
-        const stored = readJson<string>(STORAGE_KEYS.THEME, 'dark');
-        return stored === 'light' ? 'light' : 'dark';
+        return readJson(STORAGE_KEYS.THEME, 'dark', ThemeSchema);
     }
 
     setTheme(t: 'dark' | 'light'): void {
@@ -74,8 +86,7 @@ class LocalStorageService implements StorageService {
     }
 
     getLanguage(): 'ru' | 'en' {
-        const stored = readJson<string>(STORAGE_KEYS.LANGUAGE, 'ru');
-        return stored === 'en' ? 'en' : 'ru';
+        return readJson(STORAGE_KEYS.LANGUAGE, 'ru', LanguageSchema);
     }
 
     setLanguage(l: 'ru' | 'en'): void {
@@ -83,7 +94,7 @@ class LocalStorageService implements StorageService {
     }
 
     getPresets(): SessionPreset[] {
-        return readJson<SessionPreset[]>(STORAGE_KEYS.PRESETS, []);
+        return readJson(STORAGE_KEYS.PRESETS, [], PresetsSchema);
     }
 
     savePreset(p: SessionPreset): void {
@@ -103,7 +114,7 @@ class LocalStorageService implements StorageService {
     }
 
     getLastSessionResults(): Record<string, boolean> {
-        return readJson<Record<string, boolean>>(STORAGE_KEYS.LAST_SESSION_RESULTS, {});
+        return readJson(STORAGE_KEYS.LAST_SESSION_RESULTS, {}, LastSessionResultsSchema);
     }
 
     setLastSessionResults(results: Record<string, boolean>): void {
