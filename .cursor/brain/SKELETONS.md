@@ -56,6 +56,26 @@ Skipping hooks (`--no-verify`) bypasses all checks — don't do it.
 
 `eslint.config.js` is the only ESLint config. Do not add a legacy `.eslintrc.*` — flat config owns all rules; a second config file risks confusion and stale docs.
 
+## Bug-finding scoring — Next is gated on self-assessment
+
+`bug-finding` answers stored in `sessionStore.answers[id]` go through two stages:
+the raw text/option from `onSubmit`, then `'gotIt' | 'missedIt'` from
+`onSelfAssess`. `useSummaryPage.isCorrectAnswer` only treats `'gotIt'` as
+correct, so `useSessionPlayPage` exposes `isBugFindingPendingSelfAssess` and
+**hides the action bar** between Submit and self-assess. Don't simplify
+`isAnswered` back to `answers[id] !== undefined` — users would skip
+self-assess and every bug-finding answer would score wrong.
+
+## End-session contract — `endedAt` guards the setup redirect
+
+`confirmEndSession` (in `useSessionPlayPage`) calls `sessionStore.endSession()`
+which stamps `endedAt` and wipes session data, then navigates to `/` with a
+`sessionEnded` flash. Without the `endedAt` marker, `useSessionSetup`'s
+`!config` redirect would fire on the same render cycle and overwrite the
+flash with `noActiveSession`. Keep the `endedAt !== null` early-return in
+`useSessionSetup` and the `endedAt` reset inside `setConfig`'s spread —
+otherwise the End Session UX silently regresses.
+
 ## Bilingual question schema — `{ en, ru }` required
 
 User-visible question fields are `LocalizedString = { en: string; ru: string }` objects, not plain strings. This applies to `question`, `explanation`, and option `value`s.

@@ -31,7 +31,7 @@ PRD: `_bmad-output/planning-artifacts/prd.md`
 ```
 src/
   components/
-    common/       # App-level: ErrorBoundary, PWA install/update toasts, …
+    common/       # App-level: ErrorBoundary, PWA install/update toasts, FlashBanner, …
     layout/       # Header, Footer, Main
     ui/           # shadcn primitives
   hocs/           # WithSuspense
@@ -47,7 +47,7 @@ src/
     algorithm/    # Adaptive question selection
     data/         # Zod question schema + types
     i18n/         # i18next setup, constants, types
-    storage/      # localStorage service + types
+    storage/      # localStorage service + zod schemas + types
     queryClient   # TanStack Query factory
     utils         # cn(), timers, keys, …
     shiki.ts      # Code highlighting

@@ -72,6 +72,20 @@ Client preferences: `src/lib/storage/` (localStorage abstraction).
 
 Adaptive selection and session orchestration live under `src/lib/algorithm/`; wired from session-related stores and session pages.
 
+### Session lifecycle
+
+| Trigger | Effect | Flash on `/` |
+| --- | --- | --- |
+| User clicks "End Session" on `/session/play` | `sessionStore.endSession()` stamps `endedAt` and wipes session data, then `navigate('/')` | `sessionEnded` |
+| Direct hit on `/session/play` without `config` (and no recent `endedAt`) | `useSessionSetup` redirects to `/` | `noActiveSession` |
+| Direct hit on `/session/summary` without questions | `useSummaryPage` redirects to `/` | `summaryUnavailable` |
+
+Flash variants are surfaced via `<FlashBanner />` on `HomePage` (auto-dismiss 6s, dismissable, `role="status"`).
+
+## FlashBanner
+
+Single-place feedback for redirects from session routes. State is carried via React Router `location.state.flash` (`FlashKind`), cleared on mount with `navigate(pathname, { replace: true, state: null })` so a refresh does not re-show.
+
 ## CSS / Theming
 
 Single file `src/index.css`: Tailwind v4 import, animation utilities (`tw-animate-css`), class-based dark mode (`@custom-variant dark`), design tokens in `@theme inline` mapping utilities to CSS variables, HSL tokens on `:root` and `.dark`. Brand color uses `--primary` on `:root`. New color tokens: add HSL in `:root`, then map in `@theme inline`.
