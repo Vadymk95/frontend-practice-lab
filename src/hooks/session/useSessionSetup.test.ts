@@ -183,7 +183,10 @@ describe('useSessionSetup', () => {
         renderHook(() => useSessionSetup(), { wrapper: makeWrapper() });
 
         await waitFor(() => {
-            expect(navigateMock).toHaveBeenCalledWith('/', { replace: true });
+            expect(navigateMock).toHaveBeenCalledWith('/', {
+                replace: true,
+                state: { flash: 'noActiveSession' }
+            });
         });
     });
 

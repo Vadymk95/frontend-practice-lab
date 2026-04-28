@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import type { FlashState } from '@/components/common/FlashBanner';
 import { track } from '@/lib/analytics';
 import type { Question } from '@/lib/data/schema';
 import { isYesterday } from '@/lib/date';
@@ -51,10 +52,11 @@ export function useSummaryPage() {
     const isNewRecord =
         timerEnabled && recordKey !== null && (priorRecord === undefined || timerMs < priorRecord);
 
-    // Guard: if no session data, redirect home
+    // Guard: if no session data, redirect home with a flash so the user understands why
     useEffect(() => {
         if (questionList.length === 0) {
-            navigate(RoutesPath.Root, { replace: true });
+            const state: FlashState = { flash: 'summaryUnavailable' };
+            navigate(RoutesPath.Root, { replace: true, state });
         }
     }, [questionList.length, navigate]);
 

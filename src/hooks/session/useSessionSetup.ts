@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import type { FlashState } from '@/components/common/FlashBanner';
 import { useCategoryQuestions } from '@/hooks/data/useCategoryQuestions';
 import { sampleWeighted } from '@/lib/algorithm';
 import { track } from '@/lib/analytics';
@@ -69,7 +70,11 @@ export function useSessionSetup() {
 
     useEffect(() => {
         if (!config) {
-            navigate(RoutesPath.Root, { replace: true });
+            // If the user just hit End Session, the play page already navigated home
+            // with a sessionEnded flash — skip our redirect so we don't overwrite it.
+            if (useSessionStore.getState().endedAt !== null) return;
+            const state: FlashState = { flash: 'noActiveSession' };
+            navigate(RoutesPath.Root, { replace: true, state });
         }
     }, [config, navigate]);
 

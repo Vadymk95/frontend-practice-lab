@@ -14,6 +14,10 @@ interface SessionState {
     skipList: string[];
     config: SessionConfig | null;
     timerMs: number;
+    // Marks an explicit user-driven session end so the setup guard on /session/play
+    // can distinguish "user clicked End" (show sessionEnded flash) from "no config set"
+    // (show noActiveSession flash). Cleared by setConfig on the next session start.
+    endedAt: number | null;
     // Actions
     setConfig: (config: SessionConfig) => void;
     setQuestionList: (questions: Question[]) => void;
@@ -23,6 +27,7 @@ interface SessionState {
     nextQuestion: () => void;
     setTimerMs: (ms: number) => void;
     resetSession: () => void;
+    endSession: () => void;
     setRepeatMistakes: (questions: Question[]) => void;
 }
 
@@ -32,7 +37,8 @@ const initialState = {
     answers: {} as Record<string, Answer>,
     skipList: [] as string[],
     config: null as SessionConfig | null,
-    timerMs: 0
+    timerMs: 0,
+    endedAt: null as number | null
 };
 
 const useSessionStoreBase = create<SessionState>()(
@@ -84,6 +90,11 @@ const useSessionStoreBase = create<SessionState>()(
             },
             resetSession: () => {
                 set(initialState, false, { type: 'session-store/resetSession' });
+            },
+            endSession: () => {
+                set({ ...initialState, endedAt: Date.now() }, false, {
+                    type: 'session-store/endSession'
+                });
             },
             setRepeatMistakes: (questionList: Question[]) => {
                 set(

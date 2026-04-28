@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import type { FlashState } from '@/components/common/FlashBanner';
 import { useSessionSetup } from '@/hooks/session/useSessionSetup';
 import { useQuestionKeyboard } from '@/hooks/ui/useQuestionKeyboard';
 import { track } from '@/lib/analytics';
@@ -51,7 +52,7 @@ export function useSessionPlayPage(): SessionPlayPageState {
     const currentIndex = useSessionStore.use.currentIndex();
     const answers = useSessionStore.use.answers();
     const nextQuestion = useSessionStore.use.nextQuestion();
-    const resetSession = useSessionStore.use.resetSession();
+    const endSession = useSessionStore.use.endSession();
     const timerMs = useSessionStore.use.timerMs();
     const setTimerMs = useSessionStore.use.setTimerMs();
 
@@ -99,9 +100,13 @@ export function useSessionPlayPage(): SessionPlayPageState {
         }
         sessionCompletedRef.current = true;
         setIsEndDialogOpen(false);
-        resetSession();
-        navigate(RoutesPath.Root);
-    }, [navigate, resetSession]);
+        // endSession() wipes session data and stamps endedAt — useSessionSetup's
+        // !config redirect reads endedAt and skips, so this navigate's sessionEnded
+        // flash is preserved.
+        endSession();
+        const flash: FlashState = { flash: 'sessionEnded' };
+        navigate(RoutesPath.Root, { state: flash });
+    }, [navigate, endSession]);
 
     // Fire session_abandoned when navigating away mid-session without completing
     useEffect(() => {

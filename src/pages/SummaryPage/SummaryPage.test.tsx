@@ -150,7 +150,10 @@ describe('useSummaryPage', () => {
 
         renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
 
-        expect(navigateMock).toHaveBeenCalledWith('/', { replace: true });
+        expect(navigateMock).toHaveBeenCalledWith('/', {
+            replace: true,
+            state: { flash: 'summaryUnavailable' }
+        });
     });
 
     it('calculates correctCount = 1 when answer matches correct index', () => {

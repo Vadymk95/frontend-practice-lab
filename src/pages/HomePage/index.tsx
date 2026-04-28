@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import type { FC } from 'react';
 
+import { FlashBanner } from '@/components/common/FlashBanner';
 import { AlgorithmWidget } from '@/components/features/AlgorithmWidget';
 import { PresetRow } from '@/components/features/PresetList/PresetRow';
 import { PrimaryPresetCard } from '@/components/features/PresetList/PrimaryPresetCard';
@@ -39,6 +40,7 @@ export const HomePage: FC = () => {
 
     return (
         <div className="container mx-auto max-w-2xl px-4 py-6 flex flex-col gap-6">
+            <FlashBanner />
             <AlgorithmWidget onCategorySelect={handleAlgorithmCategorySelect} />
             {mruPreset && <PrimaryPresetCard preset={mruPreset} onModify={handleModify} />}
             <SessionConfigurator key={modifyKey} initialConfig={modifyConfig} />
