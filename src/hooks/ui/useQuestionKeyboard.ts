@@ -1,4 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+
+// Min interval between Enter-driven submits. Guards against stuck-key autorepeat
+// and React-render-race where rapid Enters cross Submit → Next on the same keystroke.
+const ENTER_DEBOUNCE_MS = 250;
 
 interface UseQuestionKeyboardProps {
     optionCount: number;
@@ -13,6 +17,8 @@ export const useQuestionKeyboard = ({
     onSubmit,
     isAnswered
 }: UseQuestionKeyboardProps): void => {
+    const lastEnterAtRef = useRef(0);
+
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement)
@@ -24,6 +30,9 @@ export const useQuestionKeyboard = ({
                 onSelectOption(num - 1);
             }
             if (e.key === 'Enter') {
+                const now = Date.now();
+                if (now - lastEnterAtRef.current < ENTER_DEBOUNCE_MS) return;
+                lastEnterAtRef.current = now;
                 e.preventDefault();
                 onSubmit();
             }

@@ -56,6 +56,8 @@ export const QuestionCard: FC<QuestionCardProps> = ({
                         current: currentIndex + 1,
                         total: questionCount
                     })}
+                    aria-live="polite"
+                    aria-atomic="true"
                     className="text-sm text-muted-foreground"
                 >
                     {t('progress.indicator', { current: currentIndex + 1, total: questionCount })}
