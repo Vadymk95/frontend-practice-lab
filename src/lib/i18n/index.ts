@@ -67,9 +67,9 @@ const i18nInitPromise = i18next
             useSuspense: false
         },
         partialBundledLanguages: true,
-        interpolation: {
-            escapeValue: false
-        },
+        // i18next default escapeValue: true. No <Trans> usages and no HTML in JSON values,
+        // so default escaping is safe and gives defense-in-depth if a key ever interpolates
+        // user-controlled data.
         debug: false,
         load: I18N_LOAD_MODE
     })
