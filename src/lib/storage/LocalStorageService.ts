@@ -28,8 +28,20 @@ function readJson<T>(key: string, fallback: T, schema: z.ZodType<T>): T {
         const raw = localStorage.getItem(key);
         if (raw === null) return fallback;
         const result = schema.safeParse(JSON.parse(raw));
-        return result.success ? result.data : fallback;
-    } catch {
+        if (!result.success) {
+            if (import.meta.env.DEV) {
+                console.warn(
+                    `[storage] schema mismatch for "${key}", falling back to default`,
+                    result.error.issues
+                );
+            }
+            return fallback;
+        }
+        return result.data;
+    } catch (err) {
+        if (import.meta.env.DEV) {
+            console.warn(`[storage] read failed for "${key}", falling back to default`, err);
+        }
         return fallback;
     }
 }

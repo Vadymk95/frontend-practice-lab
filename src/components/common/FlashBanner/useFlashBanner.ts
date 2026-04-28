@@ -16,12 +16,16 @@ export function useFlashBanner(): UseFlashBannerReturn {
     const incoming = (location.state as FlashState | null)?.flash ?? null;
     const [activeFlash, setActiveFlash] = useState<FlashKind | null>(incoming);
 
-    // Drop the flash out of router state so a refresh won't re-show it
+    // Drop the flash out of router state so a refresh won't re-show it.
+    // Deps intentionally narrowed to `incoming`: re-running this effect on
+    // every navigate/location change would loop forever (we call navigate
+    // inside it). React Router 7 navigate identity is stable, location is
+    // intentionally re-read fresh via the navigate call itself.
+
     useEffect(() => {
         if (incoming === null) return;
         setActiveFlash(incoming);
         navigate(location.pathname, { replace: true, state: null });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [incoming]);
 
     useEffect(() => {
