@@ -60,12 +60,17 @@ export function useSessionPlayPage(): SessionPlayPageState {
 
     const currentQuestion = questionList[currentIndex] ?? null;
     const rawAnswer = currentQuestion ? answers[currentQuestion.id] : undefined;
-    // Bug-finding requires explicit self-assessment ('gotIt' | 'missedIt') before scoring
-    // is meaningful (see useSummaryPage.isCorrectAnswer). Until then, suppress Next so the
-    // user can't accidentally skip the assessment and have the answer count as wrong.
+    // Bug-finding requires explicit self-assessment ('gotIt' | 'missedIt') after submit
+    // before scoring is meaningful (see useSummaryPage.isCorrectAnswer). Until then,
+    // suppress Next so the user can't accidentally skip the assessment and have the
+    // answer count as wrong. Skip is a terminal state — `skipList` already classifies
+    // the question as skipped on the summary, so we exit the pending gate too;
+    // otherwise the user gets stuck (no action bar, and the in-card self-assess
+    // buttons hide because `useBugFindingQuestion` auto-derives missedIt on isSkipped).
     const isBugFindingPendingSelfAssess =
         currentQuestion?.type === 'bug-finding' &&
         rawAnswer !== undefined &&
+        rawAnswer !== 'skipped' &&
         rawAnswer !== 'gotIt' &&
         rawAnswer !== 'missedIt';
     const isAnswered =
