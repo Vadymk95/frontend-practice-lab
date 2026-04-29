@@ -43,12 +43,20 @@ export const BugFindingSchema = BaseQuestionSchema.extend({
 
 // CodeCompletion: `code`, `blanks`, `lang`, `referenceAnswer` are language-agnostic
 // (source code / identifiers / code snippets).
+//
+// Authoring invariant: every `__BLANK__` marker in `code` maps 1:1 to a `blanks`
+// entry. Enforced at the schema level so CI's `validate:data` step blocks any
+// PR that introduces a mismatch (the previous DEV-only console.warn missed 138
+// broken questions in production data — see bug-fix story 2026-04-29).
 export const CodeCompletionSchema = BaseQuestionSchema.extend({
     type: z.literal('code-completion'),
     code: z.string(),
     blanks: z.array(z.string()),
     lang: z.string().optional(),
     referenceAnswer: z.string()
+}).refine((q) => q.code.split('__BLANK__').length - 1 === q.blanks.length, {
+    message: "code-completion: '__BLANK__' marker count in code must equal blanks.length",
+    path: ['code']
 });
 
 export const QuestionSchema = z.discriminatedUnion('type', [

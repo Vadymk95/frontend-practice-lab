@@ -38,14 +38,14 @@ export const CodeBlock: FC<CodeBlockProps> = ({ code, lang = 'javascript', class
             </div>
 
             {/* Code area */}
-            <div className="max-h-[320px] overflow-auto md:max-h-[480px]">
+            <div className="max-h-[320px] overflow-auto bg-white md:max-h-[480px] dark:bg-[#0d1117]">
                 {highlightedHtml ? (
                     <div
                         dangerouslySetInnerHTML={{ __html: highlightedHtml }}
                         className="[&>pre]:m-0 [&>pre]:bg-transparent [&>pre]:p-4 [&>pre]:text-sm"
                     />
                 ) : (
-                    <pre className="m-0 overflow-x-auto whitespace-pre p-4 text-muted-foreground">
+                    <pre className="m-0 whitespace-pre p-4 text-muted-foreground">
                         <code>{code}</code>
                     </pre>
                 )}

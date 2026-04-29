@@ -9,6 +9,10 @@
             "en": "What is the key reason Vite's development server starts so fast compared to webpack-dev-server?",
             "ru": "В чём ключевая причина того, что dev-сервер Vite стартует настолько быстро по сравнению с webpack-dev-server?"
         },
+        "explanation": {
+            "en": "Vite exploits native ES modules in modern browsers. In development, it serves source files directly without bundling them. Only files actually requested by the browser are transformed. This makes startup instant regardless of project size, unlike webpack which must bundle everything first.",
+            "ru": "Vite использует нативные ES-модули современных браузеров. В dev-режиме он отдаёт исходные файлы напрямую, без бандлинга. Трансформируются только те файлы, которые реально запросил браузер. Благодаря этому старт мгновенный независимо от размера проекта — в отличие от webpack, которому сначала нужно собрать всё."
+        },
         "options": [
             {
                 "en": "Vite uses Rust-based compilation for all files",
@@ -27,11 +31,7 @@
                 "ru": "Vite при старте пред-компилирует все файлы в WebAssembly"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Vite exploits native ES modules in modern browsers. In development, it serves source files directly without bundling them. Only files actually requested by the browser are transformed. This makes startup instant regardless of project size, unlike webpack which must bundle everything first.",
-            "ru": "Vite использует нативные ES-модули современных браузеров. В dev-режиме он отдаёт исходные файлы напрямую, без бандлинга. Трансформируются только те файлы, которые реально запросил браузер. Благодаря этому старт мгновенный независимо от размера проекта — в отличие от webpack, которому сначала нужно собрать всё."
-        }
+        "correct": 1
     },
     {
         "id": "build-webpack-001",
@@ -42,6 +42,10 @@
         "question": {
             "en": "What is the purpose of 'loaders' in webpack?",
             "ru": "Каково назначение loaders в webpack?"
+        },
+        "explanation": {
+            "en": "Webpack only understands JavaScript and JSON natively. Loaders transform other file types into valid JavaScript modules. Examples: `ts-loader` (TypeScript → JS), `css-loader` (CSS → JS module), `babel-loader` (modern JS → compatible JS). Loaders are configured in the `module.rules` array.",
+            "ru": "Нативно webpack понимает только JavaScript и JSON. Loaders преобразуют другие типы файлов в валидные JavaScript-модули. Примеры: `ts-loader` (TypeScript → JS), `css-loader` (CSS → JS-модуль), `babel-loader` (современный JS → совместимый JS). Loaders настраиваются в массиве `module.rules`."
         },
         "options": [
             {
@@ -61,11 +65,7 @@
                 "ru": "Инжектить переменные окружения в бандл на этапе сборки"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Webpack only understands JavaScript and JSON natively. Loaders transform other file types into valid JavaScript modules. Examples: `ts-loader` (TypeScript → JS), `css-loader` (CSS → JS module), `babel-loader` (modern JS → compatible JS). Loaders are configured in the `module.rules` array.",
-            "ru": "Нативно webpack понимает только JavaScript и JSON. Loaders преобразуют другие типы файлов в валидные JavaScript-модули. Примеры: `ts-loader` (TypeScript → JS), `css-loader` (CSS → JS-модуль), `babel-loader` (современный JS → совместимый JS). Loaders настраиваются в массиве `module.rules`."
-        }
+        "correct": 1
     },
     {
         "id": "build-babel-001",
@@ -76,6 +76,10 @@
         "question": {
             "en": "What is the difference between a Babel preset and a Babel plugin?",
             "ru": "В чём разница между preset и plugin в Babel?"
+        },
+        "explanation": {
+            "en": "A Babel plugin transforms one specific syntax feature (e.g., `@babel/plugin-transform-arrow-functions`). A preset is a shareable config that bundles multiple plugins (e.g., `@babel/preset-env` bundles all ES2015+ transforms). Presets run in reverse order; plugins run in forward order, before presets.",
+            "ru": "Babel plugin преобразует одну конкретную синтаксическую фичу (например, `@babel/plugin-transform-arrow-functions`). Preset — это переиспользуемый конфиг, который объединяет несколько плагинов (например, `@babel/preset-env` собирает все трансформы ES2015+). Presets выполняются в обратном порядке; plugins — в прямом порядке и до presets."
         },
         "options": [
             {
@@ -95,11 +99,7 @@
                 "ru": "Presets отвечают только за TypeScript; plugins — за всё остальное"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "A Babel plugin transforms one specific syntax feature (e.g., `@babel/plugin-transform-arrow-functions`). A preset is a shareable config that bundles multiple plugins (e.g., `@babel/preset-env` bundles all ES2015+ transforms). Presets run in reverse order; plugins run in forward order, before presets.",
-            "ru": "Babel plugin преобразует одну конкретную синтаксическую фичу (например, `@babel/plugin-transform-arrow-functions`). Preset — это переиспользуемый конфиг, который объединяет несколько плагинов (например, `@babel/preset-env` собирает все трансформы ES2015+). Presets выполняются в обратном порядке; plugins — в прямом порядке и до presets."
-        }
+        "correct": 1
     },
     {
         "id": "build-semver-001",
@@ -110,6 +110,10 @@
         "question": {
             "en": "In semantic versioning (semver), what does the caret (^) prefix mean in `\"react\": \"^18.2.0\"`?",
             "ru": "В semver что означает префикс caret (^) в `\"react\": \"^18.2.0\"`?"
+        },
+        "explanation": {
+            "en": "The caret (^) allows updates that don't change the leftmost non-zero digit. For `^18.2.0`: any >=18.2.0 <19.0.0. The tilde (~) only allows patch updates: `~18.2.0` means >=18.2.0 <18.3.0. For versions below 1.0.0, behavior differs.",
+            "ru": "Caret (^) разрешает обновления, которые не меняют самую левую ненулевую цифру. Для `^18.2.0`: любая >=18.2.0 <19.0.0. Tilde (~) разрешает только patch-обновления: `~18.2.0` означает >=18.2.0 <18.3.0. Для версий ниже 1.0.0 поведение отличается."
         },
         "options": [
             {
@@ -129,11 +133,7 @@
                 "ru": "Минимальная версия — 18.2.0, но версии выше 18.9.9 исключены"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "The caret (^) allows updates that don't change the leftmost non-zero digit. For `^18.2.0`: any >=18.2.0 <19.0.0. The tilde (~) only allows patch updates: `~18.2.0` means >=18.2.0 <18.3.0. For versions below 1.0.0, behavior differs.",
-            "ru": "Caret (^) разрешает обновления, которые не меняют самую левую ненулевую цифру. Для `^18.2.0`: любая >=18.2.0 <19.0.0. Tilde (~) разрешает только patch-обновления: `~18.2.0` означает >=18.2.0 <18.3.0. Для версий ниже 1.0.0 поведение отличается."
-        }
+        "correct": 1
     },
     {
         "id": "build-esm-cjs-001",
@@ -144,6 +144,10 @@
         "question": {
             "en": "What is a key behavioral difference between ES Modules (ESM) and CommonJS?",
             "ru": "В чём ключевое поведенческое отличие ES Modules (ESM) от CommonJS?"
+        },
+        "explanation": {
+            "en": "ESM `import` statements are hoisted and resolved statically before code runs, enabling tree shaking and circular dependency analysis. CJS `require()` executes at runtime and can be conditional or dynamic. Interestingly, ESM exports ARE live bindings (mutations visible to importers), while CJS exports a snapshot.",
+            "ru": "Выражения `import` в ESM поднимаются и разрешаются статически ещё до запуска кода, что позволяет делать tree shaking и анализ циклических зависимостей. CJS `require()` исполняется в рантайме и может быть условным или динамическим. Интересно, что именно экспорты ESM — это live bindings (мутации видны импортёрам), тогда как CJS экспортирует снимок значений."
         },
         "options": [
             {
@@ -163,11 +167,7 @@
                 "ru": "Экспорты CommonJS неизменяемые, экспорты ESM — мутабельные ссылки"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "ESM `import` statements are hoisted and resolved statically before code runs, enabling tree shaking and circular dependency analysis. CJS `require()` executes at runtime and can be conditional or dynamic. Interestingly, ESM exports ARE live bindings (mutations visible to importers), while CJS exports a snapshot.",
-            "ru": "Выражения `import` в ESM поднимаются и разрешаются статически ещё до запуска кода, что позволяет делать tree shaking и анализ циклических зависимостей. CJS `require()` исполняется в рантайме и может быть условным или динамическим. Интересно, что именно экспорты ESM — это live bindings (мутации видны импортёрам), тогда как CJS экспортирует снимок значений."
-        }
+        "correct": 1
     },
     {
         "id": "build-sourcemap-001",
@@ -178,6 +178,10 @@
         "question": {
             "en": "What is the purpose of a source map?",
             "ru": "Для чего нужен source map?"
+        },
+        "explanation": {
+            "en": "Source maps (.map files) contain a mapping from bundled/minified code positions back to original source positions. DevTools use them to display original TypeScript/JSX in stack traces and breakpoints despite the browser executing the compiled output.",
+            "ru": "Source maps (.map-файлы) содержат отображение позиций в собранном/минифицированном коде на позиции в исходниках. DevTools используют их, чтобы показывать оригинальный TypeScript/JSX в стек-трейсах и на брейкпоинтах, хотя браузер исполняет скомпилированный код."
         },
         "options": [
             {
@@ -197,11 +201,7 @@
                 "ru": "Перечислять все entry points и соответствующие им выходные файлы"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Source maps (.map files) contain a mapping from bundled/minified code positions back to original source positions. DevTools use them to display original TypeScript/JSX in stack traces and breakpoints despite the browser executing the compiled output.",
-            "ru": "Source maps (.map-файлы) содержат отображение позиций в собранном/минифицированном коде на позиции в исходниках. DevTools используют их, чтобы показывать оригинальный TypeScript/JSX в стек-трейсах и на брейкпоинтах, хотя браузер исполняет скомпилированный код."
-        }
+        "correct": 1
     },
     {
         "id": "build-envvars-001",
@@ -212,6 +212,10 @@
         "question": {
             "en": "In Vite, how are environment variables exposed to client-side code?",
             "ru": "Как в Vite переменные окружения становятся доступны клиентскому коду?"
+        },
+        "explanation": {
+            "en": "Vite reads .env files but only exposes variables prefixed with `VITE_` to the client via `import.meta.env.VITE_MY_VAR`. This prefix requirement prevents accidentally leaking server-side secrets (like database credentials) to the browser bundle.",
+            "ru": "Vite читает .env-файлы, но клиенту отдаёт только переменные с префиксом `VITE_` через `import.meta.env.VITE_MY_VAR`. Требование префикса защищает от случайной утечки серверных секретов (например, кредов БД) в браузерный бандл."
         },
         "options": [
             {
@@ -231,11 +235,7 @@
                 "ru": "Все переменные окружения Node.js доступны в рантайме через window.__env"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Vite reads .env files but only exposes variables prefixed with `VITE_` to the client via `import.meta.env.VITE_MY_VAR`. This prefix requirement prevents accidentally leaking server-side secrets (like database credentials) to the browser bundle.",
-            "ru": "Vite читает .env-файлы, но клиенту отдаёт только переменные с префиксом `VITE_` через `import.meta.env.VITE_MY_VAR`. Требование префикса защищает от случайной утечки серверных секретов (например, кредов БД) в браузерный бандл."
-        }
+        "correct": 1
     },
     {
         "id": "build-peerdeps-001",
@@ -246,6 +246,10 @@
         "question": {
             "en": "What are `peerDependencies` in package.json?",
             "ru": "Что такое `peerDependencies` в package.json?"
+        },
+        "explanation": {
+            "en": "peerDependencies declare that a package works with a specific version of a host package that the consumer must install. For example, a React component library declares `react` as a peer dep — it won't install its own React copy, relying on the consumer's React instead. This prevents duplicate React instances.",
+            "ru": "peerDependencies объявляют, что пакет работает с определённой версией host-пакета, который должен поставить потребитель. Например, библиотека React-компонентов объявляет `react` как peer dep — она не ставит свою копию React, а использует ту, что у потребителя. Это предотвращает дублирование инстансов React."
         },
         "options": [
             {
@@ -265,11 +269,7 @@
                 "ru": "Зависимости, установленные в родительской директории и разделяемые с дочерними пакетами"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "peerDependencies declare that a package works with a specific version of a host package that the consumer must install. For example, a React component library declares `react` as a peer dep — it won't install its own React copy, relying on the consumer's React instead. This prevents duplicate React instances.",
-            "ru": "peerDependencies объявляют, что пакет работает с определённой версией host-пакета, который должен поставить потребитель. Например, библиотека React-компонентов объявляет `react` как peer dep — она не ставит свою копию React, а использует ту, что у потребителя. Это предотвращает дублирование инстансов React."
-        }
+        "correct": 1
     },
     {
         "id": "build-pnpm-001",
@@ -280,6 +280,10 @@
         "question": {
             "en": "What is the key storage innovation that makes pnpm disk-efficient?",
             "ru": "В чём ключевое хранилищное новшество, делающее pnpm экономным к диску?"
+        },
+        "explanation": {
+            "en": "pnpm maintains a single global content-addressable store (~/.pnpm-store). When you install a package, it's stored once and hard-linked (or reflinked on supported filesystems) into each project's node_modules. This means 10 projects using React 18.2.0 share one copy on disk.",
+            "ru": "pnpm поддерживает единое глобальное content-addressable хранилище (~/.pnpm-store). При установке пакет сохраняется один раз и через hard link (или reflink на поддерживаемых файловых системах) подключается в node_modules каждого проекта. В итоге 10 проектов с React 18.2.0 делят одну копию на диске."
         },
         "options": [
             {
@@ -299,11 +303,7 @@
                 "ru": "pnpm дедуплицирует пакеты на уровне исходного JavaScript через сравнение AST"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "pnpm maintains a single global content-addressable store (~/.pnpm-store). When you install a package, it's stored once and hard-linked (or reflinked on supported filesystems) into each project's node_modules. This means 10 projects using React 18.2.0 share one copy on disk.",
-            "ru": "pnpm поддерживает единое глобальное content-addressable хранилище (~/.pnpm-store). При установке пакет сохраняется один раз и через hard link (или reflink на поддерживаемых файловых системах) подключается в node_modules каждого проекта. В итоге 10 проектов с React 18.2.0 делят одну копию на диске."
-        }
+        "correct": 1
     },
     {
         "id": "build-packagejson-001",
@@ -314,6 +314,10 @@
         "question": {
             "en": "In package.json, what does the `exports` field do that the older `main` field cannot?",
             "ru": "Что поле `exports` в package.json умеет из того, чего не умеет старое поле `main`?"
+        },
+        "explanation": {
+            "en": "The `exports` field (package.json v9+) enables: conditional exports (different files for require vs import, browser vs Node), subpath exports (controlling which internal paths consumers can import), and encapsulation (deep imports not listed in exports are blocked). `main` only specifies a single CJS entry point.",
+            "ru": "Поле `exports` (package.json v9+) даёт: условные экспорты (разные файлы для require и import, браузер и Node), subpath exports (контроль над тем, какие внутренние пути может импортировать потребитель) и инкапсуляцию (глубокие импорты, не перечисленные в exports, блокируются). `main` задаёт только один CJS entry point."
         },
         "options": [
             {
@@ -333,11 +337,7 @@
                 "ru": "Перечисляет entry points для всех скриптов из поля scripts"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "The `exports` field (package.json v9+) enables: conditional exports (different files for require vs import, browser vs Node), subpath exports (controlling which internal paths consumers can import), and encapsulation (deep imports not listed in exports are blocked). `main` only specifies a single CJS entry point.",
-            "ru": "Поле `exports` (package.json v9+) даёт: условные экспорты (разные файлы для require и import, браузер и Node), subpath exports (контроль над тем, какие внутренние пути может импортировать потребитель) и инкапсуляцию (глубокие импорты, не перечисленные в exports, блокируются). `main` задаёт только один CJS entry point."
-        }
+        "correct": 1
     },
     {
         "id": "build-rollup-001",
@@ -348,6 +348,10 @@
         "question": {
             "en": "Why is Rollup preferred over webpack for building JavaScript libraries?",
             "ru": "Почему для сборки JavaScript-библиотек Rollup предпочтительнее webpack?"
+        },
+        "explanation": {
+            "en": "Rollup generates clean ESM output without webpack's module runtime wrapper. For libraries, this means: better tree shaking for consumers, no internal module registry overhead, and smaller bundles. Webpack's runtime is more suited to complex application bundles with dynamic imports and HMR.",
+            "ru": "Rollup генерирует чистый ESM-вывод без обёртки module runtime, характерной для webpack. Для библиотек это означает: лучший tree shaking у потребителей, отсутствие оверхеда внутреннего module registry и меньшие бандлы. Рантайм webpack больше подходит сложным приложениям с динамическими импортами и HMR."
         },
         "options": [
             {
@@ -367,11 +371,7 @@
                 "ru": "Rollup автоматически работает с TypeScript без каких-либо плагинов"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Rollup generates clean ESM output without webpack's module runtime wrapper. For libraries, this means: better tree shaking for consumers, no internal module registry overhead, and smaller bundles. Webpack's runtime is more suited to complex application bundles with dynamic imports and HMR.",
-            "ru": "Rollup генерирует чистый ESM-вывод без обёртки module runtime, характерной для webpack. Для библиотек это означает: лучший tree shaking у потребителей, отсутствие оверхеда внутреннего module registry и меньшие бандлы. Рантайм webpack больше подходит сложным приложениям с динамическими импортами и HMR."
-        }
+        "correct": 1
     },
     {
         "id": "build-esbuild-001",
@@ -382,6 +382,10 @@
         "question": {
             "en": "What makes ESBuild significantly faster than Babel or webpack?",
             "ru": "Почему ESBuild значительно быстрее Babel или webpack?"
+        },
+        "explanation": {
+            "en": "ESBuild is written in Go (natively compiled, no JIT warmup), processes files in parallel threads, uses Go's efficient memory management without GC pauses, and uses a single-pass parsing approach. Benchmarks show it is 10-100x faster than Babel or TypeScript's tsc for transpilation.",
+            "ru": "ESBuild написан на Go (нативная компиляция, без прогрева JIT), обрабатывает файлы в параллельных потоках, опирается на эффективное управление памятью в Go без GC-пауз и использует single-pass парсинг. Бенчмарки показывают, что он в 10–100 раз быстрее Babel или tsc в задачах транспиляции."
         },
         "options": [
             {
@@ -401,11 +405,7 @@
                 "ru": "ESBuild обрабатывает только entry points, игнорируя транзитивные зависимости"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "ESBuild is written in Go (natively compiled, no JIT warmup), processes files in parallel threads, uses Go's efficient memory management without GC pauses, and uses a single-pass parsing approach. Benchmarks show it is 10-100x faster than Babel or TypeScript's tsc for transpilation.",
-            "ru": "ESBuild написан на Go (нативная компиляция, без прогрева JIT), обрабатывает файлы в параллельных потоках, опирается на эффективное управление памятью в Go без GC-пауз и использует single-pass парсинг. Бенчмарки показывают, что он в 10–100 раз быстрее Babel или tsc в задачах транспиляции."
-        }
+        "correct": 1
     },
     {
         "id": "build-lockfile-001",
@@ -416,6 +416,10 @@
         "question": {
             "en": "What is the purpose of a lockfile (package-lock.json / yarn.lock / pnpm-lock.yaml)?",
             "ru": "Для чего нужен lockfile (package-lock.json / yarn.lock / pnpm-lock.yaml)?"
+        },
+        "explanation": {
+            "en": "Lockfiles record the exact version (including transitive deps) and integrity hash of every installed package. This ensures `npm ci` installs the exact same dependency tree on any machine or CI server, regardless of semver ranges in package.json.",
+            "ru": "Lockfiles фиксируют точную версию (включая транзитивные зависимости) и integrity-хэш каждого установленного пакета. Благодаря этому `npm ci` ставит идентичное дерево зависимостей на любой машине или CI-сервере, независимо от semver-диапазонов в package.json."
         },
         "options": [
             {
@@ -435,11 +439,7 @@
                 "ru": "Перечислять пакеты, которые запрещено обновлять"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Lockfiles record the exact version (including transitive deps) and integrity hash of every installed package. This ensures `npm ci` installs the exact same dependency tree on any machine or CI server, regardless of semver ranges in package.json.",
-            "ru": "Lockfiles фиксируют точную версию (включая транзитивные зависимости) и integrity-хэш каждого установленного пакета. Благодаря этому `npm ci` ставит идентичное дерево зависимостей на любой машине или CI-сервере, независимо от semver-диапазонов в package.json."
-        }
+        "correct": 1
     },
     {
         "id": "build-postcss-001",
@@ -450,6 +450,10 @@
         "question": {
             "en": "What role does PostCSS play in a typical frontend build pipeline?",
             "ru": "Какую роль PostCSS играет в типичном frontend build-пайплайне?"
+        },
+        "explanation": {
+            "en": "PostCSS is a CSS transformation tool with a plugin ecosystem. It parses CSS to an AST and applies plugins. Common plugins: Autoprefixer (adds vendor prefixes), postcss-preset-env (future CSS syntax), cssnano (minification). It's not a preprocessor — it processes standard or custom CSS syntax.",
+            "ru": "PostCSS — это инструмент трансформации CSS с экосистемой плагинов. Он парсит CSS в AST и применяет плагины. Популярные плагины: Autoprefixer (добавляет vendor-префиксы), postcss-preset-env (будущий CSS-синтаксис), cssnano (минификация). Это не препроцессор — он обрабатывает стандартный или кастомный CSS-синтаксис."
         },
         "options": [
             {
@@ -469,11 +473,7 @@
                 "ru": "Валидирует CSS по спецификации W3C и сообщает об ошибках"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "PostCSS is a CSS transformation tool with a plugin ecosystem. It parses CSS to an AST and applies plugins. Common plugins: Autoprefixer (adds vendor prefixes), postcss-preset-env (future CSS syntax), cssnano (minification). It's not a preprocessor — it processes standard or custom CSS syntax.",
-            "ru": "PostCSS — это инструмент трансформации CSS с экосистемой плагинов. Он парсит CSS в AST и применяет плагины. Популярные плагины: Autoprefixer (добавляет vendor-префиксы), postcss-preset-env (будущий CSS-синтаксис), cssnano (минификация). Это не препроцессор — он обрабатывает стандартный или кастомный CSS-синтаксис."
-        }
+        "correct": 1
     },
     {
         "id": "build-turborepo-001",
@@ -484,6 +484,10 @@
         "question": {
             "en": "What is the primary performance feature of Turborepo in a monorepo?",
             "ru": "Какая главная performance-фича Turborepo в монорепозитории?"
+        },
+        "explanation": {
+            "en": "Turborepo's key feature is incremental computation with caching. It hashes task inputs (source files, env vars, deps) and stores outputs. If inputs haven't changed, the cached result is replayed instantly. Remote caching (Vercel or self-hosted) shares this cache across the team and CI.",
+            "ru": "Ключевая фича Turborepo — инкрементальные вычисления с кэшированием. Он хэширует входы задачи (исходники, переменные окружения, зависимости) и сохраняет результаты. Если входы не изменились, кэшированный результат воспроизводится мгновенно. Remote caching (Vercel или self-hosted) делает этот кэш общим для команды и CI."
         },
         "options": [
             {
@@ -503,11 +507,7 @@
                 "ru": "Заменяет npm/yarn/pnpm более быстрым собственным package manager"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Turborepo's key feature is incremental computation with caching. It hashes task inputs (source files, env vars, deps) and stores outputs. If inputs haven't changed, the cached result is replayed instantly. Remote caching (Vercel or self-hosted) shares this cache across the team and CI.",
-            "ru": "Ключевая фича Turborepo — инкрементальные вычисления с кэшированием. Он хэширует входы задачи (исходники, переменные окружения, зависимости) и сохраняет результаты. Если входы не изменились, кэшированный результат воспроизводится мгновенно. Remote caching (Vercel или self-hosted) делает этот кэш общим для команды и CI."
-        }
+        "correct": 1
     },
     {
         "id": "build-hmr-001",
@@ -518,6 +518,10 @@
         "question": {
             "en": "How does Vite's Hot Module Replacement (HMR) differ from webpack's HMR?",
             "ru": "Чем HMR (Hot Module Replacement) в Vite отличается от HMR в webpack?"
+        },
+        "explanation": {
+            "en": "In Vite, when a module changes, only that module and its importers in the ESM graph are invalidated and re-fetched. Because there's no bundling, updates are surgical and fast. Webpack HMR must re-bundle affected chunks (though webpack 5 improved this). Both use WebSockets for the dev server communication channel.",
+            "ru": "В Vite при изменении модуля инвалидируются и перезапрашиваются только сам модуль и его импортёры в ESM-графе. Поскольку бандлинга нет, обновления точечные и быстрые. HMR в webpack вынужден пересобирать затронутые чанки (хотя webpack 5 заметно это улучшил). Оба используют WebSockets как канал связи с dev-сервером."
         },
         "options": [
             {
@@ -537,11 +541,7 @@
                 "ru": "HMR в Vite синхронный, в webpack — асинхронная замена модулей"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "In Vite, when a module changes, only that module and its importers in the ESM graph are invalidated and re-fetched. Because there's no bundling, updates are surgical and fast. Webpack HMR must re-bundle affected chunks (though webpack 5 improved this). Both use WebSockets for the dev server communication channel.",
-            "ru": "В Vite при изменении модуля инвалидируются и перезапрашиваются только сам модуль и его импортёры в ESM-графе. Поскольку бандлинга нет, обновления точечные и быстрые. HMR в webpack вынужден пересобирать затронутые чанки (хотя webpack 5 заметно это улучшил). Оба используют WebSockets как канал связи с dev-сервером."
-        }
+        "correct": 1
     },
     {
         "id": "build-tsc-babel-001",
@@ -552,6 +552,10 @@
         "question": {
             "en": "What is the key difference between using `tsc` and `@babel/preset-typescript` to handle TypeScript?",
             "ru": "В чём ключевая разница между использованием `tsc` и `@babel/preset-typescript` для обработки TypeScript?"
+        },
+        "explanation": {
+            "en": "`@babel/preset-typescript` strips TypeScript type annotations without performing type checking — it's just a transform. This is fast but silent about type errors. `tsc` performs full type checking and will fail on type errors. Typical setup: Babel for fast build transforms, tsc for type checking in CI (`tsc --noEmit`).",
+            "ru": "`@babel/preset-typescript` просто срезает аннотации типов TypeScript без проверки — это только трансформ. Быстро, но молча игнорирует ошибки типов. `tsc` выполняет полноценную проверку типов и упадёт при ошибках. Типовая схема: Babel — для быстрых build-трансформов, tsc — для проверки типов в CI (`tsc --noEmit`)."
         },
         "options": [
             {
@@ -571,11 +575,7 @@
                 "ru": "tsc нативно поддерживает все Babel-плагины; функционально они идентичны"
             }
         ],
-        "correct": 0,
-        "explanation": {
-            "en": "`@babel/preset-typescript` strips TypeScript type annotations without performing type checking — it's just a transform. This is fast but silent about type errors. `tsc` performs full type checking and will fail on type errors. Typical setup: Babel for fast build transforms, tsc for type checking in CI (`tsc --noEmit`).",
-            "ru": "`@babel/preset-typescript` просто срезает аннотации типов TypeScript без проверки — это только трансформ. Быстро, но молча игнорирует ошибки типов. `tsc` выполняет полноценную проверку типов и упадёт при ошибках. Типовая схема: Babel — для быстрых build-трансформов, tsc — для проверки типов в CI (`tsc --noEmit`)."
-        }
+        "correct": 0
     },
     {
         "id": "build-cssmodules-001",
@@ -586,6 +586,10 @@
         "question": {
             "en": "What problem do CSS Modules solve and how?",
             "ru": "Какую проблему решают CSS Modules и как именно?"
+        },
+        "explanation": {
+            "en": "CSS Modules transform class names to unique hashed identifiers (e.g., `.button` → `.button_a1b2c3`) at build time. JavaScript imports the mapping object, and the generated CSS uses the hashed names. This provides component-scoped styles without runtime overhead or CSS-in-JS.",
+            "ru": "CSS Modules на этапе сборки превращают имена классов в уникальные хэшированные идентификаторы (например, `.button` → `.button_a1b2c3`). JavaScript импортирует объект-маппинг, а сгенерированный CSS использует хэшированные имена. Так получаются стили со скоупом на компонент без рантайм-оверхеда и без CSS-in-JS."
         },
         "options": [
             {
@@ -605,11 +609,7 @@
                 "ru": "Разделяют CSS на отдельные файлы по компонентам для ленивой загрузки"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "CSS Modules transform class names to unique hashed identifiers (e.g., `.button` → `.button_a1b2c3`) at build time. JavaScript imports the mapping object, and the generated CSS uses the hashed names. This provides component-scoped styles without runtime overhead or CSS-in-JS.",
-            "ru": "CSS Modules на этапе сборки превращают имена классов в уникальные хэшированные идентификаторы (например, `.button` → `.button_a1b2c3`). JavaScript импортирует объект-маппинг, а сгенерированный CSS использует хэшированные имена. Так получаются стили со скоупом на компонент без рантайм-оверхеда и без CSS-in-JS."
-        }
+        "correct": 1
     },
     {
         "id": "build-presetenv-001",
@@ -620,6 +620,10 @@
         "question": {
             "en": "What does `@babel/preset-env` with `useBuiltIns: 'usage'` do?",
             "ru": "Что делает `@babel/preset-env` с `useBuiltIns: 'usage'`?"
+        },
+        "explanation": {
+            "en": "`useBuiltIns: 'usage'` analyzes your code and adds polyfill imports only for features you actually use and that aren't supported by your browserslist targets. This produces the minimal polyfill set. `'entry'` imports all polyfills for the targets; `false` (default) doesn't add any polyfills.",
+            "ru": "`useBuiltIns: 'usage'` анализирует ваш код и подтягивает polyfills только для тех фич, которые действительно используются и не поддерживаются целями browserslist. Это даёт минимально необходимый набор polyfills. `'entry'` импортирует все polyfills для целей; `false` (по умолчанию) вообще не добавляет polyfills."
         },
         "options": [
             {
@@ -639,11 +643,7 @@
                 "ru": "По умолчанию включает все экспериментальные JavaScript-предложения"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "`useBuiltIns: 'usage'` analyzes your code and adds polyfill imports only for features you actually use and that aren't supported by your browserslist targets. This produces the minimal polyfill set. `'entry'` imports all polyfills for the targets; `false` (default) doesn't add any polyfills.",
-            "ru": "`useBuiltIns: 'usage'` анализирует ваш код и подтягивает polyfills только для тех фич, которые действительно используются и не поддерживаются целями browserslist. Это даёт минимально необходимый набор polyfills. `'entry'` импортирует все polyfills для целей; `false` (по умолчанию) вообще не добавляет polyfills."
-        }
+        "correct": 1
     },
     {
         "id": "build-modfed-001",
@@ -654,6 +654,10 @@
         "question": {
             "en": "What problem does webpack's Module Federation solve?",
             "ru": "Какую проблему решает Module Federation в webpack?"
+        },
+        "explanation": {
+            "en": "Module Federation (webpack 5) enables multiple independently deployed applications to dynamically load code from each other at runtime. Application A can expose components that Application B loads without pre-bundling them together. This powers microfrontend architectures where teams deploy independently.",
+            "ru": "Module Federation (webpack 5) позволяет нескольким независимо деплоящимся приложениям динамически подгружать код друг у друга в рантайме. Приложение A может экспонировать компоненты, которые приложение B подгружает, не собирая их вместе заранее. На этом строятся микрофронтенд-архитектуры с независимыми релизами команд."
         },
         "options": [
             {
@@ -673,11 +677,7 @@
                 "ru": "Автоматически выделяет vendor-код в отдельно кэшируемые чанки"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Module Federation (webpack 5) enables multiple independently deployed applications to dynamically load code from each other at runtime. Application A can expose components that Application B loads without pre-bundling them together. This powers microfrontend architectures where teams deploy independently.",
-            "ru": "Module Federation (webpack 5) позволяет нескольким независимо деплоящимся приложениям динамически подгружать код друг у друга в рантайме. Приложение A может экспонировать компоненты, которые приложение B подгружает, не собирая их вместе заранее. На этом строятся микрофронтенд-архитектуры с независимыми релизами команд."
-        }
+        "correct": 1
     },
     {
         "id": "build-treeshake-001",
@@ -688,6 +688,10 @@
         "question": {
             "en": "What does `\"sideEffects\": false` in a library's package.json tell the bundler?",
             "ru": "Что `\"sideEffects\": false` в package.json библиотеки сообщает бандлеру?"
+        },
+        "explanation": {
+            "en": "`sideEffects: false` tells webpack/Rollup that importing any module from this package doesn't cause side effects (no globals modified, no polyfills injected, no CSS injected). This allows tree shaking to skip the entire module if none of its exports are used. Use `sideEffects: ['*.css', '*.scss']` to whitelist files with real side effects.",
+            "ru": "`sideEffects: false` сообщает webpack/Rollup, что импорт любого модуля из этого пакета не имеет побочных эффектов (не меняет глобалы, не подключает polyfills, не инжектит CSS). Это позволяет tree shaking полностью выкидывать модуль, если ни один из его экспортов не используется. Используйте `sideEffects: ['*.css', '*.scss']`, чтобы whitelist-ом пометить файлы с реальными побочными эффектами."
         },
         "options": [
             {
@@ -707,11 +711,7 @@
                 "ru": "Библиотека совместима со всеми бандлерами без специальной настройки"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "`sideEffects: false` tells webpack/Rollup that importing any module from this package doesn't cause side effects (no globals modified, no polyfills injected, no CSS injected). This allows tree shaking to skip the entire module if none of its exports are used. Use `sideEffects: ['*.css', '*.scss']` to whitelist files with real side effects.",
-            "ru": "`sideEffects: false` сообщает webpack/Rollup, что импорт любого модуля из этого пакета не имеет побочных эффектов (не меняет глобалы, не подключает polyfills, не инжектит CSS). Это позволяет tree shaking полностью выкидывать модуль, если ни один из его экспортов не используется. Используйте `sideEffects: ['*.css', '*.scss']`, чтобы whitelist-ом пометить файлы с реальными побочными эффектами."
-        }
+        "correct": 1
     },
     {
         "id": "build-nx-001",
@@ -722,6 +722,10 @@
         "question": {
             "en": "What does the `nx affected` command do in an Nx monorepo?",
             "ru": "Что делает команда `nx affected` в Nx-монорепозитории?"
+        },
+        "explanation": {
+            "en": "Nx's `affected` command computes a project graph and determines which projects are impacted by changed files since the base commit. Running `nx affected:test` only tests projects that could be broken by the change, dramatically reducing CI time in large monorepos.",
+            "ru": "Команда `affected` в Nx строит project graph и определяет, какие проекты затронуты изменёнными файлами относительно базового коммита. `nx affected:test` прогоняет тесты только для тех проектов, которые могли сломаться от изменений, что резко сокращает время CI в больших монорепозиториях."
         },
         "options": [
             {
@@ -741,11 +745,7 @@
                 "ru": "Следит за изменениями файлов в репозитории и запускает инкрементальные сборки"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Nx's `affected` command computes a project graph and determines which projects are impacted by changed files since the base commit. Running `nx affected:test` only tests projects that could be broken by the change, dramatically reducing CI time in large monorepos.",
-            "ru": "Команда `affected` в Nx строит project graph и определяет, какие проекты затронуты изменёнными файлами относительно базового коммита. `nx affected:test` прогоняет тесты только для тех проектов, которые могли сломаться от изменений, что резко сокращает время CI в больших монорепозиториях."
-        }
+        "correct": 1
     },
     {
         "id": "build-rolldown-001",
@@ -756,6 +756,10 @@
         "question": {
             "en": "What is Rolldown and why is it significant for the Vite ecosystem?",
             "ru": "Что такое Rolldown и почему он важен для экосистемы Vite?"
+        },
+        "explanation": {
+            "en": "Rolldown is a Rust-based bundler with Rollup-compatible plugin API. Vite currently uses ESBuild for development transforms and Rollup for production bundling — two different tools with different plugin APIs. Rolldown aims to unify this with a single Rust-based tool that's much faster than Rollup while maintaining plugin compatibility.",
+            "ru": "Rolldown — это бандлер на Rust с Rollup-совместимым API плагинов. Сейчас Vite использует ESBuild для dev-трансформов и Rollup для production-бандлинга — это два разных инструмента с разными API плагинов. Rolldown призван объединить их в один Rust-инструмент, который заметно быстрее Rollup и сохраняет совместимость плагинов."
         },
         "options": [
             {
@@ -775,11 +779,7 @@
                 "ru": "Rolldown — это module federation плагин для Vite-приложений"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Rolldown is a Rust-based bundler with Rollup-compatible plugin API. Vite currently uses ESBuild for development transforms and Rollup for production bundling — two different tools with different plugin APIs. Rolldown aims to unify this with a single Rust-based tool that's much faster than Rollup while maintaining plugin compatibility.",
-            "ru": "Rolldown — это бандлер на Rust с Rollup-совместимым API плагинов. Сейчас Vite использует ESBuild для dev-трансформов и Rollup для production-бандлинга — это два разных инструмента с разными API плагинов. Rolldown призван объединить их в один Rust-инструмент, который заметно быстрее Rollup и сохраняет совместимость плагинов."
-        }
+        "correct": 1
     },
     {
         "id": "build-oxc-001",
@@ -790,6 +790,10 @@
         "question": {
             "en": "What is OXC and what role does it play in the modern JavaScript toolchain?",
             "ru": "Что такое OXC и какую роль он играет в современном JavaScript-тулчейне?"
+        },
+        "explanation": {
+            "en": "OXC (Oxidation Compiler) is a collection of high-performance JavaScript tools written in Rust: parser, AST, resolver, linter (oxlint), transformer, minifier, and more. It powers Rolldown's internals and is increasingly used by Vite 8+ as its JavaScript transform layer, achieving 50-100x faster transforms than Babel.",
+            "ru": "OXC (Oxidation Compiler) — это набор высокопроизводительных JavaScript-инструментов на Rust: парсер, AST, resolver, линтер (oxlint), трансформер, минификатор и прочее. Он лежит в основе Rolldown и всё активнее используется в Vite 8+ как слой JavaScript-трансформов, давая в 50–100 раз более быстрые трансформы, чем Babel."
         },
         "options": [
             {
@@ -809,11 +813,7 @@
                 "ru": "OXC — генератор GraphQL-кода для TypeScript"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "OXC (Oxidation Compiler) is a collection of high-performance JavaScript tools written in Rust: parser, AST, resolver, linter (oxlint), transformer, minifier, and more. It powers Rolldown's internals and is increasingly used by Vite 8+ as its JavaScript transform layer, achieving 50-100x faster transforms than Babel.",
-            "ru": "OXC (Oxidation Compiler) — это набор высокопроизводительных JavaScript-инструментов на Rust: парсер, AST, resolver, линтер (oxlint), трансформер, минификатор и прочее. Он лежит в основе Rolldown и всё активнее используется в Vite 8+ как слой JavaScript-трансформов, давая в 50–100 раз более быстрые трансформы, чем Babel."
-        }
+        "correct": 1
     },
     {
         "id": "build-treeshake-adv-001",
@@ -824,6 +824,10 @@
         "question": {
             "en": "What does the `/*#__PURE__*/` annotation tell bundlers, and when would you use it?",
             "ru": "Что аннотация `/*#__PURE__*/` сообщает бандлерам и когда её имеет смысл использовать?"
+        },
+        "explanation": {
+            "en": "`/*#__PURE__*/` is a bundler annotation (webpack, Rollup, esbuild) that marks a function CALL as side-effect-free. Without it, `const x = createComponent(Button)` looks like it might have side effects. With `/*#__PURE__*/ createComponent(Button)`, if `x` is unused, the entire call is eliminated. Library authors add this to HOC calls and class expressions.",
+            "ru": "`/*#__PURE__*/` — это аннотация для бандлеров (webpack, Rollup, esbuild), помечающая ВЫЗОВ функции как свободный от побочных эффектов. Без неё `const x = createComponent(Button)` выглядит так, будто может иметь побочные эффекты. С `/*#__PURE__*/ createComponent(Button)` при неиспользуемом `x` весь вызов будет вырезан. Авторы библиотек ставят эту аннотацию у вызовов HOC и class expressions."
         },
         "options": [
             {
@@ -843,11 +847,7 @@
                 "ru": "Запрещает бандлеру делать code splitting этого модуля"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "`/*#__PURE__*/` is a bundler annotation (webpack, Rollup, esbuild) that marks a function CALL as side-effect-free. Without it, `const x = createComponent(Button)` looks like it might have side effects. With `/*#__PURE__*/ createComponent(Button)`, if `x` is unused, the entire call is eliminated. Library authors add this to HOC calls and class expressions.",
-            "ru": "`/*#__PURE__*/` — это аннотация для бандлеров (webpack, Rollup, esbuild), помечающая ВЫЗОВ функции как свободный от побочных эффектов. Без неё `const x = createComponent(Button)` выглядит так, будто может иметь побочные эффекты. С `/*#__PURE__*/ createComponent(Button)` при неиспользуемом `x` весь вызов будет вырезан. Авторы библиотек ставят эту аннотацию у вызовов HOC и class expressions."
-        }
+        "correct": 1
     },
     {
         "id": "build-multi-vite-001",
@@ -858,6 +858,10 @@
         "question": {
             "en": "Which of the following are valid Vite configuration options in `vite.config.ts`?",
             "ru": "Какие из перечисленного являются корректными опциями Vite-конфига в `vite.config.ts`?"
+        },
+        "explanation": {
+            "en": "`plugins`, `resolve.alias`, `build.rollupOptions`, and `server.port` are all valid Vite config options. `loaders` is a webpack concept — Vite uses plugins for file transforms (e.g., `@vitejs/plugin-react` for JSX). Vite's `build.rollupOptions` passes config directly to Rollup.",
+            "ru": "`plugins`, `resolve.alias`, `build.rollupOptions` и `server.port` — всё это валидные опции Vite-конфига. `loaders` — это концепт webpack; в Vite для трансформации файлов используются плагины (например, `@vitejs/plugin-react` для JSX). `build.rollupOptions` в Vite прокидывает конфиг напрямую в Rollup."
         },
         "options": [
             {
@@ -881,11 +885,7 @@
                 "ru": "server.port"
             }
         ],
-        "correct": [0, 1, 2, 4],
-        "explanation": {
-            "en": "`plugins`, `resolve.alias`, `build.rollupOptions`, and `server.port` are all valid Vite config options. `loaders` is a webpack concept — Vite uses plugins for file transforms (e.g., `@vitejs/plugin-react` for JSX). Vite's `build.rollupOptions` passes config directly to Rollup.",
-            "ru": "`plugins`, `resolve.alias`, `build.rollupOptions` и `server.port` — всё это валидные опции Vite-конфига. `loaders` — это концепт webpack; в Vite для трансформации файлов используются плагины (например, `@vitejs/plugin-react` для JSX). `build.rollupOptions` в Vite прокидывает конфиг напрямую в Rollup."
-        }
+        "correct": [0, 1, 2, 4]
     },
     {
         "id": "build-multi-pkgjson-001",
@@ -896,6 +896,10 @@
         "question": {
             "en": "Which package.json fields can specify entry points for a published npm package?",
             "ru": "Какие поля package.json могут задавать entry points опубликованного npm-пакета?"
+        },
+        "explanation": {
+            "en": "`main` (CJS entry), `module` (ESM entry for bundlers), `exports` (conditional exports map), and `browser` (browser-specific entry) all specify entry points. `types` specifies TypeScript declaration file location, not a runtime entry point.",
+            "ru": "`main` (CJS-вход), `module` (ESM-вход для бандлеров), `exports` (карта условных экспортов) и `browser` (браузерный вход) — все задают entry points. `types` указывает путь к файлу деклараций TypeScript, но это не рантайм entry point."
         },
         "options": [
             {
@@ -919,11 +923,7 @@
                 "ru": "types"
             }
         ],
-        "correct": [0, 1, 2, 3],
-        "explanation": {
-            "en": "`main` (CJS entry), `module` (ESM entry for bundlers), `exports` (conditional exports map), and `browser` (browser-specific entry) all specify entry points. `types` specifies TypeScript declaration file location, not a runtime entry point.",
-            "ru": "`main` (CJS-вход), `module` (ESM-вход для бандлеров), `exports` (карта условных экспортов) и `browser` (браузерный вход) — все задают entry points. `types` указывает путь к файлу деклараций TypeScript, но это не рантайм entry point."
-        }
+        "correct": [0, 1, 2, 3]
     },
     {
         "id": "build-multi-treeshake-001",
@@ -934,6 +934,10 @@
         "question": {
             "en": "Which conditions are required for tree shaking to work effectively?",
             "ru": "Какие условия необходимы, чтобы tree shaking работал эффективно?"
+        },
+        "explanation": {
+            "en": "Effective tree shaking requires: static ESM imports (needed for static analysis), `sideEffects` flag (so unused modules can be skipped safely), and production mode (development builds often skip tree shaking for speed). TypeScript is not required. Default exports are tree-shakeable — the issue is when you import the whole namespace.",
+            "ru": "Для эффективного tree shaking нужны: статические ESM-импорты (чтобы возможен был статический анализ), флаг `sideEffects` (чтобы можно было безопасно выкидывать неиспользуемые модули) и production-режим (dev-сборки часто пропускают tree shaking ради скорости). TypeScript не обязателен. Default exports тоже тришейкятся — проблема возникает, когда импортируют целый namespace."
         },
         "options": [
             {
@@ -957,11 +961,7 @@
                 "ru": "Все импорты должны быть через named exports, без default exports"
             }
         ],
-        "correct": [0, 1, 3],
-        "explanation": {
-            "en": "Effective tree shaking requires: static ESM imports (needed for static analysis), `sideEffects` flag (so unused modules can be skipped safely), and production mode (development builds often skip tree shaking for speed). TypeScript is not required. Default exports are tree-shakeable — the issue is when you import the whole namespace.",
-            "ru": "Для эффективного tree shaking нужны: статические ESM-импорты (чтобы возможен был статический анализ), флаг `sideEffects` (чтобы можно было безопасно выкидывать неиспользуемые модули) и production-режим (dev-сборки часто пропускают tree shaking ради скорости). TypeScript не обязателен. Default exports тоже тришейкятся — проблема возникает, когда импортируют целый namespace."
-        }
+        "correct": [0, 1, 3]
     },
     {
         "id": "build-multi-webpack-001",
@@ -972,6 +972,10 @@
         "question": {
             "en": "Which webpack techniques enable code splitting?",
             "ru": "Какие техники webpack обеспечивают code splitting?"
+        },
+        "explanation": {
+            "en": "Webpack supports: multiple entry points (creates separate initial chunks), dynamic import() (creates async chunks on demand), and SplitChunksPlugin (automatically splits vendor/common code into shared chunks). require() is synchronous and doesn't create async chunks. output.chunkFilename names chunks but doesn't split them.",
+            "ru": "Webpack поддерживает: несколько entry points (создают отдельные initial-чанки), динамический import() (создаёт async-чанки по требованию) и SplitChunksPlugin (автоматически выносит vendor/common-код в общие чанки). require() синхронный и async-чанков не создаёт. output.chunkFilename задаёт имена чанков, но не разбивает их."
         },
         "options": [
             {
@@ -995,11 +999,7 @@
                 "ru": "Настройка `output.chunkFilename`"
             }
         ],
-        "correct": [0, 1, 2],
-        "explanation": {
-            "en": "Webpack supports: multiple entry points (creates separate initial chunks), dynamic import() (creates async chunks on demand), and SplitChunksPlugin (automatically splits vendor/common code into shared chunks). require() is synchronous and doesn't create async chunks. output.chunkFilename names chunks but doesn't split them.",
-            "ru": "Webpack поддерживает: несколько entry points (создают отдельные initial-чанки), динамический import() (создаёт async-чанки по требованию) и SplitChunksPlugin (автоматически выносит vendor/common-код в общие чанки). require() синхронный и async-чанков не создаёт. output.chunkFilename задаёт имена чанков, но не разбивает их."
-        }
+        "correct": [0, 1, 2]
     },
     {
         "id": "build-multi-npm-001",
@@ -1010,6 +1010,10 @@
         "question": {
             "en": "Which statements accurately describe differences between npm, yarn, and pnpm?",
             "ru": "Какие утверждения точно описывают различия между npm, yarn и pnpm?"
+        },
+        "explanation": {
+            "en": "All four are correct: pnpm's content store saves disk space; yarn and pnpm both have workspace support; pnpm's strict node_modules prevents phantom dependency issues; yarn Berry PnP replaces node_modules with a zip-based store. npm uses a flat node_modules (hoisting) which can expose phantom dependencies.",
+            "ru": "Все четыре верны: content-store в pnpm экономит место на диске; yarn и pnpm оба умеют workspaces; строгая node_modules в pnpm предотвращает phantom dependencies; yarn Berry PnP заменяет node_modules zip-хранилищем. npm использует плоскую node_modules (hoisting), из-за чего возникают phantom dependencies."
         },
         "options": [
             {
@@ -1033,11 +1037,7 @@
                 "ru": "yarn Berry (v2+) поддерживает Plug'n'Play (PnP), который полностью устраняет node_modules"
             }
         ],
-        "correct": [0, 1, 3, 4],
-        "explanation": {
-            "en": "All four are correct: pnpm's content store saves disk space; yarn and pnpm both have workspace support; pnpm's strict node_modules prevents phantom dependency issues; yarn Berry PnP replaces node_modules with a zip-based store. npm uses a flat node_modules (hoisting) which can expose phantom dependencies.",
-            "ru": "Все четыре верны: content-store в pnpm экономит место на диске; yarn и pnpm оба умеют workspaces; строгая node_modules в pnpm предотвращает phantom dependencies; yarn Berry PnP заменяет node_modules zip-хранилищем. npm использует плоскую node_modules (hoisting), из-за чего возникают phantom dependencies."
-        }
+        "correct": [0, 1, 3, 4]
     },
     {
         "id": "build-multi-babel-001",
@@ -1048,6 +1048,10 @@
         "question": {
             "en": "Which statements about Babel plugin/preset execution order are correct?",
             "ru": "Какие утверждения о порядке выполнения plugins/presets в Babel корректны?"
+        },
+        "explanation": {
+            "en": "Babel's execution order: plugins run first (in listed order, first to last), then presets run in reverse order (last listed runs first). This reverse preset order is counterintuitive but intentional — it allows presets to be listed from newest to oldest (e.g., [preset-env, stage-2]) and have the newest syntax stripped first.",
+            "ru": "Порядок выполнения в Babel: сначала plugins (в порядке перечисления, от первого к последнему), затем presets в обратном порядке (последний в списке выполняется первым). Обратный порядок presets контринтуитивен, но сделан намеренно — он позволяет перечислять presets от самых новых к самым старым (например, [preset-env, stage-2]), чтобы сначала срезался самый свежий синтаксис."
         },
         "options": [
             {
@@ -1071,11 +1075,7 @@
                 "ru": "Порядок plugins важен только для трансформаций, которые дают конфликтующие изменения AST"
             }
         ],
-        "correct": [0, 1, 3],
-        "explanation": {
-            "en": "Babel's execution order: plugins run first (in listed order, first to last), then presets run in reverse order (last listed runs first). This reverse preset order is counterintuitive but intentional — it allows presets to be listed from newest to oldest (e.g., [preset-env, stage-2]) and have the newest syntax stripped first.",
-            "ru": "Порядок выполнения в Babel: сначала plugins (в порядке перечисления, от первого к последнему), затем presets в обратном порядке (последний в списке выполняется первым). Обратный порядок presets контринтуитивен, но сделан намеренно — он позволяет перечислять presets от самых новых к самым старым (например, [preset-env, stage-2]), чтобы сначала срезался самый свежий синтаксис."
-        }
+        "correct": [0, 1, 3]
     },
     {
         "id": "build-multi-monorepo-001",
@@ -1086,6 +1086,10 @@
         "question": {
             "en": "Which features are common to both Turborepo and Nx?",
             "ru": "Какие возможности общие и у Turborepo, и у Nx?"
+        },
+        "explanation": {
+            "en": "Both Turborepo and Nx support: remote caching, affected-based task execution, and dependency graph visualization. Nx has a more extensive plugin ecosystem and built-in code generators. Turborepo is simpler and focused on task orchestration. Nx has richer framework integrations out of the box.",
+            "ru": "И Turborepo, и Nx поддерживают: удалённое кэширование, запуск задач по affected-проектам и визуализацию графа зависимостей. У Nx шире экосистема плагинов и встроенные генераторы кода. Turborepo проще и сфокусирован на оркестрации задач. У Nx богаче интеграции с фреймворками из коробки."
         },
         "options": [
             {
@@ -1109,11 +1113,7 @@
                 "ru": "Система плагинов для интеграции с фреймворками"
             }
         ],
-        "correct": [0, 1, 3],
-        "explanation": {
-            "en": "Both Turborepo and Nx support: remote caching, affected-based task execution, and dependency graph visualization. Nx has a more extensive plugin ecosystem and built-in code generators. Turborepo is simpler and focused on task orchestration. Nx has richer framework integrations out of the box.",
-            "ru": "И Turborepo, и Nx поддерживают: удалённое кэширование, запуск задач по affected-проектам и визуализацию графа зависимостей. У Nx шире экосистема плагинов и встроенные генераторы кода. Turborepo проще и сфокусирован на оркестрации задач. У Nx богаче интеграции с фреймворками из коробки."
-        }
+        "correct": [0, 1, 3]
     },
     {
         "id": "build-bug-vite-001",
@@ -1125,13 +1125,13 @@
             "en": "Find the bug in this Vite environment variable usage:",
             "ru": "Найдите баг в таком использовании переменных окружения в Vite:"
         },
-        "code": "// .env\nAPI_URL=https://api.example.com\nVITE_APP_TITLE=My App\n\n// component.tsx\nconst apiUrl = process.env.API_URL;\nconst title = import.meta.env.VITE_APP_TITLE;\nconsole.log(apiUrl, title);",
-        "correct": "`process.env.API_URL` is undefined in Vite — only variables prefixed with VITE_ are exposed, and they must be accessed via `import.meta.env`, not `process.env`",
-        "referenceAnswer": "In Vite, only VITE_-prefixed variables are exposed to the browser. Access them via `import.meta.env.VITE_API_URL` not `process.env`. Rename API_URL to VITE_API_URL and access it as `import.meta.env.VITE_API_URL`. The VITE_APP_TITLE access is correct.",
         "explanation": {
             "en": "Vite uses `import.meta.env` (not `process.env`) and only exposes variables with the `VITE_` prefix for security. `process.env` is Node.js — not available in browser bundles by default.",
             "ru": "Vite использует `import.meta.env` (а не `process.env`) и ради безопасности отдаёт только переменные с префиксом `VITE_`. `process.env` — это Node.js-объект, в браузерных бандлах по умолчанию он недоступен."
-        }
+        },
+        "code": "// .env\nAPI_URL=https://api.example.com\nVITE_APP_TITLE=My App\n\n// component.tsx\nconst apiUrl = process.env.API_URL;\nconst title = import.meta.env.VITE_APP_TITLE;\nconsole.log(apiUrl, title);",
+        "correct": "`process.env.API_URL` is undefined in Vite — only variables prefixed with VITE_ are exposed, and they must be accessed via `import.meta.env`, not `process.env`",
+        "referenceAnswer": "In Vite, only VITE_-prefixed variables are exposed to the browser. Access them via `import.meta.env.VITE_API_URL` not `process.env`. Rename API_URL to VITE_API_URL and access it as `import.meta.env.VITE_API_URL`. The VITE_APP_TITLE access is correct."
     },
     {
         "id": "build-bug-babel-001",
@@ -1143,13 +1143,13 @@
             "en": "Find the bug in this Babel configuration that breaks tree shaking:",
             "ru": "Найдите баг в этом Babel-конфиге, который ломает tree shaking:"
         },
-        "code": "// babel.config.json\n{\n  \"presets\": [\n    [\"@babel/preset-env\", {\n      \"targets\": \"> 0.25%, not dead\",\n      \"modules\": \"commonjs\"\n    }]\n  ]\n}",
-        "correct": "`\"modules\": \"commonjs\"` converts ES module imports to CommonJS require(), which disables tree shaking in bundlers that rely on static ESM analysis",
-        "referenceAnswer": "Set `\"modules\": false` to preserve ES module syntax for the bundler (webpack/Rollup/Vite). These bundlers handle module transformation themselves and need static import/export to tree shake. `commonjs` is only appropriate when the output will be run directly by Node.js without a bundler.",
         "explanation": {
             "en": "Tree shaking requires static ESM imports. When Babel converts import/export to require/module.exports before the bundler sees the code, the bundler can no longer determine which exports are unused. Always use `modules: false` when Babel is part of a bundler pipeline.",
             "ru": "Для tree shaking нужны статические ESM-импорты. Когда Babel превращает import/export в require/module.exports ещё до того, как код увидит бандлер, тот уже не может определить, какие экспорты не используются. В пайплайне с бандлером всегда ставьте `modules: false`."
-        }
+        },
+        "code": "// babel.config.json\n{\n  \"presets\": [\n    [\"@babel/preset-env\", {\n      \"targets\": \"> 0.25%, not dead\",\n      \"modules\": \"commonjs\"\n    }]\n  ]\n}",
+        "correct": "`\"modules\": \"commonjs\"` converts ES module imports to CommonJS require(), which disables tree shaking in bundlers that rely on static ESM analysis",
+        "referenceAnswer": "Set `\"modules\": false` to preserve ES module syntax for the bundler (webpack/Rollup/Vite). These bundlers handle module transformation themselves and need static import/export to tree shake. `commonjs` is only appropriate when the output will be run directly by Node.js without a bundler."
     },
     {
         "id": "build-bug-webpack-001",
@@ -1161,13 +1161,13 @@
             "en": "Find the issue with this webpack dynamic import:",
             "ru": "Найдите проблему в таком динамическом импорте webpack:"
         },
-        "code": "async function loadPage(pageName) {\n  const module = await import(`./pages/${pageName}/index.js`);\n  return module.default;\n}",
-        "correct": "A fully dynamic template literal in import() (variable in the path) forces webpack to create chunks for ALL files matching the glob pattern `./pages/*/index.js`, bundling every possible page even if most are never loaded",
-        "referenceAnswer": "webpack cannot statically analyze a fully dynamic path. It creates a 'context module' including all matching files. If dynamic routing is needed, be more specific: `import(/* webpackChunkName: '[request]' */ `./pages/${pageName}`)` at minimum, or better, use explicit `switch`/map to enable specific chunk names and avoid over-bundling.",
         "explanation": {
             "en": "webpack handles dynamic imports by analyzing the string template. A completely variable path forces it to include all possible matches as a context module. Restrict the dynamic portion as much as possible or use explicit static imports.",
             "ru": "webpack обрабатывает динамические импорты, анализируя строковый шаблон. Полностью переменный путь заставляет его подтянуть все совпадающие файлы как context module. Максимально ограничивайте динамическую часть или используйте явные статические импорты."
-        }
+        },
+        "code": "async function loadPage(pageName) {\n  const module = await import(`./pages/${pageName}/index.js`);\n  return module.default;\n}",
+        "correct": "A fully dynamic template literal in import() (variable in the path) forces webpack to create chunks for ALL files matching the glob pattern `./pages/*/index.js`, bundling every possible page even if most are never loaded",
+        "referenceAnswer": "webpack cannot statically analyze a fully dynamic path. It creates a 'context module' including all matching files. If dynamic routing is needed, be more specific: `import(/* webpackChunkName: '[request]' */ `./pages/${pageName}`)` at minimum, or better, use explicit `switch`/map to enable specific chunk names and avoid over-bundling."
     },
     {
         "id": "build-bug-postcss-001",
@@ -1179,13 +1179,13 @@
             "en": "Find the bug in this PostCSS configuration:",
             "ru": "Найдите баг в этом PostCSS-конфиге:"
         },
-        "code": "// postcss.config.js\nmodule.exports = {\n  plugins: [\n    require('cssnano'),\n    require('autoprefixer'),\n  ]\n};",
-        "correct": "cssnano runs before autoprefixer — cssnano may remove or merge declarations that autoprefixer needs to prefix, resulting in missing vendor prefixes",
-        "referenceAnswer": "Plugin order matters in PostCSS. autoprefixer should run BEFORE cssnano (minification). cssnano may optimize away properties that autoprefixer needs to transform. Correct order: `[require('autoprefixer'), require('cssnano')]`.",
         "explanation": {
             "en": "PostCSS plugins run sequentially. Minification (cssnano) should always be the last step, after all transformations are complete. Running it before autoprefixer can strip declarations that need prefixing.",
             "ru": "Плагины PostCSS выполняются последовательно. Минификация (cssnano) всегда должна быть последним шагом, после всех остальных трансформаций. Если запустить её раньше autoprefixer, можно выкинуть декларации, которые должны были получить vendor-префиксы."
-        }
+        },
+        "code": "// postcss.config.js\nmodule.exports = {\n  plugins: [\n    require('cssnano'),\n    require('autoprefixer'),\n  ]\n};",
+        "correct": "cssnano runs before autoprefixer — cssnano may remove or merge declarations that autoprefixer needs to prefix, resulting in missing vendor prefixes",
+        "referenceAnswer": "Plugin order matters in PostCSS. autoprefixer should run BEFORE cssnano (minification). cssnano may optimize away properties that autoprefixer needs to transform. Correct order: `[require('autoprefixer'), require('cssnano')]`."
     },
     {
         "id": "build-bug-circular-001",
@@ -1197,13 +1197,13 @@
             "en": "Identify the issue this code pattern causes at runtime:",
             "ru": "Определите, какую проблему этот паттерн кода вызывает в рантайме:"
         },
-        "code": "// a.js\nimport { valueB } from './b.js';\nexport const valueA = valueB + 1;\n\n// b.js\nimport { valueA } from './a.js';\nexport const valueB = valueA + 1;",
-        "correct": "Circular dependency causes one of the values to be `undefined` at initialization time — the module that is evaluated first reads an export from the other that hasn't been assigned yet",
-        "referenceAnswer": "Circular deps in ESM: when a.js is evaluated, it imports valueB from b.js. b.js imports valueA from a.js — but a.js hasn't finished evaluating, so valueA is undefined (its binding exists but isn't initialized). Result: valueB = undefined + 1 = NaN, then valueA = NaN + 1 = NaN. Refactor to break the cycle: extract shared values to a third module (c.js).",
         "explanation": {
             "en": "ESM handles circular imports via live bindings — the import exists but may be uninitialized ('temporal dead zone' for `const`/`let`). This causes subtle NaN or undefined bugs at module initialization. Circular dependencies should be refactored away.",
             "ru": "ESM обрабатывает циклические импорты через live bindings — импорт существует, но может быть не инициализирован ('temporal dead zone' для `const`/`let`). Это приводит к незаметным багам вида NaN или undefined на этапе инициализации модуля. Циклические зависимости нужно устранять рефакторингом."
-        }
+        },
+        "code": "// a.js\nimport { valueB } from './b.js';\nexport const valueA = valueB + 1;\n\n// b.js\nimport { valueA } from './a.js';\nexport const valueB = valueA + 1;",
+        "correct": "Circular dependency causes one of the values to be `undefined` at initialization time — the module that is evaluated first reads an export from the other that hasn't been assigned yet",
+        "referenceAnswer": "Circular deps in ESM: when a.js is evaluated, it imports valueB from b.js. b.js imports valueA from a.js — but a.js hasn't finished evaluating, so valueA is undefined (its binding exists but isn't initialized). Result: valueB = undefined + 1 = NaN, then valueA = NaN + 1 = NaN. Refactor to break the cycle: extract shared values to a third module (c.js)."
     },
     {
         "id": "build-bug-peer-001",
@@ -1215,13 +1215,13 @@
             "en": "Find the architectural bug in this library's package.json:",
             "ru": "Найдите архитектурный баг в package.json этой библиотеки:"
         },
-        "code": "// my-component-library/package.json\n{\n  \"name\": \"my-component-library\",\n  \"dependencies\": {\n    \"react\": \"^18.0.0\",\n    \"react-dom\": \"^18.0.0\"\n  },\n  \"peerDependencies\": {\n    \"react\": \"^18.0.0\"\n  }\n}",
-        "correct": "Listing react/react-dom in both `dependencies` AND `peerDependencies` will cause duplicate React instances — the library bundles its own React copy instead of using the consumer's",
-        "referenceAnswer": "Move `react` and `react-dom` from `dependencies` to `peerDependencies` only. Libraries should NOT include React as a regular dependency — consumers provide it. Having React in `dependencies` means npm may install a second React instance, breaking hooks (React hooks require a single React instance per app).",
         "explanation": {
             "en": "React hooks use module-level singletons. Two React instances cause 'Invalid hook call' errors. Libraries must declare React as peerDependency only, not a regular dependency. The consumer's application is responsible for providing the React installation.",
             "ru": "React hooks опираются на синглтоны уровня модуля. Два инстанса React приводят к ошибкам 'Invalid hook call'. Библиотеки должны объявлять React только как peerDependency, но не как обычную зависимость. За установку React отвечает приложение-потребитель."
-        }
+        },
+        "code": "// my-component-library/package.json\n{\n  \"name\": \"my-component-library\",\n  \"dependencies\": {\n    \"react\": \"^18.0.0\",\n    \"react-dom\": \"^18.0.0\"\n  },\n  \"peerDependencies\": {\n    \"react\": \"^18.0.0\"\n  }\n}",
+        "correct": "Listing react/react-dom in both `dependencies` AND `peerDependencies` will cause duplicate React instances — the library bundles its own React copy instead of using the consumer's",
+        "referenceAnswer": "Move `react` and `react-dom` from `dependencies` to `peerDependencies` only. Libraries should NOT include React as a regular dependency — consumers provide it. Having React in `dependencies` means npm may install a second React instance, breaking hooks (React hooks require a single React instance per app)."
     },
     {
         "id": "build-bug-tsconfig-001",
@@ -1233,13 +1233,13 @@
             "en": "Find the misconfiguration in this tsconfig.json for a Vite project:",
             "ru": "Найдите некорректную настройку в этом tsconfig.json для Vite-проекта:"
         },
-        "code": "{\n  \"compilerOptions\": {\n    \"target\": \"ES2020\",\n    \"module\": \"CommonJS\",\n    \"moduleResolution\": \"node\",\n    \"strict\": true,\n    \"esModuleInterop\": true\n  }\n}",
-        "correct": "`\"module\": \"CommonJS\"` and `\"moduleResolution\": \"node\"` are wrong for a Vite project — Vite uses native ESM and requires `\"module\": \"ESNext\"` and `\"moduleResolution\": \"bundler\"` (or \"node16\"/\"nodenext\")",
-        "referenceAnswer": "For Vite + modern TypeScript: use `\"module\": \"ESNext\"`, `\"moduleResolution\": \"bundler\"` (TS 5.0+), and `\"isolatedModules\": true`. CommonJS module mode conflicts with Vite's ESM-first approach. `moduleResolution: bundler` correctly resolves package.json `exports` fields and ESM-specific paths.",
         "explanation": {
             "en": "TypeScript's tsconfig `module` setting affects how TS emits module code. For Vite, tsc is only used for type checking (not emit), but wrong `moduleResolution` causes incorrect type resolution for ESM packages with `exports` fields. Always use `bundler` resolution mode in Vite projects.",
             "ru": "Настройка `module` в tsconfig влияет на то, как TypeScript генерирует код модулей. В Vite tsc используется только для проверки типов (без emit), но неверный `moduleResolution` приводит к некорректному разрешению типов для ESM-пакетов с полем `exports`. В Vite-проектах всегда используйте режим `bundler`."
-        }
+        },
+        "code": "{\n  \"compilerOptions\": {\n    \"target\": \"ES2020\",\n    \"module\": \"CommonJS\",\n    \"moduleResolution\": \"node\",\n    \"strict\": true,\n    \"esModuleInterop\": true\n  }\n}",
+        "correct": "`\"module\": \"CommonJS\"` and `\"moduleResolution\": \"node\"` are wrong for a Vite project — Vite uses native ESM and requires `\"module\": \"ESNext\"` and `\"moduleResolution\": \"bundler\"` (or \"node16\"/\"nodenext\")",
+        "referenceAnswer": "For Vite + modern TypeScript: use `\"module\": \"ESNext\"`, `\"moduleResolution\": \"bundler\"` (TS 5.0+), and `\"isolatedModules\": true`. CommonJS module mode conflicts with Vite's ESM-first approach. `moduleResolution: bundler` correctly resolves package.json `exports` fields and ESM-specific paths."
     },
     {
         "id": "build-cc-vite-001",
@@ -1251,14 +1251,14 @@
             "en": "Complete the Vite config with a path alias and React plugin:",
             "ru": "Дополните Vite-конфиг path alias и плагином React:"
         },
-        "code": "import { defineConfig } from 'vite';\nimport ___ from '@vitejs/plugin-react';\nimport { resolve } from 'path';\n\nexport default ___(() => ({\n  plugins: [___()],\n  resolve: {\n    ___: {\n      '@': resolve(__dirname, './src'),\n    },\n  },\n}));",
-        "blanks": ["react", "defineConfig", "react", "alias"],
-        "lang": "javascript",
-        "referenceAnswer": "Import the react plugin and use defineConfig for TypeScript autocomplete. plugins: [react()] adds JSX support and React Fast Refresh. resolve.alias maps '@' to the src directory for clean imports.",
         "explanation": {
             "en": "defineConfig is a helper that provides TypeScript types for the config object. @vitejs/plugin-react adds Babel-based JSX transform and HMR. resolve.alias enables @/ path imports matching tsconfig paths.",
             "ru": "defineConfig — хелпер, который даёт TypeScript-типы для конфигурационного объекта. @vitejs/plugin-react добавляет JSX-трансформ на базе Babel и HMR. resolve.alias включает path-импорты через @/, соответствующие paths из tsconfig."
-        }
+        },
+        "code": "import { defineConfig } from 'vite';\nimport __BLANK__ from '@vitejs/plugin-react';\nimport { resolve } from 'path';\n\nexport default __BLANK__(() => ({\n  plugins: [__BLANK__()],\n  resolve: {\n    __BLANK__: {\n      '@': resolve(__dirname, './src'),\n    },\n  },\n}));",
+        "blanks": ["react", "defineConfig", "react", "alias"],
+        "lang": "javascript",
+        "referenceAnswer": "Import the react plugin and use defineConfig for TypeScript autocomplete. plugins: [react()] adds JSX support and React Fast Refresh. resolve.alias maps '@' to the src directory for clean imports."
     },
     {
         "id": "build-cc-webpack-001",
@@ -1270,14 +1270,14 @@
             "en": "Complete this webpack config to handle TypeScript and CSS files:",
             "ru": "Дополните этот webpack-конфиг для обработки TypeScript и CSS-файлов:"
         },
-        "code": "module.exports = {\n  entry: './src/index.ts',\n  ___: {\n    rules: [\n      {\n        test: /\\.tsx?$/,\n        use: '___',\n        exclude: /node_modules/,\n      },\n      {\n        test: /\\.css$/,\n        use: ['style-loader', '___'],\n      },\n    ],\n  },\n  resolve: {\n    extensions: ['.tsx', '.ts', '.js'],\n  },\n};",
-        "blanks": ["module", "ts-loader", "css-loader"],
-        "lang": "javascript",
-        "referenceAnswer": "module.rules contains the array of loader configurations. ts-loader transforms TypeScript files to JavaScript. css-loader resolves CSS imports; style-loader injects them into the DOM. The order matters: loaders run right-to-left, so css-loader runs before style-loader.",
         "explanation": {
             "en": "webpack loaders in the `use` array run right-to-left. css-loader resolves @import and url() in CSS, producing a JS module. style-loader takes that module and injects a <style> tag into the DOM.",
             "ru": "Loaders webpack в массиве `use` выполняются справа налево. css-loader резолвит @import и url() в CSS и превращает это в JS-модуль. style-loader берёт этот модуль и вставляет тег <style> в DOM."
-        }
+        },
+        "code": "module.exports = {\n  entry: './src/index.ts',\n  __BLANK__: {\n    rules: [\n      {\n        test: /\\.tsx?$/,\n        use: '__BLANK__',\n        exclude: /node_modules/,\n      },\n      {\n        test: /\\.css$/,\n        use: ['style-loader', '__BLANK__'],\n      },\n    ],\n  },\n  resolve: {\n    extensions: ['.tsx', '.ts', '.js'],\n  },\n};",
+        "blanks": ["module", "ts-loader", "css-loader"],
+        "lang": "javascript",
+        "referenceAnswer": "module.rules contains the array of loader configurations. ts-loader transforms TypeScript files to JavaScript. css-loader resolves CSS imports; style-loader injects them into the DOM. The order matters: loaders run right-to-left, so css-loader runs before style-loader."
     },
     {
         "id": "build-cc-rollup-001",
@@ -1289,14 +1289,14 @@
             "en": "Complete this Rollup config to build a library in both ESM and CJS formats:",
             "ru": "Дополните этот Rollup-конфиг для сборки библиотеки в форматах ESM и CJS:"
         },
-        "code": "export default {\n  input: 'src/index.ts',\n  ___: [\n    {\n      file: 'dist/index.esm.js',\n      format: '___',\n    },\n    {\n      file: 'dist/index.cjs.js',\n      format: '___',\n    },\n  ],\n  external: ['react', 'react-dom'],\n};",
-        "blanks": ["output", "esm", "cjs"],
-        "lang": "javascript",
-        "referenceAnswer": "output is an array for multiple output formats. format: 'esm' produces ES module output with import/export. format: 'cjs' produces CommonJS with require/module.exports. external: ['react'] prevents React from being bundled (it's a peer dependency).",
         "explanation": {
             "en": "Rollup's output array enables building multiple formats in one pass. Libraries should build both ESM (for bundlers/tree shaking) and CJS (for Node.js require). Always externalize peer dependencies to prevent duplicate instances.",
             "ru": "Массив output в Rollup позволяет собирать несколько форматов за один проход. Библиотекам стоит собирать и ESM (для бандлеров и tree shaking), и CJS (для Node.js через require). Peer-зависимости всегда выносите во external, чтобы не плодить дубли инстансов."
-        }
+        },
+        "code": "export default {\n  input: 'src/index.ts',\n  __BLANK__: [\n    {\n      file: 'dist/index.esm.js',\n      format: '__BLANK__',\n    },\n    {\n      file: 'dist/index.cjs.js',\n      format: '__BLANK__',\n    },\n  ],\n  external: ['react', 'react-dom'],\n};",
+        "blanks": ["output", "esm", "cjs"],
+        "lang": "javascript",
+        "referenceAnswer": "output is an array for multiple output formats. format: 'esm' produces ES module output with import/export. format: 'cjs' produces CommonJS with require/module.exports. external: ['react'] prevents React from being bundled (it's a peer dependency)."
     },
     {
         "id": "build-cc-babel-001",
@@ -1308,14 +1308,14 @@
             "en": "Complete the Babel config for a React TypeScript project with automatic JSX transform:",
             "ru": "Дополните Babel-конфиг для React TypeScript проекта с автоматическим JSX-трансформом:"
         },
-        "code": "module.exports = {\n  presets: [\n    ['@babel/preset-env', { ___ : false }],\n    ['@babel/preset-react', { runtime: '___' }],\n    '@babel/preset-typescript',\n  ],\n};",
-        "blanks": ["modules", "automatic"],
-        "lang": "javascript",
-        "referenceAnswer": "`modules: false` preserves ES module syntax for bundler tree shaking. `runtime: 'automatic'` enables the new JSX transform (React 17+) which doesn't require `import React from 'react'` in every file. Presets run in reverse: typescript first, then react, then env.",
         "explanation": {
             "en": "modules: false is critical for tree shaking when using Babel with a bundler. runtime: 'automatic' uses the new JSX transform introduced in React 17 that auto-imports the JSX runtime, eliminating the need to import React in every file.",
             "ru": "modules: false критичен для tree shaking при использовании Babel вместе с бандлером. runtime: 'automatic' задействует новый JSX-трансформ из React 17, который автоматически импортирует JSX runtime, избавляя от необходимости импортировать React в каждом файле."
-        }
+        },
+        "code": "module.exports = {\n  presets: [\n    ['@babel/preset-env', { __BLANK__ : false }],\n    ['@babel/preset-react', { runtime: '__BLANK__' }],\n    '@babel/preset-typescript',\n  ],\n};",
+        "blanks": ["modules", "automatic"],
+        "lang": "javascript",
+        "referenceAnswer": "`modules: false` preserves ES module syntax for bundler tree shaking. `runtime: 'automatic'` enables the new JSX transform (React 17+) which doesn't require `import React from 'react'` in every file. Presets run in reverse: typescript first, then react, then env."
     },
     {
         "id": "build-cc-tsconfig-001",
@@ -1327,14 +1327,14 @@
             "en": "Complete the tsconfig.json for a Vite project with path aliases:",
             "ru": "Дополните tsconfig.json для Vite-проекта с path aliases:"
         },
-        "code": "{\n  \"compilerOptions\": {\n    \"target\": \"ES2020\",\n    \"___\": \"ESNext\",\n    \"moduleResolution\": \"___\",\n    \"strict\": true,\n    \"___\": true,\n    \"baseUrl\": \".\",\n    \"paths\": {\n      \"@/*\": [\"src/*\"]\n    }\n  }\n}",
-        "blanks": ["module", "bundler", "isolatedModules"],
-        "lang": "javascript",
-        "referenceAnswer": "`module: ESNext` preserves ESM syntax for Vite. `moduleResolution: bundler` (TS 5.0+) correctly resolves package.json exports fields. `isolatedModules: true` ensures each file can be transpiled independently (required for Babel/esbuild transforms that don't have full type context).",
         "explanation": {
             "en": "isolatedModules: true catches patterns that break single-file transpilers (like esbuild used by Vite): type-only imports not marked with `import type`, const enums, and namespace re-exports. moduleResolution: bundler enables modern package.json exports field resolution.",
             "ru": "isolatedModules: true отлавливает паттерны, ломающие пофайловые транспайлеры (вроде esbuild, который использует Vite): type-only импорты без `import type`, const enums и namespace re-exports. moduleResolution: bundler включает современное разрешение поля exports из package.json."
-        }
+        },
+        "code": "{\n  \"compilerOptions\": {\n    \"target\": \"ES2020\",\n    \"__BLANK__\": \"ESNext\",\n    \"moduleResolution\": \"__BLANK__\",\n    \"strict\": true,\n    \"__BLANK__\": true,\n    \"baseUrl\": \".\",\n    \"paths\": {\n      \"@/*\": [\"src/*\"]\n    }\n  }\n}",
+        "blanks": ["module", "bundler", "isolatedModules"],
+        "lang": "javascript",
+        "referenceAnswer": "`module: ESNext` preserves ESM syntax for Vite. `moduleResolution: bundler` (TS 5.0+) correctly resolves package.json exports fields. `isolatedModules: true` ensures each file can be transpiled independently (required for Babel/esbuild transforms that don't have full type context)."
     },
     {
         "id": "build-cc-modfed-001",
@@ -1346,14 +1346,14 @@
             "en": "Complete the webpack Module Federation config to expose a Button component:",
             "ru": "Дополните конфиг webpack Module Federation, чтобы экспонировать компонент Button:"
         },
-        "code": "const { ModuleFederationPlugin } = require('webpack').container;\n\nmodule.exports = {\n  plugins: [\n    new ___({ \n      name: 'componentLib',\n      filename: '___',\n      exposes: {\n        './Button': './src/components/Button',\n      },\n      shared: {\n        react: { ___, requiredVersion: '^18.0.0' },\n      },\n    }),\n  ],\n};",
-        "blanks": ["ModuleFederationPlugin", "remoteEntry.js", "singleton: true"],
-        "lang": "javascript",
-        "referenceAnswer": "ModuleFederationPlugin enables sharing. `filename: 'remoteEntry.js'` is the manifest consumers will import. `exposes` maps public paths to source files. `singleton: true` in shared ensures only one React instance runs — critical for hooks compatibility.",
         "explanation": {
             "en": "Module Federation's `shared: { react: { singleton: true } }` is essential for React apps — it ensures all federated modules use the same React instance, preventing 'invalid hook call' errors that occur with duplicate React.",
             "ru": "`shared: { react: { singleton: true } }` в Module Federation обязателен для React-приложений — он гарантирует, что все федерированные модули используют один инстанс React, и защищает от ошибок 'invalid hook call', возникающих при дублировании React."
-        }
+        },
+        "code": "const { ModuleFederationPlugin } = require('webpack').container;\n\nmodule.exports = {\n  plugins: [\n    new __BLANK__({ \n      name: 'componentLib',\n      filename: '__BLANK__',\n      exposes: {\n        './Button': './src/components/Button',\n      },\n      shared: {\n        react: { __BLANK__, requiredVersion: '^18.0.0' },\n      },\n    }),\n  ],\n};",
+        "blanks": ["ModuleFederationPlugin", "remoteEntry.js", "singleton: true"],
+        "lang": "javascript",
+        "referenceAnswer": "ModuleFederationPlugin enables sharing. `filename: 'remoteEntry.js'` is the manifest consumers will import. `exposes` maps public paths to source files. `singleton: true` in shared ensures only one React instance runs — critical for hooks compatibility."
     },
     {
         "id": "build-cc-publicsuffix-001",
@@ -1365,13 +1365,13 @@
             "en": "Complete the package.json exports field for a library with ESM, CJS, and TypeScript support:",
             "ru": "Дополните поле exports в package.json для библиотеки с поддержкой ESM, CJS и TypeScript:"
         },
-        "code": "{\n  \"name\": \"my-lib\",\n  \"exports\": {\n    \".\": {\n      \"___\": {\n        \"types\": \"./dist/index.d.ts\",\n        \"default\": \"./dist/index.esm.js\"\n      },\n      \"require\": {\n        \"types\": \"./dist/index.d.cts\",\n        \"___\": \"./dist/index.cjs.js\"\n      }\n    }\n  }\n}",
-        "blanks": ["import", "default"],
-        "lang": "javascript",
-        "referenceAnswer": "The `import` condition matches ESM consumers (import statement or bundlers). The `require` condition matches CJS consumers (require()). `types` in each condition provides TypeScript declarations for the corresponding format. `default` is the fallback within each condition.",
         "explanation": {
             "en": "Conditional exports let bundlers and Node.js pick the correct format. `import` fires for ESM, `require` fires for CJS. Placing `types` inside each condition ensures TypeScript gets the right declaration file (.d.ts for ESM, .d.cts for CJS). The order of conditions matters — more specific conditions go first.",
             "ru": "Conditional exports позволяют бандлерам и Node.js выбирать правильный формат. `import` срабатывает для ESM, `require` — для CJS. Размещение `types` внутри каждого условия гарантирует, что TypeScript получит правильный файл деклараций (.d.ts для ESM, .d.cts для CJS). Порядок условий важен — более специфичные должны идти первыми."
-        }
+        },
+        "code": "{\n  \"name\": \"my-lib\",\n  \"exports\": {\n    \".\": {\n      \"__BLANK__\": {\n        \"types\": \"./dist/index.d.ts\",\n        \"default\": \"./dist/index.esm.js\"\n      },\n      \"require\": {\n        \"types\": \"./dist/index.d.cts\",\n        \"__BLANK__\": \"./dist/index.cjs.js\"\n      }\n    }\n  }\n}",
+        "blanks": ["import", "default"],
+        "lang": "javascript",
+        "referenceAnswer": "The `import` condition matches ESM consumers (import statement or bundlers). The `require` condition matches CJS consumers (require()). `types` in each condition provides TypeScript declarations for the corresponding format. `default` is the fallback within each condition."
     }
 ]

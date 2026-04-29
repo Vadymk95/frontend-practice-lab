@@ -19,6 +19,7 @@ interface ResetWeightsDialogProps {
     resetCategory: (slug: string) => Promise<void>;
     categories: ManifestEntry[];
     successMessage: string | null;
+    errorMessage: string | null;
 }
 
 export function ResetWeightsDialog({
@@ -27,7 +28,8 @@ export function ResetWeightsDialog({
     resetAll,
     resetCategory,
     categories,
-    successMessage
+    successMessage,
+    errorMessage
 }: ResetWeightsDialogProps) {
     const { t } = useTranslation('common');
     const getCategoryName = useCategoryDisplay();
@@ -46,6 +48,14 @@ export function ResetWeightsDialog({
                     </p>
                 ) : (
                     <div className="flex flex-col gap-3">
+                        {errorMessage && (
+                            <p
+                                role="alert"
+                                className="py-1 text-center text-sm font-medium text-error"
+                            >
+                                {errorMessage}
+                            </p>
+                        )}
                         <Button variant="destructive" className="w-full" onClick={resetAll}>
                             <RotateCcw size={14} aria-hidden="true" />
                             {t('resetWeights.resetAll')}
@@ -55,7 +65,7 @@ export function ResetWeightsDialog({
                             <p className="mb-2 text-xs text-muted-foreground">
                                 {t('resetWeights.resetAllConfirm')}
                             </p>
-                            <ul className="flex flex-col gap-2">
+                            <ul className="scrollbar-themed flex max-h-[50vh] flex-col gap-2 overflow-y-auto pr-1">
                                 {categories.map((cat) => (
                                     <li key={cat.slug}>
                                         <Button

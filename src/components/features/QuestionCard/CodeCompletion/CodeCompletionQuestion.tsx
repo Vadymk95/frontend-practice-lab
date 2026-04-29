@@ -35,7 +35,7 @@ export const CodeCompletionQuestion: FC<Props> = ({
                         {question.lang ?? 'javascript'}
                     </span>
                 </div>
-                <pre className="m-0 overflow-x-auto whitespace-pre p-4">
+                <pre className="m-0 overflow-x-auto whitespace-pre bg-[#0d1117] p-4">
                     {segments.map((segment, i) => (
                         <Fragment key={i}>
                             <span className="text-muted-foreground">{segment}</span>

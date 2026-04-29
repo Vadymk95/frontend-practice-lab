@@ -9,6 +9,10 @@
             "en": "Which variable name best follows clean code naming conventions?",
             "ru": "Какое имя переменной лучше всего соответствует принципам clean code?"
         },
+        "explanation": {
+            "en": "userProfileData is descriptive enough to convey the meaning (who, what) without being redundant. Single letters (d) are only acceptable as loop counters. Generic names (data) give no context. Overly verbose names reduce readability. Aim for intention-revealing names that explain the 'what' clearly.",
+            "ru": "userProfileData достаточно описательно передаёт смысл (кто, что) без избыточности. Однобуквенные имена (d) допустимы только для счётчиков циклов. Общие имена (data) не дают контекста. Излишне многословные имена снижают читаемость. Стремитесь к именам, раскрывающим намерение и ясно объясняющим «что»."
+        },
         "options": [
             {
                 "en": "d",
@@ -27,11 +31,7 @@
                 "ru": "theUserProfileDataObjectFromTheAPI"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "userProfileData is descriptive enough to convey the meaning (who, what) without being redundant. Single letters (d) are only acceptable as loop counters. Generic names (data) give no context. Overly verbose names reduce readability. Aim for intention-revealing names that explain the 'what' clearly.",
-            "ru": "userProfileData достаточно описательно передаёт смысл (кто, что) без избыточности. Однобуквенные имена (d) допустимы только для счётчиков циклов. Общие имена (data) не дают контекста. Излишне многословные имена снижают читаемость. Стремитесь к именам, раскрывающим намерение и ясно объясняющим «что»."
-        }
+        "correct": 2
     },
     {
         "id": "bp-naming-002",
@@ -42,6 +42,10 @@
         "question": {
             "en": "Which function name best communicates its intent?",
             "ru": "Какое имя функции лучше всего передаёт её назначение?"
+        },
+        "explanation": {
+            "en": "getUserByEmail clearly communicates: the action (get), the entity (User), and the parameter contract (by email). Generic names like process(), handle(), and doStuff() give no information about what the function does and force readers to inspect the body.",
+            "ru": "getUserByEmail ясно передаёт: действие (get), сущность (User) и контракт параметра (by email). Общие имена вроде process(), handle() и doStuff() не дают никакой информации о работе функции и вынуждают читателя заглядывать в её тело."
         },
         "options": [
             {
@@ -61,11 +65,7 @@
                 "ru": "doStuff()"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "getUserByEmail clearly communicates: the action (get), the entity (User), and the parameter contract (by email). Generic names like process(), handle(), and doStuff() give no information about what the function does and force readers to inspect the body.",
-            "ru": "getUserByEmail ясно передаёт: действие (get), сущность (User) и контракт параметра (by email). Общие имена вроде process(), handle() и doStuff() не дают никакой информации о работе функции и вынуждают читателя заглядывать в её тело."
-        }
+        "correct": 2
     },
     {
         "id": "bp-commenting-001",
@@ -76,6 +76,10 @@
         "question": {
             "en": "When is a code comment most valuable?",
             "ru": "Когда комментарий в коде наиболее ценен?"
+        },
+        "explanation": {
+            "en": "The best comments explain 'why' — the context, constraints, or reasoning behind a decision that the code cannot convey. 'What' is self-documenting through good naming and structure. TODOs have value but must be tracked; parameter docs are better served by TypeScript types.",
+            "ru": "Лучшие комментарии объясняют «почему» — контекст, ограничения или рассуждения за решением, которые сам код передать не может. «Что» должно быть самодокументируемым через хорошие имена и структуру. TODO полезны, но требуют отслеживания; документацию параметров лучше выражать через типы TypeScript."
         },
         "options": [
             {
@@ -95,11 +99,7 @@
                 "ru": "Чтобы помечать код, к которому нужно вернуться, через TODO"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "The best comments explain 'why' — the context, constraints, or reasoning behind a decision that the code cannot convey. 'What' is self-documenting through good naming and structure. TODOs have value but must be tracked; parameter docs are better served by TypeScript types.",
-            "ru": "Лучшие комментарии объясняют «почему» — контекст, ограничения или рассуждения за решением, которые сам код передать не может. «Что» должно быть самодокументируемым через хорошие имена и структуру. TODO полезны, но требуют отслеживания; документацию параметров лучше выражать через типы TypeScript."
-        }
+        "correct": 1
     },
     {
         "id": "bp-error-001",
@@ -110,6 +110,10 @@
         "question": {
             "en": "What is wrong with swallowing errors silently?",
             "ru": "Что плохого в том, чтобы молча проглатывать ошибки?"
+        },
+        "explanation": {
+            "en": "Silent error swallowing (empty catch blocks) is one of the most dangerous patterns in software. It hides failures, making debugging extremely difficult, and allows the application to continue in a corrupted state that can cause cascading failures or data corruption downstream.",
+            "ru": "Молчаливое проглатывание ошибок (пустые catch-блоки) — один из самых опасных паттернов в разработке. Оно скрывает сбои, делая отладку крайне сложной, и позволяет приложению продолжать работу в повреждённом состоянии, что может приводить к каскадным сбоям или порче данных дальше по цепочке."
         },
         "options": [
             {
@@ -129,11 +133,7 @@
                 "ru": "Это увеличивает размер бандла"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "Silent error swallowing (empty catch blocks) is one of the most dangerous patterns in software. It hides failures, making debugging extremely difficult, and allows the application to continue in a corrupted state that can cause cascading failures or data corruption downstream.",
-            "ru": "Молчаливое проглатывание ошибок (пустые catch-блоки) — один из самых опасных паттернов в разработке. Оно скрывает сбои, делая отладку крайне сложной, и позволяет приложению продолжать работу в повреждённом состоянии, что может приводить к каскадным сбоям или порче данных дальше по цепочке."
-        }
+        "correct": 2
     },
     {
         "id": "bp-immutability-001",
@@ -144,6 +144,10 @@
         "question": {
             "en": "Why is mutating function parameters considered a bad practice?",
             "ru": "Почему мутация параметров функции считается плохой практикой?"
+        },
+        "explanation": {
+            "en": "Mutating parameters creates hidden side effects — the caller does not expect their object to change after passing it to a function. This makes functions unpredictable, breaks referential transparency, and makes tests require more setup to isolate state.",
+            "ru": "Мутация параметров создаёт скрытые побочные эффекты — вызывающий код не ожидает, что его объект изменится после передачи в функцию. Это делает функции непредсказуемыми, нарушает referential transparency и требует больше setup-кода в тестах для изоляции состояния."
         },
         "options": [
             {
@@ -163,11 +167,7 @@
                 "ru": "Это запрещено стандартом ECMAScript"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Mutating parameters creates hidden side effects — the caller does not expect their object to change after passing it to a function. This makes functions unpredictable, breaks referential transparency, and makes tests require more setup to isolate state.",
-            "ru": "Мутация параметров создаёт скрытые побочные эффекты — вызывающий код не ожидает, что его объект изменится после передачи в функцию. Это делает функции непредсказуемыми, нарушает referential transparency и требует больше setup-кода в тестах для изоляции состояния."
-        }
+        "correct": 1
     },
     {
         "id": "bp-pure-001",
@@ -178,6 +178,10 @@
         "question": {
             "en": "What defines a pure function?",
             "ru": "Что определяет чистую функцию (pure function)?"
+        },
+        "explanation": {
+            "en": "A pure function: (1) always returns the same output for the same inputs (deterministic), and (2) has no side effects (does not mutate external state, make network calls, or write to storage). Pure functions are easy to test, compose, and reason about.",
+            "ru": "Чистая функция: (1) всегда возвращает одинаковый результат для одинаковых входных данных (детерминирована) и (2) не имеет побочных эффектов (не мутирует внешний state, не делает сетевых вызовов, не пишет в storage). Чистые функции легко тестировать, композировать и осмысливать."
         },
         "options": [
             {
@@ -197,11 +201,7 @@
                 "ru": "Функция, которая никогда не бросает ошибок"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "A pure function: (1) always returns the same output for the same inputs (deterministic), and (2) has no side effects (does not mutate external state, make network calls, or write to storage). Pure functions are easy to test, compose, and reason about.",
-            "ru": "Чистая функция: (1) всегда возвращает одинаковый результат для одинаковых входных данных (детерминирована) и (2) не имеет побочных эффектов (не мутирует внешний state, не делает сетевых вызовов, не пишет в storage). Чистые функции легко тестировать, композировать и осмысливать."
-        }
+        "correct": 1
     },
     {
         "id": "bp-concerns-001",
@@ -212,6 +212,10 @@
         "question": {
             "en": "Which of the following violates separation of concerns in a React component?",
             "ru": "Что из перечисленного нарушает separation of concerns в React-компоненте?"
+        },
+        "explanation": {
+            "en": "Calling fetch() inside JSX mixes data fetching (a side effect) with rendering logic. Rendering should be a pure function of props/state. Data fetching belongs in event handlers, hooks, or lifecycle methods — never directly in JSX.",
+            "ru": "Вызов fetch() внутри JSX смешивает загрузку данных (побочный эффект) с логикой рендеринга. Рендеринг должен быть чистой функцией от props/state. Загрузка данных — место для обработчиков событий, хуков или lifecycle-методов, но никогда не прямо в JSX."
         },
         "options": [
             {
@@ -231,11 +235,7 @@
                 "ru": "Перенос сложных вычислений в производный селектор"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Calling fetch() inside JSX mixes data fetching (a side effect) with rendering logic. Rendering should be a pure function of props/state. Data fetching belongs in event handlers, hooks, or lifecycle methods — never directly in JSX.",
-            "ru": "Вызов fetch() внутри JSX смешивает загрузку данных (побочный эффект) с логикой рендеринга. Рендеринг должен быть чистой функцией от props/state. Загрузка данных — место для обработчиков событий, хуков или lifecycle-методов, но никогда не прямо в JSX."
-        }
+        "correct": 1
     },
     {
         "id": "bp-a11y-001",
@@ -246,6 +246,10 @@
         "question": {
             "en": "What minimum WCAG contrast ratio is required for normal text to meet AA standard?",
             "ru": "Какой минимальный коэффициент контрастности WCAG требуется для обычного текста, чтобы соответствовать уровню AA?"
+        },
+        "explanation": {
+            "en": "WCAG 2.1 AA requires a contrast ratio of at least 4.5:1 for normal text and 3:1 for large text (18pt or 14pt bold). AAA requires 7:1 for normal text. Tools like axe, Lighthouse, or browser DevTools can check contrast ratios automatically.",
+            "ru": "WCAG 2.1 AA требует коэффициент контрастности не менее 4.5:1 для обычного текста и 3:1 для крупного текста (18pt или 14pt bold). AAA требует 7:1 для обычного текста. Инструменты вроде axe, Lighthouse или браузерных DevTools проверяют контрастность автоматически."
         },
         "options": [
             {
@@ -265,11 +269,7 @@
                 "ru": "7:1"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "WCAG 2.1 AA requires a contrast ratio of at least 4.5:1 for normal text and 3:1 for large text (18pt or 14pt bold). AAA requires 7:1 for normal text. Tools like axe, Lighthouse, or browser DevTools can check contrast ratios automatically.",
-            "ru": "WCAG 2.1 AA требует коэффициент контрастности не менее 4.5:1 для обычного текста и 3:1 для крупного текста (18pt или 14pt bold). AAA требует 7:1 для обычного текста. Инструменты вроде axe, Lighthouse или браузерных DevTools проверяют контрастность автоматически."
-        }
+        "correct": 2
     },
     {
         "id": "bp-i18n-001",
@@ -280,6 +280,10 @@
         "question": {
             "en": "What is the difference between i18n (internationalization) and l10n (localization)?",
             "ru": "В чём разница между i18n (интернационализация) и l10n (локализация)?"
+        },
+        "explanation": {
+            "en": "i18n (internationalization) is engineering work: designing the software architecture to support different languages and locales (translation keys, locale switching, pluralization). l10n (localization) is the content work: translating strings and adapting date formats, currencies, and conventions for a specific locale.",
+            "ru": "i18n (интернационализация) — это инженерная работа: проектирование архитектуры ПО для поддержки разных языков и локалей (ключи переводов, переключение локали, плюрализация). l10n (локализация) — это контентная работа: перевод строк и адаптация форматов дат, валют и конвенций под конкретную локаль."
         },
         "options": [
             {
@@ -299,11 +303,7 @@
                 "ru": "l10n нужна только для RTL-языков"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "i18n (internationalization) is engineering work: designing the software architecture to support different languages and locales (translation keys, locale switching, pluralization). l10n (localization) is the content work: translating strings and adapting date formats, currencies, and conventions for a specific locale.",
-            "ru": "i18n (интернационализация) — это инженерная работа: проектирование архитектуры ПО для поддержки разных языков и локалей (ключи переводов, переключение локали, плюрализация). l10n (локализация) — это контентная работа: перевод строк и адаптация форматов дат, валют и конвенций под конкретную локаль."
-        }
+        "correct": 1
     },
     {
         "id": "bp-semver-001",
@@ -314,6 +314,10 @@
         "question": {
             "en": "In semantic versioning (MAJOR.MINOR.PATCH), when should the MAJOR version be incremented?",
             "ru": "В semantic versioning (MAJOR.MINOR.PATCH) когда нужно инкрементировать MAJOR-версию?"
+        },
+        "explanation": {
+            "en": "Semantic versioning: MAJOR increments for breaking (backward-incompatible) changes, MINOR for new backward-compatible features, PATCH for backward-compatible bug fixes. Following semver allows consumers to safely automate dependency updates using range constraints like ^1.0.0.",
+            "ru": "Semantic versioning: MAJOR увеличивается на breaking (обратно несовместимых) изменениях, MINOR — на новых обратно совместимых фичах, PATCH — на обратно совместимых багфиксах. Следование semver позволяет потребителям безопасно автоматизировать обновления зависимостей через диапазоны вроде ^1.0.0."
         },
         "options": [
             {
@@ -333,11 +337,7 @@
                 "ru": "После каждого релиза"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "Semantic versioning: MAJOR increments for breaking (backward-incompatible) changes, MINOR for new backward-compatible features, PATCH for backward-compatible bug fixes. Following semver allows consumers to safely automate dependency updates using range constraints like ^1.0.0.",
-            "ru": "Semantic versioning: MAJOR увеличивается на breaking (обратно несовместимых) изменениях, MINOR — на новых обратно совместимых фичах, PATCH — на обратно совместимых багфиксах. Следование semver позволяет потребителям безопасно автоматизировать обновления зависимостей через диапазоны вроде ^1.0.0."
-        }
+        "correct": 2
     },
     {
         "id": "bp-logging-001",
@@ -348,6 +348,10 @@
         "question": {
             "en": "Which log level is most appropriate for recording that a user successfully logged in?",
             "ru": "Какой уровень логирования лучше всего подходит для записи об успешном входе пользователя?"
+        },
+        "explanation": {
+            "en": "INFO is appropriate for significant application events (user logged in, order placed, job completed). ERROR is for unexpected failures. WARN is for recoverable issues or unexpected states. DEBUG is for detailed diagnostic information only useful during development.",
+            "ru": "INFO подходит для значимых событий приложения (пользователь вошёл, заказ оформлен, задача выполнена). ERROR — для непредвиденных сбоев. WARN — для восстановимых проблем или неожиданных состояний. DEBUG — для детальной диагностической информации, полезной только на этапе разработки."
         },
         "options": [
             {
@@ -367,11 +371,7 @@
                 "ru": "DEBUG"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "INFO is appropriate for significant application events (user logged in, order placed, job completed). ERROR is for unexpected failures. WARN is for recoverable issues or unexpected states. DEBUG is for detailed diagnostic information only useful during development.",
-            "ru": "INFO подходит для значимых событий приложения (пользователь вошёл, заказ оформлен, задача выполнена). ERROR — для непредвиденных сбоев. WARN — для восстановимых проблем или неожиданных состояний. DEBUG — для детальной диагностической информации, полезной только на этапе разработки."
-        }
+        "correct": 2
     },
     {
         "id": "bp-linting-001",
@@ -382,6 +382,10 @@
         "question": {
             "en": "What is the primary difference between a linter (e.g., ESLint) and a formatter (e.g., Prettier)?",
             "ru": "В чём основная разница между линтером (например, ESLint) и форматтером (например, Prettier)?"
+        },
+        "explanation": {
+            "en": "ESLint catches code quality issues: unused variables, undefined references, potential bugs, and pattern violations. Prettier enforces visual consistency: indentation, line length, quote style, semicolons. They are complementary — run formatter first, then linter.",
+            "ru": "ESLint ловит проблемы качества кода: неиспользуемые переменные, undefined-ссылки, потенциальные баги и нарушения паттернов. Prettier обеспечивает визуальную консистентность: отступы, длину строк, стиль кавычек, точки с запятой. Они дополняют друг друга — сначала форматтер, потом линтер."
         },
         "options": [
             {
@@ -401,11 +405,7 @@
                 "ru": "Форматтеры работают только с CSS; линтеры — с JavaScript"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "ESLint catches code quality issues: unused variables, undefined references, potential bugs, and pattern violations. Prettier enforces visual consistency: indentation, line length, quote style, semicolons. They are complementary — run formatter first, then linter.",
-            "ru": "ESLint ловит проблемы качества кода: неиспользуемые переменные, undefined-ссылки, потенциальные баги и нарушения паттернов. Prettier обеспечивает визуальную консистентность: отступы, длину строк, стиль кавычек, точки с запятой. Они дополняют друг друга — сначала форматтер, потом линтер."
-        }
+        "correct": 1
     },
     {
         "id": "bp-precommit-001",
@@ -416,6 +416,10 @@
         "question": {
             "en": "What is the primary benefit of running linting and tests in a pre-commit hook?",
             "ru": "В чём основная польза запуска линтинга и тестов в pre-commit хуке?"
+        },
+        "explanation": {
+            "en": "Pre-commit hooks catch issues locally before they reach the repository, providing the fastest possible feedback (seconds vs. minutes in CI). This prevents obvious issues from cluttering the history and reduces CI queue load. They complement CI — they do not replace it.",
+            "ru": "Pre-commit хуки ловят проблемы локально, ещё до попадания в репозиторий, и дают максимально быстрый фидбэк (секунды против минут в CI). Это не даёт очевидным проблемам засорять историю и снижает нагрузку на CI-очередь. Они дополняют CI, а не заменяют его."
         },
         "options": [
             {
@@ -435,11 +439,7 @@
                 "ru": "Это шифрует коммит перед отправкой в remote"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Pre-commit hooks catch issues locally before they reach the repository, providing the fastest possible feedback (seconds vs. minutes in CI). This prevents obvious issues from cluttering the history and reduces CI queue load. They complement CI — they do not replace it.",
-            "ru": "Pre-commit хуки ловят проблемы локально, ещё до попадания в репозиторий, и дают максимально быстрый фидбэк (секунды против минут в CI). Это не даёт очевидным проблемам засорять историю и снижает нагрузку на CI-очередь. Они дополняют CI, а не заменяют его."
-        }
+        "correct": 1
     },
     {
         "id": "bp-ci-001",
@@ -450,6 +450,10 @@
         "question": {
             "en": "What is the minimum set of quality gates that should run in a CI pipeline on every PR?",
             "ru": "Какой минимальный набор quality gates должен запускаться в CI-пайплайне на каждом PR?"
+        },
+        "explanation": {
+            "en": "A minimal CI pipeline should run: linting (code style), type checking (TypeScript), unit/integration tests (correctness), and a production build (ensures it compiles without errors). This safety net catches regressions before they merge to the main branch.",
+            "ru": "Минимальный CI-пайплайн должен запускать: линтинг (стиль кода), проверку типов (TypeScript), unit/integration-тесты (корректность) и production-сборку (гарантия, что код компилируется без ошибок). Эта страховка ловит регрессии до мержа в основную ветку."
         },
         "options": [
             {
@@ -469,11 +473,7 @@
                 "ru": "Отчёт по code coverage — всё остальное опционально"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "A minimal CI pipeline should run: linting (code style), type checking (TypeScript), unit/integration tests (correctness), and a production build (ensures it compiles without errors). This safety net catches regressions before they merge to the main branch.",
-            "ru": "Минимальный CI-пайплайн должен запускать: линтинг (стиль кода), проверку типов (TypeScript), unit/integration-тесты (корректность) и production-сборку (гарантия, что код компилируется без ошибок). Эта страховка ловит регрессии до мержа в основную ветку."
-        }
+        "correct": 1
     },
     {
         "id": "bp-dry-001",
@@ -484,6 +484,10 @@
         "question": {
             "en": "When is it acceptable to duplicate code instead of abstracting it?",
             "ru": "Когда допустимо дублировать код вместо того, чтобы его абстрагировать?"
+        },
+        "explanation": {
+            "en": "The DRY principle applies to knowledge, not just syntax. If two things look similar but represent independent concepts, abstracting them creates artificial coupling that makes both harder to change independently. 'Duplication is far cheaper than the wrong abstraction' (Sandi Metz).",
+            "ru": "Принцип DRY применяется к знанию, а не просто к синтаксису. Если две вещи выглядят похоже, но представляют независимые концепции, их абстрагирование создаёт искусственный coupling, который мешает менять их независимо. «Дублирование гораздо дешевле, чем неправильная абстракция» (Sandi Metz)."
         },
         "options": [
             {
@@ -503,11 +507,7 @@
                 "ru": "Только в тестовых файлах"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "The DRY principle applies to knowledge, not just syntax. If two things look similar but represent independent concepts, abstracting them creates artificial coupling that makes both harder to change independently. 'Duplication is far cheaper than the wrong abstraction' (Sandi Metz).",
-            "ru": "Принцип DRY применяется к знанию, а не просто к синтаксису. Если две вещи выглядят похоже, но представляют независимые концепции, их абстрагирование создаёт искусственный coupling, который мешает менять их независимо. «Дублирование гораздо дешевле, чем неправильная абстракция» (Sandi Metz)."
-        }
+        "correct": 1
     },
     {
         "id": "bp-naming-003",
@@ -518,6 +518,10 @@
         "question": {
             "en": "Which boolean variable name follows best practices?",
             "ru": "Какое имя boolean-переменной соответствует best practices?"
+        },
+        "explanation": {
+            "en": "Boolean variables should use is/has/can/should prefixes to make the true/false meaning immediately obvious. isUserAuthenticated reads naturally in conditionals: if (isUserAuthenticated). Generic names like flag, status, and active are ambiguous — they could be strings, numbers, or booleans.",
+            "ru": "Boolean-переменные должны использовать префиксы is/has/can/should, чтобы значение true/false было сразу очевидно. isUserAuthenticated естественно читается в условиях: if (isUserAuthenticated). Общие имена вроде flag, status и active неоднозначны — они могут быть строками, числами или булевыми значениями."
         },
         "options": [
             {
@@ -537,11 +541,7 @@
                 "ru": "isUserAuthenticated"
             }
         ],
-        "correct": 3,
-        "explanation": {
-            "en": "Boolean variables should use is/has/can/should prefixes to make the true/false meaning immediately obvious. isUserAuthenticated reads naturally in conditionals: if (isUserAuthenticated). Generic names like flag, status, and active are ambiguous — they could be strings, numbers, or booleans.",
-            "ru": "Boolean-переменные должны использовать префиксы is/has/can/should, чтобы значение true/false было сразу очевидно. isUserAuthenticated естественно читается в условиях: if (isUserAuthenticated). Общие имена вроде flag, status и active неоднозначны — они могут быть строками, числами или булевыми значениями."
-        }
+        "correct": 3
     },
     {
         "id": "bp-a11y-002",
@@ -552,6 +552,10 @@
         "question": {
             "en": "What is the correct way to implement keyboard accessibility for a custom button built from a `<div>`?",
             "ru": "Как правильно реализовать клавиатурную доступность для кастомной кнопки, собранной из `<div>`?"
+        },
+        "explanation": {
+            "en": "To make a non-interactive element accessible: add tabIndex={0} to make it focusable, role='button' so assistive technologies announce it correctly, and handle keyboard events (Enter and Space activate buttons). Better yet, use a native <button> element which provides all of this for free.",
+            "ru": "Чтобы сделать неинтерактивный элемент доступным: добавьте tabIndex={0}, чтобы он стал фокусируемым, role='button', чтобы assistive technologies корректно его озвучивали, и обрабатывайте клавиатурные события (Enter и Space активируют кнопки). А ещё лучше — использовать нативный <button>, который даёт всё это из коробки."
         },
         "options": [
             {
@@ -571,11 +575,7 @@
                 "ru": "Добавить атрибут title с описанием кнопки"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "To make a non-interactive element accessible: add tabIndex={0} to make it focusable, role='button' so assistive technologies announce it correctly, and handle keyboard events (Enter and Space activate buttons). Better yet, use a native <button> element which provides all of this for free.",
-            "ru": "Чтобы сделать неинтерактивный элемент доступным: добавьте tabIndex={0}, чтобы он стал фокусируемым, role='button', чтобы assistive technologies корректно его озвучивали, и обрабатывайте клавиатурные события (Enter и Space активируют кнопки). А ещё лучше — использовать нативный <button>, который даёт всё это из коробки."
-        }
+        "correct": 1
     },
     {
         "id": "bp-i18n-002",
@@ -586,6 +586,10 @@
         "question": {
             "en": "Which approach correctly handles pluralization in i18n?",
             "ru": "Какой подход правильно обрабатывает плюрализацию в i18n?"
+        },
+        "explanation": {
+            "en": "String concatenation for pluralization breaks for languages with complex pluralization rules (Russian, Arabic, Polish have multiple plural forms). i18n libraries (i18next, react-intl) handle pluralization through CLDR rules per locale. Never concatenate translated strings.",
+            "ru": "Конкатенация строк для плюрализации ломается на языках со сложными правилами множественного числа (в русском, арабском, польском — несколько форм множественного числа). i18n-библиотеки (i18next, react-intl) обрабатывают плюрализацию через CLDR-правила для каждой локали. Никогда не конкатенируйте переведённые строки."
         },
         "options": [
             {
@@ -605,11 +609,7 @@
                 "ru": "Хранить отдельные ключи переводов: messages_one и messages_many"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "String concatenation for pluralization breaks for languages with complex pluralization rules (Russian, Arabic, Polish have multiple plural forms). i18n libraries (i18next, react-intl) handle pluralization through CLDR rules per locale. Never concatenate translated strings.",
-            "ru": "Конкатенация строк для плюрализации ломается на языках со сложными правилами множественного числа (в русском, арабском, польском — несколько форм множественного числа). i18n-библиотеки (i18next, react-intl) обрабатывают плюрализацию через CLDR-правила для каждой локали. Никогда не конкатенируйте переведённые строки."
-        }
+        "correct": 1
     },
     {
         "id": "bp-changelog-001",
@@ -620,6 +620,10 @@
         "question": {
             "en": "What is the main purpose of a CHANGELOG.md file?",
             "ru": "Какова основная цель файла CHANGELOG.md?"
+        },
+        "explanation": {
+            "en": "A CHANGELOG curates notable user-facing changes per version — new features, bug fixes, breaking changes. It differs from git log (every commit) by focusing on what matters to consumers. The 'Keep a Changelog' format (keepachangelog.com) with semver is the most widely adopted standard.",
+            "ru": "CHANGELOG курирует значимые пользовательские изменения по версиям — новые фичи, багфиксы, breaking changes. От git log (где каждый коммит) он отличается фокусом на том, что важно потребителям. Формат «Keep a Changelog» (keepachangelog.com) в связке с semver — наиболее широко принятый стандарт."
         },
         "options": [
             {
@@ -639,11 +643,7 @@
                 "ru": "Перечислять всех контрибьюторов проекта"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "A CHANGELOG curates notable user-facing changes per version — new features, bug fixes, breaking changes. It differs from git log (every commit) by focusing on what matters to consumers. The 'Keep a Changelog' format (keepachangelog.com) with semver is the most widely adopted standard.",
-            "ru": "CHANGELOG курирует значимые пользовательские изменения по версиям — новые фичи, багфиксы, breaking changes. От git log (где каждый коммит) он отличается фокусом на том, что важно потребителям. Формат «Keep a Changelog» (keepachangelog.com) в связке с semver — наиболее широко принятый стандарт."
-        }
+        "correct": 1
     },
     {
         "id": "bp-a11y-003",
@@ -654,6 +654,10 @@
         "question": {
             "en": "When should you use `aria-label` on an element?",
             "ru": "Когда следует использовать `aria-label` на элементе?"
+        },
+        "explanation": {
+            "en": "aria-label provides an accessible name for interactive elements that have no visible text label (e.g., an icon button: <button aria-label='Close dialog'>✕</button>). Avoid using it when visible text already exists — it creates redundancy. Never use aria-label on non-interactive elements that are already in the document flow.",
+            "ru": "aria-label задаёт accessible name для интерактивных элементов без видимой текстовой подписи (например, icon-кнопка: <button aria-label='Close dialog'>✕</button>). Не используйте его, если видимый текст уже есть — это создаёт избыточность. Никогда не ставьте aria-label на неинтерактивные элементы, которые и так находятся в document flow."
         },
         "options": [
             {
@@ -673,11 +677,7 @@
                 "ru": "Только на input-элементах форм"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "aria-label provides an accessible name for interactive elements that have no visible text label (e.g., an icon button: <button aria-label='Close dialog'>✕</button>). Avoid using it when visible text already exists — it creates redundancy. Never use aria-label on non-interactive elements that are already in the document flow.",
-            "ru": "aria-label задаёт accessible name для интерактивных элементов без видимой текстовой подписи (например, icon-кнопка: <button aria-label='Close dialog'>✕</button>). Не используйте его, если видимый текст уже есть — это создаёт избыточность. Никогда не ставьте aria-label на неинтерактивные элементы, которые и так находятся в document flow."
-        }
+        "correct": 2
     },
     {
         "id": "bp-error-002",
@@ -688,6 +688,10 @@
         "question": {
             "en": "In React, what is an Error Boundary and when should it be used?",
             "ru": "Что такое Error Boundary в React и когда его следует использовать?"
+        },
+        "explanation": {
+            "en": "Error Boundaries are React class components with componentDidCatch() and/or getDerivedStateFromError(). They catch rendering errors in their subtree and display a fallback UI instead of crashing the whole app. Use them at strategic boundaries (route level, widget level) to limit the blast radius of errors.",
+            "ru": "Error Boundaries — это классовые React-компоненты с componentDidCatch() и/или getDerivedStateFromError(). Они ловят ошибки рендеринга в своём поддереве и показывают fallback UI вместо падения всего приложения. Размещайте их на стратегических границах (уровень роута, уровень виджета), чтобы ограничить blast radius ошибок."
         },
         "options": [
             {
@@ -707,11 +711,7 @@
                 "ru": "Глобальный слушатель для unhandled promise rejections"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Error Boundaries are React class components with componentDidCatch() and/or getDerivedStateFromError(). They catch rendering errors in their subtree and display a fallback UI instead of crashing the whole app. Use them at strategic boundaries (route level, widget level) to limit the blast radius of errors.",
-            "ru": "Error Boundaries — это классовые React-компоненты с componentDidCatch() и/или getDerivedStateFromError(). Они ловят ошибки рендеринга в своём поддереве и показывают fallback UI вместо падения всего приложения. Размещайте их на стратегических границах (уровень роута, уровень виджета), чтобы ограничить blast radius ошибок."
-        }
+        "correct": 1
     },
     {
         "id": "bp-jsdoc-001",
@@ -722,6 +722,10 @@
         "question": {
             "en": "When should you write a JSDoc comment for a function in a TypeScript codebase?",
             "ru": "Когда стоит писать JSDoc-комментарий к функции в TypeScript-кодовой базе?"
+        },
+        "explanation": {
+            "en": "In TypeScript, types document the 'what' (signatures, return types). JSDoc adds value for public APIs (usage examples, @throws, @deprecated), complex logic (explaining an algorithm's approach), and non-obvious requirements. Avoid adding JSDoc that merely restates the type signature — it becomes outdated noise.",
+            "ru": "В TypeScript типы документируют «что» (сигнатуры, типы возвращаемых значений). JSDoc добавляет ценность для публичных API (примеры использования, @throws, @deprecated), сложной логики (объяснение подхода алгоритма) и неочевидных требований. Не пишите JSDoc, который просто повторяет сигнатуру типа — он превращается в устаревающий шум."
         },
         "options": [
             {
@@ -741,11 +745,7 @@
                 "ru": "Только для функций с более чем 3 параметрами"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "In TypeScript, types document the 'what' (signatures, return types). JSDoc adds value for public APIs (usage examples, @throws, @deprecated), complex logic (explaining an algorithm's approach), and non-obvious requirements. Avoid adding JSDoc that merely restates the type signature — it becomes outdated noise.",
-            "ru": "В TypeScript типы документируют «что» (сигнатуры, типы возвращаемых значений). JSDoc добавляет ценность для публичных API (примеры использования, @throws, @deprecated), сложной логики (объяснение подхода алгоритма) и неочевидных требований. Не пишите JSDoc, который просто повторяет сигнатуру типа — он превращается в устаревающий шум."
-        }
+        "correct": 2
     },
     {
         "id": "bp-focus-001",
@@ -756,6 +756,10 @@
         "question": {
             "en": "When a modal dialog opens, where should keyboard focus be placed?",
             "ru": "Куда должен перемещаться клавиатурный фокус при открытии модального диалога?"
+        },
+        "explanation": {
+            "en": "When a modal opens, focus should move into the modal (to the first focusable element or a specific heading) and be trapped inside it. When the modal closes, focus should return to the element that triggered it. This is essential for keyboard-only and screen reader users.",
+            "ru": "При открытии модалки фокус должен перейти внутрь неё (на первый фокусируемый элемент или конкретный заголовок) и быть захвачен внутри. При закрытии модалки фокус должен вернуться на элемент, который её открыл. Это критично для пользователей клавиатуры и screen reader'ов."
         },
         "options": [
             {
@@ -775,11 +779,7 @@
                 "ru": "Управление фокусом для модалок не важно"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "When a modal opens, focus should move into the modal (to the first focusable element or a specific heading) and be trapped inside it. When the modal closes, focus should return to the element that triggered it. This is essential for keyboard-only and screen reader users.",
-            "ru": "При открытии модалки фокус должен перейти внутрь неё (на первый фокусируемый элемент или конкретный заголовок) и быть захвачен внутри. При закрытии модалки фокус должен вернуться на элемент, который её открыл. Это критично для пользователей клавиатуры и screen reader'ов."
-        }
+        "correct": 1
     },
     {
         "id": "bp-naming-004",
@@ -790,6 +790,10 @@
         "question": {
             "en": "Which of the following naming conventions are correct for their context in a TypeScript/React project?",
             "ru": "Какие из перечисленных соглашений об именовании корректны в контексте TypeScript/React-проекта?"
+        },
+        "explanation": {
+            "en": "Conventions: PascalCase for components (React distinguishes components from HTML by case), camelCase for variables/functions, SCREAMING_SNAKE_CASE for module-level constants, kebab-case for file names and CSS custom properties. Tailwind uses utility class names defined by the framework, not custom conventions.",
+            "ru": "Соглашения: PascalCase для компонентов (React отличает компоненты от HTML по регистру), camelCase для переменных/функций, SCREAMING_SNAKE_CASE для констант уровня модуля, kebab-case для имён файлов и CSS custom properties. Tailwind использует собственные имена utility-классов, заданные фреймворком, а не кастомные соглашения."
         },
         "options": [
             {
@@ -813,11 +817,7 @@
                 "ru": "kebab-case для CSS custom properties и имён файлов"
             }
         ],
-        "correct": [0, 1, 2, 4],
-        "explanation": {
-            "en": "Conventions: PascalCase for components (React distinguishes components from HTML by case), camelCase for variables/functions, SCREAMING_SNAKE_CASE for module-level constants, kebab-case for file names and CSS custom properties. Tailwind uses utility class names defined by the framework, not custom conventions.",
-            "ru": "Соглашения: PascalCase для компонентов (React отличает компоненты от HTML по регистру), camelCase для переменных/функций, SCREAMING_SNAKE_CASE для констант уровня модуля, kebab-case для имён файлов и CSS custom properties. Tailwind использует собственные имена utility-классов, заданные фреймворком, а не кастомные соглашения."
-        }
+        "correct": [0, 1, 2, 4]
     },
     {
         "id": "bp-a11y-004",
@@ -828,6 +828,10 @@
         "question": {
             "en": "Which of the following are examples of using semantic HTML for accessibility?",
             "ru": "Какие из перечисленных примеров — это использование семантического HTML для доступности?"
+        },
+        "explanation": {
+            "en": "Semantic HTML: native <button> provides keyboard access and role for free, <nav> landmarks aid screen reader navigation, <table> conveys data relationships, <label> programmatically associates label text with inputs. Using <span> for all text removes document structure that screen readers and SEO rely on.",
+            "ru": "Семантический HTML: нативный <button> бесплатно даёт клавиатурную доступность и role, <nav>-лендмарки помогают навигации screen reader'ов, <table> передаёт связи в данных, <label> программно связывает подпись с input'ом. Использование <span> для всего текста убирает структуру документа, на которую опираются screen reader'ы и SEO."
         },
         "options": [
             {
@@ -851,11 +855,7 @@
                 "ru": "Использование <label for='id'> для связи подписей формы с input'ами"
             }
         ],
-        "correct": [0, 1, 3, 4],
-        "explanation": {
-            "en": "Semantic HTML: native <button> provides keyboard access and role for free, <nav> landmarks aid screen reader navigation, <table> conveys data relationships, <label> programmatically associates label text with inputs. Using <span> for all text removes document structure that screen readers and SEO rely on.",
-            "ru": "Семантический HTML: нативный <button> бесплатно даёт клавиатурную доступность и role, <nav>-лендмарки помогают навигации screen reader'ов, <table> передаёт связи в данных, <label> программно связывает подпись с input'ом. Использование <span> для всего текста убирает структуру документа, на которую опираются screen reader'ы и SEO."
-        }
+        "correct": [0, 1, 3, 4]
     },
     {
         "id": "bp-error-003",
@@ -866,6 +866,10 @@
         "question": {
             "en": "Which of the following are best practices for error handling in a frontend application?",
             "ru": "Какие из перечисленных пунктов — это best practices для обработки ошибок во frontend-приложении?"
+        },
+        "explanation": {
+            "en": "Error handling best practices: hide raw API errors from users (security + UX), log with structured context for debugging, distinguish expected from unexpected errors (different handling), and guide users toward recovery. Swallowing errors silently is one of the worst anti-patterns — it hides bugs.",
+            "ru": "Best practices обработки ошибок: скрывать сырые API-ошибки от пользователей (безопасность + UX), логировать со структурированным контекстом для отладки, различать ожидаемые и неожиданные ошибки (разная обработка) и направлять пользователя к восстановлению. Молчаливое проглатывание ошибок — один из худших антипаттернов: он скрывает баги."
         },
         "options": [
             {
@@ -889,11 +893,7 @@
                 "ru": "Показывать понятные пользователю сообщения с конкретными шагами восстановления"
             }
         ],
-        "correct": [0, 1, 3, 4],
-        "explanation": {
-            "en": "Error handling best practices: hide raw API errors from users (security + UX), log with structured context for debugging, distinguish expected from unexpected errors (different handling), and guide users toward recovery. Swallowing errors silently is one of the worst anti-patterns — it hides bugs.",
-            "ru": "Best practices обработки ошибок: скрывать сырые API-ошибки от пользователей (безопасность + UX), логировать со структурированным контекстом для отладки, различать ожидаемые и неожиданные ошибки (разная обработка) и направлять пользователя к восстановлению. Молчаливое проглатывание ошибок — один из худших антипаттернов: он скрывает баги."
-        }
+        "correct": [0, 1, 3, 4]
     },
     {
         "id": "bp-logging-002",
@@ -904,6 +904,10 @@
         "question": {
             "en": "Which of the following are best practices for application logging?",
             "ru": "Какие из перечисленных пунктов — это best practices для логирования в приложении?"
+        },
+        "explanation": {
+            "en": "Good logging: include context for traceability, use structured JSON (grep-able), and use appropriate levels. Never log sensitive data (PII, credentials) — this is a serious security violation. Logging every variable creates noise and can degrade performance; log meaningful events and state transitions.",
+            "ru": "Хорошее логирование: включать контекст для трассируемости, использовать structured JSON (grep-able) и подходящие уровни. Никогда не логируйте чувствительные данные (PII, credentials) — это серьёзное нарушение безопасности. Логирование каждой переменной создаёт шум и может просадить производительность; логируйте значимые события и переходы состояний."
         },
         "options": [
             {
@@ -927,11 +931,7 @@
                 "ru": "Логировать значение каждой переменной при каждом вызове функции для максимальной observability"
             }
         ],
-        "correct": [0, 2, 3],
-        "explanation": {
-            "en": "Good logging: include context for traceability, use structured JSON (grep-able), and use appropriate levels. Never log sensitive data (PII, credentials) — this is a serious security violation. Logging every variable creates noise and can degrade performance; log meaningful events and state transitions.",
-            "ru": "Хорошее логирование: включать контекст для трассируемости, использовать structured JSON (grep-able) и подходящие уровни. Никогда не логируйте чувствительные данные (PII, credentials) — это серьёзное нарушение безопасности. Логирование каждой переменной создаёт шум и может просадить производительность; логируйте значимые события и переходы состояний."
-        }
+        "correct": [0, 2, 3]
     },
     {
         "id": "bp-cicd-001",
@@ -942,6 +942,10 @@
         "question": {
             "en": "Which of the following are best practices for a CI/CD pipeline?",
             "ru": "Какие из перечисленных пунктов — это best practices для CI/CD-пайплайна?"
+        },
+        "explanation": {
+            "en": "CI/CD best practices: fail fast (run lint before tests), idempotent pipelines (no side effects from re-runs), and fast feedback (<10 min). Run CI on every PR — not just main. Never store secrets in plain text — use secret management (GitHub Secrets, Vault, etc.).",
+            "ru": "Best practices CI/CD: fail fast (запускайте lint до тестов), идемпотентные пайплайны (без побочных эффектов от повторных запусков) и быстрый фидбэк (<10 мин). Запускайте CI на каждом PR, а не только на main. Никогда не храните секреты в plain text — используйте секрет-менеджмент (GitHub Secrets, Vault и т. п.)."
         },
         "options": [
             {
@@ -965,11 +969,7 @@
                 "ru": "Хранить секреты в plain text в YAML пайплайна ради прозрачности"
             }
         ],
-        "correct": [0, 2, 3],
-        "explanation": {
-            "en": "CI/CD best practices: fail fast (run lint before tests), idempotent pipelines (no side effects from re-runs), and fast feedback (<10 min). Run CI on every PR — not just main. Never store secrets in plain text — use secret management (GitHub Secrets, Vault, etc.).",
-            "ru": "Best practices CI/CD: fail fast (запускайте lint до тестов), идемпотентные пайплайны (без побочных эффектов от повторных запусков) и быстрый фидбэк (<10 мин). Запускайте CI на каждом PR, а не только на main. Никогда не храните секреты в plain text — используйте секрет-менеджмент (GitHub Secrets, Vault и т. п.)."
-        }
+        "correct": [0, 2, 3]
     },
     {
         "id": "bp-review-001",
@@ -980,6 +980,10 @@
         "question": {
             "en": "Which of the following are best practices for code review from the author's perspective?",
             "ru": "Какие из перечисленных пунктов — это best practices для code review со стороны автора?"
+        },
+        "explanation": {
+            "en": "Author best practices: small focused PRs (easier to review and revert), clear descriptions (context for reviewers), self-review before requesting (catches obvious issues), and respond to all comments (shows respect and keeps communication clear). Large PRs with unrelated changes are harder to review and understand.",
+            "ru": "Best practices автора: маленькие сфокусированные PR (легче ревьюить и откатывать), понятные описания (контекст для ревьюеров), self-review перед запросом (ловит очевидные проблемы) и ответы на все комментарии (уважение и прозрачная коммуникация). Большие PR с несвязанными изменениями сложнее ревьюить и понимать."
         },
         "options": [
             {
@@ -1003,11 +1007,7 @@
                 "ru": "Отвечать на все комментарии, пусть даже просто подтверждая получение или откладывая"
             }
         ],
-        "correct": [0, 1, 3, 4],
-        "explanation": {
-            "en": "Author best practices: small focused PRs (easier to review and revert), clear descriptions (context for reviewers), self-review before requesting (catches obvious issues), and respond to all comments (shows respect and keeps communication clear). Large PRs with unrelated changes are harder to review and understand.",
-            "ru": "Best practices автора: маленькие сфокусированные PR (легче ревьюить и откатывать), понятные описания (контекст для ревьюеров), self-review перед запросом (ловит очевидные проблемы) и ответы на все комментарии (уважение и прозрачная коммуникация). Большие PR с несвязанными изменениями сложнее ревьюить и понимать."
-        }
+        "correct": [0, 1, 3, 4]
     },
     {
         "id": "bp-naming-bug-001",
@@ -1019,13 +1019,13 @@
             "en": "This code has a naming bug that makes it misleading. Find it.",
             "ru": "В этом коде есть баг в именовании, который делает его вводящим в заблуждение. Найдите его."
         },
-        "code": "function isUserActive(user: User): string {\n  if (user.status === 'active') {\n    return 'yes';\n  }\n  return 'no';\n}",
-        "correct": "The function is named isUserActive (implies boolean return) but returns a string ('yes'/'no') instead of a boolean",
-        "referenceAnswer": "Fix: function isUserActive(user: User): boolean { return user.status === 'active'; }. The is prefix signals a boolean predicate. Returning 'yes'/'no' strings breaks the naming contract and forces callers to compare against magic strings.",
         "explanation": {
             "en": "Function names are contracts. The is/has/can prefix is a universal convention for boolean-returning predicates. Returning a non-boolean from an isX() function creates misleading code that callers will use incorrectly (e.g., if (isUserActive(user)) would be truthy for both 'yes' and 'no').",
             "ru": "Имена функций — это контракты. Префикс is/has/can — универсальное соглашение для предикатов, возвращающих boolean. Возврат не-boolean из функции isX() создаёт вводящий в заблуждение код, который вызывающие будут использовать некорректно (например, if (isUserActive(user)) будет truthy и для 'yes', и для 'no')."
-        }
+        },
+        "code": "function isUserActive(user: User): string {\n  if (user.status === 'active') {\n    return 'yes';\n  }\n  return 'no';\n}",
+        "correct": "The function is named isUserActive (implies boolean return) but returns a string ('yes'/'no') instead of a boolean",
+        "referenceAnswer": "Fix: function isUserActive(user: User): boolean { return user.status === 'active'; }. The is prefix signals a boolean predicate. Returning 'yes'/'no' strings breaks the naming contract and forces callers to compare against magic strings."
     },
     {
         "id": "bp-error-bug-001",
@@ -1037,13 +1037,13 @@
             "en": "This error handling code has two bugs. Find them.",
             "ru": "В этом коде обработки ошибок два бага. Найдите их."
         },
-        "code": "async function fetchUser(id: string) {\n  try {\n    const response = await fetch(`/api/users/${id}`);\n    const user = await response.json();\n    return user;\n  } catch (e) {\n    console.log('Error occurred');\n  }\n}",
-        "correct": "1) HTTP errors (4xx/5xx) are not caught because fetch() only throws on network failures; 2) The error is swallowed after logging — the function returns undefined, hiding the failure from callers",
-        "referenceAnswer": "Fix: check response.ok and throw on HTTP errors; re-throw or return a typed error so callers know the fetch failed. Use logger.error with context instead of console.log.",
         "explanation": {
             "en": "fetch() only rejects on network errors (no internet, DNS failure). HTTP 4xx/5xx responses resolve successfully. You must check response.ok to detect these. Additionally, catching and logging without re-throwing makes the function return undefined, causing silent failures in callers.",
             "ru": "fetch() реджектится только на сетевых ошибках (нет интернета, сбой DNS). HTTP-ответы 4xx/5xx резолвятся успешно. Для их детекции необходимо проверять response.ok. Кроме того, catch с логированием без re-throw приводит к тому, что функция возвращает undefined, вызывая молчаливые сбои у вызывающего кода."
-        }
+        },
+        "code": "async function fetchUser(id: string) {\n  try {\n    const response = await fetch(`/api/users/${id}`);\n    const user = await response.json();\n    return user;\n  } catch (e) {\n    console.log('Error occurred');\n  }\n}",
+        "correct": "1) HTTP errors (4xx/5xx) are not caught because fetch() only throws on network failures; 2) The error is swallowed after logging — the function returns undefined, hiding the failure from callers",
+        "referenceAnswer": "Fix: check response.ok and throw on HTTP errors; re-throw or return a typed error so callers know the fetch failed. Use logger.error with context instead of console.log."
     },
     {
         "id": "bp-a11y-bug-001",
@@ -1055,13 +1055,13 @@
             "en": "This form has two accessibility violations. Find them.",
             "ru": "В этой форме два нарушения accessibility. Найдите их."
         },
-        "code": "function LoginForm() {\n  return (\n    <form>\n      <div>Email</div>\n      <input type=\"text\" placeholder=\"Enter email\" />\n      <div>Password</div>\n      <input type=\"text\" />\n      <div onClick={() => handleSubmit()}>Login</div>\n    </form>\n  );\n}",
-        "correct": "1) Labels are not associated with inputs (using <div> instead of <label htmlFor=>) — screen readers cannot announce field names; 2) The submit 'button' is a <div> not a <button> — not focusable or keyboard-activatable; also the password field should use type='password'",
-        "referenceAnswer": "Use <label htmlFor='email'> and id='email' on inputs; use <button type='submit'>Login</button> instead of <div onClick>; use type='password' for the password field.",
         "explanation": {
             "en": "Three issues: 1) <div> labels are not programmatically associated with inputs — use <label htmlFor='id'>. 2) <div onClick> is not a button — not focusable, not keyboard-accessible, no ARIA role. 3) type='text' for password exposes input in plain text — must be type='password'.",
             "ru": "Три проблемы: 1) <div>-подписи не связаны программно с input'ами — нужен <label htmlFor='id'>. 2) <div onClick> — это не кнопка: не фокусируется, недоступна с клавиатуры, без ARIA-role. 3) type='text' для пароля показывает ввод в открытом виде — должно быть type='password'."
-        }
+        },
+        "code": "function LoginForm() {\n  return (\n    <form>\n      <div>Email</div>\n      <input type=\"text\" placeholder=\"Enter email\" />\n      <div>Password</div>\n      <input type=\"text\" />\n      <div onClick={() => handleSubmit()}>Login</div>\n    </form>\n  );\n}",
+        "correct": "1) Labels are not associated with inputs (using <div> instead of <label htmlFor=>) — screen readers cannot announce field names; 2) The submit 'button' is a <div> not a <button> — not focusable or keyboard-activatable; also the password field should use type='password'",
+        "referenceAnswer": "Use <label htmlFor='email'> and id='email' on inputs; use <button type='submit'>Login</button> instead of <div onClick>; use type='password' for the password field."
     },
     {
         "id": "bp-immutability-bug-001",
@@ -1073,13 +1073,13 @@
             "en": "This function has a subtle mutation bug. Find it.",
             "ru": "В этой функции есть тонкий баг с мутацией. Найдите его."
         },
-        "code": "function addItem(cart: CartItem[], newItem: CartItem): CartItem[] {\n  cart.push(newItem);\n  return cart;\n}",
-        "correct": "The function mutates the original cart array instead of returning a new array, creating an unexpected side effect for the caller",
-        "referenceAnswer": "Fix: return [...cart, newItem]; — this returns a new array without mutating the original. Mutating the input array means any other reference to that array also sees the change, which can cause hard-to-trace bugs in React state management.",
         "explanation": {
             "en": "In JavaScript, arrays are passed by reference. cart.push(newItem) mutates the original array — all other code holding a reference to the same array will see the modification unexpectedly. Always return new data structures from functions that should be pure.",
             "ru": "В JavaScript массивы передаются по ссылке. cart.push(newItem) мутирует исходный массив — любой другой код, держащий ссылку на тот же массив, неожиданно увидит изменение. Из функций, которые должны быть чистыми, всегда возвращайте новые структуры данных."
-        }
+        },
+        "code": "function addItem(cart: CartItem[], newItem: CartItem): CartItem[] {\n  cart.push(newItem);\n  return cart;\n}",
+        "correct": "The function mutates the original cart array instead of returning a new array, creating an unexpected side effect for the caller",
+        "referenceAnswer": "Fix: return [...cart, newItem]; — this returns a new array without mutating the original. Mutating the input array means any other reference to that array also sees the change, which can cause hard-to-trace bugs in React state management."
     },
     {
         "id": "bp-logging-bug-001",
@@ -1091,13 +1091,13 @@
             "en": "This logging code has a critical security violation. Identify it.",
             "ru": "В этом коде логирования — критическое нарушение безопасности. Определите его."
         },
-        "code": "function processPayment(payload: PaymentPayload) {\n  logger.info('Processing payment', {\n    userId: payload.userId,\n    amount: payload.amount,\n    cardNumber: payload.cardNumber,\n    cvv: payload.cvv,\n  });\n  return chargeCard(payload);\n}",
-        "correct": "The function logs sensitive payment data (cardNumber and CVV) which is a PCI DSS violation and serious security risk",
-        "referenceAnswer": "Never log sensitive data. Log only safe identifiers: logger.info('Processing payment', { userId: payload.userId, amount: payload.amount, lastFour: payload.cardNumber.slice(-4) }). CVV must never be logged or stored under any circumstances.",
         "explanation": {
             "en": "Logging credit card numbers and CVVs violates PCI DSS compliance and creates a serious security risk — log files are often stored, shipped, and accessed by multiple systems. Sanitize payment data before logging: use last 4 digits for card numbers and never log CVV.",
             "ru": "Логирование номеров карт и CVV нарушает соответствие PCI DSS и создаёт серьёзный риск безопасности — лог-файлы часто хранятся, пересылаются и доступны нескольким системам. Санитизируйте платёжные данные перед логированием: используйте последние 4 цифры номера карты и никогда не логируйте CVV."
-        }
+        },
+        "code": "function processPayment(payload: PaymentPayload) {\n  logger.info('Processing payment', {\n    userId: payload.userId,\n    amount: payload.amount,\n    cardNumber: payload.cardNumber,\n    cvv: payload.cvv,\n  });\n  return chargeCard(payload);\n}",
+        "correct": "The function logs sensitive payment data (cardNumber and CVV) which is a PCI DSS violation and serious security risk",
+        "referenceAnswer": "Never log sensitive data. Log only safe identifiers: logger.info('Processing payment', { userId: payload.userId, amount: payload.amount, lastFour: payload.cardNumber.slice(-4) }). CVV must never be logged or stored under any circumstances."
     },
     {
         "id": "bp-precommit-bug-001",
@@ -1109,13 +1109,13 @@
             "en": "This Husky + lint-staged configuration does not run as expected. Find the bug.",
             "ru": "Эта конфигурация Husky + lint-staged работает не так, как ожидается. Найдите баг."
         },
-        "code": "// package.json\n{\n  \"lint-staged\": {\n    \"*.{ts,tsx}\": [\n      \"eslint\",\n      \"tsc --noEmit\",\n      \"git add\"\n    ]\n  }\n}",
-        "correct": "Running tsc --noEmit in lint-staged is problematic because tsc type-checks the entire project, not just staged files, and does not accept a list of files from lint-staged — this causes slow, incorrect behavior",
-        "referenceAnswer": "Use eslint --fix for linting (it can take file arguments). For type checking, run tsc separately (not via lint-staged) or use a project-wide check in CI. Also: 'git add' in lint-staged v10+ is no longer needed — lint-staged handles re-staging automatically.",
         "explanation": {
             "en": "lint-staged passes a list of staged files to each command. ESLint and Prettier accept file lists. tsc --noEmit does NOT accept file lists — it checks the entire project using tsconfig.json. Running it in lint-staged is both slow (full project check) and misleading. Type-checking belongs in CI, not per-staged-file.",
             "ru": "lint-staged передаёт список staged-файлов каждой команде. ESLint и Prettier принимают списки файлов. tsc --noEmit НЕ принимает списки файлов — он проверяет весь проект по tsconfig.json. Запускать его в lint-staged одновременно медленно (полная проверка проекта) и вводит в заблуждение. Проверка типов относится к CI, а не к per-staged-file."
-        }
+        },
+        "code": "// package.json\n{\n  \"lint-staged\": {\n    \"*.{ts,tsx}\": [\n      \"eslint\",\n      \"tsc --noEmit\",\n      \"git add\"\n    ]\n  }\n}",
+        "correct": "Running tsc --noEmit in lint-staged is problematic because tsc type-checks the entire project, not just staged files, and does not accept a list of files from lint-staged — this causes slow, incorrect behavior",
+        "referenceAnswer": "Use eslint --fix for linting (it can take file arguments). For type checking, run tsc separately (not via lint-staged) or use a project-wide check in CI. Also: 'git add' in lint-staged v10+ is no longer needed — lint-staged handles re-staging automatically."
     },
     {
         "id": "bp-naming-005",
@@ -1127,14 +1127,14 @@
             "en": "Refactor the poor names in this function to follow clean code naming conventions:",
             "ru": "Отрефакторьте плохие имена в этой функции, чтобы они соответствовали принципам именования clean code:"
         },
-        "code": "// Before (bad names):\nfunction fn(d: Date, n: number): Date {\n  const r = new Date(d);\n  r.___(r.___() + n);\n  return r;\n}\n\n// After (good names):\nfunction addDaysToDate(___: Date, ___: number): Date {",
-        "blanks": ["setDate", "getDate", "date", "daysToAdd"],
-        "referenceAnswer": "setDate and getDate manipulate the day; function signature uses date and daysToAdd as intent-revealing parameter names.",
-        "lang": "typescript",
         "explanation": {
             "en": "Rename single-letter variables (d→date, n→daysToAdd) and the function itself (fn→addDaysToDate) to reveal intent. The body methods setDate and getDate are the correct Date API methods for this operation.",
             "ru": "Переименуйте однобуквенные переменные (d→date, n→daysToAdd) и саму функцию (fn→addDaysToDate), чтобы раскрыть намерение. Методы setDate и getDate в теле — корректные методы Date API для этой операции."
-        }
+        },
+        "code": "// Before (bad names):\nfunction fn(d: Date, n: number): Date {\n  const r = new Date(d);\n  r.__BLANK__(r.__BLANK__() + n);\n  return r;\n}\n\n// After (good names):\nfunction addDaysToDate(__BLANK__: Date, __BLANK__: number): Date {",
+        "blanks": ["setDate", "getDate", "date", "daysToAdd"],
+        "lang": "typescript",
+        "referenceAnswer": "setDate and getDate manipulate the day; function signature uses date and daysToAdd as intent-revealing parameter names."
     },
     {
         "id": "bp-a11y-005",
@@ -1146,14 +1146,14 @@
             "en": "Complete the accessible modal dialog with the required ARIA attributes:",
             "ru": "Дополните доступный модальный диалог необходимыми ARIA-атрибутами:"
         },
-        "code": "function Modal({ isOpen, title, children, onClose }: ModalProps) {\n  if (!isOpen) return null;\n  return (\n    <div\n      role=\"___\"\n      aria-___={true}\n      aria-labelledby=\"modal-title\"\n    >\n      <h2 id=\"___\">{title}</h2>\n      {children}\n      <button onClick={onClose} aria-label=\"Close ___\">\n        ✕\n      </button>\n    </div>\n  );\n}",
-        "blanks": ["dialog", "modal", "modal-title", "dialog"],
-        "referenceAnswer": "role='dialog', aria-modal={true} traps virtual cursor; aria-labelledby references the title; id='modal-title' on the heading; aria-label='Close dialog' on the close button.",
-        "lang": "typescript",
         "explanation": {
             "en": "Accessible modals require: role='dialog' (announces to screen readers), aria-modal={true} (traps screen reader virtual cursor inside), aria-labelledby pointing to the dialog's title element. Without these, screen reader users may not know a dialog opened or be able to navigate it.",
             "ru": "Доступные модалки требуют: role='dialog' (объявляется screen reader'ам), aria-modal={true} (захватывает виртуальный курсор screen reader'а внутри), aria-labelledby, указывающий на элемент заголовка диалога. Без этого пользователи screen reader'ов могут не узнать, что диалог открылся, или не смогут по нему навигировать."
-        }
+        },
+        "code": "function Modal({ isOpen, title, children, onClose }: ModalProps) {\n  if (!isOpen) return null;\n  return (\n    <div\n      role=\"__BLANK__\"\n      aria-__BLANK__={true}\n      aria-labelledby=\"modal-title\"\n    >\n      <h2 id=\"__BLANK__\">{title}</h2>\n      {children}\n      <button onClick={onClose} aria-label=\"Close __BLANK__\">\n        ✕\n      </button>\n    </div>\n  );\n}",
+        "blanks": ["dialog", "modal", "modal-title", "dialog"],
+        "lang": "typescript",
+        "referenceAnswer": "role='dialog', aria-modal={true} traps virtual cursor; aria-labelledby references the title; id='modal-title' on the heading; aria-label='Close dialog' on the close button."
     },
     {
         "id": "bp-error-004",
@@ -1165,14 +1165,14 @@
             "en": "Complete this robust fetch wrapper that properly handles HTTP errors:",
             "ru": "Дополните этот надёжный fetch-враппер, корректно обрабатывающий HTTP-ошибки:"
         },
-        "code": "async function apiFetch<T>(url: string): Promise<T> {\n  const response = await fetch(url);\n\n  if (!response.___) {\n    const error = await response.text();\n    throw new Error(`HTTP ${response.___}: ${error}`);\n  }\n\n  return response.___();\n}",
-        "blanks": ["ok", "status", "json"],
-        "referenceAnswer": "response.ok checks for 2xx status; response.status provides the HTTP status code; response.json() parses the success body.",
-        "lang": "typescript",
         "explanation": {
             "en": "response.ok is true only for 2xx status codes. Checking it and throwing on failure ensures HTTP errors are propagated as exceptions that callers can handle, instead of silently returning undefined. Always include the HTTP status code in the error message for debugging.",
             "ru": "response.ok равен true только для 2xx-статусов. Его проверка и throw при сбое гарантируют, что HTTP-ошибки пробрасываются как исключения, которые сможет обработать вызывающий код, вместо молчаливого возврата undefined. Всегда включайте HTTP status code в сообщение об ошибке для отладки."
-        }
+        },
+        "code": "async function apiFetch<T>(url: string): Promise<T> {\n  const response = await fetch(url);\n\n  if (!response.__BLANK__) {\n    const error = await response.text();\n    throw new Error(`HTTP ${response.__BLANK__}: ${error}`);\n  }\n\n  return response.__BLANK__();\n}",
+        "blanks": ["ok", "status", "json"],
+        "lang": "typescript",
+        "referenceAnswer": "response.ok checks for 2xx status; response.status provides the HTTP status code; response.json() parses the success body."
     },
     {
         "id": "bp-i18n-003",
@@ -1184,14 +1184,14 @@
             "en": "Complete this i18next usage in a React component for a user greeting with a name:",
             "ru": "Дополните использование i18next в React-компоненте для приветствия пользователя с именем:"
         },
-        "code": "import { useTranslation } from 'react-i18next';\n\nfunction Greeting({ username }: { username: string }) {\n  const { ___ } = useTranslation('___');\n  return <h1>{___('greeting.welcome', { name: username })}</h1>;\n}\n\n// en/common.json:\n// { \"greeting\": { \"welcome\": \"Welcome, {{___}}!\" } }",
-        "blanks": ["t", "common", "t", "name"],
-        "referenceAnswer": "useTranslation('common') loads the common namespace; t('greeting.welcome', { name }) passes the interpolation value; {{name}} is the i18next placeholder.",
-        "lang": "typescript",
         "explanation": {
             "en": "i18next uses namespace-scoped keys (greeting.welcome in the common namespace). The t() function accepts a key and an interpolation object. Placeholders use {{key}} syntax in JSON files. This keeps all user-visible strings centralized and translatable.",
             "ru": "i18next использует ключи в рамках namespace (greeting.welcome в namespace common). Функция t() принимает ключ и объект для интерполяции. Плейсхолдеры используют синтаксис {{key}} в JSON-файлах. Это держит все видимые пользователю строки централизованными и переводимыми."
-        }
+        },
+        "code": "import { useTranslation } from 'react-i18next';\n\nfunction Greeting({ username }: { username: string }) {\n  const { __BLANK__ } = useTranslation('__BLANK__');\n  return <h1>{__BLANK__('greeting.welcome', { name: username })}</h1>;\n}\n\n// en/common.json:\n// { \"greeting\": { \"welcome\": \"Welcome, {{__BLANK__}}!\" } }",
+        "blanks": ["t", "common", "t", "name"],
+        "lang": "typescript",
+        "referenceAnswer": "useTranslation('common') loads the common namespace; t('greeting.welcome', { name }) passes the interpolation value; {{name}} is the i18next placeholder."
     },
     {
         "id": "bp-pure-002",
@@ -1203,14 +1203,14 @@
             "en": "Refactor this impure function into a pure function by completing the blanks:",
             "ru": "Отрефакторьте эту нечистую функцию в чистую, заполнив пропуски:"
         },
-        "code": "// Impure version:\nconst stats = { count: 0, total: 0 };\nfunction recordSale(amount: number) {\n  stats.count++;\n  stats.total += amount;\n}\n\n// Pure version:\ninterface Stats { count: number; total: number; }\nfunction recordSale(current: ___, amount: number): ___ {\n  return {\n    count: current.___ + 1,\n    total: current.___ + amount,\n  };\n}",
-        "blanks": ["Stats", "Stats", "count", "total"],
-        "referenceAnswer": "Parameters: current: Stats, amount: number; returns Stats; spreads or reconstructs with count+1 and total+amount.",
-        "lang": "typescript",
         "explanation": {
             "en": "Converting the impure function to pure: instead of mutating external state, accept the current state as a parameter and return a new state object. The caller is responsible for updating the reference. This makes the function testable without setup and composable.",
             "ru": "Превращение нечистой функции в чистую: вместо мутации внешнего state принимайте текущее состояние как параметр и возвращайте новый объект состояния. Ответственность за обновление ссылки лежит на вызывающем. Это делает функцию тестируемой без setup и композируемой."
-        }
+        },
+        "code": "// Impure version:\nconst stats = { count: 0, total: 0 };\nfunction recordSale(amount: number) {\n  stats.count++;\n  stats.total += amount;\n}\n\n// Pure version:\ninterface Stats { count: number; total: number; }\nfunction recordSale(current: __BLANK__, amount: number): __BLANK__ {\n  return {\n    count: current.__BLANK__ + 1,\n    total: current.__BLANK__ + amount,\n  };\n}",
+        "blanks": ["Stats", "Stats", "count", "total"],
+        "lang": "typescript",
+        "referenceAnswer": "Parameters: current: Stats, amount: number; returns Stats; spreads or reconstructs with count+1 and total+amount."
     },
     {
         "id": "bp-cicd-002",
@@ -1222,14 +1222,14 @@
             "en": "Complete this GitHub Actions workflow that runs lint and tests on every PR:",
             "ru": "Дополните этот GitHub Actions workflow, запускающий lint и тесты на каждом PR:"
         },
-        "code": "name: CI\non:\n  ___:\n    branches: ['main']\n  ___:\n    branches: ['main']\n\njobs:\n  quality:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n      - run: npm ___\n      - run: npm run ___\n      - run: npm run ___",
-        "blanks": ["push", "pull_request", "ci", "lint", "test"],
-        "referenceAnswer": "Triggers: push and pull_request on main; steps: npm ci (clean install), npm run lint, npm run test.",
-        "lang": "yaml",
         "explanation": {
             "en": "GitHub Actions workflow: trigger on both push to main and pull_request targeting main. Use npm ci (not npm install) for reproducible installs in CI — it uses package-lock.json exactly. Run lint before tests (fail fast) so developers get feedback on style issues immediately.",
             "ru": "GitHub Actions workflow: триггеры — push в main и pull_request с таргетом main. Используйте npm ci (а не npm install) для воспроизводимой установки в CI — она использует package-lock.json в точности. Запускайте lint до тестов (fail fast), чтобы разработчики сразу получали фидбэк по проблемам стиля."
-        }
+        },
+        "code": "name: CI\non:\n  __BLANK__:\n    branches: ['main']\n  __BLANK__:\n    branches: ['main']\n\njobs:\n  quality:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n      - run: npm __BLANK__\n      - run: npm run __BLANK__\n      - run: npm run __BLANK__",
+        "blanks": ["push", "pull_request", "ci", "lint", "test"],
+        "lang": "yaml",
+        "referenceAnswer": "Triggers: push and pull_request on main; steps: npm ci (clean install), npm run lint, npm run test."
     },
     {
         "id": "bp-concerns-002",
@@ -1240,6 +1240,10 @@
         "question": {
             "en": "What pattern correctly separates concerns in a React component that fetches and displays user data?",
             "ru": "Какой паттерн корректно разделяет concerns в React-компоненте, который загружает и отображает данные пользователя?"
+        },
+        "explanation": {
+            "en": "Separating data-fetching logic into a custom hook and keeping the component as a pure presenter follows the separation of concerns principle. The hook is independently testable; the component only depends on the data shape, not how it is fetched.",
+            "ru": "Вынесение логики загрузки данных в кастомный хук и превращение компонента в чистый presenter следует принципу separation of concerns. Хук можно тестировать независимо; компонент зависит только от формы данных, а не от того, как они загружаются."
         },
         "options": [
             {
@@ -1259,11 +1263,7 @@
                 "ru": "Перенести вызов fetch в значения по умолчанию для props компонента"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Separating data-fetching logic into a custom hook and keeping the component as a pure presenter follows the separation of concerns principle. The hook is independently testable; the component only depends on the data shape, not how it is fetched.",
-            "ru": "Вынесение логики загрузки данных в кастомный хук и превращение компонента в чистый presenter следует принципу separation of concerns. Хук можно тестировать независимо; компонент зависит только от формы данных, а не от того, как они загружаются."
-        }
+        "correct": 1
     },
     {
         "id": "bp-dry-002",
@@ -1274,6 +1274,10 @@
         "question": {
             "en": "You notice two components share 80% of the same logic. What should you do first?",
             "ru": "Вы заметили, что два компонента на 80% состоят из одинаковой логики. Что сделать первым шагом?"
+        },
+        "explanation": {
+            "en": "Before extracting a shared abstraction, verify the two uses represent the same concept — not just coincidentally similar code. The 'rule of three' suggests waiting until you need it in three places. Premature abstraction can create false coupling that makes independent changes harder.",
+            "ru": "Перед вынесением общей абстракции убедитесь, что два применения выражают одну концепцию, а не просто случайно похожий код. «Правило трёх» советует ждать, пока нужно будет в трёх местах. Преждевременная абстракция может создать ложный coupling, мешающий независимым изменениям."
         },
         "options": [
             {
@@ -1293,11 +1297,7 @@
                 "ru": "Удалить один компонент и использовать второй для обоих случаев"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "Before extracting a shared abstraction, verify the two uses represent the same concept — not just coincidentally similar code. The 'rule of three' suggests waiting until you need it in three places. Premature abstraction can create false coupling that makes independent changes harder.",
-            "ru": "Перед вынесением общей абстракции убедитесь, что два применения выражают одну концепцию, а не просто случайно похожий код. «Правило трёх» советует ждать, пока нужно будет в трёх местах. Преждевременная абстракция может создать ложный coupling, мешающий независимым изменениям."
-        }
+        "correct": 2
     },
     {
         "id": "bp-a11y-006",
@@ -1308,6 +1308,10 @@
         "question": {
             "en": "When should an image's `alt` attribute be an empty string (`alt=\"\"`)?",
             "ru": "Когда атрибут `alt` у изображения должен быть пустой строкой (`alt=\"\"`)?"
+        },
+        "explanation": {
+            "en": "Decorative images (backgrounds, dividers, illustrations that repeat information already in text) should use alt=\"\" so screen readers skip them. An empty alt tells AT the image is purely decorative. Omitting alt entirely is wrong — screen readers then read the file name. Informational images always need descriptive alt text.",
+            "ru": "Декоративные изображения (фоны, разделители, иллюстрации, дублирующие информацию из текста) должны иметь alt=\"\", чтобы screen reader'ы их пропускали. Пустой alt сигнализирует assistive technologies, что изображение чисто декоративное. Полностью опускать alt неправильно — тогда screen reader'ы зачитают имя файла. Информативным изображениям всегда нужен описательный alt-текст."
         },
         "options": [
             {
@@ -1327,11 +1331,7 @@
                 "ru": "Когда изображение больше 100x100 пикселей"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Decorative images (backgrounds, dividers, illustrations that repeat information already in text) should use alt=\"\" so screen readers skip them. An empty alt tells AT the image is purely decorative. Omitting alt entirely is wrong — screen readers then read the file name. Informational images always need descriptive alt text.",
-            "ru": "Декоративные изображения (фоны, разделители, иллюстрации, дублирующие информацию из текста) должны иметь alt=\"\", чтобы screen reader'ы их пропускали. Пустой alt сигнализирует assistive technologies, что изображение чисто декоративное. Полностью опускать alt неправильно — тогда screen reader'ы зачитают имя файла. Информативным изображениям всегда нужен описательный alt-текст."
-        }
+        "correct": 1
     },
     {
         "id": "bp-error-005",
@@ -1342,6 +1342,10 @@
         "question": {
             "en": "What is the advantage of using typed/discriminated union errors over throwing generic Error objects?",
             "ru": "В чём преимущество использования типизированных ошибок / discriminated union перед throw обычных Error-объектов?"
+        },
+        "explanation": {
+            "en": "Typed errors modeled as discriminated unions (e.g., Result<T, E>) make all error cases visible in the type signature. Callers are forced by the type checker to handle each case, preventing unhandled error paths. This contrasts with thrown exceptions which are invisible in TypeScript's type system.",
+            "ru": "Типизированные ошибки, смоделированные как discriminated union (например, Result<T, E>), делают все кейсы ошибок видимыми в сигнатуре типа. Type checker заставляет вызывающий код обрабатывать каждый случай, не давая оставить необработанные пути. В отличие от этого, throw-исключения невидимы в системе типов TypeScript."
         },
         "options": [
             {
@@ -1361,11 +1365,7 @@
                 "ru": "Они не дают ошибкам всплывать к родительским компонентам"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Typed errors modeled as discriminated unions (e.g., Result<T, E>) make all error cases visible in the type signature. Callers are forced by the type checker to handle each case, preventing unhandled error paths. This contrasts with thrown exceptions which are invisible in TypeScript's type system.",
-            "ru": "Типизированные ошибки, смоделированные как discriminated union (например, Result<T, E>), делают все кейсы ошибок видимыми в сигнатуре типа. Type checker заставляет вызывающий код обрабатывать каждый случай, не давая оставить необработанные пути. В отличие от этого, throw-исключения невидимы в системе типов TypeScript."
-        }
+        "correct": 1
     },
     {
         "id": "bp-immutability-002",
@@ -1376,6 +1376,10 @@
         "question": {
             "en": "Which of the following patterns enforce immutability in JavaScript/TypeScript?",
             "ru": "Какие из перечисленных паттернов обеспечивают иммутабельность в JavaScript/TypeScript?"
+        },
+        "explanation": {
+            "en": "Immutability techniques: const prevents reassignment (not mutation), Object.freeze() prevents runtime mutation, readonly prevents mutation at compile time in TypeScript, and returning new structures is the functional approach. let vs var has nothing to do with immutability.",
+            "ru": "Техники иммутабельности: const запрещает переприсваивание (но не мутацию), Object.freeze() запрещает мутацию в runtime, readonly запрещает мутацию на этапе компиляции в TypeScript, возврат новых структур — функциональный подход. let vs var не имеет отношения к иммутабельности."
         },
         "options": [
             {
@@ -1399,11 +1403,7 @@
                 "ru": "Возврат новых массивов/объектов вместо мутации существующих"
             }
         ],
-        "correct": [0, 1, 2, 4],
-        "explanation": {
-            "en": "Immutability techniques: const prevents reassignment (not mutation), Object.freeze() prevents runtime mutation, readonly prevents mutation at compile time in TypeScript, and returning new structures is the functional approach. let vs var has nothing to do with immutability.",
-            "ru": "Техники иммутабельности: const запрещает переприсваивание (но не мутацию), Object.freeze() запрещает мутацию в runtime, readonly запрещает мутацию на этапе компиляции в TypeScript, возврат новых структур — функциональный подход. let vs var не имеет отношения к иммутабельности."
-        }
+        "correct": [0, 1, 2, 4]
     },
     {
         "id": "bp-concerns-003",
@@ -1414,6 +1414,10 @@
         "question": {
             "en": "Which of the following are valid ways to separate concerns in a large frontend application?",
             "ru": "Какие из перечисленных подходов — корректные способы разделения concerns в большом frontend-приложении?"
+        },
+        "explanation": {
+            "en": "Valid separation of concerns strategies: custom hooks for logic/UI split, feature modules for cohesion, pure functions/domain models for business logic isolation, and path aliases to enforce architectural boundaries. A monolithic App.tsx is the opposite of separation of concerns.",
+            "ru": "Корректные стратегии separation of concerns: кастомные хуки для разделения логики и UI, feature-модули для когезии, чистые функции / domain model для изоляции бизнес-логики и path-алиасы для фиксации архитектурных границ. Монолитный App.tsx — противоположность separation of concerns."
         },
         "options": [
             {
@@ -1437,11 +1441,7 @@
                 "ru": "Использовать path-алиасы (@/features, @/shared) для формализации границ модулей"
             }
         ],
-        "correct": [0, 1, 3, 4],
-        "explanation": {
-            "en": "Valid separation of concerns strategies: custom hooks for logic/UI split, feature modules for cohesion, pure functions/domain models for business logic isolation, and path aliases to enforce architectural boundaries. A monolithic App.tsx is the opposite of separation of concerns.",
-            "ru": "Корректные стратегии separation of concerns: кастомные хуки для разделения логики и UI, feature-модули для когезии, чистые функции / domain model для изоляции бизнес-логики и path-алиасы для фиксации архитектурных границ. Монолитный App.tsx — противоположность separation of concerns."
-        }
+        "correct": [0, 1, 3, 4]
     },
     {
         "id": "bp-semver-002",
@@ -1452,6 +1452,10 @@
         "question": {
             "en": "Which of the following changes require a MINOR version bump (not PATCH or MAJOR) in semantic versioning?",
             "ru": "Какие из перечисленных изменений требуют MINOR-бампа версии (а не PATCH или MAJOR) в semantic versioning?"
+        },
+        "explanation": {
+            "en": "MINOR bumps are for backward-compatible new functionality: new exported functions, new optional parameters, new optional config. PATCH is for backward-compatible bug fixes. Removing a deprecated API is a breaking change (MAJOR) even if it was deprecated — the removal breaks existing consumers.",
+            "ru": "MINOR-бампы — для обратно совместимой новой функциональности: новые экспортируемые функции, новые опциональные параметры, новые опциональные настройки. PATCH — для обратно совместимых багфиксов. Удаление deprecated API — это breaking change (MAJOR), даже если API был помечен deprecated: удаление ломает существующих потребителей."
         },
         "options": [
             {
@@ -1475,11 +1479,7 @@
                 "ru": "Добавление нового опционального свойства конфигурации"
             }
         ],
-        "correct": [0, 2, 4],
-        "explanation": {
-            "en": "MINOR bumps are for backward-compatible new functionality: new exported functions, new optional parameters, new optional config. PATCH is for backward-compatible bug fixes. Removing a deprecated API is a breaking change (MAJOR) even if it was deprecated — the removal breaks existing consumers.",
-            "ru": "MINOR-бампы — для обратно совместимой новой функциональности: новые экспортируемые функции, новые опциональные параметры, новые опциональные настройки. PATCH — для обратно совместимых багфиксов. Удаление deprecated API — это breaking change (MAJOR), даже если API был помечен deprecated: удаление ломает существующих потребителей."
-        }
+        "correct": [0, 2, 4]
     },
     {
         "id": "bp-commenting-002",
@@ -1491,14 +1491,14 @@
             "en": "Refactor this over-commented code into self-documenting code by choosing better names:",
             "ru": "Отрефакторьте этот перегруженный комментариями код в самодокументируемый, подобрав более подходящие имена:"
         },
-        "code": "// Check if the user can perform the action\n// by verifying their role and subscription status\nfunction ___(user: User, action: string): boolean {\n  // Get the roles that are allowed for this action\n  const ___ = ACTION_ROLE_MAP[action];\n  // Check if the user's role is in the allowed roles\n  // and also check that their subscription is active\n  return ___?.includes(user.role) && user.subscriptionStatus === 'active';\n}",
-        "blanks": ["canUserPerformAction", "allowedRoles", "allowedRoles"],
-        "referenceAnswer": "Function canUserPerformAction; variable allowedRoles; reference allowedRoles in the condition.",
-        "lang": "typescript",
         "explanation": {
             "en": "Self-documenting code uses names that make the intent obvious, eliminating the need for comments. canUserPerformAction reads like natural language; allowedRoles clearly describes what the variable holds. The comments become redundant — good naming is the best documentation.",
             "ru": "Самодокументируемый код использует имена, делающие намерение очевидным, и убирает нужду в комментариях. canUserPerformAction читается как естественный язык; allowedRoles ясно описывает, что лежит в переменной. Комментарии становятся избыточными — хорошее именование и есть лучшая документация."
-        }
+        },
+        "code": "// Check if the user can perform the action\n// by verifying their role and subscription status\nfunction __BLANK__(user: User, action: string): boolean {\n  // Get the roles that are allowed for this action\n  const __BLANK__ = ACTION_ROLE_MAP[action];\n  // Check if the user's role is in the allowed roles\n  // and also check that their subscription is active\n  return __BLANK__?.includes(user.role) && user.subscriptionStatus === 'active';\n}",
+        "blanks": ["canUserPerformAction", "allowedRoles", "allowedRoles"],
+        "lang": "typescript",
+        "referenceAnswer": "Function canUserPerformAction; variable allowedRoles; reference allowedRoles in the condition."
     },
     {
         "id": "bp-ci-002",
@@ -1509,6 +1509,10 @@
         "question": {
             "en": "Which of the following are effective quality gates to enforce in a CI pipeline for a TypeScript React app?",
             "ru": "Какие из перечисленных — эффективные quality gates для CI-пайплайна TypeScript React-приложения?"
+        },
+        "explanation": {
+            "en": "Automated quality gates: TypeScript strict compilation (catch type errors early), ESLint rules (code quality), bundle budget checks (prevent performance regressions), and automated a11y audits (catch obvious violations before they reach users). Manual QA sign-off is a human process, not a CI gate — it does not scale for every PR.",
+            "ru": "Автоматические quality gates: компиляция TypeScript в strict (ловим ошибки типов рано), правила ESLint (качество кода), проверка бюджета бандла (предотвращаем регрессии производительности) и автоматические a11y-аудиты (ловим очевидные нарушения до пользователей). Ручное QA sign-off — это человеческий процесс, а не CI-гейт: он не масштабируется на каждый PR."
         },
         "options": [
             {
@@ -1532,10 +1536,6 @@
                 "ru": "Accessibility-аудит (axe-core) с нулём критических нарушений"
             }
         ],
-        "correct": [0, 1, 2, 4],
-        "explanation": {
-            "en": "Automated quality gates: TypeScript strict compilation (catch type errors early), ESLint rules (code quality), bundle budget checks (prevent performance regressions), and automated a11y audits (catch obvious violations before they reach users). Manual QA sign-off is a human process, not a CI gate — it does not scale for every PR.",
-            "ru": "Автоматические quality gates: компиляция TypeScript в strict (ловим ошибки типов рано), правила ESLint (качество кода), проверка бюджета бандла (предотвращаем регрессии производительности) и автоматические a11y-аудиты (ловим очевидные нарушения до пользователей). Ручное QA sign-off — это человеческий процесс, а не CI-гейт: он не масштабируется на каждый PR."
-        }
+        "correct": [0, 1, 2, 4]
     }
 ]

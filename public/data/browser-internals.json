@@ -9,6 +9,10 @@
             "en": "What is the correct order of steps in the Critical Rendering Path?",
             "ru": "Каков правильный порядок шагов Critical Rendering Path?"
         },
+        "explanation": {
+            "en": "The browser first parses HTML to build the DOM, then processes CSS to build the CSSOM. Both are combined into a Render Tree, which is used to calculate Layout (geometry), and finally Paint renders pixels to the screen.",
+            "ru": "Браузер сначала парсит HTML и строит DOM, затем обрабатывает CSS и строит CSSOM. Оба объединяются в Render Tree, на основе которого рассчитывается Layout (геометрия), и наконец Paint отрисовывает пиксели на экране."
+        },
         "options": [
             {
                 "en": "Parse HTML → Build CSSOM → Build DOM → Render Tree → Layout → Paint",
@@ -27,11 +31,7 @@
                 "ru": "Build CSSOM → Build DOM → Parse HTML → Render Tree → Layout → Paint"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "The browser first parses HTML to build the DOM, then processes CSS to build the CSSOM. Both are combined into a Render Tree, which is used to calculate Layout (geometry), and finally Paint renders pixels to the screen.",
-            "ru": "Браузер сначала парсит HTML и строит DOM, затем обрабатывает CSS и строит CSSOM. Оба объединяются в Render Tree, на основе которого рассчитывается Layout (геометрия), и наконец Paint отрисовывает пиксели на экране."
-        }
+        "correct": 1
     },
     {
         "id": "browser-dom-001",
@@ -42,6 +42,10 @@
         "question": {
             "en": "What does the browser do when it encounters a `<script>` tag without `async` or `defer` while parsing HTML?",
             "ru": "Что делает браузер, встречая тег `<script>` без `async` или `defer` во время парсинга HTML?"
+        },
+        "explanation": {
+            "en": "A synchronous `<script>` tag blocks HTML parsing. The browser stops building the DOM, fetches (if external) and executes the script, then resumes parsing. This is why scripts are often placed before `</body>` or given `defer`/`async` attributes.",
+            "ru": "Синхронный тег `<script>` блокирует парсинг HTML. Браузер прекращает построение DOM, загружает (если скрипт внешний) и выполняет его, затем возобновляет парсинг. Поэтому скрипты часто размещают перед `</body>` или добавляют атрибуты `defer`/`async`."
         },
         "options": [
             {
@@ -61,11 +65,7 @@
                 "ru": "Откладывает выполнение до срабатывания события DOMContentLoaded"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "A synchronous `<script>` tag blocks HTML parsing. The browser stops building the DOM, fetches (if external) and executes the script, then resumes parsing. This is why scripts are often placed before `</body>` or given `defer`/`async` attributes.",
-            "ru": "Синхронный тег `<script>` блокирует парсинг HTML. Браузер прекращает построение DOM, загружает (если скрипт внешний) и выполняет его, затем возобновляет парсинг. Поэтому скрипты часто размещают перед `</body>` или добавляют атрибуты `defer`/`async`."
-        }
+        "correct": 1
     },
     {
         "id": "browser-reflow-001",
@@ -76,6 +76,10 @@
         "question": {
             "en": "Which CSS property change triggers a reflow (layout recalculation)?",
             "ru": "Изменение какого CSS-свойства запускает reflow (пересчёт layout)?"
+        },
+        "explanation": {
+            "en": "Changing `width` affects the geometry of the element and potentially surrounding elements, triggering a full layout recalculation (reflow). `color`, `background-color`, and `opacity` only require repaint or compositing — not layout recalculation.",
+            "ru": "Изменение `width` влияет на геометрию элемента и потенциально на соседние элементы, что запускает полный пересчёт layout (reflow). `color`, `background-color` и `opacity` требуют только repaint или compositing — пересчёт layout не нужен."
         },
         "options": [
             {
@@ -95,11 +99,7 @@
                 "ru": "width"
             }
         ],
-        "correct": 3,
-        "explanation": {
-            "en": "Changing `width` affects the geometry of the element and potentially surrounding elements, triggering a full layout recalculation (reflow). `color`, `background-color`, and `opacity` only require repaint or compositing — not layout recalculation.",
-            "ru": "Изменение `width` влияет на геометрию элемента и потенциально на соседние элементы, что запускает полный пересчёт layout (reflow). `color`, `background-color` и `opacity` требуют только repaint или compositing — пересчёт layout не нужен."
-        }
+        "correct": 3
     },
     {
         "id": "browser-eventloop-001",
@@ -110,6 +110,10 @@
         "question": {
             "en": "In which order will the following log statements execute?\n\n```js\nconsole.log('1');\nsetTimeout(() => console.log('2'), 0);\nPromise.resolve().then(() => console.log('3'));\nconsole.log('4');\n```",
             "ru": "В каком порядке выполнятся следующие вызовы log?\n\n```js\nconsole.log('1');\nsetTimeout(() => console.log('2'), 0);\nPromise.resolve().then(() => console.log('3'));\nconsole.log('4');\n```"
+        },
+        "explanation": {
+            "en": "Synchronous code runs first (1, 4). After the call stack empties, microtasks (Promise) run before macrotasks (setTimeout). So the order is 1 → 4 → 3 → 2.",
+            "ru": "Сначала выполняется синхронный код (1, 4). После опустошения call stack микротаски (Promise) выполняются раньше макротасков (setTimeout). Итого порядок: 1 → 4 → 3 → 2."
         },
         "options": [
             {
@@ -129,11 +133,7 @@
                 "ru": "1, 3, 4, 2"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "Synchronous code runs first (1, 4). After the call stack empties, microtasks (Promise) run before macrotasks (setTimeout). So the order is 1 → 4 → 3 → 2.",
-            "ru": "Сначала выполняется синхронный код (1, 4). После опустошения call stack микротаски (Promise) выполняются раньше макротасков (setTimeout). Итого порядок: 1 → 4 → 3 → 2."
-        }
+        "correct": 2
     },
     {
         "id": "browser-storage-001",
@@ -144,6 +144,10 @@
         "question": {
             "en": "Which storage mechanism persists data across browser sessions (after the browser is closed and reopened)?",
             "ru": "Какой механизм хранения сохраняет данные между сессиями браузера (после закрытия и повторного открытия)?"
+        },
+        "explanation": {
+            "en": "localStorage persists until explicitly cleared or the user clears browser data. sessionStorage is scoped to the browser tab/session and is cleared when the tab is closed. In-memory variables are lost on page unload.",
+            "ru": "localStorage сохраняется до явной очистки или до момента, когда пользователь очистит данные браузера. sessionStorage ограничен вкладкой/сессией браузера и очищается при закрытии вкладки. Переменные в памяти теряются при выгрузке страницы."
         },
         "options": [
             {
@@ -163,11 +167,7 @@
                 "ru": "Cache-Control: no-store"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "localStorage persists until explicitly cleared or the user clears browser data. sessionStorage is scoped to the browser tab/session and is cleared when the tab is closed. In-memory variables are lost on page unload.",
-            "ru": "localStorage сохраняется до явной очистки или до момента, когда пользователь очистит данные браузера. sessionStorage ограничен вкладкой/сессией браузера и очищается при закрытии вкладки. Переменные в памяти теряются при выгрузке страницы."
-        }
+        "correct": 1
     },
     {
         "id": "browser-cors-001",
@@ -178,6 +178,10 @@
         "question": {
             "en": "What is a CORS preflight request?",
             "ru": "Что такое CORS preflight-запрос?"
+        },
+        "explanation": {
+            "en": "For 'non-simple' cross-origin requests (e.g., custom headers, non-GET/POST methods), the browser automatically sends an HTTP OPTIONS preflight request to ask the server if the actual request is allowed. The server must respond with appropriate `Access-Control-Allow-*` headers.",
+            "ru": "Для «non-simple» cross-origin запросов (например, с кастомными заголовками или методами отличными от GET/POST) браузер автоматически отправляет HTTP OPTIONS preflight, чтобы спросить сервер, разрешён ли реальный запрос. Сервер должен ответить соответствующими заголовками `Access-Control-Allow-*`."
         },
         "options": [
             {
@@ -197,11 +201,7 @@
                 "ru": "Проверка безопасности, выполняемая сервером перед возвратом HTML"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "For 'non-simple' cross-origin requests (e.g., custom headers, non-GET/POST methods), the browser automatically sends an HTTP OPTIONS preflight request to ask the server if the actual request is allowed. The server must respond with appropriate `Access-Control-Allow-*` headers.",
-            "ru": "Для «non-simple» cross-origin запросов (например, с кастомными заголовками или методами отличными от GET/POST) браузер автоматически отправляет HTTP OPTIONS preflight, чтобы спросить сервер, разрешён ли реальный запрос. Сервер должен ответить соответствующими заголовками `Access-Control-Allow-*`."
-        }
+        "correct": 1
     },
     {
         "id": "browser-vitals-001",
@@ -212,6 +212,10 @@
         "question": {
             "en": "What does LCP (Largest Contentful Paint) measure?",
             "ru": "Что измеряет LCP (Largest Contentful Paint)?"
+        },
+        "explanation": {
+            "en": "LCP measures the render time of the largest content element visible in the viewport. A good LCP is under 2.5 seconds. It is the primary metric for perceived load speed of the main content.",
+            "ru": "LCP измеряет время отрисовки самого крупного контентного элемента, видимого во viewport. Хорошее значение LCP — меньше 2.5 секунд. Это основная метрика воспринимаемой скорости загрузки основного контента."
         },
         "options": [
             {
@@ -231,11 +235,7 @@
                 "ru": "Время от пользовательского ввода до отрисовки следующего кадра"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "LCP measures the render time of the largest content element visible in the viewport. A good LCP is under 2.5 seconds. It is the primary metric for perceived load speed of the main content.",
-            "ru": "LCP измеряет время отрисовки самого крупного контентного элемента, видимого во viewport. Хорошее значение LCP — меньше 2.5 секунд. Это основная метрика воспринимаемой скорости загрузки основного контента."
-        }
+        "correct": 2
     },
     {
         "id": "browser-http-001",
@@ -246,6 +246,10 @@
         "question": {
             "en": "Which major feature does HTTP/2 introduce over HTTP/1.1?",
             "ru": "Какую ключевую возможность вносит HTTP/2 по сравнению с HTTP/1.1?"
+        },
+        "explanation": {
+            "en": "HTTP/2 introduces multiplexing, allowing multiple requests and responses to be in-flight simultaneously over a single TCP connection. This eliminates HTTP/1.1's head-of-line blocking at the application layer.",
+            "ru": "HTTP/2 вводит мультиплексирование, позволяющее передавать несколько запросов и ответов одновременно в рамках одного TCP-соединения. Это устраняет head-of-line blocking на уровне приложения, характерный для HTTP/1.1."
         },
         "options": [
             {
@@ -265,11 +269,7 @@
                 "ru": "Встроенная поддержка WebSockets"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "HTTP/2 introduces multiplexing, allowing multiple requests and responses to be in-flight simultaneously over a single TCP connection. This eliminates HTTP/1.1's head-of-line blocking at the application layer.",
-            "ru": "HTTP/2 вводит мультиплексирование, позволяющее передавать несколько запросов и ответов одновременно в рамках одного TCP-соединения. Это устраняет head-of-line blocking на уровне приложения, характерный для HTTP/1.1."
-        }
+        "correct": 1
     },
     {
         "id": "browser-caching-001",
@@ -280,6 +280,10 @@
         "question": {
             "en": "What does the `Cache-Control: no-cache` directive instruct the browser to do?",
             "ru": "Что предписывает браузеру директива `Cache-Control: no-cache`?"
+        },
+        "explanation": {
+            "en": "`no-cache` means the browser can store the response but must revalidate it with the server (using ETag or Last-Modified) before reusing it. `no-store` is what you use to prevent any caching at all.",
+            "ru": "`no-cache` означает, что браузер может сохранить ответ, но обязан ревалидировать его на сервере (через ETag или Last-Modified) перед повторным использованием. Чтобы полностью запретить кэширование, нужен `no-store`."
         },
         "options": [
             {
@@ -299,11 +303,7 @@
                 "ru": "Отключить кэширование для всех последующих запросов на том же origin"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "`no-cache` means the browser can store the response but must revalidate it with the server (using ETag or Last-Modified) before reusing it. `no-store` is what you use to prevent any caching at all.",
-            "ru": "`no-cache` означает, что браузер может сохранить ответ, но обязан ревалидировать его на сервере (через ETag или Last-Modified) перед повторным использованием. Чтобы полностью запретить кэширование, нужен `no-store`."
-        }
+        "correct": 1
     },
     {
         "id": "browser-worker-001",
@@ -314,6 +314,10 @@
         "question": {
             "en": "What is the main limitation of Web Workers compared to the main thread?",
             "ru": "Каково главное ограничение Web Workers по сравнению с основным потоком?"
+        },
+        "explanation": {
+            "en": "Web Workers run in a separate thread and have no access to the DOM or most browser APIs. Communication with the main thread happens via `postMessage`. This isolation is intentional to prevent concurrency issues with DOM manipulation.",
+            "ru": "Web Workers работают в отдельном потоке и не имеют доступа к DOM и большинству браузерных API. Взаимодействие с основным потоком идёт через `postMessage`. Такая изоляция сделана намеренно, чтобы избежать проблем конкурентного доступа к DOM."
         },
         "options": [
             {
@@ -333,11 +337,7 @@
                 "ru": "Они не могут использовать Promises или async/await"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Web Workers run in a separate thread and have no access to the DOM or most browser APIs. Communication with the main thread happens via `postMessage`. This isolation is intentional to prevent concurrency issues with DOM manipulation.",
-            "ru": "Web Workers работают в отдельном потоке и не имеют доступа к DOM и большинству браузерных API. Взаимодействие с основным потоком идёт через `postMessage`. Такая изоляция сделана намеренно, чтобы избежать проблем конкурентного доступа к DOM."
-        }
+        "correct": 1
     },
     {
         "id": "browser-paint-001",
@@ -348,6 +348,10 @@
         "question": {
             "en": "Which CSS property promotes an element to its own compositor layer (most reliably across browsers)?",
             "ru": "Какое CSS-свойство наиболее надёжно (во всех браузерах) продвигает элемент на отдельный compositor-слой?"
+        },
+        "explanation": {
+            "en": "`transform: translateZ(0)` (or `will-change: transform`) is the standard hack to force GPU compositing by promoting the element to its own layer. This allows animations of that element to skip layout and paint, handled entirely by the compositor thread.",
+            "ru": "`transform: translateZ(0)` (или `will-change: transform`) — стандартный хак для принудительного GPU-compositing: элемент выносится на отдельный слой. Это позволяет анимациям такого элемента пропускать layout и paint и обрабатываться полностью в compositor-потоке."
         },
         "options": [
             {
@@ -367,11 +371,7 @@
                 "ru": "display: block"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "`transform: translateZ(0)` (or `will-change: transform`) is the standard hack to force GPU compositing by promoting the element to its own layer. This allows animations of that element to skip layout and paint, handled entirely by the compositor thread.",
-            "ru": "`transform: translateZ(0)` (или `will-change: transform`) — стандартный хак для принудительного GPU-compositing: элемент выносится на отдельный слой. Это позволяет анимациям такого элемента пропускать layout и paint и обрабатываться полностью в compositor-потоке."
-        }
+        "correct": 2
     },
     {
         "id": "browser-sw-001",
@@ -382,6 +382,10 @@
         "question": {
             "en": "Which lifecycle event must a Service Worker handle to intercept network requests?",
             "ru": "Какое событие жизненного цикла должен обрабатывать Service Worker, чтобы перехватывать сетевые запросы?"
+        },
+        "explanation": {
+            "en": "The `fetch` event is fired for every network request made by pages under the Service Worker's scope. By calling `event.respondWith()`, the worker can return cached responses, modify requests, or fall back to the network.",
+            "ru": "Событие `fetch` срабатывает для каждого сетевого запроса со страниц, попадающих в scope Service Worker. Вызовом `event.respondWith()` воркер может вернуть ответ из кэша, модифицировать запрос или сделать fallback в сеть."
         },
         "options": [
             {
@@ -401,11 +405,7 @@
                 "ru": "message"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "The `fetch` event is fired for every network request made by pages under the Service Worker's scope. By calling `event.respondWith()`, the worker can return cached responses, modify requests, or fall back to the network.",
-            "ru": "Событие `fetch` срабатывает для каждого сетевого запроса со страниц, попадающих в scope Service Worker. Вызовом `event.respondWith()` воркер может вернуть ответ из кэша, модифицировать запрос или сделать fallback в сеть."
-        }
+        "correct": 2
     },
     {
         "id": "browser-websocket-001",
@@ -416,6 +416,10 @@
         "question": {
             "en": "What is the key difference between WebSockets and Server-Sent Events (SSE)?",
             "ru": "В чём ключевое отличие WebSockets от Server-Sent Events (SSE)?"
+        },
+        "explanation": {
+            "en": "WebSockets establish a full-duplex channel for bidirectional communication. SSE (EventSource) is a unidirectional protocol — the server pushes events to the client over a long-lived HTTP connection. SSE is simpler and works over standard HTTP/2.",
+            "ru": "WebSockets устанавливают full-duplex канал для двунаправленного обмена. SSE (EventSource) — однонаправленный протокол: сервер пушит события клиенту по долгоживущему HTTP-соединению. SSE проще и работает поверх стандартного HTTP/2."
         },
         "options": [
             {
@@ -435,11 +439,7 @@
                 "ru": "WebSockets работают только поверх HTTPS"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "WebSockets establish a full-duplex channel for bidirectional communication. SSE (EventSource) is a unidirectional protocol — the server pushes events to the client over a long-lived HTTP connection. SSE is simpler and works over standard HTTP/2.",
-            "ru": "WebSockets устанавливают full-duplex канал для двунаправленного обмена. SSE (EventSource) — однонаправленный протокол: сервер пушит события клиенту по долгоживущему HTTP-соединению. SSE проще и работает поверх стандартного HTTP/2."
-        }
+        "correct": 1
     },
     {
         "id": "browser-raf-001",
@@ -450,6 +450,10 @@
         "question": {
             "en": "Why should you prefer `requestAnimationFrame` over `setTimeout` for animations?",
             "ru": "Почему для анимаций следует предпочитать `requestAnimationFrame` вместо `setTimeout`?"
+        },
+        "explanation": {
+            "en": "`requestAnimationFrame` schedules work immediately before the browser's next repaint, synchronized with the display refresh rate (60Hz, 120Hz, etc.). This prevents tearing and wasted work. `setTimeout` has no such synchronization guarantee.",
+            "ru": "`requestAnimationFrame` планирует работу непосредственно перед следующим repaint браузера, синхронно с частотой обновления дисплея (60Гц, 120Гц и т.д.). Это предотвращает tearing и лишнюю работу. `setTimeout` такой гарантии синхронизации не даёт."
         },
         "options": [
             {
@@ -469,11 +473,7 @@
                 "ru": "requestAnimationFrame полностью пропускает фазу layout"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "`requestAnimationFrame` schedules work immediately before the browser's next repaint, synchronized with the display refresh rate (60Hz, 120Hz, etc.). This prevents tearing and wasted work. `setTimeout` has no such synchronization guarantee.",
-            "ru": "`requestAnimationFrame` планирует работу непосредственно перед следующим repaint браузера, синхронно с частотой обновления дисплея (60Гц, 120Гц и т.д.). Это предотвращает tearing и лишнюю работу. `setTimeout` такой гарантии синхронизации не даёт."
-        }
+        "correct": 1
     },
     {
         "id": "browser-preload-001",
@@ -484,6 +484,10 @@
         "question": {
             "en": "What is the difference between `<link rel=\"preload\">` and `<link rel=\"prefetch\">`?",
             "ru": "В чём разница между `<link rel=\"preload\">` и `<link rel=\"prefetch\">`?"
+        },
+        "explanation": {
+            "en": "`preload` is a mandatory fetch hint for resources needed in the current page load (critical CSS, fonts, hero images). `prefetch` is a low-priority hint for resources the user might need on future navigations. Both populate the browser cache.",
+            "ru": "`preload` — это обязательная подсказка на загрузку ресурсов, нужных при текущей загрузке страницы (критический CSS, шрифты, hero-изображения). `prefetch` — низкоприоритетная подсказка для ресурсов, которые могут понадобиться при будущих навигациях. Оба наполняют кэш браузера."
         },
         "options": [
             {
@@ -503,11 +507,7 @@
                 "ru": "prefetch гарантирует, что ресурс окажется в кэше; preload — только подсказка"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "`preload` is a mandatory fetch hint for resources needed in the current page load (critical CSS, fonts, hero images). `prefetch` is a low-priority hint for resources the user might need on future navigations. Both populate the browser cache.",
-            "ru": "`preload` — это обязательная подсказка на загрузку ресурсов, нужных при текущей загрузке страницы (критический CSS, шрифты, hero-изображения). `prefetch` — низкоприоритетная подсказка для ресурсов, которые могут понадобиться при будущих навигациях. Оба наполняют кэш браузера."
-        }
+        "correct": 1
     },
     {
         "id": "browser-v8-001",
@@ -518,6 +518,10 @@
         "question": {
             "en": "In V8's compilation pipeline, what is the role of TurboFan?",
             "ru": "Какова роль TurboFan в конвейере компиляции V8?"
+        },
+        "explanation": {
+            "en": "V8's pipeline: source → parser (AST) → Ignition (interpreter, generates bytecode) → TurboFan (optimizing JIT). TurboFan monitors 'hot' functions and compiles them to optimized machine code using type feedback collected by Ignition.",
+            "ru": "Конвейер V8: исходник → парсер (AST) → Ignition (интерпретатор, генерирует байт-код) → TurboFan (оптимизирующий JIT). TurboFan отслеживает «горячие» функции и компилирует их в оптимизированный машинный код, используя type feedback, собранный Ignition."
         },
         "options": [
             {
@@ -537,11 +541,7 @@
                 "ru": "Управляет сборкой мусора по поколенческому алгоритму"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "V8's pipeline: source → parser (AST) → Ignition (interpreter, generates bytecode) → TurboFan (optimizing JIT). TurboFan monitors 'hot' functions and compiles them to optimized machine code using type feedback collected by Ignition.",
-            "ru": "Конвейер V8: исходник → парсер (AST) → Ignition (интерпретатор, генерирует байт-код) → TurboFan (оптимизирующий JIT). TurboFan отслеживает «горячие» функции и компилирует их в оптимизированный машинный код, используя type feedback, собранный Ignition."
-        }
+        "correct": 2
     },
     {
         "id": "browser-gc-001",
@@ -552,6 +552,10 @@
         "question": {
             "en": "V8 uses a generational garbage collector. What is the rationale behind generational GC?",
             "ru": "V8 использует поколенческий сборщик мусора. В чём его обоснование?"
+        },
+        "explanation": {
+            "en": "The generational hypothesis states that most allocated objects become garbage very quickly (e.g., temporary variables). V8 divides the heap into 'young generation' (Scavenger/minor GC, very fast) and 'old generation' (Mark-Compact/major GC, less frequent). This makes GC efficient in practice.",
+            "ru": "Поколенческая гипотеза утверждает, что большинство выделяемых объектов очень быстро становятся мусором (например, временные переменные). V8 делит кучу на «young generation» (Scavenger/minor GC, очень быстрый) и «old generation» (Mark-Compact/major GC, реже). На практике это делает GC эффективным."
         },
         "options": [
             {
@@ -571,11 +575,7 @@
                 "ru": "Номер поколения определяет приоритет объекта во время GC-пауз"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "The generational hypothesis states that most allocated objects become garbage very quickly (e.g., temporary variables). V8 divides the heap into 'young generation' (Scavenger/minor GC, very fast) and 'old generation' (Mark-Compact/major GC, less frequent). This makes GC efficient in practice.",
-            "ru": "Поколенческая гипотеза утверждает, что большинство выделяемых объектов очень быстро становятся мусором (например, временные переменные). V8 делит кучу на «young generation» (Scavenger/minor GC, очень быстрый) и «old generation» (Mark-Compact/major GC, реже). На практике это делает GC эффективным."
-        }
+        "correct": 1
     },
     {
         "id": "browser-layout-001",
@@ -586,6 +586,10 @@
         "question": {
             "en": "Which of the following JavaScript patterns causes forced synchronous layout (layout thrashing)?",
             "ru": "Какой из следующих паттернов JavaScript приводит к forced synchronous layout (layout thrashing)?"
+        },
+        "explanation": {
+            "en": "Layout thrashing occurs when you interleave reads of layout properties (offsetWidth, getBoundingClientRect, etc.) with writes that invalidate layout. The browser is forced to recalculate layout synchronously before returning the read value, instead of batching recalculations.",
+            "ru": "Layout thrashing возникает, когда чтения layout-свойств (offsetWidth, getBoundingClientRect и т.д.) чередуются с записями, инвалидирующими layout. Браузер вынужден синхронно пересчитывать layout перед возвратом значения вместо того, чтобы батчить пересчёты."
         },
         "options": [
             {
@@ -605,11 +609,7 @@
                 "ru": "Использование `requestAnimationFrame` для группировки DOM-записей"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "Layout thrashing occurs when you interleave reads of layout properties (offsetWidth, getBoundingClientRect, etc.) with writes that invalidate layout. The browser is forced to recalculate layout synchronously before returning the read value, instead of batching recalculations.",
-            "ru": "Layout thrashing возникает, когда чтения layout-свойств (offsetWidth, getBoundingClientRect и т.д.) чередуются с записями, инвалидирующими layout. Браузер вынужден синхронно пересчитывать layout перед возвратом значения вместо того, чтобы батчить пересчёты."
-        }
+        "correct": 2
     },
     {
         "id": "browser-composite-001",
@@ -620,6 +620,10 @@
         "question": {
             "en": "What is the downside of overusing `will-change: transform` on many elements?",
             "ru": "В чём минус чрезмерного использования `will-change: transform` на множестве элементов?"
+        },
+        "explanation": {
+            "en": "Each compositor layer promoted via `will-change` requires memory on the GPU. Promoting too many elements can exhaust GPU memory, cause jank, or even crash the compositor. Use `will-change` sparingly — only on elements about to animate.",
+            "ru": "Каждый compositor-слой, вынесенный через `will-change`, требует памяти на GPU. Слишком большое число вынесенных элементов может исчерпать GPU-память, привести к jank или даже крашу compositor. Используйте `will-change` экономно — только на элементах, которые вот-вот будут анимироваться."
         },
         "options": [
             {
@@ -639,11 +643,7 @@
                 "ru": "Это исключает элемент из accessibility tree"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Each compositor layer promoted via `will-change` requires memory on the GPU. Promoting too many elements can exhaust GPU memory, cause jank, or even crash the compositor. Use `will-change` sparingly — only on elements about to animate.",
-            "ru": "Каждый compositor-слой, вынесенный через `will-change`, требует памяти на GPU. Слишком большое число вынесенных элементов может исчерпать GPU-память, привести к jank или даже крашу compositor. Используйте `will-change` экономно — только на элементах, которые вот-вот будут анимироваться."
-        }
+        "correct": 1
     },
     {
         "id": "browser-microtask-001",
@@ -654,6 +654,10 @@
         "question": {
             "en": "When does the microtask queue get drained in the browser event loop?",
             "ru": "Когда в event loop браузера опустошается очередь микротасков?"
+        },
+        "explanation": {
+            "en": "After each task (setTimeout callback, event handler, etc.) completes and the call stack empties, the browser drains the entire microtask queue (Promises, queueMicrotask, MutationObserver) before picking the next task or rendering. Microtasks can also schedule new microtasks, all of which run before the next task.",
+            "ru": "После завершения каждой задачи (коллбека setTimeout, обработчика события и т.п.) и опустошения call stack браузер полностью осушает очередь микротасков (Promises, queueMicrotask, MutationObserver), прежде чем взять следующую задачу или отрисовать кадр. Микротаски могут планировать новые микротаски — все они выполняются до следующей задачи."
         },
         "options": [
             {
@@ -673,11 +677,7 @@
                 "ru": "В отдельном потоке параллельно основному event loop"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "After each task (setTimeout callback, event handler, etc.) completes and the call stack empties, the browser drains the entire microtask queue (Promises, queueMicrotask, MutationObserver) before picking the next task or rendering. Microtasks can also schedule new microtasks, all of which run before the next task.",
-            "ru": "После завершения каждой задачи (коллбека setTimeout, обработчика события и т.п.) и опустошения call stack браузер полностью осушает очередь микротасков (Promises, queueMicrotask, MutationObserver), прежде чем взять следующую задачу или отрисовать кадр. Микротаски могут планировать новые микротаски — все они выполняются до следующей задачи."
-        }
+        "correct": 1
     },
     {
         "id": "browser-idb-001",
@@ -688,6 +688,10 @@
         "question": {
             "en": "What is the primary advantage of IndexedDB over localStorage?",
             "ru": "В чём основное преимущество IndexedDB над localStorage?"
+        },
+        "explanation": {
+            "en": "IndexedDB is a full client-side NoSQL database: it supports transactions, indexes, cursors, and can store structured objects including Blobs. Its async API prevents blocking the main thread. localStorage is synchronous, size-limited (~5MB), and stores only strings.",
+            "ru": "IndexedDB — это полноценная клиентская NoSQL-база: поддерживает транзакции, индексы, курсоры и умеет хранить структурированные объекты, включая Blob. Его асинхронный API не блокирует основной поток. localStorage же синхронный, ограничен по размеру (~5MB) и хранит только строки."
         },
         "options": [
             {
@@ -707,11 +711,7 @@
                 "ru": "IndexedDB сохраняется между разными origin с одинаковым eTLD+1"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "IndexedDB is a full client-side NoSQL database: it supports transactions, indexes, cursors, and can store structured objects including Blobs. Its async API prevents blocking the main thread. localStorage is synchronous, size-limited (~5MB), and stores only strings.",
-            "ru": "IndexedDB — это полноценная клиентская NoSQL-база: поддерживает транзакции, индексы, курсоры и умеет хранить структурированные объекты, включая Blob. Его асинхронный API не блокирует основной поток. localStorage же синхронный, ограничен по размеру (~5MB) и хранит только строки."
-        }
+        "correct": 1
     },
     {
         "id": "browser-cls-001",
@@ -722,6 +722,10 @@
         "question": {
             "en": "Which of the following best describes how to prevent high CLS (Cumulative Layout Shift)?",
             "ru": "Что лучше всего описывает способ предотвращения высокого CLS (Cumulative Layout Shift)?"
+        },
+        "explanation": {
+            "en": "CLS is caused by elements shifting position unexpectedly. The main fixes are: setting explicit dimensions on images/videos/iframes, not dynamically inserting content above existing content, and using CSS `aspect-ratio` or `min-height` to reserve space for dynamic content like ads.",
+            "ru": "CLS возникает из-за неожиданных сдвигов элементов. Основные способы борьбы: задавать явные размеры для images/videos/iframes, не вставлять динамически контент над уже существующим и использовать CSS `aspect-ratio` или `min-height`, чтобы резервировать место под динамический контент вроде рекламы."
         },
         "options": [
             {
@@ -741,11 +745,7 @@
                 "ru": "Использовать `position: fixed` для всего контента above-the-fold"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "CLS is caused by elements shifting position unexpectedly. The main fixes are: setting explicit dimensions on images/videos/iframes, not dynamically inserting content above existing content, and using CSS `aspect-ratio` or `min-height` to reserve space for dynamic content like ads.",
-            "ru": "CLS возникает из-за неожиданных сдвигов элементов. Основные способы борьбы: задавать явные размеры для images/videos/iframes, не вставлять динамически контент над уже существующим и использовать CSS `aspect-ratio` или `min-height`, чтобы резервировать место под динамический контент вроде рекламы."
-        }
+        "correct": 1
     },
     {
         "id": "browser-bfcache-001",
@@ -756,6 +756,10 @@
         "question": {
             "en": "What is the Back/Forward Cache (bfcache) and what can prevent a page from being stored in it?",
             "ru": "Что такое Back/Forward Cache (bfcache) и что может помешать странице попасть в него?"
+        },
+        "explanation": {
+            "en": "bfcache stores a complete snapshot of the page (including JS heap) so back/forward navigations are instant. Pages are excluded from bfcache if they use `unload` event listeners, have open IndexedDB connections, or send `Cache-Control: no-store`. Use the `pageshow`/`pagehide` events instead of `unload`.",
+            "ru": "bfcache хранит полный снимок страницы (включая JS heap), чтобы навигация вперёд/назад была мгновенной. Страница не попадает в bfcache, если использует обработчики `unload`, имеет открытые соединения IndexedDB или присылает `Cache-Control: no-store`. Вместо `unload` используйте события `pageshow`/`pagehide`."
         },
         "options": [
             {
@@ -775,11 +779,7 @@
                 "ru": "Хранилище истории браузера; блокируется заголовками Content-Security-Policy"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "bfcache stores a complete snapshot of the page (including JS heap) so back/forward navigations are instant. Pages are excluded from bfcache if they use `unload` event listeners, have open IndexedDB connections, or send `Cache-Control: no-store`. Use the `pageshow`/`pagehide` events instead of `unload`.",
-            "ru": "bfcache хранит полный снимок страницы (включая JS heap), чтобы навигация вперёд/назад была мгновенной. Страница не попадает в bfcache, если использует обработчики `unload`, имеет открытые соединения IndexedDB или присылает `Cache-Control: no-store`. Вместо `unload` используйте события `pageshow`/`pagehide`."
-        }
+        "correct": 1
     },
     {
         "id": "browser-csp-001",
@@ -790,6 +790,10 @@
         "question": {
             "en": "What does the CSP directive `script-src 'self'` allow?",
             "ru": "Что разрешает CSP-директива `script-src 'self'`?"
+        },
+        "explanation": {
+            "en": "`script-src 'self'` restricts script loading to the same origin (scheme + host + port). Inline scripts (`<script>` blocks) and `eval()` are blocked by default unless explicitly allowed via `'unsafe-inline'` or `'unsafe-eval'` (strongly discouraged).",
+            "ru": "`script-src 'self'` ограничивает загрузку скриптов тем же origin (scheme + host + port). Inline-скрипты (блоки `<script>`) и `eval()` по умолчанию блокируются, если явно не разрешены через `'unsafe-inline'` или `'unsafe-eval'` (что крайне не рекомендуется)."
         },
         "options": [
             {
@@ -809,11 +813,7 @@
                 "ru": "Только скрипты, загруженные через `<script type=\"module\">`"
             }
         ],
-        "correct": 0,
-        "explanation": {
-            "en": "`script-src 'self'` restricts script loading to the same origin (scheme + host + port). Inline scripts (`<script>` blocks) and `eval()` are blocked by default unless explicitly allowed via `'unsafe-inline'` or `'unsafe-eval'` (strongly discouraged).",
-            "ru": "`script-src 'self'` ограничивает загрузку скриптов тем же origin (scheme + host + port). Inline-скрипты (блоки `<script>`) и `eval()` по умолчанию блокируются, если явно не разрешены через `'unsafe-inline'` или `'unsafe-eval'` (что крайне не рекомендуется)."
-        }
+        "correct": 0
     },
     {
         "id": "browser-http3-001",
@@ -824,6 +824,10 @@
         "question": {
             "en": "What transport protocol does HTTP/3 use, and what problem does it solve versus HTTP/2?",
             "ru": "Какой транспортный протокол использует HTTP/3 и какую проблему HTTP/2 он решает?"
+        },
+        "explanation": {
+            "en": "HTTP/3 runs on QUIC, a multiplexed protocol built on UDP. HTTP/2 multiplexes over TCP, but a single lost TCP packet blocks all streams (TCP-level HOL blocking). QUIC handles packet loss per-stream independently, making HTTP/3 much more resilient on lossy networks.",
+            "ru": "HTTP/3 работает поверх QUIC — мультиплексированного протокола на базе UDP. HTTP/2 мультиплексирует поверх TCP, но единственный потерянный TCP-пакет блокирует все стримы (HOL blocking на уровне TCP). QUIC обрабатывает потери пакетов независимо для каждого стрима, что делает HTTP/3 намного устойчивее в lossy-сетях."
         },
         "options": [
             {
@@ -843,11 +847,7 @@
                 "ru": "SCTP; позволяет multi-homing для мобильных сетей"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "HTTP/3 runs on QUIC, a multiplexed protocol built on UDP. HTTP/2 multiplexes over TCP, but a single lost TCP packet blocks all streams (TCP-level HOL blocking). QUIC handles packet loss per-stream independently, making HTTP/3 much more resilient on lossy networks.",
-            "ru": "HTTP/3 работает поверх QUIC — мультиплексированного протокола на базе UDP. HTTP/2 мультиплексирует поверх TCP, но единственный потерянный TCP-пакет блокирует все стримы (HOL blocking на уровне TCP). QUIC обрабатывает потери пакетов независимо для каждого стрима, что делает HTTP/3 намного устойчивее в lossy-сетях."
-        }
+        "correct": 1
     },
     {
         "id": "browser-mo-001",
@@ -858,6 +858,10 @@
         "question": {
             "en": "Which statement correctly describes MutationObserver callbacks?",
             "ru": "Какое утверждение корректно описывает коллбеки MutationObserver?"
+        },
+        "explanation": {
+            "en": "MutationObserver callbacks are queued as microtasks. They fire after the current task's synchronous code finishes (call stack empties) but before the browser performs rendering. This ensures the observer sees a consistent DOM snapshot.",
+            "ru": "Коллбеки MutationObserver ставятся в очередь как микротаски. Они срабатывают после того, как синхронный код текущей задачи завершится (call stack опустеет), но до того, как браузер выполнит рендеринг. Это гарантирует, что observer видит консистентный снимок DOM."
         },
         "options": [
             {
@@ -877,11 +881,7 @@
                 "ru": "Они вызываются синхронно внутри DOM-мутации"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "MutationObserver callbacks are queued as microtasks. They fire after the current task's synchronous code finishes (call stack empties) but before the browser performs rendering. This ensures the observer sees a consistent DOM snapshot.",
-            "ru": "Коллбеки MutationObserver ставятся в очередь как микротаски. Они срабатывают после того, как синхронный код текущей задачи завершится (call stack опустеет), но до того, как браузер выполнит рендеринг. Это гарантирует, что observer видит консистентный снимок DOM."
-        }
+        "correct": 2
     },
     {
         "id": "browser-io-001",
@@ -892,6 +892,10 @@
         "question": {
             "en": "How does IntersectionObserver improve performance over a scroll event listener for lazy loading?",
             "ru": "Чем IntersectionObserver лучше с точки зрения производительности по сравнению с обработчиком события scroll при lazy loading?"
+        },
+        "explanation": {
+            "en": "Scroll event listeners fire on every scroll event (potentially 60+ times/second) and usually require reading layout properties, causing forced reflows. IntersectionObserver is a browser-native API that runs intersection checks asynchronously, delivering batched callbacks only when thresholds are crossed.",
+            "ru": "Обработчики события scroll срабатывают на каждое событие прокрутки (потенциально 60+ раз в секунду) и обычно требуют чтения layout-свойств, что приводит к forced reflow. IntersectionObserver — нативный API браузера, выполняющий проверки пересечения асинхронно и доставляющий батчи коллбеков только при пересечении порогов."
         },
         "options": [
             {
@@ -911,11 +915,7 @@
                 "ru": "Он использует WebAssembly для геометрических вычислений"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Scroll event listeners fire on every scroll event (potentially 60+ times/second) and usually require reading layout properties, causing forced reflows. IntersectionObserver is a browser-native API that runs intersection checks asynchronously, delivering batched callbacks only when thresholds are crossed.",
-            "ru": "Обработчики события scroll срабатывают на каждое событие прокрутки (потенциально 60+ раз в секунду) и обычно требуют чтения layout-свойств, что приводит к forced reflow. IntersectionObserver — нативный API браузера, выполняющий проверки пересечения асинхронно и доставляющий батчи коллбеков только при пересечении порогов."
-        }
+        "correct": 1
     },
     {
         "id": "browser-paint-api-001",
@@ -926,6 +926,10 @@
         "question": {
             "en": "What is the CSS Paint API (Houdini) and what rendering phase does it hook into?",
             "ru": "Что такое CSS Paint API (Houdini) и в какую фазу рендеринга он встраивается?"
+        },
+        "explanation": {
+            "en": "The CSS Paint API (part of CSS Houdini) lets you register a Paint Worklet that implements the `paint()` method. The browser calls it during the paint phase to draw an element's background-image (or other paintable properties). The worklet runs off the main thread on some browsers.",
+            "ru": "CSS Paint API (часть CSS Houdini) позволяет регистрировать Paint Worklet, реализующий метод `paint()`. Браузер вызывает его во время фазы paint, чтобы отрисовать background-image элемента (или другие paintable-свойства). В некоторых браузерах worklet выполняется вне основного потока."
         },
         "options": [
             {
@@ -945,11 +949,7 @@
                 "ru": "Хук service worker, перехватывающий загрузку CSS-ассетов"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "The CSS Paint API (part of CSS Houdini) lets you register a Paint Worklet that implements the `paint()` method. The browser calls it during the paint phase to draw an element's background-image (or other paintable properties). The worklet runs off the main thread on some browsers.",
-            "ru": "CSS Paint API (часть CSS Houdini) позволяет регистрировать Paint Worklet, реализующий метод `paint()`. Браузер вызывает его во время фазы paint, чтобы отрисовать background-image элемента (или другие paintable-свойства). В некоторых браузерах worklet выполняется вне основного потока."
-        }
+        "correct": 1
     },
     {
         "id": "browser-v8-deopt-001",
@@ -960,6 +960,10 @@
         "question": {
             "en": "What causes V8 to deoptimize a previously JIT-compiled function?",
             "ru": "Что заставляет V8 деоптимизировать ранее JIT-скомпилированную функцию?"
+        },
+        "explanation": {
+            "en": "TurboFan generates optimized code based on type feedback (e.g., 'x has always been a Smi integer'). If those assumptions are violated at runtime, V8 deoptimizes back to interpreted Ignition bytecode. To avoid deoptimizations, keep function argument types consistent.",
+            "ru": "TurboFan генерирует оптимизированный код на основе type feedback (например, «x всегда был Smi integer»). Если эти предположения нарушаются в runtime, V8 деоптимизирует функцию обратно в интерпретируемый байт-код Ignition. Чтобы избежать деоптимизаций, сохраняйте типы аргументов функции консистентными."
         },
         "options": [
             {
@@ -979,11 +983,7 @@
                 "ru": "Функция использует синтаксис arrow function вместо function declaration"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "TurboFan generates optimized code based on type feedback (e.g., 'x has always been a Smi integer'). If those assumptions are violated at runtime, V8 deoptimizes back to interpreted Ignition bytecode. To avoid deoptimizations, keep function argument types consistent.",
-            "ru": "TurboFan генерирует оптимизированный код на основе type feedback (например, «x всегда был Smi integer»). Если эти предположения нарушаются в runtime, V8 деоптимизирует функцию обратно в интерпретируемый байт-код Ignition. Чтобы избежать деоптимизаций, сохраняйте типы аргументов функции консистентными."
-        }
+        "correct": 1
     },
     {
         "id": "browser-crp-hard-001",
@@ -994,6 +994,10 @@
         "question": {
             "en": "A stylesheet with `media=\"print\"` is still downloaded by the browser but does not block rendering. What is the technical reason it doesn't block?",
             "ru": "Таблица стилей с `media=\"print\"` всё равно скачивается браузером, но не блокирует рендеринг. В чём техническая причина, что она не блокирует?"
+        },
+        "explanation": {
+            "en": "The browser evaluates `media` attributes to decide whether a stylesheet is render-blocking. Stylesheets whose media query doesn't match the current environment (e.g., `print` on a screen) are still fetched (since the user might print) but at low priority and without blocking rendering.",
+            "ru": "Браузер оценивает атрибут `media`, чтобы решить, является ли таблица стилей render-blocking. Стили, чей media query не соответствует текущему окружению (например, `print` на экране), всё равно загружаются (пользователь ведь может распечатать), но с низким приоритетом и не блокируя рендеринг."
         },
         "options": [
             {
@@ -1013,11 +1017,7 @@
                 "ru": "Браузер парсит print-стили только после выполнения всего JavaScript"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "The browser evaluates `media` attributes to decide whether a stylesheet is render-blocking. Stylesheets whose media query doesn't match the current environment (e.g., `print` on a screen) are still fetched (since the user might print) but at low priority and without blocking rendering.",
-            "ru": "Браузер оценивает атрибут `media`, чтобы решить, является ли таблица стилей render-blocking. Стили, чей media query не соответствует текущему окружению (например, `print` на экране), всё равно загружаются (пользователь ведь может распечатать), но с низким приоритетом и не блокируя рендеринг."
-        }
+        "correct": 1
     },
     {
         "id": "browser-inp-001",
@@ -1028,6 +1028,10 @@
         "question": {
             "en": "INP (Interaction to Next Paint) replaced FID as a Core Web Vital. What is the key improvement over FID?",
             "ru": "INP (Interaction to Next Paint) заменил FID в составе Core Web Vitals. В чём ключевое улучшение по сравнению с FID?"
+        },
+        "explanation": {
+            "en": "FID only measured the input delay of the very first interaction and ignored processing time and presentation delay. INP captures the full latency (input delay + processing time + presentation delay) of all interactions during the session and reports the worst-case value (or near-worst for pages with many interactions).",
+            "ru": "FID измерял только input delay самой первой интеракции, игнорируя processing time и presentation delay. INP фиксирует полную задержку (input delay + processing time + presentation delay) всех интеракций за сессию и репортит худшее значение (или близкое к худшему для страниц с большим числом интеракций)."
         },
         "options": [
             {
@@ -1047,11 +1051,7 @@
                 "ru": "INP измеряет время до paint после сетевого запроса; FID измерял input delay во время загрузки страницы"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "FID only measured the input delay of the very first interaction and ignored processing time and presentation delay. INP captures the full latency (input delay + processing time + presentation delay) of all interactions during the session and reports the worst-case value (or near-worst for pages with many interactions).",
-            "ru": "FID измерял только input delay самой первой интеракции, игнорируя processing time и presentation delay. INP фиксирует полную задержку (input delay + processing time + presentation delay) всех интеракций за сессию и репортит худшее значение (или близкое к худшему для страниц с большим числом интеракций)."
-        }
+        "correct": 1
     },
     {
         "id": "browser-rs-001",
@@ -1062,6 +1062,10 @@
         "question": {
             "en": "ResizeObserver callbacks are guaranteed to fire after layout but before paint. What potential problem does this introduce?",
             "ru": "Коллбеки ResizeObserver гарантированно вызываются после layout, но до paint. Какую потенциальную проблему это создаёт?"
+        },
+        "explanation": {
+            "en": "If a ResizeObserver callback changes the size of an element it is observing (or an ancestor), it triggers another resize notification, potentially creating an infinite loop. Browsers handle this by skipping observations that were triggered at the same or shallower DOM depth within the same notification delivery.",
+            "ru": "Если коллбек ResizeObserver изменяет размер наблюдаемого элемента (или его предка), это триггерит новое resize-уведомление и потенциально создаёт бесконечный цикл. Браузеры справляются с этим, пропуская наблюдения, сработавшие на той же или меньшей глубине DOM внутри одной доставки уведомлений."
         },
         "options": [
             {
@@ -1081,11 +1085,7 @@
                 "ru": "ResizeObserver срабатывает синхронно во время layout, блокируя render pipeline"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "If a ResizeObserver callback changes the size of an element it is observing (or an ancestor), it triggers another resize notification, potentially creating an infinite loop. Browsers handle this by skipping observations that were triggered at the same or shallower DOM depth within the same notification delivery.",
-            "ru": "Если коллбек ResizeObserver изменяет размер наблюдаемого элемента (или его предка), это триггерит новое resize-уведомление и потенциально создаёт бесконечный цикл. Браузеры справляются с этим, пропуская наблюдения, сработавшие на той же или меньшей глубине DOM внутри одной доставки уведомлений."
-        }
+        "correct": 1
     },
     {
         "id": "browser-multiqueue-001",
@@ -1096,6 +1096,10 @@
         "question": {
             "en": "Which of the following are microtasks in the browser?",
             "ru": "Что из перечисленного является микротасками в браузере?"
+        },
+        "explanation": {
+            "en": "Microtasks include Promise callbacks, queueMicrotask(), and MutationObserver callbacks. setTimeout and setInterval schedule macrotasks (regular tasks). Microtasks are processed after every task before the next task is picked up.",
+            "ru": "К микротаскам относятся коллбеки Promise, queueMicrotask() и MutationObserver. setTimeout и setInterval планируют макротаски (обычные задачи). Микротаски обрабатываются после каждой задачи, прежде чем будет взята следующая."
         },
         "options": [
             {
@@ -1119,11 +1123,7 @@
                 "ru": "Коллбеки MutationObserver"
             }
         ],
-        "correct": [0, 2, 4],
-        "explanation": {
-            "en": "Microtasks include Promise callbacks, queueMicrotask(), and MutationObserver callbacks. setTimeout and setInterval schedule macrotasks (regular tasks). Microtasks are processed after every task before the next task is picked up.",
-            "ru": "К микротаскам относятся коллбеки Promise, queueMicrotask() и MutationObserver. setTimeout и setInterval планируют макротаски (обычные задачи). Микротаски обрабатываются после каждой задачи, прежде чем будет взята следующая."
-        }
+        "correct": [0, 2, 4]
     },
     {
         "id": "browser-multistorage-001",
@@ -1134,6 +1134,10 @@
         "question": {
             "en": "Which storage mechanisms are accessible from a Web Worker?",
             "ru": "Какие механизмы хранения доступны из Web Worker?"
+        },
+        "explanation": {
+            "en": "Web Workers have no access to the DOM, so `document.cookie`, `localStorage`, and `sessionStorage` are not available. IndexedDB and the Cache API (CacheStorage) are accessible from workers, making them suitable for offline-first data management.",
+            "ru": "У Web Workers нет доступа к DOM, поэтому `document.cookie`, `localStorage` и `sessionStorage` недоступны. IndexedDB и Cache API (CacheStorage) доступны из воркеров, что делает их подходящими для offline-first управления данными."
         },
         "options": [
             {
@@ -1157,11 +1161,7 @@
                 "ru": "Cookies через document.cookie"
             }
         ],
-        "correct": [1, 3],
-        "explanation": {
-            "en": "Web Workers have no access to the DOM, so `document.cookie`, `localStorage`, and `sessionStorage` are not available. IndexedDB and the Cache API (CacheStorage) are accessible from workers, making them suitable for offline-first data management.",
-            "ru": "У Web Workers нет доступа к DOM, поэтому `document.cookie`, `localStorage` и `sessionStorage` недоступны. IndexedDB и Cache API (CacheStorage) доступны из воркеров, что делает их подходящими для offline-first управления данными."
-        }
+        "correct": [1, 3]
     },
     {
         "id": "browser-multicors-001",
@@ -1172,6 +1172,10 @@
         "question": {
             "en": "Which of the following conditions trigger a CORS preflight request?",
             "ru": "Какие из следующих условий приводят к CORS preflight-запросу?"
+        },
+        "explanation": {
+            "en": "Preflight is triggered by: non-simple methods (anything other than GET/POST/HEAD), non-simple content types (anything other than application/x-www-form-urlencoded, multipart/form-data, text/plain), or custom request headers. `Authorization`, `Content-Type: application/json`, and `DELETE` all trigger preflight.",
+            "ru": "Preflight запускается: non-simple методами (любыми, кроме GET/POST/HEAD), non-simple content type (любыми, кроме application/x-www-form-urlencoded, multipart/form-data, text/plain) или кастомными заголовками запроса. `Authorization`, `Content-Type: application/json` и `DELETE` — всё это триггерит preflight."
         },
         "options": [
             {
@@ -1195,11 +1199,7 @@
                 "ru": "Установка `Content-Type: text/plain`"
             }
         ],
-        "correct": [0, 2, 3],
-        "explanation": {
-            "en": "Preflight is triggered by: non-simple methods (anything other than GET/POST/HEAD), non-simple content types (anything other than application/x-www-form-urlencoded, multipart/form-data, text/plain), or custom request headers. `Authorization`, `Content-Type: application/json`, and `DELETE` all trigger preflight.",
-            "ru": "Preflight запускается: non-simple методами (любыми, кроме GET/POST/HEAD), non-simple content type (любыми, кроме application/x-www-form-urlencoded, multipart/form-data, text/plain) или кастомными заголовками запроса. `Authorization`, `Content-Type: application/json` и `DELETE` — всё это триггерит preflight."
-        }
+        "correct": [0, 2, 3]
     },
     {
         "id": "browser-multivitals-001",
@@ -1210,6 +1210,10 @@
         "question": {
             "en": "Which of the following are currently considered Core Web Vitals by Google?",
             "ru": "Что из перечисленного сейчас относится к Core Web Vitals по мнению Google?"
+        },
+        "explanation": {
+            "en": "The three Core Web Vitals are LCP (loading), CLS (visual stability), and INP (interactivity — replaced FID in 2024). FCP and TTFB are diagnostic metrics but not Core Web Vitals.",
+            "ru": "Три Core Web Vitals — это LCP (загрузка), CLS (визуальная стабильность) и INP (интерактивность — заменил FID в 2024). FCP и TTFB — диагностические метрики, но не Core Web Vitals."
         },
         "options": [
             {
@@ -1233,11 +1237,7 @@
                 "ru": "Interaction to Next Paint (INP)"
             }
         ],
-        "correct": [1, 3, 4],
-        "explanation": {
-            "en": "The three Core Web Vitals are LCP (loading), CLS (visual stability), and INP (interactivity — replaced FID in 2024). FCP and TTFB are diagnostic metrics but not Core Web Vitals.",
-            "ru": "Три Core Web Vitals — это LCP (загрузка), CLS (визуальная стабильность) и INP (интерактивность — заменил FID в 2024). FCP и TTFB — диагностические метрики, но не Core Web Vitals."
-        }
+        "correct": [1, 3, 4]
     },
     {
         "id": "browser-multihttp-001",
@@ -1248,6 +1248,10 @@
         "question": {
             "en": "Which of the following are features introduced or improved in HTTP/2 versus HTTP/1.1?",
             "ru": "Что из перечисленного появилось или было улучшено в HTTP/2 по сравнению с HTTP/1.1?"
+        },
+        "explanation": {
+            "en": "HTTP/2 introduced: binary framing (replacing text-based HTTP/1.1), multiplexing, HPACK header compression, and server push. UDP-based transport is a feature of HTTP/3 (QUIC), not HTTP/2.",
+            "ru": "HTTP/2 ввёл: binary framing (заменив текстовый HTTP/1.1), мультиплексирование, сжатие заголовков HPACK и server push. Транспорт на базе UDP — это особенность HTTP/3 (QUIC), а не HTTP/2."
         },
         "options": [
             {
@@ -1271,11 +1275,7 @@
                 "ru": "Server push"
             }
         ],
-        "correct": [0, 1, 3, 4],
-        "explanation": {
-            "en": "HTTP/2 introduced: binary framing (replacing text-based HTTP/1.1), multiplexing, HPACK header compression, and server push. UDP-based transport is a feature of HTTP/3 (QUIC), not HTTP/2.",
-            "ru": "HTTP/2 ввёл: binary framing (заменив текстовый HTTP/1.1), мультиплексирование, сжатие заголовков HPACK и server push. Транспорт на базе UDP — это особенность HTTP/3 (QUIC), а не HTTP/2."
-        }
+        "correct": [0, 1, 3, 4]
     },
     {
         "id": "browser-multicrp-001",
@@ -1286,6 +1286,10 @@
         "question": {
             "en": "Which of the following resources are render-blocking by default?",
             "ru": "Какие из следующих ресурсов являются render-blocking по умолчанию?"
+        },
+        "explanation": {
+            "en": "Render-blocking resources: synchronous `<script>` tags (block both parsing and rendering) and `<link rel=\"stylesheet\">` (block rendering until CSSOM is built). `async` scripts don't block rendering. `defer` scripts don't block rendering (execute after parsing). `preload` hints fetch resources without blocking rendering.",
+            "ru": "Render-blocking ресурсы: синхронные теги `<script>` (блокируют и парсинг, и рендеринг) и `<link rel=\"stylesheet\">` (блокирует рендеринг до построения CSSOM). Скрипты с `async` не блокируют рендеринг. Скрипты с `defer` не блокируют рендеринг (выполняются после парсинга). `preload`-подсказки загружают ресурсы, не блокируя рендеринг."
         },
         "options": [
             {
@@ -1309,11 +1313,7 @@
                 "ru": "Тег `<script defer src=\"...\">`"
             }
         ],
-        "correct": [0, 2],
-        "explanation": {
-            "en": "Render-blocking resources: synchronous `<script>` tags (block both parsing and rendering) and `<link rel=\"stylesheet\">` (block rendering until CSSOM is built). `async` scripts don't block rendering. `defer` scripts don't block rendering (execute after parsing). `preload` hints fetch resources without blocking rendering.",
-            "ru": "Render-blocking ресурсы: синхронные теги `<script>` (блокируют и парсинг, и рендеринг) и `<link rel=\"stylesheet\">` (блокирует рендеринг до построения CSSOM). Скрипты с `async` не блокируют рендеринг. Скрипты с `defer` не блокируют рендеринг (выполняются после парсинга). `preload`-подсказки загружают ресурсы, не блокируя рендеринг."
-        }
+        "correct": [0, 2]
     },
     {
         "id": "browser-multiworker-001",
@@ -1324,6 +1324,10 @@
         "question": {
             "en": "Which statements about Service Workers are correct?",
             "ru": "Какие утверждения о Service Workers верны?"
+        },
+        "explanation": {
+            "en": "Service Workers: intercept network requests via `fetch` event, require HTTPS or localhost for security, and persist across sessions (surviving page close). They run in a separate thread with no DOM access. They differ from regular Web Workers in that they are event-driven and have a lifecycle independent of any page.",
+            "ru": "Service Workers перехватывают сетевые запросы через событие `fetch`, требуют HTTPS или localhost из соображений безопасности и сохраняются между сессиями (переживая закрытие страницы). Они работают в отдельном потоке без доступа к DOM. От обычных Web Workers они отличаются тем, что event-driven и имеют жизненный цикл, независимый от любой страницы."
         },
         "options": [
             {
@@ -1347,11 +1351,7 @@
                 "ru": "Service Worker сохраняется между сессиями браузера"
             }
         ],
-        "correct": [0, 2, 4],
-        "explanation": {
-            "en": "Service Workers: intercept network requests via `fetch` event, require HTTPS or localhost for security, and persist across sessions (surviving page close). They run in a separate thread with no DOM access. They differ from regular Web Workers in that they are event-driven and have a lifecycle independent of any page.",
-            "ru": "Service Workers перехватывают сетевые запросы через событие `fetch`, требуют HTTPS или localhost из соображений безопасности и сохраняются между сессиями (переживая закрытие страницы). Они работают в отдельном потоке без доступа к DOM. От обычных Web Workers они отличаются тем, что event-driven и имеют жизненный цикл, независимый от любой страницы."
-        }
+        "correct": [0, 2, 4]
     },
     {
         "id": "browser-multicsp-001",
@@ -1362,6 +1362,10 @@
         "question": {
             "en": "Which CSP directives, if set to `'none'`, prevent all forms of script execution?",
             "ru": "Какие CSP-директивы, будучи выставленными в `'none'`, запрещают любое выполнение скриптов?"
+        },
+        "explanation": {
+            "en": "`script-src 'none'` directly blocks all script loading. `default-src 'none'` acts as a fallback for all fetch directives (including script-src) when more specific directives are absent. `object-src` blocks plugins (Flash etc.), `style-src` blocks CSS, and `connect-src` restricts network requests — none of these prevent JavaScript execution.",
+            "ru": "`script-src 'none'` напрямую блокирует загрузку любых скриптов. `default-src 'none'` служит fallback для всех fetch-директив (включая script-src), когда более специфичные директивы отсутствуют. `object-src` блокирует плагины (Flash и т.п.), `style-src` блокирует CSS, а `connect-src` ограничивает сетевые запросы — ни одна из них не предотвращает выполнение JavaScript."
         },
         "options": [
             {
@@ -1385,11 +1389,7 @@
                 "ru": "connect-src 'none'"
             }
         ],
-        "correct": [0, 1],
-        "explanation": {
-            "en": "`script-src 'none'` directly blocks all script loading. `default-src 'none'` acts as a fallback for all fetch directives (including script-src) when more specific directives are absent. `object-src` blocks plugins (Flash etc.), `style-src` blocks CSS, and `connect-src` restricts network requests — none of these prevent JavaScript execution.",
-            "ru": "`script-src 'none'` напрямую блокирует загрузку любых скриптов. `default-src 'none'` служит fallback для всех fetch-директив (включая script-src), когда более специфичные директивы отсутствуют. `object-src` блокирует плагины (Flash и т.п.), `style-src` блокирует CSS, а `connect-src` ограничивает сетевые запросы — ни одна из них не предотвращает выполнение JavaScript."
-        }
+        "correct": [0, 1]
     },
     {
         "id": "browser-multiio-001",
@@ -1400,6 +1400,10 @@
         "question": {
             "en": "Which statements about the three browser Observer APIs are correct?",
             "ru": "Какие утверждения про три браузерных Observer API корректны?"
+        },
+        "explanation": {
+            "en": "MutationObserver callbacks are microtasks (queued after each task). ResizeObserver callbacks fire in a dedicated step after layout but before paint. All three can observe Shadow DOM elements. IntersectionObserver callbacks are task-queue microtask-adjacent (spec says 'steps to notify intersection observers' runs as a microtask checkpoint). Cross-origin iframe intersection is reported with reduced precision for privacy reasons — the threshold information is limited.",
+            "ru": "Коллбеки MutationObserver — это микротаски (ставятся в очередь после каждой задачи). Коллбеки ResizeObserver срабатывают в отдельном шаге после layout, но до paint. Все три могут отслеживать элементы Shadow DOM. Коллбеки IntersectionObserver близки к микротаскам (по спеке «steps to notify intersection observers» выполняется как microtask checkpoint). Пересечения через cross-origin iframe репортятся с пониженной точностью ради приватности — информация о порогах ограничена."
         },
         "options": [
             {
@@ -1423,11 +1427,7 @@
                 "ru": "IntersectionObserver может отслеживать видимость через cross-origin iframes"
             }
         ],
-        "correct": [0, 2, 3],
-        "explanation": {
-            "en": "MutationObserver callbacks are microtasks (queued after each task). ResizeObserver callbacks fire in a dedicated step after layout but before paint. All three can observe Shadow DOM elements. IntersectionObserver callbacks are task-queue microtask-adjacent (spec says 'steps to notify intersection observers' runs as a microtask checkpoint). Cross-origin iframe intersection is reported with reduced precision for privacy reasons — the threshold information is limited.",
-            "ru": "Коллбеки MutationObserver — это микротаски (ставятся в очередь после каждой задачи). Коллбеки ResizeObserver срабатывают в отдельном шаге после layout, но до paint. Все три могут отслеживать элементы Shadow DOM. Коллбеки IntersectionObserver близки к микротаскам (по спеке «steps to notify intersection observers» выполняется как microtask checkpoint). Пересечения через cross-origin iframe репортятся с пониженной точностью ради приватности — информация о порогах ограничена."
-        }
+        "correct": [0, 2, 3]
     },
     {
         "id": "browser-multirender-001",
@@ -1438,6 +1438,10 @@
         "question": {
             "en": "Which of the following CSS properties or techniques create a new stacking context or compositor layer?",
             "ru": "Какие из следующих CSS-свойств или приёмов создают новый stacking context или compositor layer?"
+        },
+        "explanation": {
+            "en": "New stacking contexts / compositor layers are created by: `opacity < 1`, any `transform`, `will-change: transform`, and CSS `filter`. `position: relative` alone does not create a stacking context — it requires `z-index` to be specified as well.",
+            "ru": "Новый stacking context / compositor layer создают: `opacity < 1`, любой `transform`, `will-change: transform` и CSS `filter`. Один `position: relative` stacking context не создаёт — для этого ещё нужен заданный `z-index`."
         },
         "options": [
             {
@@ -1461,11 +1465,7 @@
                 "ru": "filter: blur(0px)"
             }
         ],
-        "correct": [0, 1, 3, 4],
-        "explanation": {
-            "en": "New stacking contexts / compositor layers are created by: `opacity < 1`, any `transform`, `will-change: transform`, and CSS `filter`. `position: relative` alone does not create a stacking context — it requires `z-index` to be specified as well.",
-            "ru": "Новый stacking context / compositor layer создают: `opacity < 1`, любой `transform`, `will-change: transform` и CSS `filter`. Один `position: relative` stacking context не создаёт — для этого ещё нужен заданный `z-index`."
-        }
+        "correct": [0, 1, 3, 4]
     },
     {
         "id": "browser-bug-raf-001",
@@ -1477,13 +1477,13 @@
             "en": "Find the bug in this animation loop:",
             "ru": "Найдите баг в этом цикле анимации:"
         },
-        "code": "let position = 0;\nfunction animate() {\n  position += 1;\n  document.getElementById('box').style.left = position + 'px';\n  requestAnimationFrame(animate);\n}\nanimate();",
-        "correct": "The animation loop never stops — there is no cancellation mechanism",
-        "referenceAnswer": "The loop calls requestAnimationFrame indefinitely with no stop condition. Fix: store the rAF id with `const id = requestAnimationFrame(animate)` and call `cancelAnimationFrame(id)` when the animation should stop (e.g., when position exceeds a threshold or a stop flag is set).",
         "explanation": {
             "en": "An infinite rAF loop that is never cancelled will run forever, consuming CPU/GPU even when the animation is visually complete. Always store the return value of `requestAnimationFrame` and cancel it with `cancelAnimationFrame` when done.",
             "ru": "Бесконечный rAF-цикл, который никогда не отменяется, будет работать вечно, расходуя CPU/GPU, даже когда анимация визуально завершена. Всегда сохраняйте возвращаемое значение `requestAnimationFrame` и отменяйте его через `cancelAnimationFrame` по завершении."
-        }
+        },
+        "code": "let position = 0;\nfunction animate() {\n  position += 1;\n  document.getElementById('box').style.left = position + 'px';\n  requestAnimationFrame(animate);\n}\nanimate();",
+        "correct": "The animation loop never stops — there is no cancellation mechanism",
+        "referenceAnswer": "The loop calls requestAnimationFrame indefinitely with no stop condition. Fix: store the rAF id with `const id = requestAnimationFrame(animate)` and call `cancelAnimationFrame(id)` when the animation should stop (e.g., when position exceeds a threshold or a stop flag is set)."
     },
     {
         "id": "browser-bug-thrash-001",
@@ -1495,13 +1495,13 @@
             "en": "Identify the performance bug in this code:",
             "ru": "Найдите баг производительности в этом коде:"
         },
-        "code": "const items = document.querySelectorAll('.item');\nfor (let i = 0; i < items.length; i++) {\n  items[i].style.width = items[i].offsetWidth + 10 + 'px';\n}",
-        "correct": "Reading offsetWidth after writing style.width causes forced synchronous layout on every iteration (layout thrashing)",
-        "referenceAnswer": "Interleaving style writes and layout reads forces the browser to recalculate layout on each iteration. Fix: first read all widths into an array, then apply all writes in a second loop. Or use requestAnimationFrame to batch writes.",
         "explanation": {
             "en": "Layout thrashing occurs when layout reads (offsetWidth, getBoundingClientRect, etc.) are interspersed with writes that invalidate the layout. The browser must synchronously flush pending style changes to return accurate measurements.",
             "ru": "Layout thrashing возникает, когда чтения layout (offsetWidth, getBoundingClientRect и т.д.) чередуются с записями, инвалидирующими layout. Браузер вынужден синхронно сбрасывать отложенные изменения стилей, чтобы вернуть точные измерения."
-        }
+        },
+        "code": "const items = document.querySelectorAll('.item');\nfor (let i = 0; i < items.length; i++) {\n  items[i].style.width = items[i].offsetWidth + 10 + 'px';\n}",
+        "correct": "Reading offsetWidth after writing style.width causes forced synchronous layout on every iteration (layout thrashing)",
+        "referenceAnswer": "Interleaving style writes and layout reads forces the browser to recalculate layout on each iteration. Fix: first read all widths into an array, then apply all writes in a second loop. Or use requestAnimationFrame to batch writes."
     },
     {
         "id": "browser-bug-sw-001",
@@ -1513,13 +1513,13 @@
             "en": "Find the bug in this Service Worker fetch handler:",
             "ru": "Найдите баг в этом обработчике fetch у Service Worker:"
         },
-        "code": "self.addEventListener('fetch', (event) => {\n  const cached = caches.match(event.request);\n  if (cached) {\n    event.respondWith(cached);\n  }\n});",
-        "correct": "`caches.match()` returns a Promise, not a value — the truthy check always passes because a Promise is truthy",
-        "referenceAnswer": "caches.match() is async and returns a Promise<Response | undefined>. A Promise object is always truthy, so the if-block always runs but `event.respondWith` receives an unresolved Promise that resolves to undefined. Fix: `event.respondWith(caches.match(event.request).then(r => r || fetch(event.request)))`",
         "explanation": {
             "en": "All Cache API methods are asynchronous. Forgetting to await them is a common Service Worker bug. Always use the Promise directly with `event.respondWith()` rather than trying to unwrap it synchronously.",
             "ru": "Все методы Cache API асинхронны. Забыть await — распространённый баг Service Worker. Всегда передавайте Promise напрямую в `event.respondWith()`, а не пытайтесь раскрыть его синхронно."
-        }
+        },
+        "code": "self.addEventListener('fetch', (event) => {\n  const cached = caches.match(event.request);\n  if (cached) {\n    event.respondWith(cached);\n  }\n});",
+        "correct": "`caches.match()` returns a Promise, not a value — the truthy check always passes because a Promise is truthy",
+        "referenceAnswer": "caches.match() is async and returns a Promise<Response | undefined>. A Promise object is always truthy, so the if-block always runs but `event.respondWith` receives an unresolved Promise that resolves to undefined. Fix: `event.respondWith(caches.match(event.request).then(r => r || fetch(event.request)))`"
     },
     {
         "id": "browser-bug-cors-001",
@@ -1531,13 +1531,13 @@
             "en": "Find the bug in this cross-origin fetch with credentials:",
             "ru": "Найдите баг в этом cross-origin fetch с credentials:"
         },
-        "code": "fetch('https://api.example.com/user', {\n  credentials: 'include'\n});\n\n// Server response headers:\n// Access-Control-Allow-Origin: *\n// Access-Control-Allow-Credentials: true",
-        "correct": "Access-Control-Allow-Origin cannot be a wildcard (*) when credentials are included — it must specify the exact origin",
-        "referenceAnswer": "When `credentials: 'include'` is used, the server must respond with `Access-Control-Allow-Origin: https://your-origin.com` (exact origin, not *) AND `Access-Control-Allow-Credentials: true`. A wildcard origin with credentials is disallowed by the CORS spec.",
         "explanation": {
             "en": "Using a wildcard ACAO with credentials would expose cookies/auth headers to any origin. Browsers enforce this rule strictly — the request will fail with a CORS error even if the server sends both headers.",
             "ru": "Использование wildcard ACAO вместе с credentials раскрыло бы cookies/auth-заголовки любому origin. Браузеры строго соблюдают это правило — запрос упадёт с CORS-ошибкой, даже если сервер отправит оба заголовка."
-        }
+        },
+        "code": "fetch('https://api.example.com/user', {\n  credentials: 'include'\n});\n\n// Server response headers:\n// Access-Control-Allow-Origin: *\n// Access-Control-Allow-Credentials: true",
+        "correct": "Access-Control-Allow-Origin cannot be a wildcard (*) when credentials are included — it must specify the exact origin",
+        "referenceAnswer": "When `credentials: 'include'` is used, the server must respond with `Access-Control-Allow-Origin: https://your-origin.com` (exact origin, not *) AND `Access-Control-Allow-Credentials: true`. A wildcard origin with credentials is disallowed by the CORS spec."
     },
     {
         "id": "browser-bug-localstorage-001",
@@ -1549,13 +1549,13 @@
             "en": "Find the bug in this localStorage usage:",
             "ru": "Найдите баг в этом использовании localStorage:"
         },
-        "code": "function saveUser(user) {\n  localStorage.setItem('user', user);\n}\n\nfunction loadUser() {\n  const user = localStorage.getItem('user');\n  return user;\n}\n\nconst user = { name: 'Alice', age: 30 };\nsaveUser(user);\nconst loaded = loadUser();\nconsole.log(loaded.name); // undefined",
-        "correct": "The user object is stored as `[object Object]` because localStorage only stores strings and the object is not serialized with JSON.stringify",
-        "referenceAnswer": "localStorage only stores strings. Objects must be serialized: `localStorage.setItem('user', JSON.stringify(user))` and deserialized: `JSON.parse(localStorage.getItem('user'))`. Without this, the object is coerced to the string '[object Object]'.",
         "explanation": {
             "en": "All localStorage values are coerced to strings via `.toString()`. Object's default toString is '[object Object]'. Always use JSON.stringify/parse when storing non-primitive values.",
             "ru": "Все значения localStorage приводятся к строке через `.toString()`. По умолчанию toString у Object — это '[object Object]'. Всегда используйте JSON.stringify/parse при хранении непримитивных значений."
-        }
+        },
+        "code": "function saveUser(user) {\n  localStorage.setItem('user', user);\n}\n\nfunction loadUser() {\n  const user = localStorage.getItem('user');\n  return user;\n}\n\nconst user = { name: 'Alice', age: 30 };\nsaveUser(user);\nconst loaded = loadUser();\nconsole.log(loaded.name); // undefined",
+        "correct": "The user object is stored as `[object Object]` because localStorage only stores strings and the object is not serialized with JSON.stringify",
+        "referenceAnswer": "localStorage only stores strings. Objects must be serialized: `localStorage.setItem('user', JSON.stringify(user))` and deserialized: `JSON.parse(localStorage.getItem('user'))`. Without this, the object is coerced to the string '[object Object]'."
     },
     {
         "id": "browser-bug-gc-001",
@@ -1567,13 +1567,13 @@
             "en": "Find the memory leak in this code:",
             "ru": "Найдите утечку памяти в этом коде:"
         },
-        "code": "class DataComponent {\n  constructor(element) {\n    this.element = element;\n    this.data = new Array(100000).fill('data');\n    this.element.addEventListener('click', this.handleClick.bind(this));\n  }\n\n  handleClick() {\n    console.log('clicked', this.data.length);\n  }\n\n  destroy() {\n    this.element = null;\n    this.data = null;\n  }\n}",
-        "correct": "The event listener created with .bind(this) is never removed, keeping the DataComponent instance and its large data array alive",
-        "referenceAnswer": "`.bind(this)` creates a new function reference each time, so it cannot be removed with `removeEventListener` using a new `.bind()` call. Fix: store the bound handler: `this.boundHandler = this.handleClick.bind(this)` in the constructor, add it with that reference, and in `destroy()` call `this.element.removeEventListener('click', this.boundHandler)`.",
         "explanation": {
             "en": "Event listeners hold a reference to their callback, and the callback (created with bind) holds a reference to `this` (the component). Even after `destroy()` nulls the properties, the listener on the DOM element keeps the component alive in memory.",
             "ru": "Обработчики событий держат ссылку на свой коллбек, а коллбек (созданный через bind) — ссылку на `this` (компонент). Даже после того как `destroy()` обнуляет свойства, listener на DOM-элементе удерживает компонент в памяти."
-        }
+        },
+        "code": "class DataComponent {\n  constructor(element) {\n    this.element = element;\n    this.data = new Array(100000).fill('data');\n    this.element.addEventListener('click', this.handleClick.bind(this));\n  }\n\n  handleClick() {\n    console.log('clicked', this.data.length);\n  }\n\n  destroy() {\n    this.element = null;\n    this.data = null;\n  }\n}",
+        "correct": "The event listener created with .bind(this) is never removed, keeping the DataComponent instance and its large data array alive",
+        "referenceAnswer": "`.bind(this)` creates a new function reference each time, so it cannot be removed with `removeEventListener` using a new `.bind()` call. Fix: store the bound handler: `this.boundHandler = this.handleClick.bind(this)` in the constructor, add it with that reference, and in `destroy()` call `this.element.removeEventListener('click', this.boundHandler)`."
     },
     {
         "id": "browser-bug-idb-001",
@@ -1585,13 +1585,13 @@
             "en": "Find the bug in this IndexedDB transaction:",
             "ru": "Найдите баг в этой IndexedDB-транзакции:"
         },
-        "code": "async function saveData(db, key, value) {\n  const tx = db.transaction('store', 'readwrite');\n  const store = tx.objectStore('store');\n  store.put(value, key);\n  await new Promise(resolve => setTimeout(resolve, 0));\n  store.put({ extra: true }, 'extra-key');\n}",
-        "correct": "The await causes the IndexedDB transaction to auto-commit before the second store.put() call",
-        "referenceAnswer": "IndexedDB transactions auto-commit when there are no pending requests AND control returns to the event loop. `await setTimeout(resolve, 0)` yields to the event loop, triggering auto-commit. The second `store.put()` will throw a TransactionInactiveError. Fix: issue both put() requests before any await, or listen to the tx.oncomplete event.",
         "explanation": {
             "en": "IndexedDB's transaction lifetime is tied to the event loop — any async gap (including awaiting microtasks that yield to the event loop) can cause auto-commit. All IDB requests within a transaction must be made synchronously within the transaction's callbacks.",
             "ru": "Время жизни IndexedDB-транзакции привязано к event loop — любой асинхронный разрыв (включая await микротасков, уступающих event loop) может привести к auto-commit. Все IDB-запросы в рамках транзакции должны делаться синхронно внутри её коллбеков."
-        }
+        },
+        "code": "async function saveData(db, key, value) {\n  const tx = db.transaction('store', 'readwrite');\n  const store = tx.objectStore('store');\n  store.put(value, key);\n  await new Promise(resolve => setTimeout(resolve, 0));\n  store.put({ extra: true }, 'extra-key');\n}",
+        "correct": "The await causes the IndexedDB transaction to auto-commit before the second store.put() call",
+        "referenceAnswer": "IndexedDB transactions auto-commit when there are no pending requests AND control returns to the event loop. `await setTimeout(resolve, 0)` yields to the event loop, triggering auto-commit. The second `store.put()` will throw a TransactionInactiveError. Fix: issue both put() requests before any await, or listen to the tx.oncomplete event."
     },
     {
         "id": "browser-cc-eventloop-001",
@@ -1603,14 +1603,14 @@
             "en": "Complete the code so that the microtask fires after the synchronous code but before the setTimeout:",
             "ru": "Дополните код так, чтобы микротаск сработал после синхронного кода, но до setTimeout:"
         },
-        "code": "console.log('start');\n\n___(___).then(() => console.log('microtask'));\n\nsetTimeout(() => console.log('macrotask'), 0);\n\nconsole.log('end');\n// Output: start → end → microtask → macrotask",
-        "blanks": ["Promise", "resolve()"],
-        "lang": "javascript",
-        "referenceAnswer": "Promise.resolve() creates an already-resolved Promise. Its .then() callback is queued as a microtask, which runs after the synchronous code ('start', 'end') and before the setTimeout macrotask.",
         "explanation": {
             "en": "Microtasks (Promise callbacks) are processed after each task's synchronous code completes, before the next macrotask. This is why microtask fires between 'end' and 'macrotask'.",
             "ru": "Микротаски (коллбеки Promise) обрабатываются после завершения синхронного кода каждой задачи, до следующего макротаска. Поэтому микротаск срабатывает между 'end' и 'macrotask'."
-        }
+        },
+        "code": "console.log('start');\n\n__BLANK__(__BLANK__).then(() => console.log('microtask'));\n\nsetTimeout(() => console.log('macrotask'), 0);\n\nconsole.log('end');\n// Output: start → end → microtask → macrotask",
+        "blanks": ["Promise", "resolve()"],
+        "lang": "javascript",
+        "referenceAnswer": "Promise.resolve() creates an already-resolved Promise. Its .then() callback is queued as a microtask, which runs after the synchronous code ('start', 'end') and before the setTimeout macrotask."
     },
     {
         "id": "browser-cc-observer-001",
@@ -1622,14 +1622,14 @@
             "en": "Complete the IntersectionObserver setup for lazy-loading images:",
             "ru": "Дополните настройку IntersectionObserver для lazy-загрузки изображений:"
         },
-        "code": "const observer = new ___(([entry]) => {\n  if (entry.___) {\n    entry.target.src = entry.target.dataset.src;\n    observer.unobserve(entry.target);\n  }\n}, { threshold: 0.1 });\n\ndocument.querySelectorAll('img[data-src]').forEach(img => {\n  observer.___(img);\n});",
-        "blanks": ["IntersectionObserver", "isIntersecting", "observe"],
-        "lang": "javascript",
-        "referenceAnswer": "IntersectionObserver constructor takes a callback and options. `entry.isIntersecting` is true when the element enters the viewport. `observer.observe(img)` registers each image for observation.",
         "explanation": {
             "en": "The IntersectionObserver API provides an efficient way to detect when elements enter/leave the viewport without scroll event listeners. `unobserve` stops observing the element after its image has loaded.",
             "ru": "API IntersectionObserver даёт эффективный способ определять, когда элементы входят во viewport или покидают его, без обработчиков события scroll. `unobserve` прекращает наблюдение за элементом после того, как его изображение загрузилось."
-        }
+        },
+        "code": "const observer = new __BLANK__(([entry]) => {\n  if (entry.__BLANK__) {\n    entry.target.src = entry.target.dataset.src;\n    observer.unobserve(entry.target);\n  }\n}, { threshold: 0.1 });\n\ndocument.querySelectorAll('img[data-src]').forEach(img => {\n  observer.__BLANK__(img);\n});",
+        "blanks": ["IntersectionObserver", "isIntersecting", "observe"],
+        "lang": "javascript",
+        "referenceAnswer": "IntersectionObserver constructor takes a callback and options. `entry.isIntersecting` is true when the element enters the viewport. `observer.observe(img)` registers each image for observation."
     },
     {
         "id": "browser-cc-sw-cache-001",
@@ -1641,14 +1641,14 @@
             "en": "Complete the Service Worker install handler to pre-cache a list of assets:",
             "ru": "Дополните обработчик install в Service Worker для прекэширования списка ассетов:"
         },
-        "code": "const CACHE_NAME = 'v1';\nconst ASSETS = ['/', '/index.html', '/app.js'];\n\nself.addEventListener('install', (event) => {\n  event.___(\n    caches.___(CACHE_NAME).then(cache => cache.___(ASSETS))\n  );\n});",
-        "blanks": ["waitUntil", "open", "addAll"],
-        "lang": "javascript",
-        "referenceAnswer": "event.waitUntil() extends the install lifetime until the promise resolves. caches.open() returns a Cache instance. cache.addAll() fetches and stores all assets atomically — if any request fails, the entire addAll rejects.",
         "explanation": {
             "en": "During the install phase, `event.waitUntil()` prevents the SW from activating until pre-caching completes. `cache.addAll()` is atomic: all resources must succeed or the install fails.",
             "ru": "Во время фазы install `event.waitUntil()` не даёт SW активироваться, пока прекэширование не завершится. `cache.addAll()` атомарен: все ресурсы должны успешно загрузиться, иначе install упадёт."
-        }
+        },
+        "code": "const CACHE_NAME = 'v1';\nconst ASSETS = ['/', '/index.html', '/app.js'];\n\nself.addEventListener('install', (event) => {\n  event.__BLANK__(\n    caches.__BLANK__(CACHE_NAME).then(cache => cache.__BLANK__(ASSETS))\n  );\n});",
+        "blanks": ["waitUntil", "open", "addAll"],
+        "lang": "javascript",
+        "referenceAnswer": "event.waitUntil() extends the install lifetime until the promise resolves. caches.open() returns a Cache instance. cache.addAll() fetches and stores all assets atomically — if any request fails, the entire addAll rejects."
     },
     {
         "id": "browser-cc-idb-001",
@@ -1660,14 +1660,14 @@
             "en": "Complete the IndexedDB open and schema upgrade:",
             "ru": "Дополните открытие IndexedDB и апгрейд схемы:"
         },
-        "code": "const dbPromise = new ___(\"mydb\", 1);\ndbPromise.___ = (event) => {\n  const db = event.target.result;\n  db.___('users', { keyPath: 'id', autoIncrement: true });\n};",
-        "blanks": ["IDBOpenDBRequest", "onupgradeneeded", "createObjectStore"],
-        "lang": "javascript",
-        "referenceAnswer": "IDBOpenDBRequest is returned by indexedDB.open(). The onupgradeneeded event fires when the database is first created or the version increases. createObjectStore creates a new object store with the specified key path.",
         "explanation": {
             "en": "IndexedDB schema changes (creating/deleting stores and indexes) must happen inside the `onupgradeneeded` callback. This is the only place where structural changes to the database are permitted.",
             "ru": "Изменения схемы IndexedDB (создание/удаление object stores и индексов) должны выполняться внутри коллбека `onupgradeneeded`. Это единственное место, где разрешены структурные изменения базы."
-        }
+        },
+        "code": "const dbPromise = new __BLANK__(\"mydb\", 1);\ndbPromise.__BLANK__ = (event) => {\n  const db = event.target.result;\n  db.__BLANK__('users', { keyPath: 'id', autoIncrement: true });\n};",
+        "blanks": ["IDBOpenDBRequest", "onupgradeneeded", "createObjectStore"],
+        "lang": "javascript",
+        "referenceAnswer": "IDBOpenDBRequest is returned by indexedDB.open(). The onupgradeneeded event fires when the database is first created or the version increases. createObjectStore creates a new object store with the specified key path."
     },
     {
         "id": "browser-cc-mo-001",
@@ -1679,14 +1679,14 @@
             "en": "Complete the MutationObserver that watches for added child nodes:",
             "ru": "Дополните MutationObserver, отслеживающий добавление дочерних узлов:"
         },
-        "code": "const observer = new ___(mutations => {\n  mutations.forEach(mutation => {\n    if (mutation.___ === 'childList') {\n      mutation.___.forEach(node => console.log('Added:', node));\n    }\n  });\n});\n\nobserver.observe(document.body, { ___: true });",
-        "blanks": ["MutationObserver", "type", "addedNodes", "childList"],
-        "lang": "javascript",
-        "referenceAnswer": "MutationObserver constructor takes a callback receiving a MutationRecord array. `mutation.type === 'childList'` checks for DOM insertions/removals. `mutation.addedNodes` is a NodeList of inserted nodes. The `{ childList: true }` option enables child node observation.",
         "explanation": {
             "en": "MutationObserver is the modern replacement for the deprecated Mutation Events. The observe() options object must include `childList: true` to receive notifications about child node additions and removals.",
             "ru": "MutationObserver — современная замена устаревшим Mutation Events. В объекте опций observe() должно быть `childList: true`, чтобы получать уведомления о добавлении и удалении дочерних узлов."
-        }
+        },
+        "code": "const observer = new __BLANK__(mutations => {\n  mutations.forEach(mutation => {\n    if (mutation.__BLANK__ === 'childList') {\n      mutation.__BLANK__.forEach(node => console.log('Added:', node));\n    }\n  });\n});\n\nobserver.observe(document.body, { __BLANK__: true });",
+        "blanks": ["MutationObserver", "type", "addedNodes", "childList"],
+        "lang": "javascript",
+        "referenceAnswer": "MutationObserver constructor takes a callback receiving a MutationRecord array. `mutation.type === 'childList'` checks for DOM insertions/removals. `mutation.addedNodes` is a NodeList of inserted nodes. The `{ childList: true }` option enables child node observation."
     },
     {
         "id": "browser-cc-perf-001",
@@ -1698,14 +1698,14 @@
             "en": "Complete the User Timing API usage to measure a critical operation:",
             "ru": "Дополните использование User Timing API для измерения критической операции:"
         },
-        "code": "performance.___('operation-start');\n\n// ... expensive operation ...\n\nperformance.___('operation-end');\n\nconst [measure] = performance.___(\n  'operation-duration',\n  'operation-start',\n  'operation-end'\n);\nconsole.log(measure.duration + 'ms');",
-        "blanks": ["mark", "mark", "getEntriesByName"],
-        "lang": "javascript",
-        "referenceAnswer": "performance.mark() creates a named timestamp. performance.measure() calculates the duration between two marks. performance.getEntriesByName() retrieves the PerformanceEntry for the measure. Alternatively, performance.measure() returns the entry directly in modern browsers.",
         "explanation": {
             "en": "The User Timing API (performance.mark/measure) integrates with browser DevTools performance timelines and PerformanceObserver, making it far more useful than console.time() for production performance monitoring.",
             "ru": "User Timing API (performance.mark/measure) интегрируется с performance timelines в DevTools браузера и с PerformanceObserver, что делает его гораздо полезнее console.time() для продакшен-мониторинга производительности."
-        }
+        },
+        "code": "performance.__BLANK__('operation-start');\n\n// ... expensive operation ...\n\nperformance.__BLANK__('operation-end');\n\nconst [measure] = performance.__BLANK__(\n  'operation-duration',\n  'operation-start',\n  'operation-end'\n);\nconsole.log(measure.duration + 'ms');",
+        "blanks": ["mark", "mark", "getEntriesByName"],
+        "lang": "javascript",
+        "referenceAnswer": "performance.mark() creates a named timestamp. performance.measure() calculates the duration between two marks. performance.getEntriesByName() retrieves the PerformanceEntry for the measure. Alternatively, performance.measure() returns the entry directly in modern browsers."
     },
     {
         "id": "browser-cc-raf-001",
@@ -1717,13 +1717,13 @@
             "en": "Complete the scroll-linked animation using requestAnimationFrame to avoid layout thrashing:",
             "ru": "Дополните scroll-зависимую анимацию с использованием requestAnimationFrame, чтобы избежать layout thrashing:"
         },
-        "code": "let rafId = null;\nlet scrollY = 0;\n\nwindow.addEventListener('scroll', () => {\n  scrollY = window.scrollY;\n  if (!rafId) {\n    rafId = ___(updatePosition);\n  }\n});\n\nfunction updatePosition() {\n  element.style.transform = `translateY(${scrollY * 0.5}px)`;\n  ___ = null;\n}",
-        "blanks": ["requestAnimationFrame", "rafId"],
-        "lang": "javascript",
-        "referenceAnswer": "requestAnimationFrame schedules updatePosition to run before the next paint. The `if (!rafId)` guard prevents scheduling multiple rAF callbacks per frame. Setting rafId to null after execution allows the next scroll event to schedule a new rAF.",
         "explanation": {
             "en": "This pattern debounces scroll events to the display refresh rate. Only one rAF is queued per frame, and the latest scrollY value is always used. This prevents layout thrashing by separating scroll reads from style writes.",
             "ru": "Этот паттерн дебаунсит scroll-события до частоты обновления дисплея. На кадр стоит в очереди только один rAF, и всегда используется самое свежее значение scrollY. Это предотвращает layout thrashing, разделяя чтения скролла и записи стилей."
-        }
+        },
+        "code": "let rafId = null;\nlet scrollY = 0;\n\nwindow.addEventListener('scroll', () => {\n  scrollY = window.scrollY;\n  if (!rafId) {\n    rafId = __BLANK__(updatePosition);\n  }\n});\n\nfunction updatePosition() {\n  element.style.transform = `translateY(${scrollY * 0.5}px)`;\n  __BLANK__ = null;\n}",
+        "blanks": ["requestAnimationFrame", "rafId"],
+        "lang": "javascript",
+        "referenceAnswer": "requestAnimationFrame schedules updatePosition to run before the next paint. The `if (!rafId)` guard prevents scheduling multiple rAF callbacks per frame. Setting rafId to null after execution allows the next scroll event to schedule a new rAF."
     }
 ]

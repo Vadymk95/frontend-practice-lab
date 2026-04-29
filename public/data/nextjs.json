@@ -9,6 +9,10 @@
             "en": "In Next.js 13+, which directory activates the **App Router**?",
             "ru": "В Next.js 13+ какая директория активирует **App Router**?"
         },
+        "explanation": {
+            "en": "The App Router introduced in Next.js 13 lives in the `app/` directory and supports React Server Components, nested layouts, and new file conventions (`layout.tsx`, `loading.tsx`, `error.tsx`, etc.). The legacy `pages/` directory continues to work as the Pages Router and both can coexist during migration.",
+            "ru": "App Router, появившийся в Next.js 13, располагается в директории `app/` и поддерживает React Server Components, вложенные layout'ы и новые файловые конвенции (`layout.tsx`, `loading.tsx`, `error.tsx` и т.д.). Legacy-директория `pages/` продолжает работать как Pages Router, и обе могут сосуществовать в период миграции."
+        },
         "options": [
             {
                 "en": "The `pages/` directory",
@@ -27,11 +31,7 @@
                 "ru": "Директория `src/router/`"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "The App Router introduced in Next.js 13 lives in the `app/` directory and supports React Server Components, nested layouts, and new file conventions (`layout.tsx`, `loading.tsx`, `error.tsx`, etc.). The legacy `pages/` directory continues to work as the Pages Router and both can coexist during migration.",
-            "ru": "App Router, появившийся в Next.js 13, располагается в директории `app/` и поддерживает React Server Components, вложенные layout'ы и новые файловые конвенции (`layout.tsx`, `loading.tsx`, `error.tsx` и т.д.). Legacy-директория `pages/` продолжает работать как Pages Router, и обе могут сосуществовать в период миграции."
-        }
+        "correct": 1
     },
     {
         "id": "next-server-components-001",
@@ -42,6 +42,10 @@
         "question": {
             "en": "In the Next.js App Router, what is the **default** rendering mode for a component inside the `app/` directory?",
             "ru": "Какой режим рендеринга **по умолчанию** используется для компонента внутри директории `app/` в Next.js App Router?"
+        },
+        "explanation": {
+            "en": "All components in the `app/` directory are Server Components by default. They render on the server, have zero JavaScript sent to the client, and can directly access server-side resources. To opt into client-side rendering add the `'use client'` directive at the top of the file.",
+            "ru": "Все компоненты в директории `app/` по умолчанию являются Server Components. Они рендерятся на сервере, не отправляют JavaScript на клиент и могут напрямую обращаться к серверным ресурсам. Чтобы перейти на клиентский рендеринг, добавьте директиву `'use client'` в начале файла."
         },
         "options": [
             {
@@ -61,11 +65,7 @@
                 "ru": "Hybrid Component"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "All components in the `app/` directory are Server Components by default. They render on the server, have zero JavaScript sent to the client, and can directly access server-side resources. To opt into client-side rendering add the `'use client'` directive at the top of the file.",
-            "ru": "Все компоненты в директории `app/` по умолчанию являются Server Components. Они рендерятся на сервере, не отправляют JavaScript на клиент и могут напрямую обращаться к серверным ресурсам. Чтобы перейти на клиентский рендеринг, добавьте директиву `'use client'` в начале файла."
-        }
+        "correct": 1
     },
     {
         "id": "next-use-client-001",
@@ -76,6 +76,10 @@
         "question": {
             "en": "What does the `'use client'` directive do when placed at the top of a Next.js file?",
             "ru": "Что делает директива `'use client'`, размещённая в начале файла Next.js?"
+        },
+        "explanation": {
+            "en": "`'use client'` creates a client boundary. The component file and everything it imports (unless those files also have `'use server'`) become Client Components bundled for the browser. They can use browser APIs, `useState`, `useEffect`, and event handlers. The directive must be at the very top of the file, before any imports.",
+            "ru": "`'use client'` создаёт клиентскую границу. Файл компонента и всё, что он импортирует (если только в этих файлах не указано `'use server'`), становятся Client Components и попадают в браузерный бандл. В них можно использовать браузерные API, `useState`, `useEffect` и обработчики событий. Директива должна стоять в самом начале файла, до любых импортов."
         },
         "options": [
             {
@@ -95,11 +99,7 @@
                 "ru": "Говорит Next.js загружать данные на клиенте, а не на сервере"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "`'use client'` creates a client boundary. The component file and everything it imports (unless those files also have `'use server'`) become Client Components bundled for the browser. They can use browser APIs, `useState`, `useEffect`, and event handlers. The directive must be at the very top of the file, before any imports.",
-            "ru": "`'use client'` создаёт клиентскую границу. Файл компонента и всё, что он импортирует (если только в этих файлах не указано `'use server'`), становятся Client Components и попадают в браузерный бандл. В них можно использовать браузерные API, `useState`, `useEffect` и обработчики событий. Директива должна стоять в самом начале файла, до любых импортов."
-        }
+        "correct": 1
     },
     {
         "id": "next-file-conventions-001",
@@ -110,6 +110,10 @@
         "question": {
             "en": "What is the role of `layout.tsx` in the Next.js App Router?",
             "ru": "Какова роль `layout.tsx` в Next.js App Router?"
+        },
+        "explanation": {
+            "en": "`layout.tsx` exports a React component that wraps the `{children}` of its route segment. Layouts persist across navigations within their segment — they do not re-mount when a child route changes, preserving state and avoiding layout shift. The root `app/layout.tsx` must include `<html>` and `<body>` tags.",
+            "ru": "`layout.tsx` экспортирует React-компонент, который оборачивает `{children}` своего route-сегмента. Layout'ы сохраняются при навигации внутри своего сегмента — они не перемонтируются при смене дочернего маршрута, сохраняя состояние и избегая layout shift. Корневой `app/layout.tsx` обязан содержать теги `<html>` и `<body>`."
         },
         "options": [
             {
@@ -129,11 +133,7 @@
                 "ru": "Настраивает интервалы ISR-ревалидации для сегмента"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "`layout.tsx` exports a React component that wraps the `{children}` of its route segment. Layouts persist across navigations within their segment — they do not re-mount when a child route changes, preserving state and avoiding layout shift. The root `app/layout.tsx` must include `<html>` and `<body>` tags.",
-            "ru": "`layout.tsx` экспортирует React-компонент, который оборачивает `{children}` своего route-сегмента. Layout'ы сохраняются при навигации внутри своего сегмента — они не перемонтируются при смене дочернего маршрута, сохраняя состояние и избегая layout shift. Корневой `app/layout.tsx` обязан содержать теги `<html>` и `<body>`."
-        }
+        "correct": 1
     },
     {
         "id": "next-file-conventions-002",
@@ -144,6 +144,10 @@
         "question": {
             "en": "What does a `loading.tsx` file do in the App Router?",
             "ru": "Что делает файл `loading.tsx` в App Router?"
+        },
+        "explanation": {
+            "en": "Next.js automatically wraps a route segment's `page.tsx` (and nested layouts) in a `<Suspense>` boundary and uses the `loading.tsx` export as the `fallback`. This enables instant loading states on navigation without manually managing Suspense boundaries. The loading UI appears immediately while the page's async data fetching completes.",
+            "ru": "Next.js автоматически оборачивает `page.tsx` сегмента (и вложенные layout'ы) в `<Suspense>`-границу и использует экспорт `loading.tsx` в качестве `fallback`. Это даёт мгновенные состояния загрузки при навигации без ручного управления Suspense-границами. Loading UI появляется сразу, пока идёт асинхронная загрузка данных страницы."
         },
         "options": [
             {
@@ -163,11 +167,7 @@
                 "ru": "Задаёт спиннер загрузки, который заменяет глобальный layout"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Next.js automatically wraps a route segment's `page.tsx` (and nested layouts) in a `<Suspense>` boundary and uses the `loading.tsx` export as the `fallback`. This enables instant loading states on navigation without manually managing Suspense boundaries. The loading UI appears immediately while the page's async data fetching completes.",
-            "ru": "Next.js автоматически оборачивает `page.tsx` сегмента (и вложенные layout'ы) в `<Suspense>`-границу и использует экспорт `loading.tsx` в качестве `fallback`. Это даёт мгновенные состояния загрузки при навигации без ручного управления Suspense-границами. Loading UI появляется сразу, пока идёт асинхронная загрузка данных страницы."
-        }
+        "correct": 1
     },
     {
         "id": "next-dynamic-routes-001",
@@ -178,6 +178,10 @@
         "question": {
             "en": "How do you create a dynamic route segment for a product page at `/products/[id]` in the App Router?",
             "ru": "Как создать динамический route-сегмент для страницы продукта по пути `/products/[id]` в App Router?"
+        },
+        "explanation": {
+            "en": "In the App Router, folder names wrapped in `[squareBrackets]` create dynamic segments. A file at `app/products/[id]/page.tsx` matches `/products/123`, `/products/abc`, etc. The `id` segment value is accessible via the `params` prop: `export default function Page({ params }: { params: { id: string } })`.",
+            "ru": "В App Router имена папок в `[квадратныхСкобках]` создают динамические сегменты. Файл `app/products/[id]/page.tsx` матчит `/products/123`, `/products/abc` и т.д. Значение сегмента `id` доступно через проп `params`: `export default function Page({ params }: { params: { id: string } })`."
         },
         "options": [
             {
@@ -197,11 +201,7 @@
                 "ru": "Создать `app/products/dynamic.tsx` и экспортировать `getServerSideProps`"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "In the App Router, folder names wrapped in `[squareBrackets]` create dynamic segments. A file at `app/products/[id]/page.tsx` matches `/products/123`, `/products/abc`, etc. The `id` segment value is accessible via the `params` prop: `export default function Page({ params }: { params: { id: string } })`.",
-            "ru": "В App Router имена папок в `[квадратныхСкобках]` создают динамические сегменты. Файл `app/products/[id]/page.tsx` матчит `/products/123`, `/products/abc` и т.д. Значение сегмента `id` доступно через проп `params`: `export default function Page({ params }: { params: { id: string } })`."
-        }
+        "correct": 1
     },
     {
         "id": "next-metadata-001",
@@ -212,6 +212,10 @@
         "question": {
             "en": "How do you set page `<title>` and `<meta description>` in the App Router?",
             "ru": "Как задать `<title>` страницы и `<meta description>` в App Router?"
+        },
+        "explanation": {
+            "en": "The App Router introduces the Metadata API. Exporting `export const metadata: Metadata = { title: '...', description: '...' }` from a page or layout statically sets the head tags. For dynamic metadata (e.g. based on params), export `async function generateMetadata({ params })` instead. `next/head` is a Pages Router API and does not work inside the `app/` directory.",
+            "ru": "App Router вводит Metadata API. Экспорт `export const metadata: Metadata = { title: '...', description: '...' }` из страницы или layout'а статически задаёт теги в head. Для динамической метаинформации (например, на основе `params`) экспортируйте `async function generateMetadata({ params })`. `next/head` — это API Pages Router и внутри директории `app/` не работает."
         },
         "options": [
             {
@@ -231,11 +235,7 @@
                 "ru": "Настроить заголовки в `next.config.js` под ключом `metadata`"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "The App Router introduces the Metadata API. Exporting `export const metadata: Metadata = { title: '...', description: '...' }` from a page or layout statically sets the head tags. For dynamic metadata (e.g. based on params), export `async function generateMetadata({ params })` instead. `next/head` is a Pages Router API and does not work inside the `app/` directory.",
-            "ru": "App Router вводит Metadata API. Экспорт `export const metadata: Metadata = { title: '...', description: '...' }` из страницы или layout'а статически задаёт теги в head. Для динамической метаинформации (например, на основе `params`) экспортируйте `async function generateMetadata({ params })`. `next/head` — это API Pages Router и внутри директории `app/` не работает."
-        }
+        "correct": 1
     },
     {
         "id": "next-image-001",
@@ -246,6 +246,10 @@
         "question": {
             "en": "What is the main advantage of using `next/image` over a plain `<img>` tag?",
             "ru": "В чём главное преимущество `next/image` по сравнению с обычным тегом `<img>`?"
+        },
+        "explanation": {
+            "en": "The `<Image>` component from `next/image` provides: automatic resizing to the requested display size, format conversion to modern formats (WebP, AVIF), lazy loading by default, placeholder blur support, and enforced `width`/`height` to prevent Cumulative Layout Shift. Remote images require the hostname to be whitelisted in `next.config.js` under `images.remotePatterns`.",
+            "ru": "Компонент `<Image>` из `next/image` обеспечивает: автоматический ресайз до запрошенного размера отображения, конвертацию в современные форматы (WebP, AVIF), ленивую загрузку по умолчанию, поддержку blur-плейсхолдеров и обязательные `width`/`height` для предотвращения Cumulative Layout Shift. Для удалённых изображений хост нужно внести в whitelist в `next.config.js` под `images.remotePatterns`."
         },
         "options": [
             {
@@ -265,11 +269,7 @@
                 "ru": "Работает только с локальными изображениями, но не с удалёнными URL"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "The `<Image>` component from `next/image` provides: automatic resizing to the requested display size, format conversion to modern formats (WebP, AVIF), lazy loading by default, placeholder blur support, and enforced `width`/`height` to prevent Cumulative Layout Shift. Remote images require the hostname to be whitelisted in `next.config.js` under `images.remotePatterns`.",
-            "ru": "Компонент `<Image>` из `next/image` обеспечивает: автоматический ресайз до запрошенного размера отображения, конвертацию в современные форматы (WebP, AVIF), ленивую загрузку по умолчанию, поддержку blur-плейсхолдеров и обязательные `width`/`height` для предотвращения Cumulative Layout Shift. Для удалённых изображений хост нужно внести в whitelist в `next.config.js` под `images.remotePatterns`."
-        }
+        "correct": 1
     },
     {
         "id": "next-link-001",
@@ -280,6 +280,10 @@
         "question": {
             "en": "What does `next/link` do that a plain HTML `<a>` tag does not?",
             "ru": "Что делает `next/link` такого, чего не делает обычный HTML-тег `<a>`?"
+        },
+        "explanation": {
+            "en": "`<Link href=\"/about\">` intercepts clicks and performs client-side navigation using the React Router layer built into Next.js, avoiding a full page reload. When a `<Link>` enters the viewport, Next.js automatically prefetches the linked page's code and data in the background, making navigation near-instant. In Next.js 13+ the `<a>` child tag is no longer required.",
+            "ru": "`<Link href=\"/about\">` перехватывает клики и выполняет клиентскую навигацию через встроенный в Next.js роутер, избегая полной перезагрузки страницы. Когда `<Link>` попадает во viewport, Next.js автоматически префетчит код и данные связанной страницы в фоне, делая навигацию почти мгновенной. В Next.js 13+ вложенный тег `<a>` больше не требуется."
         },
         "options": [
             {
@@ -299,11 +303,7 @@
                 "ru": "Не даёт браузеру перейти по ссылке, если JavaScript отключён"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "`<Link href=\"/about\">` intercepts clicks and performs client-side navigation using the React Router layer built into Next.js, avoiding a full page reload. When a `<Link>` enters the viewport, Next.js automatically prefetches the linked page's code and data in the background, making navigation near-instant. In Next.js 13+ the `<a>` child tag is no longer required.",
-            "ru": "`<Link href=\"/about\">` перехватывает клики и выполняет клиентскую навигацию через встроенный в Next.js роутер, избегая полной перезагрузки страницы. Когда `<Link>` попадает во viewport, Next.js автоматически префетчит код и данные связанной страницы в фоне, делая навигацию почти мгновенной. В Next.js 13+ вложенный тег `<a>` больше не требуется."
-        }
+        "correct": 1
     },
     {
         "id": "next-env-vars-001",
@@ -314,6 +314,10 @@
         "question": {
             "en": "How do you expose an environment variable to the **browser** in a Next.js project?",
             "ru": "Как сделать переменную окружения доступной в **браузере** в проекте на Next.js?"
+        },
+        "explanation": {
+            "en": "Variables in `.env*` files are only available server-side by default. Prefixing a variable with `NEXT_PUBLIC_` tells Next.js to inline it into the client bundle at build time. Variables WITHOUT this prefix remain server-only and accessing them in Client Component code returns `undefined`. Never put secrets in `NEXT_PUBLIC_` variables.",
+            "ru": "Переменные из файлов `.env*` по умолчанию доступны только на сервере. Префикс `NEXT_PUBLIC_` говорит Next.js инлайнить переменную в клиентский бандл на этапе сборки. Переменные БЕЗ этого префикса остаются серверными, и обращение к ним из кода Client Component возвращает `undefined`. Никогда не храните секреты в `NEXT_PUBLIC_`-переменных."
         },
         "options": [
             {
@@ -333,11 +337,7 @@
                 "ru": "Объявить её под ключом `clientEnv` в `next.config.js`"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Variables in `.env*` files are only available server-side by default. Prefixing a variable with `NEXT_PUBLIC_` tells Next.js to inline it into the client bundle at build time. Variables WITHOUT this prefix remain server-only and accessing them in Client Component code returns `undefined`. Never put secrets in `NEXT_PUBLIC_` variables.",
-            "ru": "Переменные из файлов `.env*` по умолчанию доступны только на сервере. Префикс `NEXT_PUBLIC_` говорит Next.js инлайнить переменную в клиентский бандл на этапе сборки. Переменные БЕЗ этого префикса остаются серверными, и обращение к ним из кода Client Component возвращает `undefined`. Никогда не храните секреты в `NEXT_PUBLIC_`-переменных."
-        }
+        "correct": 1
     },
     {
         "id": "next-deployment-001",
@@ -348,6 +348,10 @@
         "question": {
             "en": "What does setting `output: 'export'` in `next.config.js` do?",
             "ru": "Что делает настройка `output: 'export'` в `next.config.js`?"
+        },
+        "explanation": {
+            "en": "`output: 'export'` tells Next.js to run `next build` and then export a static site to the `out/` directory. All pages must be statically renderable (no `getServerSideProps`, no Route Handlers, no Server Actions). The result is plain HTML files deployable to GitHub Pages, S3, Netlify static, etc. This is a trade-off: you lose SSR, ISR, and Edge functionality.",
+            "ru": "`output: 'export'` говорит Next.js запустить `next build` и затем экспортировать статический сайт в директорию `out/`. Все страницы должны быть статически рендерящимися (никаких `getServerSideProps`, Route Handlers или Server Actions). На выходе — обычные HTML-файлы, готовые к деплою на GitHub Pages, S3, Netlify static и т.д. Это компромисс: вы теряете SSR, ISR и Edge-функциональность."
         },
         "options": [
             {
@@ -367,11 +371,7 @@
                 "ru": "Включает контейнеризацию приложения в Docker"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "`output: 'export'` tells Next.js to run `next build` and then export a static site to the `out/` directory. All pages must be statically renderable (no `getServerSideProps`, no Route Handlers, no Server Actions). The result is plain HTML files deployable to GitHub Pages, S3, Netlify static, etc. This is a trade-off: you lose SSR, ISR, and Edge functionality.",
-            "ru": "`output: 'export'` говорит Next.js запустить `next build` и затем экспортировать статический сайт в директорию `out/`. Все страницы должны быть статически рендерящимися (никаких `getServerSideProps`, Route Handlers или Server Actions). На выходе — обычные HTML-файлы, готовые к деплою на GitHub Pages, S3, Netlify static и т.д. Это компромисс: вы теряете SSR, ISR и Edge-функциональность."
-        }
+        "correct": 1
     },
     {
         "id": "next-dynamic-routes-002",
@@ -382,6 +382,10 @@
         "question": {
             "en": "What is the difference between `[...slug]` and `[[...slug]]` catch-all segments in Next.js?",
             "ru": "В чём разница между catch-all сегментами `[...slug]` и `[[...slug]]` в Next.js?"
+        },
+        "explanation": {
+            "en": "`[...slug]` is a required catch-all: it matches `/blog/a`, `/blog/a/b`, etc., but NOT `/blog` (the root). `[[...slug]]` is an optional catch-all: it additionally matches the base path where `slug` would be `undefined`. Both provide `params.slug` as a `string[]`.",
+            "ru": "`[...slug]` — обязательный catch-all: матчит `/blog/a`, `/blog/a/b` и т.д., но НЕ `/blog` (корневой путь). `[[...slug]]` — опциональный catch-all: дополнительно матчит базовый путь, где `slug` будет `undefined`. Оба предоставляют `params.slug` как `string[]`."
         },
         "options": [
             {
@@ -401,11 +405,7 @@
                 "ru": "`[...slug]` возвращает массив; `[[...slug]]` возвращает строку"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "`[...slug]` is a required catch-all: it matches `/blog/a`, `/blog/a/b`, etc., but NOT `/blog` (the root). `[[...slug]]` is an optional catch-all: it additionally matches the base path where `slug` would be `undefined`. Both provide `params.slug` as a `string[]`.",
-            "ru": "`[...slug]` — обязательный catch-all: матчит `/blog/a`, `/blog/a/b` и т.д., но НЕ `/blog` (корневой путь). `[[...slug]]` — опциональный catch-all: дополнительно матчит базовый путь, где `slug` будет `undefined`. Оба предоставляют `params.slug` как `string[]`."
-        }
+        "correct": 1
     },
     {
         "id": "next-generatestaticparams-001",
@@ -416,6 +416,10 @@
         "question": {
             "en": "What is the purpose of `generateStaticParams` in the App Router?",
             "ru": "Каково назначение `generateStaticParams` в App Router?"
+        },
+        "explanation": {
+            "en": "`generateStaticParams` is the App Router equivalent of `getStaticPaths`. Exporting it from a dynamic route page tells Next.js which param combinations to render at build time. For example, `return [{ id: '1' }, { id: '2' }]` pre-renders `/products/1` and `/products/2`. Any params not returned are handled at request time (or return 404, depending on `dynamicParams` config).",
+            "ru": "`generateStaticParams` — это эквивалент `getStaticPaths` в App Router. Экспорт из страницы с динамическим маршрутом сообщает Next.js, какие комбинации параметров нужно отрендерить на этапе сборки. Например, `return [{ id: '1' }, { id: '2' }]` пре-рендерит `/products/1` и `/products/2`. Параметры, которые не были возвращены, обрабатываются во время запроса (или возвращают 404 — в зависимости от настройки `dynamicParams`)."
         },
         "options": [
             {
@@ -435,11 +439,7 @@
                 "ru": "Создаёт sitemap всех динамических маршрутов"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "`generateStaticParams` is the App Router equivalent of `getStaticPaths`. Exporting it from a dynamic route page tells Next.js which param combinations to render at build time. For example, `return [{ id: '1' }, { id: '2' }]` pre-renders `/products/1` and `/products/2`. Any params not returned are handled at request time (or return 404, depending on `dynamicParams` config).",
-            "ru": "`generateStaticParams` — это эквивалент `getStaticPaths` в App Router. Экспорт из страницы с динамическим маршрутом сообщает Next.js, какие комбинации параметров нужно отрендерить на этапе сборки. Например, `return [{ id: '1' }, { id: '2' }]` пре-рендерит `/products/1` и `/products/2`. Параметры, которые не были возвращены, обрабатываются во время запроса (или возвращают 404 — в зависимости от настройки `dynamicParams`)."
-        }
+        "correct": 1
     },
     {
         "id": "next-route-handlers-001",
@@ -450,6 +450,10 @@
         "question": {
             "en": "How do you create an API endpoint at `/api/users` using the App Router?",
             "ru": "Как создать API-эндпоинт по пути `/api/users` через App Router?"
+        },
+        "explanation": {
+            "en": "App Router Route Handlers live in `route.ts` (or `route.js`) files. You export named HTTP method functions: `export async function GET(request: Request) { ... }`. The file must NOT be co-located with `page.tsx` in the same directory. They replace Pages Router API routes (`pages/api/*.ts`) for new projects.",
+            "ru": "Route Handlers в App Router живут в файлах `route.ts` (или `route.js`). Вы экспортируете именованные функции по HTTP-методам: `export async function GET(request: Request) { ... }`. Файл НЕ должен лежать в той же директории, что и `page.tsx`. Они заменяют API-маршруты Pages Router (`pages/api/*.ts`) в новых проектах."
         },
         "options": [
             {
@@ -469,11 +473,7 @@
                 "ru": "Добавить массив `routes` в `next.config.js`"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "App Router Route Handlers live in `route.ts` (or `route.js`) files. You export named HTTP method functions: `export async function GET(request: Request) { ... }`. The file must NOT be co-located with `page.tsx` in the same directory. They replace Pages Router API routes (`pages/api/*.ts`) for new projects.",
-            "ru": "Route Handlers в App Router живут в файлах `route.ts` (или `route.js`). Вы экспортируете именованные функции по HTTP-методам: `export async function GET(request: Request) { ... }`. Файл НЕ должен лежать в той же директории, что и `page.tsx`. Они заменяют API-маршруты Pages Router (`pages/api/*.ts`) в новых проектах."
-        }
+        "correct": 1
     },
     {
         "id": "next-server-actions-001",
@@ -484,6 +484,10 @@
         "question": {
             "en": "What is a Server Action in Next.js?",
             "ru": "Что такое Server Action в Next.js?"
+        },
+        "explanation": {
+            "en": "Server Actions are async functions with the `'use server'` directive (either at the top of the function or the file). They execute on the server and can be invoked from Client Components as regular function calls or bound to `<form action={...}>`. Next.js serialises the call over a POST request automatically, enabling mutations without a separate API route.",
+            "ru": "Server Actions — это асинхронные функции с директивой `'use server'` (в начале функции или файла). Они выполняются на сервере и могут быть вызваны из Client Components как обычные функции или привязаны к `<form action={...}>`. Next.js автоматически сериализует вызов через POST-запрос, позволяя делать мутации без отдельного API-роута."
         },
         "options": [
             {
@@ -503,11 +507,7 @@
                 "ru": "Cron-задача, настраиваемая через `next.config.js`"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Server Actions are async functions with the `'use server'` directive (either at the top of the function or the file). They execute on the server and can be invoked from Client Components as regular function calls or bound to `<form action={...}>`. Next.js serialises the call over a POST request automatically, enabling mutations without a separate API route.",
-            "ru": "Server Actions — это асинхронные функции с директивой `'use server'` (в начале функции или файла). Они выполняются на сервере и могут быть вызваны из Client Components как обычные функции или привязаны к `<form action={...}>`. Next.js автоматически сериализует вызов через POST-запрос, позволяя делать мутации без отдельного API-роута."
-        }
+        "correct": 1
     },
     {
         "id": "next-middleware-001",
@@ -518,6 +518,10 @@
         "question": {
             "en": "Where does Next.js middleware run, and what can it do?",
             "ru": "Где выполняется middleware в Next.js и что она может делать?"
+        },
+        "explanation": {
+            "en": "Middleware runs in the Edge Runtime before the matching route is processed. Define it in `middleware.ts` at the project root (or `src/middleware.ts`). It receives a `NextRequest` and returns a `NextResponse`. Common uses: authentication redirects, A/B testing rewrites, locale detection, and header injection. The Edge Runtime is limited — no Node.js APIs like `fs`.",
+            "ru": "Middleware выполняется в Edge Runtime до обработки совпавшего маршрута. Определяется в `middleware.ts` в корне проекта (или `src/middleware.ts`). Принимает `NextRequest` и возвращает `NextResponse`. Типичные применения: редиректы аутентификации, rewrite'ы для A/B-тестирования, определение локали, инъекция заголовков. Edge Runtime ограничен — никаких Node.js API вроде `fs`."
         },
         "options": [
             {
@@ -537,11 +541,7 @@
                 "ru": "В service worker'е, перехватывая все fetch-запросы"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Middleware runs in the Edge Runtime before the matching route is processed. Define it in `middleware.ts` at the project root (or `src/middleware.ts`). It receives a `NextRequest` and returns a `NextResponse`. Common uses: authentication redirects, A/B testing rewrites, locale detection, and header injection. The Edge Runtime is limited — no Node.js APIs like `fs`.",
-            "ru": "Middleware выполняется в Edge Runtime до обработки совпавшего маршрута. Определяется в `middleware.ts` в корне проекта (или `src/middleware.ts`). Принимает `NextRequest` и возвращает `NextResponse`. Типичные применения: редиректы аутентификации, rewrite'ы для A/B-тестирования, определение локали, инъекция заголовков. Edge Runtime ограничен — никаких Node.js API вроде `fs`."
-        }
+        "correct": 1
     },
     {
         "id": "next-fetch-caching-001",
@@ -552,6 +552,10 @@
         "question": {
             "en": "What is the difference between `fetch(url, { cache: 'no-store' })` and `fetch(url, { next: { revalidate: 60 } })` in Next.js?",
             "ru": "В чём разница между `fetch(url, { cache: 'no-store' })` и `fetch(url, { next: { revalidate: 60 } })` в Next.js?"
+        },
+        "explanation": {
+            "en": "Next.js extends the native `fetch` API with caching options. `cache: 'no-store'` opts out of caching entirely — the route becomes dynamically rendered and data is fetched fresh on every request. `next: { revalidate: 60 }` implements ISR (Incremental Static Regeneration): the response is cached and served from cache, but regenerated in the background after 60 seconds. The default (no option) caches indefinitely (`force-cache`).",
+            "ru": "Next.js расширяет нативный `fetch` API опциями кэширования. `cache: 'no-store'` полностью отключает кэширование — маршрут становится динамическим, и данные загружаются свежими на каждый запрос. `next: { revalidate: 60 }` реализует ISR (Incremental Static Regeneration): ответ кэшируется и отдаётся из кэша, но регенерируется в фоне через 60 секунд. Значение по умолчанию (без опций) кэширует бессрочно (`force-cache`)."
         },
         "options": [
             {
@@ -571,11 +575,7 @@
                 "ru": "`revalidate: 60` запускает fetch 60 раз в минуту"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Next.js extends the native `fetch` API with caching options. `cache: 'no-store'` opts out of caching entirely — the route becomes dynamically rendered and data is fetched fresh on every request. `next: { revalidate: 60 }` implements ISR (Incremental Static Regeneration): the response is cached and served from cache, but regenerated in the background after 60 seconds. The default (no option) caches indefinitely (`force-cache`).",
-            "ru": "Next.js расширяет нативный `fetch` API опциями кэширования. `cache: 'no-store'` полностью отключает кэширование — маршрут становится динамическим, и данные загружаются свежими на каждый запрос. `next: { revalidate: 60 }` реализует ISR (Incremental Static Regeneration): ответ кэшируется и отдаётся из кэша, но регенерируется в фоне через 60 секунд. Значение по умолчанию (без опций) кэширует бессрочно (`force-cache`)."
-        }
+        "correct": 1
     },
     {
         "id": "next-parallel-routes-001",
@@ -586,6 +586,10 @@
         "question": {
             "en": "What are parallel routes in Next.js App Router?",
             "ru": "Что такое parallel routes в Next.js App Router?"
+        },
+        "explanation": {
+            "en": "Parallel routes use `@folderName` slot conventions. A layout receives multiple named `children` props (e.g. `@team` and `@analytics`) and renders them side-by-side. Each slot is an independent subtree with its own loading, error, and page files. This enables dashboards with independent streams, or modal patterns when combined with intercepting routes.",
+            "ru": "Parallel routes используют конвенцию слотов `@folderName`. Layout получает несколько именованных `children`-пропов (например, `@team` и `@analytics`) и рендерит их рядом. Каждый слот — независимое поддерево со своими файлами loading, error и page. Это позволяет делать дашборды с независимыми потоками или модальные паттерны в связке с intercepting routes."
         },
         "options": [
             {
@@ -605,11 +609,7 @@
                 "ru": "Несколько файлов `page.tsx` в одной папке, рендерящихся по условию"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Parallel routes use `@folderName` slot conventions. A layout receives multiple named `children` props (e.g. `@team` and `@analytics`) and renders them side-by-side. Each slot is an independent subtree with its own loading, error, and page files. This enables dashboards with independent streams, or modal patterns when combined with intercepting routes.",
-            "ru": "Parallel routes используют конвенцию слотов `@folderName`. Layout получает несколько именованных `children`-пропов (например, `@team` и `@analytics`) и рендерит их рядом. Каждый слот — независимое поддерево со своими файлами loading, error и page. Это позволяет делать дашборды с независимыми потоками или модальные паттерны в связке с intercepting routes."
-        }
+        "correct": 1
     },
     {
         "id": "next-intercepting-routes-001",
@@ -620,6 +620,10 @@
         "question": {
             "en": "What convention does Next.js use for intercepting routes, and what is the primary use-case?",
             "ru": "Какую конвенцию Next.js использует для intercepting routes и каков основной use-case?"
+        },
+        "explanation": {
+            "en": "Intercepting routes use `(.)`, `(..)`, `(..)..` or `(...)` prefixes to match routes at different levels of the directory tree. Combined with parallel routes, they enable the Instagram-style photo modal pattern: clicking a photo shows it in a modal (intercepted route) without leaving the feed, but opening the URL directly shows the full photo page.",
+            "ru": "Intercepting routes используют префиксы `(.)`, `(..)`, `(..)..` или `(...)`, чтобы матчить маршруты на разных уровнях дерева директорий. В связке с parallel routes они реализуют паттерн «фото-модалки как в Instagram»: клик по фото открывает его в модалке (перехваченный маршрут) без выхода из ленты, но прямой переход по URL показывает полноценную страницу фото."
         },
         "options": [
             {
@@ -639,11 +643,7 @@
                 "ru": "Файл `__intercept__` — для оборачивания server actions"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Intercepting routes use `(.)`, `(..)`, `(..)..` or `(...)` prefixes to match routes at different levels of the directory tree. Combined with parallel routes, they enable the Instagram-style photo modal pattern: clicking a photo shows it in a modal (intercepted route) without leaving the feed, but opening the URL directly shows the full photo page.",
-            "ru": "Intercepting routes используют префиксы `(.)`, `(..)`, `(..)..` или `(...)`, чтобы матчить маршруты на разных уровнях дерева директорий. В связке с parallel routes они реализуют паттерн «фото-модалки как в Instagram»: клик по фото открывает его в модалке (перехваченный маршрут) без выхода из ленты, но прямой переход по URL показывает полноценную страницу фото."
-        }
+        "correct": 1
     },
     {
         "id": "next-dynamic-segments-hard-001",
@@ -654,6 +654,10 @@
         "question": {
             "en": "By default, what happens when a user visits a dynamic route path that was NOT returned by `generateStaticParams`?",
             "ru": "Что по умолчанию происходит, когда пользователь заходит на путь динамического маршрута, который НЕ был возвращён из `generateStaticParams`?"
+        },
+        "explanation": {
+            "en": "By default, `dynamicParams = true` (the Next.js default). Paths not pre-generated by `generateStaticParams` are rendered on-demand at request time, like SSR. You can opt into 404 for unknown paths by exporting `export const dynamicParams = false` from the page file — then any path not returned by `generateStaticParams` returns a 404.",
+            "ru": "По умолчанию `dynamicParams = true` (стандарт Next.js). Пути, не пре-генерированные `generateStaticParams`, рендерятся по требованию во время запроса — как SSR. Включить 404 для неизвестных путей можно, экспортировав `export const dynamicParams = false` из файла страницы — тогда любой путь, не возвращённый из `generateStaticParams`, вернёт 404."
         },
         "options": [
             {
@@ -673,11 +677,7 @@
                 "ru": "Next.js редиректит на корень route-сегмента"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "By default, `dynamicParams = true` (the Next.js default). Paths not pre-generated by `generateStaticParams` are rendered on-demand at request time, like SSR. You can opt into 404 for unknown paths by exporting `export const dynamicParams = false` from the page file — then any path not returned by `generateStaticParams` returns a 404.",
-            "ru": "По умолчанию `dynamicParams = true` (стандарт Next.js). Пути, не пре-генерированные `generateStaticParams`, рендерятся по требованию во время запроса — как SSR. Включить 404 для неизвестных путей можно, экспортировав `export const dynamicParams = false` из файла страницы — тогда любой путь, не возвращённый из `generateStaticParams`, вернёт 404."
-        }
+        "correct": 1
     },
     {
         "id": "next-edge-runtime-001",
@@ -688,6 +688,10 @@
         "question": {
             "en": "How do you configure a Route Handler to run in the Edge Runtime instead of the default Node.js runtime?",
             "ru": "Как настроить Route Handler, чтобы он выполнялся в Edge Runtime, а не в дефолтном Node.js runtime?"
+        },
+        "explanation": {
+            "en": "Route Segment Config allows per-route runtime selection. `export const runtime = 'edge'` in a Route Handler or page file opts that segment into the Edge Runtime. The Edge Runtime has lower latency and global distribution but is more constrained (no Node.js APIs). The default is `'nodejs'`. You can also use `'experimental-edge'` for the experimental variant in older Next.js versions.",
+            "ru": "Route Segment Config позволяет выбирать runtime для каждого маршрута. `export const runtime = 'edge'` в файле Route Handler'а или страницы переводит этот сегмент в Edge Runtime. У Edge Runtime ниже латентность и глобальное распределение, но есть ограничения (нет Node.js API). По умолчанию — `'nodejs'`. В старых версиях Next.js также доступно `'experimental-edge'` для экспериментального варианта."
         },
         "options": [
             {
@@ -707,11 +711,7 @@
                 "ru": "Задеплоить на Vercel Edge Functions — это произойдёт автоматически"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Route Segment Config allows per-route runtime selection. `export const runtime = 'edge'` in a Route Handler or page file opts that segment into the Edge Runtime. The Edge Runtime has lower latency and global distribution but is more constrained (no Node.js APIs). The default is `'nodejs'`. You can also use `'experimental-edge'` for the experimental variant in older Next.js versions.",
-            "ru": "Route Segment Config позволяет выбирать runtime для каждого маршрута. `export const runtime = 'edge'` в файле Route Handler'а или страницы переводит этот сегмент в Edge Runtime. У Edge Runtime ниже латентность и глобальное распределение, но есть ограничения (нет Node.js API). По умолчанию — `'nodejs'`. В старых версиях Next.js также доступно `'experimental-edge'` для экспериментального варианта."
-        }
+        "correct": 1
     },
     {
         "id": "next-output-standalone-001",
@@ -722,6 +722,10 @@
         "question": {
             "en": "What does `output: 'standalone'` in `next.config.js` produce and when is it useful?",
             "ru": "Что производит `output: 'standalone'` в `next.config.js` и когда это полезно?"
+        },
+        "explanation": {
+            "en": "`output: 'standalone'` traces the application's dependencies and copies only what's needed (Node.js server, page bundles, necessary `node_modules`) into `.next/standalone`. This produces a minimal artifact ideal for Docker — you copy the folder, run `node server.js`, and no `npm install` is needed. Especially valuable for reducing container image size in production.",
+            "ru": "`output: 'standalone'` трассирует зависимости приложения и копирует в `.next/standalone` только необходимое (Node.js-сервер, бандлы страниц, нужные `node_modules`). Получается минимальный артефакт, идеальный для Docker — вы копируете папку, запускаете `node server.js`, и `npm install` не требуется. Особенно ценно для уменьшения размера контейнерных образов в продакшене."
         },
         "options": [
             {
@@ -741,11 +745,7 @@
                 "ru": "Автономный service worker для офлайн-поддержки"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "`output: 'standalone'` traces the application's dependencies and copies only what's needed (Node.js server, page bundles, necessary `node_modules`) into `.next/standalone`. This produces a minimal artifact ideal for Docker — you copy the folder, run `node server.js`, and no `npm install` is needed. Especially valuable for reducing container image size in production.",
-            "ru": "`output: 'standalone'` трассирует зависимости приложения и копирует в `.next/standalone` только необходимое (Node.js-сервер, бандлы страниц, нужные `node_modules`). Получается минимальный артефакт, идеальный для Docker — вы копируете папку, запускаете `node server.js`, и `npm install` не требуется. Особенно ценно для уменьшения размера контейнерных образов в продакшене."
-        }
+        "correct": 1
     },
     {
         "id": "next-bug-use-client-001",
@@ -757,13 +757,13 @@
             "en": "What is wrong with this Server Component?",
             "ru": "Что не так с этим Server Component?"
         },
-        "code": "// app/dashboard/page.tsx\nexport default function DashboardPage() {\n  const [isOpen, setIsOpen] = useState(false);\n\n  return (\n    <div>\n      <button onClick={() => setIsOpen(!isOpen)}>Toggle</button>\n      {isOpen && <Modal />}\n    </div>\n  );\n}",
-        "correct": "`useState` and `onClick` cannot be used in a Server Component — the file needs `'use client'` directive",
-        "referenceAnswer": "Add `'use client'` as the very first line of the file. Server Components run only on the server and cannot use browser APIs, event handlers, or stateful hooks like `useState`.",
         "explanation": {
             "en": "Server Components run exclusively on the server and have no client-side runtime. They cannot use hooks (`useState`, `useEffect`), event handlers (`onClick`), or browser globals (`window`, `document`). Any component needing interactivity must be a Client Component, declared with `'use client'` at the top of the file.",
             "ru": "Server Components выполняются исключительно на сервере и не имеют клиентского рантайма. В них нельзя использовать хуки (`useState`, `useEffect`), обработчики событий (`onClick`) и браузерные глобалы (`window`, `document`). Любой компонент, которому нужна интерактивность, должен быть Client Component с директивой `'use client'` в начале файла."
-        }
+        },
+        "code": "// app/dashboard/page.tsx\nexport default function DashboardPage() {\n  const [isOpen, setIsOpen] = useState(false);\n\n  return (\n    <div>\n      <button onClick={() => setIsOpen(!isOpen)}>Toggle</button>\n      {isOpen && <Modal />}\n    </div>\n  );\n}",
+        "correct": "`useState` and `onClick` cannot be used in a Server Component — the file needs `'use client'` directive",
+        "referenceAnswer": "Add `'use client'` as the very first line of the file. Server Components run only on the server and cannot use browser APIs, event handlers, or stateful hooks like `useState`."
     },
     {
         "id": "next-bug-metadata-001",
@@ -775,13 +775,13 @@
             "en": "Why does this `page.tsx` fail to export metadata?",
             "ru": "Почему этот `page.tsx` не может экспортировать metadata?"
         },
-        "code": "'use client';\nimport type { Metadata } from 'next';\n\nexport const metadata: Metadata = {\n  title: 'My Page',\n  description: 'Welcome'\n};\n\nexport default function MyPage() {\n  return <div>Hello</div>;\n}",
-        "correct": "The `metadata` export is not supported in Client Components. Metadata can only be exported from Server Components (pages or layouts without `'use client'`)",
-        "referenceAnswer": "Remove the `'use client'` directive. If the page needs interactivity, extract the interactive parts into a separate Client Component and keep the page itself as a Server Component that exports `metadata`.",
         "explanation": {
             "en": "The Next.js Metadata API (`export const metadata` or `export function generateMetadata`) only works in Server Components. Adding `'use client'` to the same file makes it a Client Component, causing Next.js to ignore the `metadata` export. The fix is to keep the page as a Server Component and compose Client Components inside it.",
             "ru": "Metadata API в Next.js (`export const metadata` или `export function generateMetadata`) работает только в Server Components. Добавление `'use client'` в тот же файл делает его Client Component, и Next.js игнорирует экспорт `metadata`. Решение — оставить страницу Server Component'ом, а интерактивные части вынести в отдельные Client Components и использовать их внутри."
-        }
+        },
+        "code": "'use client';\nimport type { Metadata } from 'next';\n\nexport const metadata: Metadata = {\n  title: 'My Page',\n  description: 'Welcome'\n};\n\nexport default function MyPage() {\n  return <div>Hello</div>;\n}",
+        "correct": "The `metadata` export is not supported in Client Components. Metadata can only be exported from Server Components (pages or layouts without `'use client'`)",
+        "referenceAnswer": "Remove the `'use client'` directive. If the page needs interactivity, extract the interactive parts into a separate Client Component and keep the page itself as a Server Component that exports `metadata`."
     },
     {
         "id": "next-bug-server-action-001",
@@ -793,13 +793,13 @@
             "en": "What is wrong with this Server Action?",
             "ru": "Что не так с этим Server Action?"
         },
-        "code": "// app/actions.ts\nexport async function createPost(formData: FormData) {\n  const title = formData.get('title');\n  await db.post.create({ data: { title } });\n}",
-        "correct": "The function is missing the `'use server'` directive — without it, Next.js does not mark it as a Server Action and it cannot be safely called from a Client Component",
-        "referenceAnswer": "Add `'use server'` as the first line of the file (for a module-level directive covering all exports) or inside the function body:\n```ts\n'use server';\nexport async function createPost(formData: FormData) {\n  ...\n}\n```",
         "explanation": {
             "en": "Server Actions require the `'use server'` directive to signal to Next.js that the function should be callable as a server-side RPC endpoint. Without it, the function is a regular module export. If called from a Client Component, it would bundle server-side code (including `db`) into the client bundle, causing errors and security issues.",
             "ru": "Server Actions требуют директиву `'use server'`, чтобы сообщить Next.js, что функция должна вызываться как серверный RPC-эндпоинт. Без неё функция — обычный экспорт модуля. При вызове из Client Component серверный код (включая `db`) попадёт в клиентский бандл, что приведёт к ошибкам и проблемам безопасности."
-        }
+        },
+        "code": "// app/actions.ts\nexport async function createPost(formData: FormData) {\n  const title = formData.get('title');\n  await db.post.create({ data: { title } });\n}",
+        "correct": "The function is missing the `'use server'` directive — without it, Next.js does not mark it as a Server Action and it cannot be safely called from a Client Component",
+        "referenceAnswer": "Add `'use server'` as the first line of the file (for a module-level directive covering all exports) or inside the function body:\n```ts\n'use server';\nexport async function createPost(formData: FormData) {\n  ...\n}\n```"
     },
     {
         "id": "next-bug-image-001",
@@ -811,13 +811,13 @@
             "en": "Why does this code throw a Next.js configuration error?",
             "ru": "Почему этот код выбрасывает ошибку конфигурации Next.js?"
         },
-        "code": "import Image from 'next/image';\n\nexport default function Avatar() {\n  return (\n    <Image\n      src=\"https://cdn.example.com/avatar.png\"\n      alt=\"User avatar\"\n      width={64}\n      height={64}\n    />\n  );\n}",
-        "correct": "Remote image hostnames must be explicitly whitelisted in `next.config.js` under `images.remotePatterns` before `next/image` will serve them",
-        "referenceAnswer": "Add the domain to `next.config.js`:\n```js\nmodule.exports = {\n  images: {\n    remotePatterns: [{ protocol: 'https', hostname: 'cdn.example.com' }]\n  }\n};\n```",
         "explanation": {
             "en": "For security, `next/image` refuses to optimise images from arbitrary external domains. You must enumerate allowed hosts in `images.remotePatterns` (preferred) or the legacy `images.domains` array in `next.config.js`. This prevents abuse of the image optimisation endpoint by third parties.",
             "ru": "Из соображений безопасности `next/image` отказывается оптимизировать изображения с произвольных внешних доменов. Разрешённые хосты нужно явно перечислить в `images.remotePatterns` (рекомендуемо) или в legacy-массиве `images.domains` в `next.config.js`. Это предотвращает злоупотребление эндпоинтом оптимизации изображений со стороны третьих лиц."
-        }
+        },
+        "code": "import Image from 'next/image';\n\nexport default function Avatar() {\n  return (\n    <Image\n      src=\"https://cdn.example.com/avatar.png\"\n      alt=\"User avatar\"\n      width={64}\n      height={64}\n    />\n  );\n}",
+        "correct": "Remote image hostnames must be explicitly whitelisted in `next.config.js` under `images.remotePatterns` before `next/image` will serve them",
+        "referenceAnswer": "Add the domain to `next.config.js`:\n```js\nmodule.exports = {\n  images: {\n    remotePatterns: [{ protocol: 'https', hostname: 'cdn.example.com' }]\n  }\n};\n```"
     },
     {
         "id": "next-bug-route-handler-001",
@@ -829,13 +829,13 @@
             "en": "Why does this Route Handler return a 405 Method Not Allowed for POST requests?",
             "ru": "Почему этот Route Handler возвращает 405 Method Not Allowed на POST-запросы?"
         },
-        "code": "// app/api/posts/route.ts\nimport { NextResponse } from 'next/server';\n\nexport async function GET() {\n  const posts = await db.post.findMany();\n  return NextResponse.json(posts);\n}",
-        "correct": "The Route Handler only exports a `GET` handler. A `POST` export is missing, so Next.js returns 405 for POST requests",
-        "referenceAnswer": "Add a `POST` export:\n```ts\nexport async function POST(request: Request) {\n  const body = await request.json();\n  const post = await db.post.create({ data: body });\n  return NextResponse.json(post, { status: 201 });\n}\n```",
         "explanation": {
             "en": "Next.js App Router Route Handlers respond only to the HTTP methods you explicitly export. A file with only `GET` exported will return `405 Method Not Allowed` for all other methods. To handle multiple methods, export a named function for each: `GET`, `POST`, `PUT`, `PATCH`, `DELETE`, `HEAD`, `OPTIONS`.",
             "ru": "Route Handlers в Next.js App Router отвечают только на те HTTP-методы, которые вы явно экспортировали. Файл только с экспортом `GET` будет возвращать `405 Method Not Allowed` для всех остальных методов. Чтобы обработать несколько методов, экспортируйте именованную функцию для каждого: `GET`, `POST`, `PUT`, `PATCH`, `DELETE`, `HEAD`, `OPTIONS`."
-        }
+        },
+        "code": "// app/api/posts/route.ts\nimport { NextResponse } from 'next/server';\n\nexport async function GET() {\n  const posts = await db.post.findMany();\n  return NextResponse.json(posts);\n}",
+        "correct": "The Route Handler only exports a `GET` handler. A `POST` export is missing, so Next.js returns 405 for POST requests",
+        "referenceAnswer": "Add a `POST` export:\n```ts\nexport async function POST(request: Request) {\n  const body = await request.json();\n  const post = await db.post.create({ data: body });\n  return NextResponse.json(post, { status: 201 });\n}\n```"
     },
     {
         "id": "next-bug-fetch-cache-001",
@@ -847,13 +847,13 @@
             "en": "A Server Component fetches user-specific data but always shows stale data. What is the likely cause?",
             "ru": "Server Component загружает данные, специфичные для пользователя, но всегда показывает устаревшие. В чём, вероятнее всего, причина?"
         },
-        "code": "export default async function UserDashboard({ params }: { params: { id: string } }) {\n  const user = await fetch(`https://api.example.com/users/${params.id}`).then(r => r.json());\n  return <div>{user.name}</div>;\n}",
-        "correct": "The `fetch` call uses Next.js's default caching (`force-cache`), so the response is cached indefinitely and never re-fetched per request",
-        "referenceAnswer": "Add `{ cache: 'no-store' }` to opt out of caching for user-specific (personalised) data:\n```ts\nconst user = await fetch(`https://api.example.com/users/${params.id}`, {\n  cache: 'no-store'\n}).then(r => r.json());\n```\nAlternatively, reading `cookies()` or `headers()` in the same component automatically makes the route dynamic.",
         "explanation": {
             "en": "Next.js extends `fetch` with automatic caching. The default `force-cache` caches responses indefinitely, which is wrong for dynamic, user-specific data. Use `cache: 'no-store'` for per-request data, `next: { revalidate: N }` for time-based ISR, or use route segment config like `export const dynamic = 'force-dynamic'` to opt the entire route out of static rendering.",
             "ru": "Next.js расширяет `fetch` автоматическим кэшированием. По умолчанию `force-cache` кэширует ответы бессрочно, что неверно для динамических персонализированных данных. Используйте `cache: 'no-store'` для данных, специфичных для запроса, `next: { revalidate: N }` для ISR по времени или настройку сегмента вроде `export const dynamic = 'force-dynamic'`, чтобы полностью исключить маршрут из статического рендеринга."
-        }
+        },
+        "code": "export default async function UserDashboard({ params }: { params: { id: string } }) {\n  const user = await fetch(`https://api.example.com/users/${params.id}`).then(r => r.json());\n  return <div>{user.name}</div>;\n}",
+        "correct": "The `fetch` call uses Next.js's default caching (`force-cache`), so the response is cached indefinitely and never re-fetched per request",
+        "referenceAnswer": "Add `{ cache: 'no-store' }` to opt out of caching for user-specific (personalised) data:\n```ts\nconst user = await fetch(`https://api.example.com/users/${params.id}`, {\n  cache: 'no-store'\n}).then(r => r.json());\n```\nAlternatively, reading `cookies()` or `headers()` in the same component automatically makes the route dynamic."
     },
     {
         "id": "next-bug-error-boundary-001",
@@ -865,13 +865,13 @@
             "en": "Why doesn't this `error.tsx` component work correctly?",
             "ru": "Почему этот компонент `error.tsx` работает некорректно?"
         },
-        "code": "// app/dashboard/error.tsx\nimport { useEffect } from 'react';\n\nexport default function DashboardError({\n  error,\n  reset\n}: {\n  error: Error;\n  reset: () => void;\n}) {\n  useEffect(() => {\n    console.error(error);\n  }, [error]);\n\n  return (\n    <div>\n      <h2>Something went wrong</h2>\n      <button onClick={reset}>Try again</button>\n    </div>\n  );\n}",
-        "correct": "The `error.tsx` component is missing the `'use client'` directive — error boundaries must be Client Components",
-        "referenceAnswer": "Add `'use client'` as the very first line:\n```tsx\n'use client';\nimport { useEffect } from 'react';\n// ... rest of component\n```",
         "explanation": {
             "en": "Next.js requires `error.tsx` to be a Client Component because Error Boundaries rely on class component lifecycle methods (`getDerivedStateFromError`) under the hood, and the component receives interactive props like `reset` (a function to retry rendering). Without `'use client'`, Next.js will error during build.",
             "ru": "Next.js требует, чтобы `error.tsx` был Client Component, потому что Error Boundaries под капотом опираются на методы жизненного цикла классовых компонентов (`getDerivedStateFromError`), а сам компонент получает интерактивные пропы вроде `reset` (функция для повторного рендера). Без `'use client'` Next.js упадёт на сборке."
-        }
+        },
+        "code": "// app/dashboard/error.tsx\nimport { useEffect } from 'react';\n\nexport default function DashboardError({\n  error,\n  reset\n}: {\n  error: Error;\n  reset: () => void;\n}) {\n  useEffect(() => {\n    console.error(error);\n  }, [error]);\n\n  return (\n    <div>\n      <h2>Something went wrong</h2>\n      <button onClick={reset}>Try again</button>\n    </div>\n  );\n}",
+        "correct": "The `error.tsx` component is missing the `'use client'` directive — error boundaries must be Client Components",
+        "referenceAnswer": "Add `'use client'` as the very first line:\n```tsx\n'use client';\nimport { useEffect } from 'react';\n// ... rest of component\n```"
     },
     {
         "id": "next-bug-middleware-config-001",
@@ -883,13 +883,13 @@
             "en": "This middleware runs on every request including static files and the login page. What is wrong?",
             "ru": "Эта middleware выполняется на каждом запросе, включая статические файлы и страницу логина. Что не так?"
         },
-        "code": "// middleware.ts\nimport { NextResponse } from 'next/server';\n\nexport function middleware(request) {\n  const token = request.cookies.get('auth-token');\n  if (!token) {\n    return NextResponse.redirect(new URL('/login', request.url));\n  }\n  return NextResponse.next();\n}",
-        "correct": "The middleware is missing a `config.matcher` export, so it runs on ALL requests — including the `/login` page itself, causing an infinite redirect loop for unauthenticated users",
-        "referenceAnswer": "Export a matcher config to limit middleware to protected routes only:\n```ts\nexport const config = {\n  matcher: [\n    '/((?!login|_next/static|_next/image|favicon.ico).*)'\n  ]\n};\n```\nThis excludes the login page, Next.js internals, and static assets from the auth check.",
         "explanation": {
             "en": "Without a matcher, Next.js middleware runs on every incoming request — including `/_next/static` files, images, and the `/login` page itself. If an unauthenticated user hits `/login`, the middleware redirects them to `/login` again, creating an infinite redirect loop. The `config.matcher` array restricts which paths trigger the middleware.",
             "ru": "Без matcher'а middleware в Next.js выполняется на каждом входящем запросе — включая файлы `/_next/static`, изображения и саму страницу `/login`. Если неаутентифицированный пользователь попадает на `/login`, middleware снова редиректит его на `/login`, создавая бесконечный цикл редиректов. Массив `config.matcher` ограничивает, на каких путях middleware срабатывает."
-        }
+        },
+        "code": "// middleware.ts\nimport { NextResponse } from 'next/server';\n\nexport function middleware(request) {\n  const token = request.cookies.get('auth-token');\n  if (!token) {\n    return NextResponse.redirect(new URL('/login', request.url));\n  }\n  return NextResponse.next();\n}",
+        "correct": "The middleware is missing a `config.matcher` export, so it runs on ALL requests — including the `/login` page itself, causing an infinite redirect loop for unauthenticated users",
+        "referenceAnswer": "Export a matcher config to limit middleware to protected routes only:\n```ts\nexport const config = {\n  matcher: [\n    '/((?!login|_next/static|_next/image|favicon.ico).*)'\n  ]\n};\n```\nThis excludes the login page, Next.js internals, and static assets from the auth check."
     },
     {
         "id": "next-completion-route-handler-001",
@@ -901,14 +901,14 @@
             "en": "Fill in the blanks to create a Route Handler that returns a JSON response with a 201 status:",
             "ru": "Заполните пропуски, чтобы создать Route Handler, возвращающий JSON-ответ со статусом 201:"
         },
-        "code": "import { ___ } from 'next/server';\n\nexport async function POST(request: Request) {\n  const body = await request.___();\n  const item = await db.item.create({ data: body });\n  return ___.json(item, { status: 201 });\n}",
-        "blanks": ["NextResponse", "json", "NextResponse"],
-        "lang": "typescript",
-        "referenceAnswer": "import { NextResponse } from 'next/server';\n\nexport async function POST(request: Request) {\n  const body = await request.json();\n  const item = await db.item.create({ data: body });\n  return NextResponse.json(item, { status: 201 });\n}",
         "explanation": {
             "en": "`NextResponse.json(data, options)` is the idiomatic way to return JSON from a Route Handler with custom status codes and headers. `request.json()` parses the incoming request body as JSON. `NextResponse` extends the standard Web API `Response` with Next.js-specific helpers like `rewrite`, `redirect`, and `next`.",
             "ru": "`NextResponse.json(data, options)` — идиоматичный способ вернуть JSON из Route Handler'а с кастомными статусами и заголовками. `request.json()` парсит тело входящего запроса как JSON. `NextResponse` расширяет стандартный Web API `Response` специфичными для Next.js помощниками вроде `rewrite`, `redirect` и `next`."
-        }
+        },
+        "code": "import { __BLANK__ } from 'next/server';\n\nexport async function POST(request: Request) {\n  const body = await request.__BLANK__();\n  const item = await db.item.create({ data: body });\n  return __BLANK__.json(item, { status: 201 });\n}",
+        "blanks": ["NextResponse", "json", "NextResponse"],
+        "lang": "typescript",
+        "referenceAnswer": "import { NextResponse } from 'next/server';\n\nexport async function POST(request: Request) {\n  const body = await request.json();\n  const item = await db.item.create({ data: body });\n  return NextResponse.json(item, { status: 201 });\n}"
     },
     {
         "id": "next-completion-metadata-001",
@@ -920,14 +920,14 @@
             "en": "Fill in the blanks to implement dynamic metadata that uses the route `params`:",
             "ru": "Заполните пропуски, чтобы реализовать динамическую metadata, использующую `params` маршрута:"
         },
-        "code": "import type { ___ } from 'next';\n\nexport async function ___({\n  params\n}: {\n  params: { slug: string };\n}): Promise<Metadata> {\n  const product = await getProduct(params.slug);\n  return {\n    title: product.name,\n    description: product.description\n  };\n}",
-        "blanks": ["Metadata", "generateMetadata"],
-        "lang": "typescript",
-        "referenceAnswer": "import type { Metadata } from 'next';\n\nexport async function generateMetadata({\n  params\n}: {\n  params: { slug: string };\n}): Promise<Metadata> {\n  const product = await getProduct(params.slug);\n  return {\n    title: product.name,\n    description: product.description\n  };\n}",
         "explanation": {
             "en": "`generateMetadata` is an async function that receives the same `params`, `searchParams`, and `parent` as the page component. It runs on the server and is called before the page renders so the metadata is included in the initial HTML. Import `Metadata` from `'next'` for TypeScript typing.",
             "ru": "`generateMetadata` — это асинхронная функция, которая получает те же `params`, `searchParams` и `parent`, что и компонент страницы. Она выполняется на сервере и вызывается до рендера страницы, чтобы метаинформация попала в начальный HTML. Импортируйте `Metadata` из `'next'` для TypeScript-типизации."
-        }
+        },
+        "code": "import type { __BLANK__ } from 'next';\n\nexport async function __BLANK__({\n  params\n}: {\n  params: { slug: string };\n}): Promise<Metadata> {\n  const product = await getProduct(params.slug);\n  return {\n    title: product.name,\n    description: product.description\n  };\n}",
+        "blanks": ["Metadata", "generateMetadata"],
+        "lang": "typescript",
+        "referenceAnswer": "import type { Metadata } from 'next';\n\nexport async function generateMetadata({\n  params\n}: {\n  params: { slug: string };\n}): Promise<Metadata> {\n  const product = await getProduct(params.slug);\n  return {\n    title: product.name,\n    description: product.description\n  };\n}"
     },
     {
         "id": "next-completion-server-action-001",
@@ -939,14 +939,14 @@
             "en": "Fill in the blanks to complete a Server Action that creates a post and revalidates the posts page:",
             "ru": "Заполните пропуски, чтобы дописать Server Action, создающий пост и ревалидирующий страницу со списком постов:"
         },
-        "code": "'use server';\nimport { ___ } from 'next/cache';\n\nexport async function createPost(formData: FormData) {\n  const title = formData.get('title') as string;\n  await db.post.create({ data: { title } });\n  ___('/posts');\n}",
-        "blanks": ["revalidatePath", "revalidatePath"],
-        "lang": "typescript",
-        "referenceAnswer": "'use server';\nimport { revalidatePath } from 'next/cache';\n\nexport async function createPost(formData: FormData) {\n  const title = formData.get('title') as string;\n  await db.post.create({ data: { title } });\n  revalidatePath('/posts');\n}",
         "explanation": {
             "en": "`revalidatePath` from `'next/cache'` purges the cached page at the specified path, so the next request regenerates it with fresh data. It's commonly called after mutations in Server Actions. `revalidateTag` is used instead when you want to invalidate by cache tag rather than path.",
             "ru": "`revalidatePath` из `'next/cache'` сбрасывает кэш страницы по указанному пути, и следующий запрос перегенерирует её со свежими данными. Её обычно вызывают после мутаций в Server Actions. `revalidateTag` используется вместо неё, когда нужно инвалидировать по тегу кэша, а не по пути."
-        }
+        },
+        "code": "'use server';\nimport { __BLANK__ } from 'next/cache';\n\nexport async function createPost(formData: FormData) {\n  const title = formData.get('title') as string;\n  await db.post.create({ data: { title } });\n  __BLANK__('/posts');\n}",
+        "blanks": ["revalidatePath", "revalidatePath"],
+        "lang": "typescript",
+        "referenceAnswer": "'use server';\nimport { revalidatePath } from 'next/cache';\n\nexport async function createPost(formData: FormData) {\n  const title = formData.get('title') as string;\n  await db.post.create({ data: { title } });\n  revalidatePath('/posts');\n}"
     },
     {
         "id": "next-completion-middleware-001",
@@ -958,14 +958,14 @@
             "en": "Fill in the blanks to redirect unauthenticated users to `/login` in middleware:",
             "ru": "Заполните пропуски, чтобы редиректить неаутентифицированных пользователей на `/login` в middleware:"
         },
-        "code": "import { NextResponse } from 'next/server';\nimport type { NextRequest } from 'next/server';\n\nexport function middleware(request: ___) {\n  const token = request.cookies.get('auth-token');\n\n  if (!token) {\n    return NextResponse.___(new URL('/login', request.url));\n  }\n\n  return NextResponse.next();\n}",
-        "blanks": ["NextRequest", "redirect"],
-        "lang": "typescript",
-        "referenceAnswer": "import { NextResponse } from 'next/server';\nimport type { NextRequest } from 'next/server';\n\nexport function middleware(request: NextRequest) {\n  const token = request.cookies.get('auth-token');\n\n  if (!token) {\n    return NextResponse.redirect(new URL('/login', request.url));\n  }\n\n  return NextResponse.next();\n}",
         "explanation": {
             "en": "`NextRequest` is the type for the request object in middleware. `NextResponse.redirect(url)` creates a redirect response. Passing `new URL('/login', request.url)` builds an absolute URL from a relative path using the current origin. `NextResponse.next()` passes the request through to the matched route.",
             "ru": "`NextRequest` — это тип объекта запроса в middleware. `NextResponse.redirect(url)` создаёт redirect-ответ. Передача `new URL('/login', request.url)` строит абсолютный URL из относительного пути, используя текущий origin. `NextResponse.next()` пропускает запрос дальше, к совпавшему маршруту."
-        }
+        },
+        "code": "import { NextResponse } from 'next/server';\nimport type { NextRequest } from 'next/server';\n\nexport function middleware(request: __BLANK__) {\n  const token = request.cookies.get('auth-token');\n\n  if (!token) {\n    return NextResponse.__BLANK__(new URL('/login', request.url));\n  }\n\n  return NextResponse.next();\n}",
+        "blanks": ["NextRequest", "redirect"],
+        "lang": "typescript",
+        "referenceAnswer": "import { NextResponse } from 'next/server';\nimport type { NextRequest } from 'next/server';\n\nexport function middleware(request: NextRequest) {\n  const token = request.cookies.get('auth-token');\n\n  if (!token) {\n    return NextResponse.redirect(new URL('/login', request.url));\n  }\n\n  return NextResponse.next();\n}"
     },
     {
         "id": "next-completion-generatestaticparams-001",
@@ -977,14 +977,14 @@
             "en": "Fill in the blanks to statically generate product pages at build time:",
             "ru": "Заполните пропуски, чтобы статически сгенерировать страницы продуктов на этапе сборки:"
         },
-        "code": "export async function ___() {\n  const products = await getProducts();\n  return products.map((product) => ({\n    ___: product.id.toString()\n  }));\n}\n\nexport default function ProductPage({ params }: { params: { id: string } }) {\n  return <div>Product {params.id}</div>;\n}",
-        "blanks": ["generateStaticParams", "id"],
-        "lang": "typescript",
-        "referenceAnswer": "export async function generateStaticParams() {\n  const products = await getProducts();\n  return products.map((product) => ({\n    id: product.id.toString()\n  }));\n}\n\nexport default function ProductPage({ params }: { params: { id: string } }) {\n  return <div>Product {params.id}</div>;\n}",
         "explanation": {
             "en": "`generateStaticParams` returns an array of objects where each key matches a dynamic segment name in the route (here `[id]`). Next.js calls this at build time and pre-renders one page per returned object. The function can fetch from a database or CMS, and the fetched data is automatically deduplicated with data fetched in the page component.",
             "ru": "`generateStaticParams` возвращает массив объектов, где каждый ключ соответствует имени динамического сегмента в маршруте (здесь `[id]`). Next.js вызывает её на этапе сборки и пре-рендерит по странице на каждый возвращённый объект. Функция может читать из базы или CMS, и полученные данные автоматически дедуплицируются с данными, запрошенными в компоненте страницы."
-        }
+        },
+        "code": "export async function __BLANK__() {\n  const products = await getProducts();\n  return products.map((product) => ({\n    __BLANK__: product.id.toString()\n  }));\n}\n\nexport default function ProductPage({ params }: { params: { id: string } }) {\n  return <div>Product {params.id}</div>;\n}",
+        "blanks": ["generateStaticParams", "id"],
+        "lang": "typescript",
+        "referenceAnswer": "export async function generateStaticParams() {\n  const products = await getProducts();\n  return products.map((product) => ({\n    id: product.id.toString()\n  }));\n}\n\nexport default function ProductPage({ params }: { params: { id: string } }) {\n  return <div>Product {params.id}</div>;\n}"
     },
     {
         "id": "next-completion-isr-001",
@@ -996,14 +996,14 @@
             "en": "Fill in the blanks to tag a `fetch` call and later invalidate it by tag in a Server Action:",
             "ru": "Заполните пропуски, чтобы пометить `fetch`-вызов тегом и позже инвалидировать его по тегу в Server Action:"
         },
-        "code": "// Fetching with a tag\nasync function getProducts() {\n  return fetch('/api/products', {\n    next: { ___: ['products'] }\n  }).then(r => r.json());\n}\n\n// Server Action to invalidate\n'use server';\nimport { ___ } from 'next/cache';\n\nexport async function invalidateProducts() {\n  ___('products');\n}",
-        "blanks": ["tags", "revalidateTag", "revalidateTag"],
-        "lang": "typescript",
-        "referenceAnswer": "// Fetching with a tag\nasync function getProducts() {\n  return fetch('/api/products', {\n    next: { tags: ['products'] }\n  }).then(r => r.json());\n}\n\n// Server Action to invalidate\n'use server';\nimport { revalidateTag } from 'next/cache';\n\nexport async function invalidateProducts() {\n  revalidateTag('products');\n}",
         "explanation": {
             "en": "The `next: { tags: [...] }` option on `fetch` associates the cached response with named tags. `revalidateTag('products')` from `'next/cache'` purges all cached responses with the `'products'` tag, regardless of which URL they came from. This is more granular than `revalidatePath` and is ideal for content that spans multiple routes.",
             "ru": "Опция `next: { tags: [...] }` у `fetch` связывает кэшированный ответ с именованными тегами. `revalidateTag('products')` из `'next/cache'` сбрасывает все кэшированные ответы с тегом `'products'`, независимо от того, с какого URL они пришли. Это более гранулярно, чем `revalidatePath`, и идеально для контента, охватывающего несколько маршрутов."
-        }
+        },
+        "code": "// Fetching with a tag\nasync function getProducts() {\n  return fetch('/api/products', {\n    next: { __BLANK__: ['products'] }\n  }).then(r => r.json());\n}\n\n// Server Action to invalidate\n'use server';\nimport { __BLANK__ } from 'next/cache';\n\nexport async function invalidateProducts() {\n  __BLANK__('products');\n}",
+        "blanks": ["tags", "revalidateTag", "revalidateTag"],
+        "lang": "typescript",
+        "referenceAnswer": "// Fetching with a tag\nasync function getProducts() {\n  return fetch('/api/products', {\n    next: { tags: ['products'] }\n  }).then(r => r.json());\n}\n\n// Server Action to invalidate\n'use server';\nimport { revalidateTag } from 'next/cache';\n\nexport async function invalidateProducts() {\n  revalidateTag('products');\n}"
     },
     {
         "id": "next-completion-font-001",
@@ -1015,14 +1015,14 @@
             "en": "Fill in the blanks to self-host the Inter Google Font and apply it to the root layout:",
             "ru": "Заполните пропуски, чтобы self-host'ить Google-шрифт Inter и применить его к корневому layout'у:"
         },
-        "code": "import { ___ } from 'next/font/google';\n\nconst inter = ___({ subsets: ['latin'] });\n\nexport default function RootLayout({ children }: { children: React.ReactNode }) {\n  return (\n    <html lang=\"en\">\n      <body className={inter.___}>{children}</body>\n    </html>\n  );\n}",
-        "blanks": ["Inter", "Inter", "className"],
-        "lang": "typescript",
-        "referenceAnswer": "import { Inter } from 'next/font/google';\n\nconst inter = Inter({ subsets: ['latin'] });\n\nexport default function RootLayout({ children }: { children: React.ReactNode }) {\n  return (\n    <html lang=\"en\">\n      <body className={inter.className}>{children}</body>\n    </html>\n  );\n}",
         "explanation": {
             "en": "`next/font/google` exports named font constructors. Calling `Inter({ subsets: [...] })` returns a font object with a `.className` property that contains the generated CSS class. Applying it to `<body>` makes the font available to all children. Next.js downloads and self-hosts the font at build time, eliminating the Google Fonts network request.",
             "ru": "`next/font/google` экспортирует именованные конструкторы шрифтов. Вызов `Inter({ subsets: [...] })` возвращает объект шрифта со свойством `.className`, содержащим сгенерированный CSS-класс. Применение его к `<body>` делает шрифт доступным всем потомкам. Next.js скачивает и self-host'ит шрифт на этапе сборки, устраняя сетевой запрос к Google Fonts."
-        }
+        },
+        "code": "import { __BLANK__ } from 'next/font/google';\n\nconst inter = __BLANK__({ subsets: ['latin'] });\n\nexport default function RootLayout({ children }: { children: React.ReactNode }) {\n  return (\n    <html lang=\"en\">\n      <body className={inter.__BLANK__}>{children}</body>\n    </html>\n  );\n}",
+        "blanks": ["Inter", "Inter", "className"],
+        "lang": "typescript",
+        "referenceAnswer": "import { Inter } from 'next/font/google';\n\nconst inter = Inter({ subsets: ['latin'] });\n\nexport default function RootLayout({ children }: { children: React.ReactNode }) {\n  return (\n    <html lang=\"en\">\n      <body className={inter.className}>{children}</body>\n    </html>\n  );\n}"
     },
     {
         "id": "next-completion-server-component-fetch-001",
@@ -1034,14 +1034,14 @@
             "en": "Fill in the blanks to fetch data inside a Server Component with time-based revalidation every 5 minutes:",
             "ru": "Заполните пропуски, чтобы загрузить данные внутри Server Component с ревалидацией по времени каждые 5 минут:"
         },
-        "code": "export default async function BlogPage() {\n  const posts = await fetch('https://api.example.com/posts', {\n    next: { ___: ___ }\n  }).then(r => r.json());\n\n  return (\n    <ul>\n      {posts.map((post: { id: string; title: string }) => (\n        <li key={post.id}>{post.title}</li>\n      ))}\n    </ul>\n  );\n}",
-        "blanks": ["revalidate", "300"],
-        "lang": "typescript",
-        "referenceAnswer": "export default async function BlogPage() {\n  const posts = await fetch('https://api.example.com/posts', {\n    next: { revalidate: 300 }\n  }).then(r => r.json());\n\n  return (\n    <ul>\n      {posts.map((post: { id: string; title: string }) => (\n        <li key={post.id}>{post.title}</li>\n      ))}\n    </ul>\n  );\n}",
         "explanation": {
             "en": "Server Components can be `async` functions that directly `await` data. `next: { revalidate: 300 }` configures ISR with a 5-minute (300-second) revalidation window. The page is statically generated at build time; after 300 seconds the cache becomes stale, and the next request triggers background regeneration while the stale page is served.",
             "ru": "Server Components могут быть `async`-функциями, которые напрямую `await`'ят данные. `next: { revalidate: 300 }` настраивает ISR с окном ревалидации 5 минут (300 секунд). Страница статически генерируется на этапе сборки; через 300 секунд кэш становится stale, и следующий запрос запускает фоновую перегенерацию, пока отдаётся stale-версия."
-        }
+        },
+        "code": "export default async function BlogPage() {\n  const posts = await fetch('https://api.example.com/posts', {\n    next: { __BLANK__: __BLANK__ }\n  }).then(r => r.json());\n\n  return (\n    <ul>\n      {posts.map((post: { id: string; title: string }) => (\n        <li key={post.id}>{post.title}</li>\n      ))}\n    </ul>\n  );\n}",
+        "blanks": ["revalidate", "300"],
+        "lang": "typescript",
+        "referenceAnswer": "export default async function BlogPage() {\n  const posts = await fetch('https://api.example.com/posts', {\n    next: { revalidate: 300 }\n  }).then(r => r.json());\n\n  return (\n    <ul>\n      {posts.map((post: { id: string; title: string }) => (\n        <li key={post.id}>{post.title}</li>\n      ))}\n    </ul>\n  );\n}"
     },
     {
         "id": "next-multi-choice-app-vs-pages-001",
@@ -1052,6 +1052,10 @@
         "question": {
             "en": "Which of the following are features **exclusive to the App Router** (not available in the Pages Router)? (Select all that apply)",
             "ru": "Какие из перечисленных возможностей **есть только в App Router** (и недоступны в Pages Router)? (Выберите все подходящие варианты)"
+        },
+        "explanation": {
+            "en": "The App Router introduces RSC, nested persistent layouts, Server Actions, streaming, parallel routes, and the new file conventions (`loading.tsx`, `error.tsx`). File-based routing itself has existed since the Pages Router. The Pages Router only supports flat layouts via `_app.tsx` and `_document.tsx` — it doesn't support nested persistent layouts.",
+            "ru": "App Router привносит RSC, вложенные persistent-layout'ы, Server Actions, streaming, parallel routes и новые файловые конвенции (`loading.tsx`, `error.tsx`). Сама файловая маршрутизация существует ещё со времён Pages Router. Pages Router поддерживает только плоские layout'ы через `_app.tsx` и `_document.tsx` — вложенные persistent-layout'ы там невозможны."
         },
         "options": [
             {
@@ -1071,11 +1075,7 @@
                 "ru": "Server Actions (`'use server'`)"
             }
         ],
-        "correct": [0, 2, 3],
-        "explanation": {
-            "en": "The App Router introduces RSC, nested persistent layouts, Server Actions, streaming, parallel routes, and the new file conventions (`loading.tsx`, `error.tsx`). File-based routing itself has existed since the Pages Router. The Pages Router only supports flat layouts via `_app.tsx` and `_document.tsx` — it doesn't support nested persistent layouts.",
-            "ru": "App Router привносит RSC, вложенные persistent-layout'ы, Server Actions, streaming, parallel routes и новые файловые конвенции (`loading.tsx`, `error.tsx`). Сама файловая маршрутизация существует ещё со времён Pages Router. Pages Router поддерживает только плоские layout'ы через `_app.tsx` и `_document.tsx` — вложенные persistent-layout'ы там невозможны."
-        }
+        "correct": [0, 2, 3]
     },
     {
         "id": "next-multi-choice-server-components-001",
@@ -1086,6 +1086,10 @@
         "question": {
             "en": "Which of the following can Server Components do that Client Components cannot? (Select all that apply)",
             "ru": "Что из перечисленного умеют Server Components, а Client Components — нет? (Выберите все подходящие варианты)"
+        },
+        "explanation": {
+            "en": "Server Components execute only on the server, so they can access internal APIs, databases, and secrets directly. They zero-cost import server-only packages (e.g. ORMs, crypto libs) because those never reach the browser bundle. They cannot use hooks or event handlers — those require the client-side React runtime available only in Client Components.",
+            "ru": "Server Components выполняются только на сервере, поэтому могут напрямую обращаться к внутренним API, базам данных и секретам. Они бесплатно импортируют server-only пакеты (ORM, криптобиблиотеки), потому что те никогда не попадают в браузерный бандл. Они не могут использовать хуки и обработчики событий — для них нужен клиентский React-рантайм, доступный только в Client Components."
         },
         "options": [
             {
@@ -1105,11 +1109,7 @@
                 "ru": "Слушать браузерные события вроде `onClick` или `onChange`"
             }
         ],
-        "correct": [0, 2],
-        "explanation": {
-            "en": "Server Components execute only on the server, so they can access internal APIs, databases, and secrets directly. They zero-cost import server-only packages (e.g. ORMs, crypto libs) because those never reach the browser bundle. They cannot use hooks or event handlers — those require the client-side React runtime available only in Client Components.",
-            "ru": "Server Components выполняются только на сервере, поэтому могут напрямую обращаться к внутренним API, базам данных и секретам. Они бесплатно импортируют server-only пакеты (ORM, криптобиблиотеки), потому что те никогда не попадают в браузерный бандл. Они не могут использовать хуки и обработчики событий — для них нужен клиентский React-рантайм, доступный только в Client Components."
-        }
+        "correct": [0, 2]
     },
     {
         "id": "next-multi-choice-caching-001",
@@ -1120,6 +1120,10 @@
         "question": {
             "en": "Which of the following actions cause a Next.js route to render **dynamically** (per-request) instead of statically? (Select all that apply)",
             "ru": "Какие из перечисленных действий приводят к тому, что маршрут Next.js рендерится **динамически** (на каждый запрос), а не статически? (Выберите все подходящие варианты)"
+        },
+        "explanation": {
+            "en": "Next.js opts a route into dynamic rendering when it detects inherently request-specific data: `cookies()` and `headers()` read per-request values, `cache: 'no-store'` disables caching, and `searchParams` varies per URL. `export const dynamic = 'force-static'` does the opposite — it forces static rendering even if dynamic APIs are used (returning empty values for them).",
+            "ru": "Next.js переводит маршрут в динамический рендеринг, когда обнаруживает данные, зависящие от запроса: `cookies()` и `headers()` читают per-request значения, `cache: 'no-store'` отключает кэширование, а `searchParams` варьируется от URL к URL. `export const dynamic = 'force-static'` делает обратное — форсирует статический рендеринг даже при использовании динамических API (возвращая для них пустые значения)."
         },
         "options": [
             {
@@ -1139,11 +1143,7 @@
                 "ru": "Обращение к пропу `searchParams` в компоненте страницы"
             }
         ],
-        "correct": [0, 1, 3],
-        "explanation": {
-            "en": "Next.js opts a route into dynamic rendering when it detects inherently request-specific data: `cookies()` and `headers()` read per-request values, `cache: 'no-store'` disables caching, and `searchParams` varies per URL. `export const dynamic = 'force-static'` does the opposite — it forces static rendering even if dynamic APIs are used (returning empty values for them).",
-            "ru": "Next.js переводит маршрут в динамический рендеринг, когда обнаруживает данные, зависящие от запроса: `cookies()` и `headers()` читают per-request значения, `cache: 'no-store'` отключает кэширование, а `searchParams` варьируется от URL к URL. `export const dynamic = 'force-static'` делает обратное — форсирует статический рендеринг даже при использовании динамических API (возвращая для них пустые значения)."
-        }
+        "correct": [0, 1, 3]
     },
     {
         "id": "next-multi-choice-middleware-001",
@@ -1154,6 +1154,10 @@
         "question": {
             "en": "Which of the following are true about Next.js middleware? (Select all that apply)",
             "ru": "Какие из утверждений о middleware в Next.js верны? (Выберите все подходящие варианты)"
+        },
+        "explanation": {
+            "en": "Middleware runs in the Edge Runtime (V8 isolate), which deliberately excludes Node.js APIs like `fs`, `child_process`, and most native modules. This makes it fast and globally distributed. It can rewrite URLs (the browser sees the original URL) and it runs before any route matches, including before Server Components execute — making it the right place for auth redirects.",
+            "ru": "Middleware выполняется в Edge Runtime (V8-изолят), который намеренно исключает Node.js API вроде `fs`, `child_process` и большинства нативных модулей. Благодаря этому он быстрый и глобально распределённый. Middleware может делать rewrite URL'ов (браузер видит оригинальный URL) и выполняется до матчинга любого маршрута, включая до выполнения Server Components — поэтому это правильное место для auth-редиректов."
         },
         "options": [
             {
@@ -1173,11 +1177,7 @@
                 "ru": "Middleware выполняется до аутентификации в Server Components App Router'а"
             }
         ],
-        "correct": [0, 2, 3],
-        "explanation": {
-            "en": "Middleware runs in the Edge Runtime (V8 isolate), which deliberately excludes Node.js APIs like `fs`, `child_process`, and most native modules. This makes it fast and globally distributed. It can rewrite URLs (the browser sees the original URL) and it runs before any route matches, including before Server Components execute — making it the right place for auth redirects.",
-            "ru": "Middleware выполняется в Edge Runtime (V8-изолят), который намеренно исключает Node.js API вроде `fs`, `child_process` и большинства нативных модулей. Благодаря этому он быстрый и глобально распределённый. Middleware может делать rewrite URL'ов (браузер видит оригинальный URL) и выполняется до матчинга любого маршрута, включая до выполнения Server Components — поэтому это правильное место для auth-редиректов."
-        }
+        "correct": [0, 2, 3]
     },
     {
         "id": "next-multi-choice-server-actions-001",
@@ -1188,6 +1188,10 @@
         "question": {
             "en": "Which of the following are true about Next.js Server Actions? (Select all that apply)",
             "ru": "Какие из утверждений о Server Actions в Next.js верны? (Выберите все подходящие варианты)"
+        },
+        "explanation": {
+            "en": "Server Actions are POST endpoints under the hood — they are accessible from the network, so input validation and authorization must be applied. Next.js automatically includes origin checking to prevent CSRF attacks on Server Actions. They can be called from forms AND from JavaScript event handlers (e.g. `onClick`). Calling `revalidatePath`/`revalidateTag` inside them is the standard pattern for cache invalidation after mutations.",
+            "ru": "Под капотом Server Actions — это POST-эндпоинты, доступные из сети, поэтому к ним обязательно применять валидацию входных данных и авторизацию. Next.js автоматически делает проверку origin'а для защиты Server Actions от CSRF-атак. Вызывать их можно И из форм, И из JavaScript-обработчиков событий (например, `onClick`). Вызов `revalidatePath`/`revalidateTag` внутри — стандартный паттерн инвалидации кэша после мутаций."
         },
         "options": [
             {
@@ -1207,11 +1211,7 @@
                 "ru": "Server Actions могут вызывать `revalidatePath` или `revalidateTag` для обновления кэшированных данных"
             }
         ],
-        "correct": [0, 2, 3],
-        "explanation": {
-            "en": "Server Actions are POST endpoints under the hood — they are accessible from the network, so input validation and authorization must be applied. Next.js automatically includes origin checking to prevent CSRF attacks on Server Actions. They can be called from forms AND from JavaScript event handlers (e.g. `onClick`). Calling `revalidatePath`/`revalidateTag` inside them is the standard pattern for cache invalidation after mutations.",
-            "ru": "Под капотом Server Actions — это POST-эндпоинты, доступные из сети, поэтому к ним обязательно применять валидацию входных данных и авторизацию. Next.js автоматически делает проверку origin'а для защиты Server Actions от CSRF-атак. Вызывать их можно И из форм, И из JavaScript-обработчиков событий (например, `onClick`). Вызов `revalidatePath`/`revalidateTag` внутри — стандартный паттерн инвалидации кэша после мутаций."
-        }
+        "correct": [0, 2, 3]
     },
     {
         "id": "next-multi-choice-image-001",
@@ -1222,6 +1222,10 @@
         "question": {
             "en": "Which props are **required** when using `next/image` with a remote image? (Select all that apply)",
             "ru": "Какие пропы **обязательны** при использовании `next/image` с удалённым изображением? (Выберите все подходящие варианты)"
+        },
+        "explanation": {
+            "en": "`src`, `alt`, and sizing (`width` + `height` or `fill`) are all required. `src` provides the URL, `alt` is required for accessibility, and dimensions are needed because Next.js must know the aspect ratio to prevent CLS before the image loads. `priority` is optional — add it only for above-the-fold images (LCP candidates) to disable lazy loading and add a preload link.",
+            "ru": "`src`, `alt` и размеры (`width` + `height` или `fill`) — все обязательны. `src` задаёт URL, `alt` нужен для accessibility, а размеры необходимы, потому что Next.js должен знать соотношение сторон, чтобы предотвратить CLS до загрузки изображения. `priority` опционален — добавляйте его только для above-the-fold изображений (кандидатов на LCP), чтобы отключить lazy loading и добавить preload-ссылку."
         },
         "options": [
             {
@@ -1241,11 +1245,7 @@
                 "ru": "`priority`"
             }
         ],
-        "correct": [0, 1, 2],
-        "explanation": {
-            "en": "`src`, `alt`, and sizing (`width` + `height` or `fill`) are all required. `src` provides the URL, `alt` is required for accessibility, and dimensions are needed because Next.js must know the aspect ratio to prevent CLS before the image loads. `priority` is optional — add it only for above-the-fold images (LCP candidates) to disable lazy loading and add a preload link.",
-            "ru": "`src`, `alt` и размеры (`width` + `height` или `fill`) — все обязательны. `src` задаёт URL, `alt` нужен для accessibility, а размеры необходимы, потому что Next.js должен знать соотношение сторон, чтобы предотвратить CLS до загрузки изображения. `priority` опционален — добавляйте его только для above-the-fold изображений (кандидатов на LCP), чтобы отключить lazy loading и добавить preload-ссылку."
-        }
+        "correct": [0, 1, 2]
     },
     {
         "id": "next-multi-choice-parallel-routes-001",
@@ -1256,6 +1256,10 @@
         "question": {
             "en": "Which of the following are valid use-cases for combining parallel routes with intercepting routes? (Select all that apply)",
             "ru": "Какие из перечисленных use-case'ов являются корректными для комбинации parallel routes и intercepting routes? (Выберите все подходящие варианты)"
+        },
+        "explanation": {
+            "en": "Intercepting routes + parallel routes enable the 'modal route' pattern: the intercepted route renders in a parallel slot (modal), but the full page renders when navigated to directly. Multi-step modal forms follow the same pattern. A side/main dashboard layout is pure parallel routes (no interception needed). Per-widget loading skeletons use `loading.tsx` in nested segments, not parallel/intercepting routes.",
+            "ru": "Intercepting routes + parallel routes реализуют паттерн «модального маршрута»: перехваченный маршрут рендерится в parallel-слоте (модалка), а полноценная страница рендерится при прямой навигации. Многошаговые модальные формы следуют тому же паттерну. Layout дашборда «сайдбар + основная область» — это чистые parallel routes (перехват не нужен). Loading-скелетоны на каждый виджет делаются через `loading.tsx` во вложенных сегментах, а не через parallel/intercepting routes."
         },
         "options": [
             {
@@ -1275,11 +1279,7 @@
                 "ru": "Отображение разных loading-скелетонов для каждого виджета дашборда"
             }
         ],
-        "correct": [0, 2],
-        "explanation": {
-            "en": "Intercepting routes + parallel routes enable the 'modal route' pattern: the intercepted route renders in a parallel slot (modal), but the full page renders when navigated to directly. Multi-step modal forms follow the same pattern. A side/main dashboard layout is pure parallel routes (no interception needed). Per-widget loading skeletons use `loading.tsx` in nested segments, not parallel/intercepting routes.",
-            "ru": "Intercepting routes + parallel routes реализуют паттерн «модального маршрута»: перехваченный маршрут рендерится в parallel-слоте (модалка), а полноценная страница рендерится при прямой навигации. Многошаговые модальные формы следуют тому же паттерну. Layout дашборда «сайдбар + основная область» — это чистые parallel routes (перехват не нужен). Loading-скелетоны на каждый виджет делаются через `loading.tsx` во вложенных сегментах, а не через parallel/intercepting routes."
-        }
+        "correct": [0, 2]
     },
     {
         "id": "next-multi-choice-isr-001",
@@ -1290,6 +1290,10 @@
         "question": {
             "en": "Which of the following statements about ISR (Incremental Static Regeneration) in Next.js 13+ App Router are correct? (Select all that apply)",
             "ru": "Какие из утверждений об ISR (Incremental Static Regeneration) в Next.js 13+ App Router верны? (Выберите все подходящие варианты)"
+        },
+        "explanation": {
+            "en": "`next: { revalidate: 0 }` is NOT the same as `no-store` — the cache entry is written but immediately stale (revalidated on every request). `no-store` skips the cache entirely. On-demand `revalidateTag` marks the cache as stale instantly — the next request triggers fresh generation. Time-based ISR follows a stale-while-revalidate model. `revalidatePath` is an App Router API and does not exist in the Pages Router.",
+            "ru": "`next: { revalidate: 0 }` — это НЕ то же самое, что `no-store`: запись в кэш создаётся, но считается сразу устаревшей (ревалидация на каждом запросе). `no-store` же полностью пропускает кэш. On-demand `revalidateTag` мгновенно помечает кэш как stale — следующий запрос запускает свежую генерацию. Time-based ISR работает по модели stale-while-revalidate. `revalidatePath` — это API App Router и в Pages Router не существует."
         },
         "options": [
             {
@@ -1309,11 +1313,7 @@
                 "ru": "`revalidatePath` можно вызывать внутри `getServerSideProps`"
             }
         ],
-        "correct": [1, 2],
-        "explanation": {
-            "en": "`next: { revalidate: 0 }` is NOT the same as `no-store` — the cache entry is written but immediately stale (revalidated on every request). `no-store` skips the cache entirely. On-demand `revalidateTag` marks the cache as stale instantly — the next request triggers fresh generation. Time-based ISR follows a stale-while-revalidate model. `revalidatePath` is an App Router API and does not exist in the Pages Router.",
-            "ru": "`next: { revalidate: 0 }` — это НЕ то же самое, что `no-store`: запись в кэш создаётся, но считается сразу устаревшей (ревалидация на каждом запросе). `no-store` же полностью пропускает кэш. On-demand `revalidateTag` мгновенно помечает кэш как stale — следующий запрос запускает свежую генерацию. Time-based ISR работает по модели stale-while-revalidate. `revalidatePath` — это API App Router и в Pages Router не существует."
-        }
+        "correct": [1, 2]
     },
     {
         "id": "next-multi-choice-env-vars-001",
@@ -1324,6 +1324,10 @@
         "question": {
             "en": "Which of the following statements about environment variables in Next.js are correct? (Select all that apply)",
             "ru": "Какие из утверждений о переменных окружения в Next.js верны? (Выберите все подходящие варианты)"
+        },
+        "explanation": {
+            "en": "`NEXT_PUBLIC_` variables are replaced with their literal values in the client bundle at build time — changing them after a build has no effect without a rebuild. `.env.local` is gitignored by default and the right place for secrets. Server-only variables return `undefined` in Client Components. `.env.local` has higher priority than `.env.production` — it always overrides, not the other way around.",
+            "ru": "Переменные `NEXT_PUBLIC_` заменяются своими литеральными значениями в клиентском бандле на этапе сборки — изменить их после сборки без пересборки не получится. `.env.local` по умолчанию в gitignore и является правильным местом для секретов. Серверные переменные в Client Components возвращают `undefined`. У `.env.local` более высокий приоритет, чем у `.env.production` — он всегда перекрывает, а не наоборот."
         },
         "options": [
             {
@@ -1343,11 +1347,7 @@
                 "ru": "Значения `.env.production` перекрывают `.env.local`, когда `NODE_ENV=production`"
             }
         ],
-        "correct": [0, 1],
-        "explanation": {
-            "en": "`NEXT_PUBLIC_` variables are replaced with their literal values in the client bundle at build time — changing them after a build has no effect without a rebuild. `.env.local` is gitignored by default and the right place for secrets. Server-only variables return `undefined` in Client Components. `.env.local` has higher priority than `.env.production` — it always overrides, not the other way around.",
-            "ru": "Переменные `NEXT_PUBLIC_` заменяются своими литеральными значениями в клиентском бандле на этапе сборки — изменить их после сборки без пересборки не получится. `.env.local` по умолчанию в gitignore и является правильным местом для секретов. Серверные переменные в Client Components возвращают `undefined`. У `.env.local` более высокий приоритет, чем у `.env.production` — он всегда перекрывает, а не наоборот."
-        }
+        "correct": [0, 1]
     },
     {
         "id": "next-multi-choice-rendering-modes-001",
@@ -1358,6 +1358,10 @@
         "question": {
             "en": "In the Next.js App Router, which of the following correctly describe how a route's rendering mode is determined? (Select all that apply)",
             "ru": "В Next.js App Router какие из утверждений корректно описывают, как определяется режим рендеринга маршрута? (Выберите все подходящие варианты)"
+        },
+        "explanation": {
+            "en": "Next.js defaults to static rendering and automatically upgrades to dynamic when it detects dynamic functions (`cookies()`, `headers()`, `searchParams`) or uncached data. `force-dynamic` overrides this detection. ISR is triggered by `revalidate` on `fetch` calls. Importing a Client Component does NOT make the page fully client-rendered — the parent Server Component still renders on the server; only the Client Component subtree is hydrated.",
+            "ru": "Next.js по умолчанию использует статический рендеринг и автоматически переключается на динамический, когда обнаруживает динамические функции (`cookies()`, `headers()`, `searchParams`) или некэшированные данные. `force-dynamic` перекрывает эту автодетекцию. ISR включается через `revalidate` в вызовах `fetch`. Импорт Client Component НЕ делает страницу полностью клиентской — родительский Server Component всё равно рендерится на сервере, гидратируется только поддерево Client Component'а."
         },
         "options": [
             {
@@ -1377,11 +1381,7 @@
                 "ru": "Использование `fetch` с `next: { revalidate: 60 }` переводит маршрут на ISR"
             }
         ],
-        "correct": [0, 1, 3],
-        "explanation": {
-            "en": "Next.js defaults to static rendering and automatically upgrades to dynamic when it detects dynamic functions (`cookies()`, `headers()`, `searchParams`) or uncached data. `force-dynamic` overrides this detection. ISR is triggered by `revalidate` on `fetch` calls. Importing a Client Component does NOT make the page fully client-rendered — the parent Server Component still renders on the server; only the Client Component subtree is hydrated.",
-            "ru": "Next.js по умолчанию использует статический рендеринг и автоматически переключается на динамический, когда обнаруживает динамические функции (`cookies()`, `headers()`, `searchParams`) или некэшированные данные. `force-dynamic` перекрывает эту автодетекцию. ISR включается через `revalidate` в вызовах `fetch`. Импорт Client Component НЕ делает страницу полностью клиентской — родительский Server Component всё равно рендерится на сервере, гидратируется только поддерево Client Component'а."
-        }
+        "correct": [0, 1, 3]
     },
     {
         "id": "next-multi-choice-font-001",
@@ -1392,6 +1392,10 @@
         "question": {
             "en": "Which of the following benefits does `next/font` provide? (Select all that apply)",
             "ru": "Какие из перечисленных преимуществ даёт `next/font`? (Выберите все подходящие варианты)"
+        },
+        "explanation": {
+            "en": "`next/font` downloads fonts at build time and serves them from your own domain (no Google Fonts request at runtime). It generates `size-adjust` and `font-display: swap` CSS to prevent layout shift. It supports subsetting (e.g. `subsets: ['latin']`) to include only needed characters. Fonts are NOT inlined as Base64 — they are served as separate font files from your domain.",
+            "ru": "`next/font` скачивает шрифты на этапе сборки и раздаёт их с вашего домена (никаких запросов к Google Fonts в рантайме). Он генерирует CSS с `size-adjust` и `font-display: swap` для предотвращения layout shift. Поддерживает subsetting (например, `subsets: ['latin']`), чтобы включать только нужные символы. Шрифты НЕ инлайнятся как Base64 — они раздаются как отдельные файлы с вашего домена."
         },
         "options": [
             {
@@ -1411,11 +1415,7 @@
                 "ru": "Включаются только запрошенные подмножества символов, уменьшая размер файла шрифта"
             }
         ],
-        "correct": [0, 1, 3],
-        "explanation": {
-            "en": "`next/font` downloads fonts at build time and serves them from your own domain (no Google Fonts request at runtime). It generates `size-adjust` and `font-display: swap` CSS to prevent layout shift. It supports subsetting (e.g. `subsets: ['latin']`) to include only needed characters. Fonts are NOT inlined as Base64 — they are served as separate font files from your domain.",
-            "ru": "`next/font` скачивает шрифты на этапе сборки и раздаёт их с вашего домена (никаких запросов к Google Fonts в рантайме). Он генерирует CSS с `size-adjust` и `font-display: swap` для предотвращения layout shift. Поддерживает subsetting (например, `subsets: ['latin']`), чтобы включать только нужные символы. Шрифты НЕ инлайнятся как Base64 — они раздаются как отдельные файлы с вашего домена."
-        }
+        "correct": [0, 1, 3]
     },
     {
         "id": "next-multi-choice-streaming-001",
@@ -1426,6 +1426,10 @@
         "question": {
             "en": "Which of the following are true about streaming in the Next.js App Router? (Select all that apply)",
             "ru": "Какие из утверждений о streaming в Next.js App Router верны? (Выберите все подходящие варианты)"
+        },
+        "explanation": {
+            "en": "Next.js App Router streaming uses React's `renderToPipeableStream`. Multiple `<Suspense>` boundaries stream independently as each async component resolves. `loading.tsx` is sugar for wrapping the page in `<Suspense>`. The HTML shell (non-suspended content) is flushed immediately, improving TTFB and LCP. No WebSockets are involved — streaming uses standard HTTP chunked transfer encoding.",
+            "ru": "Streaming в Next.js App Router использует `renderToPipeableStream` из React. Несколько `<Suspense>`-границ стримятся независимо по мере того, как разрешается каждый асинхронный компонент. `loading.tsx` — это синтаксический сахар над оборачиванием страницы в `<Suspense>`. HTML-каркас (не-suspended часть) сбрасывается сразу, улучшая TTFB и LCP. Никаких WebSockets — streaming работает через стандартный HTTP chunked transfer encoding."
         },
         "options": [
             {
@@ -1445,10 +1449,6 @@
                 "ru": "Streaming улучшает Time to First Byte (TTFB), потому что статический HTML-каркас отправляется до того, как разрешатся все данные"
             }
         ],
-        "correct": [0, 2, 3],
-        "explanation": {
-            "en": "Next.js App Router streaming uses React's `renderToPipeableStream`. Multiple `<Suspense>` boundaries stream independently as each async component resolves. `loading.tsx` is sugar for wrapping the page in `<Suspense>`. The HTML shell (non-suspended content) is flushed immediately, improving TTFB and LCP. No WebSockets are involved — streaming uses standard HTTP chunked transfer encoding.",
-            "ru": "Streaming в Next.js App Router использует `renderToPipeableStream` из React. Несколько `<Suspense>`-границ стримятся независимо по мере того, как разрешается каждый асинхронный компонент. `loading.tsx` — это синтаксический сахар над оборачиванием страницы в `<Suspense>`. HTML-каркас (не-suspended часть) сбрасывается сразу, улучшая TTFB и LCP. Никаких WebSockets — streaming работает через стандартный HTTP chunked transfer encoding."
-        }
+        "correct": [0, 2, 3]
     }
 ]

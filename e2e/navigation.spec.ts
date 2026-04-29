@@ -21,10 +21,12 @@ test.describe('Navigation', () => {
 
     test('skip-to-content link is visible when focused', async ({ page }) => {
         await page.goto('/');
-        // Tab to focus the skip link
-        await page.keyboard.press('Tab');
         const skipLink = page.locator('a[href="#main-content"]');
-        // When focused it becomes visible (focus:not-sr-only)
+        // Focus the link directly. Tab-key simulation is unreliable across
+        // mobile emulations (iPhone 14 has no hardware keyboard concept of
+        // "next focusable"), so we trigger focus via the locator instead.
+        await skipLink.focus();
+        // When focused it becomes visible (focus:not-sr-only).
         await expect(skipLink).toBeInViewport();
     });
 });

@@ -89,6 +89,21 @@ describe('CodeBlock', () => {
         }
     });
 
+    it('scrolling container carries the theme background', () => {
+        const { container } = renderWithProviders(
+            <CodeBlock code="const x = 1" lang="javascript" />
+        );
+
+        // The scroll container is the inner div with max-h + overflow-auto.
+        // Asserting its bg classes guards against regressions where the bg lives
+        // only on the outer wrapper and a transparent strip appears on horizontal
+        // scroll (see bug-fix story 2026-04-29).
+        const scroller = container.querySelector('.overflow-auto');
+        expect(scroller).not.toBeNull();
+        expect(scroller?.className).toContain('bg-white');
+        expect(scroller?.className).toContain('dark:bg-[#0d1117]');
+    });
+
     it('cleanup cancels in-flight highlight on unmount', async () => {
         let resolveHighlighter!: (
             value: Awaited<ReturnType<typeof import('@/lib/shiki').getHighlighter>>

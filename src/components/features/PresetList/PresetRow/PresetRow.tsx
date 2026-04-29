@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/ui/button';
@@ -29,10 +30,14 @@ export const PresetRow: FC<PresetRowProps> = ({ preset }) => {
         handleDeleteCancel
     } = usePresetRow(preset);
 
+    // Freeze "now" at mount so the render is pure. Days-ago granularity is fine
+    // even across long sessions — the row remounts when presets re-load.
+    const [nowMs] = useState(() => Date.now());
+
     const relativeDate = (() => {
         const ms = new Date(preset.lastUsedAt).getTime();
         if (isNaN(ms)) return '';
-        const days = Math.max(0, Math.floor((Date.now() - ms) / 86_400_000));
+        const days = Math.max(0, Math.floor((nowMs - ms) / 86_400_000));
         if (days === 0) return t('preset.lastUsed.today');
         if (days === 1) return t('preset.lastUsed.yesterday');
         return t('preset.lastUsed.daysAgo', { count: days });

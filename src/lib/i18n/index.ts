@@ -67,9 +67,10 @@ const i18nInitPromise = i18next
             useSuspense: false
         },
         partialBundledLanguages: true,
-        // i18next default escapeValue: true. No <Trans> usages and no HTML in JSON values,
-        // so default escaping is safe and gives defense-in-depth if a key ever interpolates
-        // user-controlled data.
+        // React already escapes interpolated text in JSX, so i18next must NOT
+        // escape on top of that. Without this, values like "AI / LLM" or "API
+        // & BFF" surface as literal "AI &#x2F; LLM" / "API &amp; BFF" in the UI.
+        interpolation: { escapeValue: false },
         debug: false,
         load: I18N_LOAD_MODE
     })

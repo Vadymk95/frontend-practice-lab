@@ -22,10 +22,16 @@ export function useFlashBanner(): UseFlashBannerReturn {
     // inside it). React Router 7 navigate identity is stable, location is
     // intentionally re-read fresh via the navigate call itself.
 
+    // One-shot ingestion of the router-state flash: copy to local state and
+    // wipe the entry so a refresh does not re-show it. Effects are the right
+    // tool here — we are mutating the router (external system).
     useEffect(() => {
         if (incoming === null) return;
         setActiveFlash(incoming);
         navigate(location.pathname, { replace: true, state: null });
+        // Deps narrowed to `incoming`: navigate() is stable and re-running on every
+        // location change would loop because we call navigate inside.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [incoming]);
 
     useEffect(() => {

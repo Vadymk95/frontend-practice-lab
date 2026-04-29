@@ -23,6 +23,10 @@ export function useCodeBlock({ code, lang = 'javascript' }: UseCodeBlockProps): 
     useEffect(() => {
         let cancelled = false;
         const shikiTheme = theme === 'light' ? 'github-light' : 'github-dark';
+        // Reset to fallback while the new highlighter resolves so users do not
+        // see the previous code+theme during the async swap. This is a legitimate
+        // "external-system sync" reset, not derived state.
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setHighlightedHtml(null);
         getHighlighter()
             .then((h) => {

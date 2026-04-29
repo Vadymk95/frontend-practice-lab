@@ -209,16 +209,18 @@ The user reads a code snippet and identifies the bug.
 
 ## 5. `code-completion` Schema
 
-The user fills in the blanks (`___`) in a code template.
+The user fills in the blanks (`__BLANK__`) in a code template.
 
 ### Additional fields
 
 | Field             | Type       | Required | Description                                                                                                       |
 | ----------------- | ---------- | -------- | ----------------------------------------------------------------------------------------------------------------- |
-| `code`            | `string`   | ✅       | Code template with `___` (triple underscore) marking each blank. Language-agnostic (not translated).              |
+| `code`            | `string`   | ✅       | Code template with `__BLANK__` marking each blank. Language-agnostic (not translated).                            |
 | `blanks`          | `string[]` | ✅       | Expected fill-in values for each blank, in order of appearance. Identifiers/expressions — not translated.         |
 | `referenceAnswer` | `string`   | ✅       | Complete code or rationale shown after the user answers. Kept English-only by convention (technical post-mortem). |
 | `lang`            | `string`   | ❌       | Language for syntax highlighting (default: `"javascript"`).                                                       |
+
+> **Blank marker:** the only valid placeholder is the literal string `__BLANK__`. Triple underscores (`___`) and any other variant are NOT recognised — the schema rejects code where the `__BLANK__` marker count does not equal `blanks.length`.
 
 ### JSON example
 
@@ -233,7 +235,7 @@ The user fills in the blanks (`___`) in a code template.
         "en": "Complete the tagged template literal to return the string in uppercase:",
         "ru": "Дополните тегированный шаблонный литерал, чтобы вернуть строку в верхнем регистре:"
     },
-    "code": "function upper(strings, ...values) {\n  return strings.reduce((acc, str, i) => {\n    return acc + (values[i - 1] ? values[i - 1].___  : '') + str;\n  });\n}\nconst name = 'world';\nconsole.log(upper`hello ${name}`); // 'hello WORLD'",
+    "code": "function upper(strings, ...values) {\n  return strings.reduce((acc, str, i) => {\n    return acc + (values[i - 1] ? values[i - 1].__BLANK__  : '') + str;\n  });\n}\nconst name = 'world';\nconsole.log(upper`hello ${name}`); // 'hello WORLD'",
     "blanks": ["toUpperCase()"],
     "lang": "javascript",
     "referenceAnswer": "values[i - 1].toUpperCase() converts each interpolated value to uppercase before concatenating.",
@@ -244,7 +246,7 @@ The user fills in the blanks (`___`) in a code template.
 }
 ```
 
-The number of `___` occurrences in `code` must match the length of `blanks`.
+The number of `__BLANK__` occurrences in `code` must match the length of `blanks`. CI's `validate:data` step rejects any mismatch.
 
 ---
 

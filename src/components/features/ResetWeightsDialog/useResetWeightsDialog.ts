@@ -14,6 +14,7 @@ export interface UseResetWeightsDialogReturn {
     resetCategory: (slug: string) => Promise<void>;
     categories: ManifestEntry[];
     successMessage: string | null;
+    errorMessage: string | null;
 }
 
 export const useResetWeightsDialog = (): UseResetWeightsDialogReturn => {
@@ -21,6 +22,7 @@ export const useResetWeightsDialog = (): UseResetWeightsDialogReturn => {
     const getCategoryName = useCategoryDisplay();
     const [isOpen, setIsOpen] = useState(false);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const setWeights = useProgressStore.use.setWeights();
@@ -37,6 +39,7 @@ export const useResetWeightsDialog = (): UseResetWeightsDialogReturn => {
 
     const showSuccess = (message: string) => {
         if (timerRef.current !== null) clearTimeout(timerRef.current);
+        setErrorMessage(null);
         setSuccessMessage(message);
         timerRef.current = setTimeout(() => {
             setSuccessMessage(null);
@@ -77,18 +80,26 @@ export const useResetWeightsDialog = (): UseResetWeightsDialogReturn => {
                     category: getCategoryName(slug, category?.displayName)
                 })
             );
-        } catch {
-            // Store unchanged on fetch/parse failure — no UI feedback needed
+        } catch (err) {
+            // Surface the failure to the user instead of swallowing — silent
+            // catch was a real anti-pattern (the dialog visibly did nothing
+            // when a category file failed to load).
+            console.error('[ResetWeightsDialog] resetCategory failed', { slug, err });
+            setErrorMessage(t('resetWeights.errorCategory'));
         }
     };
 
     return {
         isOpen,
         open: () => setIsOpen(true),
-        close: () => setIsOpen(false),
+        close: () => {
+            setErrorMessage(null);
+            setIsOpen(false);
+        },
         resetAll,
         resetCategory,
         categories,
-        successMessage
+        successMessage,
+        errorMessage
     };
 };

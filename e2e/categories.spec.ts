@@ -164,9 +164,17 @@ test.describe('Categories — question access', () => {
             .click();
         await page.waitForURL('**/session/play', { timeout: 8000 });
 
-        // Answer the 1 question (quiz mode → radio guaranteed)
+        // Answer the 1 question. Quiz mode mixes single-choice (radio) and
+        // multi-choice (checkbox) — manifest's `quiz` count covers both — so
+        // the test handles either control.
         await page.waitForSelector('article h2', { timeout: 8000 });
-        await page.locator('[role="radio"]').first().click();
+        const checkbox = page.locator('article [role="checkbox"]').first();
+        if (await checkbox.isVisible()) {
+            await checkbox.click();
+            await page.getByRole('button', { name: /Проверить|Check/i }).click();
+        } else {
+            await page.locator('article [role="radio"]').first().click();
+        }
         await page.getByRole('button', { name: /Далее|Next/i }).click();
 
         await page.waitForURL('**/session/summary', { timeout: 5000 });

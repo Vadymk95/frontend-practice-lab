@@ -9,6 +9,10 @@
             "en": "What does XSS stand for in web security?",
             "ru": "Как расшифровывается XSS в контексте веб-безопасности?"
         },
+        "explanation": {
+            "en": "XSS stands for Cross-Site Scripting. It is an injection attack where malicious scripts are inserted into trusted websites and executed in users' browsers.",
+            "ru": "XSS расшифровывается как Cross-Site Scripting. Это инъекционная атака, при которой вредоносные скрипты внедряются в доверенные сайты и исполняются в браузерах пользователей."
+        },
         "options": [
             {
                 "en": "Cross-Site Scripting",
@@ -27,11 +31,7 @@
                 "ru": "Cross-Script Execution"
             }
         ],
-        "correct": 0,
-        "explanation": {
-            "en": "XSS stands for Cross-Site Scripting. It is an injection attack where malicious scripts are inserted into trusted websites and executed in users' browsers.",
-            "ru": "XSS расшифровывается как Cross-Site Scripting. Это инъекционная атака, при которой вредоносные скрипты внедряются в доверенные сайты и исполняются в браузерах пользователей."
-        }
+        "correct": 0
     },
     {
         "id": "sec-xss-002",
@@ -42,6 +42,10 @@
         "question": {
             "en": "Which type of XSS stores the malicious payload in the server's database?",
             "ru": "Какой тип XSS сохраняет вредоносный payload в базе данных сервера?"
+        },
+        "explanation": {
+            "en": "Stored (persistent) XSS saves the malicious script on the server (e.g., in a database). Every user who views the affected page receives and executes the script.",
+            "ru": "Stored (persistent) XSS сохраняет вредоносный скрипт на сервере (например, в базе данных). Каждый пользователь, открывающий затронутую страницу, получает и исполняет этот скрипт."
         },
         "options": [
             {
@@ -61,11 +65,7 @@
                 "ru": "Persistent reflected XSS"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "Stored (persistent) XSS saves the malicious script on the server (e.g., in a database). Every user who views the affected page receives and executes the script.",
-            "ru": "Stored (persistent) XSS сохраняет вредоносный скрипт на сервере (например, в базе данных). Каждый пользователь, открывающий затронутую страницу, получает и исполняет этот скрипт."
-        }
+        "correct": 2
     },
     {
         "id": "sec-csrf-001",
@@ -76,6 +76,10 @@
         "question": {
             "en": "What is the primary defense mechanism that prevents CSRF attacks by ensuring cookies are only sent in same-site requests?",
             "ru": "Какой основной механизм защиты предотвращает CSRF-атаки, гарантируя, что cookies отправляются только в same-site запросах?"
+        },
+        "explanation": {
+            "en": "The SameSite cookie attribute controls whether cookies are sent with cross-site requests. Setting it to 'Strict' or 'Lax' prevents the browser from sending cookies in cross-origin requests, blocking CSRF attacks.",
+            "ru": "Атрибут cookie SameSite контролирует, отправляются ли cookies в cross-site запросах. Значения 'Strict' или 'Lax' запрещают браузеру отправлять cookies в cross-origin запросах, блокируя CSRF-атаки."
         },
         "options": [
             {
@@ -95,11 +99,7 @@
                 "ru": "CORS headers"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "The SameSite cookie attribute controls whether cookies are sent with cross-site requests. Setting it to 'Strict' or 'Lax' prevents the browser from sending cookies in cross-origin requests, blocking CSRF attacks.",
-            "ru": "Атрибут cookie SameSite контролирует, отправляются ли cookies в cross-site запросах. Значения 'Strict' или 'Lax' запрещают браузеру отправлять cookies в cross-origin запросах, блокируя CSRF-атаки."
-        }
+        "correct": 2
     },
     {
         "id": "sec-https-001",
@@ -110,6 +110,10 @@
         "question": {
             "en": "What does TLS provide that plain HTTP does not?",
             "ru": "Что предоставляет TLS, чего нет в обычном HTTP?"
+        },
+        "explanation": {
+            "en": "TLS (Transport Layer Security) provides encryption of data in transit, server authentication via certificates, and message integrity checks — none of which plain HTTP offers.",
+            "ru": "TLS (Transport Layer Security) обеспечивает шифрование данных при передаче, аутентификацию сервера через сертификаты и проверку целостности сообщений — ничего из этого обычный HTTP не предоставляет."
         },
         "options": [
             {
@@ -129,11 +133,7 @@
                 "ru": "Постоянные соединения"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "TLS (Transport Layer Security) provides encryption of data in transit, server authentication via certificates, and message integrity checks — none of which plain HTTP offers.",
-            "ru": "TLS (Transport Layer Security) обеспечивает шифрование данных при передаче, аутентификацию сервера через сертификаты и проверку целостности сообщений — ничего из этого обычный HTTP не предоставляет."
-        }
+        "correct": 1
     },
     {
         "id": "sec-jwt-001",
@@ -144,6 +144,10 @@
         "question": {
             "en": "A JWT consists of three Base64URL-encoded parts separated by dots. What are they in order?",
             "ru": "JWT состоит из трёх частей в кодировке Base64URL, разделённых точками. Каковы они по порядку?"
+        },
+        "explanation": {
+            "en": "A JWT is structured as Header.Payload.Signature. The header describes the token type and algorithm, the payload contains claims, and the signature verifies the token has not been tampered with.",
+            "ru": "JWT имеет структуру Header.Payload.Signature. Header описывает тип токена и алгоритм, payload содержит claims, а signature подтверждает, что токен не был подделан."
         },
         "options": [
             {
@@ -163,11 +167,7 @@
                 "ru": "Signature, Header, Payload"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "A JWT is structured as Header.Payload.Signature. The header describes the token type and algorithm, the payload contains claims, and the signature verifies the token has not been tampered with.",
-            "ru": "JWT имеет структуру Header.Payload.Signature. Header описывает тип токена и алгоритм, payload содержит claims, а signature подтверждает, что токен не был подделан."
-        }
+        "correct": 2
     },
     {
         "id": "sec-cookies-001",
@@ -178,6 +178,10 @@
         "question": {
             "en": "What does the HttpOnly flag on a cookie prevent?",
             "ru": "Что предотвращает флаг HttpOnly у cookie?"
+        },
+        "explanation": {
+            "en": "The HttpOnly flag prevents client-side JavaScript from reading the cookie via document.cookie. This mitigates XSS attacks that attempt to steal session tokens.",
+            "ru": "Флаг HttpOnly запрещает клиентскому JavaScript читать cookie через document.cookie. Это снижает риск XSS-атак, направленных на кражу session-токенов."
         },
         "options": [
             {
@@ -197,11 +201,7 @@
                 "ru": "Истечение срока действия cookie"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "The HttpOnly flag prevents client-side JavaScript from reading the cookie via document.cookie. This mitigates XSS attacks that attempt to steal session tokens.",
-            "ru": "Флаг HttpOnly запрещает клиентскому JavaScript читать cookie через document.cookie. Это снижает риск XSS-атак, направленных на кражу session-токенов."
-        }
+        "correct": 1
     },
     {
         "id": "sec-csp-001",
@@ -212,6 +212,10 @@
         "question": {
             "en": "How is a Content Security Policy (CSP) delivered to the browser?",
             "ru": "Как Content Security Policy (CSP) доставляется в браузер?"
+        },
+        "explanation": {
+            "en": "CSP can be delivered through the Content-Security-Policy HTTP response header (preferred) or via a <meta http-equiv=\"Content-Security-Policy\"> tag. The header approach is more powerful as it applies before any page content is parsed.",
+            "ru": "CSP можно доставить через HTTP response-заголовок Content-Security-Policy (предпочтительный способ) или через тег <meta http-equiv=\"Content-Security-Policy\">. Вариант с заголовком мощнее, поскольку он применяется ещё до парсинга содержимого страницы."
         },
         "options": [
             {
@@ -231,11 +235,7 @@
                 "ru": "Через заголовок Strict-Transport-Security"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "CSP can be delivered through the Content-Security-Policy HTTP response header (preferred) or via a <meta http-equiv=\"Content-Security-Policy\"> tag. The header approach is more powerful as it applies before any page content is parsed.",
-            "ru": "CSP можно доставить через HTTP response-заголовок Content-Security-Policy (предпочтительный способ) или через тег <meta http-equiv=\"Content-Security-Policy\">. Вариант с заголовком мощнее, поскольку он применяется ещё до парсинга содержимого страницы."
-        }
+        "correct": 1
     },
     {
         "id": "sec-localstorage-001",
@@ -246,6 +246,10 @@
         "question": {
             "en": "Why is storing JWTs or session tokens in localStorage considered a security risk?",
             "ru": "Почему хранение JWT или session-токенов в localStorage считается риском безопасности?"
+        },
+        "explanation": {
+            "en": "Any JavaScript running on the same origin can access localStorage, including malicious scripts injected via XSS. HttpOnly cookies are invisible to JavaScript and therefore safer for storing session tokens.",
+            "ru": "Любой JavaScript, исполняющийся в том же origin, имеет доступ к localStorage, включая вредоносные скрипты, внедрённые через XSS. HttpOnly cookies недоступны для JavaScript и потому безопаснее для хранения session-токенов."
         },
         "options": [
             {
@@ -265,11 +269,7 @@
                 "ru": "У localStorage ограничение по объёму в 5 КБ"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "Any JavaScript running on the same origin can access localStorage, including malicious scripts injected via XSS. HttpOnly cookies are invisible to JavaScript and therefore safer for storing session tokens.",
-            "ru": "Любой JavaScript, исполняющийся в том же origin, имеет доступ к localStorage, включая вредоносные скрипты, внедрённые через XSS. HttpOnly cookies недоступны для JavaScript и потому безопаснее для хранения session-токенов."
-        }
+        "correct": 2
     },
     {
         "id": "sec-hsts-001",
@@ -280,6 +280,10 @@
         "question": {
             "en": "What does the Strict-Transport-Security (HSTS) header instruct the browser to do?",
             "ru": "Что заголовок Strict-Transport-Security (HSTS) указывает сделать браузеру?"
+        },
+        "explanation": {
+            "en": "HSTS tells the browser to only connect to the server via HTTPS for the duration specified by max-age, even if the user types http://. This prevents SSL-stripping attacks and accidental HTTP connections.",
+            "ru": "HSTS предписывает браузеру подключаться к серверу исключительно по HTTPS в течение периода, заданного max-age, даже если пользователь ввёл http://. Это защищает от SSL-stripping атак и случайных HTTP-соединений."
         },
         "options": [
             {
@@ -299,11 +303,7 @@
                 "ru": "Шифровать все отправки форм"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "HSTS tells the browser to only connect to the server via HTTPS for the duration specified by max-age, even if the user types http://. This prevents SSL-stripping attacks and accidental HTTP connections.",
-            "ru": "HSTS предписывает браузеру подключаться к серверу исключительно по HTTPS в течение периода, заданного max-age, даже если пользователь ввёл http://. Это защищает от SSL-stripping атак и случайных HTTP-соединений."
-        }
+        "correct": 1
     },
     {
         "id": "sec-eval-001",
@@ -314,6 +314,10 @@
         "question": {
             "en": "Why is using eval() with user-supplied input dangerous?",
             "ru": "Почему использование eval() с пользовательским вводом опасно?"
+        },
+        "explanation": {
+            "en": "eval() executes a string as JavaScript code with access to the current scope. If user input is passed to eval(), an attacker can execute arbitrary code, access variables, and exfiltrate data.",
+            "ru": "eval() исполняет строку как JavaScript-код с доступом к текущему scope. Если в eval() передаётся пользовательский ввод, атакующий может выполнить произвольный код, получить доступ к переменным и похитить данные."
         },
         "options": [
             {
@@ -333,11 +337,7 @@
                 "ru": "eval() не имеет доступа к DOM"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "eval() executes a string as JavaScript code with access to the current scope. If user input is passed to eval(), an attacker can execute arbitrary code, access variables, and exfiltrate data.",
-            "ru": "eval() исполняет строку как JavaScript-код с доступом к текущему scope. Если в eval() передаётся пользовательский ввод, атакующий может выполнить произвольный код, получить доступ к переменным и похитить данные."
-        }
+        "correct": 1
     },
     {
         "id": "sec-clickjacking-001",
@@ -348,6 +348,10 @@
         "question": {
             "en": "Which HTTP header prevents your page from being embedded in an <iframe> on another site, protecting against clickjacking?",
             "ru": "Какой HTTP-заголовок запрещает встраивание вашей страницы в <iframe> на другом сайте и защищает от clickjacking?"
+        },
+        "explanation": {
+            "en": "X-Frame-Options with values DENY or SAMEORIGIN prevents browsers from rendering the page inside an <iframe> on foreign origins, blocking clickjacking attacks. The frame-ancestors CSP directive is the modern equivalent.",
+            "ru": "X-Frame-Options со значениями DENY или SAMEORIGIN запрещает браузерам отрисовывать страницу внутри <iframe> на чужих origin, блокируя clickjacking-атаки. Современный аналог — CSP-директива frame-ancestors."
         },
         "options": [
             {
@@ -367,11 +371,7 @@
                 "ru": "Referrer-Policy"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "X-Frame-Options with values DENY or SAMEORIGIN prevents browsers from rendering the page inside an <iframe> on foreign origins, blocking clickjacking attacks. The frame-ancestors CSP directive is the modern equivalent.",
-            "ru": "X-Frame-Options со значениями DENY или SAMEORIGIN запрещает браузерам отрисовывать страницу внутри <iframe> на чужих origin, блокируя clickjacking-атаки. Современный аналог — CSP-директива frame-ancestors."
-        }
+        "correct": 1
     },
     {
         "id": "sec-cors-001",
@@ -382,6 +382,10 @@
         "question": {
             "en": "The Same-Origin Policy blocks cross-origin JavaScript reads. Two URLs share the same origin if they have the same:",
             "ru": "Same-Origin Policy блокирует cross-origin чтение из JavaScript. Два URL принадлежат одному origin, если у них совпадают:"
+        },
+        "explanation": {
+            "en": "Same origin requires an identical combination of protocol (scheme), domain (host), and port. A difference in any one of these makes the request cross-origin and subject to SOP restrictions.",
+            "ru": "Одинаковый origin требует идентичной комбинации протокола (scheme), домена (host) и порта. Различие в любом из этих компонентов делает запрос cross-origin и подпадающим под ограничения SOP."
         },
         "options": [
             {
@@ -401,11 +405,7 @@
                 "ru": "Домен и путь"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Same origin requires an identical combination of protocol (scheme), domain (host), and port. A difference in any one of these makes the request cross-origin and subject to SOP restrictions.",
-            "ru": "Одинаковый origin требует идентичной комбинации протокола (scheme), домена (host) и порта. Различие в любом из этих компонентов делает запрос cross-origin и подпадающим под ограничения SOP."
-        }
+        "correct": 1
     },
     {
         "id": "sec-sri-001",
@@ -416,6 +416,10 @@
         "question": {
             "en": "What is Subresource Integrity (SRI) used for?",
             "ru": "Для чего используется Subresource Integrity (SRI)?"
+        },
+        "explanation": {
+            "en": "SRI allows browsers to verify that a fetched resource (e.g., a CDN script) matches a known cryptographic hash. If the resource changes, the browser refuses to execute it, defending against supply-chain attacks.",
+            "ru": "SRI позволяет браузерам проверить, что загруженный ресурс (например, скрипт с CDN) соответствует известному криптографическому хэшу. Если ресурс изменился, браузер отказывается его исполнять, защищая от атак на цепочку поставок."
         },
         "options": [
             {
@@ -435,11 +439,7 @@
                 "ru": "Для кэширования скриптов в service worker"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "SRI allows browsers to verify that a fetched resource (e.g., a CDN script) matches a known cryptographic hash. If the resource changes, the browser refuses to execute it, defending against supply-chain attacks.",
-            "ru": "SRI позволяет браузерам проверить, что загруженный ресурс (например, скрипт с CDN) соответствует известному криптографическому хэшу. Если ресурс изменился, браузер отказывается его исполнять, защищая от атак на цепочку поставок."
-        }
+        "correct": 1
     },
     {
         "id": "sec-sanitize-001",
@@ -450,6 +450,10 @@
         "question": {
             "en": "What is the difference between sanitization and escaping in the context of XSS prevention?",
             "ru": "В чём разница между sanitization и escaping в контексте защиты от XSS?"
+        },
+        "explanation": {
+            "en": "Sanitization strips or neutralizes dangerous HTML/script content from input (e.g., using DOMPurify). Escaping converts characters like < > & into HTML entities so they display as literal text rather than being parsed as markup.",
+            "ru": "Sanitization вырезает или нейтрализует опасный HTML/script-контент во входных данных (например, через DOMPurify). Escaping преобразует символы вроде < > & в HTML-сущности, чтобы они отображались как обычный текст, а не парсились как разметка."
         },
         "options": [
             {
@@ -469,11 +473,7 @@
                 "ru": "Sanitization применяется к SQL; escaping — к HTML"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Sanitization strips or neutralizes dangerous HTML/script content from input (e.g., using DOMPurify). Escaping converts characters like < > & into HTML entities so they display as literal text rather than being parsed as markup.",
-            "ru": "Sanitization вырезает или нейтрализует опасный HTML/script-контент во входных данных (например, через DOMPurify). Escaping преобразует символы вроде < > & в HTML-сущности, чтобы они отображались как обычный текст, а не парсились как разметка."
-        }
+        "correct": 1
     },
     {
         "id": "sec-rate-limit-001",
@@ -484,6 +484,10 @@
         "question": {
             "en": "What is the primary purpose of rate limiting on an API endpoint?",
             "ru": "Какова основная цель rate limiting на API-эндпоинте?"
+        },
+        "explanation": {
+            "en": "Rate limiting restricts how many requests a client can send in a time window. This prevents brute-force attacks on authentication endpoints, denial-of-service attempts, and API scraping.",
+            "ru": "Rate limiting ограничивает количество запросов, которые клиент может отправить в единицу времени. Это защищает эндпоинты аутентификации от brute-force, снижает риск DoS и затрудняет скрапинг API."
         },
         "options": [
             {
@@ -503,11 +507,7 @@
                 "ru": "Эффективнее кэшировать ответы"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Rate limiting restricts how many requests a client can send in a time window. This prevents brute-force attacks on authentication endpoints, denial-of-service attempts, and API scraping.",
-            "ru": "Rate limiting ограничивает количество запросов, которые клиент может отправить в единицу времени. Это защищает эндпоинты аутентификации от brute-force, снижает риск DoS и затрудняет скрапинг API."
-        }
+        "correct": 1
     },
     {
         "id": "sec-xss-003",
@@ -518,6 +518,10 @@
         "question": {
             "en": "DOM-based XSS differs from reflected and stored XSS because:",
             "ru": "DOM-based XSS отличается от reflected и stored XSS тем, что:"
+        },
+        "explanation": {
+            "en": "In DOM-based XSS the entire attack flows through client-side code. The script reads a tainted source (e.g., location.hash, document.referrer) and writes it into a dangerous sink (e.g., innerHTML) without the payload ever being sent to the server.",
+            "ru": "При DOM-based XSS вся атака проходит через клиентский код. Скрипт читает загрязнённый source (например, location.hash, document.referrer) и записывает его в опасный sink (например, innerHTML), причём payload ни разу не уходит на сервер."
         },
         "options": [
             {
@@ -537,11 +541,7 @@
                 "ru": "Затрагивает только Internet Explorer"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "In DOM-based XSS the entire attack flows through client-side code. The script reads a tainted source (e.g., location.hash, document.referrer) and writes it into a dangerous sink (e.g., innerHTML) without the payload ever being sent to the server.",
-            "ru": "При DOM-based XSS вся атака проходит через клиентский код. Скрипт читает загрязнённый source (например, location.hash, document.referrer) и записывает его в опасный sink (например, innerHTML), причём payload ни разу не уходит на сервер."
-        }
+        "correct": 2
     },
     {
         "id": "sec-csp-002",
@@ -552,6 +552,10 @@
         "question": {
             "en": "Which CSP directive allows a specific inline script to execute without permitting all inline scripts?",
             "ru": "Какая CSP-директива разрешает исполнение конкретного inline-скрипта, не открывая доступ всем inline-скриптам?"
+        },
+        "explanation": {
+            "en": "A nonce (number used once) is a random per-request value added to both the CSP header (nonce-<value>) and the script tag (nonce=\"<value>\"). Only scripts with the matching nonce execute, allowing specific inline scripts without enabling all inline scripts.",
+            "ru": "Nonce (number used once) — это случайное значение, генерируемое на каждый запрос и добавляемое одновременно в CSP-заголовок (nonce-<value>) и в тег <script nonce=\"<value>\">. Исполняются только скрипты с совпадающим nonce, что разрешает конкретные inline-скрипты без включения всех inline-скриптов сразу."
         },
         "options": [
             {
@@ -571,11 +575,7 @@
                 "ru": "default-src 'none'"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "A nonce (number used once) is a random per-request value added to both the CSP header (nonce-<value>) and the script tag (nonce=\"<value>\"). Only scripts with the matching nonce execute, allowing specific inline scripts without enabling all inline scripts.",
-            "ru": "Nonce (number used once) — это случайное значение, генерируемое на каждый запрос и добавляемое одновременно в CSP-заголовок (nonce-<value>) и в тег <script nonce=\"<value>\">. Исполняются только скрипты с совпадающим nonce, что разрешает конкретные inline-скрипты без включения всех inline-скриптов сразу."
-        }
+        "correct": 1
     },
     {
         "id": "sec-jwt-002",
@@ -586,6 +586,10 @@
         "question": {
             "en": "The 'alg: none' JWT attack works because:",
             "ru": "Атака на JWT с 'alg: none' срабатывает из-за того, что:"
+        },
+        "explanation": {
+            "en": "Some JWT libraries accept 'alg: none' as a valid algorithm and skip signature verification, allowing an attacker to forge tokens by modifying the payload and stripping the signature. Servers must explicitly reject 'none' and whitelist only expected algorithms.",
+            "ru": "Некоторые JWT-библиотеки принимают 'alg: none' как валидный алгоритм и пропускают проверку подписи, что позволяет атакующему подделать токен, изменив payload и убрав signature. Сервер обязан явно отвергать 'none' и держать whitelist только ожидаемых алгоритмов."
         },
         "options": [
             {
@@ -605,11 +609,7 @@
                 "ru": "Алгоритм 'none' использует симметричный ключ"
             }
         ],
-        "correct": 0,
-        "explanation": {
-            "en": "Some JWT libraries accept 'alg: none' as a valid algorithm and skip signature verification, allowing an attacker to forge tokens by modifying the payload and stripping the signature. Servers must explicitly reject 'none' and whitelist only expected algorithms.",
-            "ru": "Некоторые JWT-библиотеки принимают 'alg: none' как валидный алгоритм и пропускают проверку подписи, что позволяет атакующему подделать токен, изменив payload и убрав signature. Сервер обязан явно отвергать 'none' и держать whitelist только ожидаемых алгоритмов."
-        }
+        "correct": 0
     },
     {
         "id": "sec-oauth-001",
@@ -620,6 +620,10 @@
         "question": {
             "en": "Which OAuth 2.0 flow is recommended for SPAs that cannot store a client secret securely?",
             "ru": "Какой OAuth 2.0 flow рекомендуется для SPA, которые не могут безопасно хранить client secret?"
+        },
+        "explanation": {
+            "en": "Authorization Code with PKCE (Proof Key for Code Exchange) is the current recommendation for SPAs. PKCE replaces the client secret with a cryptographic challenge/verifier pair that is safe to use in public clients.",
+            "ru": "Authorization Code with PKCE (Proof Key for Code Exchange) — актуальная рекомендация для SPA. PKCE заменяет client secret на криптографическую пару challenge/verifier, которую безопасно использовать в публичных клиентах."
         },
         "options": [
             {
@@ -639,11 +643,7 @@
                 "ru": "Resource Owner Password Credentials flow"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "Authorization Code with PKCE (Proof Key for Code Exchange) is the current recommendation for SPAs. PKCE replaces the client secret with a cryptographic challenge/verifier pair that is safe to use in public clients.",
-            "ru": "Authorization Code with PKCE (Proof Key for Code Exchange) — актуальная рекомендация для SPA. PKCE заменяет client secret на криптографическую пару challenge/verifier, которую безопасно использовать в публичных клиентах."
-        }
+        "correct": 2
     },
     {
         "id": "sec-prototype-001",
@@ -654,6 +654,10 @@
         "question": {
             "en": "Prototype pollution occurs when an attacker can set properties on:",
             "ru": "Prototype pollution возникает, когда атакующий может задавать свойства на:"
+        },
+        "explanation": {
+            "en": "Prototype pollution lets an attacker inject properties into Object.prototype. Because nearly every object inherits from Object.prototype, this can overwrite expected defaults, bypass security checks, or cause application logic to fail.",
+            "ru": "Prototype pollution позволяет атакующему добавить свойства в Object.prototype. Поскольку практически все объекты наследуются от Object.prototype, это может переопределить ожидаемые дефолты, обойти проверки безопасности или сломать логику приложения."
         },
         "options": [
             {
@@ -673,11 +677,7 @@
                 "ru": "Exports отдельного модуля"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Prototype pollution lets an attacker inject properties into Object.prototype. Because nearly every object inherits from Object.prototype, this can overwrite expected defaults, bypass security checks, or cause application logic to fail.",
-            "ru": "Prototype pollution позволяет атакующему добавить свойства в Object.prototype. Поскольку практически все объекты наследуются от Object.prototype, это может переопределить ожидаемые дефолты, обойти проверки безопасности или сломать логику приложения."
-        }
+        "correct": 1
     },
     {
         "id": "sec-npm-001",
@@ -688,6 +688,10 @@
         "question": {
             "en": "Which command identifies known vulnerabilities in your project's dependencies?",
             "ru": "Какая команда выявляет известные уязвимости в зависимостях проекта?"
+        },
+        "explanation": {
+            "en": "npm audit cross-references the dependency tree against the GitHub Advisory Database and reports known vulnerabilities with severity levels. npm audit fix can automatically apply safe upgrades.",
+            "ru": "npm audit сверяет дерево зависимостей с GitHub Advisory Database и выдаёт отчёт об известных уязвимостях с уровнями серьёзности. npm audit fix может автоматически применить безопасные обновления."
         },
         "options": [
             {
@@ -707,11 +711,7 @@
                 "ru": "npm prune"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "npm audit cross-references the dependency tree against the GitHub Advisory Database and reports known vulnerabilities with severity levels. npm audit fix can automatically apply safe upgrades.",
-            "ru": "npm audit сверяет дерево зависимостей с GitHub Advisory Database и выдаёт отчёт об известных уязвимостях с уровнями серьёзности. npm audit fix может автоматически применить безопасные обновления."
-        }
+        "correct": 1
     },
     {
         "id": "sec-dangerouslySetInnerHTML-001",
@@ -722,6 +722,10 @@
         "question": {
             "en": "When using dangerouslySetInnerHTML in React, what must you always do with user-supplied content?",
             "ru": "Используя dangerouslySetInnerHTML в React, что всегда необходимо делать с пользовательским контентом?"
+        },
+        "explanation": {
+            "en": "dangerouslySetInnerHTML bypasses React's XSS protections and injects raw HTML into the DOM. User-supplied content must be sanitized with a library like DOMPurify to strip malicious scripts before being passed to this prop.",
+            "ru": "dangerouslySetInnerHTML обходит встроенную XSS-защиту React и вставляет сырой HTML в DOM. Пользовательский контент обязательно нужно пропустить через санитайзер вроде DOMPurify, чтобы вырезать вредоносные скрипты, прежде чем передавать его в этот prop."
         },
         "options": [
             {
@@ -741,11 +745,7 @@
                 "ru": "Включить CSP-директиву 'trusted-html'"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "dangerouslySetInnerHTML bypasses React's XSS protections and injects raw HTML into the DOM. User-supplied content must be sanitized with a library like DOMPurify to strip malicious scripts before being passed to this prop.",
-            "ru": "dangerouslySetInnerHTML обходит встроенную XSS-защиту React и вставляет сырой HTML в DOM. Пользовательский контент обязательно нужно пропустить через санитайзер вроде DOMPurify, чтобы вырезать вредоносные скрипты, прежде чем передавать его в этот prop."
-        }
+        "correct": 1
     },
     {
         "id": "sec-cors-002",
@@ -756,6 +756,10 @@
         "question": {
             "en": "When Access-Control-Allow-Origin is set to '*', which of the following is NOT allowed?",
             "ru": "Когда Access-Control-Allow-Origin выставлен в '*', что из перечисленного НЕ разрешается?"
+        },
+        "explanation": {
+            "en": "When the CORS wildcard '*' is used, the browser blocks requests made with credentials (cookies, Authorization headers). To allow credentials, the server must explicitly set Access-Control-Allow-Origin to the specific origin and Access-Control-Allow-Credentials: true.",
+            "ru": "При использовании wildcard '*' в CORS браузер блокирует запросы с credentials (cookies, Authorization-заголовки). Чтобы разрешить credentials, сервер должен явно указать конкретный origin в Access-Control-Allow-Origin и выставить Access-Control-Allow-Credentials: true."
         },
         "options": [
             {
@@ -775,11 +779,7 @@
                 "ru": "POST-запросы с plain text, не требующие preflight"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "When the CORS wildcard '*' is used, the browser blocks requests made with credentials (cookies, Authorization headers). To allow credentials, the server must explicitly set Access-Control-Allow-Origin to the specific origin and Access-Control-Allow-Credentials: true.",
-            "ru": "При использовании wildcard '*' в CORS браузер блокирует запросы с credentials (cookies, Authorization-заголовки). Чтобы разрешить credentials, сервер должен явно указать конкретный origin в Access-Control-Allow-Origin и выставить Access-Control-Allow-Credentials: true."
-        }
+        "correct": 2
     },
     {
         "id": "sec-xss-004",
@@ -790,6 +790,10 @@
         "question": {
             "en": "Which of the following is a dangerous DOM sink that can lead to DOM-based XSS?",
             "ru": "Что из перечисленного является опасным DOM sink, способным привести к DOM-based XSS?"
+        },
+        "explanation": {
+            "en": "innerHTML is a dangerous sink because it parses the assigned string as HTML, executing any embedded scripts. textContent and dataset assignments treat values as plain text and are safe. setAttribute can be dangerous with event-handler attributes but is generally safer.",
+            "ru": "innerHTML — опасный sink, поскольку парсит присваиваемую строку как HTML и исполняет вложенные скрипты. Присваивания в textContent и dataset трактуют значение как обычный текст и безопасны. setAttribute может быть опасен при работе с атрибутами-обработчиками событий, но в целом безопаснее."
         },
         "options": [
             {
@@ -809,11 +813,7 @@
                 "ru": "element.dataset.id"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "innerHTML is a dangerous sink because it parses the assigned string as HTML, executing any embedded scripts. textContent and dataset assignments treat values as plain text and are safe. setAttribute can be dangerous with event-handler attributes but is generally safer.",
-            "ru": "innerHTML — опасный sink, поскольку парсит присваиваемую строку как HTML и исполняет вложенные скрипты. Присваивания в textContent и dataset трактуют значение как обычный текст и безопасны. setAttribute может быть опасен при работе с атрибутами-обработчиками событий, но в целом безопаснее."
-        }
+        "correct": 2
     },
     {
         "id": "sec-cookies-002",
@@ -824,6 +824,10 @@
         "question": {
             "en": "What is the difference between SameSite=Strict and SameSite=Lax?",
             "ru": "В чём разница между SameSite=Strict и SameSite=Lax?"
+        },
+        "explanation": {
+            "en": "SameSite=Strict never sends the cookie on cross-site requests. SameSite=Lax permits the cookie when the user navigates to the site via a top-level GET request (e.g., clicking a link), but blocks it for cross-site subresource requests and form POSTs.",
+            "ru": "SameSite=Strict никогда не отправляет cookie в cross-site запросах. SameSite=Lax разрешает cookie, когда пользователь переходит на сайт через top-level GET-запрос (например, по клику по ссылке), но блокирует её для cross-site запросов подресурсов и POST из форм."
         },
         "options": [
             {
@@ -843,11 +847,7 @@
                 "ru": "Они идентичны, различаются только написанием"
             }
         ],
-        "correct": 0,
-        "explanation": {
-            "en": "SameSite=Strict never sends the cookie on cross-site requests. SameSite=Lax permits the cookie when the user navigates to the site via a top-level GET request (e.g., clicking a link), but blocks it for cross-site subresource requests and form POSTs.",
-            "ru": "SameSite=Strict никогда не отправляет cookie в cross-site запросах. SameSite=Lax разрешает cookie, когда пользователь переходит на сайт через top-level GET-запрос (например, по клику по ссылке), но блокирует её для cross-site запросов подресурсов и POST из форм."
-        }
+        "correct": 0
     },
     {
         "id": "sec-jwt-003",
@@ -858,6 +858,10 @@
         "question": {
             "en": "Which JWT claim should be validated to prevent replay of old tokens?",
             "ru": "Какой JWT claim следует валидировать, чтобы предотвратить replay старых токенов?"
+        },
+        "explanation": {
+            "en": "The exp claim holds the Unix timestamp after which the token must be rejected. Validating exp ensures that captured or stolen tokens cannot be used indefinitely.",
+            "ru": "Claim exp содержит Unix-timestamp, после которого токен обязан отвергаться. Валидация exp гарантирует, что перехваченные или украденные токены нельзя использовать бесконечно."
         },
         "options": [
             {
@@ -877,11 +881,7 @@
                 "ru": "aud (Audience)"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "The exp claim holds the Unix timestamp after which the token must be rejected. Validating exp ensures that captured or stolen tokens cannot be used indefinitely.",
-            "ru": "Claim exp содержит Unix-timestamp, после которого токен обязан отвергаться. Валидация exp гарантирует, что перехваченные или украденные токены нельзя использовать бесконечно."
-        }
+        "correct": 2
     },
     {
         "id": "sec-csp-003",
@@ -892,6 +892,10 @@
         "question": {
             "en": "Which CSP keyword must be added to script-src to allow eval() and similar dynamic code execution?",
             "ru": "Какое ключевое слово CSP нужно добавить в script-src, чтобы разрешить eval() и аналогичное динамическое исполнение кода?"
+        },
+        "explanation": {
+            "en": "CSP blocks eval() by default. Adding 'unsafe-eval' to the script-src directive re-enables it but is strongly discouraged because it undermines the protection CSP provides against code injection.",
+            "ru": "CSP по умолчанию блокирует eval(). Добавление 'unsafe-eval' в директиву script-src снова его разрешает, но такой подход категорически не рекомендуется, поскольку подрывает защиту CSP от инъекций кода."
         },
         "options": [
             {
@@ -911,11 +915,7 @@
                 "ru": "'allow-eval'"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "CSP blocks eval() by default. Adding 'unsafe-eval' to the script-src directive re-enables it but is strongly discouraged because it undermines the protection CSP provides against code injection.",
-            "ru": "CSP по умолчанию блокирует eval(). Добавление 'unsafe-eval' в директиву script-src снова его разрешает, но такой подход категорически не рекомендуется, поскольку подрывает защиту CSP от инъекций кода."
-        }
+        "correct": 2
     },
     {
         "id": "sec-npm-002",
@@ -926,6 +926,10 @@
         "question": {
             "en": "A supply-chain attack via a malicious npm package most commonly uses which technique?",
             "ru": "Какую технику чаще всего используют атаки на цепочку поставок через вредоносный npm-пакет?"
+        },
+        "explanation": {
+            "en": "Supply-chain attacks on npm often use typosquatting (e.g., 'lodahs' vs 'lodash') or compromise maintainer credentials to publish malicious versions of legitimate packages. Lockfiles (package-lock.json) and integrity hashes mitigate this.",
+            "ru": "Атаки на цепочку поставок в npm часто используют typosquatting (например, 'lodahs' против 'lodash') или компрометируют учётки мейнтейнеров, чтобы опубликовать вредоносные версии легитимных пакетов. Lockfiles (package-lock.json) и integrity-хэши помогают снизить риск."
         },
         "options": [
             {
@@ -945,11 +949,7 @@
                 "ru": "Прямую эксплуатацию core API Node.js"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Supply-chain attacks on npm often use typosquatting (e.g., 'lodahs' vs 'lodash') or compromise maintainer credentials to publish malicious versions of legitimate packages. Lockfiles (package-lock.json) and integrity hashes mitigate this.",
-            "ru": "Атаки на цепочку поставок в npm часто используют typosquatting (например, 'lodahs' против 'lodash') или компрометируют учётки мейнтейнеров, чтобы опубликовать вредоносные версии легитимных пакетов. Lockfiles (package-lock.json) и integrity-хэши помогают снизить риск."
-        }
+        "correct": 1
     },
     {
         "id": "sec-prototype-002",
@@ -960,6 +960,10 @@
         "question": {
             "en": "Which pattern is safe against prototype pollution when merging user-supplied JSON objects?",
             "ru": "Какой паттерн безопасен против prototype pollution при merge пользовательских JSON-объектов?"
+        },
+        "explanation": {
+            "en": "Object.create(null) creates an object with no prototype, so setting __proto__ or constructor does not affect Object.prototype. Validating keys against a whitelist prevents injection of prototype-modifying keys. JSON parse/stringify only helps if the string is parsed into a null-prototype object.",
+            "ru": "Object.create(null) создаёт объект без прототипа, поэтому присваивание __proto__ или constructor не затрагивает Object.prototype. Валидация ключей по whitelist предотвращает внедрение ключей, модифицирующих прототип. JSON parse/stringify помогает только если строка парсится в объект с null-прототипом."
         },
         "options": [
             {
@@ -979,11 +983,7 @@
                 "ru": "JSON.stringify с последующим JSON.parse"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "Object.create(null) creates an object with no prototype, so setting __proto__ or constructor does not affect Object.prototype. Validating keys against a whitelist prevents injection of prototype-modifying keys. JSON parse/stringify only helps if the string is parsed into a null-prototype object.",
-            "ru": "Object.create(null) создаёт объект без прототипа, поэтому присваивание __proto__ или constructor не затрагивает Object.prototype. Валидация ключей по whitelist предотвращает внедрение ключей, модифицирующих прототип. JSON parse/stringify помогает только если строка парсится в объект с null-прототипом."
-        }
+        "correct": 2
     },
     {
         "id": "sec-oauth-002",
@@ -994,6 +994,10 @@
         "question": {
             "en": "In OAuth 2.0 Authorization Code flow, what is the purpose of the state parameter?",
             "ru": "Какую роль играет параметр state в OAuth 2.0 Authorization Code flow?"
+        },
+        "explanation": {
+            "en": "The state parameter is a random opaque value generated by the client before redirecting to the authorization server. When the server redirects back, the client verifies that the returned state matches, preventing CSRF attacks on the OAuth callback endpoint.",
+            "ru": "Параметр state — это случайное непрозрачное значение, генерируемое клиентом перед redirect на authorization server. Когда сервер перенаправляет обратно, клиент проверяет, что возвращённый state совпадает с исходным, — это защищает OAuth callback от CSRF-атак."
         },
         "options": [
             {
@@ -1013,11 +1017,7 @@
                 "ru": "Идентифицирует OAuth-провайдера"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "The state parameter is a random opaque value generated by the client before redirecting to the authorization server. When the server redirects back, the client verifies that the returned state matches, preventing CSRF attacks on the OAuth callback endpoint.",
-            "ru": "Параметр state — это случайное непрозрачное значение, генерируемое клиентом перед redirect на authorization server. Когда сервер перенаправляет обратно, клиент проверяет, что возвращённый state совпадает с исходным, — это защищает OAuth callback от CSRF-атак."
-        }
+        "correct": 1
     },
     {
         "id": "sec-csp-004",
@@ -1028,6 +1028,10 @@
         "question": {
             "en": "What does 'strict-dynamic' in a CSP script-src directive do?",
             "ru": "Что делает 'strict-dynamic' в CSP-директиве script-src?"
+        },
+        "explanation": {
+            "en": "'strict-dynamic' propagates trust from a nonce- or hash-approved script to any script it dynamically creates. This allows modern module-based apps to work with strict CSP while eliminating broad host-based whitelists that are easily bypassed.",
+            "ru": "'strict-dynamic' распространяет доверие со скрипта, одобренного через nonce или hash, на любые скрипты, которые он динамически создаёт. Это позволяет современным модульным приложениям работать со строгой CSP и избавиться от широких host-based whitelists, которые легко обходятся."
         },
         "options": [
             {
@@ -1047,11 +1051,7 @@
                 "ru": "Позволяет динамически обновлять CSP из JavaScript"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "'strict-dynamic' propagates trust from a nonce- or hash-approved script to any script it dynamically creates. This allows modern module-based apps to work with strict CSP while eliminating broad host-based whitelists that are easily bypassed.",
-            "ru": "'strict-dynamic' распространяет доверие со скрипта, одобренного через nonce или hash, на любые скрипты, которые он динамически создаёт. Это позволяет современным модульным приложениям работать со строгой CSP и избавиться от широких host-based whitelists, которые легко обходятся."
-        }
+        "correct": 1
     },
     {
         "id": "sec-jwt-004",
@@ -1062,6 +1062,10 @@
         "question": {
             "en": "In an algorithm-confusion attack against JWT, an attacker changes the header from RS256 to HS256. What must happen on the server for this to succeed?",
             "ru": "В атаке algorithm-confusion против JWT атакующий меняет header с RS256 на HS256. Что должно произойти на сервере, чтобы атака удалась?"
+        },
+        "explanation": {
+            "en": "If a library accepts the algorithm from the token header, an attacker can switch from RS256 to HS256 and sign the token using the publicly available RSA public key as the HMAC secret. A vulnerable server verifies HS256 with the same public key and accepts the forged token.",
+            "ru": "Если библиотека берёт алгоритм из header токена, атакующий может переключить RS256 на HS256 и подписать токен, используя публичный RSA public key в роли HMAC secret. Уязвимый сервер верифицирует HS256 тем же публичным ключом и принимает поддельный токен."
         },
         "options": [
             {
@@ -1081,11 +1085,7 @@
                 "ru": "Атакующий должен иметь RSA private key"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "If a library accepts the algorithm from the token header, an attacker can switch from RS256 to HS256 and sign the token using the publicly available RSA public key as the HMAC secret. A vulnerable server verifies HS256 with the same public key and accepts the forged token.",
-            "ru": "Если библиотека берёт алгоритм из header токена, атакующий может переключить RS256 на HS256 и подписать токен, используя публичный RSA public key в роли HMAC secret. Уязвимый сервер верифицирует HS256 тем же публичным ключом и принимает поддельный токен."
-        }
+        "correct": 1
     },
     {
         "id": "sec-xss-005",
@@ -1096,6 +1096,10 @@
         "question": {
             "en": "Which of the following are effective defenses against XSS? (select all that apply)",
             "ru": "Что из перечисленного является эффективной защитой от XSS? (выберите все подходящие)"
+        },
+        "explanation": {
+            "en": "Effective XSS defenses include output encoding, CSP, using safe DOM APIs (textContent), and sanitizing HTML with libraries like DOMPurify. Base64 encoding is not a security measure — it is trivially decoded by the browser.",
+            "ru": "К эффективным средствам защиты от XSS относятся output encoding, CSP, использование безопасных DOM API (textContent) и санитизация HTML библиотеками вроде DOMPurify. Кодирование в Base64 не является мерой безопасности — оно тривиально декодируется браузером."
         },
         "options": [
             {
@@ -1119,11 +1123,7 @@
                 "ru": "Санитизация HTML через DOMPurify"
             }
         ],
-        "correct": [0, 1, 2, 4],
-        "explanation": {
-            "en": "Effective XSS defenses include output encoding, CSP, using safe DOM APIs (textContent), and sanitizing HTML with libraries like DOMPurify. Base64 encoding is not a security measure — it is trivially decoded by the browser.",
-            "ru": "К эффективным средствам защиты от XSS относятся output encoding, CSP, использование безопасных DOM API (textContent) и санитизация HTML библиотеками вроде DOMPurify. Кодирование в Base64 не является мерой безопасности — оно тривиально декодируется браузером."
-        }
+        "correct": [0, 1, 2, 4]
     },
     {
         "id": "sec-cookies-003",
@@ -1134,6 +1134,10 @@
         "question": {
             "en": "Which cookie flags should be set on a session cookie for maximum security? (select all that apply)",
             "ru": "Какие флаги cookie следует выставлять на session cookie для максимальной безопасности? (выберите все подходящие)"
+        },
+        "explanation": {
+            "en": "HttpOnly prevents JS access, Secure ensures the cookie is only sent over HTTPS, and SameSite=Strict prevents cross-site submission. Domain=* is not valid, and Max-Age=0 deletes the cookie immediately.",
+            "ru": "HttpOnly запрещает доступ из JS, Secure гарантирует отправку cookie только по HTTPS, а SameSite=Strict блокирует cross-site отправку. Domain=* невалиден, а Max-Age=0 немедленно удаляет cookie."
         },
         "options": [
             {
@@ -1157,11 +1161,7 @@
                 "ru": "Max-Age=0"
             }
         ],
-        "correct": [0, 1, 2],
-        "explanation": {
-            "en": "HttpOnly prevents JS access, Secure ensures the cookie is only sent over HTTPS, and SameSite=Strict prevents cross-site submission. Domain=* is not valid, and Max-Age=0 deletes the cookie immediately.",
-            "ru": "HttpOnly запрещает доступ из JS, Secure гарантирует отправку cookie только по HTTPS, а SameSite=Strict блокирует cross-site отправку. Domain=* невалиден, а Max-Age=0 немедленно удаляет cookie."
-        }
+        "correct": [0, 1, 2]
     },
     {
         "id": "sec-csp-005",
@@ -1172,6 +1172,10 @@
         "question": {
             "en": "Which CSP directives restrict where scripts can be loaded from? (select all that apply)",
             "ru": "Какие CSP-директивы ограничивают, откуда можно загружать скрипты? (выберите все подходящие)"
+        },
+        "explanation": {
+            "en": "script-src explicitly controls script sources. default-src acts as a fallback for all resource types including scripts when a specific directive is not set. img-src, connect-src, and font-src control images, fetch/XHR, and fonts respectively.",
+            "ru": "script-src явно контролирует источники скриптов. default-src выступает fallback для всех типов ресурсов, включая скрипты, когда не задана конкретная директива. img-src, connect-src и font-src управляют изображениями, fetch/XHR и шрифтами соответственно."
         },
         "options": [
             {
@@ -1195,11 +1199,7 @@
                 "ru": "font-src"
             }
         ],
-        "correct": [0, 1],
-        "explanation": {
-            "en": "script-src explicitly controls script sources. default-src acts as a fallback for all resource types including scripts when a specific directive is not set. img-src, connect-src, and font-src control images, fetch/XHR, and fonts respectively.",
-            "ru": "script-src явно контролирует источники скриптов. default-src выступает fallback для всех типов ресурсов, включая скрипты, когда не задана конкретная директива. img-src, connect-src и font-src управляют изображениями, fetch/XHR и шрифтами соответственно."
-        }
+        "correct": [0, 1]
     },
     {
         "id": "sec-cors-003",
@@ -1210,6 +1210,10 @@
         "question": {
             "en": "Which request properties cause the browser to send a CORS preflight OPTIONS request? (select all that apply)",
             "ru": "Какие свойства запроса заставляют браузер отправить CORS preflight OPTIONS? (выберите все подходящие)"
+        },
+        "explanation": {
+            "en": "Preflights are triggered by non-simple methods (PUT, DELETE, PATCH), non-simple Content-Type values (application/json is non-simple), and custom request headers like Authorization. Simple GETs with standard headers do not trigger preflights.",
+            "ru": "Preflight вызывают non-simple методы (PUT, DELETE, PATCH), non-simple значения Content-Type (application/json относится к non-simple) и кастомные заголовки вроде Authorization. Simple GET со стандартными заголовками preflight не инициирует."
         },
         "options": [
             {
@@ -1233,11 +1237,7 @@
                 "ru": "Accept: text/html"
             }
         ],
-        "correct": [0, 2, 3],
-        "explanation": {
-            "en": "Preflights are triggered by non-simple methods (PUT, DELETE, PATCH), non-simple Content-Type values (application/json is non-simple), and custom request headers like Authorization. Simple GETs with standard headers do not trigger preflights.",
-            "ru": "Preflight вызывают non-simple методы (PUT, DELETE, PATCH), non-simple значения Content-Type (application/json относится к non-simple) и кастомные заголовки вроде Authorization. Simple GET со стандартными заголовками preflight не инициирует."
-        }
+        "correct": [0, 2, 3]
     },
     {
         "id": "sec-jwt-005",
@@ -1248,6 +1248,10 @@
         "question": {
             "en": "Which of the following are recommended best practices when using JWTs? (select all that apply)",
             "ru": "Что из перечисленного является рекомендованной best practice при использовании JWT? (выберите все подходящие)"
+        },
+        "explanation": {
+            "en": "Best practices: store in HttpOnly cookies (prevents JS theft), whitelist algorithms (prevents alg:none / algorithm confusion), use short-lived access tokens with refresh rotation, and validate 'aud' to prevent token reuse across services. Passwords must never be put in tokens.",
+            "ru": "Best practices: хранить в HttpOnly cookies (защищает от кражи через JS), держать whitelist алгоритмов (блокирует alg:none и algorithm confusion), использовать короткоживущие access-токены с ротацией refresh, валидировать 'aud' для защиты от переиспользования токена между сервисами. Пароли никогда не должны попадать в токен."
         },
         "options": [
             {
@@ -1271,11 +1275,7 @@
                 "ru": "Валидировать claim 'aud', чтобы убедиться, что токен предназначен именно вашему сервису"
             }
         ],
-        "correct": [0, 1, 2, 4],
-        "explanation": {
-            "en": "Best practices: store in HttpOnly cookies (prevents JS theft), whitelist algorithms (prevents alg:none / algorithm confusion), use short-lived access tokens with refresh rotation, and validate 'aud' to prevent token reuse across services. Passwords must never be put in tokens.",
-            "ru": "Best practices: хранить в HttpOnly cookies (защищает от кражи через JS), держать whitelist алгоритмов (блокирует alg:none и algorithm confusion), использовать короткоживущие access-токены с ротацией refresh, валидировать 'aud' для защиты от переиспользования токена между сервисами. Пароли никогда не должны попадать в токен."
-        }
+        "correct": [0, 1, 2, 4]
     },
     {
         "id": "sec-xss-006",
@@ -1286,6 +1286,10 @@
         "question": {
             "en": "Which of the following are dangerous DOM sinks that can cause XSS? (select all that apply)",
             "ru": "Что из перечисленного является опасными DOM sinks, способными привести к XSS? (выберите все подходящие)"
+        },
+        "explanation": {
+            "en": "innerHTML and document.write inject raw HTML. location.href with a javascript: URL executes code. eval() executes arbitrary code. textContent treats the value as plain text and is safe.",
+            "ru": "innerHTML и document.write вставляют сырой HTML. location.href с javascript: URL исполняет код. eval() исполняет произвольный код. textContent трактует значение как обычный текст и безопасен."
         },
         "options": [
             {
@@ -1309,11 +1313,7 @@
                 "ru": "eval(userInput)"
             }
         ],
-        "correct": [0, 1, 3, 4],
-        "explanation": {
-            "en": "innerHTML and document.write inject raw HTML. location.href with a javascript: URL executes code. eval() executes arbitrary code. textContent treats the value as plain text and is safe.",
-            "ru": "innerHTML и document.write вставляют сырой HTML. location.href с javascript: URL исполняет код. eval() исполняет произвольный код. textContent трактует значение как обычный текст и безопасен."
-        }
+        "correct": [0, 1, 3, 4]
     },
     {
         "id": "sec-supply-chain-001",
@@ -1324,6 +1324,10 @@
         "question": {
             "en": "Which measures reduce the risk of malicious npm packages in your project? (select all that apply)",
             "ru": "Какие меры снижают риск попадания вредоносных npm-пакетов в проект? (выберите все подходящие)"
+        },
+        "explanation": {
+            "en": "Lockfiles prevent unexpected upgrades, npm audit in CI catches known CVEs early, pinned versions prevent floating upgrades that could install malicious updates, and manual review catches obvious red flags. --legacy-peer-deps bypasses safety checks and is not a security measure.",
+            "ru": "Lockfiles защищают от неожиданных обновлений, npm audit в CI ловит известные CVE на ранних этапах, зафиксированные версии не допускают плавающих апгрейдов, способных подтянуть вредоносные обновления, а ручной review отлавливает очевидные red flags. --legacy-peer-deps обходит safety-проверки и мерой безопасности не является."
         },
         "options": [
             {
@@ -1347,11 +1351,7 @@
                 "ru": "Просматривать исходники пакета перед добавлением новой зависимости"
             }
         ],
-        "correct": [0, 1, 2, 4],
-        "explanation": {
-            "en": "Lockfiles prevent unexpected upgrades, npm audit in CI catches known CVEs early, pinned versions prevent floating upgrades that could install malicious updates, and manual review catches obvious red flags. --legacy-peer-deps bypasses safety checks and is not a security measure.",
-            "ru": "Lockfiles защищают от неожиданных обновлений, npm audit в CI ловит известные CVE на ранних этапах, зафиксированные версии не допускают плавающих апгрейдов, способных подтянуть вредоносные обновления, а ручной review отлавливает очевидные red flags. --legacy-peer-deps обходит safety-проверки и мерой безопасности не является."
-        }
+        "correct": [0, 1, 2, 4]
     },
     {
         "id": "sec-prototype-003",
@@ -1362,6 +1362,10 @@
         "question": {
             "en": "Which of the following protect against prototype pollution? (select all that apply)",
             "ru": "Что из перечисленного защищает от prototype pollution? (выберите все подходящие)"
+        },
+        "explanation": {
+            "en": "Freezing Object.prototype prevents modification. Blocking __proto__ and constructor during merge is an explicit guard. Maps have no prototype chain for key lookups. null-prototype objects are unaffected. Strict mode does not prevent prototype pollution.",
+            "ru": "Заморозка Object.prototype не даёт его модифицировать. Блокировка __proto__ и constructor при merge — явная защита. У Map нет prototype chain для поиска ключей. Объекты с null-прототипом остаются незатронутыми. Strict mode от prototype pollution не защищает."
         },
         "options": [
             {
@@ -1385,11 +1389,7 @@
                 "ru": "Использование Object.create(null) для аккумулирующих объектов"
             }
         ],
-        "correct": [0, 1, 2, 4],
-        "explanation": {
-            "en": "Freezing Object.prototype prevents modification. Blocking __proto__ and constructor during merge is an explicit guard. Maps have no prototype chain for key lookups. null-prototype objects are unaffected. Strict mode does not prevent prototype pollution.",
-            "ru": "Заморозка Object.prototype не даёт его модифицировать. Блокировка __proto__ и constructor при merge — явная защита. У Map нет prototype chain для поиска ключей. Объекты с null-прототипом остаются незатронутыми. Strict mode от prototype pollution не защищает."
-        }
+        "correct": [0, 1, 2, 4]
     },
     {
         "id": "sec-oauth-003",
@@ -1400,6 +1400,10 @@
         "question": {
             "en": "Which statements about PKCE in OAuth 2.0 are correct? (select all that apply)",
             "ru": "Какие утверждения о PKCE в OAuth 2.0 верны? (выберите все подходящие)"
+        },
+        "explanation": {
+            "en": "PKCE uses a random verifier hashed into a challenge sent with the authorization request. At token exchange the verifier is sent and validated. PKCE does not replace HTTPS, and it is now recommended for all public clients including SPAs, not just mobile apps.",
+            "ru": "PKCE использует случайный verifier, из которого считается challenge, отправляемый с authorization-запросом. На этапе обмена на токен verifier отправляется и проверяется. PKCE не заменяет HTTPS и сегодня рекомендуется для всех публичных клиентов, включая SPA, а не только для мобильных приложений."
         },
         "options": [
             {
@@ -1423,11 +1427,7 @@
                 "ru": "PKCE нужен только для мобильных приложений"
             }
         ],
-        "correct": [0, 1, 3],
-        "explanation": {
-            "en": "PKCE uses a random verifier hashed into a challenge sent with the authorization request. At token exchange the verifier is sent and validated. PKCE does not replace HTTPS, and it is now recommended for all public clients including SPAs, not just mobile apps.",
-            "ru": "PKCE использует случайный verifier, из которого считается challenge, отправляемый с authorization-запросом. На этапе обмена на токен verifier отправляется и проверяется. PKCE не заменяет HTTPS и сегодня рекомендуется для всех публичных клиентов, включая SPA, а не только для мобильных приложений."
-        }
+        "correct": [0, 1, 3]
     },
     {
         "id": "sec-xss-007",
@@ -1438,6 +1438,10 @@
         "question": {
             "en": "In a React application, which of the following are safe ways to render user-provided text? (select all that apply)",
             "ru": "В React-приложении какие из перечисленных способов безопасны для рендеринга пользовательского текста? (выберите все подходящие)"
+        },
+        "explanation": {
+            "en": "React automatically escapes string values rendered in JSX, making {userInput} and <p>{userInput}</p> safe. Using dangerouslySetInnerHTML with DOMPurify sanitization is acceptable. Raw dangerouslySetInnerHTML with unsanitized input and direct innerHTML assignment are both unsafe.",
+            "ru": "React автоматически экранирует строковые значения, отрендеренные в JSX, поэтому {userInput} и <p>{userInput}</p> безопасны. dangerouslySetInnerHTML с санитизацией через DOMPurify допустим. Сырой dangerouslySetInnerHTML с несанитизированным вводом и прямое присваивание innerHTML — оба варианта небезопасны."
         },
         "options": [
             {
@@ -1461,11 +1465,7 @@
                 "ru": "document.getElementById('el').innerHTML = userInput"
             }
         ],
-        "correct": [0, 2, 3],
-        "explanation": {
-            "en": "React automatically escapes string values rendered in JSX, making {userInput} and <p>{userInput}</p> safe. Using dangerouslySetInnerHTML with DOMPurify sanitization is acceptable. Raw dangerouslySetInnerHTML with unsanitized input and direct innerHTML assignment are both unsafe.",
-            "ru": "React автоматически экранирует строковые значения, отрендеренные в JSX, поэтому {userInput} и <p>{userInput}</p> безопасны. dangerouslySetInnerHTML с санитизацией через DOMPurify допустим. Сырой dangerouslySetInnerHTML с несанитизированным вводом и прямое присваивание innerHTML — оба варианта небезопасны."
-        }
+        "correct": [0, 2, 3]
     },
     {
         "id": "sec-xss-008",
@@ -1476,6 +1476,10 @@
         "question": {
             "en": "Which approaches constitute a defense-in-depth XSS strategy? (select all that apply)",
             "ru": "Какие подходы составляют defense-in-depth стратегию защиты от XSS? (выберите все подходящие)"
+        },
+        "explanation": {
+            "en": "Defense-in-depth layers: server-side validation prevents bad data storage, output encoding prevents rendering injection, CSP with nonces limits execution of injected scripts, and Trusted Types enforces safe DOM assignments. Disabling JS is not a practical mitigation.",
+            "ru": "Слои defense-in-depth: серверная валидация не даёт сохранить вредные данные, output encoding блокирует инъекции при рендеринге, CSP с nonce ограничивает исполнение внедрённых скриптов, а Trusted Types форсируют безопасные присваивания в DOM. Полное отключение JS — непрактичная мера."
         },
         "options": [
             {
@@ -1499,11 +1503,7 @@
                 "ru": "Принудительное применение Trusted Types API"
             }
         ],
-        "correct": [0, 1, 2, 4],
-        "explanation": {
-            "en": "Defense-in-depth layers: server-side validation prevents bad data storage, output encoding prevents rendering injection, CSP with nonces limits execution of injected scripts, and Trusted Types enforces safe DOM assignments. Disabling JS is not a practical mitigation.",
-            "ru": "Слои defense-in-depth: серверная валидация не даёт сохранить вредные данные, output encoding блокирует инъекции при рендеринге, CSP с nonce ограничивает исполнение внедрённых скриптов, а Trusted Types форсируют безопасные присваивания в DOM. Полное отключение JS — непрактичная мера."
-        }
+        "correct": [0, 1, 2, 4]
     },
     {
         "id": "sec-bug-xss-001",
@@ -1515,13 +1515,13 @@
             "en": "Find the XSS vulnerability in this React component:",
             "ru": "Найдите XSS-уязвимость в этом React-компоненте:"
         },
-        "code": "function Comment({ text }) {\n  return (\n    <div\n      dangerouslySetInnerHTML={{ __html: text }}\n    />\n  );\n}",
-        "correct": "User-supplied text is rendered as raw HTML without sanitization",
-        "referenceAnswer": "dangerouslySetInnerHTML bypasses React's XSS protection. The text prop could contain <script> tags or event handlers. Fix: sanitize with DOMPurify before use — dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(text) }}",
         "explanation": {
             "en": "React escapes strings in JSX automatically, but dangerouslySetInnerHTML intentionally skips that protection. Any user-controlled string with embedded HTML or scripts will execute in the browser.",
             "ru": "React автоматически экранирует строки в JSX, но dangerouslySetInnerHTML намеренно обходит эту защиту. Любая подконтрольная пользователю строка со встроенным HTML или скриптами выполнится в браузере."
-        }
+        },
+        "code": "function Comment({ text }) {\n  return (\n    <div\n      dangerouslySetInnerHTML={{ __html: text }}\n    />\n  );\n}",
+        "correct": "User-supplied text is rendered as raw HTML without sanitization",
+        "referenceAnswer": "dangerouslySetInnerHTML bypasses React's XSS protection. The text prop could contain <script> tags or event handlers. Fix: sanitize with DOMPurify before use — dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(text) }}"
     },
     {
         "id": "sec-bug-csrf-001",
@@ -1533,13 +1533,13 @@
             "en": "Find the security issue in this Express.js session cookie configuration:",
             "ru": "Найдите проблему безопасности в этой конфигурации session cookie для Express.js:"
         },
-        "code": "app.use(session({\n  secret: 'keyboard cat',\n  resave: false,\n  saveUninitialized: false,\n  cookie: {\n    httpOnly: true,\n    secure: true\n  }\n}));",
-        "correct": "The SameSite attribute is missing from the cookie configuration",
-        "referenceAnswer": "Without SameSite, the cookie is sent with all cross-origin requests (including form submissions from attacker sites), enabling CSRF. Fix: add sameSite: 'strict' or sameSite: 'lax' to the cookie options.",
         "explanation": {
             "en": "HttpOnly and Secure are set correctly, but the absence of SameSite leaves the session cookie vulnerable to CSRF. Modern best practice is to always set SameSite on session cookies.",
             "ru": "HttpOnly и Secure выставлены корректно, но отсутствие SameSite оставляет session cookie уязвимой к CSRF. Современная best practice — всегда задавать SameSite на session cookies."
-        }
+        },
+        "code": "app.use(session({\n  secret: 'keyboard cat',\n  resave: false,\n  saveUninitialized: false,\n  cookie: {\n    httpOnly: true,\n    secure: true\n  }\n}));",
+        "correct": "The SameSite attribute is missing from the cookie configuration",
+        "referenceAnswer": "Without SameSite, the cookie is sent with all cross-origin requests (including form submissions from attacker sites), enabling CSRF. Fix: add sameSite: 'strict' or sameSite: 'lax' to the cookie options."
     },
     {
         "id": "sec-bug-jwt-001",
@@ -1551,13 +1551,13 @@
             "en": "Find the security vulnerability in this JWT verification function:",
             "ru": "Найдите уязвимость безопасности в этой функции верификации JWT:"
         },
-        "code": "function verifyToken(token) {\n  const [headerB64] = token.split('.');\n  const header = JSON.parse(atob(headerB64));\n  return jwt.verify(token, publicKey, { algorithms: [header.alg] });\n}",
-        "correct": "The algorithm is read from the untrusted token header, allowing alg:none or algorithm confusion attacks",
-        "referenceAnswer": "Never trust the algorithm specified in the token. The algorithms option must be hardcoded to the expected algorithm (e.g., ['RS256']). An attacker can set alg to 'none' to skip signature verification or to 'HS256' to cause algorithm confusion.",
         "explanation": {
             "en": "Reading the algorithm from the header and passing it directly to the verifier is a classic JWT vulnerability. Always hardcode the allowed algorithms on the server side.",
             "ru": "Считывание алгоритма из header и передача его напрямую в верификатор — классическая уязвимость JWT. Набор допустимых алгоритмов всегда должен быть захардкожен на стороне сервера."
-        }
+        },
+        "code": "function verifyToken(token) {\n  const [headerB64] = token.split('.');\n  const header = JSON.parse(atob(headerB64));\n  return jwt.verify(token, publicKey, { algorithms: [header.alg] });\n}",
+        "correct": "The algorithm is read from the untrusted token header, allowing alg:none or algorithm confusion attacks",
+        "referenceAnswer": "Never trust the algorithm specified in the token. The algorithms option must be hardcoded to the expected algorithm (e.g., ['RS256']). An attacker can set alg to 'none' to skip signature verification or to 'HS256' to cause algorithm confusion."
     },
     {
         "id": "sec-bug-eval-001",
@@ -1569,13 +1569,13 @@
             "en": "Find the security vulnerability in this configuration loader:",
             "ru": "Найдите уязвимость безопасности в этом загрузчике конфигурации:"
         },
-        "code": "async function loadConfig(configName) {\n  const response = await fetch(`/configs/${configName}`);\n  const text = await response.text();\n  return eval('(' + text + ')');\n}",
-        "correct": "eval() is used to parse server responses, enabling code injection if the server or network is compromised",
-        "referenceAnswer": "Replace eval() with JSON.parse(). Configuration data should be valid JSON, not arbitrary JavaScript. eval() executes any code in the response, giving a man-in-the-middle attacker full code execution.",
         "explanation": {
             "en": "Using eval() to parse data is dangerous even when the source appears trusted. A compromised CDN, MITM attack, or server-side injection can turn this into remote code execution.",
             "ru": "Использование eval() для парсинга данных опасно даже когда источник выглядит доверенным. Скомпрометированный CDN, MITM-атака или серверная инъекция превращают это в remote code execution."
-        }
+        },
+        "code": "async function loadConfig(configName) {\n  const response = await fetch(`/configs/${configName}`);\n  const text = await response.text();\n  return eval('(' + text + ')');\n}",
+        "correct": "eval() is used to parse server responses, enabling code injection if the server or network is compromised",
+        "referenceAnswer": "Replace eval() with JSON.parse(). Configuration data should be valid JSON, not arbitrary JavaScript. eval() executes any code in the response, giving a man-in-the-middle attacker full code execution."
     },
     {
         "id": "sec-bug-prototype-001",
@@ -1587,13 +1587,13 @@
             "en": "Find the prototype pollution vulnerability in this deep-merge utility:",
             "ru": "Найдите уязвимость prototype pollution в этой утилите deep-merge:"
         },
-        "code": "function deepMerge(target, source) {\n  for (const key of Object.keys(source)) {\n    if (typeof source[key] === 'object' && source[key] !== null) {\n      target[key] = target[key] || {};\n      deepMerge(target[key], source[key]);\n    } else {\n      target[key] = source[key];\n    }\n  }\n  return target;\n}",
-        "correct": "No key filtering means __proto__ and constructor can be merged, polluting Object.prototype",
-        "referenceAnswer": "Add a guard: if (key === '__proto__' || key === 'constructor' || key === 'prototype') continue; Alternatively use Object.create(null) for target, or use structuredClone() for deep copying.",
         "explanation": {
             "en": "When source is { '__proto__': { isAdmin: true } }, deepMerge recurses into Object.prototype and sets isAdmin on it, affecting every object in the application.",
             "ru": "Когда source равен { '__proto__': { isAdmin: true } }, deepMerge рекурсивно заходит в Object.prototype и выставляет на нём isAdmin, затрагивая каждый объект приложения."
-        }
+        },
+        "code": "function deepMerge(target, source) {\n  for (const key of Object.keys(source)) {\n    if (typeof source[key] === 'object' && source[key] !== null) {\n      target[key] = target[key] || {};\n      deepMerge(target[key], source[key]);\n    } else {\n      target[key] = source[key];\n    }\n  }\n  return target;\n}",
+        "correct": "No key filtering means __proto__ and constructor can be merged, polluting Object.prototype",
+        "referenceAnswer": "Add a guard: if (key === '__proto__' || key === 'constructor' || key === 'prototype') continue; Alternatively use Object.create(null) for target, or use structuredClone() for deep copying."
     },
     {
         "id": "sec-bug-csp-001",
@@ -1605,13 +1605,13 @@
             "en": "Find the CSP misconfiguration that nullifies its XSS protection:",
             "ru": "Найдите ошибку конфигурации CSP, которая сводит на нет её защиту от XSS:"
         },
-        "code": "// HTTP response header:\n// Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.example.com",
-        "correct": "'unsafe-inline' in script-src allows all inline scripts, completely defeating CSP's XSS protection",
-        "referenceAnswer": "Remove 'unsafe-inline' and replace inline scripts with external files or use nonces/hashes. With 'unsafe-inline' present, any injected <script> tag or on* event handler will execute, rendering CSP useless against XSS.",
         "explanation": {
             "en": "'unsafe-inline' is the most common CSP mistake. It allows attackers to inject <script>alert(1)</script> and have it execute, defeating the entire purpose of CSP for XSS prevention.",
             "ru": "'unsafe-inline' — самая распространённая ошибка в CSP. Она позволяет атакующему внедрить <script>alert(1)</script> и выполнить его, полностью обесценивая CSP как средство защиты от XSS."
-        }
+        },
+        "code": "// HTTP response header:\n// Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.example.com",
+        "correct": "'unsafe-inline' in script-src allows all inline scripts, completely defeating CSP's XSS protection",
+        "referenceAnswer": "Remove 'unsafe-inline' and replace inline scripts with external files or use nonces/hashes. With 'unsafe-inline' present, any injected <script> tag or on* event handler will execute, rendering CSP useless against XSS."
     },
     {
         "id": "sec-bug-localstorage-001",
@@ -1623,13 +1623,13 @@
             "en": "Find the security issue in this authentication code:",
             "ru": "Найдите проблему безопасности в этом коде аутентификации:"
         },
-        "code": "async function login(credentials) {\n  const { token } = await authApi.login(credentials);\n  localStorage.setItem('authToken', token);\n  return token;\n}\n\nfunction getAuthHeader() {\n  return { Authorization: `Bearer ${localStorage.getItem('authToken')}` };\n}",
-        "correct": "Storing the JWT in localStorage exposes it to XSS attacks that can steal the token via document.cookie-like access",
-        "referenceAnswer": "Store authentication tokens in HttpOnly cookies instead. They are inaccessible to JavaScript, preventing XSS-based token theft. The browser sends them automatically, so getAuthHeader() becomes unnecessary.",
         "explanation": {
             "en": "localStorage is accessible by any script on the page. If XSS occurs, the attacker can read the token with localStorage.getItem('authToken') and impersonate the user.",
             "ru": "localStorage доступен любому скрипту на странице. Если случится XSS, атакующий прочитает токен через localStorage.getItem('authToken') и сможет выдавать себя за пользователя."
-        }
+        },
+        "code": "async function login(credentials) {\n  const { token } = await authApi.login(credentials);\n  localStorage.setItem('authToken', token);\n  return token;\n}\n\nfunction getAuthHeader() {\n  return { Authorization: `Bearer ${localStorage.getItem('authToken')}` };\n}",
+        "correct": "Storing the JWT in localStorage exposes it to XSS attacks that can steal the token via document.cookie-like access",
+        "referenceAnswer": "Store authentication tokens in HttpOnly cookies instead. They are inaccessible to JavaScript, preventing XSS-based token theft. The browser sends them automatically, so getAuthHeader() becomes unnecessary."
     },
     {
         "id": "sec-bug-cors-001",
@@ -1641,13 +1641,13 @@
             "en": "Find the CORS security vulnerability in this Express middleware:",
             "ru": "Найдите CORS-уязвимость безопасности в этом Express middleware:"
         },
-        "code": "app.use((req, res, next) => {\n  const origin = req.headers.origin;\n  res.setHeader('Access-Control-Allow-Origin', origin);\n  res.setHeader('Access-Control-Allow-Credentials', 'true');\n  next();\n});",
-        "correct": "The server reflects any Origin back, combined with Allow-Credentials:true — any site can make credentialed cross-origin requests",
-        "referenceAnswer": "Maintain an explicit allowlist of trusted origins and only set Access-Control-Allow-Origin for origins in that list. Never reflect the request Origin unconditionally when credentials are allowed.",
         "explanation": {
             "en": "Reflecting the Origin header without validation effectively disables CORS protection. With credentials enabled this is especially dangerous because it allows any site to make authenticated API calls on behalf of the victim user.",
             "ru": "Отражение заголовка Origin без валидации фактически отключает защиту CORS. В сочетании с credentials это особенно опасно, поскольку позволяет любому сайту делать аутентифицированные API-запросы от имени жертвы."
-        }
+        },
+        "code": "app.use((req, res, next) => {\n  const origin = req.headers.origin;\n  res.setHeader('Access-Control-Allow-Origin', origin);\n  res.setHeader('Access-Control-Allow-Credentials', 'true');\n  next();\n});",
+        "correct": "The server reflects any Origin back, combined with Allow-Credentials:true — any site can make credentialed cross-origin requests",
+        "referenceAnswer": "Maintain an explicit allowlist of trusted origins and only set Access-Control-Allow-Origin for origins in that list. Never reflect the request Origin unconditionally when credentials are allowed."
     },
     {
         "id": "sec-cc-csp-001",
@@ -1659,14 +1659,14 @@
             "en": "Complete this Express middleware that generates a per-request CSP nonce and attaches a strict CSP header:",
             "ru": "Дополните этот Express middleware, который генерирует per-request CSP nonce и выставляет строгий CSP-заголовок:"
         },
-        "code": "import crypto from 'node:crypto';\n\nexport function cspMiddleware(req, res, next) {\n  const nonce = crypto.___('16', 'base64url');\n  res.locals.cspNonce = nonce;\n  res.setHeader(\n    'Content-Security-Policy',\n    `default-src 'none'; script-src 'nonce-${nonce}' '___'; style-src 'self'; img-src 'self' data:`\n  );\n  next();\n}",
-        "blanks": ["randomBytes", "strict-dynamic"],
-        "referenceAnswer": "crypto.randomBytes('16', 'base64url') generates a cryptographically random nonce. 'strict-dynamic' propagates trust from the nonce to dynamically loaded scripts, enabling module bundlers to work without host whitelists.",
-        "lang": "javascript",
         "explanation": {
             "en": "Per-request nonces prevent inline script injection. strict-dynamic allows trusted scripts to load further scripts dynamically, which is necessary for modern bundled applications.",
             "ru": "Per-request nonce защищают от инъекции inline-скриптов. strict-dynamic разрешает доверенным скриптам динамически подгружать другие скрипты, что необходимо для современных бандлированных приложений."
-        }
+        },
+        "code": "import crypto from 'node:crypto';\n\nexport function cspMiddleware(req, res, next) {\n  const nonce = crypto.__BLANK__('16', 'base64url');\n  res.locals.cspNonce = nonce;\n  res.setHeader(\n    'Content-Security-Policy',\n    `default-src 'none'; script-src 'nonce-${nonce}' '__BLANK__'; style-src 'self'; img-src 'self' data:`\n  );\n  next();\n}",
+        "blanks": ["randomBytes", "strict-dynamic"],
+        "lang": "javascript",
+        "referenceAnswer": "crypto.randomBytes('16', 'base64url') generates a cryptographically random nonce. 'strict-dynamic' propagates trust from the nonce to dynamically loaded scripts, enabling module bundlers to work without host whitelists."
     },
     {
         "id": "sec-cc-sanitize-001",
@@ -1678,14 +1678,14 @@
             "en": "Complete this React component that safely renders user-provided HTML using DOMPurify:",
             "ru": "Дополните этот React-компонент, который безопасно рендерит пользовательский HTML через DOMPurify:"
         },
-        "code": "import DOMPurify from 'dompurify';\n\nfunction SafeHtml({ html }: { html: string }) {\n  const clean = DOMPurify.___(html);\n  return <div dangerouslySetInnerHTML={{ ___: clean }} />;\n}",
-        "blanks": ["sanitize", "__html"],
-        "referenceAnswer": "DOMPurify.sanitize(html) strips all XSS vectors from the HTML string. dangerouslySetInnerHTML requires the object key __html to inject the sanitized markup.",
-        "lang": "tsx",
         "explanation": {
             "en": "DOMPurify.sanitize removes malicious HTML while preserving formatting. The __html key is React's intentional friction to make developers acknowledge the risk of injecting raw HTML.",
             "ru": "DOMPurify.sanitize удаляет вредоносный HTML, сохраняя форматирование. Ключ __html — это намеренное препятствие от React, заставляющее разработчика осознать риск вставки сырого HTML."
-        }
+        },
+        "code": "import DOMPurify from 'dompurify';\n\nfunction SafeHtml({ html }: { html: string }) {\n  const clean = DOMPurify.__BLANK__(html);\n  return <div dangerouslySetInnerHTML={{ __BLANK__: clean }} />;\n}",
+        "blanks": ["sanitize", "__html"],
+        "lang": "tsx",
+        "referenceAnswer": "DOMPurify.sanitize(html) strips all XSS vectors from the HTML string. dangerouslySetInnerHTML requires the object key __html to inject the sanitized markup."
     },
     {
         "id": "sec-cc-jwt-001",
@@ -1697,14 +1697,14 @@
             "en": "Complete this JWT verification utility with secure algorithm pinning and audience validation:",
             "ru": "Дополните эту утилиту верификации JWT с безопасным закреплением алгоритма и валидацией audience:"
         },
-        "code": "import jwt from 'jsonwebtoken';\n\nexport function verifyAccessToken(token: string) {\n  return jwt.verify(token, process.env.JWT_PUBLIC_KEY!, {\n    algorithms: [___],\n    audience: ___,\n    issuer: 'auth.example.com',\n  });\n}",
-        "blanks": ["'RS256'", "'api.example.com'"],
-        "referenceAnswer": "Hardcode the algorithm to 'RS256' to prevent algorithm confusion. Set audience to the expected service identifier so tokens issued for other services are rejected.",
-        "lang": "typescript",
         "explanation": {
             "en": "Pinning the algorithm prevents alg:none and algorithm confusion attacks. Audience validation ensures tokens cannot be replayed across different services in the same infrastructure.",
             "ru": "Жёсткая фиксация алгоритма защищает от атак alg:none и algorithm confusion. Валидация audience не даёт переиспользовать токены между разными сервисами в одной инфраструктуре."
-        }
+        },
+        "code": "import jwt from 'jsonwebtoken';\n\nexport function verifyAccessToken(token: string) {\n  return jwt.verify(token, process.env.JWT_PUBLIC_KEY!, {\n    algorithms: [__BLANK__],\n    audience: __BLANK__,\n    issuer: 'auth.example.com',\n  });\n}",
+        "blanks": ["'RS256'", "'api.example.com'"],
+        "lang": "typescript",
+        "referenceAnswer": "Hardcode the algorithm to 'RS256' to prevent algorithm confusion. Set audience to the expected service identifier so tokens issued for other services are rejected."
     },
     {
         "id": "sec-cc-sri-001",
@@ -1716,14 +1716,14 @@
             "en": "Complete this HTML snippet to load a CDN script with Subresource Integrity:",
             "ru": "Дополните этот HTML-сниппет, чтобы загрузить CDN-скрипт с Subresource Integrity:"
         },
-        "code": "<script\n  src=\"https://cdn.example.com/lib.min.js\"\n  ___=\"sha384-abc123==\"\n  crossorigin=\"___\"\n></script>",
-        "blanks": ["integrity", "anonymous"],
-        "referenceAnswer": "The integrity attribute holds the hash (algorithm-hash format). crossorigin='anonymous' sends no credentials with the request, which is required for SRI to work with cross-origin resources.",
-        "lang": "html",
         "explanation": {
             "en": "SRI computes a hash of the fetched resource and compares it to the integrity attribute. If they differ, the browser refuses to execute the script. crossorigin must be set to enable CORS so the browser can read the response for hashing.",
             "ru": "SRI вычисляет хэш загруженного ресурса и сравнивает его со значением атрибута integrity. Если они различаются, браузер отказывается исполнять скрипт. crossorigin должен быть задан, чтобы включить CORS и браузер мог прочитать ответ для хэширования."
-        }
+        },
+        "code": "<script\n  src=\"https://cdn.example.com/lib.min.js\"\n  __BLANK__=\"sha384-abc123==\"\n  crossorigin=\"__BLANK__\"\n></script>",
+        "blanks": ["integrity", "anonymous"],
+        "lang": "html",
+        "referenceAnswer": "The integrity attribute holds the hash (algorithm-hash format). crossorigin='anonymous' sends no credentials with the request, which is required for SRI to work with cross-origin resources."
     },
     {
         "id": "sec-cc-prototype-001",
@@ -1735,14 +1735,14 @@
             "en": "Complete this safe object merge function that prevents prototype pollution:",
             "ru": "Дополните эту безопасную функцию merge объектов, защищающую от prototype pollution:"
         },
-        "code": "function safeMerge<T extends object>(target: T, source: Record<string, unknown>): T {\n  const BLOCKED_KEYS = new ___([ '___', 'constructor', 'prototype']);\n  for (const [key, value] of Object.entries(source)) {\n    if (BLOCKED_KEYS.has(key)) continue;\n    (target as Record<string, unknown>)[key] = value;\n  }\n  return target;\n}",
-        "blanks": ["Set", "__proto__"],
-        "referenceAnswer": "A Set provides O(1) key lookup to block __proto__, constructor, and prototype — the three keys attackers use to reach Object.prototype or class constructors.",
-        "lang": "typescript",
         "explanation": {
             "en": "Blocking the three pollution vectors (__proto__, constructor, prototype) during merge prevents attackers from reaching Object.prototype regardless of the input shape.",
             "ru": "Блокировка трёх векторов загрязнения (__proto__, constructor, prototype) при merge не даёт атакующему добраться до Object.prototype независимо от формы входных данных."
-        }
+        },
+        "code": "function safeMerge<T extends object>(target: T, source: Record<string, unknown>): T {\n  const BLOCKED_KEYS = new __BLANK__([ '__BLANK__', 'constructor', 'prototype']);\n  for (const [key, value] of Object.entries(source)) {\n    if (BLOCKED_KEYS.has(key)) continue;\n    (target as Record<string, unknown>)[key] = value;\n  }\n  return target;\n}",
+        "blanks": ["Set", "__proto__"],
+        "lang": "typescript",
+        "referenceAnswer": "A Set provides O(1) key lookup to block __proto__, constructor, and prototype — the three keys attackers use to reach Object.prototype or class constructors."
     },
     {
         "id": "sec-cc-hsts-001",
@@ -1754,14 +1754,14 @@
             "en": "Complete this HSTS middleware to enforce HTTPS for one year including subdomains and enable preloading:",
             "ru": "Дополните этот HSTS middleware так, чтобы форсировать HTTPS на один год с учётом поддоменов и включить preloading:"
         },
-        "code": "export function hstsMiddleware(req, res, next) {\n  res.setHeader(\n    '___-Transport-Security',\n    'max-age=___; includeSubDomains; preload'\n  );\n  next();\n}",
-        "blanks": ["Strict", "31536000"],
-        "referenceAnswer": "The header name is Strict-Transport-Security. max-age=31536000 is one year in seconds. includeSubDomains and preload are required by the HSTS preload list.",
-        "lang": "javascript",
         "explanation": {
             "en": "HSTS tells browsers to only use HTTPS for the site. Preloading submits the domain to browser vendor preload lists so even the very first request uses HTTPS before the header is ever seen.",
             "ru": "HSTS указывает браузерам использовать для сайта только HTTPS. Preloading добавляет домен в preload-списки вендоров браузеров, чтобы даже самый первый запрос шёл по HTTPS ещё до того, как заголовок будет получен."
-        }
+        },
+        "code": "export function hstsMiddleware(req, res, next) {\n  res.setHeader(\n    '__BLANK__-Transport-Security',\n    'max-age=__BLANK__; includeSubDomains; preload'\n  );\n  next();\n}",
+        "blanks": ["Strict", "31536000"],
+        "lang": "javascript",
+        "referenceAnswer": "The header name is Strict-Transport-Security. max-age=31536000 is one year in seconds. includeSubDomains and preload are required by the HSTS preload list."
     },
     {
         "id": "sec-cc-cookie-001",
@@ -1773,14 +1773,14 @@
             "en": "Complete the secure cookie options for storing a session token in an Express response:",
             "ru": "Дополните безопасные опции cookie для хранения session-токена в Express-ответе:"
         },
-        "code": "res.cookie('sessionId', token, {\n  httpOnly: ___,\n  secure: ___,\n  sameSite: '___',\n  maxAge: 15 * 60 * 1000,\n});",
-        "blanks": ["true", "true", "strict"],
-        "referenceAnswer": "httpOnly:true prevents JS access, secure:true sends cookie over HTTPS only, sameSite:'strict' blocks cross-site submission. maxAge of 15 minutes limits session lifetime.",
-        "lang": "javascript",
         "explanation": {
             "en": "All three flags together provide the strongest cookie security posture: no JS access, HTTPS-only transmission, and CSRF protection via SameSite.",
             "ru": "Все три флага вместе обеспечивают максимально надёжную конфигурацию cookie: недоступность из JS, передачу только по HTTPS и защиту от CSRF через SameSite."
-        }
+        },
+        "code": "res.cookie('sessionId', token, {\n  httpOnly: __BLANK__,\n  secure: __BLANK__,\n  sameSite: '__BLANK__',\n  maxAge: 15 * 60 * 1000,\n});",
+        "blanks": ["true", "true", "strict"],
+        "lang": "javascript",
+        "referenceAnswer": "httpOnly:true prevents JS access, secure:true sends cookie over HTTPS only, sameSite:'strict' blocks cross-site submission. maxAge of 15 minutes limits session lifetime."
     },
     {
         "id": "sec-cc-cors-001",
@@ -1792,13 +1792,13 @@
             "en": "Complete this Express CORS middleware that validates origins against an allowlist:",
             "ru": "Дополните этот Express CORS middleware, который валидирует origins по allowlist:"
         },
-        "code": "const ALLOWED_ORIGINS = new Set(['https://app.example.com', 'https://admin.example.com']);\n\nexport function corsMiddleware(req, res, next) {\n  const origin = req.headers.___;\n  if (origin && ALLOWED_ORIGINS.___(origin)) {\n    res.setHeader('Access-Control-Allow-Origin', origin);\n    res.setHeader('Access-Control-Allow-Credentials', '___');\n  }\n  next();\n}",
-        "blanks": ["origin", "has", "true"],
-        "referenceAnswer": "Read req.headers.origin, check membership with Set.has(), and only reflect the origin if it is in the allowlist. Access-Control-Allow-Credentials must be the string 'true'.",
-        "lang": "javascript",
         "explanation": {
             "en": "Checking against an explicit allowlist prevents origin reflection vulnerabilities. The Set provides O(1) lookups and makes the allowlist easy to maintain.",
             "ru": "Проверка по явному allowlist защищает от уязвимостей origin reflection. Set даёт поиск за O(1) и упрощает поддержку allowlist."
-        }
+        },
+        "code": "const ALLOWED_ORIGINS = new Set(['https://app.example.com', 'https://admin.example.com']);\n\nexport function corsMiddleware(req, res, next) {\n  const origin = req.headers.__BLANK__;\n  if (origin && ALLOWED_ORIGINS.__BLANK__(origin)) {\n    res.setHeader('Access-Control-Allow-Origin', origin);\n    res.setHeader('Access-Control-Allow-Credentials', '__BLANK__');\n  }\n  next();\n}",
+        "blanks": ["origin", "has", "true"],
+        "lang": "javascript",
+        "referenceAnswer": "Read req.headers.origin, check membership with Set.has(), and only reflect the origin if it is in the allowlist. Access-Control-Allow-Credentials must be the string 'true'."
     }
 ]

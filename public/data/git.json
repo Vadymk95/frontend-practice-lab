@@ -9,6 +9,10 @@
             "en": "What does `git init` do?",
             "ru": "Что делает `git init`?"
         },
+        "explanation": {
+            "en": "git init creates a new, empty Git repository in the current directory by creating a .git subdirectory containing the repository metadata. It does not affect existing files in the directory.",
+            "ru": "git init создаёт новый пустой Git-репозиторий в текущей директории, создавая поддиректорию .git с метаданными репозитория. Существующие файлы в директории при этом не затрагиваются."
+        },
         "options": [
             {
                 "en": "Clones a remote repository to the local machine",
@@ -27,11 +31,7 @@
                 "ru": "Сбрасывает текущий репозиторий в исходное состояние"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "git init creates a new, empty Git repository in the current directory by creating a .git subdirectory containing the repository metadata. It does not affect existing files in the directory.",
-            "ru": "git init создаёт новый пустой Git-репозиторий в текущей директории, создавая поддиректорию .git с метаданными репозитория. Существующие файлы в директории при этом не затрагиваются."
-        }
+        "correct": 1
     },
     {
         "id": "git-basics-002",
@@ -42,6 +42,10 @@
         "question": {
             "en": "What is the Git staging area (index)?",
             "ru": "Что такое staging area (index) в Git?"
+        },
+        "explanation": {
+            "en": "The staging area (also called the index) is a layer between the working directory and the repository. It holds a snapshot of changes you intend to include in the next commit, allowing you to craft commits incrementally rather than committing every changed file at once.",
+            "ru": "Staging area (также называемая index) — это прослойка между рабочей директорией и репозиторием. Она хранит снапшот изменений, которые вы собираетесь включить в следующий коммит, позволяя формировать коммиты постепенно, а не коммитить все изменённые файлы сразу."
         },
         "options": [
             {
@@ -61,11 +65,7 @@
                 "ru": "Рабочая директория, в которой редактируются файлы"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "The staging area (also called the index) is a layer between the working directory and the repository. It holds a snapshot of changes you intend to include in the next commit, allowing you to craft commits incrementally rather than committing every changed file at once.",
-            "ru": "Staging area (также называемая index) — это прослойка между рабочей директорией и репозиторием. Она хранит снапшот изменений, которые вы собираетесь включить в следующий коммит, позволяя формировать коммиты постепенно, а не коммитить все изменённые файлы сразу."
-        }
+        "correct": 1
     },
     {
         "id": "git-basics-003",
@@ -76,6 +76,10 @@
         "question": {
             "en": "What is the purpose of a .gitignore file?",
             "ru": "Для чего нужен файл .gitignore?"
+        },
+        "explanation": {
+            "en": ".gitignore lists file patterns (e.g., node_modules/, *.log, .env) that Git should ignore — they will not appear in git status and will not be staged or committed. This keeps sensitive data and build artifacts out of version control.",
+            "ru": ".gitignore перечисляет паттерны файлов (например, node_modules/, *.log, .env), которые Git должен игнорировать — они не появляются в git status и не попадают в staging или коммиты. Это позволяет держать чувствительные данные и артефакты сборки вне системы контроля версий."
         },
         "options": [
             {
@@ -95,11 +99,7 @@
                 "ru": "Для определения правил защиты веток"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": ".gitignore lists file patterns (e.g., node_modules/, *.log, .env) that Git should ignore — they will not appear in git status and will not be staged or committed. This keeps sensitive data and build artifacts out of version control.",
-            "ru": ".gitignore перечисляет паттерны файлов (например, node_modules/, *.log, .env), которые Git должен игнорировать — они не появляются в git status и не попадают в staging или коммиты. Это позволяет держать чувствительные данные и артефакты сборки вне системы контроля версий."
-        }
+        "correct": 1
     },
     {
         "id": "git-basics-004",
@@ -110,6 +110,10 @@
         "question": {
             "en": "What does `git commit -m \"message\"` do?",
             "ru": "Что делает `git commit -m \"message\"`?"
+        },
+        "explanation": {
+            "en": "git commit creates a permanent snapshot of the staged changes in the local repository history with the given message. It does not communicate with a remote — that requires git push.",
+            "ru": "git commit создаёт постоянный снапшот staged-изменений в истории локального репозитория с заданным сообщением. Он не взаимодействует с удалённым репозиторием — для этого нужен git push."
         },
         "options": [
             {
@@ -129,11 +133,7 @@
                 "ru": "Заменяет сообщение последнего коммита на новое"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "git commit creates a permanent snapshot of the staged changes in the local repository history with the given message. It does not communicate with a remote — that requires git push.",
-            "ru": "git commit создаёт постоянный снапшот staged-изменений в истории локального репозитория с заданным сообщением. Он не взаимодействует с удалённым репозиторием — для этого нужен git push."
-        }
+        "correct": 1
     },
     {
         "id": "git-basics-005",
@@ -144,6 +144,10 @@
         "question": {
             "en": "What is the difference between `git fetch` and `git pull`?",
             "ru": "В чём разница между `git fetch` и `git pull`?"
+        },
+        "explanation": {
+            "en": "git fetch downloads commits, branches, and tags from the remote but does not modify your working branch. git pull is essentially git fetch followed by git merge (or git rebase with --rebase), integrating the remote changes into your current branch.",
+            "ru": "git fetch скачивает коммиты, ветки и теги с remote, но не изменяет вашу рабочую ветку. git pull по сути равен git fetch, за которым следует git merge (или git rebase при --rebase), — он интегрирует удалённые изменения в текущую ветку."
         },
         "options": [
             {
@@ -163,11 +167,7 @@
                 "ru": "git pull забирает изменения со всех remote'ов; git fetch — только с origin"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "git fetch downloads commits, branches, and tags from the remote but does not modify your working branch. git pull is essentially git fetch followed by git merge (or git rebase with --rebase), integrating the remote changes into your current branch.",
-            "ru": "git fetch скачивает коммиты, ветки и теги с remote, но не изменяет вашу рабочую ветку. git pull по сути равен git fetch, за которым следует git merge (или git rebase при --rebase), — он интегрирует удалённые изменения в текущую ветку."
-        }
+        "correct": 1
     },
     {
         "id": "git-branch-001",
@@ -178,6 +178,10 @@
         "question": {
             "en": "Which command creates a new branch AND switches to it in one step?",
             "ru": "Какая команда создаёт новую ветку И сразу переключается на неё за один шаг?"
+        },
+        "explanation": {
+            "en": "git checkout -b new-feature creates a new branch named new-feature and immediately switches to it. The modern equivalent is git switch -c new-feature. git branch only creates the branch without switching.",
+            "ru": "git checkout -b new-feature создаёт новую ветку new-feature и сразу же переключается на неё. Современный эквивалент — git switch -c new-feature. git branch только создаёт ветку, но не переключается на неё."
         },
         "options": [
             {
@@ -197,11 +201,7 @@
                 "ru": "git create new-feature"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "git checkout -b new-feature creates a new branch named new-feature and immediately switches to it. The modern equivalent is git switch -c new-feature. git branch only creates the branch without switching.",
-            "ru": "git checkout -b new-feature создаёт новую ветку new-feature и сразу же переключается на неё. Современный эквивалент — git switch -c new-feature. git branch только создаёт ветку, но не переключается на неё."
-        }
+        "correct": 2
     },
     {
         "id": "git-branch-002",
@@ -212,6 +212,10 @@
         "question": {
             "en": "What is a 'detached HEAD' state in Git?",
             "ru": "Что такое состояние 'detached HEAD' в Git?"
+        },
+        "explanation": {
+            "en": "Detached HEAD occurs when HEAD points to a specific commit hash rather than a named branch. Any new commits made in this state will not be on any branch and can be lost when you switch branches. Use git switch -c <new-branch> to attach a branch to the current commit.",
+            "ru": "Detached HEAD возникает, когда HEAD указывает на конкретный хэш коммита, а не на именованную ветку. Любые новые коммиты в этом состоянии не будут привязаны ни к одной ветке и могут быть потеряны при переключении веток. Используйте git switch -c <new-branch>, чтобы привязать ветку к текущему коммиту."
         },
         "options": [
             {
@@ -231,11 +235,7 @@
                 "ru": "Состояние, когда в рабочей директории есть незакоммиченные изменения"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Detached HEAD occurs when HEAD points to a specific commit hash rather than a named branch. Any new commits made in this state will not be on any branch and can be lost when you switch branches. Use git switch -c <new-branch> to attach a branch to the current commit.",
-            "ru": "Detached HEAD возникает, когда HEAD указывает на конкретный хэш коммита, а не на именованную ветку. Любые новые коммиты в этом состоянии не будут привязаны ни к одной ветке и могут быть потеряны при переключении веток. Используйте git switch -c <new-branch>, чтобы привязать ветку к текущему коммиту."
-        }
+        "correct": 1
     },
     {
         "id": "git-merge-001",
@@ -246,6 +246,10 @@
         "question": {
             "en": "When does a fast-forward merge occur?",
             "ru": "Когда происходит fast-forward merge?"
+        },
+        "explanation": {
+            "en": "A fast-forward merge occurs when the current branch is a direct ancestor of the branch being merged. Git simply moves the branch pointer forward — no merge commit is created. If the current branch has diverged, a 3-way merge is required.",
+            "ru": "Fast-forward merge происходит, когда текущая ветка является прямым предком мёржимой ветки. Git просто двигает указатель ветки вперёд — merge-коммит не создаётся. Если текущая ветка разошлась, потребуется 3-way merge."
         },
         "options": [
             {
@@ -265,11 +269,7 @@
                 "ru": "Когда используется флаг --squash"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "A fast-forward merge occurs when the current branch is a direct ancestor of the branch being merged. Git simply moves the branch pointer forward — no merge commit is created. If the current branch has diverged, a 3-way merge is required.",
-            "ru": "Fast-forward merge происходит, когда текущая ветка является прямым предком мёржимой ветки. Git просто двигает указатель ветки вперёд — merge-коммит не создаётся. Если текущая ветка разошлась, потребуется 3-way merge."
-        }
+        "correct": 2
     },
     {
         "id": "git-stash-001",
@@ -280,6 +280,10 @@
         "question": {
             "en": "What does `git stash` do?",
             "ru": "Что делает `git stash`?"
+        },
+        "explanation": {
+            "en": "git stash temporarily shelves (stashes) uncommitted changes so you can work on something else without committing incomplete work. Use git stash pop or git stash apply to restore the stashed changes later.",
+            "ru": "git stash временно откладывает (stash'ит) незакоммиченные изменения, чтобы вы могли переключиться на другую задачу, не коммитя незавершённую работу. Используйте git stash pop или git stash apply, чтобы восстановить сохранённые изменения позже."
         },
         "options": [
             {
@@ -299,11 +303,7 @@
                 "ru": "Создаёт резервную ветку с текущими изменениями"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "git stash temporarily shelves (stashes) uncommitted changes so you can work on something else without committing incomplete work. Use git stash pop or git stash apply to restore the stashed changes later.",
-            "ru": "git stash временно откладывает (stash'ит) незакоммиченные изменения, чтобы вы могли переключиться на другую задачу, не коммитя незавершённую работу. Используйте git stash pop или git stash apply, чтобы восстановить сохранённые изменения позже."
-        }
+        "correct": 2
     },
     {
         "id": "git-reset-001",
@@ -314,6 +314,10 @@
         "question": {
             "en": "What is the difference between `git reset --soft HEAD~1` and `git reset --hard HEAD~1`?",
             "ru": "В чём разница между `git reset --soft HEAD~1` и `git reset --hard HEAD~1`?"
+        },
+        "explanation": {
+            "en": "git reset --soft HEAD~1 moves the branch pointer back one commit but keeps your changes staged, allowing you to re-commit. git reset --hard HEAD~1 moves the pointer back and discards all changes in the working directory and staging area — the changes are gone.",
+            "ru": "git reset --soft HEAD~1 двигает указатель ветки на один коммит назад, но оставляет ваши изменения в staging, позволяя закоммитить их заново. git reset --hard HEAD~1 двигает указатель назад и отбрасывает все изменения в рабочей директории и staging area — изменения теряются."
         },
         "options": [
             {
@@ -333,11 +337,7 @@
                 "ru": "--hard сохраняет изменения в рабочей директории; --soft их отбрасывает"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "git reset --soft HEAD~1 moves the branch pointer back one commit but keeps your changes staged, allowing you to re-commit. git reset --hard HEAD~1 moves the pointer back and discards all changes in the working directory and staging area — the changes are gone.",
-            "ru": "git reset --soft HEAD~1 двигает указатель ветки на один коммит назад, но оставляет ваши изменения в staging, позволяя закоммитить их заново. git reset --hard HEAD~1 двигает указатель назад и отбрасывает все изменения в рабочей директории и staging area — изменения теряются."
-        }
+        "correct": 1
     },
     {
         "id": "git-log-001",
@@ -348,6 +348,10 @@
         "question": {
             "en": "Which `git log` flag shows a compact, one-line summary per commit?",
             "ru": "Какой флаг `git log` показывает компактную сводку в одну строку на коммит?"
+        },
+        "explanation": {
+            "en": "git log --oneline displays each commit on a single line showing the abbreviated commit hash and the commit message subject. This is useful for quickly scanning history. Combine with --graph to visualize branch topology.",
+            "ru": "git log --oneline выводит каждый коммит в одну строку, показывая сокращённый хэш коммита и заголовок сообщения. Это удобно для быстрого просмотра истории. Совместите с --graph, чтобы визуализировать топологию веток."
         },
         "options": [
             {
@@ -367,11 +371,7 @@
                 "ru": "git log --compact"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "git log --oneline displays each commit on a single line showing the abbreviated commit hash and the commit message subject. This is useful for quickly scanning history. Combine with --graph to visualize branch topology.",
-            "ru": "git log --oneline выводит каждый коммит в одну строку, показывая сокращённый хэш коммита и заголовок сообщения. Это удобно для быстрого просмотра истории. Совместите с --graph, чтобы визуализировать топологию веток."
-        }
+        "correct": 1
     },
     {
         "id": "git-revert-001",
@@ -382,6 +382,10 @@
         "question": {
             "en": "What is the key difference between `git revert` and `git reset` for undoing changes?",
             "ru": "В чём ключевая разница между `git revert` и `git reset` при откате изменений?"
+        },
+        "explanation": {
+            "en": "git revert creates a new commit that undoes the effect of a previous commit — history is preserved and the revert is visible to collaborators. git reset rewrites history by moving the branch pointer, making it dangerous on shared branches because it can lose commits others have pulled.",
+            "ru": "git revert создаёт новый коммит, отменяющий эффект предыдущего коммита, — история сохраняется, и откат виден коллегам. git reset переписывает историю, двигая указатель ветки, что опасно для shared-веток: можно потерять коммиты, которые другие уже успели подтянуть."
         },
         "options": [
             {
@@ -401,11 +405,7 @@
                 "ru": "git revert работает только с последним коммитом; git reset может указывать на любой коммит"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "git revert creates a new commit that undoes the effect of a previous commit — history is preserved and the revert is visible to collaborators. git reset rewrites history by moving the branch pointer, making it dangerous on shared branches because it can lose commits others have pulled.",
-            "ru": "git revert создаёт новый коммит, отменяющий эффект предыдущего коммита, — история сохраняется, и откат виден коллегам. git reset переписывает историю, двигая указатель ветки, что опасно для shared-веток: можно потерять коммиты, которые другие уже успели подтянуть."
-        }
+        "correct": 1
     },
     {
         "id": "git-remote-001",
@@ -416,6 +416,10 @@
         "question": {
             "en": "What does `origin` refer to in Git?",
             "ru": "Что означает `origin` в Git?"
+        },
+        "explanation": {
+            "en": "origin is the conventional default name given to a remote repository when you clone it (git clone automatically names the remote 'origin'). You can have multiple remotes with any name; origin is simply a convention, not a technical requirement.",
+            "ru": "origin — это общепринятое имя по умолчанию для удалённого репозитория при клонировании (git clone автоматически называет remote 'origin'). У вас может быть сколько угодно remote'ов с любыми именами; origin — просто соглашение, а не техническое требование."
         },
         "options": [
             {
@@ -435,11 +439,7 @@
                 "ru": "Локальная копия remote-tracking ветки"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "origin is the conventional default name given to a remote repository when you clone it (git clone automatically names the remote 'origin'). You can have multiple remotes with any name; origin is simply a convention, not a technical requirement.",
-            "ru": "origin — это общепринятое имя по умолчанию для удалённого репозитория при клонировании (git clone автоматически называет remote 'origin'). У вас может быть сколько угодно remote'ов с любыми именами; origin — просто соглашение, а не техническое требование."
-        }
+        "correct": 1
     },
     {
         "id": "git-tag-001",
@@ -450,6 +450,10 @@
         "question": {
             "en": "What is the difference between a lightweight tag and an annotated tag in Git?",
             "ru": "В чём разница между lightweight-тегом и annotated-тегом в Git?"
+        },
+        "explanation": {
+            "en": "A lightweight tag is simply a named pointer to a commit (like a branch that does not move). An annotated tag is a full Git object with a checksum, tagger name/email, date, and message. Annotated tags are recommended for releases as they carry meaningful metadata.",
+            "ru": "Lightweight-тег — это просто именованный указатель на коммит (как ветка, которая не двигается). Annotated-тег — полноценный Git-объект с контрольной суммой, именем/email автора тега, датой и сообщением. Для релизов рекомендуются annotated-теги, поскольку они несут содержательные метаданные."
         },
         "options": [
             {
@@ -469,11 +473,7 @@
                 "ru": "Они идентичны — названия просто алиасы"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "A lightweight tag is simply a named pointer to a commit (like a branch that does not move). An annotated tag is a full Git object with a checksum, tagger name/email, date, and message. Annotated tags are recommended for releases as they carry meaningful metadata.",
-            "ru": "Lightweight-тег — это просто именованный указатель на коммит (как ветка, которая не двигается). Annotated-тег — полноценный Git-объект с контрольной суммой, именем/email автора тега, датой и сообщением. Для релизов рекомендуются annotated-теги, поскольку они несут содержательные метаданные."
-        }
+        "correct": 1
     },
     {
         "id": "git-cherrypick-001",
@@ -484,6 +484,10 @@
         "question": {
             "en": "What does `git cherry-pick <commit-hash>` do?",
             "ru": "Что делает `git cherry-pick <commit-hash>`?"
+        },
+        "explanation": {
+            "en": "git cherry-pick takes the changes introduced by a specific commit and applies them as a new commit on the current branch. The original commit remains on its original branch. It is useful for applying specific bug fixes to release branches without merging everything.",
+            "ru": "git cherry-pick берёт изменения, внесённые конкретным коммитом, и применяет их как новый коммит на текущей ветке. Исходный коммит остаётся на своей ветке. Это удобно для переноса конкретных багфиксов в release-ветки без мёржа всего подряд."
         },
         "options": [
             {
@@ -503,11 +507,7 @@
                 "ru": "Отменяет указанный коммит на текущей ветке"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "git cherry-pick takes the changes introduced by a specific commit and applies them as a new commit on the current branch. The original commit remains on its original branch. It is useful for applying specific bug fixes to release branches without merging everything.",
-            "ru": "git cherry-pick берёт изменения, внесённые конкретным коммитом, и применяет их как новый коммит на текущей ветке. Исходный коммит остаётся на своей ветке. Это удобно для переноса конкретных багфиксов в release-ветки без мёржа всего подряд."
-        }
+        "correct": 1
     },
     {
         "id": "git-hooks-001",
@@ -518,6 +518,10 @@
         "question": {
             "en": "Where are Git hooks stored in a repository?",
             "ru": "Где хранятся Git-хуки в репозитории?"
+        },
+        "explanation": {
+            "en": "Git hooks are shell scripts stored in .git/hooks/. They are not committed to the repository by default (since .git/ is not tracked). Tools like Husky solve this by storing hooks in a committed directory and symlinking them into .git/hooks/ during npm install.",
+            "ru": "Git-хуки — это shell-скрипты, хранящиеся в .git/hooks/. По умолчанию они не коммитятся в репозиторий (так как .git/ не отслеживается). Инструменты вроде Husky решают это, храня хуки в коммитящейся директории и создавая симлинки в .git/hooks/ во время npm install."
         },
         "options": [
             {
@@ -537,11 +541,7 @@
                 "ru": "В секции hooks файла package.json"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Git hooks are shell scripts stored in .git/hooks/. They are not committed to the repository by default (since .git/ is not tracked). Tools like Husky solve this by storing hooks in a committed directory and symlinking them into .git/hooks/ during npm install.",
-            "ru": "Git-хуки — это shell-скрипты, хранящиеся в .git/hooks/. По умолчанию они не коммитятся в репозиторий (так как .git/ не отслеживается). Инструменты вроде Husky решают это, храня хуки в коммитящейся директории и создавая симлинки в .git/hooks/ во время npm install."
-        }
+        "correct": 1
     },
     {
         "id": "git-conventional-001",
@@ -552,6 +552,10 @@
         "question": {
             "en": "In the Conventional Commits specification, what does a `!` after the type indicate?",
             "ru": "Что означает `!` после типа в спецификации Conventional Commits?"
+        },
+        "explanation": {
+            "en": "In Conventional Commits, appending ! after the type (e.g., feat!: or fix(api)!:) indicates a breaking change. It is equivalent to adding BREAKING CHANGE: in the commit footer. This signals that the change is not backward-compatible.",
+            "ru": "В Conventional Commits добавление ! после типа (например, feat!: или fix(api)!:) обозначает breaking change. Это эквивалентно указанию BREAKING CHANGE: в футере коммита. Такая пометка сигнализирует, что изменение не обратно совместимо."
         },
         "options": [
             {
@@ -571,11 +575,7 @@
                 "ru": "Коммит, который нужно заsquash'ить перед мёржем"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "In Conventional Commits, appending ! after the type (e.g., feat!: or fix(api)!:) indicates a breaking change. It is equivalent to adding BREAKING CHANGE: in the commit footer. This signals that the change is not backward-compatible.",
-            "ru": "В Conventional Commits добавление ! после типа (например, feat!: или fix(api)!:) обозначает breaking change. Это эквивалентно указанию BREAKING CHANGE: в футере коммита. Такая пометка сигнализирует, что изменение не обратно совместимо."
-        }
+        "correct": 1
     },
     {
         "id": "git-bisect-001",
@@ -586,6 +586,10 @@
         "question": {
             "en": "What is the purpose of `git bisect`?",
             "ru": "Для чего нужен `git bisect`?"
+        },
+        "explanation": {
+            "en": "git bisect performs a binary search through commit history to find the commit that introduced a bug. You mark a known-good and known-bad commit; Git checks out the midpoint, you test and mark good/bad, and the process repeats until the culprit commit is identified.",
+            "ru": "git bisect выполняет бинарный поиск по истории коммитов, чтобы найти коммит, в котором появился баг. Вы помечаете заведомо хороший и заведомо плохой коммит; Git делает checkout на середину, вы тестируете и помечаете good/bad, и процесс повторяется, пока не будет найден виновник."
         },
         "options": [
             {
@@ -605,11 +609,7 @@
                 "ru": "Чтобы отобразить граф истории коммитов репозитория"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "git bisect performs a binary search through commit history to find the commit that introduced a bug. You mark a known-good and known-bad commit; Git checks out the midpoint, you test and mark good/bad, and the process repeats until the culprit commit is identified.",
-            "ru": "git bisect выполняет бинарный поиск по истории коммитов, чтобы найти коммит, в котором появился баг. Вы помечаете заведомо хороший и заведомо плохой коммит; Git делает checkout на середину, вы тестируете и помечаете good/bad, и процесс повторяется, пока не будет найден виновник."
-        }
+        "correct": 1
     },
     {
         "id": "git-reflog-001",
@@ -620,6 +620,10 @@
         "question": {
             "en": "What does `git reflog` help you do?",
             "ru": "Что позволяет делать `git reflog`?"
+        },
+        "explanation": {
+            "en": "git reflog records every movement of HEAD (commits, resets, checkouts, merges). It lets you recover 'lost' commits after a hard reset or accidental branch deletion by finding the commit hash and creating a new branch or cherry-picking from it.",
+            "ru": "git reflog фиксирует каждое движение HEAD (коммиты, reset'ы, checkout'ы, мёржи). Он позволяет восстановить 'потерянные' коммиты после hard reset или случайного удаления ветки: находите хэш коммита и создаёте новую ветку или cherry-pick'аете от него."
         },
         "options": [
             {
@@ -639,11 +643,7 @@
                 "ru": "Откатывать мёрж к состоянию до его выполнения"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "git reflog records every movement of HEAD (commits, resets, checkouts, merges). It lets you recover 'lost' commits after a hard reset or accidental branch deletion by finding the commit hash and creating a new branch or cherry-picking from it.",
-            "ru": "git reflog фиксирует каждое движение HEAD (коммиты, reset'ы, checkout'ы, мёржи). Он позволяет восстановить 'потерянные' коммиты после hard reset или случайного удаления ветки: находите хэш коммита и создаёте новую ветку или cherry-pick'аете от него."
-        }
+        "correct": 1
     },
     {
         "id": "git-merge-002",
@@ -654,6 +654,10 @@
         "question": {
             "en": "When should you prefer `git rebase` over `git merge` when integrating changes from main into a feature branch?",
             "ru": "Когда стоит предпочесть `git rebase` вместо `git merge` при интеграции изменений из main в feature-ветку?"
+        },
+        "explanation": {
+            "en": "Rebasing rewrites the feature branch commits on top of the latest main, producing a linear history that is easier to read with git log --oneline and bisect. Merging preserves the diverged history with a merge commit. Never rebase shared/public branches — it rewrites history and breaks collaborators' local copies.",
+            "ru": "Rebase переписывает коммиты feature-ветки поверх актуального main, давая линейную историю, которую удобно читать через git log --oneline и bisect'ить. Merge сохраняет разошедшуюся историю вместе с merge-коммитом. Никогда не ребейзите shared/публичные ветки — это переписывает историю и ломает локальные копии у коллег."
         },
         "options": [
             {
@@ -673,11 +677,7 @@
                 "ru": "Когда есть merge-конфликты — rebase разрешает их автоматически"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Rebasing rewrites the feature branch commits on top of the latest main, producing a linear history that is easier to read with git log --oneline and bisect. Merging preserves the diverged history with a merge commit. Never rebase shared/public branches — it rewrites history and breaks collaborators' local copies.",
-            "ru": "Rebase переписывает коммиты feature-ветки поверх актуального main, давая линейную историю, которую удобно читать через git log --oneline и bisect'ить. Merge сохраняет разошедшуюся историю вместе с merge-коммитом. Никогда не ребейзите shared/публичные ветки — это переписывает историю и ломает локальные копии у коллег."
-        }
+        "correct": 1
     },
     {
         "id": "git-rebase-001",
@@ -688,6 +688,10 @@
         "question": {
             "en": "What can you accomplish with `git rebase -i HEAD~3`?",
             "ru": "Что можно сделать с помощью `git rebase -i HEAD~3`?"
+        },
+        "explanation": {
+            "en": "Interactive rebase (git rebase -i) opens an editor listing the specified commits. You can reorder them, squash multiple into one, edit commit messages (reword), drop commits, or split them. It is a powerful history-cleaning tool before pushing a feature branch.",
+            "ru": "Interactive rebase (git rebase -i) открывает редактор со списком указанных коммитов. Их можно переупорядочить, заsquash'ить несколько в один, отредактировать сообщения (reword), удалить коммиты или разбить их. Это мощный инструмент для приведения истории в порядок перед пушем feature-ветки."
         },
         "options": [
             {
@@ -707,11 +711,7 @@
                 "ru": "Сбросить последние 3 коммита и добавить изменения в staging"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Interactive rebase (git rebase -i) opens an editor listing the specified commits. You can reorder them, squash multiple into one, edit commit messages (reword), drop commits, or split them. It is a powerful history-cleaning tool before pushing a feature branch.",
-            "ru": "Interactive rebase (git rebase -i) открывает редактор со списком указанных коммитов. Их можно переупорядочить, заsquash'ить несколько в один, отредактировать сообщения (reword), удалить коммиты или разбить их. Это мощный инструмент для приведения истории в порядок перед пушем feature-ветки."
-        }
+        "correct": 1
     },
     {
         "id": "git-conflict-001",
@@ -722,6 +722,10 @@
         "question": {
             "en": "In a Git merge conflict marker, what does the `<<<<<<< HEAD` section represent?",
             "ru": "Что обозначает секция `<<<<<<< HEAD` в маркере merge-конфликта Git?"
+        },
+        "explanation": {
+            "en": "In a conflict marker: <<<<<<< HEAD shows your current branch's version, >>>>>>> branch-name shows the incoming branch's version, and ======= separates them. You resolve conflicts by editing the file to keep the desired combination and removing the markers.",
+            "ru": "В маркере конфликта: <<<<<<< HEAD показывает версию вашей текущей ветки, >>>>>>> branch-name — версию входящей ветки, а ======= разделяет их. Конфликт разрешается правкой файла: оставляете нужное сочетание и удаляете маркеры."
         },
         "options": [
             {
@@ -741,11 +745,7 @@
                 "ru": "Базовую версию до того, как любая из веток внесла изменения"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "In a conflict marker: <<<<<<< HEAD shows your current branch's version, >>>>>>> branch-name shows the incoming branch's version, and ======= separates them. You resolve conflicts by editing the file to keep the desired combination and removing the markers.",
-            "ru": "В маркере конфликта: <<<<<<< HEAD показывает версию вашей текущей ветки, >>>>>>> branch-name — версию входящей ветки, а ======= разделяет их. Конфликт разрешается правкой файла: оставляете нужное сочетание и удаляете маркеры."
-        }
+        "correct": 2
     },
     {
         "id": "git-squash-001",
@@ -756,6 +756,10 @@
         "question": {
             "en": "What does 'squash merge' do when merging a feature branch into main?",
             "ru": "Что делает 'squash merge' при мёрже feature-ветки в main?"
+        },
+        "explanation": {
+            "en": "Squash merge takes all commits from the feature branch, combines their changes, and creates a single new commit on main. This keeps main's history clean (one commit per feature) at the cost of losing individual commit granularity from the feature branch.",
+            "ru": "Squash merge берёт все коммиты feature-ветки, объединяет их изменения и создаёт один новый коммит на main. История main остаётся чистой (один коммит на фичу) ценой потери детализации отдельных коммитов feature-ветки."
         },
         "options": [
             {
@@ -775,11 +779,7 @@
                 "ru": "Сохраняет все коммиты feature-ветки в main как есть, без merge-коммита"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Squash merge takes all commits from the feature branch, combines their changes, and creates a single new commit on main. This keeps main's history clean (one commit per feature) at the cost of losing individual commit granularity from the feature branch.",
-            "ru": "Squash merge берёт все коммиты feature-ветки, объединяет их изменения и создаёт один новый коммит на main. История main остаётся чистой (один коммит на фичу) ценой потери детализации отдельных коммитов feature-ветки."
-        }
+        "correct": 1
     },
     {
         "id": "git-workflow-001",
@@ -790,6 +790,10 @@
         "question": {
             "en": "What is a key characteristic of trunk-based development compared to Gitflow?",
             "ru": "Какова ключевая особенность trunk-based development по сравнению с Gitflow?"
+        },
+        "explanation": {
+            "en": "Trunk-based development integrates small, incremental changes to the main branch frequently (daily or multiple times per day) using short-lived feature branches or direct commits. This reduces integration risk and enables CI/CD. Gitflow uses long-lived develop/release/hotfix branches which increase merge complexity.",
+            "ru": "Trunk-based development интегрирует небольшие инкрементальные изменения в main часто (ежедневно или по нескольку раз в день) через короткоживущие feature-ветки или прямые коммиты. Это снижает интеграционные риски и включает CI/CD. Gitflow использует долгоживущие ветки develop/release/hotfix, что усложняет мёржи."
         },
         "options": [
             {
@@ -809,11 +813,7 @@
                 "ru": "Trunk-based development использует ветки develop, release и hotfix, как Gitflow"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Trunk-based development integrates small, incremental changes to the main branch frequently (daily or multiple times per day) using short-lived feature branches or direct commits. This reduces integration risk and enables CI/CD. Gitflow uses long-lived develop/release/hotfix branches which increase merge complexity.",
-            "ru": "Trunk-based development интегрирует небольшие инкрементальные изменения в main часто (ежедневно или по нескольку раз в день) через короткоживущие feature-ветки или прямые коммиты. Это снижает интеграционные риски и включает CI/CD. Gitflow использует долгоживущие ветки develop/release/hotfix, что усложняет мёржи."
-        }
+        "correct": 1
     },
     {
         "id": "git-tracking-001",
@@ -824,6 +824,10 @@
         "question": {
             "en": "What is `origin/main` (a remote-tracking branch)?",
             "ru": "Что такое `origin/main` (remote-tracking ветка)?"
+        },
+        "explanation": {
+            "en": "Remote-tracking branches (e.g., origin/main) are read-only local references updated by git fetch. They represent the last known state of the remote branch. You cannot commit to them directly; they serve as the comparison point when you pull or push.",
+            "ru": "Remote-tracking ветки (например, origin/main) — это read-only локальные ссылки, обновляемые через git fetch. Они отражают последнее известное состояние удалённой ветки. Коммитить в них напрямую нельзя; они служат точкой сравнения при pull или push."
         },
         "options": [
             {
@@ -843,11 +847,7 @@
                 "ru": "Ветка, автоматически синхронизирующаяся с remote при каждом коммите"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Remote-tracking branches (e.g., origin/main) are read-only local references updated by git fetch. They represent the last known state of the remote branch. You cannot commit to them directly; they serve as the comparison point when you pull or push.",
-            "ru": "Remote-tracking ветки (например, origin/main) — это read-only локальные ссылки, обновляемые через git fetch. Они отражают последнее известное состояние удалённой ветки. Коммитить в них напрямую нельзя; они служат точкой сравнения при pull или push."
-        }
+        "correct": 1
     },
     {
         "id": "git-diff-001",
@@ -858,6 +858,10 @@
         "question": {
             "en": "What is the difference between `git diff` and `git diff --staged`?",
             "ru": "В чём разница между `git diff` и `git diff --staged`?"
+        },
+        "explanation": {
+            "en": "git diff (without arguments) shows changes between the working directory and the staging area (unstaged changes). git diff --staged (also --cached) shows changes between the staging area and the last commit — what would be included in the next commit.",
+            "ru": "git diff (без аргументов) показывает изменения между рабочей директорией и staging area (unstaged-изменения). git diff --staged (он же --cached) показывает изменения между staging area и последним коммитом — то, что попадёт в следующий коммит."
         },
         "options": [
             {
@@ -877,11 +881,7 @@
                 "ru": "git diff --staged доступен только начиная с Git 2.35"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "git diff (without arguments) shows changes between the working directory and the staging area (unstaged changes). git diff --staged (also --cached) shows changes between the staging area and the last commit — what would be included in the next commit.",
-            "ru": "git diff (без аргументов) показывает изменения между рабочей директорией и staging area (unstaged-изменения). git diff --staged (он же --cached) показывает изменения между staging area и последним коммитом — то, что попадёт в следующий коммит."
-        }
+        "correct": 1
     },
     {
         "id": "git-codereview-001",
@@ -892,6 +892,10 @@
         "question": {
             "en": "What is the primary purpose of a Pull Request (PR) / Merge Request (MR) in a team workflow?",
             "ru": "Какова основная цель Pull Request (PR) / Merge Request (MR) в командном workflow?"
+        },
+        "explanation": {
+            "en": "A Pull Request is a formal mechanism for code review. It presents the proposed changes, enables discussion (inline comments, suggestions), runs CI checks, and requires approvals before merging. This collaborative review process catches bugs, improves code quality, and shares knowledge.",
+            "ru": "Pull Request — это формальный механизм code review. Он показывает предложенные изменения, позволяет обсуждать их (inline-комментарии, suggestions), запускает CI-проверки и требует апрувов перед мёржем. Такой процесс совместного ревью ловит баги, улучшает качество кода и распространяет знания в команде."
         },
         "options": [
             {
@@ -911,11 +915,7 @@
                 "ru": "Создать копию репозитория для экспериментов"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "A Pull Request is a formal mechanism for code review. It presents the proposed changes, enables discussion (inline comments, suggestions), runs CI checks, and requires approvals before merging. This collaborative review process catches bugs, improves code quality, and shares knowledge.",
-            "ru": "Pull Request — это формальный механизм code review. Он показывает предложенные изменения, позволяет обсуждать их (inline-комментарии, suggestions), запускает CI-проверки и требует апрувов перед мёржем. Такой процесс совместного ревью ловит баги, улучшает качество кода и распространяет знания в команде."
-        }
+        "correct": 1
     },
     {
         "id": "git-hooks-002",
@@ -926,6 +926,10 @@
         "question": {
             "en": "What does the `commit-msg` Git hook allow you to do?",
             "ru": "Что позволяет делать Git-хук `commit-msg`?"
+        },
+        "explanation": {
+            "en": "The commit-msg hook runs after you type a commit message but before the commit is finalized. It receives the commit message file path as an argument. Tools like commitlint use this hook to enforce commit message conventions (e.g., Conventional Commits format).",
+            "ru": "Хук commit-msg запускается после того, как вы ввели сообщение коммита, но до того, как коммит будет финализирован. Он получает путь к файлу с сообщением коммита в качестве аргумента. Инструменты вроде commitlint используют этот хук, чтобы форсить соглашения по сообщениям коммитов (например, формат Conventional Commits)."
         },
         "options": [
             {
@@ -945,11 +949,7 @@
                 "ru": "Запускать тесты перед каждым коммитом"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "The commit-msg hook runs after you type a commit message but before the commit is finalized. It receives the commit message file path as an argument. Tools like commitlint use this hook to enforce commit message conventions (e.g., Conventional Commits format).",
-            "ru": "Хук commit-msg запускается после того, как вы ввели сообщение коммита, но до того, как коммит будет финализирован. Он получает путь к файлу с сообщением коммита в качестве аргумента. Инструменты вроде commitlint используют этот хук, чтобы форсить соглашения по сообщениям коммитов (например, формат Conventional Commits)."
-        }
+        "correct": 1
     },
     {
         "id": "git-bisect-002",
@@ -960,6 +960,10 @@
         "question": {
             "en": "How can you automate `git bisect` to run without manual good/bad marking?",
             "ru": "Как автоматизировать `git bisect`, чтобы он работал без ручной пометки good/bad?"
+        },
+        "explanation": {
+            "en": "git bisect run <script> automates bisecting by running the provided script on each commit. The script should exit with 0 if the commit is good (bug not present) and a non-zero code if bad (bug present). Git uses these results to narrow down the culprit commit without manual intervention.",
+            "ru": "git bisect run <script> автоматизирует bisect, запуская указанный скрипт на каждом коммите. Скрипт должен возвращать 0, если коммит good (бага нет), и ненулевой код, если bad (баг есть). Git использует эти результаты, чтобы сузить круг до виновного коммита без ручного вмешательства."
         },
         "options": [
             {
@@ -979,11 +983,7 @@
                 "ru": "Использовать git bisect watch с тестовой командой"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "git bisect run <script> automates bisecting by running the provided script on each commit. The script should exit with 0 if the commit is good (bug not present) and a non-zero code if bad (bug present). Git uses these results to narrow down the culprit commit without manual intervention.",
-            "ru": "git bisect run <script> автоматизирует bisect, запуская указанный скрипт на каждом коммите. Скрипт должен возвращать 0, если коммит good (бага нет), и ненулевой код, если bad (баг есть). Git использует эти результаты, чтобы сузить круг до виновного коммита без ручного вмешательства."
-        }
+        "correct": 1
     },
     {
         "id": "git-rebase-002",
@@ -994,6 +994,10 @@
         "question": {
             "en": "What does `git rebase --onto main feature-base feature-branch` do?",
             "ru": "Что делает `git rebase --onto main feature-base feature-branch`?"
+        },
+        "explanation": {
+            "en": "git rebase --onto <newbase> <upstream> <branch> rebases only the commits that are on <branch> but NOT on <upstream>, applying them onto <newbase>. This is useful for transplanting a sub-branch that was based on a feature branch directly onto main.",
+            "ru": "git rebase --onto <newbase> <upstream> <branch> ребейзит только те коммиты, которые есть в <branch>, но НЕТ в <upstream>, накладывая их на <newbase>. Это удобно, чтобы перенести суб-ветку, ответвлённую от feature-ветки, напрямую на main."
         },
         "options": [
             {
@@ -1013,11 +1017,7 @@
                 "ru": "Создаёт новую ветку main от вершины feature-branch"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "git rebase --onto <newbase> <upstream> <branch> rebases only the commits that are on <branch> but NOT on <upstream>, applying them onto <newbase>. This is useful for transplanting a sub-branch that was based on a feature branch directly onto main.",
-            "ru": "git rebase --onto <newbase> <upstream> <branch> ребейзит только те коммиты, которые есть в <branch>, но НЕТ в <upstream>, накладывая их на <newbase>. Это удобно, чтобы перенести суб-ветку, ответвлённую от feature-ветки, напрямую на main."
-        }
+        "correct": 1
     },
     {
         "id": "git-internals-001",
@@ -1028,6 +1028,10 @@
         "question": {
             "en": "Which Git object type stores the content of a file at a specific version?",
             "ru": "Какой тип Git-объекта хранит содержимое файла на конкретной версии?"
+        },
+        "explanation": {
+            "en": "Git stores file content as blob objects. A tree object represents a directory (mapping filenames to blobs or subtrees). A commit object points to a tree (snapshot), parent commits, and metadata (author, message). Blobs are content-addressed by SHA-1/SHA-256 of their content.",
+            "ru": "Git хранит содержимое файлов в виде blob-объектов. Tree-объект представляет директорию (сопоставляет имена файлов с blob'ами или поддеревьями). Commit-объект указывает на tree (снапшот), родительские коммиты и метаданные (автор, сообщение). Blob'ы адресуются по содержимому через SHA-1/SHA-256 от их содержимого."
         },
         "options": [
             {
@@ -1047,11 +1051,7 @@
                 "ru": "tag"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "Git stores file content as blob objects. A tree object represents a directory (mapping filenames to blobs or subtrees). A commit object points to a tree (snapshot), parent commits, and metadata (author, message). Blobs are content-addressed by SHA-1/SHA-256 of their content.",
-            "ru": "Git хранит содержимое файлов в виде blob-объектов. Tree-объект представляет директорию (сопоставляет имена файлов с blob'ами или поддеревьями). Commit-объект указывает на tree (снапшот), родительские коммиты и метаданные (автор, сообщение). Blob'ы адресуются по содержимому через SHA-1/SHA-256 от их содержимого."
-        }
+        "correct": 2
     },
     {
         "id": "git-merge-003",
@@ -1062,6 +1062,10 @@
         "question": {
             "en": "Which of the following are valid Git merge strategies or options?",
             "ru": "Какие из перечисленных вариантов являются валидными merge-стратегиями или опциями Git?"
+        },
+        "explanation": {
+            "en": "Git merge strategies include fast-forward (simple pointer move), 3-way/recursive merge (creates a merge commit), squash merge (combines all commits into one), and rebase merge (replays commits on top of target). 'Hot-swap merge' does not exist in Git.",
+            "ru": "Merge-стратегии Git: fast-forward (простое перемещение указателя), 3-way/recursive merge (создаёт merge-коммит), squash merge (объединяет все коммиты в один) и rebase merge (переигрывает коммиты поверх целевой ветки). 'Hot-swap merge' в Git не существует."
         },
         "options": [
             {
@@ -1085,11 +1089,7 @@
                 "ru": "Rebase merge"
             }
         ],
-        "correct": [0, 1, 2, 4],
-        "explanation": {
-            "en": "Git merge strategies include fast-forward (simple pointer move), 3-way/recursive merge (creates a merge commit), squash merge (combines all commits into one), and rebase merge (replays commits on top of target). 'Hot-swap merge' does not exist in Git.",
-            "ru": "Merge-стратегии Git: fast-forward (простое перемещение указателя), 3-way/recursive merge (создаёт merge-коммит), squash merge (объединяет все коммиты в один) и rebase merge (переигрывает коммиты поверх целевой ветки). 'Hot-swap merge' в Git не существует."
-        }
+        "correct": [0, 1, 2, 4]
     },
     {
         "id": "git-reset-002",
@@ -1100,6 +1100,10 @@
         "question": {
             "en": "Which of the following correctly describe the three modes of `git reset`?",
             "ru": "Какие из утверждений корректно описывают три режима `git reset`?"
+        },
+        "explanation": {
+            "en": "git reset has three modes: --soft (moves HEAD only), --mixed/default (moves HEAD, clears staging), and --hard (moves HEAD, clears staging and working directory). --force is a push flag, not a reset mode. --keep exists but is rarely used and is not a primary mode.",
+            "ru": "У git reset три режима: --soft (двигает только HEAD), --mixed/по умолчанию (двигает HEAD, очищает staging) и --hard (двигает HEAD, очищает staging и рабочую директорию). --force — это флаг push, а не режим reset. --keep существует, но используется редко и не относится к основным режимам."
         },
         "options": [
             {
@@ -1123,11 +1127,7 @@
                 "ru": "--keep: двигает HEAD, сбрасывает staging, но сохраняет незакоммиченные изменения"
             }
         ],
-        "correct": [0, 1, 2],
-        "explanation": {
-            "en": "git reset has three modes: --soft (moves HEAD only), --mixed/default (moves HEAD, clears staging), and --hard (moves HEAD, clears staging and working directory). --force is a push flag, not a reset mode. --keep exists but is rarely used and is not a primary mode.",
-            "ru": "У git reset три режима: --soft (двигает только HEAD), --mixed/по умолчанию (двигает HEAD, очищает staging) и --hard (двигает HEAD, очищает staging и рабочую директорию). --force — это флаг push, а не режим reset. --keep существует, но используется редко и не относится к основным режимам."
-        }
+        "correct": [0, 1, 2]
     },
     {
         "id": "git-hooks-003",
@@ -1138,6 +1138,10 @@
         "question": {
             "en": "Which of the following are client-side Git hooks that run during a commit workflow?",
             "ru": "Какие из перечисленных — это клиентские Git-хуки, запускающиеся в процессе коммит-workflow?"
+        },
+        "explanation": {
+            "en": "Client-side commit hooks: pre-commit (runs before commit message prompt, used for linting/testing), prepare-commit-msg (modifies commit message template), commit-msg (validates the message), and pre-push (runs before git push). post-receive is a server-side hook.",
+            "ru": "Клиентские commit-хуки: pre-commit (запускается до приглашения ввести сообщение коммита, используется для линтинга/тестов), prepare-commit-msg (модифицирует шаблон сообщения коммита), commit-msg (валидирует сообщение) и pre-push (запускается перед git push). post-receive — серверный хук."
         },
         "options": [
             {
@@ -1161,11 +1165,7 @@
                 "ru": "pre-push"
             }
         ],
-        "correct": [0, 1, 2, 4],
-        "explanation": {
-            "en": "Client-side commit hooks: pre-commit (runs before commit message prompt, used for linting/testing), prepare-commit-msg (modifies commit message template), commit-msg (validates the message), and pre-push (runs before git push). post-receive is a server-side hook.",
-            "ru": "Клиентские commit-хуки: pre-commit (запускается до приглашения ввести сообщение коммита, используется для линтинга/тестов), prepare-commit-msg (модифицирует шаблон сообщения коммита), commit-msg (валидирует сообщение) и pre-push (запускается перед git push). post-receive — серверный хук."
-        }
+        "correct": [0, 1, 2, 4]
     },
     {
         "id": "git-workflow-002",
@@ -1176,6 +1176,10 @@
         "question": {
             "en": "Which branches are part of the Gitflow branching model?",
             "ru": "Какие ветки входят в модель ветвления Gitflow?"
+        },
+        "explanation": {
+            "en": "Gitflow defines: main (stable production code), develop (integration branch), feature/* (new features branched from develop), release/* (release preparation), and hotfix/* (emergency production fixes branched from main). All five branch types are part of the model.",
+            "ru": "Gitflow определяет: main (стабильный production-код), develop (интеграционная ветка), feature/* (новые фичи, ответвлённые от develop), release/* (подготовка релиза) и hotfix/* (срочные продакшн-фиксы, ответвлённые от main). Все пять типов веток — часть модели."
         },
         "options": [
             {
@@ -1199,11 +1203,7 @@
                 "ru": "release/*"
             }
         ],
-        "correct": [0, 1, 2, 3, 4],
-        "explanation": {
-            "en": "Gitflow defines: main (stable production code), develop (integration branch), feature/* (new features branched from develop), release/* (release preparation), and hotfix/* (emergency production fixes branched from main). All five branch types are part of the model.",
-            "ru": "Gitflow определяет: main (стабильный production-код), develop (интеграционная ветка), feature/* (новые фичи, ответвлённые от develop), release/* (подготовка релиза) и hotfix/* (срочные продакшн-фиксы, ответвлённые от main). Все пять типов веток — часть модели."
-        }
+        "correct": [0, 1, 2, 3, 4]
     },
     {
         "id": "git-codereview-002",
@@ -1214,6 +1214,10 @@
         "question": {
             "en": "Which of the following are best practices for writing constructive PR comments?",
             "ru": "Какие из пунктов — это best practices для написания конструктивных PR-комментариев?"
+        },
+        "explanation": {
+            "en": "Good PR review etiquette: use questions to explore alternatives, label comment severity (nit/suggestion/blocker), and provide reasoning for change requests. Avoid personal 'you' statements (prefer 'this function' over 'you wrote'). Never approve just because CI passes — semantic correctness matters too.",
+            "ru": "Хороший этикет PR-ревью: используйте вопросы, чтобы обсудить альтернативы, помечайте severity комментариев (nit/suggestion/blocker) и приводите обоснование запроса на изменения. Избегайте личных формулировок с 'ты/вы' (лучше 'эта функция', чем 'ты написал'). Никогда не апрувьте только потому, что CI зелёный, — семантическая корректность тоже важна."
         },
         "options": [
             {
@@ -1237,11 +1241,7 @@
                 "ru": "Сразу апрувить, если код компилируется и тесты зелёные"
             }
         ],
-        "correct": [0, 1, 3],
-        "explanation": {
-            "en": "Good PR review etiquette: use questions to explore alternatives, label comment severity (nit/suggestion/blocker), and provide reasoning for change requests. Avoid personal 'you' statements (prefer 'this function' over 'you wrote'). Never approve just because CI passes — semantic correctness matters too.",
-            "ru": "Хороший этикет PR-ревью: используйте вопросы, чтобы обсудить альтернативы, помечайте severity комментариев (nit/suggestion/blocker) и приводите обоснование запроса на изменения. Избегайте личных формулировок с 'ты/вы' (лучше 'эта функция', чем 'ты написал'). Никогда не апрувьте только потому, что CI зелёный, — семантическая корректность тоже важна."
-        }
+        "correct": [0, 1, 3]
     },
     {
         "id": "git-conflict-bug-001",
@@ -1253,13 +1253,13 @@
             "en": "A developer committed this file after resolving a merge conflict. What did they forget?",
             "ru": "Разработчик закоммитил этот файл после разрешения merge-конфликта. Что он забыл сделать?"
         },
-        "code": "function calculateTotal(items) {\n<<<<<<< HEAD\n  return items.reduce((sum, item) => sum + item.price, 0);\n=======\n  return items.reduce((sum, item) => sum + item.cost, 0);\n>>>>>>> feature/pricing-update\n}",
-        "correct": "The merge conflict markers (<<<<<<, =======, >>>>>>>) were committed as-is — the conflict was never actually resolved",
-        "referenceAnswer": "The developer must manually resolve the conflict by choosing one version (or combining them), removing all conflict markers, and committing the clean file. A pre-commit hook or CI lint check can catch this.",
         "explanation": {
             "en": "Committing unresolved conflict markers is a common mistake. The file is syntactically broken — it contains invalid code from the markers. Tools like eslint, tsc, or a pre-commit hook can detect and block commits with conflict markers.",
             "ru": "Коммит с неразрешёнными маркерами конфликта — частая ошибка. Файл синтаксически сломан — маркеры делают код невалидным. Инструменты вроде eslint, tsc или pre-commit хука умеют ловить и блокировать коммиты с маркерами конфликта."
-        }
+        },
+        "code": "function calculateTotal(items) {\n<<<<<<< HEAD\n  return items.reduce((sum, item) => sum + item.price, 0);\n=======\n  return items.reduce((sum, item) => sum + item.cost, 0);\n>>>>>>> feature/pricing-update\n}",
+        "correct": "The merge conflict markers (<<<<<<, =======, >>>>>>>) were committed as-is — the conflict was never actually resolved",
+        "referenceAnswer": "The developer must manually resolve the conflict by choosing one version (or combining them), removing all conflict markers, and committing the clean file. A pre-commit hook or CI lint check can catch this."
     },
     {
         "id": "git-rebase-bug-001",
@@ -1271,13 +1271,13 @@
             "en": "A senior dev ran the following command on a shared branch. What is the critical mistake?",
             "ru": "Senior-разработчик выполнил следующую команду на shared-ветке. В чём критическая ошибка?"
         },
-        "code": "# On branch: feature/shared-api (3 teammates have pulled this branch)\n$ git rebase -i origin/main\n$ git push --force origin feature/shared-api",
-        "correct": "Force-pushing a rebased branch that teammates have already pulled rewrites history they are based on, causing everyone else to have diverged histories and losing their local commits",
-        "referenceAnswer": "Never force-push a shared branch. Options: (1) use git push --force-with-lease (safer — fails if someone else pushed since your last fetch), (2) communicate with the team before rebasing shared branches, or (3) create a new branch from the rebased work instead of force-pushing.",
         "explanation": {
             "en": "Rebase rewrites commit hashes. If others have pulled the old commits and you force-push new hashes, their branches are now based on orphaned commits. They must manually git reset --hard or git rebase onto the new commits, risking lost work. Only rebase branches no one else has pulled.",
             "ru": "Rebase переписывает хэши коммитов. Если другие уже подтянули старые коммиты, а вы force-push'ите новые хэши, их ветки оказываются на осиротевших коммитах. Им придётся вручную делать git reset --hard или git rebase на новые коммиты, рискуя потерять работу. Ребейзить можно только те ветки, которые никто больше не подтягивал."
-        }
+        },
+        "code": "# On branch: feature/shared-api (3 teammates have pulled this branch)\n$ git rebase -i origin/main\n$ git push --force origin feature/shared-api",
+        "correct": "Force-pushing a rebased branch that teammates have already pulled rewrites history they are based on, causing everyone else to have diverged histories and losing their local commits",
+        "referenceAnswer": "Never force-push a shared branch. Options: (1) use git push --force-with-lease (safer — fails if someone else pushed since your last fetch), (2) communicate with the team before rebasing shared branches, or (3) create a new branch from the rebased work instead of force-pushing."
     },
     {
         "id": "git-gitignore-bug-001",
@@ -1289,13 +1289,13 @@
             "en": "A developer added `node_modules/` to .gitignore but it still appears in `git status`. What is the issue?",
             "ru": "Разработчик добавил `node_modules/` в .gitignore, но директория всё равно появляется в `git status`. В чём проблема?"
         },
-        "code": "# .gitignore\nnode_modules/\n\n# git status output:\nChanges not staged for commit:\n  modified:   node_modules/lodash/package.json",
-        "correct": "node_modules/ was already tracked by Git before .gitignore was updated; .gitignore only prevents untracked files from being added, it does not remove already-tracked files",
-        "referenceAnswer": "Run: git rm -r --cached node_modules/ then commit the change. This removes node_modules from Git's index (tracking) without deleting the files from disk. After this, .gitignore will prevent it from being re-added.",
         "explanation": {
             "en": ".gitignore only affects untracked files. If a file or directory was committed before being added to .gitignore, Git continues to track it. You must explicitly remove it from the index with git rm --cached.",
             "ru": ".gitignore влияет только на untracked-файлы. Если файл или директория были закоммичены до того, как их добавили в .gitignore, Git продолжает их отслеживать. Нужно явно убрать их из index командой git rm --cached."
-        }
+        },
+        "code": "# .gitignore\nnode_modules/\n\n# git status output:\nChanges not staged for commit:\n  modified:   node_modules/lodash/package.json",
+        "correct": "node_modules/ was already tracked by Git before .gitignore was updated; .gitignore only prevents untracked files from being added, it does not remove already-tracked files",
+        "referenceAnswer": "Run: git rm -r --cached node_modules/ then commit the change. This removes node_modules from Git's index (tracking) without deleting the files from disk. After this, .gitignore will prevent it from being re-added."
     },
     {
         "id": "git-log-002",
@@ -1307,14 +1307,14 @@
             "en": "Complete the git log command that shows a graphical, one-line branch history with all branches:",
             "ru": "Дополните команду git log, которая показывает графическую историю веток в одну строку со всеми ветками:"
         },
-        "code": "git log ___  ___ ___",
-        "blanks": ["--oneline", "--graph", "--all"],
-        "referenceAnswer": "git log --oneline --graph --all shows a compact ASCII graph of all branches in the repository.",
-        "lang": "bash",
         "explanation": {
             "en": "--oneline shows one commit per line, --graph draws ASCII branch/merge lines, --all includes all local and remote-tracking branches. Together they provide a compact visual overview of the entire repository history.",
             "ru": "--oneline выводит по одному коммиту в строке, --graph рисует ASCII-линии веток/мёржей, --all включает все локальные и remote-tracking ветки. Вместе они дают компактный визуальный обзор всей истории репозитория."
-        }
+        },
+        "code": "git log __BLANK__  __BLANK__ __BLANK__",
+        "blanks": ["--oneline", "--graph", "--all"],
+        "lang": "bash",
+        "referenceAnswer": "git log --oneline --graph --all shows a compact ASCII graph of all branches in the repository."
     },
     {
         "id": "git-stash-002",
@@ -1326,14 +1326,14 @@
             "en": "Complete these git stash commands: save with a message, list stashes, and apply the most recent:",
             "ru": "Дополните команды git stash: сохранить с сообщением, вывести список stash'ей и применить самый свежий:"
         },
-        "code": "git stash ___ 'WIP: refactor auth'\ngit stash ___\ngit stash ___",
-        "blanks": ["push -m", "list", "pop"],
-        "referenceAnswer": "git stash push -m 'message' saves with a label; git stash list shows all stashes; git stash pop applies and removes the top stash.",
-        "lang": "bash",
         "explanation": {
             "en": "git stash push -m saves the current changes with a descriptive message; git stash list shows all stashes with their stash@{N} identifiers; git stash pop applies the most recent stash and removes it from the stack (use git stash apply to keep it).",
             "ru": "git stash push -m сохраняет текущие изменения вместе с описательным сообщением; git stash list показывает все stash'и с идентификаторами stash@{N}; git stash pop применяет самый свежий stash и удаляет его из стека (используйте git stash apply, чтобы оставить его)."
-        }
+        },
+        "code": "git stash __BLANK__ 'WIP: refactor auth'\ngit stash __BLANK__\ngit stash __BLANK__",
+        "blanks": ["push -m", "list", "pop"],
+        "lang": "bash",
+        "referenceAnswer": "git stash push -m 'message' saves with a label; git stash list shows all stashes; git stash pop applies and removes the top stash."
     },
     {
         "id": "git-bisect-003",
@@ -1345,14 +1345,14 @@
             "en": "Complete the git bisect session to find which commit broke the build:",
             "ru": "Дополните git bisect-сессию, чтобы найти коммит, сломавший билд:"
         },
-        "code": "git bisect ___\ngit bisect ___ HEAD          # current commit is broken\ngit bisect ___ v1.2.0        # v1.2.0 was working\n# ... Git checks out midpoint commits ...\ngit bisect ___               # end the session",
-        "blanks": ["start", "bad", "good", "reset"],
-        "referenceAnswer": "git bisect start; git bisect bad HEAD; git bisect good v1.2.0; ...mark each checkout; git bisect reset to return to original HEAD.",
-        "lang": "bash",
         "explanation": {
             "en": "The bisect workflow: start the session, mark bad (broken) and good (working) boundaries, then mark each checkout as good or bad until Git identifies the culprit. git bisect reset returns to the original branch and ends the session.",
             "ru": "Bisect-workflow: запустить сессию, пометить границы bad (сломанный) и good (рабочий), затем помечать каждый checkout как good или bad, пока Git не определит виновника. git bisect reset возвращает на исходную ветку и завершает сессию."
-        }
+        },
+        "code": "git bisect __BLANK__\ngit bisect __BLANK__ HEAD          # current commit is broken\ngit bisect __BLANK__ v1.2.0        # v1.2.0 was working\n# ... Git checks out midpoint commits ...\ngit bisect __BLANK__               # end the session",
+        "blanks": ["start", "bad", "good", "reset"],
+        "lang": "bash",
+        "referenceAnswer": "git bisect start; git bisect bad HEAD; git bisect good v1.2.0; ...mark each checkout; git bisect reset to return to original HEAD."
     },
     {
         "id": "git-rebase-003",
@@ -1364,14 +1364,14 @@
             "en": "You want to squash the last 4 commits into one using interactive rebase. Complete the command and describe the interactive editor action:",
             "ru": "Вы хотите заsquash'ить последние 4 коммита в один через interactive rebase. Дополните команду и опишите действие в интерактивном редакторе:"
         },
-        "code": "git rebase -i ___~___\n\n# In the editor, change the action for commits 2-4 from 'pick' to:\n# ___",
-        "blanks": ["HEAD", "4", "squash"],
-        "referenceAnswer": "git rebase -i HEAD~4 opens the last 4 commits; change 'pick' to 'squash' (or 's') on commits 2-4 to fold them into the first commit.",
-        "lang": "bash",
         "explanation": {
             "en": "HEAD~4 references the 4th commit before HEAD. In the interactive editor, 'squash' (or 's') folds a commit into the previous one and combines their messages. 'fixup' does the same but discards the commit message.",
             "ru": "HEAD~4 ссылается на 4-й коммит до HEAD. В интерактивном редакторе 'squash' (или 's') сворачивает коммит в предыдущий и объединяет их сообщения. 'fixup' делает то же, но отбрасывает сообщение коммита."
-        }
+        },
+        "code": "git rebase -i __BLANK__~__BLANK__\n\n# In the editor, change the action for commits 2-4 from 'pick' to:\n# __BLANK__",
+        "blanks": ["HEAD", "4", "squash"],
+        "lang": "bash",
+        "referenceAnswer": "git rebase -i HEAD~4 opens the last 4 commits; change 'pick' to 'squash' (or 's') on commits 2-4 to fold them into the first commit."
     },
     {
         "id": "git-config-001",
@@ -1383,14 +1383,14 @@
             "en": "Complete the git commands to set your global user name and email:",
             "ru": "Дополните git-команды, чтобы задать глобальные имя пользователя и email:"
         },
-        "code": "git config ___ user.name \"Vadym Kononenko\"\ngit config ___ user.email \"vadym@example.com\"",
-        "blanks": ["--global", "--global"],
-        "referenceAnswer": "git config --global user.name and git config --global user.email set identity in ~/.gitconfig, used for all repositories.",
-        "lang": "bash",
         "explanation": {
             "en": "git config --global writes to ~/.gitconfig and applies to all repositories on the machine. Use --local (default) to set per-repository config in .git/config. Use --system for all users on the machine. Identity (name and email) is embedded in every commit.",
             "ru": "git config --global пишет в ~/.gitconfig и применяется ко всем репозиториям на машине. Используйте --local (по умолчанию) для настройки конкретного репозитория в .git/config. Используйте --system для всех пользователей машины. Identity (имя и email) встраивается в каждый коммит."
-        }
+        },
+        "code": "git config __BLANK__ user.name \"Vadym Kononenko\"\ngit config __BLANK__ user.email \"vadym@example.com\"",
+        "blanks": ["--global", "--global"],
+        "lang": "bash",
+        "referenceAnswer": "git config --global user.name and git config --global user.email set identity in ~/.gitconfig, used for all repositories."
     },
     {
         "id": "git-workflow-003",
@@ -1402,14 +1402,14 @@
             "en": "Complete the Husky + lint-staged configuration in package.json to run ESLint on staged .ts files before commit:",
             "ru": "Дополните конфигурацию Husky + lint-staged в package.json, чтобы запускать ESLint на staged .ts-файлах перед коммитом:"
         },
-        "code": "{\n  \"husky\": {\n    \"hooks\": {\n      \"___\": \"lint-staged\"\n    }\n  },\n  \"lint-staged\": {\n    \"___\": [\"eslint --fix\", \"git add\"]\n  }\n}",
-        "blanks": ["pre-commit", "**/*.ts"],
-        "referenceAnswer": "pre-commit hook runs lint-staged; the glob **/*.ts targets all TypeScript files for eslint --fix followed by git add to stage the auto-fixed files.",
-        "lang": "json",
         "explanation": {
             "en": "Husky hooks into the pre-commit Git hook; lint-staged runs configured commands only on files staged for the commit. This pattern catches lint errors before they enter the repository without running lint on the entire codebase.",
             "ru": "Husky подключается к pre-commit Git-хуку; lint-staged запускает настроенные команды только на файлах, попавших в staging. Этот паттерн ловит lint-ошибки до того, как они попадут в репозиторий, не запуская lint на всей кодовой базе."
-        }
+        },
+        "code": "{\n  \"husky\": {\n    \"hooks\": {\n      \"__BLANK__\": \"lint-staged\"\n    }\n  },\n  \"lint-staged\": {\n    \"__BLANK__\": [\"eslint --fix\", \"git add\"]\n  }\n}",
+        "blanks": ["pre-commit", "**/*.ts"],
+        "lang": "json",
+        "referenceAnswer": "pre-commit hook runs lint-staged; the glob **/*.ts targets all TypeScript files for eslint --fix followed by git add to stage the auto-fixed files."
     },
     {
         "id": "git-cherrypick-002",
@@ -1421,14 +1421,14 @@
             "en": "Complete the command to cherry-pick a range of commits (from abc1234 to def5678 inclusive) onto the current branch:",
             "ru": "Дополните команду, чтобы cherry-pick'нуть диапазон коммитов (от abc1234 до def5678 включительно) на текущую ветку:"
         },
-        "code": "git cherry-pick ___..___",
-        "blanks": ["abc1234", "def5678"],
-        "referenceAnswer": "git cherry-pick abc1234..def5678 applies all commits from abc1234 (exclusive) to def5678 (inclusive). Use abc1234^..def5678 to include abc1234 itself.",
-        "lang": "bash",
         "explanation": {
             "en": "Cherry-picking a range uses the same two-dot syntax as git log. The start commit is exclusive (not included); append ^ to include it. Note that cherry-picking creates new commits with different hashes, so the range's original commits still exist on their original branch.",
             "ru": "Cherry-pick диапазона использует тот же синтаксис с двумя точками, что и git log. Начальный коммит исключается (не входит в диапазон); добавьте ^, чтобы включить его. Учтите, что cherry-pick создаёт новые коммиты с другими хэшами, поэтому исходные коммиты из диапазона остаются на своей ветке."
-        }
+        },
+        "code": "git cherry-pick __BLANK__..__BLANK__",
+        "blanks": ["abc1234", "def5678"],
+        "lang": "bash",
+        "referenceAnswer": "git cherry-pick abc1234..def5678 applies all commits from abc1234 (exclusive) to def5678 (inclusive). Use abc1234^..def5678 to include abc1234 itself."
     },
     {
         "id": "git-branch-003",
@@ -1439,6 +1439,10 @@
         "question": {
             "en": "What does `git push -u origin feature/login` do that `git push origin feature/login` does not?",
             "ru": "Что делает `git push -u origin feature/login`, чего не делает `git push origin feature/login`?"
+        },
+        "explanation": {
+            "en": "The -u flag (--set-upstream) establishes a tracking relationship between the local branch and the remote branch. After this, you can run git push or git pull without arguments and Git knows which remote and branch to use.",
+            "ru": "Флаг -u (--set-upstream) устанавливает tracking-связь между локальной и удалённой веткой. После этого можно запускать git push или git pull без аргументов — Git сам знает, какой remote и какую ветку использовать."
         },
         "options": [
             {
@@ -1458,11 +1462,7 @@
                 "ru": "Защищает ветку от удаления на remote"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "The -u flag (--set-upstream) establishes a tracking relationship between the local branch and the remote branch. After this, you can run git push or git pull without arguments and Git knows which remote and branch to use.",
-            "ru": "Флаг -u (--set-upstream) устанавливает tracking-связь между локальной и удалённой веткой. После этого можно запускать git push или git pull без аргументов — Git сам знает, какой remote и какую ветку использовать."
-        }
+        "correct": 1
     },
     {
         "id": "git-conventions-001",
@@ -1473,6 +1473,10 @@
         "question": {
             "en": "Which of the following is a valid Conventional Commit message?",
             "ru": "Какое из сообщений коммита является валидным Conventional Commit?"
+        },
+        "explanation": {
+            "en": "Conventional Commits format: `type(optional-scope): description`. Valid types include feat, fix, chore, docs, style, refactor, test, etc. The scope is optional but recommended. The description is lowercase and imperative. Using dashes, uppercase, or no type violates the spec.",
+            "ru": "Формат Conventional Commits: `type(optional-scope): description`. Валидные типы — feat, fix, chore, docs, style, refactor, test и т. п. Scope не обязателен, но желателен. Описание — в нижнем регистре, в императиве. Использование тире, верхнего регистра или отсутствие типа нарушает спецификацию."
         },
         "options": [
             {
@@ -1492,11 +1496,7 @@
                 "ru": "feat - add dark mode toggle"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Conventional Commits format: `type(optional-scope): description`. Valid types include feat, fix, chore, docs, style, refactor, test, etc. The scope is optional but recommended. The description is lowercase and imperative. Using dashes, uppercase, or no type violates the spec.",
-            "ru": "Формат Conventional Commits: `type(optional-scope): description`. Валидные типы — feat, fix, chore, docs, style, refactor, test и т. п. Scope не обязателен, но желателен. Описание — в нижнем регистре, в императиве. Использование тире, верхнего регистра или отсутствие типа нарушает спецификацию."
-        }
+        "correct": 1
     },
     {
         "id": "git-merge-004",
@@ -1507,6 +1507,10 @@
         "question": {
             "en": "You are choosing a merge strategy for a team's PR workflow. Which statements are true about each strategy?",
             "ru": "Вы выбираете merge-стратегию для PR-workflow команды. Какие утверждения верны про каждую стратегию?"
+        },
+        "explanation": {
+            "en": "Each strategy has tradeoffs: merge commit preserves all history (messy log), squash produces one commit per PR (clean log, bisect-friendly, loses granularity), rebase preserves all commits linearly (clean log, full granularity, rewrites hashes). They produce very different git log outputs.",
+            "ru": "У каждой стратегии свои компромиссы: merge commit сохраняет всю историю (грязный лог), squash даёт по одному коммиту на PR (чистый лог, удобен для bisect, теряется детализация), rebase сохраняет все коммиты линейно (чистый лог, полная детализация, переписываются хэши). Они дают совершенно разный вывод git log."
         },
         "options": [
             {
@@ -1530,11 +1534,7 @@
                 "ru": "Squash merge упрощает git bisect, так как каждый PR становится одним атомарным коммитом"
             }
         ],
-        "correct": [0, 1, 2, 4],
-        "explanation": {
-            "en": "Each strategy has tradeoffs: merge commit preserves all history (messy log), squash produces one commit per PR (clean log, bisect-friendly, loses granularity), rebase preserves all commits linearly (clean log, full granularity, rewrites hashes). They produce very different git log outputs.",
-            "ru": "У каждой стратегии свои компромиссы: merge commit сохраняет всю историю (грязный лог), squash даёт по одному коммиту на PR (чистый лог, удобен для bisect, теряется детализация), rebase сохраняет все коммиты линейно (чистый лог, полная детализация, переписываются хэши). Они дают совершенно разный вывод git log."
-        }
+        "correct": [0, 1, 2, 4]
     },
     {
         "id": "git-workflow-004",
@@ -1546,13 +1546,13 @@
             "en": "Complete the typical Git PR workflow commands from branch creation to opening the PR:",
             "ru": "Дополните типичные команды Git PR-workflow от создания ветки до открытия PR:"
         },
-        "code": "# 1. Create and switch to a new feature branch\ngit ___ -c feature/user-search\n\n# 2. Stage all modified tracked files\ngit ___ -u\n\n# 3. Commit with a conventional commit message\ngit commit -m \"feat(search): add user search with debouncing\"\n\n# 4. Push and set upstream tracking\ngit push ___ origin feature/user-search",
-        "blanks": ["switch", "add", "-u"],
-        "referenceAnswer": "git switch -c creates and switches; git add -u stages all tracked modified files; git push -u sets upstream tracking.",
-        "lang": "bash",
         "explanation": {
             "en": "git switch -c is the modern equivalent of git checkout -b. git add -u stages modifications and deletions for already-tracked files (unlike git add . which also stages untracked files). git push -u sets upstream so future pushes on this branch need no arguments.",
             "ru": "git switch -c — современный эквивалент git checkout -b. git add -u добавляет в staging модификации и удаления уже отслеживаемых файлов (в отличие от git add ., который также добавляет untracked-файлы). git push -u устанавливает upstream, чтобы последующие push'и на этой ветке не требовали аргументов."
-        }
+        },
+        "code": "# 1. Create and switch to a new feature branch\ngit __BLANK__ -c feature/user-search\n\n# 2. Stage all modified tracked files\ngit __BLANK__ -u\n\n# 3. Commit with a conventional commit message\ngit commit -m \"feat(search): add user search with debouncing\"\n\n# 4. Push and set upstream tracking\ngit push __BLANK__ origin feature/user-search",
+        "blanks": ["switch", "add", "-u"],
+        "lang": "bash",
+        "referenceAnswer": "git switch -c creates and switches; git add -u stages all tracked modified files; git push -u sets upstream tracking."
     }
 ]

@@ -38,13 +38,8 @@ export function useCodeCompletionQuestion({
     const isSubmitted = isSkipped || _isSubmitted;
     const blankResults = isSkipped ? question.blanks.map(() => 'correct' as const) : _blankResults;
 
+    // Marker/blank parity is enforced by CodeCompletionSchema's refine — see schema.ts.
     const segments = useMemo(() => question.code.split('__BLANK__'), [question.code]);
-
-    if (import.meta.env.DEV && segments.length - 1 !== question.blanks.length) {
-        console.warn(
-            `[CodeCompletionQuestion] Blank count mismatch: ${segments.length - 1} __BLANK__ in code vs ${question.blanks.length} in schema (id: "${question.id}")`
-        );
-    }
 
     const setAnswer = useSessionStore.use.setAnswer();
 

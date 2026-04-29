@@ -102,6 +102,11 @@ export function useBugFindingQuestion({
     }, [onSelfAssess, onSelfAssessRegister]);
 
     useEffect(() => {
+        // Reset all answer-local state when the user navigates to a new question.
+        // Deriving these via render-time comparisons would require parallel
+        // "previous question" tracking for four fields and a useEffect for the
+        // submit-handler ref; the effect-reset is simpler and well-isolated.
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setSelectedOption(null);
         setTextAnswer('');
         setIsSubmitted(false);

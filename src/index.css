@@ -120,4 +120,46 @@ html:not(.dark) {
     body {
         @apply bg-background text-text-primary min-h-screen antialiased;
     }
+
+    /* Tailwind v4 dropped the v3 default of `cursor: pointer` on buttons and
+       role="button" elements (https://tailwindcss.com/docs/upgrade-guide).
+       Restore the affordance on every interactive surface in the app —
+       buttons, role="button", radio/checkbox primitives, and `<summary>` —
+       so hovering a clickable element reads as clickable. Disabled states
+       keep the not-allowed cursor. */
+    button:not(:disabled),
+    [role='button']:not([aria-disabled='true']),
+    [role='radio']:not([aria-disabled='true']),
+    [role='checkbox']:not([aria-disabled='true']),
+    [role='menuitem']:not([aria-disabled='true']),
+    [role='option']:not([aria-disabled='true']),
+    summary {
+        cursor: pointer;
+    }
+}
+
+/* Themed scrollbar — opt-in via `.scrollbar-themed` on scrollable containers
+   (e.g. modal lists). Matches terminal aesthetic: thin track on the surface
+   token, sharp corners, accent on hover. Native default OS scrollbars look
+   out of place inside our dark dialog chrome. */
+.scrollbar-themed {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-brd) transparent;
+}
+.scrollbar-themed::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+.scrollbar-themed::-webkit-scrollbar-track {
+    background: transparent;
+}
+.scrollbar-themed::-webkit-scrollbar-thumb {
+    background: var(--color-brd);
+    border-radius: var(--radius);
+}
+.scrollbar-themed::-webkit-scrollbar-thumb:hover {
+    background: var(--color-acc-alt);
+}
+.scrollbar-themed::-webkit-scrollbar-corner {
+    background: transparent;
 }

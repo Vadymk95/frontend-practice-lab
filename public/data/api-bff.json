@@ -9,6 +9,10 @@
             "en": "Which HTTP method should be used to partially update a resource?",
             "ru": "Какой HTTP-метод следует использовать для частичного обновления ресурса?"
         },
+        "explanation": {
+            "en": "PATCH applies a partial update to a resource. PUT replaces the entire resource. POST creates a new resource. Use PATCH when you want to change only specific fields without sending the full representation.",
+            "ru": "PATCH применяет частичное обновление ресурса. PUT заменяет ресурс целиком. POST создаёт новый ресурс. Используйте PATCH, когда нужно изменить только отдельные поля, не отправляя полное представление."
+        },
         "options": [
             {
                 "en": "PUT",
@@ -27,11 +31,7 @@
                 "ru": "DELETE"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "PATCH applies a partial update to a resource. PUT replaces the entire resource. POST creates a new resource. Use PATCH when you want to change only specific fields without sending the full representation.",
-            "ru": "PATCH применяет частичное обновление ресурса. PUT заменяет ресурс целиком. POST создаёт новый ресурс. Используйте PATCH, когда нужно изменить только отдельные поля, не отправляя полное представление."
-        }
+        "correct": 2
     },
     {
         "id": "api-rest-002",
@@ -42,6 +42,10 @@
         "question": {
             "en": "Which HTTP status code indicates that a resource was successfully created?",
             "ru": "Какой HTTP-код статуса означает, что ресурс был успешно создан?"
+        },
+        "explanation": {
+            "en": "201 Created is the correct response for a successful POST that created a new resource. The response should include a Location header pointing to the new resource.",
+            "ru": "201 Created — корректный ответ на успешный POST, создавший новый ресурс. В ответ следует включать заголовок Location, указывающий на новый ресурс."
         },
         "options": [
             {
@@ -61,11 +65,7 @@
                 "ru": "202 Accepted"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "201 Created is the correct response for a successful POST that created a new resource. The response should include a Location header pointing to the new resource.",
-            "ru": "201 Created — корректный ответ на успешный POST, создавший новый ресурс. В ответ следует включать заголовок Location, указывающий на новый ресурс."
-        }
+        "correct": 1
     },
     {
         "id": "api-rest-003",
@@ -76,6 +76,10 @@
         "question": {
             "en": "Which HTTP methods are idempotent according to the HTTP specification?",
             "ru": "Какие HTTP-методы являются идемпотентными согласно спецификации HTTP?"
+        },
+        "explanation": {
+            "en": "GET, PUT, DELETE, HEAD, and OPTIONS are idempotent — calling them multiple times produces the same server state. POST and PATCH are not idempotent by spec; multiple calls can create multiple resources or result in different states.",
+            "ru": "GET, PUT, DELETE, HEAD и OPTIONS идемпотентны — многократный вызов приводит к одному и тому же состоянию сервера. POST и PATCH по спецификации не идемпотентны: повторные вызовы могут создать несколько ресурсов или привести к разным состояниям."
         },
         "options": [
             {
@@ -95,11 +99,7 @@
                 "ru": "Только GET"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "GET, PUT, DELETE, HEAD, and OPTIONS are idempotent — calling them multiple times produces the same server state. POST and PATCH are not idempotent by spec; multiple calls can create multiple resources or result in different states.",
-            "ru": "GET, PUT, DELETE, HEAD и OPTIONS идемпотентны — многократный вызов приводит к одному и тому же состоянию сервера. POST и PATCH по спецификации не идемпотентны: повторные вызовы могут создать несколько ресурсов или привести к разным состояниям."
-        }
+        "correct": 1
     },
     {
         "id": "api-fetch-001",
@@ -110,6 +110,10 @@
         "question": {
             "en": "What does the fetch() API return?",
             "ru": "Что возвращает API fetch()?"
+        },
+        "explanation": {
+            "en": "fetch() returns a Promise<Response>. You must then call response.json(), response.text(), or similar methods to extract the body. Unlike axios, fetch does not throw for non-2xx status codes.",
+            "ru": "fetch() возвращает Promise<Response>. Чтобы получить тело ответа, нужно вызвать response.json(), response.text() или аналогичный метод. В отличие от axios, fetch не бросает ошибку на статусы вне диапазона 2xx."
         },
         "options": [
             {
@@ -129,11 +133,7 @@
                 "ru": "Observable-поток"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "fetch() returns a Promise<Response>. You must then call response.json(), response.text(), or similar methods to extract the body. Unlike axios, fetch does not throw for non-2xx status codes.",
-            "ru": "fetch() возвращает Promise<Response>. Чтобы получить тело ответа, нужно вызвать response.json(), response.text() или аналогичный метод. В отличие от axios, fetch не бросает ошибку на статусы вне диапазона 2xx."
-        }
+        "correct": 2
     },
     {
         "id": "api-fetch-002",
@@ -144,6 +144,10 @@
         "question": {
             "en": "How do you cancel an in-flight fetch request?",
             "ru": "Как отменить выполняющийся fetch-запрос?"
+        },
+        "explanation": {
+            "en": "Create an AbortController, pass controller.signal to fetch({ signal }), and call controller.abort() to cancel. The fetch Promise rejects with an AbortError.",
+            "ru": "Создайте AbortController, передайте controller.signal в fetch({ signal }) и вызовите controller.abort() для отмены. Promise от fetch реджектится с AbortError."
         },
         "options": [
             {
@@ -163,11 +167,7 @@
                 "ru": "Вызвать response.cancel()"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Create an AbortController, pass controller.signal to fetch({ signal }), and call controller.abort() to cancel. The fetch Promise rejects with an AbortError.",
-            "ru": "Создайте AbortController, передайте controller.signal в fetch({ signal }) и вызовите controller.abort() для отмены. Promise от fetch реджектится с AbortError."
-        }
+        "correct": 1
     },
     {
         "id": "api-headers-001",
@@ -178,6 +178,10 @@
         "question": {
             "en": "Which Content-Type header value should be used when sending JSON in a POST request body?",
             "ru": "Какое значение заголовка Content-Type следует использовать при отправке JSON в теле POST-запроса?"
+        },
+        "explanation": {
+            "en": "application/json tells the server the request body is JSON-encoded. application/x-www-form-urlencoded is for HTML form submissions, and multipart/form-data is for file uploads.",
+            "ru": "application/json сообщает серверу, что тело запроса закодировано в JSON. application/x-www-form-urlencoded используется для отправки HTML-форм, а multipart/form-data — для загрузки файлов."
         },
         "options": [
             {
@@ -197,11 +201,7 @@
                 "ru": "multipart/form-data"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "application/json tells the server the request body is JSON-encoded. application/x-www-form-urlencoded is for HTML form submissions, and multipart/form-data is for file uploads.",
-            "ru": "application/json сообщает серверу, что тело запроса закодировано в JSON. application/x-www-form-urlencoded используется для отправки HTML-форм, а multipart/form-data — для загрузки файлов."
-        }
+        "correct": 2
     },
     {
         "id": "api-graphql-001",
@@ -212,6 +212,10 @@
         "question": {
             "en": "In GraphQL, what is the difference between a Query and a Mutation?",
             "ru": "В чём разница между Query и Mutation в GraphQL?"
+        },
+        "explanation": {
+            "en": "Queries are read-only operations; mutations modify server state. By convention, mutations also return the updated data, allowing the client to update its cache without a follow-up query.",
+            "ru": "Queries — операции только для чтения, mutations изменяют состояние сервера. По соглашению mutations также возвращают обновлённые данные, чтобы клиент мог обновить кэш без дополнительного запроса."
         },
         "options": [
             {
@@ -231,11 +235,7 @@
                 "ru": "Функциональной разницы нет"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Queries are read-only operations; mutations modify server state. By convention, mutations also return the updated data, allowing the client to update its cache without a follow-up query.",
-            "ru": "Queries — операции только для чтения, mutations изменяют состояние сервера. По соглашению mutations также возвращают обновлённые данные, чтобы клиент мог обновить кэш без дополнительного запроса."
-        }
+        "correct": 1
     },
     {
         "id": "api-status-001",
@@ -246,6 +246,10 @@
         "question": {
             "en": "Which HTTP status code should an API return when a client sends invalid input data?",
             "ru": "Какой HTTP-код статуса API должен вернуть, если клиент прислал некорректные входные данные?"
+        },
+        "explanation": {
+            "en": "400 Bad Request indicates the server cannot process the request due to a client error (invalid syntax, missing required fields, etc.). 500 is for unexpected server failures.",
+            "ru": "400 Bad Request означает, что сервер не может обработать запрос из-за ошибки клиента (невалидный синтаксис, отсутствующие обязательные поля и т. п.). 500 — для непредвиденных сбоев на сервере."
         },
         "options": [
             {
@@ -265,11 +269,7 @@
                 "ru": "401 Unauthorized"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "400 Bad Request indicates the server cannot process the request due to a client error (invalid syntax, missing required fields, etc.). 500 is for unexpected server failures.",
-            "ru": "400 Bad Request означает, что сервер не может обработать запрос из-за ошибки клиента (невалидный синтаксис, отсутствующие обязательные поля и т. п.). 500 — для непредвиденных сбоев на сервере."
-        }
+        "correct": 2
     },
     {
         "id": "api-tanstack-001",
@@ -280,6 +280,10 @@
         "question": {
             "en": "In TanStack Query, what does staleTime control?",
             "ru": "Что контролирует staleTime в TanStack Query?"
+        },
+        "explanation": {
+            "en": "staleTime defines how long query data stays 'fresh'. While fresh, TanStack Query serves from cache and does not refetch on component mount or window focus. gcTime (formerly cacheTime) controls how long unused data stays in cache before garbage collection.",
+            "ru": "staleTime задаёт, как долго данные запроса считаются 'свежими'. Пока данные свежие, TanStack Query отдаёт их из кэша и не делает рефетч при маунте компонента или фокусе окна. gcTime (ранее cacheTime) контролирует, как долго неиспользуемые данные лежат в кэше до сборки мусора."
         },
         "options": [
             {
@@ -299,11 +303,7 @@
                 "ru": "Интервал автоматического поллинга"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "staleTime defines how long query data stays 'fresh'. While fresh, TanStack Query serves from cache and does not refetch on component mount or window focus. gcTime (formerly cacheTime) controls how long unused data stays in cache before garbage collection.",
-            "ru": "staleTime задаёт, как долго данные запроса считаются 'свежими'. Пока данные свежие, TanStack Query отдаёт их из кэша и не делает рефетч при маунте компонента или фокусе окна. gcTime (ранее cacheTime) контролирует, как долго неиспользуемые данные лежат в кэше до сборки мусора."
-        }
+        "correct": 1
     },
     {
         "id": "api-pagination-001",
@@ -314,6 +314,10 @@
         "question": {
             "en": "What is the main advantage of cursor-based pagination over offset-based pagination?",
             "ru": "В чём главное преимущество курсорной пагинации над пагинацией по offset?"
+        },
+        "explanation": {
+            "en": "Cursor-based pagination anchors to a specific record so inserts or deletes before that record do not shift results, preventing duplicate or missing items. Offset pagination can skip or repeat items when the dataset changes between requests.",
+            "ru": "Курсорная пагинация привязывается к конкретной записи, поэтому вставки или удаления до этой записи не сдвигают результаты и не приводят к дублям или пропускам. Offset-пагинация может пропускать или повторять элементы при изменении набора данных между запросами."
         },
         "options": [
             {
@@ -333,11 +337,7 @@
                 "ru": "Она требует меньше индексов в БД"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "Cursor-based pagination anchors to a specific record so inserts or deletes before that record do not shift results, preventing duplicate or missing items. Offset pagination can skip or repeat items when the dataset changes between requests.",
-            "ru": "Курсорная пагинация привязывается к конкретной записи, поэтому вставки или удаления до этой записи не сдвигают результаты и не приводят к дублям или пропускам. Offset-пагинация может пропускать или повторять элементы при изменении набора данных между запросами."
-        }
+        "correct": 2
     },
     {
         "id": "api-bff-pattern-001",
@@ -348,6 +348,10 @@
         "question": {
             "en": "What problem does the Backend for Frontend (BFF) pattern primarily solve?",
             "ru": "Какую проблему в первую очередь решает паттерн Backend for Frontend (BFF)?"
+        },
+        "explanation": {
+            "en": "A BFF is a server-side component owned by the frontend team. It aggregates data from multiple downstream APIs, transforms it into the exact shape the client needs, and handles concerns like authentication, reducing over-fetching and chatty clients.",
+            "ru": "BFF — это серверный компонент, которым владеет фронтенд-команда. Он агрегирует данные из нескольких downstream API, преобразует их в нужную клиенту форму и берёт на себя такие задачи, как аутентификация, уменьшая over-fetching и количество клиентских запросов."
         },
         "options": [
             {
@@ -367,11 +371,7 @@
                 "ru": "Устраняет необходимость в аутентификации"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "A BFF is a server-side component owned by the frontend team. It aggregates data from multiple downstream APIs, transforms it into the exact shape the client needs, and handles concerns like authentication, reducing over-fetching and chatty clients.",
-            "ru": "BFF — это серверный компонент, которым владеет фронтенд-команда. Он агрегирует данные из нескольких downstream API, преобразует их в нужную клиенту форму и берёт на себя такие задачи, как аутентификация, уменьшая over-fetching и количество клиентских запросов."
-        }
+        "correct": 1
     },
     {
         "id": "api-auth-001",
@@ -382,6 +382,10 @@
         "question": {
             "en": "How should a Bearer token be sent to a REST API?",
             "ru": "Как следует передавать Bearer-токен в REST API?"
+        },
+        "explanation": {
+            "en": "The standard way to send Bearer tokens is in the Authorization HTTP header with the format 'Bearer <token>'. Query parameters expose tokens in server logs and browser history.",
+            "ru": "Стандартный способ передачи Bearer-токенов — HTTP-заголовок Authorization в формате 'Bearer <token>'. Query-параметры засвечивают токены в логах серверов и истории браузера."
         },
         "options": [
             {
@@ -401,11 +405,7 @@
                 "ru": "В кастомном заголовке X-Auth-Token"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "The standard way to send Bearer tokens is in the Authorization HTTP header with the format 'Bearer <token>'. Query parameters expose tokens in server logs and browser history.",
-            "ru": "Стандартный способ передачи Bearer-токенов — HTTP-заголовок Authorization в формате 'Bearer <token>'. Query-параметры засвечивают токены в логах серверов и истории браузера."
-        }
+        "correct": 1
     },
     {
         "id": "api-rest-004",
@@ -416,6 +416,10 @@
         "question": {
             "en": "What does a 401 Unauthorized response mean compared to 403 Forbidden?",
             "ru": "Что означает ответ 401 Unauthorized в сравнении с 403 Forbidden?"
+        },
+        "explanation": {
+            "en": "401 indicates that authentication is required or the provided credentials are invalid. 403 means the server understood the request and the client is authenticated, but lacks the required permissions.",
+            "ru": "401 означает, что требуется аутентификация или переданные учётные данные невалидны. 403 означает, что сервер понял запрос и клиент аутентифицирован, но у него нет нужных прав."
         },
         "options": [
             {
@@ -435,11 +439,7 @@
                 "ru": "401 — превышен лимит запросов; 403 — IP забанен"
             }
         ],
-        "correct": 0,
-        "explanation": {
-            "en": "401 indicates that authentication is required or the provided credentials are invalid. 403 means the server understood the request and the client is authenticated, but lacks the required permissions.",
-            "ru": "401 означает, что требуется аутентификация или переданные учётные данные невалидны. 403 означает, что сервер понял запрос и клиент аутентифицирован, но у него нет нужных прав."
-        }
+        "correct": 0
     },
     {
         "id": "api-rest-005",
@@ -450,6 +450,10 @@
         "question": {
             "en": "Which HTTP status code indicates the request was successful but there is no content to return?",
             "ru": "Какой HTTP-код статуса означает, что запрос успешен, но возвращать нечего?"
+        },
+        "explanation": {
+            "en": "204 No Content is used for successful operations that have no response body, such as DELETE or a PUT that does not return the updated resource.",
+            "ru": "204 No Content используется для успешных операций без тела ответа, например DELETE или PUT, не возвращающего обновлённый ресурс."
         },
         "options": [
             {
@@ -469,11 +473,7 @@
                 "ru": "202 Accepted"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "204 No Content is used for successful operations that have no response body, such as DELETE or a PUT that does not return the updated resource.",
-            "ru": "204 No Content используется для успешных операций без тела ответа, например DELETE или PUT, не возвращающего обновлённый ресурс."
-        }
+        "correct": 2
     },
     {
         "id": "api-retry-001",
@@ -484,6 +484,10 @@
         "question": {
             "en": "What is exponential backoff in the context of API retry logic?",
             "ru": "Что такое exponential backoff в контексте логики повторных запросов к API?"
+        },
+        "explanation": {
+            "en": "Exponential backoff doubles the delay between each retry attempt (plus optional jitter). This prevents thundering-herd problems when many clients retry simultaneously after a service outage.",
+            "ru": "Exponential backoff удваивает задержку между попытками (плюс опциональный jitter). Это предотвращает thundering-herd, когда множество клиентов одновременно повторяют запросы после сбоя сервиса."
         },
         "options": [
             {
@@ -503,11 +507,7 @@
                 "ru": "Переключаться на другой endpoint при каждом ретрае"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Exponential backoff doubles the delay between each retry attempt (plus optional jitter). This prevents thundering-herd problems when many clients retry simultaneously after a service outage.",
-            "ru": "Exponential backoff удваивает задержку между попытками (плюс опциональный jitter). Это предотвращает thundering-herd, когда множество клиентов одновременно повторяют запросы после сбоя сервиса."
-        }
+        "correct": 1
     },
     {
         "id": "api-graphql-002",
@@ -518,6 +518,10 @@
         "question": {
             "en": "The N+1 problem in GraphQL occurs when:",
             "ru": "Проблема N+1 в GraphQL возникает, когда:"
+        },
+        "explanation": {
+            "en": "The N+1 problem happens when resolving a list of N items triggers N additional queries for related data. The standard solution is the DataLoader pattern, which batches and deduplicates those N queries into a single query.",
+            "ru": "Проблема N+1 возникает, когда резолвинг списка из N элементов порождает N дополнительных запросов для связанных данных. Стандартное решение — паттерн DataLoader, который батчит и дедуплицирует эти N запросов в один."
         },
         "options": [
             {
@@ -537,11 +541,7 @@
                 "ru": "Fragment используется более N раз"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "The N+1 problem happens when resolving a list of N items triggers N additional queries for related data. The standard solution is the DataLoader pattern, which batches and deduplicates those N queries into a single query.",
-            "ru": "Проблема N+1 возникает, когда резолвинг списка из N элементов порождает N дополнительных запросов для связанных данных. Стандартное решение — паттерн DataLoader, который батчит и дедуплицирует эти N запросов в один."
-        }
+        "correct": 1
     },
     {
         "id": "api-tanstack-002",
@@ -552,6 +552,10 @@
         "question": {
             "en": "After a mutation succeeds and you want to refresh related list data, the correct TanStack Query approach is:",
             "ru": "После успешной mutation нужно обновить связанные списочные данные. Какой подход в TanStack Query корректен?"
+        },
+        "explanation": {
+            "en": "queryClient.invalidateQueries marks matching queries as stale and schedules a refetch if they have active observers. This is the canonical way to synchronize server state after a mutation.",
+            "ru": "queryClient.invalidateQueries помечает подходящие запросы как stale и планирует рефетч, если у них есть активные observers. Это канонический способ синхронизировать серверный state после mutation."
         },
         "options": [
             {
@@ -571,11 +575,7 @@
                 "ru": "Вызвать queryClient.resetQueries"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "queryClient.invalidateQueries marks matching queries as stale and schedules a refetch if they have active observers. This is the canonical way to synchronize server state after a mutation.",
-            "ru": "queryClient.invalidateQueries помечает подходящие запросы как stale и планирует рефетч, если у них есть активные observers. Это канонический способ синхронизировать серверный state после mutation."
-        }
+        "correct": 1
     },
     {
         "id": "api-versioning-001",
@@ -586,6 +586,10 @@
         "question": {
             "en": "Which API versioning strategy embeds the version in the URL path (e.g., /api/v2/users)?",
             "ru": "Какая стратегия версионирования API встраивает версию в путь URL (например, /api/v2/users)?"
+        },
+        "explanation": {
+            "en": "URI path versioning places the version in the URL (/v1/, /v2/). It is highly visible and cache-friendly but can cause route proliferation. Header versioning (Accept: application/vnd.api+json;version=2) is cleaner but less visible.",
+            "ru": "URI path versioning помещает версию в URL (/v1/, /v2/). Это нагляднее и дружелюбнее к кэшу, но ведёт к разрастанию маршрутов. Header versioning (Accept: application/vnd.api+json;version=2) чище, но менее заметно."
         },
         "options": [
             {
@@ -605,11 +609,7 @@
                 "ru": "Media type versioning"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "URI path versioning places the version in the URL (/v1/, /v2/). It is highly visible and cache-friendly but can cause route proliferation. Header versioning (Accept: application/vnd.api+json;version=2) is cleaner but less visible.",
-            "ru": "URI path versioning помещает версию в URL (/v1/, /v2/). Это нагляднее и дружелюбнее к кэшу, но ведёт к разрастанию маршрутов. Header versioning (Accept: application/vnd.api+json;version=2) чище, но менее заметно."
-        }
+        "correct": 2
     },
     {
         "id": "api-error-format-001",
@@ -620,6 +620,10 @@
         "question": {
             "en": "RFC 7807 (Problem Details) defines a standard error response format. Which field is mandatory?",
             "ru": "RFC 7807 (Problem Details) задаёт стандартный формат ответа с ошибкой. Какое поле является обязательным?"
+        },
+        "explanation": {
+            "en": "RFC 7807 requires the 'type' field (a URI reference that identifies the problem type). All other fields (title, status, detail, instance) are optional but strongly recommended for machine-readable and human-readable error responses.",
+            "ru": "RFC 7807 требует поле 'type' (URI-ссылка, идентифицирующая тип проблемы). Все остальные поля (title, status, detail, instance) опциональны, но настоятельно рекомендуются для машиночитаемых и читаемых человеком ответов с ошибками."
         },
         "options": [
             {
@@ -639,11 +643,7 @@
                 "ru": "status"
             }
         ],
-        "correct": 2,
-        "explanation": {
-            "en": "RFC 7807 requires the 'type' field (a URI reference that identifies the problem type). All other fields (title, status, detail, instance) are optional but strongly recommended for machine-readable and human-readable error responses.",
-            "ru": "RFC 7807 требует поле 'type' (URI-ссылка, идентифицирующая тип проблемы). Все остальные поля (title, status, detail, instance) опциональны, но настоятельно рекомендуются для машиночитаемых и читаемых человеком ответов с ошибками."
-        }
+        "correct": 2
     },
     {
         "id": "api-websocket-001",
@@ -654,6 +654,10 @@
         "question": {
             "en": "What is the key difference between WebSockets and Server-Sent Events (SSE)?",
             "ru": "В чём ключевое различие между WebSocket и Server-Sent Events (SSE)?"
+        },
+        "explanation": {
+            "en": "WebSocket establishes a full-duplex channel allowing both sides to send messages. SSE is a one-way stream from server to client over a standard HTTP connection, making it simpler and automatically reconnecting.",
+            "ru": "WebSocket устанавливает full-duplex канал, в котором обе стороны могут отправлять сообщения. SSE — односторонний поток от сервера к клиенту поверх обычного HTTP-соединения, что делает его проще и автоматически переподключающимся."
         },
         "options": [
             {
@@ -673,11 +677,7 @@
                 "ru": "Это идентичные протоколы"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "WebSocket establishes a full-duplex channel allowing both sides to send messages. SSE is a one-way stream from server to client over a standard HTTP connection, making it simpler and automatically reconnecting.",
-            "ru": "WebSocket устанавливает full-duplex канал, в котором обе стороны могут отправлять сообщения. SSE — односторонний поток от сервера к клиенту поверх обычного HTTP-соединения, что делает его проще и автоматически переподключающимся."
-        }
+        "correct": 1
     },
     {
         "id": "api-tanstack-003",
@@ -688,6 +688,10 @@
         "question": {
             "en": "In TanStack Query, optimistic updates are implemented in onMutate by:",
             "ru": "В TanStack Query оптимистичные обновления реализуются в onMutate путём:"
+        },
+        "explanation": {
+            "en": "The pattern: (1) cancelQueries to prevent race conditions, (2) getQueryData to snapshot current state, (3) setQueryData to apply the optimistic update, (4) return the snapshot. onError uses the snapshot to rollback via setQueryData.",
+            "ru": "Паттерн: (1) cancelQueries, чтобы исключить race condition; (2) getQueryData, чтобы снять снэпшот текущего состояния; (3) setQueryData для применения оптимистичного обновления; (4) вернуть снэпшот. В onError снэпшот используется для отката через setQueryData."
         },
         "options": [
             {
@@ -707,11 +711,7 @@
                 "ru": "Двойного вызова mutation"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "The pattern: (1) cancelQueries to prevent race conditions, (2) getQueryData to snapshot current state, (3) setQueryData to apply the optimistic update, (4) return the snapshot. onError uses the snapshot to rollback via setQueryData.",
-            "ru": "Паттерн: (1) cancelQueries, чтобы исключить race condition; (2) getQueryData, чтобы снять снэпшот текущего состояния; (3) setQueryData для применения оптимистичного обновления; (4) вернуть снэпшот. В onError снэпшот используется для отката через setQueryData."
-        }
+        "correct": 1
     },
     {
         "id": "api-graphql-003",
@@ -722,6 +722,10 @@
         "question": {
             "en": "GraphQL fragments are used to:",
             "ru": "GraphQL fragments используются для:"
+        },
+        "explanation": {
+            "en": "Fragments define named, reusable field selections on a specific type. They eliminate duplication when the same fields are needed in multiple queries or mutations, and are fundamental to co-location patterns in component-driven GraphQL.",
+            "ru": "Fragments задают именованные переиспользуемые наборы полей конкретного типа. Они устраняют дублирование, когда одни и те же поля нужны в нескольких queries или mutations, и лежат в основе паттернов co-location в GraphQL, ориентированном на компоненты."
         },
         "options": [
             {
@@ -741,11 +745,7 @@
                 "ru": "Включения частичного выполнения запроса"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Fragments define named, reusable field selections on a specific type. They eliminate duplication when the same fields are needed in multiple queries or mutations, and are fundamental to co-location patterns in component-driven GraphQL.",
-            "ru": "Fragments задают именованные переиспользуемые наборы полей конкретного типа. Они устраняют дублирование, когда одни и те же поля нужны в нескольких queries или mutations, и лежат в основе паттернов co-location в GraphQL, ориентированном на компоненты."
-        }
+        "correct": 1
     },
     {
         "id": "api-json-001",
@@ -756,6 +756,10 @@
         "question": {
             "en": "fetch() resolves (does not reject) for 4xx and 5xx responses. How should you handle these errors?",
             "ru": "fetch() резолвится (а не реджектится) на ответах 4xx и 5xx. Как следует обрабатывать такие ошибки?"
+        },
+        "explanation": {
+            "en": "fetch only rejects for network errors. For HTTP error status codes, response.ok is false. You must check it and throw manually (e.g., if (!response.ok) throw new Error(response.statusText)) to surface HTTP errors.",
+            "ru": "fetch реджектится только на сетевых ошибках. На HTTP-ошибках response.ok равен false. Нужно проверить его и бросить ошибку вручную (например, if (!response.ok) throw new Error(response.statusText)), чтобы HTTP-ошибки всплыли наружу."
         },
         "options": [
             {
@@ -775,11 +779,7 @@
                 "ru": "Указать errorMode: 'throw' в опциях fetch"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "fetch only rejects for network errors. For HTTP error status codes, response.ok is false. You must check it and throw manually (e.g., if (!response.ok) throw new Error(response.statusText)) to surface HTTP errors.",
-            "ru": "fetch реджектится только на сетевых ошибках. На HTTP-ошибках response.ok равен false. Нужно проверить его и бросить ошибку вручную (например, if (!response.ok) throw new Error(response.statusText)), чтобы HTTP-ошибки всплыли наружу."
-        }
+        "correct": 1
     },
     {
         "id": "api-openapi-001",
@@ -790,6 +790,10 @@
         "question": {
             "en": "What is the purpose of an OpenAPI specification file?",
             "ru": "В чём назначение файла OpenAPI-спецификации?"
+        },
+        "explanation": {
+            "en": "An OpenAPI (formerly Swagger) spec is a language-agnostic, machine-readable contract for a REST API. It enables automatic generation of documentation, client SDKs, server stubs, and validation.",
+            "ru": "OpenAPI (ранее Swagger) — независимый от языка машиночитаемый контракт REST API. Он позволяет автоматически генерировать документацию, клиентские SDK, заглушки серверов и валидацию."
         },
         "options": [
             {
@@ -809,11 +813,7 @@
                 "ru": "Конфигурировать CORS на сервере"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "An OpenAPI (formerly Swagger) spec is a language-agnostic, machine-readable contract for a REST API. It enables automatic generation of documentation, client SDKs, server stubs, and validation.",
-            "ru": "OpenAPI (ранее Swagger) — независимый от языка машиночитаемый контракт REST API. Он позволяет автоматически генерировать документацию, клиентские SDK, заглушки серверов и валидацию."
-        }
+        "correct": 1
     },
     {
         "id": "api-sse-001",
@@ -824,6 +824,10 @@
         "question": {
             "en": "What browser API is used to consume a Server-Sent Events stream?",
             "ru": "Какое браузерное API используется для чтения потока Server-Sent Events?"
+        },
+        "explanation": {
+            "en": "EventSource is the native browser API for SSE. It opens a persistent HTTP connection and dispatches 'message' events when the server sends data. It automatically reconnects and supports last-event-id.",
+            "ru": "EventSource — нативное браузерное API для SSE. Оно открывает постоянное HTTP-соединение и диспатчит события 'message', когда сервер отправляет данные. Автоматически переподключается и поддерживает last-event-id."
         },
         "options": [
             {
@@ -843,11 +847,7 @@
                 "ru": "ReadableStream"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "EventSource is the native browser API for SSE. It opens a persistent HTTP connection and dispatches 'message' events when the server sends data. It automatically reconnects and supports last-event-id.",
-            "ru": "EventSource — нативное браузерное API для SSE. Оно открывает постоянное HTTP-соединение и диспатчит события 'message', когда сервер отправляет данные. Автоматически переподключается и поддерживает last-event-id."
-        }
+        "correct": 1
     },
     {
         "id": "api-rest-006",
@@ -858,6 +858,10 @@
         "question": {
             "en": "HATEOAS (Hypermedia As The Engine Of Application State) requires that API responses:",
             "ru": "HATEOAS (Hypermedia As The Engine Of Application State) требует, чтобы ответы API:"
+        },
+        "explanation": {
+            "en": "HATEOAS is a REST constraint where responses include hypermedia links describing available actions. Clients navigate the API by following links rather than hardcoding URLs, making the API self-describing and decoupled from client assumptions.",
+            "ru": "HATEOAS — это ограничение REST, при котором ответы содержат гипермедиа-ссылки, описывающие доступные действия. Клиенты навигируют по API, переходя по ссылкам, а не хардкодят URL. Это делает API самоописываемым и развязанным от допущений клиента."
         },
         "options": [
             {
@@ -877,11 +881,7 @@
                 "ru": "Использовали GraphQL под капотом"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "HATEOAS is a REST constraint where responses include hypermedia links describing available actions. Clients navigate the API by following links rather than hardcoding URLs, making the API self-describing and decoupled from client assumptions.",
-            "ru": "HATEOAS — это ограничение REST, при котором ответы содержат гипермедиа-ссылки, описывающие доступные действия. Клиенты навигируют по API, переходя по ссылкам, а не хардкодят URL. Это делает API самоописываемым и развязанным от допущений клиента."
-        }
+        "correct": 1
     },
     {
         "id": "api-bff-pattern-002",
@@ -892,6 +892,10 @@
         "question": {
             "en": "In a microservices architecture, what is the main risk of having one BFF shared across all clients?",
             "ru": "В микросервисной архитектуре каков главный риск использования одного BFF, общего для всех клиентов?"
+        },
+        "explanation": {
+            "en": "A shared BFF must accommodate conflicting requirements from mobile, desktop, and other clients, reintroducing the over-fetching and API bloat problems the BFF pattern was meant to solve. The canonical recommendation is one BFF per client type.",
+            "ru": "Общий BFF вынужден учитывать противоречивые требования мобильных, десктопных и других клиентов, возвращая проблемы over-fetching и раздувания API, которые паттерн BFF как раз призван решать. Каноническая рекомендация — по одному BFF на тип клиента."
         },
         "options": [
             {
@@ -911,11 +915,7 @@
                 "ru": "Он мешает горизонтальному масштабированию"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "A shared BFF must accommodate conflicting requirements from mobile, desktop, and other clients, reintroducing the over-fetching and API bloat problems the BFF pattern was meant to solve. The canonical recommendation is one BFF per client type.",
-            "ru": "Общий BFF вынужден учитывать противоречивые требования мобильных, десктопных и других клиентов, возвращая проблемы over-fetching и раздувания API, которые паттерн BFF как раз призван решать. Каноническая рекомендация — по одному BFF на тип клиента."
-        }
+        "correct": 1
     },
     {
         "id": "api-graphql-004",
@@ -926,6 +926,10 @@
         "question": {
             "en": "GraphQL Subscriptions are typically implemented using:",
             "ru": "GraphQL Subscriptions обычно реализуются через:"
+        },
+        "explanation": {
+            "en": "GraphQL Subscriptions require a persistent connection for server-initiated pushes. WebSockets (via graphql-ws or subscriptions-transport-ws) are the most common transport. SSE is also used when only server-to-client messages are needed.",
+            "ru": "GraphQL Subscriptions требуют постоянного соединения для push-сообщений, инициируемых сервером. Самый распространённый транспорт — WebSocket (через graphql-ws или subscriptions-transport-ws). SSE также используется, если достаточно только направления сервер → клиент."
         },
         "options": [
             {
@@ -945,11 +949,7 @@
                 "ru": "REST-вебхуки"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "GraphQL Subscriptions require a persistent connection for server-initiated pushes. WebSockets (via graphql-ws or subscriptions-transport-ws) are the most common transport. SSE is also used when only server-to-client messages are needed.",
-            "ru": "GraphQL Subscriptions требуют постоянного соединения для push-сообщений, инициируемых сервером. Самый распространённый транспорт — WebSocket (через graphql-ws или subscriptions-transport-ws). SSE также используется, если достаточно только направления сервер → клиент."
-        }
+        "correct": 1
     },
     {
         "id": "api-tanstack-004",
@@ -960,6 +960,10 @@
         "question": {
             "en": "In TanStack Query v5, what does gcTime (formerly cacheTime) control?",
             "ru": "Что контролирует gcTime (ранее cacheTime) в TanStack Query v5?"
+        },
+        "explanation": {
+            "en": "gcTime (garbage collection time) defines how long a query's data lingers in memory after there are no active subscribers. After this duration the data is removed. The default is 5 minutes.",
+            "ru": "gcTime (garbage collection time) задаёт, как долго данные запроса остаются в памяти после того, как у него не осталось активных подписчиков. По истечении этого времени данные удаляются. По умолчанию — 5 минут."
         },
         "options": [
             {
@@ -979,11 +983,7 @@
                 "ru": "Таймаут отдельных fetch-запросов"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "gcTime (garbage collection time) defines how long a query's data lingers in memory after there are no active subscribers. After this duration the data is removed. The default is 5 minutes.",
-            "ru": "gcTime (garbage collection time) задаёт, как долго данные запроса остаются в памяти после того, как у него не осталось активных подписчиков. По истечении этого времени данные удаляются. По умолчанию — 5 минут."
-        }
+        "correct": 1
     },
     {
         "id": "api-pagination-002",
@@ -994,6 +994,10 @@
         "question": {
             "en": "Keyset pagination (also called seek pagination) differs from cursor pagination in that:",
             "ru": "Keyset-пагинация (также называемая seek-пагинацией) отличается от курсорной тем, что:"
+        },
+        "explanation": {
+            "en": "Keyset pagination uses a WHERE clause like WHERE (created_at, id) < (:last_created_at, :last_id) ORDER BY created_at DESC, id DESC. It leverages composite indexes for constant-time seeks regardless of page depth, unlike offset which degrades linearly.",
+            "ru": "Keyset-пагинация использует WHERE вида WHERE (created_at, id) < (:last_created_at, :last_id) ORDER BY created_at DESC, id DESC. Она опирается на составные индексы и обеспечивает постоянное время поиска независимо от глубины страницы, в отличие от offset, который деградирует линейно."
         },
         "options": [
             {
@@ -1013,11 +1017,7 @@
                 "ru": "Работает только с MongoDB"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "Keyset pagination uses a WHERE clause like WHERE (created_at, id) < (:last_created_at, :last_id) ORDER BY created_at DESC, id DESC. It leverages composite indexes for constant-time seeks regardless of page depth, unlike offset which degrades linearly.",
-            "ru": "Keyset-пагинация использует WHERE вида WHERE (created_at, id) < (:last_created_at, :last_id) ORDER BY created_at DESC, id DESC. Она опирается на составные индексы и обеспечивает постоянное время поиска независимо от глубины страницы, в отличие от offset, который деградирует линейно."
-        }
+        "correct": 1
     },
     {
         "id": "api-rest-007",
@@ -1028,6 +1028,10 @@
         "question": {
             "en": "Which HTTP header combination tells a CDN to cache a response for 1 hour but require revalidation if it becomes stale?",
             "ru": "Какая комбинация HTTP-заголовков говорит CDN кэшировать ответ на 1 час, но требовать ревалидации, если он становится stale?"
+        },
+        "explanation": {
+            "en": "max-age=3600 allows caching for 3600 seconds. must-revalidate requires the cache to contact the origin once the max-age expires rather than serving a stale response. no-store disables caching entirely.",
+            "ru": "max-age=3600 разрешает кэширование на 3600 секунд. must-revalidate обязывает кэш после истечения max-age обратиться к origin, а не отдавать stale-ответ. no-store полностью отключает кэширование."
         },
         "options": [
             {
@@ -1047,11 +1051,7 @@
                 "ru": "Cache-Control: no-store"
             }
         ],
-        "correct": 1,
-        "explanation": {
-            "en": "max-age=3600 allows caching for 3600 seconds. must-revalidate requires the cache to contact the origin once the max-age expires rather than serving a stale response. no-store disables caching entirely.",
-            "ru": "max-age=3600 разрешает кэширование на 3600 секунд. must-revalidate обязывает кэш после истечения max-age обратиться к origin, а не отдавать stale-ответ. no-store полностью отключает кэширование."
-        }
+        "correct": 1
     },
     {
         "id": "api-rest-008",
@@ -1062,6 +1062,10 @@
         "question": {
             "en": "Which HTTP methods should be safe (read-only, no side effects) according to REST conventions? (select all that apply)",
             "ru": "Какие HTTP-методы должны быть safe (только чтение, без побочных эффектов) по соглашениям REST? (выберите все подходящие)"
+        },
+        "explanation": {
+            "en": "GET, HEAD, and OPTIONS are defined as safe methods — they should not modify server state. POST creates resources; DELETE removes them. Safe methods can be cached and retried freely.",
+            "ru": "GET, HEAD и OPTIONS определены как safe-методы — они не должны изменять состояние сервера. POST создаёт ресурсы, DELETE их удаляет. Safe-методы можно свободно кэшировать и повторять."
         },
         "options": [
             {
@@ -1085,11 +1089,7 @@
                 "ru": "DELETE"
             }
         ],
-        "correct": [0, 2, 3],
-        "explanation": {
-            "en": "GET, HEAD, and OPTIONS are defined as safe methods — they should not modify server state. POST creates resources; DELETE removes them. Safe methods can be cached and retried freely.",
-            "ru": "GET, HEAD и OPTIONS определены как safe-методы — они не должны изменять состояние сервера. POST создаёт ресурсы, DELETE их удаляет. Safe-методы можно свободно кэшировать и повторять."
-        }
+        "correct": [0, 2, 3]
     },
     {
         "id": "api-fetch-003",
@@ -1100,6 +1100,10 @@
         "question": {
             "en": "Which of the following are differences between fetch and axios? (select all that apply)",
             "ru": "Какие из следующих утверждений — различия между fetch и axios? (выберите все подходящие)"
+        },
+        "explanation": {
+            "en": "fetch resolves for any HTTP status; axios rejects for 4xx/5xx. axios auto-parses JSON. axios has built-in upload progress via XMLHttpRequest. Both work in Node.js (fetch natively in Node 18+; axios via XMLHttpRequest polyfill). fetch does NOT have native interceptors — you must wrap it.",
+            "ru": "fetch резолвится на любом HTTP-статусе, axios реджектится на 4xx/5xx. axios автоматически парсит JSON. axios имеет встроенный прогресс загрузки через XMLHttpRequest. Оба работают в Node.js (fetch нативно в Node 18+, axios через полифилл XMLHttpRequest). У fetch НЕТ нативных интерсепторов — его нужно оборачивать."
         },
         "options": [
             {
@@ -1123,11 +1127,7 @@
                 "ru": "fetch доступен только в браузерах, axios работает и в Node.js"
             }
         ],
-        "correct": [0, 1, 3],
-        "explanation": {
-            "en": "fetch resolves for any HTTP status; axios rejects for 4xx/5xx. axios auto-parses JSON. axios has built-in upload progress via XMLHttpRequest. Both work in Node.js (fetch natively in Node 18+; axios via XMLHttpRequest polyfill). fetch does NOT have native interceptors — you must wrap it.",
-            "ru": "fetch резолвится на любом HTTP-статусе, axios реджектится на 4xx/5xx. axios автоматически парсит JSON. axios имеет встроенный прогресс загрузки через XMLHttpRequest. Оба работают в Node.js (fetch нативно в Node 18+, axios через полифилл XMLHttpRequest). У fetch НЕТ нативных интерсепторов — его нужно оборачивать."
-        }
+        "correct": [0, 1, 3]
     },
     {
         "id": "api-graphql-005",
@@ -1138,6 +1138,10 @@
         "question": {
             "en": "Which problems does GraphQL solve compared to REST? (select all that apply)",
             "ru": "Какие проблемы GraphQL решает по сравнению с REST? (выберите все подходящие)"
+        },
+        "explanation": {
+            "en": "GraphQL allows clients to specify exactly the fields they need (solves over-fetching), fetch nested relations in one query (solves under-fetching), and provides a type-safe schema. HTTP-level caching is harder with GraphQL (all POSTs to one endpoint). File uploads require multipart extensions.",
+            "ru": "GraphQL позволяет клиенту запрашивать ровно те поля, которые нужны (решает over-fetching), получать вложенные связи одним запросом (решает under-fetching) и предоставляет типобезопасную схему. HTTP-кэширование в GraphQL сложнее (все POST на один endpoint). Загрузка файлов требует multipart-расширений."
         },
         "options": [
             {
@@ -1161,11 +1165,7 @@
                 "ru": "Встроенная поддержка загрузки файлов"
             }
         ],
-        "correct": [0, 1, 3],
-        "explanation": {
-            "en": "GraphQL allows clients to specify exactly the fields they need (solves over-fetching), fetch nested relations in one query (solves under-fetching), and provides a type-safe schema. HTTP-level caching is harder with GraphQL (all POSTs to one endpoint). File uploads require multipart extensions.",
-            "ru": "GraphQL позволяет клиенту запрашивать ровно те поля, которые нужны (решает over-fetching), получать вложенные связи одним запросом (решает under-fetching) и предоставляет типобезопасную схему. HTTP-кэширование в GraphQL сложнее (все POST на один endpoint). Загрузка файлов требует multipart-расширений."
-        }
+        "correct": [0, 1, 3]
     },
     {
         "id": "api-tanstack-005",
@@ -1176,6 +1176,10 @@
         "question": {
             "en": "Which TanStack Query behaviors occur when a component mounts if the data is already cached but stale? (select all that apply)",
             "ru": "Какое поведение TanStack Query происходит при маунте компонента, если данные уже в кэше, но stale? (выберите все подходящие)"
+        },
+        "explanation": {
+            "en": "When data is stale, TanStack Query returns the cached data immediately (no loading flash), triggers a background refetch, and sets isFetching=true during the refetch. The cache is not cleared; it is updated when the fresh data arrives.",
+            "ru": "Когда данные stale, TanStack Query сразу отдаёт закэшированные данные (без мигания загрузки), запускает фоновый рефетч и устанавливает isFetching=true на время рефетча. Кэш не очищается — он обновляется, когда приходят свежие данные."
         },
         "options": [
             {
@@ -1199,11 +1203,7 @@
                 "ru": "isFetching равен true во время фонового рефетча"
             }
         ],
-        "correct": [0, 1, 4],
-        "explanation": {
-            "en": "When data is stale, TanStack Query returns the cached data immediately (no loading flash), triggers a background refetch, and sets isFetching=true during the refetch. The cache is not cleared; it is updated when the fresh data arrives.",
-            "ru": "Когда данные stale, TanStack Query сразу отдаёт закэшированные данные (без мигания загрузки), запускает фоновый рефетч и устанавливает isFetching=true на время рефетча. Кэш не очищается — он обновляется, когда приходят свежие данные."
-        }
+        "correct": [0, 1, 4]
     },
     {
         "id": "api-error-format-002",
@@ -1214,6 +1214,10 @@
         "question": {
             "en": "Which fields are defined in the RFC 7807 Problem Details object? (select all that apply)",
             "ru": "Какие поля определены в объекте RFC 7807 Problem Details? (выберите все подходящие)"
+        },
+        "explanation": {
+            "en": "RFC 7807 defines five standard members: type (URI identifying the problem), title (short human-readable summary), status (HTTP status code), detail (human-readable explanation), and instance (URI reference to the specific occurrence). All are optional except type.",
+            "ru": "RFC 7807 определяет пять стандартных полей: type (URI, идентифицирующий проблему), title (краткое человекочитаемое описание), status (HTTP-код статуса), detail (человекочитаемое объяснение) и instance (URI-ссылка на конкретное вхождение). Все поля, кроме type, опциональны."
         },
         "options": [
             {
@@ -1237,11 +1241,7 @@
                 "ru": "instance"
             }
         ],
-        "correct": [0, 1, 2, 3, 4],
-        "explanation": {
-            "en": "RFC 7807 defines five standard members: type (URI identifying the problem), title (short human-readable summary), status (HTTP status code), detail (human-readable explanation), and instance (URI reference to the specific occurrence). All are optional except type.",
-            "ru": "RFC 7807 определяет пять стандартных полей: type (URI, идентифицирующий проблему), title (краткое человекочитаемое описание), status (HTTP-код статуса), detail (человекочитаемое объяснение) и instance (URI-ссылка на конкретное вхождение). Все поля, кроме type, опциональны."
-        }
+        "correct": [0, 1, 2, 3, 4]
     },
     {
         "id": "api-pagination-003",
@@ -1252,6 +1252,10 @@
         "question": {
             "en": "Which are true about offset-based pagination? (select all that apply)",
             "ru": "Какие утверждения об offset-пагинации верны? (выберите все подходящие)"
+        },
+        "explanation": {
+            "en": "Offset pagination supports random page access and is simple to implement, but can skip/duplicate rows when the dataset changes and suffers performance degradation at high offsets because the database must scan all preceding rows.",
+            "ru": "Offset-пагинация поддерживает произвольный доступ к страницам и проста в реализации, но может пропускать или дублировать строки при изменении набора данных и теряет в производительности на больших offset, потому что БД вынуждена сканировать все предыдущие строки."
         },
         "options": [
             {
@@ -1275,11 +1279,7 @@
                 "ru": "Во многих SQL-БД деградирует по производительности на больших offset"
             }
         ],
-        "correct": [0, 1, 3, 4],
-        "explanation": {
-            "en": "Offset pagination supports random page access and is simple to implement, but can skip/duplicate rows when the dataset changes and suffers performance degradation at high offsets because the database must scan all preceding rows.",
-            "ru": "Offset-пагинация поддерживает произвольный доступ к страницам и проста в реализации, но может пропускать или дублировать строки при изменении набора данных и теряет в производительности на больших offset, потому что БД вынуждена сканировать все предыдущие строки."
-        }
+        "correct": [0, 1, 3, 4]
     },
     {
         "id": "api-rest-009",
@@ -1290,6 +1290,10 @@
         "question": {
             "en": "Which practices align with RESTful API design principles? (select all that apply)",
             "ru": "Какие практики соответствуют принципам дизайна RESTful API? (выберите все подходящие)"
+        },
+        "explanation": {
+            "en": "RESTful design uses nouns not verbs, correct status codes, stateless servers, and nested resources for relationships. Using GET /delete is a violation of both REST and HTTP semantics (GET must be safe).",
+            "ru": "RESTful-дизайн использует существительные, а не глаголы, корректные коды статусов, stateless-серверы и вложенные ресурсы для связей. Использование GET /delete нарушает и REST, и семантику HTTP (GET должен быть safe)."
         },
         "options": [
             {
@@ -1313,11 +1317,7 @@
                 "ru": "Использование вложенных ресурсов для связей: /users/123/orders"
             }
         ],
-        "correct": [0, 2, 3, 4],
-        "explanation": {
-            "en": "RESTful design uses nouns not verbs, correct status codes, stateless servers, and nested resources for relationships. Using GET /delete is a violation of both REST and HTTP semantics (GET must be safe).",
-            "ru": "RESTful-дизайн использует существительные, а не глаголы, корректные коды статусов, stateless-серверы и вложенные ресурсы для связей. Использование GET /delete нарушает и REST, и семантику HTTP (GET должен быть safe)."
-        }
+        "correct": [0, 2, 3, 4]
     },
     {
         "id": "api-auth-002",
@@ -1328,6 +1328,10 @@
         "question": {
             "en": "Which approaches are valid for authenticating API requests from a SPA? (select all that apply)",
             "ru": "Какие подходы годятся для аутентификации API-запросов из SPA? (выберите все подходящие)"
+        },
+        "explanation": {
+            "en": "JWTs in headers, HttpOnly session cookies via a BFF, and OAuth 2.0 PKCE are proper approaches. API keys in query params are logged in URLs and not suited for browser clients. Basic Auth sends credentials on every request and should only be used internally over mTLS.",
+            "ru": "JWT в заголовках, HttpOnly-куки с сессией через BFF и OAuth 2.0 PKCE — корректные подходы. API key в query-параметрах попадает в логи URL и не подходит для браузерных клиентов. Basic Auth отправляет учётные данные в каждом запросе и уместен только во внутренних контурах поверх mTLS."
         },
         "options": [
             {
@@ -1351,11 +1355,7 @@
                 "ru": "Basic Auth в каждом запросе"
             }
         ],
-        "correct": [0, 1, 3],
-        "explanation": {
-            "en": "JWTs in headers, HttpOnly session cookies via a BFF, and OAuth 2.0 PKCE are proper approaches. API keys in query params are logged in URLs and not suited for browser clients. Basic Auth sends credentials on every request and should only be used internally over mTLS.",
-            "ru": "JWT в заголовках, HttpOnly-куки с сессией через BFF и OAuth 2.0 PKCE — корректные подходы. API key в query-параметрах попадает в логи URL и не подходит для браузерных клиентов. Basic Auth отправляет учётные данные в каждом запросе и уместен только во внутренних контурах поверх mTLS."
-        }
+        "correct": [0, 1, 3]
     },
     {
         "id": "api-bug-fetch-001",
@@ -1367,13 +1367,13 @@
             "en": "Find the bug in this fetch wrapper:",
             "ru": "Найдите баг в этой обёртке над fetch:"
         },
-        "code": "async function getUser(id) {\n  try {\n    const response = await fetch(`/api/users/${id}`);\n    return await response.json();\n  } catch (error) {\n    console.error('Request failed', error);\n    return null;\n  }\n}",
-        "correct": "HTTP error responses (4xx/5xx) are not detected — only network errors are caught",
-        "referenceAnswer": "fetch only rejects for network failures, not HTTP errors. Add a check after await fetch: if (!response.ok) throw new Error(`HTTP ${response.status}`); before calling response.json().",
         "explanation": {
             "en": "A 404 or 500 response resolves the fetch promise. Without checking response.ok, the function silently returns null or attempts to parse an error body as JSON, obscuring the real failure.",
             "ru": "Ответы 404 или 500 резолвят Promise от fetch. Без проверки response.ok функция либо молча возвращает null, либо пытается распарсить тело ошибки как JSON, скрывая реальную проблему."
-        }
+        },
+        "code": "async function getUser(id) {\n  try {\n    const response = await fetch(`/api/users/${id}`);\n    return await response.json();\n  } catch (error) {\n    console.error('Request failed', error);\n    return null;\n  }\n}",
+        "correct": "HTTP error responses (4xx/5xx) are not detected — only network errors are caught",
+        "referenceAnswer": "fetch only rejects for network failures, not HTTP errors. Add a check after await fetch: if (!response.ok) throw new Error(`HTTP ${response.status}`); before calling response.json()."
     },
     {
         "id": "api-bug-abort-001",
@@ -1385,13 +1385,13 @@
             "en": "Find the bug in this React data-fetching hook:",
             "ru": "Найдите баг в этом React-хуке загрузки данных:"
         },
-        "code": "function useUser(id) {\n  const [data, setData] = useState(null);\n\n  useEffect(() => {\n    fetch(`/api/users/${id}`)\n      .then(r => r.json())\n      .then(setData);\n  }, [id]);\n\n  return data;\n}",
-        "correct": "No cleanup: if id changes or the component unmounts, a previous in-flight request can call setData on an unmounted component or overwrite newer data",
-        "referenceAnswer": "Add an AbortController and return a cleanup function: const controller = new AbortController(); fetch(url, { signal: controller.signal }); return () => controller.abort(); This cancels the previous request when id changes.",
         "explanation": {
             "en": "Without abort cleanup, stale responses can overwrite fresh data (race condition) and update state after unmount, causing memory leaks and incorrect UI.",
             "ru": "Без cleanup с abort устаревшие ответы могут перезаписать свежие данные (race condition) и обновить state после анмаунта, что приводит к утечкам памяти и некорректному UI."
-        }
+        },
+        "code": "function useUser(id) {\n  const [data, setData] = useState(null);\n\n  useEffect(() => {\n    fetch(`/api/users/${id}`)\n      .then(r => r.json())\n      .then(setData);\n  }, [id]);\n\n  return data;\n}",
+        "correct": "No cleanup: if id changes or the component unmounts, a previous in-flight request can call setData on an unmounted component or overwrite newer data",
+        "referenceAnswer": "Add an AbortController and return a cleanup function: const controller = new AbortController(); fetch(url, { signal: controller.signal }); return () => controller.abort(); This cancels the previous request when id changes."
     },
     {
         "id": "api-bug-tanstack-001",
@@ -1403,13 +1403,13 @@
             "en": "Find the bug in this TanStack Query optimistic update:",
             "ru": "Найдите баг в этом оптимистичном обновлении TanStack Query:"
         },
-        "code": "const mutation = useMutation({\n  mutationFn: updateTodo,\n  onMutate: async (updatedTodo) => {\n    queryClient.setQueryData(['todos'], (old) =>\n      old.map(t => t.id === updatedTodo.id ? updatedTodo : t)\n    );\n  },\n  onError: () => {\n    queryClient.invalidateQueries({ queryKey: ['todos'] });\n  },\n});",
-        "correct": "Missing cancelQueries before optimistic update — an in-flight refetch can overwrite the optimistic state; also missing snapshot return and rollback in onError",
-        "referenceAnswer": "In onMutate: (1) await queryClient.cancelQueries({queryKey:['todos']}), (2) const snapshot = queryClient.getQueryData(['todos']), (3) apply optimistic update, (4) return { snapshot }. In onError: queryClient.setQueryData(['todos'], context.snapshot).",
         "explanation": {
             "en": "Without cancellation a racing refetch can overwrite the optimistic update immediately. Without saving the snapshot there is no way to roll back correctly on error.",
             "ru": "Без отмены параллельный рефетч может сразу же перезаписать оптимистичное обновление. Без сохранённого снэпшота нет корректного способа откатиться в onError."
-        }
+        },
+        "code": "const mutation = useMutation({\n  mutationFn: updateTodo,\n  onMutate: async (updatedTodo) => {\n    queryClient.setQueryData(['todos'], (old) =>\n      old.map(t => t.id === updatedTodo.id ? updatedTodo : t)\n    );\n  },\n  onError: () => {\n    queryClient.invalidateQueries({ queryKey: ['todos'] });\n  },\n});",
+        "correct": "Missing cancelQueries before optimistic update — an in-flight refetch can overwrite the optimistic state; also missing snapshot return and rollback in onError",
+        "referenceAnswer": "In onMutate: (1) await queryClient.cancelQueries({queryKey:['todos']}), (2) const snapshot = queryClient.getQueryData(['todos']), (3) apply optimistic update, (4) return { snapshot }. In onError: queryClient.setQueryData(['todos'], context.snapshot)."
     },
     {
         "id": "api-bug-graphql-001",
@@ -1421,13 +1421,13 @@
             "en": "Identify the N+1 problem in this GraphQL resolver:",
             "ru": "Определите проблему N+1 в этом GraphQL-резолвере:"
         },
-        "code": "const resolvers = {\n  Query: {\n    posts: () => db.posts.findAll(),\n  },\n  Post: {\n    author: (post) => db.users.findById(post.authorId),\n  },\n};",
-        "correct": "The author resolver fires a separate DB query for every post, causing N additional queries for N posts",
-        "referenceAnswer": "Use DataLoader to batch author lookups: const userLoader = new DataLoader(ids => db.users.findByIds(ids)); author: (post) => userLoader.load(post.authorId). DataLoader batches all IDs within a single event-loop tick into one query.",
         "explanation": {
             "en": "With 100 posts the naive resolver runs 1 query for posts + 100 queries for authors = 101 queries. DataLoader collapses the 100 author queries into 1, solving the N+1 problem.",
             "ru": "При 100 постах наивный резолвер выполняет 1 запрос на посты + 100 запросов на авторов = 101 запрос. DataLoader схлопывает 100 запросов на авторов в один, решая проблему N+1."
-        }
+        },
+        "code": "const resolvers = {\n  Query: {\n    posts: () => db.posts.findAll(),\n  },\n  Post: {\n    author: (post) => db.users.findById(post.authorId),\n  },\n};",
+        "correct": "The author resolver fires a separate DB query for every post, causing N additional queries for N posts",
+        "referenceAnswer": "Use DataLoader to batch author lookups: const userLoader = new DataLoader(ids => db.users.findByIds(ids)); author: (post) => userLoader.load(post.authorId). DataLoader batches all IDs within a single event-loop tick into one query."
     },
     {
         "id": "api-bug-retry-001",
@@ -1439,13 +1439,13 @@
             "en": "Find the issue in this retry implementation:",
             "ru": "Найдите проблему в этой реализации ретраев:"
         },
-        "code": "async function fetchWithRetry(url, retries = 3) {\n  for (let i = 0; i < retries; i++) {\n    try {\n      return await fetch(url);\n    } catch {\n      if (i === retries - 1) throw new Error('Max retries exceeded');\n      await new Promise(r => setTimeout(r, 1000));\n    }\n  }\n}",
-        "correct": "Fixed 1-second delay causes thundering-herd problems; also retries on all errors including 4xx (client errors that will never succeed)",
-        "referenceAnswer": "Use exponential backoff with jitter: 1000 * 2**i + Math.random() * 1000. Also check response.ok and do NOT retry 4xx status codes — only retry on 5xx and network errors.",
         "explanation": {
             "en": "Constant-delay retries from many clients hit a recovering server simultaneously. Exponential backoff with jitter spreads retry storms. Retrying 400 or 404 wastes resources since the error is permanent.",
             "ru": "Ретраи с фиксированной задержкой от множества клиентов одновременно бьют по восстанавливающемуся серверу. Exponential backoff с jitter размазывает шторм ретраев. Ретраи 400 или 404 — пустая трата ресурсов, ошибка постоянна."
-        }
+        },
+        "code": "async function fetchWithRetry(url, retries = 3) {\n  for (let i = 0; i < retries; i++) {\n    try {\n      return await fetch(url);\n    } catch {\n      if (i === retries - 1) throw new Error('Max retries exceeded');\n      await new Promise(r => setTimeout(r, 1000));\n    }\n  }\n}",
+        "correct": "Fixed 1-second delay causes thundering-herd problems; also retries on all errors including 4xx (client errors that will never succeed)",
+        "referenceAnswer": "Use exponential backoff with jitter: 1000 * 2**i + Math.random() * 1000. Also check response.ok and do NOT retry 4xx status codes — only retry on 5xx and network errors."
     },
     {
         "id": "api-bug-cors-001",
@@ -1457,13 +1457,13 @@
             "en": "Find the bug in this fetch call that is supposed to send cookies:",
             "ru": "Найдите баг в этом вызове fetch, который должен отправлять куки:"
         },
-        "code": "const response = await fetch('https://api.example.com/profile', {\n  method: 'GET',\n  headers: {\n    'Content-Type': 'application/json',\n  },\n});",
-        "correct": "credentials: 'include' is missing — cookies are not sent in cross-origin requests by default",
-        "referenceAnswer": "Add credentials: 'include' to the fetch options. The server must also respond with Access-Control-Allow-Credentials: true and Access-Control-Allow-Origin set to the specific origin (not wildcard).",
         "explanation": {
             "en": "By default fetch uses credentials: 'same-origin'. For cross-origin requests to send cookies or Authorization headers, credentials: 'include' must be explicitly set.",
             "ru": "По умолчанию fetch использует credentials: 'same-origin'. Чтобы cross-origin-запросы отправляли куки или заголовок Authorization, нужно явно указать credentials: 'include'."
-        }
+        },
+        "code": "const response = await fetch('https://api.example.com/profile', {\n  method: 'GET',\n  headers: {\n    'Content-Type': 'application/json',\n  },\n});",
+        "correct": "credentials: 'include' is missing — cookies are not sent in cross-origin requests by default",
+        "referenceAnswer": "Add credentials: 'include' to the fetch options. The server must also respond with Access-Control-Allow-Credentials: true and Access-Control-Allow-Origin set to the specific origin (not wildcard)."
     },
     {
         "id": "api-bug-json-001",
@@ -1475,13 +1475,13 @@
             "en": "Find the potential runtime error in this API response handler:",
             "ru": "Найдите потенциальную runtime-ошибку в этом обработчике ответа API:"
         },
-        "code": "async function createPost(data) {\n  const response = await fetch('/api/posts', {\n    method: 'POST',\n    headers: { 'Content-Type': 'application/json' },\n    body: JSON.stringify(data),\n  });\n  const json = await response.json();\n  return json;\n}",
-        "correct": "204 No Content or other responses without a body will cause response.json() to throw a JSON parse error",
-        "referenceAnswer": "Check the response status and Content-Type before parsing: if (response.status === 204 || response.headers.get('content-length') === '0') return null; Also guard with response.ok check before parsing.",
         "explanation": {
             "en": "A POST that returns 201 with an empty body or 204 has no JSON body. Calling response.json() on an empty body throws a SyntaxError. Always check the response before parsing.",
             "ru": "POST, возвращающий 201 с пустым телом или 204, не имеет JSON-тела. Вызов response.json() на пустом теле бросает SyntaxError. Перед парсингом всегда проверяйте ответ."
-        }
+        },
+        "code": "async function createPost(data) {\n  const response = await fetch('/api/posts', {\n    method: 'POST',\n    headers: { 'Content-Type': 'application/json' },\n    body: JSON.stringify(data),\n  });\n  const json = await response.json();\n  return json;\n}",
+        "correct": "204 No Content or other responses without a body will cause response.json() to throw a JSON parse error",
+        "referenceAnswer": "Check the response status and Content-Type before parsing: if (response.status === 204 || response.headers.get('content-length') === '0') return null; Also guard with response.ok check before parsing."
     },
     {
         "id": "api-cc-fetch-001",
@@ -1493,14 +1493,14 @@
             "en": "Complete this robust fetch wrapper that throws on HTTP errors:",
             "ru": "Дополните эту устойчивую обёртку над fetch, которая бросает ошибку на HTTP-ошибках:"
         },
-        "code": "async function apiFetch(url: string, options?: RequestInit) {\n  const response = await ___(url, options);\n  if (!response.___) {\n    throw new Error(`HTTP error: ${response.status}`);\n  }\n  return response.___();\n}",
-        "blanks": ["fetch", "ok", "json"],
-        "referenceAnswer": "fetch() returns a Response. response.ok is false for 4xx/5xx. response.json() parses the body as JSON.",
-        "lang": "typescript",
         "explanation": {
             "en": "Checking response.ok converts silent HTTP failures into thrown errors, making them catchable at the call site. This is the minimal pattern for a robust fetch wrapper.",
             "ru": "Проверка response.ok превращает тихие HTTP-сбои в выброшенные ошибки, которые можно отловить на уровне вызова. Это минимальный паттерн устойчивой обёртки над fetch."
-        }
+        },
+        "code": "async function apiFetch(url: string, options?: RequestInit) {\n  const response = await __BLANK__(url, options);\n  if (!response.__BLANK__) {\n    throw new Error(`HTTP error: ${response.status}`);\n  }\n  return response.__BLANK__();\n}",
+        "blanks": ["fetch", "ok", "json"],
+        "lang": "typescript",
+        "referenceAnswer": "fetch() returns a Response. response.ok is false for 4xx/5xx. response.json() parses the body as JSON."
     },
     {
         "id": "api-cc-abort-001",
@@ -1512,14 +1512,14 @@
             "en": "Complete this useEffect that fetches data and cancels on cleanup:",
             "ru": "Дополните этот useEffect, который загружает данные и отменяет запрос в cleanup:"
         },
-        "code": "useEffect(() => {\n  const controller = new ___();\n  fetch(`/api/items/${id}`, { signal: controller.___ })\n    .then(r => r.json())\n    .then(setData)\n    .catch(err => { if (err.name !== '___') console.error(err); });\n  return () => controller.___();\n}, [id]);",
-        "blanks": ["AbortController", "signal", "AbortError", "abort"],
-        "referenceAnswer": "new AbortController() creates the controller. controller.signal is passed to fetch. AbortError is the error name thrown when aborted — it should be silenced. controller.abort() is called in cleanup.",
-        "lang": "typescript",
         "explanation": {
             "en": "This pattern prevents state updates after unmount and race conditions when the dependency changes. Silencing AbortError avoids logging expected cancellations as actual errors.",
             "ru": "Этот паттерн предотвращает обновления state после анмаунта и race condition при изменении зависимости. Подавление AbortError не даёт логировать ожидаемые отмены как реальные ошибки."
-        }
+        },
+        "code": "useEffect(() => {\n  const controller = new __BLANK__();\n  fetch(`/api/items/${id}`, { signal: controller.__BLANK__ })\n    .then(r => r.json())\n    .then(setData)\n    .catch(err => { if (err.name !== '__BLANK__') console.error(err); });\n  return () => controller.__BLANK__();\n}, [id]);",
+        "blanks": ["AbortController", "signal", "AbortError", "abort"],
+        "lang": "typescript",
+        "referenceAnswer": "new AbortController() creates the controller. controller.signal is passed to fetch. AbortError is the error name thrown when aborted — it should be silenced. controller.abort() is called in cleanup."
     },
     {
         "id": "api-cc-tanstack-001",
@@ -1531,14 +1531,14 @@
             "en": "Complete this TanStack Query hook that fetches a user and stays fresh for 5 minutes:",
             "ru": "Дополните этот хук TanStack Query, который получает пользователя и остаётся свежим в течение 5 минут:"
         },
-        "code": "export function useUser(id: string) {\n  return useQuery({\n    queryKey: ['user', ___],\n    queryFn: () => fetchUser(id),\n    ___: 5 * 60 * 1000,\n    enabled: ___,\n  });\n}",
-        "blanks": ["id", "staleTime", "!!id"],
-        "referenceAnswer": "Include id in the queryKey so different users have separate cache entries. staleTime prevents unnecessary refetches. enabled: !!id skips the query when id is undefined/empty.",
-        "lang": "typescript",
         "explanation": {
             "en": "The queryKey must include all variables the queryFn depends on. staleTime avoids refetching data that is still fresh. enabled prevents queries with invalid parameters.",
             "ru": "queryKey должен включать все переменные, от которых зависит queryFn. staleTime избавляет от ненужных рефетчей, пока данные свежие. enabled защищает от запросов с невалидными параметрами."
-        }
+        },
+        "code": "export function useUser(id: string) {\n  return useQuery({\n    queryKey: ['user', __BLANK__],\n    queryFn: () => fetchUser(id),\n    __BLANK__: 5 * 60 * 1000,\n    enabled: __BLANK__,\n  });\n}",
+        "blanks": ["id", "staleTime", "!!id"],
+        "lang": "typescript",
+        "referenceAnswer": "Include id in the queryKey so different users have separate cache entries. staleTime prevents unnecessary refetches. enabled: !!id skips the query when id is undefined/empty."
     },
     {
         "id": "api-cc-backoff-001",
@@ -1550,14 +1550,14 @@
             "en": "Complete this exponential-backoff-with-jitter delay calculator:",
             "ru": "Дополните этот калькулятор задержки exponential-backoff-with-jitter:"
         },
-        "code": "function getRetryDelay(attempt: number, baseMs = 1000, maxMs = 30000): number {\n  const exponential = baseMs * ___(2, attempt);\n  const jitter = Math.random() * baseMs;\n  return ___(exponential + jitter, ___);\n}",
-        "blanks": ["Math.pow", "Math.min", "maxMs"],
-        "referenceAnswer": "Math.pow(2, attempt) computes the exponential growth. Math.random() * baseMs adds jitter to spread retry storms. Math.min caps the delay at maxMs to prevent unreasonably long waits.",
-        "lang": "typescript",
         "explanation": {
             "en": "Full jitter (random between 0 and the exponential value) is one of AWS's recommended backoff strategies. The cap prevents delays from growing indefinitely.",
             "ru": "Full jitter (случайное значение между 0 и экспоненциальным) — одна из рекомендованных AWS стратегий backoff. Ограничение сверху не даёт задержкам расти бесконечно."
-        }
+        },
+        "code": "function getRetryDelay(attempt: number, baseMs = 1000, maxMs = 30000): number {\n  const exponential = baseMs * __BLANK__(2, attempt);\n  const jitter = Math.random() * baseMs;\n  return __BLANK__(exponential + jitter, __BLANK__);\n}",
+        "blanks": ["Math.pow", "Math.min", "maxMs"],
+        "lang": "typescript",
+        "referenceAnswer": "Math.pow(2, attempt) computes the exponential growth. Math.random() * baseMs adds jitter to spread retry storms. Math.min caps the delay at maxMs to prevent unreasonably long waits."
     },
     {
         "id": "api-cc-openapi-001",
@@ -1569,14 +1569,14 @@
             "en": "Complete this RFC 7807 Problem Details error response builder:",
             "ru": "Дополните этот билдер ответа ошибки в формате RFC 7807 Problem Details:"
         },
-        "code": "interface ProblemDetails {\n  type: string;\n  title: string;\n  status: number;\n  detail?: string;\n}\n\nfunction problemDetails(status: number, title: string, detail?: string): ProblemDetails {\n  return {\n    type: `https://httpstatuses.com/${___}`,\n    ___,\n    ___,\n    detail,\n  };\n}",
-        "blanks": ["status", "title", "status"],
-        "referenceAnswer": "The type URI should identify the problem type (using the status code is a simple default). title and status are required recommended fields. detail is optional.",
-        "lang": "typescript",
         "explanation": {
             "en": "RFC 7807 standardises error responses so clients can parse them generically. Using httpstatuses.com as the type URI is a common shortcut when you don't have custom problem type URIs.",
             "ru": "RFC 7807 стандартизирует ответы ошибок, чтобы клиенты могли парсить их единообразно. Использование httpstatuses.com в качестве type URI — распространённое сокращение, когда нет собственных URI для типов проблем."
-        }
+        },
+        "code": "interface ProblemDetails {\n  type: string;\n  title: string;\n  status: number;\n  detail?: string;\n}\n\nfunction problemDetails(status: number, title: string, detail?: string): ProblemDetails {\n  return {\n    type: `https://httpstatuses.com/${__BLANK__}`,\n    __BLANK__,\n    __BLANK__,\n    detail,\n  };\n}",
+        "blanks": ["status", "title", "status"],
+        "lang": "typescript",
+        "referenceAnswer": "The type URI should identify the problem type (using the status code is a simple default). title and status are required recommended fields. detail is optional."
     },
     {
         "id": "api-cc-graphql-001",
@@ -1588,14 +1588,14 @@
             "en": "Complete this DataLoader setup to batch user lookups by IDs:",
             "ru": "Дополните эту настройку DataLoader для батчинга запросов пользователей по ID:"
         },
-        "code": "import DataLoader from 'dataloader';\n\nconst userLoader = new ___(async (ids: readonly string[]) => {\n  const users = await db.users.findByIds(___(ids));\n  return ids.___(id => users.find(u => u.id === id) ?? null);\n});\n\nexport { userLoader };",
-        "blanks": ["DataLoader", "Array.from", "map"],
-        "referenceAnswer": "DataLoader expects a batch function receiving a readonly array. Array.from converts it to a mutable array for DB queries. The return value must be an array aligned with the input IDs order — map ensures this.",
-        "lang": "typescript",
         "explanation": {
             "en": "DataLoader batches all .load() calls within one event-loop tick. The batch function must return an array where each element corresponds to the input ID at the same index, or null if not found.",
             "ru": "DataLoader батчит все вызовы .load() в пределах одного тика event loop. Batch-функция должна вернуть массив, в котором каждый элемент соответствует входному ID с тем же индексом, либо null, если не найдено."
-        }
+        },
+        "code": "import DataLoader from 'dataloader';\n\nconst userLoader = new __BLANK__(async (ids: readonly string[]) => {\n  const users = await db.users.findByIds(__BLANK__(ids));\n  return ids.__BLANK__(id => users.find(u => u.id === id) ?? null);\n});\n\nexport { userLoader };",
+        "blanks": ["DataLoader", "Array.from", "map"],
+        "lang": "typescript",
+        "referenceAnswer": "DataLoader expects a batch function receiving a readonly array. Array.from converts it to a mutable array for DB queries. The return value must be an array aligned with the input IDs order — map ensures this."
     },
     {
         "id": "api-cc-pagination-001",
@@ -1607,14 +1607,14 @@
             "en": "Complete this TanStack Query infinite-scroll hook using cursor-based pagination:",
             "ru": "Дополните этот хук TanStack Query для бесконечной прокрутки с курсорной пагинацией:"
         },
-        "code": "export function useInfinitePosts() {\n  return useInfiniteQuery({\n    queryKey: ['posts'],\n    queryFn: ({ ___ }) => fetchPosts({ cursor: pageParam }),\n    initialPageParam: ___,\n    getNextPageParam: (lastPage) => lastPage.___,\n  });\n}",
-        "blanks": ["pageParam", "null", "nextCursor"],
-        "referenceAnswer": "pageParam holds the cursor for the current page. initialPageParam: null starts from the beginning. getNextPageParam extracts the nextCursor from the last page response — if null/undefined, infinite scroll stops.",
-        "lang": "typescript",
         "explanation": {
             "en": "useInfiniteQuery manages paginated data automatically. getNextPageParam returning undefined signals no more pages. The cursor is passed as pageParam to each queryFn call.",
             "ru": "useInfiniteQuery автоматически управляет постраничными данными. Возврат undefined из getNextPageParam сигнализирует, что страниц больше нет. Курсор передаётся в каждый вызов queryFn как pageParam."
-        }
+        },
+        "code": "export function useInfinitePosts() {\n  return useInfiniteQuery({\n    queryKey: ['posts'],\n    queryFn: ({ __BLANK__ }) => fetchPosts({ cursor: pageParam }),\n    initialPageParam: __BLANK__,\n    getNextPageParam: (lastPage) => lastPage.__BLANK__,\n  });\n}",
+        "blanks": ["pageParam", "null", "nextCursor"],
+        "lang": "typescript",
+        "referenceAnswer": "pageParam holds the cursor for the current page. initialPageParam: null starts from the beginning. getNextPageParam extracts the nextCursor from the last page response — if null/undefined, infinite scroll stops."
     },
     {
         "id": "api-cc-sse-001",
@@ -1626,13 +1626,13 @@
             "en": "Complete this React hook that subscribes to a Server-Sent Events stream:",
             "ru": "Дополните этот React-хук, который подписывается на поток Server-Sent Events:"
         },
-        "code": "export function useSSE(url: string) {\n  const [data, setData] = useState<string | null>(null);\n\n  useEffect(() => {\n    const es = new ___(url);\n    es.addEventListener('___', (event) => {\n      setData(event.data);\n    });\n    return () => es.___();\n  }, [url]);\n\n  return data;\n}",
-        "blanks": ["EventSource", "message", "close"],
-        "referenceAnswer": "new EventSource(url) opens the SSE connection. The 'message' event fires for unnamed server events. es.close() terminates the connection on cleanup to prevent memory leaks.",
-        "lang": "typescript",
         "explanation": {
             "en": "EventSource automatically reconnects on disconnect. Close it in cleanup to prevent stale listeners and reconnection attempts after the component unmounts.",
             "ru": "EventSource автоматически переподключается при обрыве. Закрывайте его в cleanup, чтобы не оставались устаревшие слушатели и попытки переподключения после анмаунта компонента."
-        }
+        },
+        "code": "export function useSSE(url: string) {\n  const [data, setData] = useState<string | null>(null);\n\n  useEffect(() => {\n    const es = new __BLANK__(url);\n    es.addEventListener('__BLANK__', (event) => {\n      setData(event.data);\n    });\n    return () => es.__BLANK__();\n  }, [url]);\n\n  return data;\n}",
+        "blanks": ["EventSource", "message", "close"],
+        "lang": "typescript",
+        "referenceAnswer": "new EventSource(url) opens the SSE connection. The 'message' event fires for unnamed server events. es.close() terminates the connection on cleanup to prevent memory leaks."
     }
 ]

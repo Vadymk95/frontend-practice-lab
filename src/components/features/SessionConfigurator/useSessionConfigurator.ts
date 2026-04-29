@@ -117,6 +117,7 @@ export function useSessionConfigurator(initialConfig?: SessionConfig) {
     // User can manually lower the count after — but the default is always "all available".
     useEffect(() => {
         if (maxCount > 0) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setQuestionCount(maxCount);
         }
     }, [maxCount]);

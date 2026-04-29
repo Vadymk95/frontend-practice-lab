@@ -31,8 +31,9 @@ export function useSingleChoiceQuestion(
         [isAnswered, question, setAnswer]
     );
 
-    // Reset when question changes (navigation forward)
+    // Reset when question changes (navigation forward).
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setSelectedIndex(null);
     }, [question.id]);
 

@@ -176,4 +176,26 @@ describe('useResetWeightsDialog', () => {
             { slug: 'typescript', displayName: 'TypeScript' }
         ]);
     });
+
+    it('surfaces errorMessage when resetCategory fetch fails (no more silent catch)', async () => {
+        vi.stubGlobal(
+            'fetch',
+            vi.fn().mockResolvedValue({
+                ok: false,
+                status: 500,
+                json: async () => ({})
+            })
+        );
+        const errSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+
+        const { result } = renderHook(() => useResetWeightsDialog());
+        await act(async () => {
+            await result.current.resetCategory('react');
+        });
+
+        expect(result.current.errorMessage).not.toBeNull();
+        expect(result.current.successMessage).toBeNull();
+        expect(errSpy).toHaveBeenCalled();
+        errSpy.mockRestore();
+    });
 });
