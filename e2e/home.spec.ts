@@ -39,7 +39,15 @@ test.describe('Home page', () => {
         const firstCategory = page.locator('[role="checkbox"]').first();
         await firstCategory.click();
 
-        const hint = page.locator('[aria-live="polite"]');
+        // Available-count hint is the <p> next to the count input,
+        // e.g. "50 вопросов доступно" / "50 questions available". The previous
+        // [aria-live="polite"] selector targeted the "select a category" hint,
+        // which is removed once any category is checked — so the assertion ran
+        // against an empty/missing element and timed out.
+        const hint = page
+            .locator('p')
+            .filter({ hasText: /доступн|available/i })
+            .first();
         await expect(hint).toContainText(/вопрос|questions?/i);
     });
 });

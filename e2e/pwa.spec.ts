@@ -15,12 +15,20 @@ async function dispatchInstallPrompt(page: import('@playwright/test').Page) {
 }
 
 /** Complete a 1-question session and arrive at /session/summary.
- *  Skips the question regardless of type — PWA tests care about the toast,
- *  not the answer flow, so we avoid coupling to question-type specifics. */
+ *  PWA tests care only about the toast on /session/summary, not the answer
+ *  flow. We force mode = "Quiz" so the random first question is single- or
+ *  multi-choice — those types show "Next" immediately after Skip. Without
+ *  this constraint the helper flaked whenever the random seed produced a
+ *  bug-finding question, whose post-skip flow currently leaves the user
+ *  with no visible Next/self-assess button (separate product issue, see
+ *  isBugFindingPendingSelfAssess in useSessionPlayPage).
+ */
 async function completeMiniSession(page: import('@playwright/test').Page) {
     await page.goto('/');
     await page.waitForSelector('[role="checkbox"]', { timeout: 10000 });
     await page.locator('[role="checkbox"]').first().click();
+    // Pin mode to Quiz so Skip → Next works deterministically across types
+    await page.getByRole('radio', { name: /^Тест$|^Quiz$/i }).click();
     await page.locator('input[type="number"]').fill('1');
     await page
         .getByRole('button', { name: /Начать|Start/i })
@@ -29,7 +37,9 @@ async function completeMiniSession(page: import('@playwright/test').Page) {
     await page.waitForURL('**/session/play');
     await page.waitForSelector('article h2', { timeout: 8000 });
     await page.getByRole('button', { name: /Пропустить|Skip/i }).click();
-    await page.getByRole('button', { name: /Далее|Next/i }).click();
+    const nextBtn = page.getByRole('button', { name: /Далее|Next/i });
+    await expect(nextBtn).toBeVisible({ timeout: 5000 });
+    await nextBtn.click();
     await page.waitForURL('**/session/summary', { timeout: 5000 });
 }
 
