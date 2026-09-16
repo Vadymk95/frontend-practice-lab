@@ -104,12 +104,8 @@ Implement directly → write integration tests via `renderWithProviders`.
 
 ### 4.1 Automated Checks
 
-```bash
-npm run lint          # must exit 0
-npm run format:check  # Prettier compliance
-npx tsc -b --noEmit   # solution / project references — aligns with package.json `tsc -b`
-npm test              # all tests green
-```
+`npm run verify:iter` after each iteration (types + changed tests); `npm run format` before
+staging. The full chain is the push gate (`verify:ci`), owned by `AGENTS.md` § The gate.
 
 ### 4.2 Self-Correction with Root Cause Analysis
 

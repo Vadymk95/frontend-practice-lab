@@ -4,9 +4,15 @@ on:
     push:
         branches: [master]
 
+permissions:
+    contents: read
+
 jobs:
     deploy:
         runs-on: ubuntu-latest
+        timeout-minutes: 20
+        env:
+            HUSKY: '0'
 
         steps:
             - uses: actions/checkout@v4
@@ -20,20 +26,9 @@ jobs:
             - name: Install dependencies
               run: npm ci
 
-            - name: Run Linter
-              run: npm run lint
-
-            - name: Check Formatting
-              run: npm run format:check
-
-            - name: Type Check
-              run: npx tsc --noEmit
-
-            - name: Validate Data
-              run: npm run validate:data
-
-            - name: Run Tests
-              run: npm run test
+            # The same gate chain as CI and the pre-push hook; the build is the deploy's own step.
+            - name: Verify (gate chain)
+              run: npm run verify:ci
 
             - name: Build
               run: npm run build

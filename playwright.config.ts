@@ -19,15 +19,13 @@ export default defineConfig({
             name: 'chromium',
             use: { ...devices['Desktop Chrome'] }
         },
-        // WebKit not installed on CI runners — run locally only
-        ...(process.env.CI
-            ? []
-            : [
-                  {
-                      name: 'iPhone 14',
-                      use: { ...devices['iPhone 14'] }
-                  }
-              ])
+        {
+            // The iPhone 14 descriptor (viewport, touch, UA) on Chromium rather than WebKit, so
+            // the mobile layout runs locally and on CI with the one browser both install.
+            // WebKit itself is not what these specs guard; the layout at 390px is.
+            name: 'mobile-chromium',
+            use: { ...devices['iPhone 14'], browserName: 'chromium' }
+        }
     ],
     webServer: {
         command: 'npm run dev:nolint',

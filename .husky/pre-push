@@ -1,14 +1,21 @@
+# Optional nvm version switch (.nvmrc). Fenced with set +e: husky runs hooks under `sh -e`,
+# and nvm re-arms errexit internally before returning non-zero — without the fence a missing
+# nvm version kills the hook before its real work.
 export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use --silent 2>/dev/null || true
+if [ -s "$NVM_DIR/nvm.sh" ]; then
+    set +e
+    . "$NVM_DIR/nvm.sh" > /dev/null 2>&1
+    nvm use --silent > /dev/null 2>&1
+    set -e
+fi
 
-echo "→ audit"
-npm audit --audit-level=moderate || { echo "❌ Security audit failed. Fix vulnerabilities before push."; exit 1; }
-
-echo "→ format:check"
-npm run format:check || { echo "❌ Formatting check failed. Run 'npm run format' and re-commit."; exit 1; }
-
-echo "→ lint"
-npm run lint || { echo "❌ Lint failed. Fix errors before push."; exit 1; }
-
-echo "→ type-check"
-npx tsc -b --force --noEmit || { echo "❌ TypeScript type-check failed. Fix errors before push."; exit 1; }
+# verify:ci is the SAME script CI's validate job runs (audit gate + hooks check + format +
+# lint + types + data schema + data quality + unit tests), so a green pre-push predicts a
+# green pipeline. e2e runs on CI only. Owner of the gate law: AGENTS.md § The gate.
+echo "→ verify:ci (the offline chain CI runs — see AGENTS.md § The gate)"
+npm run verify:ci || {
+    echo "❌ verify:ci failed. Fix before push."
+    echo "   Lint or formatting: npm run format && git add -u"
+    echo "   Data: npm run validate:data && npm run data:check"
+    exit 1
+}

@@ -1,1 +1,27 @@
-npx lint-staged
+# Optional nvm version switch (.nvmrc). Fenced with set +e: husky runs hooks under `sh -e`,
+# and nvm re-arms errexit internally before returning non-zero.
+export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+if [ -s "$NVM_DIR/nvm.sh" ]; then
+    set +e
+    . "$NVM_DIR/nvm.sh" > /dev/null 2>&1
+    nvm use --silent > /dev/null 2>&1
+    set -e
+fi
+
+# Staged-scope autofix (eslint --fix + prettier on the staged files). `--no-install` stops
+# npx fetching a different lint-staged from the network when node_modules is incomplete —
+# a gate that runs a tool the repo does not pin is not a gate. The explicit `if !` does not
+# lean on husky's `sh -e`: an implicit errexit is one refactor away from a swallowed failure.
+if ! npx --no-install lint-staged; then
+    echo ""
+    echo "✖ The staged-file autofix failed. Fix the reported files first."
+    echo "  One remedy, then stage:  npm run format && git add -u"
+    exit 1
+fi
+
+# Question bank: when a data file is staged, run the schema and the content-quality gate
+# here, while the remedy is still one edit. Both also run inside `verify` at push.
+if git diff --cached --name-only | grep -q '^public/data/.*\.json$'; then
+    npm run validate:data || exit 1
+    npm run data:check || exit 1
+fi
