@@ -676,6 +676,14 @@ describe('SummaryPage — page chrome', () => {
         correct: 0
     } as unknown as Question;
 
+    it('announces the page with a heading', () => {
+        resetStores();
+
+        renderWithProviders(<SummaryPage />);
+
+        expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Session Complete');
+    });
+
     it('names weak topics by display name, not by slug', () => {
         resetStores({ questionList: [weakTopicQuestion], answers: { 'q-ai': 1 } });
 

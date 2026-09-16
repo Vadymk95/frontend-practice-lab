@@ -36,6 +36,7 @@ export const SummaryPage: FC = () => {
 
     return (
         <div className="flex flex-col gap-6 max-w-md mx-auto py-8 px-4">
+            <h1 className="text-center text-lg font-medium">{t('title')}</h1>
             {/* Score */}
             <div className="text-center">
                 <p className="text-sm text-muted-foreground mb-1">{t('score.label')}</p>

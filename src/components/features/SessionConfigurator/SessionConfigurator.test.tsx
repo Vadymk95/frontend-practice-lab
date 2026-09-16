@@ -1,18 +1,24 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { renderHook, act } from '@testing-library/react';
+import { renderHook, act, screen, within } from '@testing-library/react';
+import { createInstance } from 'i18next';
 import type { ReactNode } from 'react';
+import { initReactI18next } from 'react-i18next';
 import { MemoryRouter } from 'react-router-dom';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { ManifestEntry } from '@/hooks/data/useCategories';
 import { useCategories } from '@/hooks/data/useCategories';
 import { useSessionStore } from '@/store/session';
+import { renderWithProviders } from '@/test/test-utils';
 
+import { SessionConfigurator } from './SessionConfigurator';
 import {
     computeAvailableCount,
     getFilteredCategoryCount,
     useSessionConfigurator
 } from './useSessionConfigurator';
+import enHome from '../../../../public/locales/en/home.json';
+import ruHome from '../../../../public/locales/ru/home.json';
 
 vi.mock('@/hooks/data/useCategories', () => ({
     useCategories: vi.fn()
@@ -330,5 +336,96 @@ describe('useSessionConfigurator', () => {
             result.current.handleQuestionCountChange(999);
         });
         expect(result.current.questionCount).toBeLessThanOrEqual(result.current.maxCount);
+    });
+});
+
+describe('configurator.count.available plural forms', () => {
+    const translatorFor = async (lng: 'en' | 'ru') => {
+        const instance = createInstance();
+        await instance.use(initReactI18next).init({
+            lng,
+            fallbackLng: lng,
+            ns: ['home'],
+            defaultNS: 'home',
+            resources: { en: { home: enHome }, ru: { home: ruHome } },
+            interpolation: { escapeValue: false }
+        });
+        return (count: number) => instance.t('configurator.count.available', { count });
+    };
+
+    it('uses the Russian singular for a count of one', async () => {
+        const t = await translatorFor('ru');
+        expect(t(1)).toBe('1 вопрос доступен');
+    });
+
+    it('uses the Russian few form for two to four', async () => {
+        const t = await translatorFor('ru');
+        expect(t(2)).toBe('2 вопроса доступно');
+        expect(t(3)).toBe('3 вопроса доступно');
+    });
+
+    it('uses the Russian many form for five and up, and for the teens', async () => {
+        const t = await translatorFor('ru');
+        expect(t(5)).toBe('5 вопросов доступно');
+        expect(t(11)).toBe('11 вопросов доступно');
+        expect(t(955)).toBe('955 вопросов доступно');
+    });
+
+    it('uses the Russian singular again for twenty-one', async () => {
+        const t = await translatorFor('ru');
+        expect(t(21)).toBe('21 вопрос доступен');
+    });
+
+    it('switches between singular and plural in English', async () => {
+        const t = await translatorFor('en');
+        expect(t(1)).toBe('1 question available');
+        expect(t(5)).toBe('5 questions available');
+    });
+});
+
+describe('SessionConfigurator — start affordance', () => {
+    beforeEach(() => {
+        vi.mocked(useCategories).mockReturnValue({
+            data: mockCategories,
+            isLoading: false,
+            isError: false
+        } as unknown as ReturnType<typeof useCategories>);
+    });
+
+    it('keeps the hint inside the sticky bar that holds the Start button', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        const stickyBar = screen
+            .getAllByRole('button', { name: 'Start Session' })[0]!
+            .closest('.fixed');
+        expect(stickyBar).not.toBeNull();
+        expect(
+            within(stickyBar as HTMLElement).getByText('Select at least one category to begin')
+        ).toBeInTheDocument();
+    });
+
+    it('does not point the category group at a hint that is no longer rendered', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        act(() => {
+            screen.getByRole('checkbox', { name: /JavaScript/ }).click();
+        });
+
+        const group = screen.getByRole('group', { name: 'Select question categories' });
+        expect(screen.queryByText('Select at least one category to begin')).not.toBeInTheDocument();
+        const describedBy = group.getAttribute('aria-describedby');
+        if (describedBy !== null) {
+            describedBy
+                .split(' ')
+                .forEach((id) => expect(document.getElementById(id)).not.toBeNull());
+        }
+    });
+
+    it('keeps long category names whole instead of breaking them mid-word', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        const label = screen.getByText('JavaScript');
+        expect(label.className).not.toContain('break-words');
+        expect(label.className).toContain('hyphens-manual');
     });
 });

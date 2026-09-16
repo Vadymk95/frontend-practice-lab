@@ -123,3 +123,24 @@ part of `npm run build`. The empty-pool bounce is now also explained by a
 
 **Status**: `public/data/manifest.json` was regenerated with the matrix on the same branch (after the data
 hygiene commit that made `data:check` green), so the served manifest and the type agree.
+
+---
+
+## [2026-09-16] Question content: a token parser, not a markdown dependency
+
+**Decision**: Question stems, explanations, options and reference answers render through
+`src/lib/utils/inlineMarkdown.ts` (code spans, bold, line breaks) and
+`src/lib/utils/markdownBlocks.ts` (fenced blocks), rendered as React nodes by
+`components/common/InlineMarkdown`. No markdown library, and no `dangerouslySetInnerHTML`
+outside the Shiki-rendered `CodeBlock`.
+
+**Why**: The bank uses backticks in 176 stems and 227 explanations, bold in 15, plus hard
+newlines — a strict subset that fits in about 60 lines of parsing with unit tests. A markdown
+library would pull in an HTML pipeline for content that is authored by an agent, which is
+exactly the input a sanitiser has to be trusted with; emitting text nodes makes the injection
+question moot. Anything unsupported stays literal, so a new marker degrades to visible text
+rather than to broken layout.
+
+**Trade-offs**: Tables, links and lists in question content will not render. If the bank ever
+needs them, extend the token list rather than swapping in a library — the store of authored
+content is the constraint, not the parser.
