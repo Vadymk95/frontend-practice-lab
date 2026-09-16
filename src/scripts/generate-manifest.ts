@@ -62,7 +62,9 @@ const DISPLAY_NAME_MAP: Record<string, string> = {
     security: 'Security',
     'team-lead': 'Team Lead',
     testing: 'Testing',
-    typescript: 'TypeScript'
+    typescript: 'TypeScript',
+    'system-design': 'System Design',
+    observability: 'Observability'
 };
 
 function toDisplayName(slug: string): string {
