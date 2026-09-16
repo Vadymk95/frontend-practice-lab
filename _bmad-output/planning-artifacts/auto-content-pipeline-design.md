@@ -2,7 +2,7 @@
 
 ## 1. Problem & Non-Goals
 
-InterviewOS has 1005 bilingual RU/EN questions across 18 categories. Frontend evolves faster than manual authoring can keep up — Server Components, AI/LLM tooling, edge runtimes, signals, etc. This pipeline runs on a schedule, scans the 2026 frontend trend landscape, diffs it against the existing manifest, drafts new questions (and proposes new categories) following `docs/content-guide.md`, validates them against the Zod schema, and opens a labeled draft PR for human review. The maintainer keeps full editorial control.
+InterviewOS has 952 bilingual RU/EN questions across 18 categories (status 2026-09-16: this pipeline is a design, not built; the manual path in `docs/content-guide.md` plus `npm run data:check` is what exists). Frontend evolves faster than manual authoring can keep up — Server Components, AI/LLM tooling, edge runtimes, signals, etc. This pipeline runs on a schedule, scans the 2026 frontend trend landscape, diffs it against the existing manifest, drafts new questions (and proposes new categories) following `docs/content-guide.md`, validates them against the Zod schema, and opens a labeled draft PR for human review. The maintainer keeps full editorial control.
 
 **Explicitly NOT goals:**
 

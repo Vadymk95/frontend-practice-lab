@@ -53,7 +53,9 @@ On startup, i18next initializes and loads the `common` and `errors` bundles plus
 | -------- | ---- |
 | `public/data/manifest.json` | Category list and per-category counts |
 | `public/data/<slug>.json` | Question payloads per category (bilingual RU/EN) |
-| `src/lib/data/schema.ts` | Zod schema; validated at build and in CI |
+| `src/lib/data/schema.ts` | Zod schema (`validate:data`); optional `code` + `lang` on every type |
+| `src/scripts/check-data-quality.ts` | Content-quality gate (`data:check`): duplicates, blanks, translations, all-correct, index bias |
+| `src/scripts/generate-manifest.ts` | Writes `manifest.json` (`build:manifest`) |
 | `src/lib/i18n/localized.ts` | `useLocalized()` — picks en/ru by active language |
 | `src/hooks/data/useCategoryDisplay.ts` | Resolves category display names via i18n |
 | `src/hooks/data/` | Category loading helpers |
@@ -98,6 +100,8 @@ Authoritative note: `.cursor/brain/PWA.md` — update strategy (prompt), precach
 
 | Artifact                        | Role                                                                 |
 | ------------------------------- | -------------------------------------------------------------------- |
-| `.github/workflows/ci.yml`     | PR + push `master`: audit (moderate+), lint, format, type-check, data validation, unit + e2e tests |
-| `.github/workflows/deploy.yml`  | Push `master`: lint, format, type-check, data validation, test, build, Firebase deploy |
+| `.github/workflows/ci.yml`     | PR + push `master`: `verify:ci` (one chain, see `AGENTS.md`) then Playwright (desktop + mobile-chromium) |
+| `.github/workflows/deploy.yml`  | Push `master`: `verify:ci`, build, Firebase deploy |
+| `src/scripts/audit-gate.ts`     | Blocking audit (high/critical, fail-closed) with `audit-allowlist.json` (reason + expiry) |
+| `src/scripts/check-hooks.ts`    | Refuses an unset or absolute `core.hooksPath` (hooks silently off) |
 | `.github/dependabot.yml`       | Weekly npm version PRs (limit 8 open)                                |

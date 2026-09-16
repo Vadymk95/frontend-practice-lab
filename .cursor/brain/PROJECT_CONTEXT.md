@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Personal mobile-first interview preparation SPA for frontend engineers. Daily habit tool (1-hour sessions) to combat cognitive atrophy from AI-assisted workflows. Covers trainee → principal/staff engineer depth across 18 topic categories (955 bilingual RU/EN questions). Adaptive algorithm tracks per-topic error rates and surfaces weak areas more frequently.
+Personal mobile-first interview preparation SPA for frontend engineers. Daily habit tool (1-hour sessions) to combat cognitive atrophy from AI-assisted workflows. Covers trainee → principal/staff engineer depth across 18 topic categories (952 bilingual RU/EN questions). Adaptive algorithm: per-question weights moved by that question's own outcome, per-category error rates as the prior for unseen questions; the session pool is weight-ordered.
 
 PRD: `_bmad-output/planning-artifacts/prd.md`
 
@@ -103,7 +103,7 @@ Lazy pages exported from `index.ts`; router wraps with `WithSuspense`.
 
 ### Data layer
 
-- Question content: `public/data/` (manifest + category JSON), validated against `src/lib/data/schema.ts` at build time.
+- Question content: `public/data/` (manifest + category JSON), validated against `src/lib/data/schema.ts` (`validate:data`) and the content-quality gate `src/scripts/check-data-quality.ts` (`data:check`) at commit, push and CI. Options are shuffled at render; answers are stored as original option indices.
 - Client persistence: `src/lib/storage/` — swappable later (e.g. cloud sync).
 
 ## Agent Rules
@@ -112,7 +112,4 @@ Read `.cursor/rules/` before implementation. Core entry points: `global.mdc`, `a
 
 ## Dev Tooling
 
-- `npm run dev` — dev server on :3000
-- `npm run build` — manifest generation (`build:manifest`, schema-validates `public/data/`) + tsc -b + vite build (OXC minifier)
-- `npm run test` — vitest run
-- `npm run lint` — eslint flat config
+The gate law (what runs at iterate / commit / push / CI) lives in `AGENTS.md` § The gate — one chain, `verify` in `package.json`, called by the pre-push hook, CI and deploy. Per change: `npm run verify:iter`. Build: `npm run build` (manifest generation + tsc -b + vite build, OXC minifier). Timings and what is deliberately not in the gate: `.cursor/brain/VERIFICATION.md`.
