@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { track } from '@/lib/analytics';
+import { readSessionFlag, writeSessionFlag } from '@/lib/storage/sessionFlag';
 import { RoutesPath } from '@/router/routes';
 
 interface BeforeInstallPromptEvent extends Event {
@@ -13,7 +14,7 @@ const DISMISSED_KEY = 'pwa_prompt_dismissed';
 
 export const usePwaInstallToast = () => {
     const [promptEvent, setPromptEvent] = useState<BeforeInstallPromptEvent | null>(null);
-    const [dismissed, setDismissed] = useState(() => !!sessionStorage.getItem(DISMISSED_KEY));
+    const [dismissed, setDismissed] = useState(() => readSessionFlag(DISMISSED_KEY));
     const location = useLocation();
     const installPromptTrackedRef = useRef(false);
 
@@ -38,7 +39,7 @@ export const usePwaInstallToast = () => {
 
     const dismiss = useCallback(() => {
         setDismissed(true);
-        sessionStorage.setItem(DISMISSED_KEY, '1');
+        writeSessionFlag(DISMISSED_KEY);
     }, []);
 
     const install = useCallback(async () => {

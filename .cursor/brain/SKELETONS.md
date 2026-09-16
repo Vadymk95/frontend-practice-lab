@@ -94,3 +94,16 @@ different UTC days) and breaks across the DST fall-back in both directions. `isY
 rebuilds "yesterday" from local midnight — parsing the key with `new Date(str)` gives a UTC instant
 and `setDate(-1)` on it is off by a day at the boundary. Tests that pin the clock at 12:00Z cannot
 catch either failure; use a local-constructed `new Date(y, m, d, h, …)` and set `process.env.TZ`.
+
+## PWA toasts — guarded storage, and no update prompt mid-session
+
+Two invariants live in `usePwaUpdateToast` / `usePwaInstallToast`:
+
+- Every `sessionStorage` touch goes through `readSessionFlag` / `writeSessionFlag`
+  (`src/lib/storage/sessionFlag.ts`). Bare `sessionStorage.getItem(...)` in a `useState` initializer
+  THROWS where site data is blocked, and both toasts render unconditionally from `App.tsx`, so the
+  throw reaches the ErrorBoundary and replaces the entire app with the error screen.
+- The update toast is hidden while `sessionStore.questionList` is non-empty on `/session/play`.
+  Accepting it calls `updateServiceWorker(true)`, which reloads the document; the session store has
+  no persist middleware, so answers, timer and score are gone and the reloaded `/session/play`
+  redirects home. Do not drop the route + questionList guard without persisting the session first.
