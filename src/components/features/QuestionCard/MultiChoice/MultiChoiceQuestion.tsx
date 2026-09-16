@@ -50,6 +50,7 @@ export const MultiChoiceQuestion: FC<Props> = ({
                             isCorrect={isCorrectOption}
                             isMissed={isMissed}
                             isDisabled={false}
+                            isSkippedReveal={isSkipped}
                             onSelect={() => onToggle(displayIndex)}
                         />
                     );

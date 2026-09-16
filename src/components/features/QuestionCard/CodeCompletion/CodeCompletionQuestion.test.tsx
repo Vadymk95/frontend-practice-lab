@@ -451,3 +451,40 @@ describe('CodeCompletionQuestion — keyboard and mobile affordances', () => {
         expect(shell?.className).toContain('dark:bg-[#0d1117]');
     });
 });
+
+describe('CodeCompletionQuestion — skipped reveal', () => {
+    it('shows the revealed blanks neutrally, not as correct answers', () => {
+        renderWithProviders(
+            <CodeCompletionQuestion
+                question={makeCodeCompletionQuestion()}
+                isSkipped
+                onSubmitRegister={vi.fn()}
+                onAllBlanksFilled={vi.fn()}
+            />
+        );
+        const input = screen.getAllByRole('textbox')[0]!;
+        expect(input.className).toContain('border-warning');
+        expect(input.className).not.toContain('text-accent');
+    });
+
+    it('keeps the correct styling for a blank the user actually got right', async () => {
+        let capturedSubmitFn: (() => void) | null = null;
+        renderWithProviders(
+            <CodeCompletionQuestion
+                question={makeCodeCompletionQuestion()}
+                onSubmitRegister={(fn) => {
+                    capturedSubmitFn = fn;
+                }}
+                onAllBlanksFilled={vi.fn()}
+            />
+        );
+        const inputs = screen.getAllByRole('textbox');
+        fireEvent.change(inputs[0]!, { target: { value: 'a' } });
+        fireEvent.change(inputs[1]!, { target: { value: 'b' } });
+        await act(async () => {
+            capturedSubmitFn!();
+        });
+
+        expect(screen.getAllByRole('textbox')[0]!.className).toContain('text-accent');
+    });
+});

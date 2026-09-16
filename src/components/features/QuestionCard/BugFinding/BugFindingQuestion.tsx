@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { CodeBlock } from '@/components/common/CodeBlock';
 import { MarkdownBlocks } from '@/components/common/InlineMarkdown';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import type { BugFindingQuestion as BugFindingQuestionData } from '@/lib/data/schema';
 import { useLocalized } from '@/lib/i18n/localized';
+import { cn } from '@/lib/utils';
 
 import { AnswerOption } from '../AnswerOption';
 import { ExplanationPanel } from '../ExplanationPanel';
@@ -73,12 +73,18 @@ export const BugFindingQuestion: FC<Props> = ({
                     ))}
                 </div>
             ) : (
-                <Input
+                <textarea
                     value={textAnswer}
                     onChange={(e) => onTextChange(e.target.value)}
                     disabled={isSubmitted}
+                    rows={3}
                     placeholder={t('bugFinding.placeholder')}
                     aria-label={t('bugFinding.inputLabel')}
+                    className={cn(
+                        'w-full resize-y border border-border bg-transparent px-3 py-2 text-sm',
+                        'field-sizing-content outline-none focus-visible:border-foreground',
+                        'disabled:cursor-not-allowed disabled:opacity-60'
+                    )}
                 />
             )}
 

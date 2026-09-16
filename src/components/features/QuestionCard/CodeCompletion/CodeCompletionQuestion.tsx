@@ -66,11 +66,14 @@ export const CodeCompletionQuestion: FC<Props> = ({
                                         'inline bg-transparent font-mono text-base border-b-2 border-muted-foreground',
                                         'text-foreground outline-none min-h-11 min-w-[6ch] px-1 focus-visible:border-foreground',
                                         isSubmitted &&
+                                            !isSkipped &&
                                             blankResults[i] === 'correct' &&
                                             'border-accent text-accent',
                                         isSubmitted &&
+                                            !isSkipped &&
                                             blankResults[i] === 'incorrect' &&
-                                            'border-error text-error'
+                                            'border-error text-error',
+                                        isSkipped && 'border-warning border-dashed'
                                     )}
                                     style={{
                                         width: `${Math.max(MIN_BLANK_WIDTH_CH, (blanksInput[i]?.length ?? 0) + 2)}ch`

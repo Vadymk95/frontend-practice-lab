@@ -270,3 +270,43 @@ describe('QuestionCard — stem rendering', () => {
         expect(screen.queryByRole('button', { name: /copy/i })).not.toBeInTheDocument();
     });
 });
+
+describe('QuestionCard — category and skip state', () => {
+    it('shows the category display name, not the raw slug', () => {
+        useSessionStore.setState({
+            questionList: [{ ...mockQuestion, category: 'ai-llm' }],
+            currentIndex: 0
+        });
+        renderWithProviders(<QuestionCard />);
+        expect(screen.getByText('AI / LLM')).toBeInTheDocument();
+        expect(screen.queryByText('ai-llm')).not.toBeInTheDocument();
+    });
+
+    it('falls back to the raw category when no display name is translated', () => {
+        renderWithProviders(<QuestionCard />);
+        expect(screen.getByText('JavaScript')).toBeInTheDocument();
+    });
+
+    it('marks a skipped question with a Skipped badge', async () => {
+        renderWithProviders(<QuestionCard />);
+        fireEvent.click(screen.getByRole('button', { name: /skip/i }));
+        await waitFor(() => {
+            expect(screen.getByText('Skipped')).toBeInTheDocument();
+        });
+    });
+
+    it('shows no Skipped badge before the question is skipped', () => {
+        renderWithProviders(<QuestionCard />);
+        expect(screen.queryByText('Skipped')).not.toBeInTheDocument();
+    });
+
+    it('reveals the answer of a skipped question without the correct-answer styling', async () => {
+        renderWithProviders(<QuestionCard />);
+        fireEvent.click(screen.getByRole('button', { name: /skip/i }));
+        await waitFor(() => {
+            const revealed = screen.getByText('object').closest('button');
+            expect(revealed?.className).toContain('border-warning');
+            expect(revealed?.className).not.toContain('bg-accent/10');
+        });
+    });
+});

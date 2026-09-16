@@ -418,3 +418,70 @@ describe('BugFindingQuestion — reference answer and snippet language', () => {
         expect(container.querySelectorAll('.shiki')).toHaveLength(1);
     });
 });
+
+describe('BugFindingQuestion — free-text field and submit gating', () => {
+    const textOnly = (overrides: Partial<BugFindingQuestion> = {}) =>
+        makeBugFindingQuestion({ options: undefined, correct: 'stale closure', ...overrides });
+
+    it('asks for prose in a multi-line field, not a one-line input', () => {
+        renderWithProviders(
+            <BugFindingQuestionComponent question={textOnly()} {...defaultCallbacks} />
+        );
+        const field = screen.getByRole('textbox', { name: 'Your answer' });
+        expect(field.tagName).toBe('TEXTAREA');
+        expect(field).toHaveAttribute('rows', '3');
+        expect(field.className).toContain('field-sizing-content');
+    });
+
+    it('reports canSubmit=false on mount so a remount cannot leave Submit live', () => {
+        const onCanSubmitChange = vi.fn();
+        renderWithProviders(
+            <BugFindingQuestionComponent
+                question={textOnly()}
+                {...defaultCallbacks}
+                onCanSubmitChange={onCanSubmitChange}
+            />
+        );
+        expect(onCanSubmitChange).toHaveBeenCalledWith(false);
+    });
+
+    it('reports canSubmit=false again when the question changes', () => {
+        const onCanSubmitChange = vi.fn();
+        const { rerender } = renderWithProviders(
+            <BugFindingQuestionComponent
+                question={textOnly({ id: 'bf-a' })}
+                {...defaultCallbacks}
+                onCanSubmitChange={onCanSubmitChange}
+            />
+        );
+        fireEvent.change(screen.getByRole('textbox', { name: 'Your answer' }), {
+            target: { value: 'something' }
+        });
+        expect(onCanSubmitChange).toHaveBeenLastCalledWith(true);
+
+        rerender(
+            <BugFindingQuestionComponent
+                question={textOnly({ id: 'bf-b' })}
+                {...defaultCallbacks}
+                onCanSubmitChange={onCanSubmitChange}
+            />
+        );
+
+        expect(onCanSubmitChange).toHaveBeenLastCalledWith(false);
+    });
+
+    it('still enables submit once the user types', () => {
+        const onCanSubmitChange = vi.fn();
+        renderWithProviders(
+            <BugFindingQuestionComponent
+                question={textOnly()}
+                {...defaultCallbacks}
+                onCanSubmitChange={onCanSubmitChange}
+            />
+        );
+        fireEvent.change(screen.getByRole('textbox', { name: 'Your answer' }), {
+            target: { value: 'the callback captures a stale value' }
+        });
+        expect(onCanSubmitChange).toHaveBeenLastCalledWith(true);
+    });
+});

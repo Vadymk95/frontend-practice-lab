@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react';
+import { renderHook, act, screen } from '@testing-library/react';
 import { createElement } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -6,7 +6,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Question } from '@/lib/data/schema';
 import { useProgressStoreBase } from '@/store/progress/progressStore';
 import { useSessionStoreBase } from '@/store/session/sessionStore';
+import { renderWithProviders } from '@/test/test-utils';
 
+import { SummaryPage } from './SummaryPage';
 import { useSummaryPage } from './useSummaryPage';
 
 const navigateMock = vi.hoisted(() => vi.fn());
@@ -655,5 +657,31 @@ describe('useSummaryPage', () => {
 
             expect(mockUpdateStreak).toHaveBeenCalledOnce();
         });
+    });
+});
+
+describe('SummaryPage — page chrome', () => {
+    const weakTopicQuestion = {
+        id: 'q-ai',
+        type: 'single-choice' as const,
+        category: 'ai-llm',
+        difficulty: 'easy' as const,
+        tags: [],
+        question: { en: 'Which model?', ru: 'Which model?' },
+        explanation: { en: 'Because.', ru: 'Because.' },
+        options: [
+            { en: 'A', ru: 'A' },
+            { en: 'B', ru: 'B' }
+        ],
+        correct: 0
+    } as unknown as Question;
+
+    it('names weak topics by display name, not by slug', () => {
+        resetStores({ questionList: [weakTopicQuestion], answers: { 'q-ai': 1 } });
+
+        renderWithProviders(<SummaryPage />);
+
+        expect(screen.getByText('AI / LLM')).toBeInTheDocument();
+        expect(screen.queryByText('ai-llm')).not.toBeInTheDocument();
     });
 });

@@ -12,6 +12,7 @@ import { CodeBlock } from '@/components/common/CodeBlock';
 import { InlineMarkdown } from '@/components/common/InlineMarkdown';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { useCategoryDisplay } from '@/hooks/data/useCategoryDisplay';
 import { useLocalized } from '@/lib/i18n/localized';
 
 import { BugFindingQuestion } from './BugFinding';
@@ -41,6 +42,7 @@ export const QuestionCard: FC<QuestionCardProps> = ({
 }) => {
     const { t } = useTranslation('question');
     const pick = useLocalized();
+    const getCategoryName = useCategoryDisplay();
     const { question, currentIndex, questionCount, isAnswered, handleBack, isSkipped, handleSkip } =
         useQuestionCard();
     const [resetKey, setResetKey] = useState(0);
@@ -80,8 +82,13 @@ export const QuestionCard: FC<QuestionCardProps> = ({
                 </div>
             </div>
             <div className="flex gap-2 flex-wrap">
-                <Badge variant="outline">{question.category}</Badge>
+                <Badge variant="outline">{getCategoryName(question.category)}</Badge>
                 <Badge variant="outline">{t(`difficulty.${question.difficulty}`)}</Badge>
+                {isSkipped && (
+                    <Badge variant="outline" className="border-warning text-warning">
+                        {t('skippedBadge')}
+                    </Badge>
+                )}
             </div>
             <h2 className="text-base font-medium">
                 <InlineMarkdown text={pick(question.question)} />

@@ -171,3 +171,32 @@ describe('AnswerOption — inline markdown', () => {
         expect(screen.getByText('<b>bold</b>')).toBeInTheDocument();
     });
 });
+
+describe('AnswerOption — skipped reveal', () => {
+    const revealed = {
+        ...defaultProps,
+        isAnswered: true,
+        isCorrect: true,
+        isSelected: true,
+        isSkippedReveal: true
+    };
+
+    it('reveals the correct option outlined, not filled like a right answer', () => {
+        render(<AnswerOption {...revealed} />);
+        const option = screen.getByRole('radio');
+        expect(option.className).toContain('border-warning');
+        expect(option.className).not.toContain('bg-accent/10');
+    });
+
+    it('does not award the correct-answer tick on a skipped question', () => {
+        render(<AnswerOption {...revealed} />);
+        expect(screen.queryByText('✓')).not.toBeInTheDocument();
+    });
+
+    it('still fills the correct option when the question was actually answered', () => {
+        render(
+            <AnswerOption {...defaultProps} isAnswered={true} isCorrect={true} isSelected={true} />
+        );
+        expect(screen.getByRole('radio').className).toContain('bg-accent/10');
+    });
+});

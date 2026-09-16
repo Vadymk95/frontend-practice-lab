@@ -37,6 +37,7 @@ export const SingleChoiceQuestion: FC<Props> = ({
                         isAnswered={isAnswered}
                         isCorrect={question.correct === originalIndex}
                         isDisabled={isAnswered && selectedIndex !== originalIndex}
+                        isSkippedReveal={isSkipped}
                         onSelect={() => onSelect(displayIndex)}
                     />
                 ))}
