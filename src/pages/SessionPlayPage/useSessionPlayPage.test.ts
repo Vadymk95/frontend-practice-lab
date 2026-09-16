@@ -154,6 +154,14 @@ const singleChoiceQuestion = {
     correct: 0
 } as unknown as Question;
 
+/** Original bank index of the option rendered at `displayIndex` (options are shuffled at render). */
+function originalIndexOfDisplayed(question: Question, displayIndex: number): number {
+    if (question.type !== 'single-choice') throw new Error('single-choice fixture expected');
+    const radios = screen.getAllByRole('radio');
+    const label = radios[displayIndex]?.textContent ?? '';
+    return question.options.findIndex((o) => label.includes(o.en));
+}
+
 describe('SessionPlayPage — keyboard shortcuts reach the rendered question', () => {
     it('selects the second option when the "2" key is pressed', async () => {
         useSessionStore.setState({ questionList: [singleChoiceQuestion], answers: {} });
@@ -161,10 +169,13 @@ describe('SessionPlayPage — keyboard shortcuts reach the rendered question', (
         renderWithProviders(createElement(SessionPlayPage));
         expect(await screen.findByText('Beta')).toBeInTheDocument();
 
+        // Options are shuffled at render; the key selects the SECOND DISPLAYED option and the
+        // store must receive that option's ORIGINAL index.
+        const expected = originalIndexOfDisplayed(singleChoiceQuestion, 1);
         fireEvent.keyDown(document, { key: '2' });
 
         await waitFor(() => {
-            expect(useSessionStore.getState().answers['sc-1']).toBe(1);
+            expect(useSessionStore.getState().answers['sc-1']).toBe(expected);
         });
     });
 
@@ -179,10 +190,11 @@ describe('SessionPlayPage — keyboard shortcuts reach the rendered question', (
         renderWithProviders(createElement(SessionPlayPage));
         expect(await screen.findByText('Gamma')).toBeInTheDocument();
 
+        const expected = originalIndexOfDisplayed(second, 2);
         fireEvent.keyDown(document, { key: '3' });
 
         await waitFor(() => {
-            expect(useSessionStore.getState().answers['sc-2']).toBe(2);
+            expect(useSessionStore.getState().answers['sc-2']).toBe(expected);
         });
     });
 });
