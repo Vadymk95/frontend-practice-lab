@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { act, renderHook, waitFor } from '@testing-library/react';
+import { act, fireEvent, renderHook, screen, waitFor } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { createElement } from 'react';
 import { MemoryRouter } from 'react-router-dom';
@@ -8,7 +8,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Question } from '@/lib/data/schema';
 import type { SessionConfig } from '@/lib/storage/types';
 import { useSessionStore } from '@/store/session';
+import { renderWithProviders } from '@/test/test-utils';
 
+import { SessionPlayPage } from './SessionPlayPage';
 import { useSessionPlayPage } from './useSessionPlayPage';
 
 vi.mock('@/hooks/session/useSessionSetup', () => ({
@@ -133,5 +135,68 @@ describe('useSessionPlayPage — leaving the session', () => {
                 state: { flash: 'noQuestionsMatch' }
             });
         });
+    });
+});
+
+const singleChoiceQuestion = {
+    id: 'sc-1',
+    type: 'single-choice',
+    category: 'javascript',
+    difficulty: 'easy',
+    tags: [],
+    question: { en: 'Pick one', ru: 'Pick one' },
+    explanation: { en: 'e', ru: 'e' },
+    options: [
+        { en: 'Alpha', ru: 'Alpha' },
+        { en: 'Beta', ru: 'Beta' },
+        { en: 'Gamma', ru: 'Gamma' }
+    ],
+    correct: 0
+} as unknown as Question;
+
+describe('SessionPlayPage — keyboard shortcuts reach the rendered question', () => {
+    it('selects the second option when the "2" key is pressed', async () => {
+        useSessionStore.setState({ questionList: [singleChoiceQuestion], answers: {} });
+
+        renderWithProviders(createElement(SessionPlayPage));
+        expect(await screen.findByText('Beta')).toBeInTheDocument();
+
+        fireEvent.keyDown(document, { key: '2' });
+
+        await waitFor(() => {
+            expect(useSessionStore.getState().answers['sc-1']).toBe(1);
+        });
+    });
+
+    it('still selects on the question after a Next, when the refs are re-registered', async () => {
+        const second = { ...singleChoiceQuestion, id: 'sc-2' } as Question;
+        useSessionStore.setState({
+            questionList: [singleChoiceQuestion, second],
+            currentIndex: 1,
+            answers: {}
+        });
+
+        renderWithProviders(createElement(SessionPlayPage));
+        expect(await screen.findByText('Gamma')).toBeInTheDocument();
+
+        fireEvent.keyDown(document, { key: '3' });
+
+        await waitFor(() => {
+            expect(useSessionStore.getState().answers['sc-2']).toBe(2);
+        });
+    });
+});
+
+describe('useSessionPlayPage — dialog suspends the shortcuts', () => {
+    it('does not advance the question when Enter is pressed with the end dialog open', () => {
+        useSessionStore.setState({ answers: { 'bf-1': 'gotIt' } });
+        const { result } = renderHook(() => useSessionPlayPage(), { wrapper });
+
+        act(() => {
+            result.current.openEndDialog();
+        });
+        fireEvent.keyDown(document, { key: 'Enter' });
+
+        expect(navigateMock).not.toHaveBeenCalled();
     });
 });

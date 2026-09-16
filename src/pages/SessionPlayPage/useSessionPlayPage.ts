@@ -202,13 +202,15 @@ export function useSessionPlayPage(): SessionPlayPageState {
         selectFnRef.current?.(idx);
     }, []);
 
+    // Reset the per-question flags when the question changes. The registration refs
+    // are deliberately NOT cleared here: child effects commit before the parent's, so
+    // clearing would wipe the registration the new question's card just made and leave
+    // the number-key shortcuts calling nothing. Each card re-registers per question,
+    // and every ref is only ever invoked for the matching question type.
     useEffect(() => {
         setMultiHasSelection(false);
-        checkFnRef.current = null;
         setCodeCompletionAllFilled(false);
         setBugFindingCanSubmit(false);
-        submitFnRef.current = null;
-        selectFnRef.current = null;
     }, [currentQuestion?.id]);
 
     const isMultiChoice = currentQuestion?.type === 'multi-choice';
@@ -242,7 +244,8 @@ export function useSessionPlayPage(): SessionPlayPageState {
         optionCount,
         onSelectOption: handleSelectOption,
         onSubmit: handleKeyboardSubmit,
-        isAnswered
+        isAnswered,
+        enabled: !isEndDialogOpen
     });
 
     return {
