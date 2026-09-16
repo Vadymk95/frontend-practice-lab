@@ -18,6 +18,10 @@ interface SessionState {
     // can distinguish "user clicked End" (show sessionEnded flash) from "no config set"
     // (show noActiveSession flash). Cleared by setConfig on the next session start.
     endedAt: number | null;
+    // Stamped by the summary once it has applied the session to progress (weights, error rates,
+    // streak, record, analytics). Browser Back/Forward remounts the summary with the session store
+    // intact, so without this marker every return re-applied the whole session.
+    scoredAt: number | null;
     // Actions
     setConfig: (config: SessionConfig) => void;
     setQuestionList: (questions: Question[]) => void;
@@ -29,6 +33,7 @@ interface SessionState {
     resetSession: () => void;
     endSession: () => void;
     setRepeatMistakes: (questions: Question[]) => void;
+    markScored: () => void;
 }
 
 const initialState = {
@@ -38,7 +43,8 @@ const initialState = {
     skipList: [] as string[],
     config: null as SessionConfig | null,
     timerMs: 0,
-    endedAt: null as number | null
+    endedAt: null as number | null,
+    scoredAt: null as number | null
 };
 
 const useSessionStoreBase = create<SessionState>()(
@@ -98,11 +104,25 @@ const useSessionStoreBase = create<SessionState>()(
             },
             setRepeatMistakes: (questionList: Question[]) => {
                 set(
-                    { questionList, currentIndex: 0, answers: {}, skipList: [], timerMs: 0 },
+                    {
+                        questionList,
+                        currentIndex: 0,
+                        answers: {},
+                        skipList: [],
+                        timerMs: 0,
+                        scoredAt: null
+                    },
                     false,
                     {
                         type: 'session-store/setRepeatMistakes'
                     }
+                );
+            },
+            markScored: () => {
+                set(
+                    (state) => (state.scoredAt === null ? { scoredAt: Date.now() } : state),
+                    false,
+                    { type: 'session-store/markScored' }
                 );
             }
         }),

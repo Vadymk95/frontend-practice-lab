@@ -85,10 +85,6 @@ export default defineConfig([
             // on question navigation; purity flags Date.now() in CSR-only code.
             'react-hooks/set-state-in-effect': 'warn',
             'react-hooks/purity': 'warn',
-            // react-hooks 7.1 added `refs` (no ref reads/writes during render). The summary hook
-            // writes refs in render on purpose (mount-only persistence); that hook is being rewritten
-            // on this branch with a store marker — restore to error once it lands.
-            'react-hooks/refs': 'warn',
             ...jsxA11y.configs.recommended.rules
         }
     }

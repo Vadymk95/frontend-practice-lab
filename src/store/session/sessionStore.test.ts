@@ -10,7 +10,9 @@ describe('sessionStore', () => {
             answers: {},
             skipList: [],
             config: null,
-            timerMs: 0
+            timerMs: 0,
+            endedAt: null,
+            scoredAt: null
         });
     });
 
@@ -33,5 +35,56 @@ describe('sessionStore', () => {
             useSessionStore.getState().removeAnswer('q-1');
             expect(useSessionStore.getState().answers).toEqual({});
         });
+    });
+});
+
+describe('sessionStore — scoredAt', () => {
+    const config = {
+        categories: ['javascript'],
+        difficulty: 'all',
+        mode: 'all',
+        questionCount: 5,
+        order: 'random',
+        timerEnabled: false
+    } as never;
+
+    it('starts null so the summary scores the session once', () => {
+        expect(useSessionStore.getState().scoredAt).toBeNull();
+    });
+
+    it('markScored stamps a timestamp', () => {
+        useSessionStore.getState().markScored();
+        expect(useSessionStore.getState().scoredAt).toBeTypeOf('number');
+    });
+
+    it('markScored keeps the first stamp when called twice', () => {
+        useSessionStore.getState().markScored();
+        const first = useSessionStore.getState().scoredAt;
+        useSessionStore.getState().markScored();
+        expect(useSessionStore.getState().scoredAt).toBe(first);
+    });
+
+    it('setConfig clears it so the next session scores again', () => {
+        useSessionStore.getState().markScored();
+        useSessionStore.getState().setConfig(config);
+        expect(useSessionStore.getState().scoredAt).toBeNull();
+    });
+
+    it('setRepeatMistakes clears it so a repeat session scores again', () => {
+        useSessionStore.getState().markScored();
+        useSessionStore.getState().setRepeatMistakes([]);
+        expect(useSessionStore.getState().scoredAt).toBeNull();
+    });
+
+    it('resetSession clears it', () => {
+        useSessionStore.getState().markScored();
+        useSessionStore.getState().resetSession();
+        expect(useSessionStore.getState().scoredAt).toBeNull();
+    });
+
+    it('endSession clears it', () => {
+        useSessionStore.getState().markScored();
+        useSessionStore.getState().endSession();
+        expect(useSessionStore.getState().scoredAt).toBeNull();
     });
 });

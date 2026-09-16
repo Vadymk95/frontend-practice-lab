@@ -110,7 +110,9 @@ function resetStores(overrides?: {
         currentIndex: 0,
         config: null,
         skipList: overrides?.skipList ?? [],
-        timerMs: 0
+        timerMs: 0,
+        endedAt: null,
+        scoredAt: null
     });
     useProgressStoreBase.setState({
         weights: {},
@@ -140,7 +142,9 @@ afterEach(() => {
         currentIndex: 0,
         config: null,
         skipList: [],
-        timerMs: 0
+        timerMs: 0,
+        endedAt: null,
+        scoredAt: null
     });
 });
 
@@ -273,6 +277,90 @@ describe('useSummaryPage', () => {
         expect(mockSaveSessionResults).toHaveBeenCalledWith({ 'q-001': true });
         expect(mockRecordAnswer).toHaveBeenCalledOnce();
         expect(mockRecordAnswer).toHaveBeenCalledWith('q-001', 'JavaScript', true);
+    });
+
+    describe('scoring runs once per session', () => {
+        it('records every answer once when the summary is remounted', () => {
+            resetStores({
+                questionList: [mockQuestion, mockQuestion2],
+                answers: { 'q-001': 1, 'q-002': 1 }
+            });
+
+            const first = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+            first.unmount();
+            renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+            expect(mockRecordAnswer).toHaveBeenCalledTimes(2);
+            expect(mockSaveSessionResults).toHaveBeenCalledOnce();
+            expect(mockUpdateStreak).toHaveBeenCalledOnce();
+        });
+
+        it('stamps scoredAt on the session store', () => {
+            resetStores({ questionList: [mockQuestion], answers: { 'q-001': 1 } });
+
+            renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+            expect(useSessionStoreBase.getState().scoredAt).toBeTypeOf('number');
+        });
+
+        it('scores a repeat-mistakes session again once the marker is cleared', () => {
+            resetStores({ questionList: [mockQuestion], answers: { 'q-001': 1 } });
+
+            const first = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+            first.unmount();
+
+            act(() => {
+                useSessionStoreBase.getState().setRepeatMistakes([mockQuestion2]);
+            });
+            useSessionStoreBase.setState({
+                answers: { 'q-002': 1 } as Record<string, number | number[] | string | string[]>
+            });
+
+            renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+            expect(mockRecordAnswer).toHaveBeenCalledWith('q-002', 'JavaScript', true);
+        });
+    });
+
+    describe('skipped questions', () => {
+        it('does not feed a skipped question to the adaptive algorithm', () => {
+            resetStores({
+                questionList: [mockQuestion, mockQuestion2],
+                answers: { 'q-001': 1, 'q-002': 'skipped' },
+                skipList: ['q-002']
+            });
+
+            renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+            expect(mockRecordAnswer).toHaveBeenCalledOnce();
+            expect(mockRecordAnswer).toHaveBeenCalledWith('q-001', 'JavaScript', true);
+        });
+
+        it('still counts a skipped question as not correct in the displayed score', () => {
+            resetStores({
+                questionList: [mockQuestion, mockQuestion2],
+                answers: { 'q-001': 1, 'q-002': 'skipped' },
+                skipList: ['q-002']
+            });
+
+            const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+            expect(result.current.correctCount).toBe(1);
+            expect(result.current.totalCount).toBe(2);
+            expect(result.current.skippedCount).toBe(1);
+        });
+
+        it('still saves the skipped question in the session results', () => {
+            resetStores({
+                questionList: [mockQuestion, mockQuestion2],
+                answers: { 'q-001': 1, 'q-002': 'skipped' },
+                skipList: ['q-002']
+            });
+
+            renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+            expect(mockSaveSessionResults).toHaveBeenCalledWith({ 'q-001': true, 'q-002': false });
+        });
     });
 
     describe('review subsets', () => {
