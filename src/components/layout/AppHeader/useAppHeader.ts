@@ -1,20 +1,17 @@
-import i18next from 'i18next';
-
 import { useResetWeightsDialog } from '@/components/features/ResetWeightsDialog';
+import { useLanguage } from '@/hooks/ui/useLanguage';
 import { track } from '@/lib/analytics';
 import { useUiStore } from '@/store/ui';
 
 export const useAppHeader = () => {
     const theme = useUiStore.use.theme();
     const setTheme = useUiStore.use.setTheme();
-    const language = useUiStore.use.language();
-    const setLanguage = useUiStore.use.setLanguage();
+    const { language, changeLanguage } = useLanguage();
     const resetDialog = useResetWeightsDialog();
 
     const handleLanguageToggle = () => {
         const next = language === 'ru' ? 'en' : 'ru';
-        setLanguage(next);
-        void i18next.changeLanguage(next);
+        changeLanguage(next);
         track('language_changed', { to: next });
     };
 

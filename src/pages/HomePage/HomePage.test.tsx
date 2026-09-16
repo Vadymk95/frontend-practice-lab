@@ -1,21 +1,35 @@
-import { screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { fireEvent, screen } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { useCategories } from '@/hooks/data/useCategories';
 import { axe } from '@/test/a11y';
 import { renderWithProviders } from '@/test/test-utils';
 
 import { HomePage } from './index';
 
 vi.mock('@/hooks/data/useCategories', () => ({
-    useCategories: vi.fn().mockReturnValue({
+    useCategories: vi.fn()
+}));
+
+const refetch = vi.fn();
+
+const mockCategories = (overrides: Record<string, unknown> = {}) => {
+    vi.mocked(useCategories).mockReturnValue({
         data: [],
         isLoading: false,
         isError: false,
-        error: null
-    })
-}));
+        error: null,
+        refetch,
+        ...overrides
+    } as unknown as ReturnType<typeof useCategories>);
+};
 
 describe('HomePage', () => {
+    beforeEach(() => {
+        refetch.mockReset();
+        mockCategories();
+    });
+
     it('renders SessionConfigurator hint when no categories selected', () => {
         renderWithProviders(<HomePage />);
         expect(screen.getByText(/select at least one category/i)).toBeInTheDocument();
@@ -31,5 +45,23 @@ describe('HomePage', () => {
         const { container } = renderWithProviders(<HomePage />);
         const results = await axe(container);
         expect(results).toHaveNoViolations();
+    });
+
+    it('surfaces a failed manifest load instead of an empty configurator', () => {
+        mockCategories({ data: undefined, isError: true, error: new Error('boom') });
+
+        renderWithProviders(<HomePage />);
+
+        expect(screen.getByText(/something went wrong/i)).toBeInTheDocument();
+        expect(screen.queryByText(/select at least one category/i)).not.toBeInTheDocument();
+    });
+
+    it('retries the manifest load from the error state', () => {
+        mockCategories({ data: undefined, isError: true, error: new Error('boom') });
+
+        renderWithProviders(<HomePage />);
+        fireEvent.click(screen.getByRole('button', { name: /try again/i }));
+
+        expect(refetch).toHaveBeenCalled();
     });
 });

@@ -128,3 +128,25 @@ questions and bug-finding questions and zero easy bug-finding questions.
 - `counts` stays for the single-axis cases and for compatibility — do not delete it.
 - Any new question type or difficulty has to be added to the generator's matrix,
   to `ManifestEntry` in `src/hooks/data/useCategories.ts` and to `MODE_KEY`.
+
+## Active language comes from i18next, never from the ui store
+
+`useLanguage` (`src/hooks/ui/useLanguage.ts`) is the only reader: it derives the
+label from `i18n.language` and writes through `i18n.changeLanguage` plus the ui
+store. The store's `language` (persisted under `ios_language`) is a write-only
+copy — i18next persists its own choice under `i18nextLng` and is what actually
+renders. Reading the store for display made the header show "RU" while the app
+rendered English on a fresh English-locale browser. Do not reintroduce a second
+source, and do not push the store value into i18next on mount — that kills
+browser detection.
+
+## Preset launch is revalidated against the manifest
+
+A preset lives in localStorage indefinitely, so its category slugs outlive
+content changes. `resolvePresetConfig`
+(`src/components/features/PresetList/resolvePresetConfig.ts`) drops unknown
+slugs, clamps `questionCount` to the exact pool and returns null when nothing
+startable is left; both preset launchers must call it and show the
+`presetOutdated` flash on null. Without it a removed slug fetched
+`/data/<slug>.json`, got index.html back through the SPA rewrite and parked the
+user on an error screen whose Retry could never succeed.
