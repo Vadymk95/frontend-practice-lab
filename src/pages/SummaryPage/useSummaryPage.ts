@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import type { FlashState } from '@/components/common/FlashBanner';
 import { track } from '@/lib/analytics';
 import type { Question } from '@/lib/data/schema';
-import { isYesterday } from '@/lib/date';
+import { isYesterday, toLocalDayKey } from '@/lib/date';
 import { generateRecordKey } from '@/lib/utils/generateRecordKey';
 import { RoutesPath } from '@/router/routes';
 import { useProgressStore } from '@/store/progress';
@@ -125,7 +125,7 @@ export function useSummaryPage() {
     // Read before the persistence effect calls updateStreak, and frozen for the life of the mount:
     // the lazy initializer runs once, so the post-update streak cannot overwrite the answer.
     const [isStreakReset] = useState(() => {
-        const today = new Date().toISOString().slice(0, 10);
+        const today = toLocalDayKey(new Date());
         const last = streak.lastActivityDate;
         return last !== '' && last !== today && !isYesterday(last, today);
     });

@@ -84,3 +84,13 @@ User-visible question fields are `LocalizedString = { en: string; ru: string }` 
 - Language-agnostic fields stay plain strings: `id`, `category`, `tags`, `code`, `blanks[]`, `referenceAnswer`, and `correct` (when number or code-string for bug-finding)
 - Render via `useLocalized(field)` from `src/lib/i18n/localized.ts` — reactive to language toggle
 - See `docs/content-guide.md` for examples and the AI-agent contribution prompt
+
+## Streak days are LOCAL days — never `toISOString().slice(0, 10)`
+
+Every place that turns a `Date` into a streak day key goes through `toLocalDayKey` in
+`src/lib/date.ts` (`progressStore.updateStreak`, `useSummaryPage`'s `isStreakReset`, `isYesterday`).
+A UTC key double-increments the streak inside one local day east of UTC (02:00 and 22:00 are two
+different UTC days) and breaks across the DST fall-back in both directions. `isYesterday` also
+rebuilds "yesterday" from local midnight — parsing the key with `new Date(str)` gives a UTC instant
+and `setDate(-1)` on it is off by a day at the boundary. Tests that pin the clock at 12:00Z cannot
+catch either failure; use a local-constructed `new Date(y, m, d, h, …)` and set `process.env.TZ`.

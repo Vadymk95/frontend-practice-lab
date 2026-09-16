@@ -577,6 +577,23 @@ describe('useSummaryPage', () => {
             expect(result.current.streak.current).toBe(7);
         });
 
+        it('is false when the last session was earlier on the same local day', () => {
+            // 02:00 in Kyiv is still the previous day in UTC — a UTC day key reports a broken
+            // streak to a user who practised a few hours ago.
+            const originalTz = process.env.TZ;
+            process.env.TZ = 'Europe/Kyiv';
+            vi.setSystemTime(new Date(2026, 9, 6, 2, 0, 0));
+            mockStreakData = { current: 4, lastActivityDate: '2026-10-06' };
+            resetStores();
+
+            const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+            expect(result.current.isStreakReset).toBe(false);
+
+            if (originalTz === undefined) delete process.env.TZ;
+            else process.env.TZ = originalTz;
+        });
+
         it('calls updateStreak on mount', () => {
             resetStores();
 
