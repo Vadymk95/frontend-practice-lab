@@ -28,11 +28,11 @@
 
 ---
 
-## [2026-03] ESLint 9 (not 10) — intentional hold
+## ~~[2026-03] ESLint 9 (not 10) — intentional hold~~ — CLOSED 2026-09-16
 
-**Decision**: Holding on ESLint 9.x. Not upgrading to ESLint 10 despite it being available.
+**Was**: ESLint 10 crashed `typescript-eslint` 8.5x (`addGlobals()` missing).
 
-**Why**: `typescript-eslint` 8.x is incompatible with ESLint 10 — missing `addGlobals()` method causes crash before any rules execute. Will upgrade when typescript-eslint ships a compatible release.
+**Closed**: `typescript-eslint` 8.70 peers `^10.0.0`; ESLint 10.10 + `@eslint/js` 10 installed, lint runs clean on the whole tree (0 errors). `eslint-plugin-import` 2.32 and `eslint-plugin-jsx-a11y` 6.10 still declare `eslint ^9` as their peer — installed under `legacy-peer-deps`, verified working on 10; re-check when they publish a 10 peer and drop the flag then. Dependabot keeps `eslint >=11` ignored.
 
 ---
 
@@ -60,9 +60,11 @@
 
 ---
 
-## [2026-03] CI: production build + audit + Dependabot
+## ~~[2026-03] CI: production build + audit + Dependabot~~ — SUPERSEDED 2026-09-16 by the one-chain gate
 
-**Decision**: GitHub Actions runs `npm ci` → `npm audit --audit-level=moderate` → lint → format → test → **`npm run build`**. Workflow triggers on PR and push to `master`. Dependabot opens weekly npm update PRs (capped at 8 open).
+**Now**: CI's `validate` job, the `deploy` job and the pre-push hook all call `npm run verify:ci` (audit gate at high/critical with an expiring allow-list, then the offline chain); `deploy` builds after it; e2e is its own job. Dependabot is grouped, cooled down and capped at 5 (see `.github/dependabot.yml`). Owner of the law: `AGENTS.md` § The gate; timings: `VERIFICATION.md`.
+
+**Was**: GitHub Actions ran `npm ci` → `npm audit --audit-level=moderate` → lint → format → test → **`npm run build`** as separate steps, and Dependabot opened weekly singleton PRs (capped at 8 open).
 
 **Why**: Without a production build step, broken Vite/Rollup/`tsc -b` paths could pass CI. Audit at moderate+ fails the pipeline on registry-reported issues. Dependabot reduces manual drift for security patches. These add **CI minutes only**, not local dev overhead.
 
@@ -144,3 +146,13 @@ rather than to broken layout.
 **Trade-offs**: Tables, links and lists in question content will not render. If the bank ever
 needs them, extend the token list rather than swapping in a library — the store of authored
 content is the constraint, not the parser.
+
+---
+
+## [2026-09-16] Dependency pass after five dormant months — one major per commit, holds recorded
+
+**Decision**: `npm audit fix` + in-range update first (19 → 0 vulnerabilities), then majors one group per commit, each proven by tsc + lint + the unit suite before the commit: ESLint 10, Vitest 5 + coverage-v8 5 + jsdom 30 + jest-dom 7, i18next 26 + react-i18next 17 + http-backend 4 (dropped the removed `initImmediate` option; init was already awaited by the i18n gate), lint-staged 17 + commitlint 21, lucide-react 1.x, `@types/node` 24 (down from 25, to match `engines.node`). Dependabot now groups PRs, waits 7/14 days and carries an ignore per hold.
+
+**Holds, each with its lift trigger**: TypeScript stays 5.9 — `typescript-eslint` 8.70 peers `<6.1.0`, and a 7.x bump breaks `npm install` outright (ERESOLVE), not just linting; lift when typescript-eslint publishes a `>=6.1` peer. `@types/node` follows `engines.node` (24), not the newest defs; moves with the Node bump.
+
+**Why**: the repo could not be pushed at all — the pre-push audit was red on 13 high advisories and the eight Dependabot singleton PRs from April had never been merged. Majors landed one group at a time so a red group reverts alone. The first run reverted five groups on a false "lint crashed" verdict (the react-hooks warning text starts with "Error:"); the verdict now reads ESLint's own summary line.
