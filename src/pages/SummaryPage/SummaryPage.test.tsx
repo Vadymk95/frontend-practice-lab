@@ -112,7 +112,8 @@ function resetStores(overrides?: {
         skipList: overrides?.skipList ?? [],
         timerMs: 0,
         endedAt: null,
-        scoredAt: null
+        scoredAt: null,
+        isRepeat: false
     });
     useProgressStoreBase.setState({
         weights: {},
@@ -144,7 +145,8 @@ afterEach(() => {
         skipList: [],
         timerMs: 0,
         endedAt: null,
-        scoredAt: null
+        scoredAt: null,
+        isRepeat: false
     });
 });
 
@@ -404,6 +406,58 @@ describe('useSummaryPage', () => {
             const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
 
             expect(result.current.skippedCount).toBe(2);
+        });
+    });
+
+    describe('personal record', () => {
+        const timedConfig = {
+            categories: ['JavaScript'],
+            questionCount: 20,
+            difficulty: 'all',
+            mode: 'all',
+            order: 'random',
+            timerEnabled: true
+        } as const;
+
+        it('stores a record for a normal timed session', () => {
+            resetStores({ questionList: [mockQuestion], answers: { 'q-001': 1 } });
+            useSessionStoreBase.setState({ config: timedConfig, timerMs: 300_000 });
+
+            const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+            expect(result.current.isNewRecord).toBe(true);
+            expect(mockSetRecord).toHaveBeenCalledOnce();
+        });
+
+        it('never overwrites the record from a repeat-mistakes session', () => {
+            // A 3-question repeat shares the record key of the 20-question run it came from, and
+            // setRepeatMistakes zeroes the timer — so it would always look like a personal best.
+            mockRecordsData = { 'JavaScript|all|all|20': 300_000 };
+            resetStores({ questionList: [mockQuestion], answers: { 'q-001': 1 } });
+            useSessionStoreBase.setState({
+                config: timedConfig,
+                timerMs: 40_000,
+                isRepeat: true
+            });
+
+            const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+            expect(result.current.isNewRecord).toBe(false);
+            expect(mockSetRecord).not.toHaveBeenCalled();
+        });
+
+        it('still reports the prior record on a repeat session', () => {
+            mockRecordsData = { 'JavaScript|all|all|20': 300_000 };
+            resetStores({ questionList: [mockQuestion], answers: { 'q-001': 1 } });
+            useSessionStoreBase.setState({
+                config: timedConfig,
+                timerMs: 40_000,
+                isRepeat: true
+            });
+
+            const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+            expect(result.current.priorRecordMs).toBe(300_000);
         });
     });
 

@@ -22,6 +22,9 @@ interface SessionState {
     // streak, record, analytics). Browser Back/Forward remounts the summary with the session store
     // intact, so without this marker every return re-applied the whole session.
     scoredAt: number | null;
+    // A repeat or restart keeps the original config but replays a subset with a fresh timer, so its
+    // duration must never be written to the personal record of the full session it came from.
+    isRepeat: boolean;
     // Actions
     setConfig: (config: SessionConfig) => void;
     setQuestionList: (questions: Question[]) => void;
@@ -44,7 +47,8 @@ const initialState = {
     config: null as SessionConfig | null,
     timerMs: 0,
     endedAt: null as number | null,
-    scoredAt: null as number | null
+    scoredAt: null as number | null,
+    isRepeat: false
 };
 
 const useSessionStoreBase = create<SessionState>()(
@@ -110,7 +114,8 @@ const useSessionStoreBase = create<SessionState>()(
                         answers: {},
                         skipList: [],
                         timerMs: 0,
-                        scoredAt: null
+                        scoredAt: null,
+                        isRepeat: true
                     },
                     false,
                     {

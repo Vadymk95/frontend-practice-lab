@@ -12,7 +12,8 @@ describe('sessionStore', () => {
             config: null,
             timerMs: 0,
             endedAt: null,
-            scoredAt: null
+            scoredAt: null,
+            isRepeat: false
         });
     });
 
@@ -86,5 +87,43 @@ describe('sessionStore — scoredAt', () => {
         useSessionStore.getState().markScored();
         useSessionStore.getState().endSession();
         expect(useSessionStore.getState().scoredAt).toBeNull();
+    });
+});
+
+describe('sessionStore — isRepeat', () => {
+    const config = {
+        categories: ['javascript'],
+        difficulty: 'all',
+        mode: 'all',
+        questionCount: 5,
+        order: 'random',
+        timerEnabled: true
+    } as never;
+
+    it('starts false for a freshly configured session', () => {
+        expect(useSessionStore.getState().isRepeat).toBe(false);
+    });
+
+    it('setRepeatMistakes marks the session as a repeat', () => {
+        useSessionStore.getState().setRepeatMistakes([]);
+        expect(useSessionStore.getState().isRepeat).toBe(true);
+    });
+
+    it('setConfig clears the repeat mark', () => {
+        useSessionStore.getState().setRepeatMistakes([]);
+        useSessionStore.getState().setConfig(config);
+        expect(useSessionStore.getState().isRepeat).toBe(false);
+    });
+
+    it('resetSession clears the repeat mark', () => {
+        useSessionStore.getState().setRepeatMistakes([]);
+        useSessionStore.getState().resetSession();
+        expect(useSessionStore.getState().isRepeat).toBe(false);
+    });
+
+    it('endSession clears the repeat mark', () => {
+        useSessionStore.getState().setRepeatMistakes([]);
+        useSessionStore.getState().endSession();
+        expect(useSessionStore.getState().isRepeat).toBe(false);
     });
 });

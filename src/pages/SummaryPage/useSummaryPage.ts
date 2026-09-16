@@ -95,6 +95,7 @@ export function useSummaryPage() {
     const skipList = useSessionStore.use.skipList();
     const config = useSessionStore.use.config();
     const timerMs = useSessionStore.use.timerMs();
+    const isRepeat = useSessionStore.use.isRepeat();
     const setRepeatMistakes = useSessionStore.use.setRepeatMistakes();
     const saveSessionResults = useProgressStore.use.saveSessionResults();
     const recordAnswer = useProgressStore.use.recordAnswer();
@@ -106,8 +107,13 @@ export function useSummaryPage() {
     const timerEnabled = config?.timerEnabled ?? false;
     const recordKey = timerEnabled && config ? generateRecordKey(config) : null;
     const priorRecord = recordKey ? records[recordKey] : undefined;
+    // A repeat/restart replays a subset under the original config's record key with a reset timer:
+    // its duration is not comparable, so it never becomes a personal best.
     const isNewRecord =
-        timerEnabled && recordKey !== null && (priorRecord === undefined || timerMs < priorRecord);
+        timerEnabled &&
+        !isRepeat &&
+        recordKey !== null &&
+        (priorRecord === undefined || timerMs < priorRecord);
 
     // Guard: if no session data, redirect home with a flash so the user understands why
     useEffect(() => {
