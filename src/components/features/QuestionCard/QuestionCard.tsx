@@ -2,10 +2,14 @@ import type { FC } from 'react';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+const DEFAULT_SNIPPET_LANG = 'javascript';
+
 const noop = () => {};
 const noopSelfAssess = (_: (result: 'gotIt' | 'missedIt') => void) => {};
 const noopAllFilled = (_: boolean) => {};
 
+import { CodeBlock } from '@/components/common/CodeBlock';
+import { InlineMarkdown } from '@/components/common/InlineMarkdown';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useLocalized } from '@/lib/i18n/localized';
@@ -79,7 +83,13 @@ export const QuestionCard: FC<QuestionCardProps> = ({
                 <Badge variant="outline">{question.category}</Badge>
                 <Badge variant="outline">{t(`difficulty.${question.difficulty}`)}</Badge>
             </div>
-            <h2 className="text-base font-medium">{pick(question.question)}</h2>
+            <h2 className="text-base font-medium">
+                <InlineMarkdown text={pick(question.question)} />
+            </h2>
+            {question.code &&
+                (question.type === 'single-choice' || question.type === 'multi-choice') && (
+                    <CodeBlock code={question.code} lang={question.lang ?? DEFAULT_SNIPPET_LANG} />
+                )}
             {question.type === 'single-choice' && (
                 <SingleChoiceQuestion
                     key={resetKey}

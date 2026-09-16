@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { CodeBlock } from '@/components/common/CodeBlock';
+import { MarkdownBlocks } from '@/components/common/InlineMarkdown';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import type { BugFindingQuestion as BugFindingQuestionData } from '@/lib/data/schema';
@@ -10,6 +11,8 @@ import { useLocalized } from '@/lib/i18n/localized';
 import { AnswerOption } from '../AnswerOption';
 import { ExplanationPanel } from '../ExplanationPanel';
 import { useBugFindingQuestion } from './useBugFindingQuestion';
+
+const DEFAULT_SNIPPET_LANG = 'javascript';
 
 type SelfAssessment = 'gotIt' | 'missedIt';
 
@@ -48,7 +51,7 @@ export const BugFindingQuestion: FC<Props> = ({
 
     return (
         <div className="flex flex-col gap-4">
-            <CodeBlock code={question.code} lang="javascript" />
+            <CodeBlock code={question.code} lang={question.lang ?? DEFAULT_SNIPPET_LANG} />
 
             {question.options ? (
                 <div role="group" aria-label="Answer options">
@@ -85,7 +88,10 @@ export const BugFindingQuestion: FC<Props> = ({
                         <p className="text-xs font-medium text-muted-foreground mb-2">
                             {t('referenceSolution')}
                         </p>
-                        <CodeBlock code={question.referenceAnswer} lang="javascript" />
+                        <MarkdownBlocks
+                            text={question.referenceAnswer}
+                            lang={question.lang ?? DEFAULT_SNIPPET_LANG}
+                        />
                     </div>
                     <ExplanationPanel explanation={pick(question.explanation)} />
 

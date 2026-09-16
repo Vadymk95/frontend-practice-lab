@@ -158,3 +158,16 @@ describe('AnswerOption — checkbox variant', () => {
         expect(onSelect).not.toHaveBeenCalled();
     });
 });
+
+describe('AnswerOption — inline markdown', () => {
+    it('renders backticks in the option text as a code element', () => {
+        const { container } = render(<AnswerOption {...defaultProps} text="`Object.is()`" />);
+        expect(container.querySelector('code')).toHaveTextContent('Object.is()');
+    });
+
+    it('renders HTML in the option text literally, never as markup', () => {
+        const { container } = render(<AnswerOption {...defaultProps} text="<b>bold</b>" />);
+        expect(container.querySelector('b')).toBeNull();
+        expect(screen.getByText('<b>bold</b>')).toBeInTheDocument();
+    });
+});

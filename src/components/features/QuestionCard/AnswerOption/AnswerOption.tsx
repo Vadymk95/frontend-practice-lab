@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 
+import { InlineMarkdown } from '@/components/common/InlineMarkdown';
 import { cn } from '@/lib/utils';
 
 const OPTION_KEYS = ['A', 'B', 'C', 'D', 'E'] as const;
@@ -53,7 +54,7 @@ export const AnswerOption: FC<AnswerOptionProps> = ({
             <span className="shrink-0 w-6 h-6 flex items-center justify-center rounded-full border text-xs font-medium">
                 {OPTION_KEYS[index]}
             </span>
-            <span className="flex-1 text-sm">{text}</span>
+            <InlineMarkdown text={text} className="flex-1 text-sm" />
             {showCorrectIcon && (
                 <span aria-hidden="true" className="text-accent">
                     ✓

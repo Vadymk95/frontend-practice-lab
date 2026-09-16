@@ -7,6 +7,12 @@ import { renderWithProviders } from '@/test/test-utils';
 
 import { QuestionCard } from './QuestionCard';
 
+vi.mock('@/lib/shiki', () => ({
+    getHighlighter: vi.fn().mockResolvedValue({
+        codeToHtml: (code: string) => `<pre class="shiki"><code>${code}</code></pre>`
+    })
+}));
+
 const mockQuestion: SingleChoiceQuestion = {
     id: 'q-test-1',
     type: 'single-choice',
@@ -227,5 +233,40 @@ describe('QuestionCard', () => {
         expect(screen.getByRole('group', { name: 'Answer options' })).toBeInTheDocument();
         const checkboxes = screen.getAllByRole('checkbox');
         expect(checkboxes).toHaveLength(4);
+    });
+});
+
+describe('QuestionCard — stem rendering', () => {
+    it('renders backticks in the stem as a code element, not as literal backticks', () => {
+        useSessionStore.setState({
+            questionList: [
+                {
+                    ...mockQuestion,
+                    question: { en: 'What does `typeof null` return?', ru: 'RU' }
+                }
+            ],
+            currentIndex: 0
+        });
+        const { container } = renderWithProviders(<QuestionCard />);
+        const heading = screen.getByRole('heading', { level: 2 });
+        expect(heading.querySelector('code')).toHaveTextContent('typeof null');
+        expect(container.textContent).not.toContain('`');
+    });
+
+    it('renders the question snippet as a code block under the stem for choice questions', () => {
+        useSessionStore.setState({
+            questionList: [
+                { ...mockQuestion, code: 'console.log(typeof null);', lang: 'typescript' }
+            ],
+            currentIndex: 0
+        });
+        const { container } = renderWithProviders(<QuestionCard />);
+        expect(screen.getByText('typescript')).toBeInTheDocument();
+        expect(container.textContent).toContain('console.log(typeof null);');
+    });
+
+    it('renders no snippet when the question carries no code', () => {
+        renderWithProviders(<QuestionCard />);
+        expect(screen.queryByRole('button', { name: /copy/i })).not.toBeInTheDocument();
     });
 });
