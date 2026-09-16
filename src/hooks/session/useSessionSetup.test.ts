@@ -521,3 +521,36 @@ describe('sampleWithCategoryGuarantee', () => {
         expect(highWeightTotal / totalSamples).toBeGreaterThan(0.5);
     });
 });
+
+describe('useSessionSetup — end-session marker is one-shot', () => {
+    afterEach(() => {
+        useSessionStore.setState({ endedAt: null });
+    });
+
+    it('skips the redirect on the visit that consumes endedAt and redirects on the next one', async () => {
+        useSessionStore.setState({ config: null, endedAt: 1_700_000_000_000 });
+        mockUseCategoryQuestions.mockReturnValue({
+            data: [],
+            isLoading: false,
+            isError: false,
+            refetch: mockRefetch
+        });
+
+        const first = renderHook(() => useSessionSetup(), { wrapper: makeWrapper() });
+
+        await waitFor(() => {
+            expect(useSessionStore.getState().endedAt).toBeNull();
+        });
+        expect(navigateMock).not.toHaveBeenCalled();
+        first.unmount();
+
+        renderHook(() => useSessionSetup(), { wrapper: makeWrapper() });
+
+        await waitFor(() => {
+            expect(navigateMock).toHaveBeenCalledWith('/', {
+                replace: true,
+                state: { flash: 'noActiveSession' }
+            });
+        });
+    });
+});

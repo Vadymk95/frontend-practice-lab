@@ -110,7 +110,9 @@ export function useSessionPlayPage(): SessionPlayPageState {
         // flash is preserved.
         endSession();
         const flash: FlashState = { flash: 'sessionEnded' };
-        navigate(RoutesPath.Root, { state: flash });
+        // replace, not push: the session behind this route no longer exists, so a
+        // Back onto /session/play would land on a page with nothing to show.
+        navigate(RoutesPath.Root, { replace: true, state: flash });
     }, [navigate, endSession]);
 
     // Fire session_abandoned when navigating away mid-session without completing
@@ -138,7 +140,10 @@ export function useSessionPlayPage(): SessionPlayPageState {
             config &&
             useSessionStore.getState().questionList.length === 0
         ) {
-            navigate(RoutesPath.Root, { replace: true });
+            // Say why: an empty pool after filtering is indistinguishable from a
+            // crash unless the home screen explains the bounce.
+            const flash: FlashState = { flash: 'noQuestionsMatch' };
+            navigate(RoutesPath.Root, { replace: true, state: flash });
         }
     }, [isSetupLoading, isSetupError, config, navigate]);
 

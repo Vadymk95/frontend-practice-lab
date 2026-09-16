@@ -100,3 +100,26 @@ category kept re-serving the same handful of questions.
 interval and no scheduling — weights are a frequency bias, not an SRS, and adding one would need a
 storage-schema change and a migration. Weighted sampling without replacement over the full pool is
 O(n²) per session; at ~955 questions and one sample per session that is not worth optimising.
+
+---
+
+## [2026-09-16] Exact difficulty x mode counts in the manifest
+
+**Decision**: `generate-manifest` writes a `matrix` of exact counts per
+difficulty per mode alongside the existing per-axis `counts`, and the
+configurator reads it instead of estimating `round(diffCount * modeTotal / total)`.
+
+**Why**: the estimate treated the two filter axes as independent. Measured
+against the real data it was wrong for 122 of 216 category x difficulty x mode
+combinations, and in 10 of them it advertised questions for an empty pool — Start
+was enabled, the play route found nothing and bounced the user home. Counting at
+build time is free; the alternative (fetching every category file to count on the
+home screen) is not.
+
+**Trade-offs**: the manifest grows by nine numbers per category and a stale
+manifest no longer matches the type. Regenerating is one command and is already
+part of `npm run build`. The empty-pool bounce is now also explained by a
+`noQuestionsMatch` flash rather than a silent redirect.
+
+**Status**: `public/data/manifest.json` was regenerated with the matrix on the same branch (after the data
+hygiene commit that made `data:check` green), so the served manifest and the type agree.

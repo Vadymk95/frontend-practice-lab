@@ -69,12 +69,19 @@ self-assess and every bug-finding answer would score wrong.
 ## End-session contract — `endedAt` guards the setup redirect
 
 `confirmEndSession` (in `useSessionPlayPage`) calls `sessionStore.endSession()`
-which stamps `endedAt` and wipes session data, then navigates to `/` with a
-`sessionEnded` flash. Without the `endedAt` marker, `useSessionSetup`'s
-`!config` redirect would fire on the same render cycle and overwrite the
-flash with `noActiveSession`. Keep the `endedAt !== null` early-return in
-`useSessionSetup` and the `endedAt` reset inside `setConfig`'s spread —
-otherwise the End Session UX silently regresses.
+which stamps `endedAt` and wipes session data, then navigates to `/` with
+`{ replace: true }` and a `sessionEnded` flash. Without the `endedAt` marker,
+`useSessionSetup`'s `!config` redirect would fire on the same render cycle and
+overwrite the flash with `noActiveSession`. Keep the `endedAt !== null`
+early-return in `useSessionSetup` and the `endedAt` reset inside `setConfig`'s
+spread — otherwise the End Session UX silently regresses.
+
+**The marker is one-shot.** `useSessionSetup` calls `consumeEndedAt()` the first
+time it reads it, guarded by a mount-scoped ref so StrictMode's second effect
+pass does not steal the flash. Without the consume, a Back onto `/session/play`
+found `endedAt` still set, skipped the redirect forever and left the page on
+"Loading…" with no exit. Do not make the guard a plain read again, and do not
+drop the `replace` on the end-session navigate.
 
 ## Bilingual question schema — `{ en, ru }` required
 
@@ -107,3 +114,17 @@ Two invariants live in `usePwaUpdateToast` / `usePwaInstallToast`:
   Accepting it calls `updateServiceWorker(true)`, which reloads the document; the session store has
   no persist middleware, so answers, timer and score are gone and the reloaded `/session/play`
   redirects home. Do not drop the route + questionList guard without persisting the session first.
+
+## Manifest `matrix` — the only exact source for difficulty x mode counts
+
+`public/data/manifest.json` carries per-axis `counts` AND a `matrix`
+(`easy | medium | hard` x `quiz | bugFinding | codeCompletion`) written by
+`npm run build:manifest`. The axes are not independent: a category can hold easy
+questions and bug-finding questions and zero easy bug-finding questions.
+
+- `getFilteredCategoryCount` MUST read `matrix` for a difficulty+mode pair. The
+  old `round(diffCount * modeTotal / total)` estimate was wrong for 122 of 216
+  combinations and enabled Start over 10 empty pools.
+- `counts` stays for the single-axis cases and for compatibility — do not delete it.
+- Any new question type or difficulty has to be added to the generator's matrix,
+  to `ManifestEntry` in `src/hooks/data/useCategories.ts` and to `MODE_KEY`.

@@ -27,29 +27,30 @@ export function generatePresetName(
     return `${catPart} · ${config.difficulty} · ${config.questionCount}q`;
 }
 
+const MODE_KEY = {
+    quiz: 'quiz',
+    'bug-finding': 'bugFinding',
+    'code-completion': 'codeCompletion'
+} as const;
+
+/**
+ * Exact size of the pool a given difficulty+mode selection would draw from.
+ * Both axes must come from the manifest matrix: multiplying the per-axis totals
+ * invents questions that do not exist (and hides ones that do).
+ */
 export function getFilteredCategoryCount(
     cat: ManifestEntry,
     difficulty: Difficulty,
     mode: Mode
 ): number {
-    let diffCount: number;
-    if (difficulty === 'all') {
-        diffCount = cat.counts.total;
-    } else {
-        diffCount = cat.counts[difficulty];
+    if (mode === 'all') {
+        return difficulty === 'all' ? cat.counts.total : cat.counts[difficulty];
     }
 
-    if (mode === 'all') return diffCount;
+    const modeKey = MODE_KEY[mode];
+    if (difficulty === 'all') return cat.counts[modeKey];
 
-    const modeTotal =
-        mode === 'quiz'
-            ? cat.counts.quiz
-            : mode === 'bug-finding'
-              ? cat.counts.bugFinding
-              : cat.counts.codeCompletion;
-
-    if (cat.counts.total === 0) return 0;
-    return Math.round(diffCount * (modeTotal / cat.counts.total));
+    return cat.matrix[difficulty][modeKey];
 }
 
 export function computeAvailableCount(

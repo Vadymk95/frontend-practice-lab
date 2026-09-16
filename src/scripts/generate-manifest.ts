@@ -9,6 +9,18 @@ const ROOT = path.resolve(__dirname, '../../');
 const DATA_DIR = path.join(ROOT, 'public/data');
 const MANIFEST_PATH = path.join(DATA_DIR, 'manifest.json');
 
+interface ModeCounts {
+    quiz: number;
+    bugFinding: number;
+    codeCompletion: number;
+}
+
+/**
+ * `counts` are the per-axis totals. `matrix` is the exact count for every
+ * difficulty x mode pair — the configurator needs it because the two axes are
+ * not independent (a category can hold easy questions and bug-finding questions
+ * and no easy bug-finding question at all).
+ */
 interface ManifestEntry {
     slug: string;
     displayName: string;
@@ -21,6 +33,15 @@ interface ManifestEntry {
         bugFinding: number;
         codeCompletion: number;
     };
+    matrix: {
+        easy: ModeCounts;
+        medium: ModeCounts;
+        hard: ModeCounts;
+    };
+}
+
+function emptyModeCounts(): ModeCounts {
+    return { quiz: 0, bugFinding: 0, codeCompletion: 0 };
 }
 
 const DISPLAY_NAME_MAP: Record<string, string> = {
@@ -84,21 +105,28 @@ export function main(dataDir: string = DATA_DIR, manifestPath: string = MANIFEST
                 bugFinding: 0,
                 codeCompletion: 0
             };
+            const matrix = {
+                easy: emptyModeCounts(),
+                medium: emptyModeCounts(),
+                hard: emptyModeCounts()
+            };
             for (const q of questions) {
                 counts[q.difficulty]++;
-                if (q.type === 'single-choice' || q.type === 'multi-choice') {
-                    counts.quiz++;
-                } else if (q.type === 'bug-finding') {
-                    counts.bugFinding++;
-                } else if (q.type === 'code-completion') {
-                    counts.codeCompletion++;
-                }
+                const mode =
+                    q.type === 'single-choice' || q.type === 'multi-choice'
+                        ? 'quiz'
+                        : q.type === 'bug-finding'
+                          ? 'bugFinding'
+                          : 'codeCompletion';
+                counts[mode]++;
+                matrix[q.difficulty][mode]++;
             }
 
             manifest.push({
                 slug,
                 displayName: toDisplayName(slug),
-                counts
+                counts,
+                matrix
             });
 
             console.log(`✓ ${file} — ${questions.length} questions`);

@@ -1,4 +1,5 @@
-export type FlashKind = 'sessionEnded' | 'noActiveSession' | 'summaryUnavailable';
+export type FlashKind =
+    'sessionEnded' | 'noActiveSession' | 'summaryUnavailable' | 'noQuestionsMatch';
 
 export interface FlashState {
     flash?: FlashKind;

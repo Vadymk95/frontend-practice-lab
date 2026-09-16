@@ -37,6 +37,29 @@ describe('sessionStore', () => {
             expect(useSessionStore.getState().answers).toEqual({});
         });
     });
+
+    describe('consumeEndedAt', () => {
+        it('clears the end-session marker so only the first reader sees it', () => {
+            useSessionStore.setState({ endedAt: 1_700_000_000_000 });
+
+            useSessionStore.getState().consumeEndedAt();
+
+            expect(useSessionStore.getState().endedAt).toBeNull();
+        });
+
+        it('leaves the rest of the session state untouched', () => {
+            useSessionStore.setState({
+                endedAt: 1_700_000_000_000,
+                answers: { 'q-1': 2 },
+                currentIndex: 3
+            });
+
+            useSessionStore.getState().consumeEndedAt();
+
+            expect(useSessionStore.getState().answers).toEqual({ 'q-1': 2 });
+            expect(useSessionStore.getState().currentIndex).toBe(3);
+        });
+    });
 });
 
 describe('sessionStore — scoredAt', () => {

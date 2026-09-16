@@ -51,7 +51,7 @@ On startup, i18next initializes and loads the `common` and `errors` bundles plus
 
 | Location | Role |
 | -------- | ---- |
-| `public/data/manifest.json` | Category list and per-category counts |
+| `public/data/manifest.json` | Category list, per-category `counts`, and the exact difficulty x mode `matrix` |
 | `public/data/<slug>.json` | Question payloads per category (bilingual RU/EN) |
 | `src/lib/data/schema.ts` | Zod schema (`validate:data`); optional `code` + `lang` on every type |
 | `src/scripts/check-data-quality.ts` | Content-quality gate (`data:check`): duplicates, blanks, translations, all-correct, index bias |

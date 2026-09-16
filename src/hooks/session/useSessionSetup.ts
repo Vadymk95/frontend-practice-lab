@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import type { FlashState } from '@/components/common/FlashBanner';
@@ -72,14 +72,25 @@ export function useSessionSetup() {
     const weights = useProgressStore.use.weights();
     const errorRates = useProgressStore.use.errorRates();
 
+    const didConsumeEndedAtRef = useRef(false);
+
     useEffect(() => {
-        if (!config) {
-            // If the user just hit End Session, the play page already navigated home
-            // with a sessionEnded flash — skip our redirect so we don't overwrite it.
-            if (useSessionStore.getState().endedAt !== null) return;
-            const state: FlashState = { flash: 'noActiveSession' };
-            navigate(RoutesPath.Root, { replace: true, state });
+        if (config) return;
+        // If the user just hit End Session, the play page already navigated home
+        // with a sessionEnded flash — skip our redirect so we don't overwrite it.
+        // The marker is consumed here so a later visit to this route with no config
+        // (Back, Forward, a restored tab) redirects instead of waiting forever.
+        const { endedAt, consumeEndedAt } = useSessionStore.getState();
+        if (endedAt !== null) {
+            didConsumeEndedAtRef.current = true;
+            consumeEndedAt();
+            return;
         }
+        // StrictMode re-runs this effect after the marker is already gone; the ref
+        // keeps that second pass from stealing the sessionEnded flash.
+        if (didConsumeEndedAtRef.current) return;
+        const state: FlashState = { flash: 'noActiveSession' };
+        navigate(RoutesPath.Root, { replace: true, state });
     }, [config, navigate]);
 
     const categories = config?.categories ?? [];

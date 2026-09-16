@@ -37,6 +37,7 @@ interface SessionState {
     endSession: () => void;
     setRepeatMistakes: (questions: Question[]) => void;
     markScored: () => void;
+    consumeEndedAt: () => void;
 }
 
 const initialState = {
@@ -129,6 +130,13 @@ const useSessionStoreBase = create<SessionState>()(
                     false,
                     { type: 'session-store/markScored' }
                 );
+            },
+            // The end-session marker is read exactly once, by the setup guard on
+            // /session/play. Clearing it there is what lets a later visit to that
+            // route (browser Back, Forward, a restored tab) redirect home instead
+            // of waiting for a session that no longer exists.
+            consumeEndedAt: () => {
+                set({ endedAt: null }, false, { type: 'session-store/consumeEndedAt' });
             }
         }),
         { name: 'session-store' }

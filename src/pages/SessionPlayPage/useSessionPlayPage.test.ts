@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { renderHook } from '@testing-library/react';
+import { act, renderHook, waitFor } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { createElement } from 'react';
 import { MemoryRouter } from 'react-router-dom';
@@ -14,6 +14,13 @@ import { useSessionPlayPage } from './useSessionPlayPage';
 vi.mock('@/hooks/session/useSessionSetup', () => ({
     useSessionSetup: () => ({ isLoading: false, isError: false, refetch: vi.fn() })
 }));
+
+const navigateMock = vi.hoisted(() => vi.fn());
+
+vi.mock('react-router-dom', async (importOriginal) => {
+    const mod = await importOriginal<typeof import('react-router-dom')>();
+    return { ...mod, useNavigate: () => navigateMock };
+});
 
 const config: SessionConfig = {
     categories: ['javascript'],
@@ -46,13 +53,15 @@ function wrapper({ children }: { children: ReactNode }) {
 }
 
 beforeEach(() => {
+    navigateMock.mockReset();
     useSessionStore.setState({
         config,
         questionList: [bugFindingQuestion],
         currentIndex: 0,
         answers: {},
         skipList: [],
-        timerMs: 0
+        timerMs: 0,
+        endedAt: null
     });
 });
 
@@ -96,5 +105,33 @@ describe('useSessionPlayPage — bug-finding pending-self-assess gate', () => {
         const { result } = renderHook(() => useSessionPlayPage(), { wrapper });
         expect(result.current.isBugFindingPendingSelfAssess).toBe(false);
         expect(result.current.isAnswered).toBe(true);
+    });
+});
+
+describe('useSessionPlayPage — leaving the session', () => {
+    it('replaces the play route when ending a session so Back cannot return to it', () => {
+        const { result } = renderHook(() => useSessionPlayPage(), { wrapper });
+
+        act(() => {
+            result.current.confirmEndSession();
+        });
+
+        expect(navigateMock).toHaveBeenCalledWith('/', {
+            replace: true,
+            state: { flash: 'sessionEnded' }
+        });
+    });
+
+    it('explains the bounce home when the configured filters match no questions', async () => {
+        useSessionStore.setState({ questionList: [] });
+
+        renderHook(() => useSessionPlayPage(), { wrapper });
+
+        await waitFor(() => {
+            expect(navigateMock).toHaveBeenCalledWith('/', {
+                replace: true,
+                state: { flash: 'noQuestionsMatch' }
+            });
+        });
     });
 });
