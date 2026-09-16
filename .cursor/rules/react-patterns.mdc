@@ -11,7 +11,7 @@ priority: 87
 
 - **Function declarations + PascalCase** for components (not arrow functions).
 - **Type**: `interface Props { ... }` — always explicit. No inline anonymous types for props.
-- **Ref**: In React 19, refs are passed as **regular props** — `forwardRef` is deprecated and removed.
+- **Ref**: In React 19, refs are passed as **regular props**. **NEW/touched code: NEVER use `React.forwardRef` — always accept `ref` as a regular prop.** It still works in React 19 (deprecated, slated for removal in a future major), so leave any existing `forwardRef` occurrences as-is — do NOT migrate them as a drive-by.
 - **Named exports only**: Default exports only for lazy-loaded pages (React Router lazy).
 
 ```typescript

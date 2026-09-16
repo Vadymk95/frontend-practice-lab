@@ -113,6 +113,6 @@ Read `.cursor/rules/` before implementation. Core entry points: `global.mdc`, `a
 ## Dev Tooling
 
 - `npm run dev` — dev server on :3000
-- `npm run build` — tsc + vite build (OXC minifier)
+- `npm run build` — manifest generation (`build:manifest`, schema-validates `public/data/`) + tsc -b + vite build (OXC minifier)
 - `npm run test` — vitest run
 - `npm run lint` — eslint flat config

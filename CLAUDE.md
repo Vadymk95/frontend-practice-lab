@@ -32,7 +32,7 @@ After every batch of edits, run in order:
 ```bash
 npm run format        # auto-fix formatting — run BEFORE lint
 npm run lint
-npx tsc --noEmit
+npx tsc -b --noEmit   # project references / solution build
 npm run test
 ```
 

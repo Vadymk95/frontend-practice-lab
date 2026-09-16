@@ -27,7 +27,7 @@ src/hooks/<domain>/
 
 - **Typed contracts**: All API functions must have explicit `Request` params and `Response` return types. No `any`.
 - **Constants**: Base URLs, endpoint paths, and pagination limits from constants — never hardcoded in functions.
-- **Logging**: API errors logged via `logger.error('[api/<domain>] operation: reason', error)`.
+- **Logging**: API errors logged with module context via `console.error('[api/<domain>] operation: reason', error)` — never a bare error object (see `resilience.mdc`).
 
 ```typescript
 // src/lib/api/users.ts
@@ -78,7 +78,7 @@ export const useUpdateUserMutation = () => {
             queryClient.setQueryData(userKeys.detail(data.id), data);
         },
         onError: (error) => {
-            logger.error('[useUpdateUserMutation] failed', error);
+            console.error('[useUpdateUserMutation] failed', error);
         }
     });
 };

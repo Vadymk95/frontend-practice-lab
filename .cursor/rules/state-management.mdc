@@ -22,7 +22,7 @@ useState     →  local component state (not shared beyond component)
 - **Location**: `src/store/<domain>/` — one store per domain.
 - **Test alongside**: `userStore.ts` + `userStore.test.ts` in the same folder.
 - **Selectors**: Always wrap with `createSelectors` from `src/store/utils/createSelectors.ts`.
-- **Direct imports**: Import from the store file directly — no `index.ts` re-exports.
+- **Imports**: **NEW stores: ALWAYS add a per-domain `index.ts` barrel re-exporting the selector-wrapped store, and ALWAYS import it via `@/store/<domain>`.** Import from the store file directly (`@/store/<domain>/<domain>Store`) ONLY when you need the raw `...Base` store — which in this repo is **only in store tests** (the selector wrapper must not be subscribed outside a component tree — see SKELETONS "createSelectors").
 - **DevTools**: Wire every store to Redux DevTools via `devtools()`. Use `type: 'store-name/slice/action'` naming.
 
 ```typescript
@@ -62,4 +62,4 @@ useUserStore.use.username()       // auto-selector via createSelectors
 - ❌ Fetching server data with `useEffect` + `useState` — use TanStack Query.
 - ❌ Storing server-fetched data in Zustand as the primary cache.
 - ❌ Cross-store imports (store A importing store B).
-- ❌ `index.ts` barrel re-exports for stores (breaks tree-shaking and circular dep detection).
+- ❌ Re-exporting multiple unrelated stores from a single shared barrel (per-domain `index.ts` re-exporting its own store is the established pattern here).
