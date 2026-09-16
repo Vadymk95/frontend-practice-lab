@@ -49,20 +49,20 @@
         },
         "options": [
             {
-                "en": "Continues parsing HTML and executes the script after DOM is fully built",
-                "ru": "Продолжает парсить HTML и выполняет скрипт после того, как DOM полностью построен"
+                "en": "Defers execution until the DOMContentLoaded event fires",
+                "ru": "Откладывает выполнение до срабатывания события DOMContentLoaded"
             },
             {
                 "en": "Pauses HTML parsing, downloads and executes the script, then continues",
                 "ru": "Приостанавливает парсинг HTML, загружает и выполняет скрипт, затем продолжает"
             },
             {
-                "en": "Downloads the script in parallel and executes it after all CSS is loaded",
-                "ru": "Загружает скрипт параллельно и выполняет его после загрузки всего CSS"
+                "en": "Continues parsing HTML and executes the script after DOM is fully built",
+                "ru": "Продолжает парсить HTML и выполняет скрипт после того, как DOM полностью построен"
             },
             {
-                "en": "Defers execution until the DOMContentLoaded event fires",
-                "ru": "Откладывает выполнение до срабатывания события DOMContentLoaded"
+                "en": "Downloads the script in parallel and executes it after all CSS is loaded",
+                "ru": "Загружает скрипт параллельно и выполняет его после загрузки всего CSS"
             }
         ],
         "correct": 1
@@ -83,23 +83,23 @@
         },
         "options": [
             {
-                "en": "color",
-                "ru": "color"
-            },
-            {
                 "en": "background-color",
                 "ru": "background-color"
+            },
+            {
+                "en": "width",
+                "ru": "width"
             },
             {
                 "en": "opacity",
                 "ru": "opacity"
             },
             {
-                "en": "width",
-                "ru": "width"
+                "en": "color",
+                "ru": "color"
             }
         ],
-        "correct": 3
+        "correct": 1
     },
     {
         "id": "browser-eventloop-001",
@@ -108,8 +108,8 @@
         "difficulty": "easy",
         "tags": ["event-loop", "microtasks", "macrotasks"],
         "question": {
-            "en": "In which order will the following log statements execute?\n\n```js\nconsole.log('1');\nsetTimeout(() => console.log('2'), 0);\nPromise.resolve().then(() => console.log('3'));\nconsole.log('4');\n```",
-            "ru": "В каком порядке выполнятся следующие вызовы log?\n\n```js\nconsole.log('1');\nsetTimeout(() => console.log('2'), 0);\nPromise.resolve().then(() => console.log('3'));\nconsole.log('4');\n```"
+            "en": "In which order will the following log statements execute?",
+            "ru": "В каком порядке выполнятся следующие вызовы log?"
         },
         "explanation": {
             "en": "Synchronous code runs first (1, 4). After the call stack empties, microtasks (Promise) run before macrotasks (setTimeout). So the order is 1 → 4 → 3 → 2.",
@@ -117,23 +117,25 @@
         },
         "options": [
             {
-                "en": "1, 2, 3, 4",
-                "ru": "1, 2, 3, 4"
-            },
-            {
-                "en": "1, 4, 2, 3",
-                "ru": "1, 4, 2, 3"
-            },
-            {
                 "en": "1, 4, 3, 2",
                 "ru": "1, 4, 3, 2"
             },
             {
                 "en": "1, 3, 4, 2",
                 "ru": "1, 3, 4, 2"
+            },
+            {
+                "en": "1, 2, 3, 4",
+                "ru": "1, 2, 3, 4"
+            },
+            {
+                "en": "1, 4, 2, 3",
+                "ru": "1, 4, 2, 3"
             }
         ],
-        "correct": 2
+        "correct": 0,
+        "code": "console.log('1');\nsetTimeout(() => console.log('2'), 0);\nPromise.resolve().then(() => console.log('3'));\nconsole.log('4');",
+        "lang": "javascript"
     },
     {
         "id": "browser-storage-001",
@@ -151,23 +153,23 @@
         },
         "options": [
             {
-                "en": "sessionStorage",
-                "ru": "sessionStorage"
-            },
-            {
                 "en": "localStorage",
                 "ru": "localStorage"
+            },
+            {
+                "en": "Cache-Control: no-store",
+                "ru": "Cache-Control: no-store"
             },
             {
                 "en": "In-memory variables",
                 "ru": "Переменные в памяти"
             },
             {
-                "en": "Cache-Control: no-store",
-                "ru": "Cache-Control: no-store"
+                "en": "sessionStorage",
+                "ru": "sessionStorage"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "browser-cors-001",
@@ -185,12 +187,12 @@
         },
         "options": [
             {
-                "en": "The browser's first attempt to load a resource before it has an IP address",
-                "ru": "Первая попытка браузера загрузить ресурс до того, как у него появится IP-адрес"
-            },
-            {
                 "en": "An HTTP OPTIONS request the browser sends automatically before certain cross-origin requests",
                 "ru": "HTTP OPTIONS-запрос, который браузер отправляет автоматически перед определёнными cross-origin запросами"
+            },
+            {
+                "en": "The browser's first attempt to load a resource before it has an IP address",
+                "ru": "Первая попытка браузера загрузить ресурс до того, как у него появится IP-адрес"
             },
             {
                 "en": "A DNS lookup that precedes any cross-origin fetch",
@@ -201,7 +203,7 @@
                 "ru": "Проверка безопасности, выполняемая сервером перед возвратом HTML"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "browser-vitals-001",
@@ -219,6 +221,10 @@
         },
         "options": [
             {
+                "en": "The time from user input until the next frame is painted",
+                "ru": "Время от пользовательского ввода до отрисовки следующего кадра"
+            },
+            {
                 "en": "The time from navigation start until the first byte is received from the server",
                 "ru": "Время от начала навигации до получения первого байта от сервера"
             },
@@ -229,13 +235,9 @@
             {
                 "en": "The render time of the largest image or text block visible in the viewport",
                 "ru": "Время отрисовки самого большого изображения или текстового блока, видимого во viewport"
-            },
-            {
-                "en": "The time from user input until the next frame is painted",
-                "ru": "Время от пользовательского ввода до отрисовки следующего кадра"
             }
         ],
-        "correct": 2
+        "correct": 3
     },
     {
         "id": "browser-http-001",
@@ -253,12 +255,12 @@
         },
         "options": [
             {
-                "en": "Request/response body encryption via TLS",
-                "ru": "Шифрование тела запроса/ответа через TLS"
-            },
-            {
                 "en": "Multiplexing multiple requests over a single TCP connection",
                 "ru": "Мультиплексирование нескольких запросов в рамках одного TCP-соединения"
+            },
+            {
+                "en": "Request/response body encryption via TLS",
+                "ru": "Шифрование тела запроса/ответа через TLS"
             },
             {
                 "en": "UDP-based transport for lower latency",
@@ -269,7 +271,7 @@
                 "ru": "Встроенная поддержка WebSockets"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "browser-caching-001",
@@ -287,23 +289,23 @@
         },
         "options": [
             {
-                "en": "Never cache the response under any circumstances",
-                "ru": "Никогда и ни при каких обстоятельствах не кэшировать ответ"
-            },
-            {
                 "en": "Store the response but always revalidate with the server before using it",
                 "ru": "Сохранять ответ, но всегда ревалидировать его на сервере перед использованием"
             },
             {
-                "en": "Cache the response for 0 seconds",
-                "ru": "Кэшировать ответ на 0 секунд"
+                "en": "Never cache the response under any circumstances",
+                "ru": "Никогда и ни при каких обстоятельствах не кэшировать ответ"
             },
             {
                 "en": "Disable caching for all subsequent requests on the same origin",
                 "ru": "Отключить кэширование для всех последующих запросов на том же origin"
+            },
+            {
+                "en": "Cache the response for 0 seconds",
+                "ru": "Кэшировать ответ на 0 секунд"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "browser-worker-001",
@@ -321,12 +323,12 @@
         },
         "options": [
             {
-                "en": "They cannot perform network requests",
-                "ru": "Они не могут выполнять сетевые запросы"
-            },
-            {
                 "en": "They have no access to the DOM",
                 "ru": "У них нет доступа к DOM"
+            },
+            {
+                "en": "They cannot perform network requests",
+                "ru": "Они не могут выполнять сетевые запросы"
             },
             {
                 "en": "They run on the same thread as the main JavaScript",
@@ -337,7 +339,7 @@
                 "ru": "Они не могут использовать Promises или async/await"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "browser-paint-001",
@@ -359,19 +361,19 @@
                 "ru": "position: absolute"
             },
             {
-                "en": "z-index: 1",
-                "ru": "z-index: 1"
-            },
-            {
                 "en": "transform: translateZ(0)",
                 "ru": "transform: translateZ(0)"
+            },
+            {
+                "en": "z-index: 1",
+                "ru": "z-index: 1"
             },
             {
                 "en": "display: block",
                 "ru": "display: block"
             }
         ],
-        "correct": 2
+        "correct": 1
     },
     {
         "id": "browser-sw-001",
@@ -389,57 +391,23 @@
         },
         "options": [
             {
-                "en": "install",
-                "ru": "install"
+                "en": "message",
+                "ru": "message"
             },
             {
                 "en": "activate",
                 "ru": "activate"
             },
             {
+                "en": "install",
+                "ru": "install"
+            },
+            {
                 "en": "fetch",
                 "ru": "fetch"
-            },
-            {
-                "en": "message",
-                "ru": "message"
             }
         ],
-        "correct": 2
-    },
-    {
-        "id": "browser-websocket-001",
-        "type": "single-choice",
-        "category": "browser-internals",
-        "difficulty": "easy",
-        "tags": ["websocket", "sse", "realtime"],
-        "question": {
-            "en": "What is the key difference between WebSockets and Server-Sent Events (SSE)?",
-            "ru": "В чём ключевое отличие WebSockets от Server-Sent Events (SSE)?"
-        },
-        "explanation": {
-            "en": "WebSockets establish a full-duplex channel for bidirectional communication. SSE (EventSource) is a unidirectional protocol — the server pushes events to the client over a long-lived HTTP connection. SSE is simpler and works over standard HTTP/2.",
-            "ru": "WebSockets устанавливают full-duplex канал для двунаправленного обмена. SSE (EventSource) — однонаправленный протокол: сервер пушит события клиенту по долгоживущему HTTP-соединению. SSE проще и работает поверх стандартного HTTP/2."
-        },
-        "options": [
-            {
-                "en": "SSE uses UDP; WebSockets use TCP",
-                "ru": "SSE использует UDP, WebSockets — TCP"
-            },
-            {
-                "en": "WebSockets are bidirectional; SSE is server-to-client only",
-                "ru": "WebSockets двунаправленны, SSE работает только от сервера к клиенту"
-            },
-            {
-                "en": "SSE requires a special server protocol; WebSockets use standard HTTP",
-                "ru": "SSE требует специального серверного протокола, WebSockets работают по стандартному HTTP"
-            },
-            {
-                "en": "WebSockets only work over HTTPS",
-                "ru": "WebSockets работают только поверх HTTPS"
-            }
-        ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "browser-raf-001",
@@ -461,19 +429,19 @@
                 "ru": "requestAnimationFrame работает с фиксированной частотой 60fps независимо от частоты обновления дисплея"
             },
             {
-                "en": "requestAnimationFrame callbacks fire before each browser repaint, synchronized with the display refresh rate",
-                "ru": "Коллбеки requestAnimationFrame вызываются перед каждым repaint браузера, синхронно с частотой обновления дисплея"
-            },
-            {
                 "en": "setTimeout is deprecated for use in animations",
                 "ru": "setTimeout считается устаревшим для использования в анимациях"
             },
             {
                 "en": "requestAnimationFrame skips the layout phase entirely",
                 "ru": "requestAnimationFrame полностью пропускает фазу layout"
+            },
+            {
+                "en": "requestAnimationFrame callbacks fire before each browser repaint, synchronized with the display refresh rate",
+                "ru": "Коллбеки requestAnimationFrame вызываются перед каждым repaint браузера, синхронно с частотой обновления дисплея"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "browser-preload-001",
@@ -491,23 +459,23 @@
         },
         "options": [
             {
-                "en": "preload is for images; prefetch is for scripts",
-                "ru": "preload — для изображений, prefetch — для скриптов"
-            },
-            {
                 "en": "preload fetches resources needed for the current page with high priority; prefetch fetches resources for future navigations at low priority",
                 "ru": "preload загружает ресурсы, нужные для текущей страницы, с высоким приоритетом; prefetch загружает ресурсы для будущих навигаций с низким приоритетом"
             },
             {
-                "en": "preload is a newer standard that replaces prefetch",
-                "ru": "preload — более новый стандарт, заменяющий prefetch"
+                "en": "preload is for images; prefetch is for scripts",
+                "ru": "preload — для изображений, prefetch — для скриптов"
             },
             {
                 "en": "prefetch guarantees the resource will be in cache; preload only hints",
                 "ru": "prefetch гарантирует, что ресурс окажется в кэше; preload — только подсказка"
+            },
+            {
+                "en": "preload is a newer standard that replaces prefetch",
+                "ru": "preload — более новый стандарт, заменяющий prefetch"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "browser-v8-001",
@@ -525,23 +493,23 @@
         },
         "options": [
             {
-                "en": "It parses JavaScript source code into an AST",
-                "ru": "Парсит исходный код JavaScript в AST"
-            },
-            {
                 "en": "It interprets bytecode line-by-line without compilation",
                 "ru": "Интерпретирует байт-код построчно без компиляции"
             },
             {
-                "en": "It is V8's optimizing JIT compiler that compiles hot functions to highly optimized machine code",
-                "ru": "Это оптимизирующий JIT-компилятор V8, который компилирует «горячие» функции в высокооптимизированный машинный код"
-            },
-            {
                 "en": "It manages garbage collection using a generational algorithm",
                 "ru": "Управляет сборкой мусора по поколенческому алгоритму"
+            },
+            {
+                "en": "It parses JavaScript source code into an AST",
+                "ru": "Парсит исходный код JavaScript в AST"
+            },
+            {
+                "en": "It is V8's optimizing JIT compiler that compiles hot functions to highly optimized machine code",
+                "ru": "Это оптимизирующий JIT-компилятор V8, который компилирует «горячие» функции в высокооптимизированный машинный код"
             }
         ],
-        "correct": 2
+        "correct": 3
     },
     {
         "id": "browser-gc-001",
@@ -559,20 +527,20 @@
         },
         "options": [
             {
-                "en": "Older objects are more likely to have circular references than newer objects",
-                "ru": "У старых объектов циклические ссылки встречаются чаще, чем у новых"
+                "en": "The generation number determines the object's priority during GC pauses",
+                "ru": "Номер поколения определяет приоритет объекта во время GC-пауз"
             },
             {
                 "en": "Most objects die young, so collecting the young generation (minor GC) is cheap and frequent",
                 "ru": "Большинство объектов умирают молодыми, поэтому сборка молодого поколения (minor GC) дешёвая и частая"
             },
             {
-                "en": "Older objects are promoted to faster memory tiers closer to the CPU",
-                "ru": "Старые объекты перемещаются в более быстрые уровни памяти, ближе к CPU"
+                "en": "Older objects are more likely to have circular references than newer objects",
+                "ru": "У старых объектов циклические ссылки встречаются чаще, чем у новых"
             },
             {
-                "en": "The generation number determines the object's priority during GC pauses",
-                "ru": "Номер поколения определяет приоритет объекта во время GC-пауз"
+                "en": "Older objects are promoted to faster memory tiers closer to the CPU",
+                "ru": "Старые объекты перемещаются в более быстрые уровни памяти, ближе к CPU"
             }
         ],
         "correct": 1
@@ -593,23 +561,23 @@
         },
         "options": [
             {
-                "en": "Reading `element.textContent` after changing it",
-                "ru": "Чтение `element.textContent` после его изменения"
-            },
-            {
                 "en": "Writing `element.style.width` in a loop without reading layout properties",
                 "ru": "Запись `element.style.width` в цикле без чтения layout-свойств"
             },
             {
-                "en": "Reading `element.offsetWidth` immediately after writing `element.style.width` in a loop",
-                "ru": "Чтение `element.offsetWidth` сразу после записи `element.style.width` в цикле"
-            },
-            {
                 "en": "Using `requestAnimationFrame` to batch DOM writes",
                 "ru": "Использование `requestAnimationFrame` для группировки DOM-записей"
+            },
+            {
+                "en": "Reading `element.textContent` after changing it",
+                "ru": "Чтение `element.textContent` после его изменения"
+            },
+            {
+                "en": "Reading `element.offsetWidth` immediately after writing `element.style.width` in a loop",
+                "ru": "Чтение `element.offsetWidth` сразу после записи `element.style.width` в цикле"
             }
         ],
-        "correct": 2
+        "correct": 3
     },
     {
         "id": "browser-composite-001",
@@ -627,23 +595,23 @@
         },
         "options": [
             {
-                "en": "It forces the browser to use software rendering instead of GPU",
-                "ru": "Это заставляет браузер переключаться на software rendering вместо GPU"
-            },
-            {
-                "en": "It increases memory consumption because each promoted layer occupies GPU memory",
-                "ru": "Это увеличивает потребление памяти, поскольку каждый вынесенный слой занимает память GPU"
+                "en": "It prevents the element from being included in the accessibility tree",
+                "ru": "Это исключает элемент из accessibility tree"
             },
             {
                 "en": "It disables CSS transitions on the affected element",
                 "ru": "Это отключает CSS-transitions на затронутом элементе"
             },
             {
-                "en": "It prevents the element from being included in the accessibility tree",
-                "ru": "Это исключает элемент из accessibility tree"
+                "en": "It increases memory consumption because each promoted layer occupies GPU memory",
+                "ru": "Это увеличивает потребление памяти, поскольку каждый вынесенный слой занимает память GPU"
+            },
+            {
+                "en": "It forces the browser to use software rendering instead of GPU",
+                "ru": "Это заставляет браузер переключаться на software rendering вместо GPU"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "browser-microtask-001",
@@ -661,10 +629,6 @@
         },
         "options": [
             {
-                "en": "Once per animation frame, before requestAnimationFrame callbacks",
-                "ru": "Один раз за animation frame, перед коллбеками requestAnimationFrame"
-            },
-            {
                 "en": "After every task (macrotask) completes, before the browser renders",
                 "ru": "После завершения каждой задачи (макротаска), перед тем как браузер отрисует кадр"
             },
@@ -675,9 +639,13 @@
             {
                 "en": "On a separate thread concurrently with the main event loop",
                 "ru": "В отдельном потоке параллельно основному event loop"
+            },
+            {
+                "en": "Once per animation frame, before requestAnimationFrame callbacks",
+                "ru": "Один раз за animation frame, перед коллбеками requestAnimationFrame"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "browser-idb-001",
@@ -695,8 +663,8 @@
         },
         "options": [
             {
-                "en": "IndexedDB is synchronous, making it faster for read-heavy workloads",
-                "ru": "IndexedDB синхронный, что делает его быстрее для нагрузок с большим числом чтений"
+                "en": "IndexedDB persists across different origins with the same eTLD+1",
+                "ru": "IndexedDB сохраняется между разными origin с одинаковым eTLD+1"
             },
             {
                 "en": "IndexedDB supports transactions, indexes, and can store large structured data asynchronously",
@@ -707,8 +675,8 @@
                 "ru": "Данные IndexedDB автоматически шифруются at rest"
             },
             {
-                "en": "IndexedDB persists across different origins with the same eTLD+1",
-                "ru": "IndexedDB сохраняется между разными origin с одинаковым eTLD+1"
+                "en": "IndexedDB is synchronous, making it faster for read-heavy workloads",
+                "ru": "IndexedDB синхронный, что делает его быстрее для нагрузок с большим числом чтений"
             }
         ],
         "correct": 1
@@ -729,8 +697,8 @@
         },
         "options": [
             {
-                "en": "Load all fonts asynchronously with `font-display: swap`",
-                "ru": "Асинхронно загружать все шрифты с `font-display: swap`"
+                "en": "Use `position: fixed` for all above-the-fold content",
+                "ru": "Использовать `position: fixed` для всего контента above-the-fold"
             },
             {
                 "en": "Reserve space for images and ads by specifying width and height attributes, and avoid inserting content above existing content",
@@ -741,8 +709,8 @@
                 "ru": "Минимизировать количество DOM-элементов на странице"
             },
             {
-                "en": "Use `position: fixed` for all above-the-fold content",
-                "ru": "Использовать `position: fixed` для всего контента above-the-fold"
+                "en": "Load all fonts asynchronously with `font-display: swap`",
+                "ru": "Асинхронно загружать все шрифты с `font-display: swap`"
             }
         ],
         "correct": 1
@@ -763,10 +731,6 @@
         },
         "options": [
             {
-                "en": "A DNS cache for back/forward navigation; blocked by HTTPS pages",
-                "ru": "DNS-кэш для back/forward навигации; блокируется HTTPS-страницами"
-            },
-            {
                 "en": "A full page snapshot stored in memory for instant back/forward navigation; blocked by unload event listeners and open IndexedDB connections",
                 "ru": "Полный снимок страницы в памяти для мгновенной back/forward навигации; блокируется обработчиками unload и открытыми соединениями IndexedDB"
             },
@@ -777,9 +741,13 @@
             {
                 "en": "A browser history store; blocked by Content-Security-Policy headers",
                 "ru": "Хранилище истории браузера; блокируется заголовками Content-Security-Policy"
+            },
+            {
+                "en": "A DNS cache for back/forward navigation; blocked by HTTPS pages",
+                "ru": "DNS-кэш для back/forward навигации; блокируется HTTPS-страницами"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "browser-csp-001",
@@ -797,8 +765,8 @@
         },
         "options": [
             {
-                "en": "Scripts from the same origin only, blocking inline scripts and eval()",
-                "ru": "Только скрипты с того же origin, блокируя inline-скрипты и eval()"
+                "en": "Only scripts loaded via `<script type=\"module\">`",
+                "ru": "Только скрипты, загруженные через `<script type=\"module\">`"
             },
             {
                 "en": "Scripts from any HTTPS source including CDNs",
@@ -809,11 +777,11 @@
                 "ru": "Скрипты с того же origin и всех поддоменов"
             },
             {
-                "en": "Only scripts loaded via `<script type=\"module\">`",
-                "ru": "Только скрипты, загруженные через `<script type=\"module\">`"
+                "en": "Scripts from the same origin only, blocking inline scripts and eval()",
+                "ru": "Только скрипты с того же origin, блокируя inline-скрипты и eval()"
             }
         ],
-        "correct": 0
+        "correct": 3
     },
     {
         "id": "browser-http3-001",
@@ -831,6 +799,10 @@
         },
         "options": [
             {
+                "en": "SCTP; it allows multi-homing for mobile networks",
+                "ru": "SCTP; позволяет multi-homing для мобильных сетей"
+            },
+            {
                 "en": "TCP with TLS 1.3; it solves certificate validation latency",
                 "ru": "TCP с TLS 1.3; решает задержку валидации сертификатов"
             },
@@ -841,13 +813,9 @@
             {
                 "en": "WebSockets; it enables bidirectional streaming natively",
                 "ru": "WebSockets; нативно включает двунаправленный стриминг"
-            },
-            {
-                "en": "SCTP; it allows multi-homing for mobile networks",
-                "ru": "SCTP; позволяет multi-homing для мобильных сетей"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "browser-mo-001",
@@ -865,23 +833,23 @@
         },
         "options": [
             {
-                "en": "They are macrotasks scheduled via the task queue",
-                "ru": "Это макротаски, планируемые через task queue"
-            },
-            {
                 "en": "They are microtasks that run synchronously before the current task completes",
                 "ru": "Это микротаски, которые запускаются синхронно до завершения текущей задачи"
             },
             {
-                "en": "They are microtasks queued after the current task, before the next rendering step",
-                "ru": "Это микротаски, которые попадают в очередь после текущей задачи, но до следующего шага рендеринга"
+                "en": "They are macrotasks scheduled via the task queue",
+                "ru": "Это макротаски, планируемые через task queue"
             },
             {
                 "en": "They are called synchronously inside the DOM mutation",
                 "ru": "Они вызываются синхронно внутри DOM-мутации"
+            },
+            {
+                "en": "They are microtasks queued after the current task, before the next rendering step",
+                "ru": "Это микротаски, которые попадают в очередь после текущей задачи, но до следующего шага рендеринга"
             }
         ],
-        "correct": 2
+        "correct": 3
     },
     {
         "id": "browser-io-001",
@@ -907,12 +875,12 @@
                 "ru": "Он батчит проверки пересечения вне основного потока, избегая повторных чтений layout на каждом событии scroll"
             },
             {
-                "en": "It automatically applies CSS `content-visibility: auto` to unobserved elements",
-                "ru": "Он автоматически применяет CSS `content-visibility: auto` к неотслеживаемым элементам"
-            },
-            {
                 "en": "It uses WebAssembly for geometric calculations",
                 "ru": "Он использует WebAssembly для геометрических вычислений"
+            },
+            {
+                "en": "It automatically applies CSS `content-visibility: auto` to unobserved elements",
+                "ru": "Он автоматически применяет CSS `content-visibility: auto` к неотслеживаемым элементам"
             }
         ],
         "correct": 1
@@ -967,23 +935,23 @@
         },
         "options": [
             {
-                "en": "The function is called more than 10,000 times",
-                "ru": "Функция вызывается более 10 000 раз"
-            },
-            {
-                "en": "The function's type assumptions are violated at runtime (e.g., a parameter that was always a number becomes a string)",
-                "ru": "В runtime нарушаются предположения о типах функции (например, параметр, всегда бывший числом, становится строкой)"
-            },
-            {
                 "en": "The function is defined inside a loop",
                 "ru": "Функция определена внутри цикла"
             },
             {
                 "en": "The function uses arrow function syntax instead of function declarations",
                 "ru": "Функция использует синтаксис arrow function вместо function declaration"
+            },
+            {
+                "en": "The function is called more than 10,000 times",
+                "ru": "Функция вызывается более 10 000 раз"
+            },
+            {
+                "en": "The function's type assumptions are violated at runtime (e.g., a parameter that was always a number becomes a string)",
+                "ru": "В runtime нарушаются предположения о типах функции (например, параметр, всегда бывший числом, становится строкой)"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "browser-crp-hard-001",
@@ -1001,20 +969,20 @@
         },
         "options": [
             {
-                "en": "The browser skips print stylesheets entirely until the user triggers a print dialog",
-                "ru": "Браузер полностью игнорирует print-стили, пока пользователь не вызовет диалог печати"
+                "en": "Print stylesheets are processed in a separate CSSOM tree that is never combined into the Render Tree",
+                "ru": "Print-стили обрабатываются в отдельном CSSOM-дереве, которое никогда не объединяется с Render Tree"
             },
             {
                 "en": "The browser downloads it at low priority and marks it non-render-blocking because the media query doesn't match the current environment",
                 "ru": "Браузер загружает её с низким приоритетом и помечает как non-render-blocking, потому что media query не соответствует текущему окружению"
             },
             {
-                "en": "Print stylesheets are processed in a separate CSSOM tree that is never combined into the Render Tree",
-                "ru": "Print-стили обрабатываются в отдельном CSSOM-дереве, которое никогда не объединяется с Render Tree"
-            },
-            {
                 "en": "The browser only parses print stylesheets after all JavaScript has executed",
                 "ru": "Браузер парсит print-стили только после выполнения всего JavaScript"
+            },
+            {
+                "en": "The browser skips print stylesheets entirely until the user triggers a print dialog",
+                "ru": "Браузер полностью игнорирует print-стили, пока пользователь не вызовет диалог печати"
             }
         ],
         "correct": 1
@@ -1073,19 +1041,19 @@
                 "ru": "Коллбеки ResizeObserver могут выполняться в compositor-потоке, вызывая race condition с обращением к DOM из основного потока"
             },
             {
-                "en": "Modifying element sizes inside a ResizeObserver callback can create infinite loops unless sizes converge",
-                "ru": "Изменение размеров элемента внутри коллбека ResizeObserver может привести к бесконечному циклу, если размеры не сходятся"
-            },
-            {
                 "en": "ResizeObserver cannot observe elements inside Shadow DOM",
                 "ru": "ResizeObserver не может отслеживать элементы внутри Shadow DOM"
+            },
+            {
+                "en": "Modifying element sizes inside a ResizeObserver callback can create infinite loops unless sizes converge",
+                "ru": "Изменение размеров элемента внутри коллбека ResizeObserver может привести к бесконечному циклу, если размеры не сходятся"
             },
             {
                 "en": "ResizeObserver fires synchronously during layout, blocking the render pipeline",
                 "ru": "ResizeObserver срабатывает синхронно во время layout, блокируя render pipeline"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "browser-multiqueue-001",
@@ -1103,6 +1071,10 @@
         },
         "options": [
             {
+                "en": "setInterval callbacks",
+                "ru": "Коллбеки setInterval"
+            },
+            {
                 "en": "Promise.then() callbacks",
                 "ru": "Коллбеки Promise.then()"
             },
@@ -1115,15 +1087,11 @@
                 "ru": "Коллбеки queueMicrotask()"
             },
             {
-                "en": "setInterval callbacks",
-                "ru": "Коллбеки setInterval"
-            },
-            {
                 "en": "MutationObserver callbacks",
                 "ru": "Коллбеки MutationObserver"
             }
         ],
-        "correct": [0, 2, 4]
+        "correct": [1, 3, 4]
     },
     {
         "id": "browser-multistorage-001",
@@ -1141,27 +1109,27 @@
         },
         "options": [
             {
-                "en": "localStorage",
-                "ru": "localStorage"
+                "en": "sessionStorage",
+                "ru": "sessionStorage"
+            },
+            {
+                "en": "Cookies via document.cookie",
+                "ru": "Cookies через document.cookie"
             },
             {
                 "en": "IndexedDB",
                 "ru": "IndexedDB"
             },
             {
-                "en": "sessionStorage",
-                "ru": "sessionStorage"
+                "en": "localStorage",
+                "ru": "localStorage"
             },
             {
                 "en": "Cache API (CacheStorage)",
                 "ru": "Cache API (CacheStorage)"
-            },
-            {
-                "en": "Cookies via document.cookie",
-                "ru": "Cookies через document.cookie"
             }
         ],
-        "correct": [1, 3]
+        "correct": [2, 4]
     },
     {
         "id": "browser-multicors-001",
@@ -1179,27 +1147,27 @@
         },
         "options": [
             {
-                "en": "Using the HTTP DELETE method",
-                "ru": "Использование HTTP-метода DELETE"
-            },
-            {
-                "en": "Using the HTTP GET method with no custom headers",
-                "ru": "Использование HTTP-метода GET без кастомных заголовков"
+                "en": "Setting `Content-Type: application/json`",
+                "ru": "Установка `Content-Type: application/json`"
             },
             {
                 "en": "Adding a custom `Authorization` header",
                 "ru": "Добавление кастомного заголовка `Authorization`"
             },
             {
-                "en": "Setting `Content-Type: application/json`",
-                "ru": "Установка `Content-Type: application/json`"
+                "en": "Using the HTTP GET method with no custom headers",
+                "ru": "Использование HTTP-метода GET без кастомных заголовков"
+            },
+            {
+                "en": "Using the HTTP DELETE method",
+                "ru": "Использование HTTP-метода DELETE"
             },
             {
                 "en": "Setting `Content-Type: text/plain`",
                 "ru": "Установка `Content-Type: text/plain`"
             }
         ],
-        "correct": [0, 2, 3]
+        "correct": [0, 1, 3]
     },
     {
         "id": "browser-multivitals-001",
@@ -1226,7 +1194,7 @@
             },
             {
                 "en": "Time to First Byte (TTFB)",
-                "ru": "Time to First Byte (TTFB)"
+                "ru": "Time to First Byte (TTFB) — время до первого байта"
             },
             {
                 "en": "Cumulative Layout Shift (CLS)",
@@ -1234,7 +1202,7 @@
             },
             {
                 "en": "Interaction to Next Paint (INP)",
-                "ru": "Interaction to Next Paint (INP)"
+                "ru": "Interaction to Next Paint (INP) — отклик на взаимодействие"
             }
         ],
         "correct": [1, 3, 4]
@@ -1255,6 +1223,14 @@
         },
         "options": [
             {
+                "en": "UDP-based transport",
+                "ru": "Транспорт на базе UDP"
+            },
+            {
+                "en": "Server push",
+                "ru": "Server push"
+            },
+            {
                 "en": "Binary framing layer",
                 "ru": "Binary framing layer"
             },
@@ -1263,19 +1239,11 @@
                 "ru": "Мультиплексирование запросов в рамках одного соединения"
             },
             {
-                "en": "UDP-based transport",
-                "ru": "Транспорт на базе UDP"
-            },
-            {
                 "en": "Header compression (HPACK)",
                 "ru": "Сжатие заголовков (HPACK)"
-            },
-            {
-                "en": "Server push",
-                "ru": "Server push"
             }
         ],
-        "correct": [0, 1, 3, 4]
+        "correct": [1, 2, 3, 4]
     },
     {
         "id": "browser-multicrp-001",
@@ -1293,27 +1261,27 @@
         },
         "options": [
             {
-                "en": "A `<link rel=\"stylesheet\">` in the `<head>`",
-                "ru": "`<link rel=\"stylesheet\">` внутри `<head>`"
-            },
-            {
-                "en": "A `<script async src=\"...\">` tag",
-                "ru": "Тег `<script async src=\"...\">`"
-            },
-            {
-                "en": "A `<script>` tag without async/defer in the `<head>`",
-                "ru": "Тег `<script>` без async/defer внутри `<head>`"
-            },
-            {
                 "en": "A `<link rel=\"preload\" as=\"font\">`",
                 "ru": "`<link rel=\"preload\" as=\"font\">`"
             },
             {
                 "en": "A `<script defer src=\"...\">` tag",
                 "ru": "Тег `<script defer src=\"...\">`"
+            },
+            {
+                "en": "A `<link rel=\"stylesheet\">` in the `<head>`",
+                "ru": "`<link rel=\"stylesheet\">` внутри `<head>`"
+            },
+            {
+                "en": "A `<script>` tag without async/defer in the `<head>`",
+                "ru": "Тег `<script>` без async/defer внутри `<head>`"
+            },
+            {
+                "en": "A `<script async src=\"...\">` tag",
+                "ru": "Тег `<script async src=\"...\">`"
             }
         ],
-        "correct": [0, 2]
+        "correct": [2, 3]
     },
     {
         "id": "browser-multiworker-001",
@@ -1331,27 +1299,27 @@
         },
         "options": [
             {
-                "en": "A Service Worker can intercept fetch requests from the pages it controls",
-                "ru": "Service Worker может перехватывать fetch-запросы со страниц, которые он контролирует"
-            },
-            {
-                "en": "A Service Worker runs on the main thread alongside page JavaScript",
-                "ru": "Service Worker выполняется в основном потоке вместе с JavaScript страницы"
+                "en": "A Service Worker can access the DOM directly",
+                "ru": "Service Worker может напрямую обращаться к DOM"
             },
             {
                 "en": "A Service Worker requires HTTPS (or localhost) to register",
                 "ru": "Для регистрации Service Worker требуется HTTPS (или localhost)"
             },
             {
-                "en": "A Service Worker can access the DOM directly",
-                "ru": "Service Worker может напрямую обращаться к DOM"
+                "en": "A Service Worker runs on the main thread alongside page JavaScript",
+                "ru": "Service Worker выполняется в основном потоке вместе с JavaScript страницы"
+            },
+            {
+                "en": "A Service Worker can intercept fetch requests from the pages it controls",
+                "ru": "Service Worker может перехватывать fetch-запросы со страниц, которые он контролирует"
             },
             {
                 "en": "A Service Worker persists across browser sessions",
                 "ru": "Service Worker сохраняется между сессиями браузера"
             }
         ],
-        "correct": [0, 2, 4]
+        "correct": [1, 3, 4]
     },
     {
         "id": "browser-multicsp-001",
@@ -1407,14 +1375,6 @@
         },
         "options": [
             {
-                "en": "MutationObserver callbacks are microtasks",
-                "ru": "Коллбеки MutationObserver — это микротаски"
-            },
-            {
-                "en": "IntersectionObserver callbacks are macrotasks",
-                "ru": "Коллбеки IntersectionObserver — это макротаски"
-            },
-            {
                 "en": "ResizeObserver callbacks fire after layout, before paint",
                 "ru": "Коллбеки ResizeObserver срабатывают после layout, но до paint"
             },
@@ -1423,11 +1383,19 @@
                 "ru": "Все три observer могут отслеживать элементы внутри Shadow DOM"
             },
             {
+                "en": "IntersectionObserver callbacks are macrotasks",
+                "ru": "Коллбеки IntersectionObserver — это макротаски"
+            },
+            {
+                "en": "MutationObserver callbacks are microtasks",
+                "ru": "Коллбеки MutationObserver — это микротаски"
+            },
+            {
                 "en": "IntersectionObserver can observe visibility across cross-origin iframes",
                 "ru": "IntersectionObserver может отслеживать видимость через cross-origin iframes"
             }
         ],
-        "correct": [0, 2, 3]
+        "correct": [0, 1, 3]
     },
     {
         "id": "browser-multirender-001",
@@ -1445,10 +1413,6 @@
         },
         "options": [
             {
-                "en": "opacity less than 1",
-                "ru": "opacity меньше 1"
-            },
-            {
                 "en": "transform (any value other than none)",
                 "ru": "transform (любое значение, кроме none)"
             },
@@ -1457,15 +1421,19 @@
                 "ru": "position: relative без z-index"
             },
             {
-                "en": "will-change: transform",
-                "ru": "will-change: transform"
-            },
-            {
                 "en": "filter: blur(0px)",
                 "ru": "filter: blur(0px)"
+            },
+            {
+                "en": "opacity less than 1",
+                "ru": "opacity меньше 1"
+            },
+            {
+                "en": "will-change: transform",
+                "ru": "will-change: transform"
             }
         ],
-        "correct": [0, 1, 3, 4]
+        "correct": [0, 2, 3, 4]
     },
     {
         "id": "browser-bug-raf-001",
@@ -1483,7 +1451,8 @@
         },
         "code": "let position = 0;\nfunction animate() {\n  position += 1;\n  document.getElementById('box').style.left = position + 'px';\n  requestAnimationFrame(animate);\n}\nanimate();",
         "correct": "The animation loop never stops — there is no cancellation mechanism",
-        "referenceAnswer": "The loop calls requestAnimationFrame indefinitely with no stop condition. Fix: store the rAF id with `const id = requestAnimationFrame(animate)` and call `cancelAnimationFrame(id)` when the animation should stop (e.g., when position exceeds a threshold or a stop flag is set)."
+        "referenceAnswer": "The loop calls requestAnimationFrame indefinitely with no stop condition. Fix: store the rAF id with `const id = requestAnimationFrame(animate)` and call `cancelAnimationFrame(id)` when the animation should stop (e.g., when position exceeds a threshold or a stop flag is set).",
+        "lang": "javascript"
     },
     {
         "id": "browser-bug-thrash-001",
@@ -1501,7 +1470,8 @@
         },
         "code": "const items = document.querySelectorAll('.item');\nfor (let i = 0; i < items.length; i++) {\n  items[i].style.width = items[i].offsetWidth + 10 + 'px';\n}",
         "correct": "Reading offsetWidth after writing style.width causes forced synchronous layout on every iteration (layout thrashing)",
-        "referenceAnswer": "Interleaving style writes and layout reads forces the browser to recalculate layout on each iteration. Fix: first read all widths into an array, then apply all writes in a second loop. Or use requestAnimationFrame to batch writes."
+        "referenceAnswer": "Interleaving style writes and layout reads forces the browser to recalculate layout on each iteration. Fix: first read all widths into an array, then apply all writes in a second loop. Or use requestAnimationFrame to batch writes.",
+        "lang": "javascript"
     },
     {
         "id": "browser-bug-sw-001",
@@ -1519,7 +1489,8 @@
         },
         "code": "self.addEventListener('fetch', (event) => {\n  const cached = caches.match(event.request);\n  if (cached) {\n    event.respondWith(cached);\n  }\n});",
         "correct": "`caches.match()` returns a Promise, not a value — the truthy check always passes because a Promise is truthy",
-        "referenceAnswer": "caches.match() is async and returns a Promise<Response | undefined>. A Promise object is always truthy, so the if-block always runs but `event.respondWith` receives an unresolved Promise that resolves to undefined. Fix: `event.respondWith(caches.match(event.request).then(r => r || fetch(event.request)))`"
+        "referenceAnswer": "caches.match() is async and returns a Promise<Response | undefined>. A Promise object is always truthy, so the if-block always runs but `event.respondWith` receives an unresolved Promise that resolves to undefined. Fix: `event.respondWith(caches.match(event.request).then(r => r || fetch(event.request)))`",
+        "lang": "javascript"
     },
     {
         "id": "browser-bug-cors-001",
@@ -1537,7 +1508,8 @@
         },
         "code": "fetch('https://api.example.com/user', {\n  credentials: 'include'\n});\n\n// Server response headers:\n// Access-Control-Allow-Origin: *\n// Access-Control-Allow-Credentials: true",
         "correct": "Access-Control-Allow-Origin cannot be a wildcard (*) when credentials are included — it must specify the exact origin",
-        "referenceAnswer": "When `credentials: 'include'` is used, the server must respond with `Access-Control-Allow-Origin: https://your-origin.com` (exact origin, not *) AND `Access-Control-Allow-Credentials: true`. A wildcard origin with credentials is disallowed by the CORS spec."
+        "referenceAnswer": "When `credentials: 'include'` is used, the server must respond with `Access-Control-Allow-Origin: https://your-origin.com` (exact origin, not *) AND `Access-Control-Allow-Credentials: true`. A wildcard origin with credentials is disallowed by the CORS spec.",
+        "lang": "javascript"
     },
     {
         "id": "browser-bug-localstorage-001",
@@ -1555,7 +1527,8 @@
         },
         "code": "function saveUser(user) {\n  localStorage.setItem('user', user);\n}\n\nfunction loadUser() {\n  const user = localStorage.getItem('user');\n  return user;\n}\n\nconst user = { name: 'Alice', age: 30 };\nsaveUser(user);\nconst loaded = loadUser();\nconsole.log(loaded.name); // undefined",
         "correct": "The user object is stored as `[object Object]` because localStorage only stores strings and the object is not serialized with JSON.stringify",
-        "referenceAnswer": "localStorage only stores strings. Objects must be serialized: `localStorage.setItem('user', JSON.stringify(user))` and deserialized: `JSON.parse(localStorage.getItem('user'))`. Without this, the object is coerced to the string '[object Object]'."
+        "referenceAnswer": "localStorage only stores strings. Objects must be serialized: `localStorage.setItem('user', JSON.stringify(user))` and deserialized: `JSON.parse(localStorage.getItem('user'))`. Without this, the object is coerced to the string '[object Object]'.",
+        "lang": "javascript"
     },
     {
         "id": "browser-bug-gc-001",
@@ -1573,7 +1546,8 @@
         },
         "code": "class DataComponent {\n  constructor(element) {\n    this.element = element;\n    this.data = new Array(100000).fill('data');\n    this.element.addEventListener('click', this.handleClick.bind(this));\n  }\n\n  handleClick() {\n    console.log('clicked', this.data.length);\n  }\n\n  destroy() {\n    this.element = null;\n    this.data = null;\n  }\n}",
         "correct": "The event listener created with .bind(this) is never removed, keeping the DataComponent instance and its large data array alive",
-        "referenceAnswer": "`.bind(this)` creates a new function reference each time, so it cannot be removed with `removeEventListener` using a new `.bind()` call. Fix: store the bound handler: `this.boundHandler = this.handleClick.bind(this)` in the constructor, add it with that reference, and in `destroy()` call `this.element.removeEventListener('click', this.boundHandler)`."
+        "referenceAnswer": "`.bind(this)` creates a new function reference each time, so it cannot be removed with `removeEventListener` using a new `.bind()` call. Fix: store the bound handler: `this.boundHandler = this.handleClick.bind(this)` in the constructor, add it with that reference, and in `destroy()` call `this.element.removeEventListener('click', this.boundHandler)`.",
+        "lang": "javascript"
     },
     {
         "id": "browser-bug-idb-001",
@@ -1591,7 +1565,8 @@
         },
         "code": "async function saveData(db, key, value) {\n  const tx = db.transaction('store', 'readwrite');\n  const store = tx.objectStore('store');\n  store.put(value, key);\n  await new Promise(resolve => setTimeout(resolve, 0));\n  store.put({ extra: true }, 'extra-key');\n}",
         "correct": "The await causes the IndexedDB transaction to auto-commit before the second store.put() call",
-        "referenceAnswer": "IndexedDB transactions auto-commit when there are no pending requests AND control returns to the event loop. `await setTimeout(resolve, 0)` yields to the event loop, triggering auto-commit. The second `store.put()` will throw a TransactionInactiveError. Fix: issue both put() requests before any await, or listen to the tx.oncomplete event."
+        "referenceAnswer": "IndexedDB transactions auto-commit when there are no pending requests AND control returns to the event loop. `await setTimeout(resolve, 0)` yields to the event loop, triggering auto-commit. The second `store.put()` will throw a TransactionInactiveError. Fix: issue both put() requests before any await, or listen to the tx.oncomplete event.",
+        "lang": "javascript"
     },
     {
         "id": "browser-cc-eventloop-001",

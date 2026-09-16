@@ -15,6 +15,10 @@
         },
         "options": [
             {
+                "en": "Cross-Site Session",
+                "ru": "Cross-Site Session"
+            },
+            {
                 "en": "Cross-Site Scripting",
                 "ru": "Cross-Site Scripting"
             },
@@ -23,15 +27,11 @@
                 "ru": "Cross-Server Session"
             },
             {
-                "en": "Cross-Site Session",
-                "ru": "Cross-Site Session"
-            },
-            {
                 "en": "Cross-Script Execution",
                 "ru": "Cross-Script Execution"
             }
         ],
-        "correct": 0
+        "correct": 1
     },
     {
         "id": "sec-xss-002",
@@ -49,23 +49,23 @@
         },
         "options": [
             {
-                "en": "Reflected XSS",
-                "ru": "Reflected XSS"
-            },
-            {
-                "en": "DOM-based XSS",
-                "ru": "DOM-based XSS"
-            },
-            {
                 "en": "Stored XSS",
                 "ru": "Stored XSS"
             },
             {
                 "en": "Persistent reflected XSS",
                 "ru": "Persistent reflected XSS"
+            },
+            {
+                "en": "Reflected XSS",
+                "ru": "Reflected XSS"
+            },
+            {
+                "en": "DOM-based XSS",
+                "ru": "DOM-based XSS"
             }
         ],
-        "correct": 2
+        "correct": 0
     },
     {
         "id": "sec-csrf-001",
@@ -83,20 +83,20 @@
         },
         "options": [
             {
-                "en": "HttpOnly cookie flag",
-                "ru": "HttpOnly cookie flag"
-            },
-            {
                 "en": "Secure cookie flag",
                 "ru": "Secure cookie flag"
+            },
+            {
+                "en": "CORS headers",
+                "ru": "CORS headers"
             },
             {
                 "en": "SameSite cookie attribute",
                 "ru": "SameSite cookie attribute"
             },
             {
-                "en": "CORS headers",
-                "ru": "CORS headers"
+                "en": "HttpOnly cookie flag",
+                "ru": "HttpOnly cookie flag"
             }
         ],
         "correct": 2
@@ -121,19 +121,19 @@
                 "ru": "Более быструю передачу данных"
             },
             {
-                "en": "Encryption, authentication, and data integrity",
-                "ru": "Шифрование, аутентификацию и целостность данных"
+                "en": "Persistent connections",
+                "ru": "Постоянные соединения"
             },
             {
                 "en": "Compression of HTTP headers",
                 "ru": "Сжатие HTTP-заголовков"
             },
             {
-                "en": "Persistent connections",
-                "ru": "Постоянные соединения"
+                "en": "Encryption, authentication, and data integrity",
+                "ru": "Шифрование, аутентификацию и целостность данных"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "sec-jwt-001",
@@ -185,23 +185,23 @@
         },
         "options": [
             {
-                "en": "The cookie being sent over HTTP (non-HTTPS)",
-                "ru": "Отправку cookie по HTTP (не по HTTPS)"
-            },
-            {
-                "en": "JavaScript code from accessing the cookie via document.cookie",
-                "ru": "Доступ JavaScript-кода к cookie через document.cookie"
+                "en": "The cookie from expiring",
+                "ru": "Истечение срока действия cookie"
             },
             {
                 "en": "The cookie being sent in cross-origin requests",
                 "ru": "Отправку cookie в cross-origin запросах"
             },
             {
-                "en": "The cookie from expiring",
-                "ru": "Истечение срока действия cookie"
+                "en": "The cookie being sent over HTTP (non-HTTPS)",
+                "ru": "Отправку cookie по HTTP (не по HTTPS)"
+            },
+            {
+                "en": "JavaScript code from accessing the cookie via document.cookie",
+                "ru": "Доступ JavaScript-кода к cookie через document.cookie"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "sec-csp-001",
@@ -219,12 +219,12 @@
         },
         "options": [
             {
-                "en": "Via a <meta> tag only",
-                "ru": "Только через тег <meta>"
-            },
-            {
                 "en": "Via the Content-Security-Policy HTTP response header or a <meta http-equiv> tag",
                 "ru": "Через HTTP response-заголовок Content-Security-Policy либо через тег <meta http-equiv>"
+            },
+            {
+                "en": "Via a <meta> tag only",
+                "ru": "Только через тег <meta>"
             },
             {
                 "en": "Via the X-Content-Type-Options header",
@@ -235,7 +235,7 @@
                 "ru": "Через заголовок Strict-Transport-Security"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "sec-localstorage-001",
@@ -253,20 +253,20 @@
         },
         "options": [
             {
-                "en": "localStorage is cleared on every page refresh",
-                "ru": "localStorage очищается при каждом обновлении страницы"
-            },
-            {
                 "en": "localStorage data is sent automatically with every request",
                 "ru": "Данные из localStorage автоматически отправляются с каждым запросом"
+            },
+            {
+                "en": "localStorage has a size limit of 5KB",
+                "ru": "У localStorage ограничение по объёму в 5 КБ"
             },
             {
                 "en": "localStorage is accessible by any JavaScript on the same origin, making it vulnerable to XSS",
                 "ru": "localStorage доступен любому JavaScript в пределах того же origin, что делает его уязвимым к XSS"
             },
             {
-                "en": "localStorage has a size limit of 5KB",
-                "ru": "У localStorage ограничение по объёму в 5 КБ"
+                "en": "localStorage is cleared on every page refresh",
+                "ru": "localStorage очищается при каждом обновлении страницы"
             }
         ],
         "correct": 2
@@ -321,16 +321,16 @@
         },
         "options": [
             {
-                "en": "eval() is slower than other approaches",
-                "ru": "eval() медленнее других подходов"
+                "en": "eval() only works in strict mode",
+                "ru": "eval() работает только в strict mode"
             },
             {
                 "en": "eval() executes the string as code in the current scope, enabling arbitrary code injection",
                 "ru": "eval() исполняет строку как код в текущем scope, что позволяет выполнить произвольную инъекцию кода"
             },
             {
-                "en": "eval() only works in strict mode",
-                "ru": "eval() работает только в strict mode"
+                "en": "eval() is slower than other approaches",
+                "ru": "eval() медленнее других подходов"
             },
             {
                 "en": "eval() cannot access the DOM",
@@ -355,20 +355,20 @@
         },
         "options": [
             {
-                "en": "X-Content-Type-Options",
-                "ru": "X-Content-Type-Options"
+                "en": "Referrer-Policy",
+                "ru": "Referrer-Policy"
             },
             {
                 "en": "X-Frame-Options",
                 "ru": "X-Frame-Options"
             },
             {
-                "en": "X-XSS-Protection",
-                "ru": "X-XSS-Protection"
+                "en": "X-Content-Type-Options",
+                "ru": "X-Content-Type-Options"
             },
             {
-                "en": "Referrer-Policy",
-                "ru": "Referrer-Policy"
+                "en": "X-XSS-Protection",
+                "ru": "X-XSS-Protection"
             }
         ],
         "correct": 1
@@ -393,19 +393,19 @@
                 "ru": "Только домен"
             },
             {
+                "en": "Domain and path",
+                "ru": "Домен и путь"
+            },
+            {
                 "en": "Protocol, domain, and port",
                 "ru": "Протокол, домен и порт"
             },
             {
                 "en": "Protocol and domain only",
                 "ru": "Только протокол и домен"
-            },
-            {
-                "en": "Domain and path",
-                "ru": "Домен и путь"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "sec-sri-001",
@@ -423,6 +423,10 @@
         },
         "options": [
             {
+                "en": "Caching scripts in the service worker",
+                "ru": "Для кэширования скриптов в service worker"
+            },
+            {
                 "en": "Encrypting script files before serving them",
                 "ru": "Для шифрования файлов скриптов перед их отдачей"
             },
@@ -433,13 +437,9 @@
             {
                 "en": "Blocking all third-party scripts",
                 "ru": "Для блокировки всех сторонних скриптов"
-            },
-            {
-                "en": "Caching scripts in the service worker",
-                "ru": "Для кэширования скриптов в service worker"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "sec-sanitize-001",
@@ -457,23 +457,23 @@
         },
         "options": [
             {
-                "en": "They are the same technique with different names",
-                "ru": "Это одна и та же техника под разными названиями"
-            },
-            {
-                "en": "Sanitization removes or neutralizes dangerous content; escaping encodes special characters so they render as text",
-                "ru": "Sanitization удаляет или нейтрализует опасный контент; escaping кодирует специальные символы, чтобы они отображались как текст"
-            },
-            {
                 "en": "Escaping removes dangerous content; sanitization encodes characters",
                 "ru": "Escaping удаляет опасный контент; sanitization кодирует символы"
             },
             {
                 "en": "Sanitization is for SQL; escaping is for HTML",
                 "ru": "Sanitization применяется к SQL; escaping — к HTML"
+            },
+            {
+                "en": "Sanitization removes or neutralizes dangerous content; escaping encodes special characters so they render as text",
+                "ru": "Sanitization удаляет или нейтрализует опасный контент; escaping кодирует специальные символы, чтобы они отображались как текст"
+            },
+            {
+                "en": "They are the same technique with different names",
+                "ru": "Это одна и та же техника под разными названиями"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "sec-rate-limit-001",
@@ -491,12 +491,12 @@
         },
         "options": [
             {
-                "en": "To reduce server costs",
-                "ru": "Снизить затраты на сервер"
-            },
-            {
                 "en": "To limit the number of requests a client can make in a given time window, preventing abuse and brute-force attacks",
                 "ru": "Ограничить количество запросов, которые клиент может сделать за заданное временное окно, предотвращая злоупотребления и brute-force атаки"
+            },
+            {
+                "en": "To reduce server costs",
+                "ru": "Снизить затраты на сервер"
             },
             {
                 "en": "To prioritize VIP users",
@@ -507,7 +507,7 @@
                 "ru": "Эффективнее кэшировать ответы"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "sec-xss-003",
@@ -525,23 +525,23 @@
         },
         "options": [
             {
-                "en": "It requires a server-side vulnerability",
-                "ru": "Требует серверной уязвимости"
-            },
-            {
                 "en": "The malicious payload is stored in the database",
                 "ru": "Вредоносный payload хранится в базе данных"
             },
             {
-                "en": "The payload never reaches the server; the vulnerability lives entirely in client-side JavaScript processing attacker-controlled data sources",
-                "ru": "Payload вообще не попадает на сервер; уязвимость целиком живёт в клиентском JavaScript, который обрабатывает подконтрольные атакующему источники данных"
-            },
-            {
                 "en": "It only affects Internet Explorer",
                 "ru": "Затрагивает только Internet Explorer"
+            },
+            {
+                "en": "It requires a server-side vulnerability",
+                "ru": "Требует серверной уязвимости"
+            },
+            {
+                "en": "The payload never reaches the server; the vulnerability lives entirely in client-side JavaScript processing attacker-controlled data sources",
+                "ru": "Payload вообще не попадает на сервер; уязвимость целиком живёт в клиентском JavaScript, который обрабатывает подконтрольные атакующему источники данных"
             }
         ],
-        "correct": 2
+        "correct": 3
     },
     {
         "id": "sec-csp-002",
@@ -559,23 +559,23 @@
         },
         "options": [
             {
-                "en": "'unsafe-inline'",
-                "ru": "'unsafe-inline'"
-            },
-            {
-                "en": "nonce-<base64value>",
-                "ru": "nonce-<base64value>"
-            },
-            {
                 "en": "script-src 'self'",
                 "ru": "script-src 'self'"
             },
             {
                 "en": "default-src 'none'",
                 "ru": "default-src 'none'"
+            },
+            {
+                "en": "nonce-<base64value>",
+                "ru": "nonce-<base64value>"
+            },
+            {
+                "en": "'unsafe-inline'",
+                "ru": "'unsafe-inline'"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "sec-jwt-002",
@@ -593,23 +593,23 @@
         },
         "options": [
             {
-                "en": "The server accepts tokens without a signature when the algorithm is set to 'none'",
-                "ru": "Сервер принимает токены без подписи, когда алгоритм выставлен в 'none'"
-            },
-            {
-                "en": "The server rejects all tokens with a signature",
-                "ru": "Сервер отвергает все токены с подписью"
+                "en": "The algorithm 'none' uses a symmetric key",
+                "ru": "Алгоритм 'none' использует симметричный ключ"
             },
             {
                 "en": "The payload is encrypted when alg is none",
                 "ru": "Payload шифруется, когда alg равен none"
             },
             {
-                "en": "The algorithm 'none' uses a symmetric key",
-                "ru": "Алгоритм 'none' использует симметричный ключ"
+                "en": "The server accepts tokens without a signature when the algorithm is set to 'none'",
+                "ru": "Сервер принимает токены без подписи, когда алгоритм выставлен в 'none'"
+            },
+            {
+                "en": "The server rejects all tokens with a signature",
+                "ru": "Сервер отвергает все токены с подписью"
             }
         ],
-        "correct": 0
+        "correct": 2
     },
     {
         "id": "sec-oauth-001",
@@ -635,15 +635,15 @@
                 "ru": "Implicit flow"
             },
             {
-                "en": "Authorization Code flow with PKCE",
-                "ru": "Authorization Code flow with PKCE"
-            },
-            {
                 "en": "Resource Owner Password Credentials flow",
                 "ru": "Resource Owner Password Credentials flow"
+            },
+            {
+                "en": "Authorization Code flow with PKCE",
+                "ru": "Authorization Code flow с PKCE"
             }
         ],
-        "correct": 2
+        "correct": 3
     },
     {
         "id": "sec-prototype-001",
@@ -661,23 +661,23 @@
         },
         "options": [
             {
-                "en": "A specific class instance",
-                "ru": "Конкретном экземпляре класса"
-            },
-            {
-                "en": "Object.prototype, affecting all objects in the application",
-                "ru": "Object.prototype, затрагивая все объекты приложения"
+                "en": "A single module's exports",
+                "ru": "Exports отдельного модуля"
             },
             {
                 "en": "The window object only",
                 "ru": "Только на объекте window"
             },
             {
-                "en": "A single module's exports",
-                "ru": "Exports отдельного модуля"
+                "en": "Object.prototype, affecting all objects in the application",
+                "ru": "Object.prototype, затрагивая все объекты приложения"
+            },
+            {
+                "en": "A specific class instance",
+                "ru": "Конкретном экземпляре класса"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "sec-npm-001",
@@ -695,23 +695,23 @@
         },
         "options": [
             {
-                "en": "npm outdated",
-                "ru": "npm outdated"
-            },
-            {
                 "en": "npm audit",
                 "ru": "npm audit"
             },
             {
-                "en": "npm list",
-                "ru": "npm list"
-            },
-            {
                 "en": "npm prune",
                 "ru": "npm prune"
+            },
+            {
+                "en": "npm outdated",
+                "ru": "npm outdated"
+            },
+            {
+                "en": "npm list",
+                "ru": "npm list"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "sec-dangerouslySetInnerHTML-001",
@@ -729,23 +729,23 @@
         },
         "options": [
             {
-                "en": "Base64-encode it",
-                "ru": "Кодировать его в Base64"
-            },
-            {
-                "en": "Sanitize it with a library like DOMPurify before passing it",
-                "ru": "Санитизировать его библиотекой вроде DOMPurify перед передачей"
+                "en": "Enable the 'trusted-html' CSP directive",
+                "ru": "Включить CSP-директиву 'trusted-html'"
             },
             {
                 "en": "Wrap it in a <span> tag",
                 "ru": "Оборачивать в тег <span>"
             },
             {
-                "en": "Enable the 'trusted-html' CSP directive",
-                "ru": "Включить CSP-директиву 'trusted-html'"
+                "en": "Base64-encode it",
+                "ru": "Кодировать его в Base64"
+            },
+            {
+                "en": "Sanitize it with a library like DOMPurify before passing it",
+                "ru": "Санитизировать его библиотекой вроде DOMPurify перед передачей"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "sec-cors-002",
@@ -767,19 +767,19 @@
                 "ru": "Простые GET-запросы"
             },
             {
-                "en": "Reading the response body",
-                "ru": "Чтение тела ответа"
-            },
-            {
                 "en": "Sending cookies or Authorization headers with credentials: 'include'",
                 "ru": "Отправка cookies или заголовков Authorization с credentials: 'include'"
+            },
+            {
+                "en": "Reading the response body",
+                "ru": "Чтение тела ответа"
             },
             {
                 "en": "Preflight-exempt POST requests with plain text",
                 "ru": "POST-запросы с plain text, не требующие preflight"
             }
         ],
-        "correct": 2
+        "correct": 1
     },
     {
         "id": "sec-xss-004",
@@ -797,20 +797,20 @@
         },
         "options": [
             {
-                "en": "element.textContent",
-                "ru": "element.textContent"
-            },
-            {
                 "en": "element.setAttribute('class', value)",
                 "ru": "element.setAttribute('class', value)"
+            },
+            {
+                "en": "element.dataset.id",
+                "ru": "element.dataset.id"
             },
             {
                 "en": "element.innerHTML",
                 "ru": "element.innerHTML"
             },
             {
-                "en": "element.dataset.id",
-                "ru": "element.dataset.id"
+                "en": "element.textContent",
+                "ru": "element.textContent"
             }
         ],
         "correct": 2
@@ -831,23 +831,23 @@
         },
         "options": [
             {
-                "en": "Strict blocks all cross-site cookies; Lax allows cookies on top-level GET navigations (e.g., clicking a link)",
-                "ru": "Strict блокирует все cross-site cookies; Lax разрешает cookies при top-level GET-навигациях (например, по клику по ссылке)"
+                "en": "They are identical except for the spelling",
+                "ru": "Они идентичны, различаются только написанием"
             },
             {
-                "en": "Lax is stricter than Strict",
-                "ru": "Lax строже, чем Strict"
+                "en": "Strict blocks all cross-site cookies; Lax allows cookies on top-level GET navigations (e.g., clicking a link)",
+                "ru": "Strict блокирует все cross-site cookies; Lax разрешает cookies при top-level GET-навигациях (например, по клику по ссылке)"
             },
             {
                 "en": "Strict allows cookies in iframes; Lax does not",
                 "ru": "Strict разрешает cookies в iframe; Lax — нет"
             },
             {
-                "en": "They are identical except for the spelling",
-                "ru": "Они идентичны, различаются только написанием"
+                "en": "Lax is stricter than Strict",
+                "ru": "Lax строже, чем Strict"
             }
         ],
-        "correct": 0
+        "correct": 1
     },
     {
         "id": "sec-jwt-003",
@@ -899,23 +899,23 @@
         },
         "options": [
             {
-                "en": "'strict-dynamic'",
-                "ru": "'strict-dynamic'"
+                "en": "'allow-eval'",
+                "ru": "'allow-eval'"
             },
             {
                 "en": "'unsafe-inline'",
                 "ru": "'unsafe-inline'"
             },
             {
-                "en": "'unsafe-eval'",
-                "ru": "'unsafe-eval'"
+                "en": "'strict-dynamic'",
+                "ru": "'strict-dynamic'"
             },
             {
-                "en": "'allow-eval'",
-                "ru": "'allow-eval'"
+                "en": "'unsafe-eval'",
+                "ru": "'unsafe-eval'"
             }
         ],
-        "correct": 2
+        "correct": 3
     },
     {
         "id": "sec-npm-002",
@@ -967,20 +967,20 @@
         },
         "options": [
             {
-                "en": "Recursive assignment: dest[key] = source[key]",
-                "ru": "Рекурсивное присваивание: dest[key] = source[key]"
-            },
-            {
                 "en": "Using Object.assign({})",
                 "ru": "Использование Object.assign({})"
+            },
+            {
+                "en": "JSON.stringify followed by JSON.parse",
+                "ru": "JSON.stringify с последующим JSON.parse"
             },
             {
                 "en": "Using Object.create(null) for the target object and validating keys against a whitelist",
                 "ru": "Использование Object.create(null) в качестве целевого объекта и валидация ключей по whitelist"
             },
             {
-                "en": "JSON.stringify followed by JSON.parse",
-                "ru": "JSON.stringify с последующим JSON.parse"
+                "en": "Recursive assignment: dest[key] = source[key]",
+                "ru": "Рекурсивное присваивание: dest[key] = source[key]"
             }
         ],
         "correct": 2
@@ -1001,23 +1001,23 @@
         },
         "options": [
             {
-                "en": "It carries the user's access token",
-                "ru": "Переносит access-токен пользователя"
-            },
-            {
-                "en": "It is a CSRF token that ties the authorization request to the callback, preventing CSRF attacks on the redirect",
-                "ru": "Это CSRF-токен, связывающий authorization-запрос с callback и предотвращающий CSRF-атаки на redirect"
+                "en": "It identifies the OAuth provider",
+                "ru": "Идентифицирует OAuth-провайдера"
             },
             {
                 "en": "It specifies the requested permission scopes",
                 "ru": "Указывает запрашиваемые scopes прав"
             },
             {
-                "en": "It identifies the OAuth provider",
-                "ru": "Идентифицирует OAuth-провайдера"
+                "en": "It carries the user's access token",
+                "ru": "Переносит access-токен пользователя"
+            },
+            {
+                "en": "It is a CSRF token that ties the authorization request to the callback, preventing CSRF attacks on the redirect",
+                "ru": "Это CSRF-токен, связывающий authorization-запрос с callback и предотвращающий CSRF-атаки на redirect"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "sec-csp-004",
@@ -1035,16 +1035,16 @@
         },
         "options": [
             {
-                "en": "Allows all inline scripts",
-                "ru": "Разрешает все inline-скрипты"
+                "en": "Blocks all dynamically imported modules",
+                "ru": "Блокирует все динамически импортируемые модули"
             },
             {
                 "en": "Trusts scripts loaded by already-trusted scripts, removing the need for host-based allowlists",
                 "ru": "Доверяет скриптам, загруженным уже доверенными скриптами, избавляя от необходимости вести allowlist по хостам"
             },
             {
-                "en": "Blocks all dynamically imported modules",
-                "ru": "Блокирует все динамически импортируемые модули"
+                "en": "Allows all inline scripts",
+                "ru": "Разрешает все inline-скрипты"
             },
             {
                 "en": "Enables dynamic CSP updates from JavaScript",
@@ -1069,23 +1069,23 @@
         },
         "options": [
             {
-                "en": "The server must be using an outdated TLS version",
-                "ru": "Сервер должен использовать устаревшую версию TLS"
-            },
-            {
                 "en": "The server must verify HS256 tokens using the RSA public key as the HMAC secret, accepting the attacker's forged token",
                 "ru": "Сервер должен верифицировать HS256-токены, используя RSA public key как HMAC secret, и принять поддельный токен атакующего"
+            },
+            {
+                "en": "The attacker must have the RSA private key",
+                "ru": "Атакующий должен иметь RSA private key"
             },
             {
                 "en": "The server must not have expiry validation",
                 "ru": "На сервере не должно быть валидации expiry"
             },
             {
-                "en": "The attacker must have the RSA private key",
-                "ru": "Атакующий должен иметь RSA private key"
+                "en": "The server must be using an outdated TLS version",
+                "ru": "Сервер должен использовать устаревшую версию TLS"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "sec-xss-005",
@@ -1103,27 +1103,27 @@
         },
         "options": [
             {
+                "en": "Using textContent instead of innerHTML",
+                "ru": "Использование textContent вместо innerHTML"
+            },
+            {
                 "en": "Output encoding / HTML escaping of user data",
                 "ru": "Output encoding / HTML escaping пользовательских данных"
+            },
+            {
+                "en": "Using DOMPurify to sanitize HTML",
+                "ru": "Санитизация HTML через DOMPurify"
             },
             {
                 "en": "Content Security Policy (CSP)",
                 "ru": "Content Security Policy (CSP)"
             },
             {
-                "en": "Using textContent instead of innerHTML",
-                "ru": "Использование textContent вместо innerHTML"
-            },
-            {
                 "en": "Storing user data in Base64",
                 "ru": "Хранение пользовательских данных в Base64"
-            },
-            {
-                "en": "Using DOMPurify to sanitize HTML",
-                "ru": "Санитизация HTML через DOMPurify"
             }
         ],
-        "correct": [0, 1, 2, 4]
+        "correct": [0, 1, 2, 3]
     },
     {
         "id": "sec-cookies-003",
@@ -1141,27 +1141,27 @@
         },
         "options": [
             {
-                "en": "HttpOnly",
-                "ru": "HttpOnly"
+                "en": "Max-Age=0",
+                "ru": "Max-Age=0"
             },
             {
                 "en": "Secure",
                 "ru": "Secure"
             },
             {
-                "en": "SameSite=Strict",
-                "ru": "SameSite=Strict"
-            },
-            {
                 "en": "Domain=*",
                 "ru": "Domain=*"
             },
             {
-                "en": "Max-Age=0",
-                "ru": "Max-Age=0"
+                "en": "HttpOnly",
+                "ru": "HttpOnly"
+            },
+            {
+                "en": "SameSite=Strict",
+                "ru": "SameSite=Strict"
             }
         ],
-        "correct": [0, 1, 2]
+        "correct": [1, 3, 4]
     },
     {
         "id": "sec-csp-005",
@@ -1183,23 +1183,23 @@
                 "ru": "script-src"
             },
             {
-                "en": "default-src",
-                "ru": "default-src"
+                "en": "font-src",
+                "ru": "font-src"
             },
             {
-                "en": "img-src",
-                "ru": "img-src"
+                "en": "default-src",
+                "ru": "default-src"
             },
             {
                 "en": "connect-src",
                 "ru": "connect-src"
             },
             {
-                "en": "font-src",
-                "ru": "font-src"
+                "en": "img-src",
+                "ru": "img-src"
             }
         ],
-        "correct": [0, 1]
+        "correct": [0, 2]
     },
     {
         "id": "sec-cors-003",
@@ -1217,10 +1217,6 @@
         },
         "options": [
             {
-                "en": "HTTP method PUT",
-                "ru": "HTTP-метод PUT"
-            },
-            {
                 "en": "HTTP method GET with default headers",
                 "ru": "HTTP-метод GET со стандартными заголовками"
             },
@@ -1229,15 +1225,19 @@
                 "ru": "Content-Type: application/json"
             },
             {
+                "en": "Accept: text/html",
+                "ru": "Accept: text/html"
+            },
+            {
                 "en": "Authorization header",
                 "ru": "Заголовок Authorization"
             },
             {
-                "en": "Accept: text/html",
-                "ru": "Accept: text/html"
+                "en": "HTTP method PUT",
+                "ru": "HTTP-метод PUT"
             }
         ],
-        "correct": [0, 2, 3]
+        "correct": [1, 3, 4]
     },
     {
         "id": "sec-jwt-005",
@@ -1255,27 +1255,27 @@
         },
         "options": [
             {
-                "en": "Store tokens in HttpOnly cookies rather than localStorage",
-                "ru": "Хранить токены в HttpOnly cookies, а не в localStorage"
+                "en": "Validate the 'aud' claim to ensure the token is for your service",
+                "ru": "Валидировать claim 'aud', чтобы убедиться, что токен предназначен именно вашему сервису"
             },
             {
-                "en": "Validate the 'alg' header and reject unexpected algorithms",
-                "ru": "Валидировать header 'alg' и отклонять непредусмотренные алгоритмы"
+                "en": "Store tokens in HttpOnly cookies rather than localStorage",
+                "ru": "Хранить токены в HttpOnly cookies, а не в localStorage"
             },
             {
                 "en": "Use short expiry times combined with refresh tokens",
                 "ru": "Использовать короткий срок жизни вместе с refresh tokens"
             },
             {
-                "en": "Include the user password in the payload for convenience",
-                "ru": "Включать пароль пользователя в payload для удобства"
+                "en": "Validate the 'alg' header and reject unexpected algorithms",
+                "ru": "Валидировать header 'alg' и отклонять непредусмотренные алгоритмы"
             },
             {
-                "en": "Validate the 'aud' claim to ensure the token is for your service",
-                "ru": "Валидировать claim 'aud', чтобы убедиться, что токен предназначен именно вашему сервису"
+                "en": "Include the user password in the payload for convenience",
+                "ru": "Включать пароль пользователя в payload для удобства"
             }
         ],
-        "correct": [0, 1, 2, 4]
+        "correct": [0, 1, 2, 3]
     },
     {
         "id": "sec-xss-006",
@@ -1293,27 +1293,27 @@
         },
         "options": [
             {
-                "en": "element.innerHTML",
-                "ru": "element.innerHTML"
+                "en": "eval(userInput)",
+                "ru": "eval(userInput)"
             },
             {
                 "en": "document.write()",
                 "ru": "document.write()"
             },
             {
-                "en": "element.textContent",
-                "ru": "element.textContent"
-            },
-            {
                 "en": "location.href = userInput",
                 "ru": "location.href = userInput"
             },
             {
-                "en": "eval(userInput)",
-                "ru": "eval(userInput)"
+                "en": "element.textContent",
+                "ru": "element.textContent"
+            },
+            {
+                "en": "element.innerHTML",
+                "ru": "element.innerHTML"
             }
         ],
-        "correct": [0, 1, 3, 4]
+        "correct": [0, 1, 2, 4]
     },
     {
         "id": "sec-supply-chain-001",
@@ -1331,27 +1331,27 @@
         },
         "options": [
             {
-                "en": "Committing package-lock.json to source control",
-                "ru": "Коммитить package-lock.json в систему контроля версий"
-            },
-            {
-                "en": "Running npm audit in CI",
-                "ru": "Запускать npm audit в CI"
+                "en": "Reviewing the package source before adding new dependencies",
+                "ru": "Просматривать исходники пакета перед добавлением новой зависимости"
             },
             {
                 "en": "Pinning exact dependency versions",
                 "ru": "Фиксировать точные версии зависимостей"
             },
             {
-                "en": "Using npm install --legacy-peer-deps by default",
-                "ru": "По умолчанию использовать npm install --legacy-peer-deps"
+                "en": "Running npm audit in CI",
+                "ru": "Запускать npm audit в CI"
             },
             {
-                "en": "Reviewing the package source before adding new dependencies",
-                "ru": "Просматривать исходники пакета перед добавлением новой зависимости"
+                "en": "Committing package-lock.json to source control",
+                "ru": "Коммитить package-lock.json в систему контроля версий"
+            },
+            {
+                "en": "Using npm install --legacy-peer-deps by default",
+                "ru": "По умолчанию использовать npm install --legacy-peer-deps"
             }
         ],
-        "correct": [0, 1, 2, 4]
+        "correct": [0, 1, 2, 3]
     },
     {
         "id": "sec-prototype-003",
@@ -1369,27 +1369,27 @@
         },
         "options": [
             {
-                "en": "Using Object.freeze(Object.prototype)",
-                "ru": "Использование Object.freeze(Object.prototype)"
-            },
-            {
-                "en": "Checking for __proto__ or constructor keys before merging objects",
-                "ru": "Проверка на ключи __proto__ или constructor перед merge объектов"
-            },
-            {
-                "en": "Using Map instead of plain objects for dynamic key storage",
-                "ru": "Использование Map вместо plain-объектов для хранения данных с динамическими ключами"
-            },
-            {
                 "en": "Enabling strict mode ('use strict')",
                 "ru": "Включение strict mode ('use strict')"
             },
             {
                 "en": "Using Object.create(null) for accumulator objects",
                 "ru": "Использование Object.create(null) для аккумулирующих объектов"
+            },
+            {
+                "en": "Using Object.freeze(Object.prototype)",
+                "ru": "Использование Object.freeze(Object.prototype)"
+            },
+            {
+                "en": "Using Map instead of plain objects for dynamic key storage",
+                "ru": "Использование Map вместо plain-объектов для хранения данных с динамическими ключами"
+            },
+            {
+                "en": "Checking for __proto__ or constructor keys before merging objects",
+                "ru": "Проверка на ключи __proto__ или constructor перед merge объектов"
             }
         ],
-        "correct": [0, 1, 2, 4]
+        "correct": [1, 2, 3, 4]
     },
     {
         "id": "sec-oauth-003",
@@ -1407,12 +1407,16 @@
         },
         "options": [
             {
-                "en": "The code_verifier is a cryptographically random string stored by the client",
-                "ru": "code_verifier — это криптографически случайная строка, хранящаяся на стороне клиента"
+                "en": "PKCE is only required for mobile apps",
+                "ru": "PKCE нужен только для мобильных приложений"
             },
             {
                 "en": "The code_challenge is SHA-256(code_verifier), base64url-encoded",
                 "ru": "code_challenge — это SHA-256(code_verifier) в кодировке base64url"
+            },
+            {
+                "en": "The code_verifier is a cryptographically random string stored by the client",
+                "ru": "code_verifier — это криптографически случайная строка, хранящаяся на стороне клиента"
             },
             {
                 "en": "PKCE replaces the need for HTTPS",
@@ -1421,13 +1425,9 @@
             {
                 "en": "The authorization server verifies the code_verifier at token exchange",
                 "ru": "Authorization server проверяет code_verifier на этапе обмена на токен"
-            },
-            {
-                "en": "PKCE is only required for mobile apps",
-                "ru": "PKCE нужен только для мобильных приложений"
             }
         ],
-        "correct": [0, 1, 3]
+        "correct": [1, 2, 4]
     },
     {
         "id": "sec-xss-007",
@@ -1483,27 +1483,27 @@
         },
         "options": [
             {
-                "en": "Input validation on the server",
-                "ru": "Валидация ввода на сервере"
+                "en": "Content Security Policy with nonces",
+                "ru": "Content Security Policy с nonce"
             },
             {
                 "en": "Output encoding at the point of rendering",
                 "ru": "Output encoding в точке рендеринга"
             },
             {
-                "en": "Content Security Policy with nonces",
-                "ru": "Content Security Policy с nonce"
+                "en": "Trusted Types API enforcement",
+                "ru": "Принудительное применение Trusted Types API"
+            },
+            {
+                "en": "Input validation on the server",
+                "ru": "Валидация ввода на сервере"
             },
             {
                 "en": "Disabling JavaScript entirely",
                 "ru": "Полное отключение JavaScript"
-            },
-            {
-                "en": "Trusted Types API enforcement",
-                "ru": "Принудительное применение Trusted Types API"
             }
         ],
-        "correct": [0, 1, 2, 4]
+        "correct": [0, 1, 2, 3]
     },
     {
         "id": "sec-bug-xss-001",
@@ -1521,7 +1521,8 @@
         },
         "code": "function Comment({ text }) {\n  return (\n    <div\n      dangerouslySetInnerHTML={{ __html: text }}\n    />\n  );\n}",
         "correct": "User-supplied text is rendered as raw HTML without sanitization",
-        "referenceAnswer": "dangerouslySetInnerHTML bypasses React's XSS protection. The text prop could contain <script> tags or event handlers. Fix: sanitize with DOMPurify before use — dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(text) }}"
+        "referenceAnswer": "dangerouslySetInnerHTML bypasses React's XSS protection. The text prop could contain <script> tags or event handlers. Fix: sanitize with DOMPurify before use — dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(text) }}",
+        "lang": "jsx"
     },
     {
         "id": "sec-bug-csrf-001",
@@ -1539,7 +1540,8 @@
         },
         "code": "app.use(session({\n  secret: 'keyboard cat',\n  resave: false,\n  saveUninitialized: false,\n  cookie: {\n    httpOnly: true,\n    secure: true\n  }\n}));",
         "correct": "The SameSite attribute is missing from the cookie configuration",
-        "referenceAnswer": "Without SameSite, the cookie is sent with all cross-origin requests (including form submissions from attacker sites), enabling CSRF. Fix: add sameSite: 'strict' or sameSite: 'lax' to the cookie options."
+        "referenceAnswer": "Without SameSite, the cookie is sent with all cross-origin requests (including form submissions from attacker sites), enabling CSRF. Fix: add sameSite: 'strict' or sameSite: 'lax' to the cookie options.",
+        "lang": "javascript"
     },
     {
         "id": "sec-bug-jwt-001",
@@ -1557,7 +1559,8 @@
         },
         "code": "function verifyToken(token) {\n  const [headerB64] = token.split('.');\n  const header = JSON.parse(atob(headerB64));\n  return jwt.verify(token, publicKey, { algorithms: [header.alg] });\n}",
         "correct": "The algorithm is read from the untrusted token header, allowing alg:none or algorithm confusion attacks",
-        "referenceAnswer": "Never trust the algorithm specified in the token. The algorithms option must be hardcoded to the expected algorithm (e.g., ['RS256']). An attacker can set alg to 'none' to skip signature verification or to 'HS256' to cause algorithm confusion."
+        "referenceAnswer": "Never trust the algorithm specified in the token. The algorithms option must be hardcoded to the expected algorithm (e.g., ['RS256']). An attacker can set alg to 'none' to skip signature verification or to 'HS256' to cause algorithm confusion.",
+        "lang": "javascript"
     },
     {
         "id": "sec-bug-eval-001",
@@ -1575,7 +1578,8 @@
         },
         "code": "async function loadConfig(configName) {\n  const response = await fetch(`/configs/${configName}`);\n  const text = await response.text();\n  return eval('(' + text + ')');\n}",
         "correct": "eval() is used to parse server responses, enabling code injection if the server or network is compromised",
-        "referenceAnswer": "Replace eval() with JSON.parse(). Configuration data should be valid JSON, not arbitrary JavaScript. eval() executes any code in the response, giving a man-in-the-middle attacker full code execution."
+        "referenceAnswer": "Replace eval() with JSON.parse(). Configuration data should be valid JSON, not arbitrary JavaScript. eval() executes any code in the response, giving a man-in-the-middle attacker full code execution.",
+        "lang": "javascript"
     },
     {
         "id": "sec-bug-prototype-001",
@@ -1593,7 +1597,8 @@
         },
         "code": "function deepMerge(target, source) {\n  for (const key of Object.keys(source)) {\n    if (typeof source[key] === 'object' && source[key] !== null) {\n      target[key] = target[key] || {};\n      deepMerge(target[key], source[key]);\n    } else {\n      target[key] = source[key];\n    }\n  }\n  return target;\n}",
         "correct": "No key filtering means __proto__ and constructor can be merged, polluting Object.prototype",
-        "referenceAnswer": "Add a guard: if (key === '__proto__' || key === 'constructor' || key === 'prototype') continue; Alternatively use Object.create(null) for target, or use structuredClone() for deep copying."
+        "referenceAnswer": "Add a guard: if (key === '__proto__' || key === 'constructor' || key === 'prototype') continue; Alternatively use Object.create(null) for target, or use structuredClone() for deep copying.",
+        "lang": "javascript"
     },
     {
         "id": "sec-bug-csp-001",
@@ -1611,7 +1616,8 @@
         },
         "code": "// HTTP response header:\n// Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.example.com",
         "correct": "'unsafe-inline' in script-src allows all inline scripts, completely defeating CSP's XSS protection",
-        "referenceAnswer": "Remove 'unsafe-inline' and replace inline scripts with external files or use nonces/hashes. With 'unsafe-inline' present, any injected <script> tag or on* event handler will execute, rendering CSP useless against XSS."
+        "referenceAnswer": "Remove 'unsafe-inline' and replace inline scripts with external files or use nonces/hashes. With 'unsafe-inline' present, any injected <script> tag or on* event handler will execute, rendering CSP useless against XSS.",
+        "lang": "javascript"
     },
     {
         "id": "sec-bug-localstorage-001",
@@ -1629,7 +1635,8 @@
         },
         "code": "async function login(credentials) {\n  const { token } = await authApi.login(credentials);\n  localStorage.setItem('authToken', token);\n  return token;\n}\n\nfunction getAuthHeader() {\n  return { Authorization: `Bearer ${localStorage.getItem('authToken')}` };\n}",
         "correct": "Storing the JWT in localStorage exposes it to XSS attacks that can steal the token via document.cookie-like access",
-        "referenceAnswer": "Store authentication tokens in HttpOnly cookies instead. They are inaccessible to JavaScript, preventing XSS-based token theft. The browser sends them automatically, so getAuthHeader() becomes unnecessary."
+        "referenceAnswer": "Store authentication tokens in HttpOnly cookies instead. They are inaccessible to JavaScript, preventing XSS-based token theft. The browser sends them automatically, so getAuthHeader() becomes unnecessary.",
+        "lang": "javascript"
     },
     {
         "id": "sec-bug-cors-001",
@@ -1647,7 +1654,8 @@
         },
         "code": "app.use((req, res, next) => {\n  const origin = req.headers.origin;\n  res.setHeader('Access-Control-Allow-Origin', origin);\n  res.setHeader('Access-Control-Allow-Credentials', 'true');\n  next();\n});",
         "correct": "The server reflects any Origin back, combined with Allow-Credentials:true — any site can make credentialed cross-origin requests",
-        "referenceAnswer": "Maintain an explicit allowlist of trusted origins and only set Access-Control-Allow-Origin for origins in that list. Never reflect the request Origin unconditionally when credentials are allowed."
+        "referenceAnswer": "Maintain an explicit allowlist of trusted origins and only set Access-Control-Allow-Origin for origins in that list. Never reflect the request Origin unconditionally when credentials are allowed.",
+        "lang": "javascript"
     },
     {
         "id": "sec-cc-csp-001",

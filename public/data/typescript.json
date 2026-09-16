@@ -15,16 +15,16 @@
         },
         "options": [
             {
-                "en": "T must be a subtype of U",
-                "ru": "T должен быть подтипом U"
+                "en": "T must extend the class U",
+                "ru": "T должен наследоваться от класса U"
             },
             {
                 "en": "T must be one of the property names of U",
                 "ru": "T должен быть одним из имён свойств U"
             },
             {
-                "en": "T must extend the class U",
-                "ru": "T должен наследоваться от класса U"
+                "en": "T must be a subtype of U",
+                "ru": "T должен быть подтипом U"
             },
             {
                 "en": "T must be equal to U",
@@ -49,23 +49,23 @@
         },
         "options": [
             {
-                "en": "Makes all properties of T required",
-                "ru": "Делает все свойства T обязательными"
-            },
-            {
-                "en": "Makes all properties of T optional",
-                "ru": "Делает все свойства T опциональными"
+                "en": "Creates a readonly version of T",
+                "ru": "Создаёт readonly-версию T"
             },
             {
                 "en": "Removes all optional properties from T",
                 "ru": "Удаляет из T все опциональные свойства"
             },
             {
-                "en": "Creates a readonly version of T",
-                "ru": "Создаёт readonly-версию T"
+                "en": "Makes all properties of T optional",
+                "ru": "Делает все свойства T опциональными"
+            },
+            {
+                "en": "Makes all properties of T required",
+                "ru": "Делает все свойства T обязательными"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "ts-narrowing-001",
@@ -87,19 +87,19 @@
                 "ru": "Проверки через typeof (например, typeof x === 'string')"
             },
             {
+                "en": "as keyword (type assertions)",
+                "ru": "Ключевое слово as (type assertions)"
+            },
+            {
                 "en": "instanceof checks (e.g., x instanceof Date)",
                 "ru": "Проверки через instanceof (например, x instanceof Date)"
             },
             {
                 "en": "in operator (e.g., 'key' in obj)",
                 "ru": "Оператор in (например, 'key' in obj)"
-            },
-            {
-                "en": "as keyword (type assertions)",
-                "ru": "Ключевое слово as (type assertions)"
             }
         ],
-        "correct": [0, 1, 2]
+        "correct": [0, 2, 3]
     },
     {
         "id": "ts-mapped-001",
@@ -112,8 +112,8 @@
             "ru": "Какие модификаторы можно добавить в mapped type `{ [K in keyof T]: T[K] }`?"
         },
         "explanation": {
-            "en": "Mapped types support adding/removing readonly and optional modifiers using +/- prefixes. Both +readonly and -readonly, as well as +? and -? are valid.",
-            "ru": "Mapped types поддерживают добавление и удаление модификаторов readonly и optional через префиксы +/-. Валидны как +readonly и -readonly, так и +? и -?."
+            "en": "Mapped types support adding and removing the readonly and optional modifiers with the + and - prefixes: +readonly / -readonly and +? / -?. Access modifiers such as private are class-member syntax and cannot appear in a mapped type.",
+            "ru": "Mapped types поддерживают добавление и удаление модификаторов readonly и optional через префиксы + и -: +readonly / -readonly и +? / -?. Модификаторы доступа вроде private — синтаксис членов класса, в mapped type они недопустимы."
         },
         "options": [
             {
@@ -121,19 +121,23 @@
                 "ru": "readonly (например, readonly [K in keyof T])"
             },
             {
-                "en": "optional (e.g., [K in keyof T]?)",
-                "ru": "optional (например, [K in keyof T]?)"
-            },
-            {
                 "en": "Removing readonly with -readonly",
                 "ru": "Удаление readonly через -readonly"
             },
             {
+                "en": "private (e.g., private [K in keyof T])",
+                "ru": "private (например, private [K in keyof T])"
+            },
+            {
                 "en": "Removing optional with -?",
                 "ru": "Удаление опциональности через -?"
+            },
+            {
+                "en": "optional (e.g., [K in keyof T]?)",
+                "ru": "optional (например, [K in keyof T]?)"
             }
         ],
-        "correct": [0, 1, 2, 3]
+        "correct": [0, 1, 3, 4]
     },
     {
         "id": "ts-bug-assertion-001",
@@ -151,7 +155,8 @@
         },
         "code": "function getLength(value: string | number): number {\n  return (value as string).length;\n}",
         "correct": "When value is a number, (value as string).length returns undefined at runtime",
-        "referenceAnswer": "The as string assertion bypasses TypeScript's type checking. When value is a number, .length returns undefined at runtime. Fix: use narrowing — if (typeof value === 'string') return value.length; return String(value).length;"
+        "referenceAnswer": "The as string assertion bypasses TypeScript's type checking. When value is a number, .length returns undefined at runtime. Fix: use narrowing — if (typeof value === 'string') return value.length; return String(value).length;",
+        "lang": "typescript"
     },
     {
         "id": "ts-template-literal-001",
@@ -169,7 +174,8 @@
         },
         "code": "type EventName<T extends string> = `__BLANK__${Capitalize<T>}`;\n// EventName<'click'> should be 'onClick'\n// EventName<'change'> should be 'onChange'",
         "blanks": ["on"],
-        "referenceAnswer": "Template literal types use backtick syntax with ${} interpolation. Prefixing with 'on' and using Capitalize<T> produces camelCase event handler names."
+        "referenceAnswer": "Template literal types use backtick syntax with ${} interpolation. Prefixing with 'on' and using Capitalize<T> produces camelCase event handler names.",
+        "lang": "tsx"
     },
     {
         "id": "ts-basic-001",
@@ -195,15 +201,15 @@
                 "ru": "boolean"
             },
             {
-                "en": "object",
-                "ru": "object"
-            },
-            {
                 "en": "symbol",
                 "ru": "symbol"
+            },
+            {
+                "en": "object",
+                "ru": "object"
             }
         ],
-        "correct": 2
+        "correct": 3
     },
     {
         "id": "ts-basic-002",
@@ -221,12 +227,12 @@
         },
         "options": [
             {
-                "en": "any allows any operations; unknown requires a type check before use",
-                "ru": "any допускает любые операции; unknown требует проверки типа перед использованием"
-            },
-            {
                 "en": "unknown allows any operations; any requires a type check before use",
                 "ru": "unknown допускает любые операции; any требует проверки типа перед использованием"
+            },
+            {
+                "en": "any allows any operations; unknown requires a type check before use",
+                "ru": "any допускает любые операции; unknown требует проверки типа перед использованием"
             },
             {
                 "en": "They are identical — both disable type checking",
@@ -237,7 +243,7 @@
                 "ru": "any объявлен устаревшим в TypeScript 5.x"
             }
         ],
-        "correct": 0
+        "correct": 1
     },
     {
         "id": "ts-basic-003",
@@ -255,23 +261,23 @@
         },
         "options": [
             {
-                "en": "When the function returns undefined",
-                "ru": "Когда функция возвращает undefined"
-            },
-            {
                 "en": "When the function always throws or never terminates",
                 "ru": "Когда функция всегда выбрасывает исключение или никогда не завершается"
             },
             {
-                "en": "When the function returns null",
-                "ru": "Когда функция возвращает null"
+                "en": "When the function returns undefined",
+                "ru": "Когда функция возвращает undefined"
             },
             {
                 "en": "When the function has no return statement",
                 "ru": "Когда у функции нет оператора return"
+            },
+            {
+                "en": "When the function returns null",
+                "ru": "Когда функция возвращает null"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "ts-inference-001",
@@ -289,23 +295,23 @@
         },
         "options": [
             {
-                "en": "Array<any>",
-                "ru": "Array<any>"
-            },
-            {
                 "en": "number[]",
                 "ru": "number[]"
+            },
+            {
+                "en": "ReadonlyArray<number>",
+                "ru": "ReadonlyArray<number>"
             },
             {
                 "en": "[1, 2, 3]",
                 "ru": "[1, 2, 3]"
             },
             {
-                "en": "ReadonlyArray<number>",
-                "ru": "ReadonlyArray<number>"
+                "en": "Array<any>",
+                "ru": "Array<any>"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "ts-inference-002",
@@ -323,23 +329,23 @@
         },
         "options": [
             {
-                "en": "string",
-                "ru": "string"
-            },
-            {
-                "en": "'hello'",
-                "ru": "'hello'"
-            },
-            {
                 "en": "const string",
                 "ru": "const string"
             },
             {
                 "en": "readonly string",
                 "ru": "readonly string"
+            },
+            {
+                "en": "'hello'",
+                "ru": "'hello'"
+            },
+            {
+                "en": "string",
+                "ru": "string"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "ts-union-001",
@@ -429,19 +435,19 @@
                 "ru": "const enum поддерживает строковые значения, а обычный enum — нет"
             },
             {
-                "en": "const enum values are inlined at compile time, producing no runtime object",
-                "ru": "Значения const enum инлайнятся на этапе компиляции и не создают runtime-объект"
+                "en": "const enum can be used across modules; regular enum cannot",
+                "ru": "const enum можно использовать между модулями, а обычный enum — нельзя"
             },
             {
                 "en": "const enum allows computed values; regular enum does not",
                 "ru": "const enum позволяет вычисляемые значения, а обычный enum — нет"
             },
             {
-                "en": "const enum can be used across modules; regular enum cannot",
-                "ru": "const enum можно использовать между модулями, а обычный enum — нельзя"
+                "en": "const enum values are inlined at compile time, producing no runtime object",
+                "ru": "Значения const enum инлайнятся на этапе компиляции и не создают runtime-объект"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "ts-readonly-001",
@@ -459,20 +465,20 @@
         },
         "options": [
             {
-                "en": "Reading array elements",
-                "ru": "Чтение элементов массива"
-            },
-            {
                 "en": "Passing the array to functions",
                 "ru": "Передачу массива в функции"
+            },
+            {
+                "en": "Creating the array with a literal",
+                "ru": "Создание массива через литерал"
             },
             {
                 "en": "Mutating the array (push, pop, splice, etc.)",
                 "ru": "Мутацию массива (push, pop, splice и т. д.)"
             },
             {
-                "en": "Creating the array with a literal",
-                "ru": "Создание массива через литерал"
+                "en": "Reading array elements",
+                "ru": "Чтение элементов массива"
             }
         ],
         "correct": 2
@@ -493,6 +499,10 @@
         },
         "options": [
             {
+                "en": "let pair: Array<string, number> = ['hello', 42];",
+                "ru": "let pair: Array<string, number> = ['hello', 42];"
+            },
+            {
                 "en": "let pair: [number, string] = ['hello', 42];",
                 "ru": "let pair: [number, string] = ['hello', 42];"
             },
@@ -503,13 +513,9 @@
             {
                 "en": "let pair: (string | number)[] = ['hello', 42];",
                 "ru": "let pair: (string | number)[] = ['hello', 42];"
-            },
-            {
-                "en": "let pair: Array<string, number> = ['hello', 42];",
-                "ru": "let pair: Array<string, number> = ['hello', 42];"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "ts-keyof-001",
@@ -527,23 +533,23 @@
         },
         "options": [
             {
-                "en": "string",
-                "ru": "string"
-            },
-            {
-                "en": "string | number | symbol",
-                "ru": "string | number | symbol"
-            },
-            {
                 "en": "'a' | 'b' | 'c'",
                 "ru": "'a' | 'b' | 'c'"
             },
             {
+                "en": "string",
+                "ru": "string"
+            },
+            {
                 "en": "{ a: string; b: number; c: boolean }",
                 "ru": "{ a: string; b: number; c: boolean }"
+            },
+            {
+                "en": "string | number | symbol",
+                "ru": "string | number | symbol"
             }
         ],
-        "correct": 2
+        "correct": 0
     },
     {
         "id": "ts-typeof-001",
@@ -561,23 +567,23 @@
         },
         "options": [
             {
-                "en": "Returns the JavaScript runtime type string of a value",
-                "ru": "Возвращает JavaScript runtime-строку типа значения"
-            },
-            {
-                "en": "Extracts the TypeScript type of a variable or property",
-                "ru": "Извлекает TypeScript-тип переменной или свойства"
-            },
-            {
                 "en": "Converts a value to its string representation",
                 "ru": "Преобразует значение в его строковое представление"
             },
             {
+                "en": "Returns the JavaScript runtime type string of a value",
+                "ru": "Возвращает JavaScript runtime-строку типа значения"
+            },
+            {
                 "en": "Checks if a value is defined",
                 "ru": "Проверяет, определено ли значение"
+            },
+            {
+                "en": "Extracts the TypeScript type of a variable or property",
+                "ru": "Извлекает TypeScript-тип переменной или свойства"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "ts-utility-002",
@@ -595,20 +601,20 @@
         },
         "options": [
             {
-                "en": "{ email: string }",
-                "ru": "{ email: string }"
+                "en": "{ name: string }",
+                "ru": "{ name: string }"
             },
             {
                 "en": "{ id: number; name: string }",
                 "ru": "{ id: number; name: string }"
             },
             {
-                "en": "{ id: number; name: string; email: string }",
-                "ru": "{ id: number; name: string; email: string }"
+                "en": "{ email: string }",
+                "ru": "{ email: string }"
             },
             {
-                "en": "{ name: string }",
-                "ru": "{ name: string }"
+                "en": "{ id: number; name: string; email: string }",
+                "ru": "{ id: number; name: string; email: string }"
             }
         ],
         "correct": 1
@@ -633,19 +639,19 @@
                 "ru": "Массив чисел"
             },
             {
+                "en": "A function that maps strings to numbers",
+                "ru": "Функцию, отображающую строки в числа"
+            },
+            {
                 "en": "A Map with string keys and number values",
                 "ru": "Map со строковыми ключами и числовыми значениями"
             },
             {
                 "en": "An object type with string keys and number values",
                 "ru": "Объектный тип со строковыми ключами и числовыми значениями"
-            },
-            {
-                "en": "A function that maps strings to numbers",
-                "ru": "Функцию, отображающую строки в числа"
             }
         ],
-        "correct": 2
+        "correct": 3
     },
     {
         "id": "ts-utility-004",
@@ -663,23 +669,23 @@
         },
         "options": [
             {
-                "en": "void",
-                "ru": "void"
-            },
-            {
                 "en": "string",
                 "ru": "string"
+            },
+            {
+                "en": "never",
+                "ru": "never"
             },
             {
                 "en": "(name: string) => string",
                 "ru": "(name: string) => string"
             },
             {
-                "en": "never",
-                "ru": "never"
+                "en": "void",
+                "ru": "void"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "ts-discriminated-001",
@@ -701,19 +707,19 @@
                 "ru": "Все члены union имеют одинаковый набор свойств"
             },
             {
-                "en": "All members have a common literal-typed property that distinguishes them",
-                "ru": "Все члены имеют общее свойство с литеральным типом, различающее их"
-            },
-            {
                 "en": "The union uses the & operator instead of |",
                 "ru": "Union использует оператор & вместо |"
+            },
+            {
+                "en": "All members have a common literal-typed property that distinguishes them",
+                "ru": "Все члены имеют общее свойство с литеральным типом, различающее их"
             },
             {
                 "en": "All members extend a common base class",
                 "ru": "Все члены наследуются от общего базового класса"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "ts-guard-001",
@@ -731,10 +737,6 @@
         },
         "options": [
             {
-                "en": "boolean",
-                "ru": "boolean"
-            },
-            {
                 "en": "asserts value is T",
                 "ru": "asserts value is T"
             },
@@ -745,9 +747,13 @@
             {
                 "en": "T | false",
                 "ru": "T | false"
+            },
+            {
+                "en": "boolean",
+                "ru": "boolean"
             }
         ],
-        "correct": 2
+        "correct": 1
     },
     {
         "id": "ts-strict-001",
@@ -769,19 +775,19 @@
                 "ru": "noImplicitAny"
             },
             {
-                "en": "strictNullChecks",
-                "ru": "strictNullChecks"
-            },
-            {
                 "en": "strictFunctionTypes",
                 "ru": "strictFunctionTypes"
             },
             {
                 "en": "useUnknownInCatchVariables",
                 "ru": "useUnknownInCatchVariables"
+            },
+            {
+                "en": "strictNullChecks",
+                "ru": "strictNullChecks"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "ts-conditional-001",
@@ -799,6 +805,10 @@
         },
         "options": [
             {
+                "en": "It always resolves to X | Y",
+                "ru": "Всегда сводится к X | Y"
+            },
+            {
                 "en": "It evaluates once for the entire union: (A | B) extends U ? X : Y",
                 "ru": "Вычисляется один раз для всего union: (A | B) extends U ? X : Y"
             },
@@ -807,15 +817,11 @@
                 "ru": "Дистрибутивно применяется к union: (A extends U ? X : Y) | (B extends U ? X : Y)"
             },
             {
-                "en": "It always resolves to X | Y",
-                "ru": "Всегда сводится к X | Y"
-            },
-            {
                 "en": "It is a compile error — conditional types don't support unions",
                 "ru": "Это ошибка компиляции — conditional types не поддерживают union"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "ts-infer-001",
@@ -833,20 +839,20 @@
         },
         "options": [
             {
-                "en": "Forces TypeScript to infer a generic parameter automatically",
-                "ru": "Заставляет TypeScript автоматически выводить generic-параметр"
+                "en": "Removes a type from a union",
+                "ru": "Удаляет тип из union"
             },
             {
                 "en": "Declares a type variable to be captured from the matched type in the extends clause",
                 "ru": "Объявляет типовую переменную, которая захватывается из сопоставленного типа в extends-клаузе"
             },
             {
-                "en": "Removes a type from a union",
-                "ru": "Удаляет тип из union"
-            },
-            {
                 "en": "Marks a type as inferred (not explicitly annotated)",
                 "ru": "Помечает тип как выведенный (не аннотированный явно)"
+            },
+            {
+                "en": "Forces TypeScript to infer a generic parameter automatically",
+                "ru": "Заставляет TypeScript автоматически выводить generic-параметр"
             }
         ],
         "correct": 1
@@ -867,23 +873,23 @@
         },
         "options": [
             {
-                "en": "It is the only signature visible to callers",
-                "ru": "Это единственная сигнатура, видимая вызывающему коду"
-            },
-            {
-                "en": "It provides the actual function body and must be compatible with all overload signatures, but is not visible to callers",
-                "ru": "Она содержит фактическое тело функции и должна быть совместима со всеми overload-сигнатурами, но не видна вызывающему коду"
-            },
-            {
                 "en": "It is the first overload listed and takes priority",
                 "ru": "Это первая объявленная перегрузка, имеющая приоритет"
             },
             {
                 "en": "It must be declared with the 'override' keyword",
                 "ru": "Её нужно объявлять с ключевым словом 'override'"
+            },
+            {
+                "en": "It provides the actual function body and must be compatible with all overload signatures, but is not visible to callers",
+                "ru": "Она содержит фактическое тело функции и должна быть совместима со всеми overload-сигнатурами, но не видна вызывающему коду"
+            },
+            {
+                "en": "It is the only signature visible to callers",
+                "ru": "Это единственная сигнатура, видимая вызывающему коду"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "ts-class-001",
@@ -901,23 +907,23 @@
         },
         "options": [
             {
-                "en": "They are identical — TypeScript treats them the same way",
-                "ru": "Они идентичны — TypeScript обрабатывает их одинаково"
-            },
-            {
-                "en": "private is enforced only at compile time; # is enforced at runtime in JavaScript",
-                "ru": "private действует только на этапе компиляции; # обеспечивается на уровне рантайма в JavaScript"
+                "en": "private fields are readable via Object.keys(); # fields are not",
+                "ru": "Поля private доступны через Object.keys(); поля # — нет"
             },
             {
                 "en": "# is deprecated; private is preferred",
                 "ru": "# устарел; предпочтителен private"
             },
             {
-                "en": "private fields are readable via Object.keys(); # fields are not",
-                "ru": "Поля private доступны через Object.keys(); поля # — нет"
+                "en": "private is enforced only at compile time; # is enforced at runtime in JavaScript",
+                "ru": "private действует только на этапе компиляции; # обеспечивается на уровне рантайма в JavaScript"
+            },
+            {
+                "en": "They are identical — TypeScript treats them the same way",
+                "ru": "Они идентичны — TypeScript обрабатывает их одинаково"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "ts-decorator-001",
@@ -935,23 +941,23 @@
         },
         "options": [
             {
-                "en": "useDefineForClassFields",
-                "ru": "useDefineForClassFields"
-            },
-            {
-                "en": "experimentalDecorators",
-                "ru": "experimentalDecorators"
-            },
-            {
                 "en": "emitDecoratorMetadata",
                 "ru": "emitDecoratorMetadata"
             },
             {
                 "en": "target: ES2022",
                 "ru": "target: ES2022"
+            },
+            {
+                "en": "experimentalDecorators",
+                "ru": "experimentalDecorators"
+            },
+            {
+                "en": "useDefineForClassFields",
+                "ru": "useDefineForClassFields"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "ts-module-aug-001",
@@ -969,12 +975,12 @@
         },
         "options": [
             {
-                "en": "Import the module and use Object.assign on the interface",
-                "ru": "Импортировать модуль и вызвать Object.assign на interface"
-            },
-            {
                 "en": "Redeclare the interface in the same file with the new property",
                 "ru": "Повторно объявить interface в том же файле с новым свойством"
+            },
+            {
+                "en": "Import the module and use Object.assign on the interface",
+                "ru": "Импортировать модуль и вызвать Object.assign на interface"
             },
             {
                 "en": "Use 'declare module \"module-name\"' block with the extended interface",
@@ -1003,8 +1009,8 @@
         },
         "options": [
             {
-                "en": "It only enables strictNullChecks",
-                "ru": "Включается только strictNullChecks"
+                "en": "It sets the target to the latest ECMAScript version",
+                "ru": "target устанавливается в последнюю версию ECMAScript"
             },
             {
                 "en": "It enables a single 'strict' check that prevents all type errors",
@@ -1015,8 +1021,8 @@
                 "ru": "Включается семейство строгих проверок типов, включая strictNullChecks, noImplicitAny, strictFunctionTypes и другие"
             },
             {
-                "en": "It sets the target to the latest ECMAScript version",
-                "ru": "target устанавливается в последнюю версию ECMAScript"
+                "en": "It only enables strictNullChecks",
+                "ru": "Включается только strictNullChecks"
             }
         ],
         "correct": 2
@@ -1037,23 +1043,23 @@
         },
         "options": [
             {
-                "en": "A type that is either { name: string } or { age: number }",
-                "ru": "Тип, который является либо { name: string }, либо { age: number }"
-            },
-            {
-                "en": "A type that has both name (string) and age (number) properties",
-                "ru": "Тип, имеющий оба свойства: name (string) и age (number)"
-            },
-            {
                 "en": "A type with a name property typed as string | number",
                 "ru": "Тип со свойством name типа string | number"
             },
             {
+                "en": "A type that is either { name: string } or { age: number }",
+                "ru": "Тип, который является либо { name: string }, либо { age: number }"
+            },
+            {
                 "en": "An error — you cannot intersect object types",
                 "ru": "Ошибка — объектные типы нельзя пересекать"
+            },
+            {
+                "en": "A type that has both name (string) and age (number) properties",
+                "ru": "Тип, имеющий оба свойства: name (string) и age (number)"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "ts-multi-001",
@@ -1071,23 +1077,23 @@
         },
         "options": [
             {
-                "en": "string",
-                "ru": "string"
-            },
-            {
                 "en": "Array",
                 "ru": "Array"
             },
             {
-                "en": "symbol",
-                "ru": "symbol"
-            },
-            {
                 "en": "bigint",
                 "ru": "bigint"
+            },
+            {
+                "en": "string",
+                "ru": "string"
+            },
+            {
+                "en": "symbol",
+                "ru": "symbol"
             }
         ],
-        "correct": [0, 2, 3]
+        "correct": [1, 2, 3]
     },
     {
         "id": "ts-multi-002",
@@ -1109,19 +1115,19 @@
                 "ru": "Partial<T>"
             },
             {
+                "en": "Required<T>",
+                "ru": "Required<T>"
+            },
+            {
                 "en": "DeepReadonly<T>",
                 "ru": "DeepReadonly<T>"
             },
             {
                 "en": "Readonly<T>",
                 "ru": "Readonly<T>"
-            },
-            {
-                "en": "Required<T>",
-                "ru": "Required<T>"
             }
         ],
-        "correct": [0, 2, 3]
+        "correct": [0, 1, 3]
     },
     {
         "id": "ts-multi-003",
@@ -1134,10 +1140,14 @@
             "ru": "Какие утверждения об `interface` и `type`-алиасах в TypeScript верны?"
         },
         "explanation": {
-            "en": "All four statements are true: both describe object shapes and support generics; only interfaces merge; only type aliases can directly represent union types (interface cannot be a union).",
-            "ru": "Все четыре утверждения верны: оба описывают форму объектов и поддерживают generics; объединяются только interface; напрямую описывать union-типы могут только type-алиасы (interface не может быть union)."
+            "en": "Both describe object shapes and support generics; only interfaces merge declarations; only type aliases can directly represent union types. A class can implement a type alias of an object type too — `implements` is not interface-only.",
+            "ru": "Оба описывают форму объекта и поддерживают дженерики; только интерфейсы сливают объявления; только type-алиасы напрямую выражают union. Класс может реализовать и type-алиас объектного типа — `implements` не ограничен интерфейсами."
         },
         "options": [
+            {
+                "en": "Both can use generics",
+                "ru": "Оба могут использовать generics"
+            },
             {
                 "en": "Both can describe object shapes",
                 "ru": "Оба могут описывать форму объектов"
@@ -1147,15 +1157,15 @@
                 "ru": "Declaration merging поддерживают только interface"
             },
             {
-                "en": "Only type aliases can represent union types",
-                "ru": "Только type-алиасы могут напрямую описывать union-типы"
+                "en": "Only interfaces can be implemented by classes",
+                "ru": "Только интерфейсы можно реализовать через implements в классе"
             },
             {
-                "en": "Both can use generics",
-                "ru": "Оба могут использовать generics"
+                "en": "Only type aliases can represent union types",
+                "ru": "Только type-алиасы могут напрямую описывать union-типы"
             }
         ],
-        "correct": [0, 1, 2, 3]
+        "correct": [0, 1, 2, 4]
     },
     {
         "id": "ts-multi-004",
@@ -1173,20 +1183,20 @@
         },
         "options": [
             {
-                "en": "strictNullChecks",
-                "ru": "strictNullChecks"
+                "en": "strictFunctionTypes",
+                "ru": "strictFunctionTypes"
             },
             {
-                "en": "noImplicitAny",
-                "ru": "noImplicitAny"
+                "en": "strictNullChecks",
+                "ru": "strictNullChecks"
             },
             {
                 "en": "noUnusedLocals",
                 "ru": "noUnusedLocals"
             },
             {
-                "en": "strictFunctionTypes",
-                "ru": "strictFunctionTypes"
+                "en": "noImplicitAny",
+                "ru": "noImplicitAny"
             }
         ],
         "correct": [0, 1, 3]
@@ -1207,23 +1217,23 @@
         },
         "options": [
             {
-                "en": "typeof value === 'number'",
-                "ru": "typeof value === 'number'"
-            },
-            {
-                "en": "value instanceof Date",
-                "ru": "value instanceof Date"
-            },
-            {
                 "en": "'property' in value",
                 "ru": "'property' in value"
             },
             {
                 "en": "value as SpecificType",
                 "ru": "value as SpecificType"
+            },
+            {
+                "en": "value instanceof Date",
+                "ru": "value instanceof Date"
+            },
+            {
+                "en": "typeof value === 'number'",
+                "ru": "typeof value === 'number'"
             }
         ],
-        "correct": [0, 1, 2]
+        "correct": [0, 2, 3]
     },
     {
         "id": "ts-multi-006",
@@ -1241,10 +1251,6 @@
         },
         "options": [
             {
-                "en": "infer can only be used in the extends clause of a conditional type",
-                "ru": "infer можно использовать только в extends-клаузе conditional type"
-            },
-            {
                 "en": "infer introduces a type variable that is captured during pattern matching",
                 "ru": "infer вводит типовую переменную, которая захватывается при сопоставлении с шаблоном"
             },
@@ -1253,11 +1259,15 @@
                 "ru": "infer можно использовать вне conditional types"
             },
             {
+                "en": "infer can only be used in the extends clause of a conditional type",
+                "ru": "infer можно использовать только в extends-клаузе conditional type"
+            },
+            {
                 "en": "Multiple infer variables can appear in the same conditional type",
                 "ru": "В одном conditional type может быть несколько переменных infer"
             }
         ],
-        "correct": [0, 1, 3]
+        "correct": [0, 2, 3]
     },
     {
         "id": "ts-multi-007",
@@ -1275,23 +1285,23 @@
         },
         "options": [
             {
-                "en": "function f<T extends string>(x: T)",
-                "ru": "function f<T extends string>(x: T)"
+                "en": "function f<T super string>(x: T)",
+                "ru": "function f<T super string>(x: T)"
             },
             {
                 "en": "function f<T extends { length: number }>(x: T)",
                 "ru": "function f<T extends { length: number }>(x: T)"
             },
             {
-                "en": "function f<T super string>(x: T)",
-                "ru": "function f<T super string>(x: T)"
+                "en": "function f<T extends string>(x: T)",
+                "ru": "function f<T extends string>(x: T)"
             },
             {
                 "en": "function f<T extends keyof U, U>(x: T, y: U)",
                 "ru": "function f<T extends keyof U, U>(x: T, y: U)"
             }
         ],
-        "correct": [0, 1, 3]
+        "correct": [1, 2, 3]
     },
     {
         "id": "ts-multi-008",
@@ -1304,8 +1314,8 @@
             "ru": "Какие из перечисленных конструкций создают новый тип из существующего без использования utility types?"
         },
         "explanation": {
-            "en": "All four are valid type-level expressions. Mapped types, indexed access types, conditional types, and intersection types all produce new types from existing ones.",
-            "ru": "Все четыре — валидные выражения уровня типов. Mapped types, indexed access types, conditional types и intersection types создают новые типы из существующих."
+            "en": "Mapped types, indexed access types, conditional types and intersection types all produce new types from existing ones with built-in syntax. Partial<T> is a utility type from lib.d.ts — it is itself implemented as a mapped type, but using it is using a utility type.",
+            "ru": "Mapped types, indexed access, условные типы и пересечения создают новые типы из существующих встроенным синтаксисом. Partial<T> — utility type из lib.d.ts: он сам реализован как mapped type, но его использование и есть использование утилитного типа."
         },
         "options": [
             {
@@ -1317,6 +1327,10 @@
                 "ru": "T[keyof T]"
             },
             {
+                "en": "Partial<T>",
+                "ru": "Partial<T>"
+            },
+            {
                 "en": "T extends U ? T : never",
                 "ru": "T extends U ? T : never"
             },
@@ -1325,7 +1339,7 @@
                 "ru": "T & { extraProp: string }"
             }
         ],
-        "correct": [0, 1, 2, 3]
+        "correct": [0, 1, 3, 4]
     },
     {
         "id": "ts-multi-009",
@@ -1338,28 +1352,32 @@
             "ru": "Какие утверждения о TypeScript enum верны?"
         },
         "explanation": {
-            "en": "All four are correct: numeric enums increment automatically; string enums require explicit values; const enums are inlined and erased; enums serve as both value (runtime) and type (compile-time).",
-            "ru": "Все четыре верны: числовые enum инкрементируются автоматически; строковые enum требуют явных значений; const enum инлайнятся и стираются; enum служат одновременно и значением (в рантайме), и типом (на этапе компиляции)."
+            "en": "Numeric enums auto-increment; string enums need explicit values; const enums are inlined and erased; enums are both a value and a type. Regular (non-const) enums are NOT erased — they compile to a runtime object, which is why they cannot be used under erasableSyntaxOnly.",
+            "ru": "Числовые enum инкрементируются автоматически; строковые требуют явных значений; const enum инлайнятся и стираются; enum — одновременно значение и тип. Обычные (не const) enum НЕ стираются — они компилируются в объект времени выполнения, поэтому запрещены под erasableSyntaxOnly."
         },
         "options": [
             {
+                "en": "const enums are erased at compile time",
+                "ru": "const enum стираются на этапе компиляции"
+            },
+            {
                 "en": "Numeric enums auto-increment from the first value",
                 "ru": "Числовые enum автоматически инкрементируются от первого значения"
+            },
+            {
+                "en": "All enums are erased at compile time",
+                "ru": "Все enum стираются при компиляции"
             },
             {
                 "en": "String enums do not auto-increment",
                 "ru": "Строковые enum не инкрементируются автоматически"
             },
             {
-                "en": "const enums are erased at compile time",
-                "ru": "const enum стираются на этапе компиляции"
-            },
-            {
                 "en": "Enums can be used as types and as values",
                 "ru": "Enum можно использовать и как тип, и как значение"
             }
         ],
-        "correct": [0, 1, 2, 3]
+        "correct": [0, 1, 3, 4]
     },
     {
         "id": "ts-multi-010",
@@ -1381,19 +1399,19 @@
                 "ru": "interface"
             },
             {
+                "en": "enum",
+                "ru": "enum"
+            },
+            {
                 "en": "namespace",
                 "ru": "namespace"
             },
             {
                 "en": "type alias",
                 "ru": "type alias"
-            },
-            {
-                "en": "enum",
-                "ru": "enum"
             }
         ],
-        "correct": [0, 1, 3]
+        "correct": [0, 1, 2]
     },
     {
         "id": "ts-multi-011",
@@ -1411,10 +1429,6 @@
         },
         "options": [
             {
-                "en": "public",
-                "ru": "public"
-            },
-            {
                 "en": "private",
                 "ru": "private"
             },
@@ -1425,9 +1439,13 @@
             {
                 "en": "internal",
                 "ru": "internal"
+            },
+            {
+                "en": "public",
+                "ru": "public"
             }
         ],
-        "correct": [0, 1, 2]
+        "correct": [0, 1, 3]
     },
     {
         "id": "ts-multi-012",
@@ -1445,12 +1463,12 @@
         },
         "options": [
             {
-                "en": "target",
-                "ru": "target"
-            },
-            {
                 "en": "module",
                 "ru": "module"
+            },
+            {
+                "en": "target",
+                "ru": "target"
             },
             {
                 "en": "strict",
@@ -1479,7 +1497,8 @@
         },
         "code": "function greet(name: string | null): string {\n  return 'Hello, ' + name.toUpperCase();\n}",
         "correct": "name can be null, so calling name.toUpperCase() will throw at runtime",
-        "referenceAnswer": "When name is null, accessing .toUpperCase() throws 'Cannot read properties of null'. Fix: add a null check — return 'Hello, ' + (name ?? 'stranger').toUpperCase();"
+        "referenceAnswer": "When name is null, accessing .toUpperCase() throws 'Cannot read properties of null'. Fix: add a null check — return 'Hello, ' + (name ?? 'stranger').toUpperCase();",
+        "lang": "typescript"
     },
     {
         "id": "ts-bug-002",
@@ -1497,7 +1516,8 @@
         },
         "code": "function getFirstElement<T>(arr: T[]): T {\n  return arr[0];\n}",
         "correct": "The function returns T but arr[0] can be undefined when the array is empty",
-        "referenceAnswer": "When the array is empty, arr[0] is undefined, but the return type is T (not T | undefined). Fix the return type to T | undefined, or add a runtime check with a default value."
+        "referenceAnswer": "When the array is empty, arr[0] is undefined, but the return type is T (not T | undefined). Fix the return type to T | undefined, or add a runtime check with a default value.",
+        "lang": "tsx"
     },
     {
         "id": "ts-bug-003",
@@ -1515,7 +1535,8 @@
         },
         "code": "// constants.ts\nexport const enum Direction {\n  Up = 'UP',\n  Down = 'DOWN'\n}\n\n// consumer.ts\nimport { Direction } from './constants';\nconsole.log(Direction[Direction.Up]);",
         "correct": "const enum reverse mappings do not work at runtime; the enum object is erased",
-        "referenceAnswer": "const enums are inlined at compile time and no runtime object is emitted. Reverse lookups like Direction[Direction.Up] fail at runtime because Direction does not exist. Use a regular enum if you need reverse mapping."
+        "referenceAnswer": "const enums are inlined at compile time and no runtime object is emitted. Reverse lookups like Direction[Direction.Up] fail at runtime because Direction does not exist. Use a regular enum if you need reverse mapping.",
+        "lang": "typescript"
     },
     {
         "id": "ts-bug-004",
@@ -1533,7 +1554,8 @@
         },
         "code": "type IsString<T> = T extends string ? true : false;\ntype Result = IsString<string | number>; // expected: false, got: boolean",
         "correct": "Distributive conditional types distribute over unions, so IsString<string | number> becomes true | false = boolean",
-        "referenceAnswer": "Because T is a bare type parameter, the condition distributes: IsString<string> | IsString<number> = true | false = boolean. To prevent distribution, wrap T in a tuple: type IsString<T> = [T] extends [string] ? true : false."
+        "referenceAnswer": "Because T is a bare type parameter, the condition distributes: IsString<string> | IsString<number> = true | false = boolean. To prevent distribution, wrap T in a tuple: type IsString<T> = [T] extends [string] ? true : false.",
+        "lang": "tsx"
     },
     {
         "id": "ts-bug-005",
@@ -1551,7 +1573,8 @@
         },
         "code": "interface User {\n  name: string;\n  age: number;\n}\n\nconst user: User = {\n  name: 'Alice',\n  age: 30,\n  role: 'admin'\n};",
         "correct": "Object literal has extra property 'role' not in User — TypeScript excess property checking rejects this",
-        "referenceAnswer": "TypeScript's excess property checking reports an error when an object literal contains properties not present in the target type. Remove 'role' or add it to the User interface, or assign via an intermediate variable to bypass the check."
+        "referenceAnswer": "TypeScript's excess property checking reports an error when an object literal contains properties not present in the target type. Remove 'role' or add it to the User interface, or assign via an intermediate variable to bypass the check.",
+        "lang": "typescript"
     },
     {
         "id": "ts-bug-006",
@@ -1569,25 +1592,8 @@
         },
         "code": "function format(value: string): string;\nfunction format(value: number): string;\nfunction format(value: string | number): string {\n  return String(value);\n}\n\nconst result = format(true);",
         "correct": "Calling format(true) passes a boolean, which matches neither overload signature, causing a compile error",
-        "referenceAnswer": "The overload signatures only accept string or number. Passing true (boolean) does not match any overload, so TypeScript reports 'No overload matches this call'. The implementation signature is not visible to callers."
-    },
-    {
-        "id": "ts-bug-007",
-        "type": "bug-finding",
-        "category": "typescript",
-        "difficulty": "medium",
-        "tags": ["readonly", "mutation", "bugs"],
-        "question": {
-            "en": "Find the TypeScript error in this code:",
-            "ru": "Найдите ошибку TypeScript в этом коде:"
-        },
-        "explanation": {
-            "en": "readonly on an array type disallows all mutation operations. This is a compile-time-only constraint enforced by TypeScript.",
-            "ru": "readonly у типа массива запрещает любые мутирующие операции. Это ограничение действует только на этапе компиляции и обеспечивается TypeScript."
-        },
-        "code": "function addItem(list: readonly string[], item: string): void {\n  list.push(item);\n}",
-        "correct": "Calling push on a readonly array is a compile error — readonly arrays do not allow mutation",
-        "referenceAnswer": "readonly string[] (or ReadonlyArray<string>) forbids methods that mutate the array, including push, pop, splice, and direct index assignment. Fix: return a new array instead — return [...list, item] — and change the return type."
+        "referenceAnswer": "The overload signatures only accept string or number. Passing true (boolean) does not match any overload, so TypeScript reports 'No overload matches this call'. The implementation signature is not visible to callers.",
+        "lang": "typescript"
     },
     {
         "id": "ts-bug-008",
@@ -1605,7 +1611,8 @@
         },
         "code": "type Getters<T> = {\n  [K in keyof T as `get${K}`]: () => T[K];\n};",
         "correct": "K from keyof T can be a symbol or number, but template literal types only accept string — this causes a type error",
-        "referenceAnswer": "keyof T includes string, number, and symbol keys. Template literal types only accept string | number | bigint | boolean | null | undefined. Symbols are not allowed. Fix: constrain K with 'K extends string': [K in keyof T as K extends string ? `get${Capitalize<K>}` : never]"
+        "referenceAnswer": "keyof T includes string, number, and symbol keys. Template literal types only accept string | number | bigint | boolean | null | undefined. Symbols are not allowed. Fix: constrain K with 'K extends string': [K in keyof T as K extends string ? `get${Capitalize<K>}` : never]",
+        "lang": "tsx"
     },
     {
         "id": "ts-completion-001",
@@ -1623,7 +1630,8 @@
         },
         "code": "type User = {\n  id: number;\n  email: string;\n  password: string;\n};\n\ntype PublicUser = __BLANK__<User, 'password'>;",
         "blanks": ["Omit"],
-        "referenceAnswer": "Omit<T, K> constructs a type by removing properties K from T. Omit<User, 'password'> yields { id: number; email: string }."
+        "referenceAnswer": "Omit<T, K> constructs a type by removing properties K from T. Omit<User, 'password'> yields { id: number; email: string }.",
+        "lang": "typescript"
     },
     {
         "id": "ts-completion-002",
@@ -1641,7 +1649,8 @@
         },
         "code": "function isString(value: unknown): value __BLANK__ string {\n  return typeof value === 'string';\n}",
         "blanks": ["is"],
-        "referenceAnswer": "The 'is' keyword in the return type annotation 'value is string' tells TypeScript this is a type predicate. When the function returns true, TypeScript narrows value to string in the calling scope."
+        "referenceAnswer": "The 'is' keyword in the return type annotation 'value is string' tells TypeScript this is a type predicate. When the function returns true, TypeScript narrows value to string in the calling scope.",
+        "lang": "typescript"
     },
     {
         "id": "ts-completion-003",
@@ -1659,7 +1668,8 @@
         },
         "code": "function getProperty<T, K __BLANK__ keyof T>(obj: T, key: K): T[K] {\n  return obj[key];\n}",
         "blanks": ["extends"],
-        "referenceAnswer": "K extends keyof T constrains K to be one of the valid property keys of T. This ensures that obj[key] is type-safe and returns T[K]."
+        "referenceAnswer": "K extends keyof T constrains K to be one of the valid property keys of T. This ensures that obj[key] is type-safe and returns T[K].",
+        "lang": "typescript"
     },
     {
         "id": "ts-completion-004",
@@ -1677,7 +1687,8 @@
         },
         "code": "type MyReturnType<T> = T extends (...args: any[]) => __BLANK__ R ? R : never;",
         "blanks": ["infer"],
-        "referenceAnswer": "The infer keyword captures the return type R from the function type. If T matches a function shape, R is bound to its return type; otherwise the result is never."
+        "referenceAnswer": "The infer keyword captures the return type R from the function type. If T matches a function shape, R is bound to its return type; otherwise the result is never.",
+        "lang": "tsx"
     },
     {
         "id": "ts-completion-005",
@@ -1695,7 +1706,8 @@
         },
         "code": "type DeepReadonly<T> = {\n  readonly [K in keyof T]: T[K] extends object ? __BLANK__<T[K]> : T[K];\n};",
         "blanks": ["DeepReadonly"],
-        "referenceAnswer": "Recursive mapped types call themselves on nested object properties. DeepReadonly<T[K]> recursively applies readonly to nested objects until reaching primitives."
+        "referenceAnswer": "Recursive mapped types call themselves on nested object properties. DeepReadonly<T[K]> recursively applies readonly to nested objects until reaching primitives.",
+        "lang": "tsx"
     },
     {
         "id": "ts-completion-006",
@@ -1713,7 +1725,8 @@
         },
         "code": "type WithGetters<T> = {\n  [K in keyof T as K extends string ? `get${__BLANK__<K>}` : never]: () => T[K];\n};",
         "blanks": ["Capitalize"],
-        "referenceAnswer": "Capitalize<K> transforms the first character of string literal type K to uppercase. Combined with a template literal, this produces getter names like getName, getAge from name, age."
+        "referenceAnswer": "Capitalize<K> transforms the first character of string literal type K to uppercase. Combined with a template literal, this produces getter names like getName, getAge from name, age.",
+        "lang": "tsx"
     },
     {
         "id": "ts-completion-007",
@@ -1731,7 +1744,8 @@
         },
         "code": "function assertNever(value: __BLANK__): never {\n  throw new Error(`Unexpected value: ${value}`);\n}",
         "blanks": ["never"],
-        "referenceAnswer": "Typing the parameter as never means TypeScript will only allow calling assertNever in branches where the type has been narrowed to never (i.e., all union members have been handled). If a case is missed, TypeScript reports an error."
+        "referenceAnswer": "Typing the parameter as never means TypeScript will only allow calling assertNever in branches where the type has been narrowed to never (i.e., all union members have been handled). If a case is missed, TypeScript reports an error.",
+        "lang": "typescript"
     },
     {
         "id": "ts-completion-008",
@@ -1802,23 +1816,23 @@
         },
         "options": [
             {
-                "en": "'getsetName'",
-                "ru": "'getsetName'"
-            },
-            {
-                "en": "'getName' | 'setName'",
-                "ru": "'getName' | 'setName'"
-            },
-            {
                 "en": "'get' | 'set'",
                 "ru": "'get' | 'set'"
             },
             {
                 "en": "string",
                 "ru": "string"
+            },
+            {
+                "en": "'getName' | 'setName'",
+                "ru": "'getName' | 'setName'"
+            },
+            {
+                "en": "'getsetName'",
+                "ru": "'getsetName'"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "ts-advanced-003",
@@ -1836,23 +1850,23 @@
         },
         "options": [
             {
-                "en": "Casts the key type to NewKey<K> at runtime",
-                "ru": "Приводит тип ключа к NewKey<K> в рантайме"
-            },
-            {
-                "en": "Remaps (renames) the keys using the NewKey type transformation",
-                "ru": "Переименовывает ключи, применяя преобразование NewKey"
-            },
-            {
                 "en": "Filters out keys where NewKey<K> is string",
                 "ru": "Отфильтровывает ключи, для которых NewKey<K> равен string"
             },
             {
+                "en": "Casts the key type to NewKey<K> at runtime",
+                "ru": "Приводит тип ключа к NewKey<K> в рантайме"
+            },
+            {
                 "en": "Adds NewKey<K> as an alias for K",
                 "ru": "Добавляет NewKey<K> как алиас для K"
+            },
+            {
+                "en": "Remaps (renames) the keys using the NewKey type transformation",
+                "ru": "Переименовывает ключи, применяя преобразование NewKey"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "ts-advanced-004",
@@ -1870,23 +1884,23 @@
         },
         "options": [
             {
-                "en": "let f: (x: Animal) => void = (x: Dog) => {}; // covariant parameter",
-                "ru": "let f: (x: Animal) => void = (x: Dog) => {}; // covariant parameter"
-            },
-            {
-                "en": "let f: (x: Dog) => void = (x: Animal) => {}; // contravariant parameter",
-                "ru": "let f: (x: Dog) => void = (x: Animal) => {}; // contravariant parameter"
-            },
-            {
                 "en": "Both assignments are valid",
                 "ru": "Оба присваивания валидны"
             },
             {
                 "en": "Neither assignment is valid",
                 "ru": "Ни одно из присваиваний не валидно"
+            },
+            {
+                "en": "let f: (x: Animal) => void = (x: Dog) => {}; // covariant parameter",
+                "ru": "let f: (x: Animal) => void = (x: Dog) => {}; // covariant parameter"
+            },
+            {
+                "en": "let f: (x: Dog) => void = (x: Animal) => {}; // contravariant parameter",
+                "ru": "let f: (x: Dog) => void = (x: Animal) => {}; // contravariant parameter"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "ts-advanced-005",
@@ -1904,6 +1918,10 @@
         },
         "options": [
             {
+                "en": "It is equivalent to a type annotation",
+                "ru": "Эквивалентен аннотации типа"
+            },
+            {
                 "en": "It casts a value to the specified type, like 'as'",
                 "ru": "Приводит значение к указанному типу, как 'as'"
             },
@@ -1914,13 +1932,9 @@
             {
                 "en": "It makes all properties of a type required",
                 "ru": "Делает все свойства типа обязательными"
-            },
-            {
-                "en": "It is equivalent to a type annotation",
-                "ru": "Эквивалентен аннотации типа"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "ts-advanced-006",
@@ -1938,16 +1952,16 @@
         },
         "options": [
             {
-                "en": "Only string properties with number values declared at compile time",
-                "ru": "Только строковые свойства с числовыми значениями, объявленные на этапе компиляции"
+                "en": "Iterating over the object with a for...in loop only",
+                "ru": "Только итерацию по объекту через цикл for...in"
             },
             {
                 "en": "Any string-keyed property with a number value, including dynamic keys",
                 "ru": "Любое свойство со строковым ключом и числовым значением, включая динамические ключи"
             },
             {
-                "en": "Iterating over the object with a for...in loop only",
-                "ru": "Только итерацию по объекту через цикл for...in"
+                "en": "Only string properties with number values declared at compile time",
+                "ru": "Только строковые свойства с числовыми значениями, объявленные на этапе компиляции"
             },
             {
                 "en": "Only numeric-indexed access like arrays",
@@ -1972,8 +1986,8 @@
         },
         "options": [
             {
-                "en": "string",
-                "ru": "string"
+                "en": "string | null | undefined",
+                "ru": "string | null | undefined"
             },
             {
                 "en": "string | null",
@@ -1984,8 +1998,8 @@
                 "ru": "string | undefined"
             },
             {
-                "en": "string | null | undefined",
-                "ru": "string | null | undefined"
+                "en": "string",
+                "ru": "string"
             }
         ],
         "correct": 2
@@ -2010,19 +2024,19 @@
                 "ru": "Проверяет в рантайме, что значение не равно null"
             },
             {
+                "en": "Removes undefined from a type permanently",
+                "ru": "Окончательно удаляет undefined из типа"
+            },
+            {
                 "en": "Tells the TypeScript compiler to treat a value as non-null/non-undefined, bypassing null checks",
                 "ru": "Говорит компилятору TypeScript считать значение non-null/non-undefined, минуя null-проверки"
             },
             {
                 "en": "Converts null to an empty string",
                 "ru": "Преобразует null в пустую строку"
-            },
-            {
-                "en": "Removes undefined from a type permanently",
-                "ru": "Окончательно удаляет undefined из типа"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "ts-advanced-009",
@@ -2040,20 +2054,20 @@
         },
         "options": [
             {
-                "en": "Adding runtime methods to an interface",
-                "ru": "Добавление runtime-методов к interface"
+                "en": "Extending an enum with new members",
+                "ru": "Расширение enum новыми членами"
             },
             {
                 "en": "Adding static properties or nested types to a function or class type",
                 "ru": "Добавление статических свойств или вложенных типов к функциональному или классовому типу"
             },
             {
-                "en": "Extending an enum with new members",
-                "ru": "Расширение enum новыми членами"
-            },
-            {
                 "en": "Creating a class that implements multiple interfaces",
                 "ru": "Создание класса, реализующего несколько interface"
+            },
+            {
+                "en": "Adding runtime methods to an interface",
+                "ru": "Добавление runtime-методов к interface"
             }
         ],
         "correct": 1
@@ -2074,6 +2088,10 @@
         },
         "options": [
             {
+                "en": "undefined is broader — it includes void",
+                "ru": "undefined шире — он включает в себя void"
+            },
+            {
                 "en": "They are identical and interchangeable",
                 "ru": "Они идентичны и взаимозаменяемы"
             },
@@ -2084,12 +2102,8 @@
             {
                 "en": "void is for async functions; undefined is for sync functions",
                 "ru": "void — для асинхронных функций; undefined — для синхронных"
-            },
-            {
-                "en": "undefined is broader — it includes void",
-                "ru": "undefined шире — он включает в себя void"
             }
         ],
-        "correct": 1
+        "correct": 2
     }
 ]

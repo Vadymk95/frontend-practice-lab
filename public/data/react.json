@@ -19,19 +19,19 @@
                 "ru": "Только текущее значение state"
             },
             {
-                "en": "A getter and a setter function as separate return values",
-                "ru": "Геттер и сеттер как два отдельных возвращаемых значения"
-            },
-            {
                 "en": "An array containing the current state value and a function to update it",
                 "ru": "Массив из текущего значения state и функции для его обновления"
             },
             {
                 "en": "An object with `value` and `setValue` properties",
                 "ru": "Объект со свойствами `value` и `setValue`"
+            },
+            {
+                "en": "A getter and a setter function as separate return values",
+                "ru": "Геттер и сеттер как два отдельных возвращаемых значения"
             }
         ],
-        "correct": 2
+        "correct": 1
     },
     {
         "id": "react-hooks-002",
@@ -87,19 +87,19 @@
                 "ru": "useEffect(() => { ... }) — без массива зависимостей"
             },
             {
+                "en": "useRef(() => { ... })",
+                "ru": "useRef(() => { ... })"
+            },
+            {
                 "en": "useEffect(() => { ... }, []) — empty dependency array",
                 "ru": "useEffect(() => { ... }, []) — с пустым массивом зависимостей"
             },
             {
                 "en": "useLayoutEffect(() => { ... }) — no dependency array",
                 "ru": "useLayoutEffect(() => { ... }) — без массива зависимостей"
-            },
-            {
-                "en": "useRef(() => { ... })",
-                "ru": "useRef(() => { ... })"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "react-refs-001",
@@ -117,10 +117,6 @@
         },
         "options": [
             {
-                "en": "A mutable value that triggers a re-render when changed",
-                "ru": "Изменяемое значение, которое триггерит ре-рендер при изменении"
-            },
-            {
                 "en": "A plain mutable object `{ current: initialValue }` that persists for the component's lifetime",
                 "ru": "Обычный изменяемый объект `{ current: initialValue }`, который живёт столько же, сколько и компонент"
             },
@@ -131,9 +127,13 @@
             {
                 "en": "A callback that React calls with the DOM node once it is mounted",
                 "ru": "Колбэк, который React вызывает с DOM-узлом после его маунта"
+            },
+            {
+                "en": "A mutable value that triggers a re-render when changed",
+                "ru": "Изменяемое значение, которое триггерит ре-рендер при изменении"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "react-context-001",
@@ -151,6 +151,10 @@
         },
         "options": [
             {
+                "en": "Always the default value passed to `createContext()`",
+                "ru": "Всегда дефолтное значение, переданное в `createContext()`"
+            },
+            {
                 "en": "The Context object itself (same as `MyContext`)",
                 "ru": "Сам объект Context (то же самое, что и `MyContext`)"
             },
@@ -161,13 +165,9 @@
             {
                 "en": "A function to update the context value",
                 "ru": "Функцию для обновления значения контекста"
-            },
-            {
-                "en": "Always the default value passed to `createContext()`",
-                "ru": "Всегда дефолтное значение, переданное в `createContext()`"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "react-hooks-003",
@@ -185,23 +185,23 @@
         },
         "options": [
             {
-                "en": "To memoize the return value of an expensive computation",
-                "ru": "Мемоизировать результат дорогого вычисления"
-            },
-            {
                 "en": "To memoize a function reference so it is not re-created on every render",
                 "ru": "Мемоизировать ссылку на функцию, чтобы она не пересоздавалась на каждом рендере"
+            },
+            {
+                "en": "To cache API responses between renders",
+                "ru": "Кэшировать ответы API между рендерами"
             },
             {
                 "en": "To prevent a component from re-rendering",
                 "ru": "Предотвратить ре-рендер компонента"
             },
             {
-                "en": "To cache API responses between renders",
-                "ru": "Кэшировать ответы API между рендерами"
+                "en": "To memoize the return value of an expensive computation",
+                "ru": "Мемоизировать результат дорогого вычисления"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "react-reconciliation-001",
@@ -219,8 +219,8 @@
         },
         "options": [
             {
-                "en": "React ignores numeric keys and expects string keys",
-                "ru": "React игнорирует числовые ключи и ожидает строковые"
+                "en": "Array indices are not valid key values — React throws a warning",
+                "ru": "Индексы массива — невалидные значения для key, React выбросит предупреждение"
             },
             {
                 "en": "Indices shift when items are added, removed, or reordered, so React incorrectly reuses existing component instances and their state",
@@ -231,8 +231,8 @@
                 "ru": "Использование индексов полностью отключает алгоритм сверки (reconciliation)"
             },
             {
-                "en": "Array indices are not valid key values — React throws a warning",
-                "ru": "Индексы массива — невалидные значения для key, React выбросит предупреждение"
+                "en": "React ignores numeric keys and expects string keys",
+                "ru": "React игнорирует числовые ключи и ожидает строковые"
             }
         ],
         "correct": 1
@@ -257,19 +257,19 @@
                 "ru": "Ре-рендер родительского компонента (когда ребёнок не обёрнут в `React.memo`)"
             },
             {
-                "en": "Mutating a `useRef` value directly via `.current`",
-                "ru": "Мутация значения `useRef` напрямую через `.current`"
-            },
-            {
                 "en": "The `useContext` value changing in the nearest Provider",
                 "ru": "Изменение значения `useContext` в ближайшем Provider"
             },
             {
                 "en": "Calling a `useState` setter with the identical primitive value (e.g. `setCount(0)` when count is already `0`)",
                 "ru": "Вызов сеттера `useState` с тем же примитивным значением (например, `setCount(0)`, когда count уже `0`)"
+            },
+            {
+                "en": "Mutating a `useRef` value directly via `.current`",
+                "ru": "Мутация значения `useRef` напрямую через `.current`"
             }
         ],
-        "correct": [0, 2]
+        "correct": [0, 1]
     },
     {
         "id": "react-hooks-004",
@@ -287,6 +287,10 @@
         },
         "options": [
             {
+                "en": "A boolean indicating whether the computation ran in the current render",
+                "ru": "Булево значение, указывающее, выполнялось ли вычисление в текущем рендере"
+            },
+            {
                 "en": "A memoized callback function",
                 "ru": "Мемоизированную колбэк-функцию"
             },
@@ -297,13 +301,9 @@
             {
                 "en": "A ref to a cached value",
                 "ru": "Ref на закэшированное значение"
-            },
-            {
-                "en": "A boolean indicating whether the computation ran in the current render",
-                "ru": "Булево значение, указывающее, выполнялось ли вычисление в текущем рендере"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "react-bug-stale-001",
@@ -321,7 +321,8 @@
         },
         "code": "function Counter() {\n  const [count, setCount] = useState(0);\n\n  useEffect(() => {\n    const id = setInterval(() => {\n      setCount(count + 1);\n    }, 1000);\n    return () => clearInterval(id);\n  }, []);\n\n  return <div>{count}</div>;\n}",
         "correct": "Stale closure: `count` is captured as 0 on mount and never updates, so the counter never advances past 1",
-        "referenceAnswer": "The effect runs once and closes over `count = 0`. Every tick calls `setCount(0 + 1)`, setting state to 1 indefinitely. Fix: use the functional updater form — `setCount(c => c + 1)` — which always receives the latest state value and requires no dependency on `count`."
+        "referenceAnswer": "The effect runs once and closes over `count = 0`. Every tick calls `setCount(0 + 1)`, setting state to 1 indefinitely. Fix: use the functional updater form — `setCount(c => c + 1)` — which always receives the latest state value and requires no dependency on `count`.",
+        "lang": "jsx"
     },
     {
         "id": "react-bug-fetch-001",
@@ -339,7 +340,8 @@
         },
         "code": "function UserProfile({ userId }) {\n  const [user, setUser] = useState(null);\n\n  useEffect(() => {\n    fetch(`/api/users/${userId}`)\n      .then(res => res.json())\n      .then(data => setUser(data));\n  }, [userId]);\n\n  return <div>{user?.name}</div>;\n}",
         "correct": "Race condition: if `userId` changes while a fetch is in-flight, the stale response may resolve after the newer one and overwrite it",
-        "referenceAnswer": "Add an `ignore` flag in the effect and check it before calling `setUser`:\n\n```js\nuseEffect(() => {\n  let ignore = false;\n  fetch(`/api/users/${userId}`)\n    .then(res => res.json())\n    .then(data => { if (!ignore) setUser(data); });\n  return () => { ignore = true; };\n}, [userId]);\n```\n\nAlternatively, use an `AbortController` to cancel the in-flight request on cleanup."
+        "referenceAnswer": "Add an `ignore` flag in the effect and check it before calling `setUser`:\n\n```js\nuseEffect(() => {\n  let ignore = false;\n  fetch(`/api/users/${userId}`)\n    .then(res => res.json())\n    .then(data => { if (!ignore) setUser(data); });\n  return () => { ignore = true; };\n}, [userId]);\n```\n\nAlternatively, use an `AbortController` to cancel the in-flight request on cleanup.",
+        "lang": "jsx"
     },
     {
         "id": "react-completion-usecallback-001",
@@ -376,23 +378,23 @@
         },
         "options": [
             {
-                "en": "Errors thrown during rendering in a child component tree",
-                "ru": "Ошибки, выброшенные при рендеринге дочернего поддерева компонентов"
-            },
-            {
-                "en": "Errors thrown inside `onClick` or other event handler functions",
-                "ru": "Ошибки, выброшенные внутри `onClick` или других обработчиков событий"
+                "en": "Errors thrown inside `setTimeout` or `requestAnimationFrame` callbacks",
+                "ru": "Ошибки, выброшенные в колбэках `setTimeout` или `requestAnimationFrame`"
             },
             {
                 "en": "Errors thrown in lifecycle methods of child class components",
                 "ru": "Ошибки, выброшенные в методах жизненного цикла дочерних классовых компонентов"
             },
             {
-                "en": "Errors thrown inside `setTimeout` or `requestAnimationFrame` callbacks",
-                "ru": "Ошибки, выброшенные в колбэках `setTimeout` или `requestAnimationFrame`"
+                "en": "Errors thrown inside `onClick` or other event handler functions",
+                "ru": "Ошибки, выброшенные внутри `onClick` или других обработчиков событий"
+            },
+            {
+                "en": "Errors thrown during rendering in a child component tree",
+                "ru": "Ошибки, выброшенные при рендеринге дочернего поддерева компонентов"
             }
         ],
-        "correct": [0, 2]
+        "correct": [1, 3]
     },
     {
         "id": "react-suspense-001",
@@ -414,19 +416,19 @@
                 "ru": "Suspense показывает свой `fallback`, пока загружаются lazy-компоненты (через `React.lazy`)"
             },
             {
-                "en": "Suspense catches JavaScript runtime errors thrown during rendering",
-                "ru": "Suspense ловит runtime-ошибки JavaScript, выброшенные во время рендеринга"
-            },
-            {
                 "en": "When a child component throws a Promise (suspends), React renders the nearest Suspense `fallback` instead",
                 "ru": "Когда дочерний компонент выбрасывает Promise (саспендится), React вместо него рендерит `fallback` ближайшего Suspense"
+            },
+            {
+                "en": "Suspense catches JavaScript runtime errors thrown during rendering",
+                "ru": "Suspense ловит runtime-ошибки JavaScript, выброшенные во время рендеринга"
             },
             {
                 "en": "Wrapping a component in Suspense prevents it from ever unmounting",
                 "ru": "Оборачивание компонента в Suspense не даёт ему анмаунтиться"
             }
         ],
-        "correct": [0, 2]
+        "correct": [0, 1]
     },
     {
         "id": "react-completion-portal-001",
@@ -463,6 +465,10 @@
         },
         "options": [
             {
+                "en": "To share a single ref object between multiple components",
+                "ru": "Расшарить один ref-объект между несколькими компонентами"
+            },
+            {
                 "en": "To create a ref that updates on every render",
                 "ru": "Создать ref, который обновляется на каждом рендере"
             },
@@ -473,13 +479,9 @@
             {
                 "en": "To forward props to a nested component automatically",
                 "ru": "Автоматически пробрасывать props до вложенного компонента"
-            },
-            {
-                "en": "To share a single ref object between multiple components",
-                "ru": "Расшарить один ref-объект между несколькими компонентами"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "react-useimperativehandle-001",
@@ -497,8 +499,8 @@
         },
         "options": [
             {
-                "en": "Imperatively update a component's state from outside React",
-                "ru": "Императивно обновлять state компонента снаружи React"
+                "en": "Create a ref that is shared across sibling components",
+                "ru": "Создавать ref, общий для соседних компонентов"
             },
             {
                 "en": "Customize the value exposed to a parent via a forwarded ref",
@@ -509,8 +511,8 @@
                 "ru": "Обходить алгоритм reconciliation для конкретных DOM-узлов"
             },
             {
-                "en": "Create a ref that is shared across sibling components",
-                "ru": "Создавать ref, общий для соседних компонентов"
+                "en": "Imperatively update a component's state from outside React",
+                "ru": "Императивно обновлять state компонента снаружи React"
             }
         ],
         "correct": 1
@@ -565,23 +567,23 @@
         },
         "options": [
             {
-                "en": "It generates a unique component key for lists",
-                "ru": "Генерирует уникальный key для компонентов в списках"
-            },
-            {
                 "en": "It generates a stable, unique ID that is consistent between server and client renders, safe for use in HTML attributes like `id` and `aria-*`",
                 "ru": "Генерирует стабильный уникальный ID, согласованный между серверным и клиентским рендером, безопасный для использования в HTML-атрибутах вроде `id` и `aria-*`"
             },
             {
-                "en": "It replaces UUID libraries for generating random IDs",
-                "ru": "Заменяет UUID-библиотеки для генерации случайных ID"
+                "en": "It generates a unique component key for lists",
+                "ru": "Генерирует уникальный key для компонентов в списках"
             },
             {
                 "en": "It tracks which component instance rendered last",
                 "ru": "Отслеживает, какой инстанс компонента рендерился последним"
+            },
+            {
+                "en": "It replaces UUID libraries for generating random IDs",
+                "ru": "Заменяет UUID-библиотеки для генерации случайных ID"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "react-usetransition-001",
@@ -603,16 +605,16 @@
                 "ru": "Булево значение и функцию; используется для пометки обновления state как несрочного, чтобы UI оставался отзывчивым"
             },
             {
+                "en": "A cleanup function; used to cancel in-flight effects",
+                "ru": "Функцию очистки; используется для отмены выполняющихся эффектов"
+            },
+            {
                 "en": "A promise and a resolver; used to defer async operations",
                 "ru": "Promise и resolver; используется для отложенного выполнения асинхронных операций"
             },
             {
                 "en": "An animation controller; used to animate component mount/unmount",
                 "ru": "Контроллер анимации; используется для анимации маунта/анмаунта компонента"
-            },
-            {
-                "en": "A cleanup function; used to cancel in-flight effects",
-                "ru": "Функцию очистки; используется для отмены выполняющихся эффектов"
             }
         ],
         "correct": 0
@@ -633,8 +635,8 @@
         },
         "options": [
             {
-                "en": "They are identical — both defer state updates",
-                "ru": "Они идентичны — оба откладывают обновления state"
+                "en": "`useTransition` requires a Suspense boundary; `useDeferredValue` does not",
+                "ru": "`useTransition` требует границы Suspense, `useDeferredValue` — нет"
             },
             {
                 "en": "`useDeferredValue` defers a derived value you receive (e.g. a prop), while `useTransition` wraps the state update you control",
@@ -645,8 +647,8 @@
                 "ru": "`useDeferredValue` работает только со строками, а `useTransition` — с любым значением"
             },
             {
-                "en": "`useTransition` requires a Suspense boundary; `useDeferredValue` does not",
-                "ru": "`useTransition` требует границы Suspense, `useDeferredValue` — нет"
+                "en": "They are identical — both defer state updates",
+                "ru": "Они идентичны — оба откладывают обновления state"
             }
         ],
         "correct": 1
@@ -667,23 +669,23 @@
         },
         "options": [
             {
-                "en": "It makes the component asynchronous",
-                "ru": "Делает компонент асинхронным"
-            },
-            {
                 "en": "It prevents the component from ever re-rendering",
                 "ru": "Полностью запрещает ре-рендер компонента"
             },
             {
-                "en": "It skips re-rendering if props have not changed (shallow comparison by default)",
-                "ru": "Пропускает ре-рендер, если props не изменились (по умолчанию — поверхностное сравнение)"
+                "en": "It makes the component asynchronous",
+                "ru": "Делает компонент асинхронным"
             },
             {
                 "en": "It memoizes the component's return value for the entire session",
                 "ru": "Мемоизирует возвращаемое значение компонента на всю сессию"
+            },
+            {
+                "en": "It skips re-rendering if props have not changed (shallow comparison by default)",
+                "ru": "Пропускает ре-рендер, если props не изменились (по умолчанию — поверхностное сравнение)"
             }
         ],
-        "correct": 2
+        "correct": 3
     },
     {
         "id": "react-lazy-suspense-001",
@@ -705,16 +707,16 @@
                 "ru": "React.StrictMode"
             },
             {
-                "en": "React.Fragment",
-                "ru": "React.Fragment"
+                "en": "React.ErrorBoundary",
+                "ru": "React.ErrorBoundary"
             },
             {
                 "en": "React.Suspense with a `fallback` prop",
                 "ru": "React.Suspense с пропсом `fallback`"
             },
             {
-                "en": "React.ErrorBoundary",
-                "ru": "React.ErrorBoundary"
+                "en": "React.Fragment",
+                "ru": "React.Fragment"
             }
         ],
         "correct": 2
@@ -735,23 +737,23 @@
         },
         "options": [
             {
-                "en": "A React element tree that can be passed to `ReactDOM.render`",
-                "ru": "Дерево React-элементов, которое можно передать в `ReactDOM.render`"
-            },
-            {
-                "en": "An HTML string with React data attributes that can be hydrated on the client",
-                "ru": "HTML-строку с React data-атрибутами, которую можно гидрировать на клиенте"
-            },
-            {
                 "en": "A static HTML string with no hydration metadata",
                 "ru": "Статическую HTML-строку без метаданных для гидрации"
             },
             {
+                "en": "A React element tree that can be passed to `ReactDOM.render`",
+                "ru": "Дерево React-элементов, которое можно передать в `ReactDOM.render`"
+            },
+            {
                 "en": "A stream of HTML chunks for progressive rendering",
                 "ru": "Стрим HTML-чанков для прогрессивного рендеринга"
+            },
+            {
+                "en": "An HTML string with React data attributes that can be hydrated on the client",
+                "ru": "HTML-строку с React data-атрибутами, которую можно гидрировать на клиенте"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "react-controlled-001",
@@ -769,16 +771,16 @@
         },
         "options": [
             {
-                "en": "A component that cannot accept user input",
-                "ru": "Компонент, который не принимает ввод пользователя"
+                "en": "A component wrapped in `React.memo`",
+                "ru": "Компонент, обёрнутый в `React.memo`"
             },
             {
                 "en": "A component whose form element value is driven by React state and updated via an `onChange` handler",
                 "ru": "Компонент, чьё значение form-элемента управляется React state и обновляется через обработчик `onChange`"
             },
             {
-                "en": "A component wrapped in `React.memo`",
-                "ru": "Компонент, обёрнутый в `React.memo`"
+                "en": "A component that cannot accept user input",
+                "ru": "Компонент, который не принимает ввод пользователя"
             },
             {
                 "en": "A component that controls its children's props via cloneElement",
@@ -803,23 +805,23 @@
         },
         "options": [
             {
-                "en": "Store the state in localStorage and sync via useEffect",
-                "ru": "Хранить state в localStorage и синхронизировать через useEffect"
-            },
-            {
-                "en": "Lift the state up to their closest common ancestor and pass it down as props",
-                "ru": "Поднять state до ближайшего общего предка и прокинуть его вниз через props"
+                "en": "Use a global Redux store for any shared state",
+                "ru": "Использовать глобальный Redux-стор для любого общего state"
             },
             {
                 "en": "Duplicate the state in both components and keep them in sync manually",
                 "ru": "Продублировать state в обоих компонентах и синхронизировать их вручную"
             },
             {
-                "en": "Use a global Redux store for any shared state",
-                "ru": "Использовать глобальный Redux-стор для любого общего state"
+                "en": "Lift the state up to their closest common ancestor and pass it down as props",
+                "ru": "Поднять state до ближайшего общего предка и прокинуть его вниз через props"
+            },
+            {
+                "en": "Store the state in localStorage and sync via useEffect",
+                "ru": "Хранить state в localStorage и синхронизировать через useEffect"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "react-composition-001",
@@ -841,19 +843,19 @@
                 "ru": "Наследование `React.Component` в дочернем классе"
             },
             {
-                "en": "Using the `children` prop to pass JSX subtrees into a component",
-                "ru": "Использование пропса `children` для передачи JSX-поддеревьев внутрь компонента"
+                "en": "Using `static defaultProps` on a class component",
+                "ru": "Использование `static defaultProps` на классовом компоненте"
             },
             {
                 "en": "Calling `super(props)` in a constructor",
                 "ru": "Вызов `super(props)` в конструкторе"
             },
             {
-                "en": "Using `static defaultProps` on a class component",
-                "ru": "Использование `static defaultProps` на классовом компоненте"
+                "en": "Using the `children` prop to pass JSX subtrees into a component",
+                "ru": "Использование пропса `children` для передачи JSX-поддеревьев внутрь компонента"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "react-synthetic-events-001",
@@ -871,23 +873,23 @@
         },
         "options": [
             {
-                "en": "Custom events dispatched with `document.dispatchEvent`",
-                "ru": "Кастомные события, диспатчатся через `document.dispatchEvent`"
-            },
-            {
-                "en": "React's cross-browser wrapper around native DOM events that normalises inconsistencies",
-                "ru": "Кроссбраузерная обёртка React поверх нативных DOM-событий, сглаживающая расхождения"
-            },
-            {
                 "en": "Events that fire only inside React portals",
                 "ru": "События, срабатывающие только внутри React-порталов"
             },
             {
                 "en": "Artificial events injected during testing",
                 "ru": "Искусственные события, внедряемые во время тестирования"
+            },
+            {
+                "en": "React's cross-browser wrapper around native DOM events that normalises inconsistencies",
+                "ru": "Кроссбраузерная обёртка React поверх нативных DOM-событий, сглаживающая расхождения"
+            },
+            {
+                "en": "Custom events dispatched with `document.dispatchEvent`",
+                "ru": "Кастомные события, диспатчатся через `document.dispatchEvent`"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "react-batching-001",
@@ -909,19 +911,19 @@
                 "ru": "React 18 полностью убрал батчинг ради простоты"
             },
             {
-                "en": "React 18 extended automatic batching to updates inside `setTimeout`, `Promise`, and native event handlers — not just React event handlers",
-                "ru": "React 18 распространил автоматический батчинг на обновления внутри `setTimeout`, `Promise` и нативных обработчиков событий — а не только внутри React-обработчиков"
+                "en": "Batching in React 18 is opt-in via a new `useBatch` hook",
+                "ru": "В React 18 батчинг подключается через новый хук `useBatch`"
             },
             {
                 "en": "React 18 batches updates only when `useTransition` is used",
                 "ru": "React 18 батчит обновления только при использовании `useTransition`"
             },
             {
-                "en": "Batching in React 18 is opt-in via a new `useBatch` hook",
-                "ru": "В React 18 батчинг подключается через новый хук `useBatch`"
+                "en": "React 18 extended automatic batching to updates inside `setTimeout`, `Promise`, and native event handlers — not just React event handlers",
+                "ru": "React 18 распространил автоматический батчинг на обновления внутри `setTimeout`, `Promise` и нативных обработчиков событий — а не только внутри React-обработчиков"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "react-strictmode-001",
@@ -939,23 +941,23 @@
         },
         "options": [
             {
-                "en": "Components that are too slow to render",
-                "ru": "Компоненты, которые рендерятся слишком медленно"
-            },
-            {
-                "en": "Side effects that are not properly cleaned up, because effects run → cleanup → run again",
-                "ru": "Сайд-эффекты, у которых не сделана корректная очистка: эффекты отрабатывают → cleanup → запускаются снова"
+                "en": "Memory leaks caused by context subscriptions",
+                "ru": "Утечки памяти из-за подписок на контекст"
             },
             {
                 "en": "Components using deprecated lifecycle methods",
                 "ru": "Компоненты, использующие устаревшие lifecycle-методы"
             },
             {
-                "en": "Memory leaks caused by context subscriptions",
-                "ru": "Утечки памяти из-за подписок на контекст"
+                "en": "Components that are too slow to render",
+                "ru": "Компоненты, которые рендерятся слишком медленно"
+            },
+            {
+                "en": "Side effects that are not properly cleaned up, because effects run → cleanup → run again",
+                "ru": "Сайд-эффекты, у которых не сделана корректная очистка: эффекты отрабатывают → cleanup → запускаются снова"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "react-custom-hooks-001",
@@ -973,8 +975,8 @@
         },
         "options": [
             {
-                "en": "They must start with `use`; otherwise the React linter cannot enforce the Rules of Hooks for that function",
-                "ru": "Они должны начинаться с `use`, иначе React-линтер не сможет применять к такой функции Rules of Hooks"
+                "en": "They must be exported; React tree-shakes unexported hooks",
+                "ru": "Они должны быть экспортированы; React выкидывает неэкспортированные хуки при tree-shaking"
             },
             {
                 "en": "They must end with `Hook`; React checks for this suffix at runtime",
@@ -985,11 +987,11 @@
                 "ru": "Они должны быть определены внутри компонента, иначе теряют доступ к fiber"
             },
             {
-                "en": "They must be exported; React tree-shakes unexported hooks",
-                "ru": "Они должны быть экспортированы; React выкидывает неэкспортированные хуки при tree-shaking"
+                "en": "They must start with `use`; otherwise the React linter cannot enforce the Rules of Hooks for that function",
+                "ru": "Они должны начинаться с `use`, иначе React-линтер не сможет применять к такой функции Rules of Hooks"
             }
         ],
-        "correct": 0
+        "correct": 3
     },
     {
         "id": "react-bug-missing-key-001",
@@ -1007,7 +1009,8 @@
         },
         "code": "function TodoList({ todos }) {\n  return (\n    <ul>\n      {todos.map((todo) => (\n        <li>{todo.text}</li>\n      ))}\n    </ul>\n  );\n}",
         "correct": "Missing `key` prop on the `<li>` element inside the map",
-        "referenceAnswer": "Each `<li>` needs a unique, stable `key` prop. Fix: `<li key={todo.id}>{todo.text}</li>`. React uses keys to efficiently reconcile list updates."
+        "referenceAnswer": "Each `<li>` needs a unique, stable `key` prop. Fix: `<li key={todo.id}>{todo.text}</li>`. React uses keys to efficiently reconcile list updates.",
+        "lang": "jsx"
     },
     {
         "id": "react-bug-usememo-001",
@@ -1025,7 +1028,8 @@
         },
         "code": "function Parent() {\n  const [count, setCount] = useState(0);\n\n  const config = useMemo(() => ({ threshold: 10 }), [count]);\n\n  return (\n    <>\n      <button onClick={() => setCount(c => c + 1)}>Increment</button>\n      <Child config={config} />\n    </>\n  );\n}\n\nconst Child = React.memo(({ config }) => {\n  return <div>{config.threshold}</div>;\n});",
         "correct": "`config` is memoized, but it re-creates a new object on every `count` change because `count` is in the dependency array, while `count` is not used inside the factory",
-        "referenceAnswer": "Remove `count` from the `useMemo` dependency array since the factory does not use it: `useMemo(() => ({ threshold: 10 }), [])`. With `[count]` as the dep, every increment creates a new object reference, causing `React.memo` to see a prop change and re-render `Child`."
+        "referenceAnswer": "Remove `count` from the `useMemo` dependency array since the factory does not use it: `useMemo(() => ({ threshold: 10 }), [])`. With `[count]` as the dep, every increment creates a new object reference, causing `React.memo` to see a prop change and re-render `Child`.",
+        "lang": "jsx"
     },
     {
         "id": "react-bug-forwardref-001",
@@ -1043,7 +1047,8 @@
         },
         "code": "function FancyInput({ placeholder }) {\n  return <input placeholder={placeholder} />;\n}\n\nfunction Form() {\n  const inputRef = useRef(null);\n\n  useEffect(() => {\n    inputRef.current.focus();\n  }, []);\n\n  return <FancyInput ref={inputRef} placeholder=\"Name\" />;\n}",
         "correct": "`FancyInput` is a function component that does not forward the ref — refs cannot be attached to function components by default",
-        "referenceAnswer": "Wrap `FancyInput` with `React.forwardRef`:\n```jsx\nconst FancyInput = React.forwardRef(({ placeholder }, ref) => (\n  <input ref={ref} placeholder={placeholder} />\n));\n```\nNow the ref is forwarded to the actual DOM `<input>` element."
+        "referenceAnswer": "Wrap `FancyInput` with `React.forwardRef`:\n```jsx\nconst FancyInput = React.forwardRef(({ placeholder }, ref) => (\n  <input ref={ref} placeholder={placeholder} />\n));\n```\nNow the ref is forwarded to the actual DOM `<input>` element.",
+        "lang": "jsx"
     },
     {
         "id": "react-completion-usereducer-001",
@@ -1099,8 +1104,8 @@
         },
         "options": [
             {
-                "en": "Updates inside `startTransition` can be interrupted by higher-priority updates",
-                "ru": "Обновления внутри `startTransition` могут быть прерваны более приоритетными апдейтами"
+                "en": "You can `await` a `startTransition` call to know when the transition is committed",
+                "ru": "Вызов `startTransition` можно `await`-ить, чтобы узнать, когда transition закоммитился"
             },
             {
                 "en": "`startTransition` makes a network request non-blocking",
@@ -1111,11 +1116,11 @@
                 "ru": "Пока переход (transition) в процессе, UI остаётся интерактивным — ввод и клики не блокируются"
             },
             {
-                "en": "You can `await` a `startTransition` call to know when the transition is committed",
-                "ru": "Вызов `startTransition` можно `await`-ить, чтобы узнать, когда transition закоммитился"
+                "en": "Updates inside `startTransition` can be interrupted by higher-priority updates",
+                "ru": "Обновления внутри `startTransition` могут быть прерваны более приоритетными апдейтами"
             }
         ],
-        "correct": [0, 2]
+        "correct": [2, 3]
     },
     {
         "id": "react-rtl-001",
@@ -1141,15 +1146,15 @@
                 "ru": "Явно оборачивать каждое изменение state в `act()`, чтобы избежать warning-ов"
             },
             {
-                "en": "Test component behaviour from the user's perspective rather than testing implementation details",
-                "ru": "Тестировать поведение компонента с точки зрения пользователя, а не детали реализации"
-            },
-            {
                 "en": "Always mock all child components to isolate the component under test",
                 "ru": "Всегда мокать все дочерние компоненты, чтобы изолировать тестируемый компонент"
+            },
+            {
+                "en": "Test component behaviour from the user's perspective rather than testing implementation details",
+                "ru": "Тестировать поведение компонента с точки зрения пользователя, а не детали реализации"
             }
         ],
-        "correct": [0, 2]
+        "correct": [0, 3]
     },
     {
         "id": "react-batching-002",
@@ -1167,20 +1172,20 @@
         },
         "options": [
             {
-                "en": "It forces React to flush all pending state updates synchronously before returning",
-                "ru": "Заставляет React синхронно применить все отложенные обновления state до возврата"
-            },
-            {
                 "en": "It is useful when you need to read an updated DOM measurement immediately after a state change",
                 "ru": "Полезен, когда нужно сразу после изменения state прочитать обновлённые размеры DOM"
             },
             {
-                "en": "It can be called inside a React event handler without any side effects",
-                "ru": "Его можно вызвать внутри React-обработчика событий без каких-либо побочных эффектов"
+                "en": "It forces React to flush all pending state updates synchronously before returning",
+                "ru": "Заставляет React синхронно применить все отложенные обновления state до возврата"
             },
             {
                 "en": "It cancels any ongoing concurrent transitions",
                 "ru": "Он отменяет все выполняющиеся concurrent-переходы"
+            },
+            {
+                "en": "It can be called inside a React event handler without any side effects",
+                "ru": "Его можно вызвать внутри React-обработчика событий без каких-либо побочных эффектов"
             }
         ],
         "correct": [0, 1]
@@ -1201,6 +1206,10 @@
         },
         "options": [
             {
+                "en": "Use `React.memo` on consumers to skip re-renders when context changes",
+                "ru": "Оборачивать потребителей в `React.memo`, чтобы пропускать ре-рендеры при изменении контекста"
+            },
+            {
                 "en": "Split one large Context into multiple smaller, focused Contexts",
                 "ru": "Разбить один большой Context на несколько более мелких и сфокусированных"
             },
@@ -1211,13 +1220,9 @@
             {
                 "en": "Always store context values in a ref instead of state",
                 "ru": "Всегда хранить значения контекста в ref вместо state"
-            },
-            {
-                "en": "Use `React.memo` on consumers to skip re-renders when context changes",
-                "ru": "Оборачивать потребителей в `React.memo`, чтобы пропускать ре-рендеры при изменении контекста"
             }
         ],
-        "correct": [0, 1]
+        "correct": [1, 2]
     },
     {
         "id": "react-compound-001",
@@ -1235,12 +1240,12 @@
         },
         "options": [
             {
-                "en": "Child components share implicit state via a private Context provided by the parent",
-                "ru": "Дочерние компоненты неявно разделяют state через приватный Context, предоставленный родителем"
-            },
-            {
                 "en": "Consumers get a declarative, composable API without needing to wire up explicit props between siblings",
                 "ru": "Потребитель получает декларативный, композируемый API без необходимости явно прокидывать props между соседями"
+            },
+            {
+                "en": "Child components share implicit state via a private Context provided by the parent",
+                "ru": "Дочерние компоненты неявно разделяют state через приватный Context, предоставленный родителем"
             },
             {
                 "en": "All child components must be defined in the same file as the parent",
@@ -1269,7 +1274,8 @@
         },
         "code": "function AppProvider({ children }) {\n  const [count, setCount] = useState(0);\n\n  return (\n    <AppContext.Provider value={{ count, setCount }}>\n      {children}\n    </AppContext.Provider>\n  );\n}",
         "correct": "The `value` prop is a new object literal `{ count, setCount }` created on every render, so React sees a new reference and re-renders all consumers",
-        "referenceAnswer": "Memoize the context value:\n```jsx\nconst value = useMemo(() => ({ count, setCount }), [count, setCount]);\nreturn <AppContext.Provider value={value}>{children}</AppContext.Provider>;\n```\nNow a new object is only created when `count` or `setCount` actually changes."
+        "referenceAnswer": "Memoize the context value:\n```jsx\nconst value = useMemo(() => ({ count, setCount }), [count, setCount]);\nreturn <AppContext.Provider value={value}>{children}</AppContext.Provider>;\n```\nNow a new object is only created when `count` or `setCount` actually changes.",
+        "lang": "javascript"
     },
     {
         "id": "react-bug-useeffect-deps-001",
@@ -1287,7 +1293,8 @@
         },
         "code": "function Timer({ onTick }) {\n  useEffect(() => {\n    const id = setInterval(onTick, 1000);\n    return () => clearInterval(id);\n  }, []);\n\n  return <div>Timer running</div>;\n}",
         "correct": "`onTick` is used inside the effect but omitted from the dependency array, causing the effect to always call the initial version of `onTick` (stale closure)",
-        "referenceAnswer": "Either add `onTick` to the dependency array (effect re-registers when `onTick` changes) or use a ref to hold the latest version:\n```jsx\nconst onTickRef = useRef(onTick);\nuseEffect(() => { onTickRef.current = onTick; });\nuseEffect(() => {\n  const id = setInterval(() => onTickRef.current(), 1000);\n  return () => clearInterval(id);\n}, []);\n```"
+        "referenceAnswer": "Either add `onTick` to the dependency array (effect re-registers when `onTick` changes) or use a ref to hold the latest version:\n```jsx\nconst onTickRef = useRef(onTick);\nuseEffect(() => { onTickRef.current = onTick; });\nuseEffect(() => {\n  const id = setInterval(() => onTickRef.current(), 1000);\n  return () => clearInterval(id);\n}, []);\n```",
+        "lang": "jsx"
     },
     {
         "id": "react-completion-context-001",
@@ -1377,20 +1384,20 @@
         },
         "options": [
             {
-                "en": "Use `useEffect` and set a loading state",
-                "ru": "Использовать `useEffect` и выставлять loading-state"
+                "en": "Return `undefined` from the component until data is available",
+                "ru": "Возвращать из компонента `undefined`, пока данные недоступны"
             },
             {
                 "en": "Throw a Promise while data is pending; re-render when the Promise resolves",
                 "ru": "Выбрасывать Promise, пока данные не готовы, и ре-рендерить после его резолва"
             },
             {
-                "en": "Return `undefined` from the component until data is available",
-                "ru": "Возвращать из компонента `undefined`, пока данные недоступны"
-            },
-            {
                 "en": "Call `ReactDOM.flushSync` to force a synchronous fetch",
                 "ru": "Вызывать `ReactDOM.flushSync`, чтобы сделать fetch синхронным"
+            },
+            {
+                "en": "Use `useEffect` and set a loading state",
+                "ru": "Использовать `useEffect` и выставлять loading-state"
             }
         ],
         "correct": 1
@@ -1411,12 +1418,12 @@
         },
         "options": [
             {
-                "en": "The component receives the same props frequently and its render is computationally expensive",
-                "ru": "Компонент часто получает одни и те же props, и его рендер вычислительно дорогой"
-            },
-            {
                 "en": "The component is a pure display component that relies only on its props",
                 "ru": "Компонент — чистый display-компонент, зависящий только от своих props"
+            },
+            {
+                "en": "The component receives the same props frequently and its render is computationally expensive",
+                "ru": "Компонент часто получает одни и те же props, и его рендер вычислительно дорогой"
             },
             {
                 "en": "The parent re-renders often for reasons unrelated to the memoized component's props",
@@ -1445,7 +1452,8 @@
         },
         "code": "function Form() {\n  const [value, setValue] = useState(undefined);\n\n  return (\n    <input\n      value={value}\n      onChange={e => setValue(e.target.value)}\n    />\n  );\n}",
         "correct": "React warns about switching from an uncontrolled to a controlled input because the initial `value` is `undefined` (treated as uncontrolled), then changes to a string (controlled)",
-        "referenceAnswer": "Initialise state with an empty string instead of `undefined`:\n```jsx\nconst [value, setValue] = useState('');\n```\nWhen `value` is `undefined`, React treats the input as uncontrolled. When it becomes a string, React switches it to controlled — this transition is not allowed and triggers a warning."
+        "referenceAnswer": "Initialise state with an empty string instead of `undefined`:\n```jsx\nconst [value, setValue] = useState('');\n```\nWhen `value` is `undefined`, React treats the input as uncontrolled. When it becomes a string, React switches it to controlled — this transition is not allowed and triggers a warning.",
+        "lang": "jsx"
     },
     {
         "id": "react-completion-usetransition-001",

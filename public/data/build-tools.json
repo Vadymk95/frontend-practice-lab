@@ -15,6 +15,10 @@
         },
         "options": [
             {
+                "en": "Vite uses HTTP/3 for module serving",
+                "ru": "Vite использует HTTP/3 для отдачи модулей"
+            },
+            {
                 "en": "Vite uses Rust-based compilation for all files",
                 "ru": "Vite использует компиляцию на Rust для всех файлов"
             },
@@ -23,15 +27,11 @@
                 "ru": "Vite пропускает бандлинг в dev-режиме — он отдаёт файлы как нативные ES-модули, а разрешение модулей выполняет браузер"
             },
             {
-                "en": "Vite uses HTTP/3 for module serving",
-                "ru": "Vite использует HTTP/3 для отдачи модулей"
-            },
-            {
                 "en": "Vite pre-compiles all files to WebAssembly at startup",
                 "ru": "Vite при старте пред-компилирует все файлы в WebAssembly"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "build-webpack-001",
@@ -53,19 +53,19 @@
                 "ru": "Разбивать бандл на несколько выходных чанков"
             },
             {
-                "en": "To transform files of non-JavaScript types (CSS, TypeScript, images) into modules webpack can process",
-                "ru": "Преобразовывать файлы не-JavaScript типов (CSS, TypeScript, изображения) в модули, которые webpack может обработать"
-            },
-            {
                 "en": "To minify and compress the final bundle",
                 "ru": "Минифицировать и сжимать итоговый бандл"
             },
             {
                 "en": "To inject environment variables into the bundle at build time",
                 "ru": "Инжектить переменные окружения в бандл на этапе сборки"
+            },
+            {
+                "en": "To transform files of non-JavaScript types (CSS, TypeScript, images) into modules webpack can process",
+                "ru": "Преобразовывать файлы не-JavaScript типов (CSS, TypeScript, изображения) в модули, которые webpack может обработать"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "build-babel-001",
@@ -83,10 +83,6 @@
         },
         "options": [
             {
-                "en": "Presets are used in development; plugins are used in production",
-                "ru": "Presets используются в development, plugins — в production"
-            },
-            {
                 "en": "A preset is a pre-configured collection of plugins; a plugin transforms one specific syntax feature",
                 "ru": "Preset — это преднастроенный набор плагинов; plugin преобразует одну конкретную синтаксическую фичу"
             },
@@ -97,9 +93,13 @@
             {
                 "en": "Presets only handle TypeScript; plugins handle everything else",
                 "ru": "Presets отвечают только за TypeScript; plugins — за всё остальное"
+            },
+            {
+                "en": "Presets are used in development; plugins are used in production",
+                "ru": "Presets используются в development, plugins — в production"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "build-semver-001",
@@ -125,12 +125,12 @@
                 "ru": "Любая версия, совместимая с 18.2.0: >=18.2.0 <19.0.0 (тот же major, любой minor/patch)"
             },
             {
-                "en": "Any version greater than 18.2.0 including major updates",
-                "ru": "Любая версия выше 18.2.0, включая major-обновления"
-            },
-            {
                 "en": "The minimum version is 18.2.0 but versions over 18.9.9 are excluded",
                 "ru": "Минимальная версия — 18.2.0, но версии выше 18.9.9 исключены"
+            },
+            {
+                "en": "Any version greater than 18.2.0 including major updates",
+                "ru": "Любая версия выше 18.2.0, включая major-обновления"
             }
         ],
         "correct": 1
@@ -151,6 +151,10 @@
         },
         "options": [
             {
+                "en": "CommonJS exports are immutable; ESM exports are mutable references",
+                "ru": "Экспорты CommonJS неизменяемые, экспорты ESM — мутабельные ссылки"
+            },
+            {
                 "en": "CommonJS supports top-level await; ESM does not",
                 "ru": "CommonJS поддерживает top-level await, а ESM — нет"
             },
@@ -161,13 +165,9 @@
             {
                 "en": "ESM can only be used in browsers; CommonJS is Node.js-only",
                 "ru": "ESM работает только в браузерах, CommonJS — только в Node.js"
-            },
-            {
-                "en": "CommonJS exports are immutable; ESM exports are mutable references",
-                "ru": "Экспорты CommonJS неизменяемые, экспорты ESM — мутабельные ссылки"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "build-sourcemap-001",
@@ -185,10 +185,6 @@
         },
         "options": [
             {
-                "en": "To map CSS class names to their original component files",
-                "ru": "Сопоставлять имена CSS-классов с исходными файлами компонентов"
-            },
-            {
                 "en": "To map minified/bundled code back to the original source, enabling meaningful stack traces and debugging",
                 "ru": "Сопоставлять минифицированный/собранный код с исходниками, чтобы получать осмысленные стек-трейсы и отлаживать код"
             },
@@ -199,9 +195,13 @@
             {
                 "en": "To list all entry points and their corresponding output files",
                 "ru": "Перечислять все entry points и соответствующие им выходные файлы"
+            },
+            {
+                "en": "To map CSS class names to their original component files",
+                "ru": "Сопоставлять имена CSS-классов с исходными файлами компонентов"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "build-envvars-001",
@@ -219,23 +219,23 @@
         },
         "options": [
             {
-                "en": "All variables from .env files are automatically available via process.env",
-                "ru": "Все переменные из .env-файлов автоматически доступны через process.env"
-            },
-            {
-                "en": "Only variables prefixed with VITE_ are exposed via import.meta.env",
-                "ru": "Доступны только переменные с префиксом VITE_ через import.meta.env"
+                "en": "All Node.js environment variables are available at runtime via window.__env",
+                "ru": "Все переменные окружения Node.js доступны в рантайме через window.__env"
             },
             {
                 "en": "Variables must be explicitly imported from a virtual module",
                 "ru": "Переменные нужно явно импортировать из виртуального модуля"
             },
             {
-                "en": "All Node.js environment variables are available at runtime via window.__env",
-                "ru": "Все переменные окружения Node.js доступны в рантайме через window.__env"
+                "en": "All variables from .env files are automatically available via process.env",
+                "ru": "Все переменные из .env-файлов автоматически доступны через process.env"
+            },
+            {
+                "en": "Only variables prefixed with VITE_ are exposed via import.meta.env",
+                "ru": "Доступны только переменные с префиксом VITE_ через import.meta.env"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "build-peerdeps-001",
@@ -253,6 +253,10 @@
         },
         "options": [
             {
+                "en": "Dependencies installed in a parent directory and shared with child packages",
+                "ru": "Зависимости, установленные в родительской директории и разделяемые с дочерними пакетами"
+            },
+            {
                 "en": "Dependencies shared between sibling packages in a monorepo",
                 "ru": "Зависимости, общие для соседних пакетов в монорепозитории"
             },
@@ -263,13 +267,9 @@
             {
                 "en": "Development dependencies that are excluded from production builds",
                 "ru": "Dev-зависимости, исключаемые из production-сборки"
-            },
-            {
-                "en": "Dependencies installed in a parent directory and shared with child packages",
-                "ru": "Зависимости, установленные в родительской директории и разделяемые с дочерними пакетами"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "build-pnpm-001",
@@ -287,23 +287,23 @@
         },
         "options": [
             {
-                "en": "pnpm compresses packages using zstd before storing them",
-                "ru": "pnpm сжимает пакеты через zstd перед сохранением"
-            },
-            {
-                "en": "pnpm uses a content-addressable store with hard links — packages are stored once globally and hard-linked into node_modules",
-                "ru": "pnpm использует content-addressable storage с hard links — пакеты хранятся один раз глобально и подключаются в node_modules через hard links"
-            },
-            {
                 "en": "pnpm stores all packages in a shared RAM disk",
                 "ru": "pnpm хранит все пакеты в общем RAM-диске"
             },
             {
                 "en": "pnpm deduplicates packages at the JavaScript source level using AST comparison",
                 "ru": "pnpm дедуплицирует пакеты на уровне исходного JavaScript через сравнение AST"
+            },
+            {
+                "en": "pnpm compresses packages using zstd before storing them",
+                "ru": "pnpm сжимает пакеты через zstd перед сохранением"
+            },
+            {
+                "en": "pnpm uses a content-addressable store with hard links — packages are stored once globally and hard-linked into node_modules",
+                "ru": "pnpm использует content-addressable storage с hard links — пакеты хранятся один раз глобально и подключаются в node_modules через hard links"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "build-packagejson-001",
@@ -321,20 +321,20 @@
         },
         "options": [
             {
-                "en": "It specifies which files to include when the package is published to npm",
-                "ru": "Определяет, какие файлы попадут в пакет при публикации в npm"
+                "en": "It maps TypeScript type declarations to their corresponding JavaScript files",
+                "ru": "Сопоставляет декларации типов TypeScript с соответствующими JavaScript-файлами"
             },
             {
                 "en": "It defines conditional exports for different environments (ESM vs CJS vs browser vs Node) and can restrict which internal paths are importable",
                 "ru": "Задаёт условные экспорты для разных окружений (ESM vs CJS vs браузер vs Node) и может ограничивать, какие внутренние пути можно импортировать"
             },
             {
-                "en": "It maps TypeScript type declarations to their corresponding JavaScript files",
-                "ru": "Сопоставляет декларации типов TypeScript с соответствующими JavaScript-файлами"
-            },
-            {
                 "en": "It lists the entry points for all scripts defined in the scripts field",
                 "ru": "Перечисляет entry points для всех скриптов из поля scripts"
+            },
+            {
+                "en": "It specifies which files to include when the package is published to npm",
+                "ru": "Определяет, какие файлы попадут в пакет при публикации в npm"
             }
         ],
         "correct": 1
@@ -355,12 +355,12 @@
         },
         "options": [
             {
-                "en": "Rollup has better HMR support for library development",
-                "ru": "У Rollup лучше поддержка HMR для разработки библиотек"
-            },
-            {
                 "en": "Rollup produces cleaner, smaller bundles for libraries because it outputs pure ESM with excellent tree shaking and no runtime overhead",
                 "ru": "Rollup выдаёт более чистые и компактные бандлы библиотек: чистый ESM с отличным tree shaking и без рантайм-оверхеда"
+            },
+            {
+                "en": "Rollup has better HMR support for library development",
+                "ru": "У Rollup лучше поддержка HMR для разработки библиотек"
             },
             {
                 "en": "Rollup is written in Rust and is therefore faster than webpack",
@@ -371,7 +371,7 @@
                 "ru": "Rollup автоматически работает с TypeScript без каких-либо плагинов"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "build-esbuild-001",
@@ -389,16 +389,16 @@
         },
         "options": [
             {
-                "en": "ESBuild uses browser-native ES module parsing APIs",
-                "ru": "ESBuild использует нативные браузерные API парсинга ES-модулей"
+                "en": "ESBuild skips type checking, sourcemaps, and minification by default",
+                "ru": "ESBuild по умолчанию пропускает проверку типов, sourcemaps и минификацию"
             },
             {
                 "en": "ESBuild is written in Go, uses parallel processing, and avoids JavaScript's GC overhead",
                 "ru": "ESBuild написан на Go, использует параллельную обработку и избегает оверхеда GC JavaScript"
             },
             {
-                "en": "ESBuild skips type checking, sourcemaps, and minification by default",
-                "ru": "ESBuild по умолчанию пропускает проверку типов, sourcemaps и минификацию"
+                "en": "ESBuild uses browser-native ES module parsing APIs",
+                "ru": "ESBuild использует нативные браузерные API парсинга ES-модулей"
             },
             {
                 "en": "ESBuild only processes entry points, not transitive dependencies",
@@ -423,20 +423,20 @@
         },
         "options": [
             {
-                "en": "To prevent other developers from installing packages until you unlock it",
-                "ru": "Запрещать другим разработчикам ставить пакеты, пока вы не разблокируете файл"
+                "en": "To cache downloaded packages locally to avoid re-downloading them",
+                "ru": "Локально кэшировать скачанные пакеты, чтобы не скачивать их повторно"
             },
             {
                 "en": "To record the exact resolved versions and integrity hashes of all installed packages for reproducible installs",
                 "ru": "Фиксировать точные разрешённые версии и integrity-хэши всех установленных пакетов для воспроизводимых установок"
             },
             {
-                "en": "To cache downloaded packages locally to avoid re-downloading them",
-                "ru": "Локально кэшировать скачанные пакеты, чтобы не скачивать их повторно"
-            },
-            {
                 "en": "To list packages that are forbidden from being updated",
                 "ru": "Перечислять пакеты, которые запрещено обновлять"
+            },
+            {
+                "en": "To prevent other developers from installing packages until you unlock it",
+                "ru": "Запрещать другим разработчикам ставить пакеты, пока вы не разблокируете файл"
             }
         ],
         "correct": 1
@@ -457,8 +457,8 @@
         },
         "options": [
             {
-                "en": "It converts CSS to JavaScript objects at build time",
-                "ru": "Преобразует CSS в JavaScript-объекты на этапе сборки"
+                "en": "It validates CSS against the W3C spec and reports errors",
+                "ru": "Валидирует CSS по спецификации W3C и сообщает об ошибках"
             },
             {
                 "en": "It transforms CSS using plugins — common uses include autoprefixing, future syntax support, and minification",
@@ -469,8 +469,8 @@
                 "ru": "Это CSS-препроцессор вроде Sass, добавляющий переменные и вложенность"
             },
             {
-                "en": "It validates CSS against the W3C spec and reports errors",
-                "ru": "Валидирует CSS по спецификации W3C и сообщает об ошибках"
+                "en": "It converts CSS to JavaScript objects at build time",
+                "ru": "Преобразует CSS в JavaScript-объекты на этапе сборки"
             }
         ],
         "correct": 1
@@ -491,16 +491,16 @@
         },
         "options": [
             {
-                "en": "It splits TypeScript compilation across multiple CPU cores automatically",
-                "ru": "Автоматически распараллеливает компиляцию TypeScript по нескольким ядрам CPU"
+                "en": "It automatically upgrades all packages to their latest versions",
+                "ru": "Автоматически обновляет все пакеты до последних версий"
             },
             {
                 "en": "It caches task outputs (build artifacts, test results) locally and remotely — identical inputs produce cached outputs instantly",
                 "ru": "Кэширует результаты задач (артефакты сборки, результаты тестов) локально и удалённо — при одинаковых входах выдаёт кэшированный результат мгновенно"
             },
             {
-                "en": "It automatically upgrades all packages to their latest versions",
-                "ru": "Автоматически обновляет все пакеты до последних версий"
+                "en": "It splits TypeScript compilation across multiple CPU cores automatically",
+                "ru": "Автоматически распараллеливает компиляцию TypeScript по нескольким ядрам CPU"
             },
             {
                 "en": "It replaces npm/yarn/pnpm with a faster custom package manager",
@@ -525,6 +525,10 @@
         },
         "options": [
             {
+                "en": "Vite HMR is synchronous; webpack HMR uses async module replacement",
+                "ru": "HMR в Vite синхронный, в webpack — асинхронная замена модулей"
+            },
+            {
                 "en": "Vite HMR requires a full page reload; webpack HMR can update modules in-place",
                 "ru": "HMR в Vite требует полного перезагрузки страницы; HMR в webpack умеет обновлять модули на месте"
             },
@@ -535,13 +539,9 @@
             {
                 "en": "Vite HMR works via WebSockets; webpack HMR uses long-polling",
                 "ru": "HMR в Vite работает через WebSockets, в webpack — через long-polling"
-            },
-            {
-                "en": "Vite HMR is synchronous; webpack HMR uses async module replacement",
-                "ru": "HMR в Vite синхронный, в webpack — асинхронная замена модулей"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "build-tsc-babel-001",
@@ -559,10 +559,6 @@
         },
         "options": [
             {
-                "en": "Babel is faster but does not perform type checking — it strips types without checking them",
-                "ru": "Babel быстрее, но не выполняет проверку типов — он просто срезает типы без проверки"
-            },
-            {
                 "en": "tsc outputs ES5; Babel outputs ES2015+ only",
                 "ru": "tsc генерирует ES5, Babel — только ES2015+"
             },
@@ -573,9 +569,13 @@
             {
                 "en": "tsc supports all Babel plugins natively; they are functionally identical",
                 "ru": "tsc нативно поддерживает все Babel-плагины; функционально они идентичны"
+            },
+            {
+                "en": "Babel is faster but does not perform type checking — it strips types without checking them",
+                "ru": "Babel быстрее, но не выполняет проверку типов — он просто срезает типы без проверки"
             }
         ],
-        "correct": 0
+        "correct": 3
     },
     {
         "id": "build-cssmodules-001",
@@ -593,23 +593,23 @@
         },
         "options": [
             {
-                "en": "They optimize CSS by removing unused rules during build",
-                "ru": "Оптимизируют CSS, удаляя неиспользуемые правила во время сборки"
-            },
-            {
                 "en": "They scope CSS class names by locally hashing them, preventing global naming collisions",
                 "ru": "Скоупят имена CSS-классов через локальное хэширование, исключая коллизии в глобальном неймспейсе"
+            },
+            {
+                "en": "They split CSS into separate files per component for lazy loading",
+                "ru": "Разделяют CSS на отдельные файлы по компонентам для ленивой загрузки"
             },
             {
                 "en": "They enable importing CSS variables into JavaScript files",
                 "ru": "Позволяют импортировать CSS-переменные в JavaScript-файлы"
             },
             {
-                "en": "They split CSS into separate files per component for lazy loading",
-                "ru": "Разделяют CSS на отдельные файлы по компонентам для ленивой загрузки"
+                "en": "They optimize CSS by removing unused rules during build",
+                "ru": "Оптимизируют CSS, удаляя неиспользуемые правила во время сборки"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "build-presetenv-001",
@@ -665,19 +665,19 @@
                 "ru": "Позволяет нескольким webpack-конфигам параллельно собирать один бандл"
             },
             {
-                "en": "It allows multiple independent webpack builds to share code and components at runtime, enabling microfrontend architectures",
-                "ru": "Позволяет нескольким независимым webpack-сборкам делиться кодом и компонентами в рантайме, что даёт возможность строить микрофронтенды"
-            },
-            {
                 "en": "It federates TypeScript type definitions across packages in a monorepo",
                 "ru": "Объединяет декларации типов TypeScript между пакетами в монорепозитории"
             },
             {
                 "en": "It automatically splits vendor code into separately cacheable chunks",
                 "ru": "Автоматически выделяет vendor-код в отдельно кэшируемые чанки"
+            },
+            {
+                "en": "It allows multiple independent webpack builds to share code and components at runtime, enabling microfrontend architectures",
+                "ru": "Позволяет нескольким независимым webpack-сборкам делиться кодом и компонентами в рантайме, что даёт возможность строить микрофронтенды"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "build-treeshake-001",
@@ -699,19 +699,19 @@
                 "ru": "У библиотеки нет рантайм-ошибок и её безопасно использовать в production"
             },
             {
-                "en": "All modules in the package are side-effect-free — unused exports can be safely removed without executing any module-level code",
-                "ru": "Все модули пакета не имеют побочных эффектов — неиспользуемые экспорты можно безопасно удалить, не выполняя код на уровне модуля"
-            },
-            {
                 "en": "The library does not polyfill any globals",
                 "ru": "Библиотека не делает polyfill глобальных объектов"
+            },
+            {
+                "en": "All modules in the package are side-effect-free — unused exports can be safely removed without executing any module-level code",
+                "ru": "Все модули пакета не имеют побочных эффектов — неиспользуемые экспорты можно безопасно удалить, не выполняя код на уровне модуля"
             },
             {
                 "en": "The library is compatible with all bundlers without special configuration",
                 "ru": "Библиотека совместима со всеми бандлерами без специальной настройки"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "build-nx-001",
@@ -729,20 +729,20 @@
         },
         "options": [
             {
-                "en": "It rebuilds all projects to ensure consistent output hashes",
-                "ru": "Пересобирает все проекты, чтобы обеспечить одинаковые output-хэши"
+                "en": "It lists all packages that have peer dependency conflicts",
+                "ru": "Перечисляет все пакеты с конфликтами peer-зависимостей"
             },
             {
                 "en": "It runs tasks (build, test, lint) only for projects affected by the current git changes and their dependents",
                 "ru": "Запускает задачи (build, test, lint) только для проектов, затронутых текущими git-изменениями, и их зависимых"
             },
             {
-                "en": "It lists all packages that have peer dependency conflicts",
-                "ru": "Перечисляет все пакеты с конфликтами peer-зависимостей"
-            },
-            {
                 "en": "It monitors the repository for file changes and triggers incremental builds",
                 "ru": "Следит за изменениями файлов в репозитории и запускает инкрементальные сборки"
+            },
+            {
+                "en": "It rebuilds all projects to ensure consistent output hashes",
+                "ru": "Пересобирает все проекты, чтобы обеспечить одинаковые output-хэши"
             }
         ],
         "correct": 1
@@ -771,12 +771,12 @@
                 "ru": "Rolldown — это бандлер на Rust, совместимый с Rollup, который заменит Rollup и ESBuild в production-сборке Vite, предоставив единый быстрый бандлер"
             },
             {
-                "en": "Rolldown is a CSS bundling tool integrated into Vite 5",
-                "ru": "Rolldown — это инструмент CSS-бандлинга, встроенный в Vite 5"
-            },
-            {
                 "en": "Rolldown is a module federation plugin for Vite applications",
                 "ru": "Rolldown — это module federation плагин для Vite-приложений"
+            },
+            {
+                "en": "Rolldown is a CSS bundling tool integrated into Vite 5",
+                "ru": "Rolldown — это инструмент CSS-бандлинга, встроенный в Vite 5"
             }
         ],
         "correct": 1
@@ -797,20 +797,20 @@
         },
         "options": [
             {
-                "en": "OXC is a React rendering engine for server-side rendering",
-                "ru": "OXC — движок рендеринга React для SSR"
+                "en": "OXC is a GraphQL code generator for TypeScript",
+                "ru": "OXC — генератор GraphQL-кода для TypeScript"
             },
             {
                 "en": "OXC is a Rust-based JavaScript/TypeScript toolchain providing an ultra-fast parser, linter, transformer, and minifier used by tools like Rolldown and Vite",
                 "ru": "OXC — тулчейн для JavaScript/TypeScript на Rust: ультрабыстрый парсер, линтер, трансформер и минификатор, используемые в Rolldown и Vite"
             },
             {
-                "en": "OXC is an OCaml-based compiler that provides formal verification for TypeScript",
-                "ru": "OXC — компилятор на OCaml, обеспечивающий формальную верификацию TypeScript"
+                "en": "OXC is a React rendering engine for server-side rendering",
+                "ru": "OXC — движок рендеринга React для SSR"
             },
             {
-                "en": "OXC is a GraphQL code generator for TypeScript",
-                "ru": "OXC — генератор GraphQL-кода для TypeScript"
+                "en": "OXC is an OCaml-based compiler that provides formal verification for TypeScript",
+                "ru": "OXC — компилятор на OCaml, обеспечивающий формальную верификацию TypeScript"
             }
         ],
         "correct": 1
@@ -831,6 +831,10 @@
         },
         "options": [
             {
+                "en": "It signals that the file contains only pure CSS with no JavaScript side effects",
+                "ru": "Сигнализирует, что файл содержит только чистый CSS без JavaScript-сайд-эффектов"
+            },
+            {
                 "en": "It marks a function as having no TypeScript types, allowing the bundler to skip type validation",
                 "ru": "Помечает функцию как не имеющую TypeScript-типов, чтобы бандлер пропустил проверку типов"
             },
@@ -839,15 +843,11 @@
                 "ru": "Сообщает бандлеру, что вызов функции не имеет побочных эффектов и может быть удалён, если его возвращаемое значение не используется — это позволяет tree shaking обёртывающих функций"
             },
             {
-                "en": "It signals that the file contains only pure CSS with no JavaScript side effects",
-                "ru": "Сигнализирует, что файл содержит только чистый CSS без JavaScript-сайд-эффектов"
-            },
-            {
                 "en": "It prevents the bundler from code-splitting this module",
                 "ru": "Запрещает бандлеру делать code splitting этого модуля"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "build-multi-vite-001",
@@ -865,27 +865,27 @@
         },
         "options": [
             {
-                "en": "plugins",
-                "ru": "plugins"
+                "en": "server.port",
+                "ru": "server.port"
             },
             {
                 "en": "resolve.alias",
                 "ru": "resolve.alias"
             },
             {
-                "en": "build.rollupOptions",
-                "ru": "build.rollupOptions"
-            },
-            {
                 "en": "loaders (for file type transforms)",
                 "ru": "loaders (для трансформации типов файлов)"
             },
             {
-                "en": "server.port",
-                "ru": "server.port"
+                "en": "build.rollupOptions",
+                "ru": "build.rollupOptions"
+            },
+            {
+                "en": "plugins",
+                "ru": "plugins"
             }
         ],
-        "correct": [0, 1, 2, 4]
+        "correct": [0, 1, 3, 4]
     },
     {
         "id": "build-multi-pkgjson-001",
@@ -903,6 +903,10 @@
         },
         "options": [
             {
+                "en": "browser",
+                "ru": "browser"
+            },
+            {
                 "en": "main",
                 "ru": "main"
             },
@@ -911,19 +915,15 @@
                 "ru": "module"
             },
             {
-                "en": "exports",
-                "ru": "exports"
-            },
-            {
-                "en": "browser",
-                "ru": "browser"
-            },
-            {
                 "en": "types",
                 "ru": "types"
+            },
+            {
+                "en": "exports",
+                "ru": "exports"
             }
         ],
-        "correct": [0, 1, 2, 3]
+        "correct": [0, 1, 2, 4]
     },
     {
         "id": "build-multi-treeshake-001",
@@ -979,6 +979,14 @@
         },
         "options": [
             {
+                "en": "Using `require()` instead of `import`",
+                "ru": "Использование `require()` вместо `import`"
+            },
+            {
+                "en": "Configuring `output.chunkFilename`",
+                "ru": "Настройка `output.chunkFilename`"
+            },
+            {
                 "en": "Multiple entry points in the `entry` config",
                 "ru": "Несколько entry points в конфиге `entry`"
             },
@@ -989,17 +997,9 @@
             {
                 "en": "The `SplitChunksPlugin` (optimization.splitChunks)",
                 "ru": "`SplitChunksPlugin` (optimization.splitChunks)"
-            },
-            {
-                "en": "Using `require()` instead of `import`",
-                "ru": "Использование `require()` вместо `import`"
-            },
-            {
-                "en": "Configuring `output.chunkFilename`",
-                "ru": "Настройка `output.chunkFilename`"
             }
         ],
-        "correct": [0, 1, 2]
+        "correct": [2, 3, 4]
     },
     {
         "id": "build-multi-npm-001",
@@ -1017,27 +1017,27 @@
         },
         "options": [
             {
-                "en": "pnpm uses a global content-addressable store with hard links, saving disk space",
-                "ru": "pnpm использует глобальное content-addressable хранилище с hard links, экономя место на диске"
-            },
-            {
-                "en": "yarn workspaces and pnpm workspaces both support monorepo setups natively",
-                "ru": "yarn workspaces и pnpm workspaces оба нативно поддерживают монорепозитории"
-            },
-            {
                 "en": "npm install always produces a flat node_modules structure",
                 "ru": "npm install всегда создаёт плоскую структуру node_modules"
+            },
+            {
+                "en": "yarn Berry (v2+) supports Plug'n'Play (PnP) which eliminates node_modules entirely",
+                "ru": "yarn Berry (v2+) поддерживает Plug'n'Play (PnP), который полностью устраняет node_modules"
             },
             {
                 "en": "pnpm creates a strict, non-flat node_modules where packages cannot access undeclared dependencies",
                 "ru": "pnpm создаёт строгую, не плоскую node_modules, где пакеты не могут обращаться к незаявленным зависимостям"
             },
             {
-                "en": "yarn Berry (v2+) supports Plug'n'Play (PnP) which eliminates node_modules entirely",
-                "ru": "yarn Berry (v2+) поддерживает Plug'n'Play (PnP), который полностью устраняет node_modules"
+                "en": "yarn workspaces and pnpm workspaces both support monorepo setups natively",
+                "ru": "yarn workspaces и pnpm workspaces оба нативно поддерживают монорепозитории"
+            },
+            {
+                "en": "pnpm uses a global content-addressable store with hard links, saving disk space",
+                "ru": "pnpm использует глобальное content-addressable хранилище с hard links, экономя место на диске"
             }
         ],
-        "correct": [0, 1, 3, 4]
+        "correct": [1, 2, 3, 4]
     },
     {
         "id": "build-multi-babel-001",
@@ -1055,27 +1055,27 @@
         },
         "options": [
             {
-                "en": "Plugins run before presets",
-                "ru": "Plugins запускаются раньше presets"
+                "en": "Presets run in the order they are listed (first to last)",
+                "ru": "Presets выполняются в порядке перечисления (от первого к последнему)"
             },
             {
                 "en": "Plugins run in the order they are listed (first to last)",
                 "ru": "Plugins выполняются в порядке перечисления (от первого к последнему)"
             },
             {
-                "en": "Presets run in the order they are listed (first to last)",
-                "ru": "Presets выполняются в порядке перечисления (от первого к последнему)"
+                "en": "Plugin order only matters for transforms that produce conflicting AST changes",
+                "ru": "Порядок plugins важен только для трансформаций, которые дают конфликтующие изменения AST"
             },
             {
                 "en": "Presets run in reverse order (last to first)",
                 "ru": "Presets выполняются в обратном порядке (от последнего к первому)"
             },
             {
-                "en": "Plugin order only matters for transforms that produce conflicting AST changes",
-                "ru": "Порядок plugins важен только для трансформаций, которые дают конфликтующие изменения AST"
+                "en": "Plugins run before presets",
+                "ru": "Plugins запускаются раньше presets"
             }
         ],
-        "correct": [0, 1, 3]
+        "correct": [1, 3, 4]
     },
     {
         "id": "build-multi-monorepo-001",
@@ -1093,16 +1093,12 @@
         },
         "options": [
             {
-                "en": "Remote caching of task outputs",
-                "ru": "Удалённое кэширование результатов задач"
+                "en": "Built-in code generation scaffolding",
+                "ru": "Встроенные генераторы кода (scaffolding)"
             },
             {
                 "en": "Affected-only task execution based on git changes",
                 "ru": "Выполнение задач только для affected-проектов на основе git-изменений"
-            },
-            {
-                "en": "Built-in code generation scaffolding",
-                "ru": "Встроенные генераторы кода (scaffolding)"
             },
             {
                 "en": "Dependency graph visualization",
@@ -1111,9 +1107,13 @@
             {
                 "en": "Plugin system for framework integrations",
                 "ru": "Система плагинов для интеграции с фреймворками"
+            },
+            {
+                "en": "Remote caching of task outputs",
+                "ru": "Удалённое кэширование результатов задач"
             }
         ],
-        "correct": [0, 1, 3]
+        "correct": [1, 2, 4]
     },
     {
         "id": "build-bug-vite-001",
@@ -1131,7 +1131,8 @@
         },
         "code": "// .env\nAPI_URL=https://api.example.com\nVITE_APP_TITLE=My App\n\n// component.tsx\nconst apiUrl = process.env.API_URL;\nconst title = import.meta.env.VITE_APP_TITLE;\nconsole.log(apiUrl, title);",
         "correct": "`process.env.API_URL` is undefined in Vite — only variables prefixed with VITE_ are exposed, and they must be accessed via `import.meta.env`, not `process.env`",
-        "referenceAnswer": "In Vite, only VITE_-prefixed variables are exposed to the browser. Access them via `import.meta.env.VITE_API_URL` not `process.env`. Rename API_URL to VITE_API_URL and access it as `import.meta.env.VITE_API_URL`. The VITE_APP_TITLE access is correct."
+        "referenceAnswer": "In Vite, only VITE_-prefixed variables are exposed to the browser. Access them via `import.meta.env.VITE_API_URL` not `process.env`. Rename API_URL to VITE_API_URL and access it as `import.meta.env.VITE_API_URL`. The VITE_APP_TITLE access is correct.",
+        "lang": "javascript"
     },
     {
         "id": "build-bug-babel-001",
@@ -1149,7 +1150,8 @@
         },
         "code": "// babel.config.json\n{\n  \"presets\": [\n    [\"@babel/preset-env\", {\n      \"targets\": \"> 0.25%, not dead\",\n      \"modules\": \"commonjs\"\n    }]\n  ]\n}",
         "correct": "`\"modules\": \"commonjs\"` converts ES module imports to CommonJS require(), which disables tree shaking in bundlers that rely on static ESM analysis",
-        "referenceAnswer": "Set `\"modules\": false` to preserve ES module syntax for the bundler (webpack/Rollup/Vite). These bundlers handle module transformation themselves and need static import/export to tree shake. `commonjs` is only appropriate when the output will be run directly by Node.js without a bundler."
+        "referenceAnswer": "Set `\"modules\": false` to preserve ES module syntax for the bundler (webpack/Rollup/Vite). These bundlers handle module transformation themselves and need static import/export to tree shake. `commonjs` is only appropriate when the output will be run directly by Node.js without a bundler.",
+        "lang": "javascript"
     },
     {
         "id": "build-bug-webpack-001",
@@ -1167,7 +1169,8 @@
         },
         "code": "async function loadPage(pageName) {\n  const module = await import(`./pages/${pageName}/index.js`);\n  return module.default;\n}",
         "correct": "A fully dynamic template literal in import() (variable in the path) forces webpack to create chunks for ALL files matching the glob pattern `./pages/*/index.js`, bundling every possible page even if most are never loaded",
-        "referenceAnswer": "webpack cannot statically analyze a fully dynamic path. It creates a 'context module' including all matching files. If dynamic routing is needed, be more specific: `import(/* webpackChunkName: '[request]' */ `./pages/${pageName}`)` at minimum, or better, use explicit `switch`/map to enable specific chunk names and avoid over-bundling."
+        "referenceAnswer": "webpack cannot statically analyze a fully dynamic path. It creates a 'context module' including all matching files. If dynamic routing is needed, be more specific: `import(/* webpackChunkName: '[request]' */ `./pages/${pageName}`)` at minimum, or better, use explicit `switch`/map to enable specific chunk names and avoid over-bundling.",
+        "lang": "javascript"
     },
     {
         "id": "build-bug-postcss-001",
@@ -1185,7 +1188,8 @@
         },
         "code": "// postcss.config.js\nmodule.exports = {\n  plugins: [\n    require('cssnano'),\n    require('autoprefixer'),\n  ]\n};",
         "correct": "cssnano runs before autoprefixer — cssnano may remove or merge declarations that autoprefixer needs to prefix, resulting in missing vendor prefixes",
-        "referenceAnswer": "Plugin order matters in PostCSS. autoprefixer should run BEFORE cssnano (minification). cssnano may optimize away properties that autoprefixer needs to transform. Correct order: `[require('autoprefixer'), require('cssnano')]`."
+        "referenceAnswer": "Plugin order matters in PostCSS. autoprefixer should run BEFORE cssnano (minification). cssnano may optimize away properties that autoprefixer needs to transform. Correct order: `[require('autoprefixer'), require('cssnano')]`.",
+        "lang": "javascript"
     },
     {
         "id": "build-bug-circular-001",
@@ -1203,7 +1207,8 @@
         },
         "code": "// a.js\nimport { valueB } from './b.js';\nexport const valueA = valueB + 1;\n\n// b.js\nimport { valueA } from './a.js';\nexport const valueB = valueA + 1;",
         "correct": "Circular dependency causes one of the values to be `undefined` at initialization time — the module that is evaluated first reads an export from the other that hasn't been assigned yet",
-        "referenceAnswer": "Circular deps in ESM: when a.js is evaluated, it imports valueB from b.js. b.js imports valueA from a.js — but a.js hasn't finished evaluating, so valueA is undefined (its binding exists but isn't initialized). Result: valueB = undefined + 1 = NaN, then valueA = NaN + 1 = NaN. Refactor to break the cycle: extract shared values to a third module (c.js)."
+        "referenceAnswer": "Circular deps in ESM: when a.js is evaluated, it imports valueB from b.js. b.js imports valueA from a.js — but a.js hasn't finished evaluating, so valueA is undefined (its binding exists but isn't initialized). Result: valueB = undefined + 1 = NaN, then valueA = NaN + 1 = NaN. Refactor to break the cycle: extract shared values to a third module (c.js).",
+        "lang": "javascript"
     },
     {
         "id": "build-bug-peer-001",
@@ -1221,7 +1226,8 @@
         },
         "code": "// my-component-library/package.json\n{\n  \"name\": \"my-component-library\",\n  \"dependencies\": {\n    \"react\": \"^18.0.0\",\n    \"react-dom\": \"^18.0.0\"\n  },\n  \"peerDependencies\": {\n    \"react\": \"^18.0.0\"\n  }\n}",
         "correct": "Listing react/react-dom in both `dependencies` AND `peerDependencies` will cause duplicate React instances — the library bundles its own React copy instead of using the consumer's",
-        "referenceAnswer": "Move `react` and `react-dom` from `dependencies` to `peerDependencies` only. Libraries should NOT include React as a regular dependency — consumers provide it. Having React in `dependencies` means npm may install a second React instance, breaking hooks (React hooks require a single React instance per app)."
+        "referenceAnswer": "Move `react` and `react-dom` from `dependencies` to `peerDependencies` only. Libraries should NOT include React as a regular dependency — consumers provide it. Having React in `dependencies` means npm may install a second React instance, breaking hooks (React hooks require a single React instance per app).",
+        "lang": "javascript"
     },
     {
         "id": "build-bug-tsconfig-001",
@@ -1239,7 +1245,8 @@
         },
         "code": "{\n  \"compilerOptions\": {\n    \"target\": \"ES2020\",\n    \"module\": \"CommonJS\",\n    \"moduleResolution\": \"node\",\n    \"strict\": true,\n    \"esModuleInterop\": true\n  }\n}",
         "correct": "`\"module\": \"CommonJS\"` and `\"moduleResolution\": \"node\"` are wrong for a Vite project — Vite uses native ESM and requires `\"module\": \"ESNext\"` and `\"moduleResolution\": \"bundler\"` (or \"node16\"/\"nodenext\")",
-        "referenceAnswer": "For Vite + modern TypeScript: use `\"module\": \"ESNext\"`, `\"moduleResolution\": \"bundler\"` (TS 5.0+), and `\"isolatedModules\": true`. CommonJS module mode conflicts with Vite's ESM-first approach. `moduleResolution: bundler` correctly resolves package.json `exports` fields and ESM-specific paths."
+        "referenceAnswer": "For Vite + modern TypeScript: use `\"module\": \"ESNext\"`, `\"moduleResolution\": \"bundler\"` (TS 5.0+), and `\"isolatedModules\": true`. CommonJS module mode conflicts with Vite's ESM-first approach. `moduleResolution: bundler` correctly resolves package.json `exports` fields and ESM-specific paths.",
+        "lang": "json"
     },
     {
         "id": "build-cc-vite-001",

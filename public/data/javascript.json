@@ -15,23 +15,23 @@
         },
         "options": [
             {
-                "en": "A function that is called immediately after it is defined",
-                "ru": "Функция, которая вызывается сразу после своего определения"
-            },
-            {
                 "en": "A function that retains access to its lexical scope even when executed outside that scope",
                 "ru": "Функция, которая сохраняет доступ к своей лексической области видимости даже при выполнении вне этой области"
             },
             {
-                "en": "A function with no return value",
-                "ru": "Функция без возвращаемого значения"
-            },
-            {
                 "en": "A built-in JavaScript method for closing browser tabs",
                 "ru": "Встроенный метод JavaScript для закрытия вкладок браузера"
+            },
+            {
+                "en": "A function that is called immediately after it is defined",
+                "ru": "Функция, которая вызывается сразу после своего определения"
+            },
+            {
+                "en": "A function with no return value",
+                "ru": "Функция без возвращаемого значения"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "js-hoisting-001",
@@ -49,8 +49,8 @@
         },
         "options": [
             {
-                "en": "5",
-                "ru": "5"
+                "en": "null",
+                "ru": "null"
             },
             {
                 "en": "undefined",
@@ -61,8 +61,8 @@
                 "ru": "ReferenceError"
             },
             {
-                "en": "null",
-                "ru": "null"
+                "en": "5",
+                "ru": "5"
             }
         ],
         "correct": 1
@@ -83,23 +83,23 @@
         },
         "options": [
             {
-                "en": "Using `.catch()` at the end of the chain",
-                "ru": "Использование `.catch()` в конце цепочки"
+                "en": "Using try/catch inside an async function",
+                "ru": "Использование try/catch внутри async-функции"
             },
             {
                 "en": "Using the second argument of `.then(onFulfilled, onRejected)`",
                 "ru": "Использование второго аргумента `.then(onFulfilled, onRejected)`"
             },
             {
-                "en": "Using try/catch inside an async function",
-                "ru": "Использование try/catch внутри async-функции"
-            },
-            {
                 "en": "Using `.finally()` to handle rejections",
                 "ru": "Использование `.finally()` для обработки отклонений"
+            },
+            {
+                "en": "Using `.catch()` at the end of the chain",
+                "ru": "Использование `.catch()` в конце цепочки"
             }
         ],
-        "correct": [0, 1, 2]
+        "correct": [0, 1, 3]
     },
     {
         "id": "js-event-loop-001",
@@ -117,6 +117,10 @@
         },
         "options": [
             {
+                "en": "queueMicrotask() callbacks",
+                "ru": "Коллбэки queueMicrotask()"
+            },
+            {
                 "en": "Promise callbacks (.then/.catch)",
                 "ru": "Коллбэки Promise (.then/.catch)"
             },
@@ -125,15 +129,11 @@
                 "ru": "Коллбэки setTimeout"
             },
             {
-                "en": "queueMicrotask() callbacks",
-                "ru": "Коллбэки queueMicrotask()"
-            },
-            {
                 "en": "setInterval callbacks",
                 "ru": "Коллбэки setInterval"
             }
         ],
-        "correct": [0, 2]
+        "correct": [0, 1]
     },
     {
         "id": "js-bug-typeof-001",
@@ -151,7 +151,8 @@
         },
         "code": "function isObject(value) {\n  return typeof value === 'object';\n}",
         "correct": "null passes the check because typeof null === 'object'",
-        "referenceAnswer": "The function returns true for null because typeof null === 'object' is a well-known JavaScript bug. Fix: return value !== null && typeof value === 'object';"
+        "referenceAnswer": "The function returns true for null because typeof null === 'object' is a well-known JavaScript bug. Fix: return value !== null && typeof value === 'object';",
+        "lang": "javascript"
     },
     {
         "id": "js-template-001",
@@ -169,7 +170,8 @@
         },
         "code": "function upper(strings, ...values) {\n  return strings.reduce((acc, str, i) => {\n    return acc + (values[i - 1] ? values[i - 1].__BLANK__ : '') + str;\n  });\n}\nconst name = 'world';\nconsole.log(upper`hello ${name}`); // 'hello WORLD'",
         "blanks": ["toUpperCase()"],
-        "referenceAnswer": "values[i - 1].toUpperCase() converts each interpolated value to uppercase before concatenating."
+        "referenceAnswer": "values[i - 1].toUpperCase() converts each interpolated value to uppercase before concatenating.",
+        "lang": "javascript"
     },
     {
         "id": "js-scope-001",
@@ -195,12 +197,12 @@
                 "ru": "`var` имеет функциональную область видимости, `let` — блочную"
             },
             {
-                "en": "Both are block-scoped",
-                "ru": "Оба имеют блочную область видимости"
-            },
-            {
                 "en": "Both are function-scoped",
                 "ru": "Оба имеют функциональную область видимости"
+            },
+            {
+                "en": "Both are block-scoped",
+                "ru": "Оба имеют блочную область видимости"
             }
         ],
         "correct": 1
@@ -221,6 +223,10 @@
         },
         "options": [
             {
+                "en": "Returns the value from the outer scope",
+                "ru": "Вернётся значение из внешней области видимости"
+            },
+            {
                 "en": "Returns `undefined`",
                 "ru": "Вернётся `undefined`"
             },
@@ -231,13 +237,9 @@
             {
                 "en": "Throws a ReferenceError (Temporal Dead Zone)",
                 "ru": "Будет выброшен ReferenceError (Temporal Dead Zone)"
-            },
-            {
-                "en": "Returns the value from the outer scope",
-                "ru": "Вернётся значение из внешней области видимости"
             }
         ],
-        "correct": 2
+        "correct": 3
     },
     {
         "id": "js-coercion-001",
@@ -255,23 +257,23 @@
         },
         "options": [
             {
-                "en": "3",
-                "ru": "3"
+                "en": "TypeError",
+                "ru": "TypeError"
             },
             {
-                "en": "'12'",
-                "ru": "'12'"
+                "en": "3",
+                "ru": "3"
             },
             {
                 "en": "NaN",
                 "ru": "NaN"
             },
             {
-                "en": "TypeError",
-                "ru": "TypeError"
+                "en": "'12'",
+                "ru": "'12'"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "js-equality-001",
@@ -293,19 +295,19 @@
                 "ru": "false"
             },
             {
+                "en": "ReferenceError",
+                "ru": "ReferenceError"
+            },
+            {
                 "en": "true",
                 "ru": "true"
             },
             {
                 "en": "TypeError",
                 "ru": "TypeError"
-            },
-            {
-                "en": "ReferenceError",
-                "ru": "ReferenceError"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "js-array-001",
@@ -323,23 +325,23 @@
         },
         "options": [
             {
-                "en": "`map()`",
-                "ru": "`map()`"
-            },
-            {
-                "en": "`reduce()`",
-                "ru": "`reduce()`"
-            },
-            {
                 "en": "`filter()`",
                 "ru": "`filter()`"
             },
             {
                 "en": "`find()`",
                 "ru": "`find()`"
+            },
+            {
+                "en": "`reduce()`",
+                "ru": "`reduce()`"
+            },
+            {
+                "en": "`map()`",
+                "ru": "`map()`"
             }
         ],
-        "correct": 2
+        "correct": 0
     },
     {
         "id": "js-destructuring-001",
@@ -357,8 +359,8 @@
         },
         "options": [
             {
-                "en": "undefined",
-                "ru": "undefined"
+                "en": "ReferenceError",
+                "ru": "ReferenceError"
             },
             {
                 "en": "null",
@@ -369,8 +371,8 @@
                 "ru": "10"
             },
             {
-                "en": "ReferenceError",
-                "ru": "ReferenceError"
+                "en": "undefined",
+                "ru": "undefined"
             }
         ],
         "correct": 2
@@ -391,23 +393,23 @@
         },
         "options": [
             {
-                "en": "'{\"a\":undefined,\"b\":1}'",
-                "ru": "'{\"a\":undefined,\"b\":1}'"
-            },
-            {
-                "en": "'{\"b\":1}'",
-                "ru": "'{\"b\":1}'"
-            },
-            {
                 "en": "'{}'",
                 "ru": "'{}'"
             },
             {
+                "en": "'{\"a\":undefined,\"b\":1}'",
+                "ru": "'{\"a\":undefined,\"b\":1}'"
+            },
+            {
                 "en": "TypeError",
                 "ru": "TypeError"
+            },
+            {
+                "en": "'{\"b\":1}'",
+                "ru": "'{\"b\":1}'"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "js-typeof-001",
@@ -429,19 +431,19 @@
                 "ru": "'object'"
             },
             {
-                "en": "'function'",
-                "ru": "'function'"
-            },
-            {
                 "en": "'callable'",
                 "ru": "'callable'"
+            },
+            {
+                "en": "'function'",
+                "ru": "'function'"
             },
             {
                 "en": "'undefined'",
                 "ru": "'undefined'"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "js-prototype-001",
@@ -459,12 +461,12 @@
         },
         "options": [
             {
-                "en": "Creates a deep copy of `proto`",
-                "ru": "Создаёт глубокую копию `proto`"
-            },
-            {
                 "en": "Creates a new object whose prototype is `proto`",
                 "ru": "Создаёт новый объект, прототипом которого является `proto`"
+            },
+            {
+                "en": "Creates a deep copy of `proto`",
+                "ru": "Создаёт глубокую копию `proto`"
             },
             {
                 "en": "Freezes `proto` to prevent mutations",
@@ -475,7 +477,7 @@
                 "ru": "Копирует все собственные свойства `proto` в новый объект"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "js-this-001",
@@ -493,23 +495,23 @@
         },
         "options": [
             {
-                "en": "The global object (window/globalThis)",
-                "ru": "Глобальному объекту (window/globalThis)"
+                "en": "The value of `this` from the enclosing lexical scope",
+                "ru": "Значению `this` из охватывающей лексической области видимости"
             },
             {
                 "en": "The object that calls the function",
                 "ru": "Объекту, который вызывает функцию"
             },
             {
-                "en": "The value of `this` from the enclosing lexical scope",
-                "ru": "Значению `this` из охватывающей лексической области видимости"
-            },
-            {
                 "en": "undefined",
                 "ru": "undefined"
+            },
+            {
+                "en": "The global object (window/globalThis)",
+                "ru": "Глобальному объекту (window/globalThis)"
             }
         ],
-        "correct": 2
+        "correct": 0
     },
     {
         "id": "js-date-001",
@@ -527,23 +529,23 @@
         },
         "options": [
             {
-                "en": "A Date object representing the current time",
-                "ru": "Объект Date, представляющий текущее время"
-            },
-            {
-                "en": "A string in ISO 8601 format",
-                "ru": "Строку в формате ISO 8601"
+                "en": "The current Unix timestamp in seconds",
+                "ru": "Текущий Unix-таймстамп в секундах"
             },
             {
                 "en": "The number of milliseconds elapsed since January 1, 1970 00:00:00 UTC",
                 "ru": "Количество миллисекунд, прошедших с 1 января 1970 года 00:00:00 UTC"
             },
             {
-                "en": "The current Unix timestamp in seconds",
-                "ru": "Текущий Unix-таймстамп в секундах"
+                "en": "A Date object representing the current time",
+                "ru": "Объект Date, представляющий текущее время"
+            },
+            {
+                "en": "A string in ISO 8601 format",
+                "ru": "Строку в формате ISO 8601"
             }
         ],
-        "correct": 2
+        "correct": 1
     },
     {
         "id": "js-hoisting-002",
@@ -552,8 +554,8 @@
         "difficulty": "medium",
         "tags": ["hoisting", "functions"],
         "question": {
-            "en": "What is the output of:\n```\nconsole.log(foo());\nfunction foo() { return 42; }\n```",
-            "ru": "Какой вывод у кода:\n```\nconsole.log(foo());\nfunction foo() { return 42; }\n```"
+            "en": "What is the output of this code?",
+            "ru": "Какой вывод у этого кода?"
         },
         "explanation": {
             "en": "Function declarations are fully hoisted — both the declaration and the body. This means `foo` is available and callable before its source position in the file.",
@@ -561,23 +563,25 @@
         },
         "options": [
             {
-                "en": "undefined",
-                "ru": "undefined"
-            },
-            {
                 "en": "ReferenceError",
                 "ru": "ReferenceError"
+            },
+            {
+                "en": "TypeError",
+                "ru": "TypeError"
             },
             {
                 "en": "42",
                 "ru": "42"
             },
             {
-                "en": "TypeError",
-                "ru": "TypeError"
+                "en": "undefined",
+                "ru": "undefined"
             }
         ],
-        "correct": 2
+        "correct": 2,
+        "code": "console.log(foo());\nfunction foo() { return 42; }",
+        "lang": "javascript"
     },
     {
         "id": "js-closure-002",
@@ -586,8 +590,8 @@
         "difficulty": "medium",
         "tags": ["closures", "loops", "var"],
         "question": {
-            "en": "What does this code log?\n```\nfor (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 0);\n}\n```",
-            "ru": "Что выведет этот код?\n```\nfor (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 0);\n}\n```"
+            "en": "What does this code log?",
+            "ru": "Что выведет этот код?"
         },
         "explanation": {
             "en": "Because `var` is function-scoped, all three closures share the same `i`. By the time the setTimeout callbacks execute, the loop has finished and `i` is 3. Using `let` instead would print 0, 1, 2.",
@@ -595,23 +599,25 @@
         },
         "options": [
             {
-                "en": "0, 1, 2",
-                "ru": "0, 1, 2"
-            },
-            {
-                "en": "0, 0, 0",
-                "ru": "0, 0, 0"
-            },
-            {
                 "en": "3, 3, 3",
                 "ru": "3, 3, 3"
             },
             {
                 "en": "undefined, undefined, undefined",
                 "ru": "undefined, undefined, undefined"
+            },
+            {
+                "en": "0, 1, 2",
+                "ru": "0, 1, 2"
+            },
+            {
+                "en": "0, 0, 0",
+                "ru": "0, 0, 0"
             }
         ],
-        "correct": 2
+        "correct": 0,
+        "code": "for (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 0);\n}",
+        "lang": "javascript"
     },
     {
         "id": "js-coercion-002",
@@ -629,23 +635,23 @@
         },
         "options": [
             {
-                "en": "false",
-                "ru": "false"
-            },
-            {
-                "en": "true",
-                "ru": "true"
+                "en": "ReferenceError",
+                "ru": "ReferenceError"
             },
             {
                 "en": "TypeError",
                 "ru": "TypeError"
             },
             {
-                "en": "ReferenceError",
-                "ru": "ReferenceError"
+                "en": "true",
+                "ru": "true"
+            },
+            {
+                "en": "false",
+                "ru": "false"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "js-async-001",
@@ -663,23 +669,23 @@
         },
         "options": [
             {
-                "en": "The raw value returned by the function body",
-                "ru": "Исходное значение, возвращённое телом функции"
-            },
-            {
-                "en": "A Promise, regardless of what the function body returns",
-                "ru": "Promise, независимо от того, что возвращает тело функции"
-            },
-            {
                 "en": "A Promise only if the function body uses `await`",
                 "ru": "Promise только если тело функции использует `await`"
             },
             {
                 "en": "undefined",
                 "ru": "undefined"
+            },
+            {
+                "en": "A Promise, regardless of what the function body returns",
+                "ru": "Promise, независимо от того, что возвращает тело функции"
+            },
+            {
+                "en": "The raw value returned by the function body",
+                "ru": "Исходное значение, возвращённое телом функции"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "js-this-002",
@@ -701,19 +707,19 @@
                 "ru": "`.call()` передаёт аргументы массивом, `.apply()` — по отдельности"
             },
             {
-                "en": "`.call()` passes arguments individually, `.apply()` passes them as an array",
-                "ru": "`.call()` передаёт аргументы по отдельности, `.apply()` — массивом"
-            },
-            {
                 "en": "They are identical — both accept an array",
                 "ru": "Они идентичны — оба принимают массив"
+            },
+            {
+                "en": "`.call()` passes arguments individually, `.apply()` passes them as an array",
+                "ru": "`.call()` передаёт аргументы по отдельности, `.apply()` — массивом"
             },
             {
                 "en": "`.call()` creates a bound copy, `.apply()` invokes immediately",
                 "ru": "`.call()` создаёт привязанную копию, `.apply()` вызывает немедленно"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "js-modules-001",
@@ -731,6 +737,10 @@
         },
         "options": [
             {
+                "en": "ESM imports are statically analyzed and produce live bindings",
+                "ru": "Импорты ESM статически анализируются и создают live bindings"
+            },
+            {
                 "en": "ESM uses `require()` and `module.exports`",
                 "ru": "ESM использует `require()` и `module.exports`"
             },
@@ -739,15 +749,11 @@
                 "ru": "Импорты ESM по умолчанию динамические"
             },
             {
-                "en": "ESM imports are statically analyzed and produce live bindings",
-                "ru": "Импорты ESM статически анализируются и создают live bindings"
-            },
-            {
                 "en": "CJS supports top-level `await`",
                 "ru": "CJS поддерживает top-level `await`"
             }
         ],
-        "correct": 2
+        "correct": 0
     },
     {
         "id": "js-generator-001",
@@ -769,19 +775,19 @@
                 "ru": "Возвращаемое значение функции"
             },
             {
-                "en": "An object `{ value, done }` where `value` is the yielded value",
-                "ru": "Объект `{ value, done }`, где `value` — это значение, переданное через yield"
+                "en": "The generator function itself",
+                "ru": "Саму функцию-генератор"
             },
             {
                 "en": "A Promise that resolves to the yielded value",
                 "ru": "Promise, который резолвится в yielded-значение"
             },
             {
-                "en": "The generator function itself",
-                "ru": "Саму функцию-генератор"
+                "en": "An object `{ value, done }` where `value` is the yielded value",
+                "ru": "Объект `{ value, done }`, где `value` — это значение, переданное через yield"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "js-array-002",
@@ -807,12 +813,12 @@
                 "ru": "6"
             },
             {
-                "en": "undefined",
-                "ru": "undefined"
-            },
-            {
                 "en": "NaN",
                 "ru": "NaN"
+            },
+            {
+                "en": "undefined",
+                "ru": "undefined"
             }
         ],
         "correct": 1
@@ -833,6 +839,10 @@
         },
         "options": [
             {
+                "en": "`Number.isNaN(value)`",
+                "ru": "`Number.isNaN(value)`"
+            },
+            {
                 "en": "`value === NaN`",
                 "ru": "`value === NaN`"
             },
@@ -841,15 +851,11 @@
                 "ru": "`value == NaN`"
             },
             {
-                "en": "`Number.isNaN(value)`",
-                "ru": "`Number.isNaN(value)`"
-            },
-            {
                 "en": "`typeof value === 'NaN'`",
                 "ru": "`typeof value === 'NaN'`"
             }
         ],
-        "correct": 2
+        "correct": 0
     },
     {
         "id": "js-prototype-002",
@@ -901,10 +907,6 @@
         },
         "options": [
             {
-                "en": "To bypass the Proxy and access the property directly",
-                "ru": "Чтобы обойти Proxy и обратиться к свойству напрямую"
-            },
-            {
                 "en": "To properly forward the get operation respecting the original `this` binding and prototype chain",
                 "ru": "Чтобы корректно пробросить операцию get, сохранив исходную привязку `this` и цепочку прототипов"
             },
@@ -913,11 +915,15 @@
                 "ru": "Чтобы проверить, существует ли свойство у target"
             },
             {
+                "en": "To bypass the Proxy and access the property directly",
+                "ru": "Чтобы обойти Proxy и обратиться к свойству напрямую"
+            },
+            {
                 "en": "To create a new Proxy on the accessed property",
                 "ru": "Чтобы создать новый Proxy на запрашиваемом свойстве"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "js-scope-003",
@@ -935,6 +941,10 @@
         },
         "options": [
             {
+                "en": "`const` variables are hoisted with `undefined`",
+                "ru": "Переменные `const` всплывают со значением `undefined`"
+            },
+            {
                 "en": "`const` variables cannot be reassigned",
                 "ru": "Переменные `const` нельзя переприсваивать"
             },
@@ -945,13 +955,9 @@
             {
                 "en": "`const` is block-scoped",
                 "ru": "`const` имеет блочную область видимости"
-            },
-            {
-                "en": "`const` variables are hoisted with `undefined`",
-                "ru": "Переменные `const` всплывают со значением `undefined`"
             }
         ],
-        "correct": [0, 2]
+        "correct": [1, 3]
     },
     {
         "id": "js-coercion-003",
@@ -977,15 +983,15 @@
                 "ru": "`''` (пустая строка)"
             },
             {
-                "en": "`[]` (empty array)",
-                "ru": "`[]` (пустой массив)"
-            },
-            {
                 "en": "`null`",
                 "ru": "`null`"
+            },
+            {
+                "en": "`[]` (empty array)",
+                "ru": "`[]` (пустой массив)"
             }
         ],
-        "correct": [0, 1, 3]
+        "correct": [0, 1, 2]
     },
     {
         "id": "js-array-003",
@@ -1003,23 +1009,23 @@
         },
         "options": [
             {
-                "en": "`.map()`",
-                "ru": "`.map()`"
+                "en": "`.splice()`",
+                "ru": "`.splice()`"
             },
             {
-                "en": "`.sort()`",
-                "ru": "`.sort()`"
+                "en": "`.map()`",
+                "ru": "`.map()`"
             },
             {
                 "en": "`.filter()`",
                 "ru": "`.filter()`"
             },
             {
-                "en": "`.splice()`",
-                "ru": "`.splice()`"
+                "en": "`.sort()`",
+                "ru": "`.sort()`"
             }
         ],
-        "correct": [0, 2]
+        "correct": [1, 2]
     },
     {
         "id": "js-promise-002",
@@ -1037,16 +1043,16 @@
         },
         "options": [
             {
-                "en": "It rejects immediately if any input Promise rejects",
-                "ru": "Он немедленно отклоняется, если отклоняется любой из входных Promise"
+                "en": "It resolves with an array of fulfilled values when all Promises fulfil",
+                "ru": "Он резолвится массивом fulfilled-значений, когда все Promise успешно выполнены"
             },
             {
                 "en": "It waits for all Promises to settle (fulfil or reject)",
                 "ru": "Он ждёт, пока все Promise перейдут в settled-состояние (fulfilled или rejected)"
             },
             {
-                "en": "It resolves with an array of fulfilled values when all Promises fulfil",
-                "ru": "Он резолвится массивом fulfilled-значений, когда все Promise успешно выполнены"
+                "en": "It rejects immediately if any input Promise rejects",
+                "ru": "Он немедленно отклоняется, если отклоняется любой из входных Promise"
             },
             {
                 "en": "It resolves with the first fulfilled value",
@@ -1071,12 +1077,12 @@
         },
         "options": [
             {
-                "en": "It performs a shallow copy of own enumerable properties",
-                "ru": "Он выполняет поверхностное копирование собственных перечисляемых свойств"
-            },
-            {
                 "en": "It performs a deep clone of nested objects",
                 "ru": "Он выполняет глубокое клонирование вложенных объектов"
+            },
+            {
+                "en": "It performs a shallow copy of own enumerable properties",
+                "ru": "Он выполняет поверхностное копирование собственных перечисляемых свойств"
             },
             {
                 "en": "Properties from `b` overwrite same-named properties from `a`",
@@ -1087,7 +1093,7 @@
                 "ru": "Он модифицирует объект `a` на месте"
             }
         ],
-        "correct": [0, 2]
+        "correct": [1, 2]
     },
     {
         "id": "js-modules-003",
@@ -1109,19 +1115,19 @@
                 "ru": "ESM поддерживает top-level `await`, CJS — нет"
             },
             {
-                "en": "CJS `require()` is synchronous, ESM `import` evaluation is asynchronous",
-                "ru": "`require()` в CJS синхронный, а вычисление `import` в ESM — асинхронное"
+                "en": "CJS files can use `import` syntax without transformation",
+                "ru": "CJS-файлы могут использовать синтаксис `import` без преобразования"
             },
             {
                 "en": "ESM exports are live bindings, CJS exports are copied values",
                 "ru": "Экспорты ESM — это live bindings, экспорты CJS — копии значений"
             },
             {
-                "en": "CJS files can use `import` syntax without transformation",
-                "ru": "CJS-файлы могут использовать синтаксис `import` без преобразования"
+                "en": "CJS `require()` is synchronous, ESM `import` evaluation is asynchronous",
+                "ru": "`require()` в CJS синхронный, а вычисление `import` в ESM — асинхронное"
             }
         ],
-        "correct": [0, 1, 2]
+        "correct": [0, 2, 3]
     },
     {
         "id": "js-weakref-001",
@@ -1139,23 +1145,23 @@
         },
         "options": [
             {
-                "en": "They hold weak references to their object entries",
-                "ru": "Они хранят слабые ссылки на свои записи-объекты"
-            },
-            {
-                "en": "They are iterable (support for...of)",
-                "ru": "Они итерируемы (поддерживают for...of)"
-            },
-            {
                 "en": "They have no `.size` property",
                 "ru": "У них нет свойства `.size`"
             },
             {
                 "en": "Their entries can be garbage-collected when no other strong references exist",
                 "ru": "Их записи могут быть собраны garbage collector'ом, когда других сильных ссылок не остаётся"
+            },
+            {
+                "en": "They are iterable (support for...of)",
+                "ru": "Они итерируемы (поддерживают for...of)"
+            },
+            {
+                "en": "They hold weak references to their object entries",
+                "ru": "Они хранят слабые ссылки на свои записи-объекты"
             }
         ],
-        "correct": [0, 2, 3]
+        "correct": [0, 1, 3]
     },
     {
         "id": "js-error-002",
@@ -1173,8 +1179,8 @@
         },
         "options": [
             {
-                "en": "`finally` always runs, even if `try` has a `return` statement",
-                "ru": "`finally` выполняется всегда, даже если в `try` есть `return`"
+                "en": "`finally` can suppress a thrown error by returning a value",
+                "ru": "`finally` может подавить выброшенную ошибку, вернув значение"
             },
             {
                 "en": "A `return` in `finally` overrides a `return` in `try`",
@@ -1185,8 +1191,8 @@
                 "ru": "`finally` выполняется только при выбросе исключения"
             },
             {
-                "en": "`finally` can suppress a thrown error by returning a value",
-                "ru": "`finally` может подавить выброшенную ошибку, вернув значение"
+                "en": "`finally` always runs, even if `try` has a `return` statement",
+                "ru": "`finally` выполняется всегда, даже если в `try` есть `return`"
             }
         ],
         "correct": [0, 1, 3]
@@ -1207,10 +1213,6 @@
         },
         "options": [
             {
-                "en": "Generator functions are declared with `function*` syntax",
-                "ru": "Функции-генераторы объявляются синтаксисом `function*`"
-            },
-            {
                 "en": "A generator can `yield` multiple times, pausing execution each time",
                 "ru": "Генератор может выполнять `yield` многократно, приостанавливая выполнение каждый раз"
             },
@@ -1219,11 +1221,15 @@
                 "ru": "Вызов функции-генератора сразу выполняет её тело"
             },
             {
+                "en": "Generator functions are declared with `function*` syntax",
+                "ru": "Функции-генераторы объявляются синтаксисом `function*`"
+            },
+            {
                 "en": "Generators implement the iterator protocol",
                 "ru": "Генераторы реализуют iterator protocol"
             }
         ],
-        "correct": [0, 1, 3]
+        "correct": [0, 2, 3]
     },
     {
         "id": "js-async-002",
@@ -1241,23 +1247,23 @@
         },
         "options": [
             {
-                "en": "Wrapping the `await` expression in try/catch",
-                "ru": "Обёртывание выражения `await` в try/catch"
-            },
-            {
                 "en": "Chaining `.catch()` on the returned Promise from the async function",
                 "ru": "Добавление `.catch()` к Promise, возвращённому async-функцией"
             },
             {
-                "en": "Using `.finally()` on the returned Promise to handle errors",
-                "ru": "Использование `.finally()` на возвращённом Promise для обработки ошибок"
-            },
-            {
                 "en": "Adding a second argument to the `await` expression",
                 "ru": "Добавление второго аргумента к выражению `await`"
+            },
+            {
+                "en": "Wrapping the `await` expression in try/catch",
+                "ru": "Обёртывание выражения `await` в try/catch"
+            },
+            {
+                "en": "Using `.finally()` on the returned Promise to handle errors",
+                "ru": "Использование `.finally()` на возвращённом Promise для обработки ошибок"
             }
         ],
-        "correct": [0, 1]
+        "correct": [0, 2]
     },
     {
         "id": "js-event-loop-003",
@@ -1279,19 +1285,19 @@
                 "ru": "Коллбэки `setTimeout`"
             },
             {
+                "en": "DOM event handler callbacks (click, etc.)",
+                "ru": "Коллбэки обработчиков DOM-событий (click и др.)"
+            },
+            {
                 "en": "Promise `.then()` callbacks",
                 "ru": "Коллбэки `.then()` у Promise"
             },
             {
                 "en": "`setInterval` callbacks",
                 "ru": "Коллбэки `setInterval`"
-            },
-            {
-                "en": "DOM event handler callbacks (click, etc.)",
-                "ru": "Коллбэки обработчиков DOM-событий (click и др.)"
             }
         ],
-        "correct": [0, 2, 3]
+        "correct": [0, 1, 3]
     },
     {
         "id": "js-proxy-002",
@@ -1309,23 +1315,23 @@
         },
         "options": [
             {
-                "en": "`get`",
-                "ru": "`get`"
-            },
-            {
-                "en": "`set`",
-                "ru": "`set`"
-            },
-            {
                 "en": "`delete`",
                 "ru": "`delete`"
             },
             {
                 "en": "`deleteProperty`",
                 "ru": "`deleteProperty`"
+            },
+            {
+                "en": "`set`",
+                "ru": "`set`"
+            },
+            {
+                "en": "`get`",
+                "ru": "`get`"
             }
         ],
-        "correct": [0, 1, 3]
+        "correct": [1, 2, 3]
     },
     {
         "id": "js-bug-closure-001",
@@ -1343,7 +1349,8 @@
         },
         "code": "const adders = [];\nfor (var i = 0; i < 3; i++) {\n  adders.push(function(x) { return x + i; });\n}\nconsole.log(adders[0](10)); // Expected: 10, Actual: 13",
         "correct": "`var i` is shared across all closures — by the time any adder is called, `i` is 3",
-        "referenceAnswer": "Replace `var i` with `let i`. Block-scoped `let` creates a new binding per iteration, so each closure captures a distinct value (0, 1, 2)."
+        "referenceAnswer": "Replace `var i` with `let i`. Block-scoped `let` creates a new binding per iteration, so each closure captures a distinct value (0, 1, 2).",
+        "lang": "javascript"
     },
     {
         "id": "js-bug-async-001",
@@ -1361,7 +1368,8 @@
         },
         "code": "async function fetchAllUsers(ids) {\n  const results = [];\n  for (const id of ids) {\n    const user = await fetchUser(id);\n    results.push(user);\n  }\n  return results;\n}",
         "correct": "Requests are sequential, not parallel — each `await` waits before starting the next fetch",
-        "referenceAnswer": "const results = await Promise.all(ids.map(id => fetchUser(id)));"
+        "referenceAnswer": "const results = await Promise.all(ids.map(id => fetchUser(id)));",
+        "lang": "javascript"
     },
     {
         "id": "js-bug-this-001",
@@ -1379,7 +1387,8 @@
         },
         "code": "class Counter {\n  constructor() {\n    this.count = 0;\n    document.querySelector('button')\n      .addEventListener('click', function() {\n        this.count++;\n        console.log(this.count);\n      });\n  }\n}",
         "correct": "`this` inside the regular function callback refers to the button element, not the Counter instance",
-        "referenceAnswer": "Replace the regular function with an arrow function: .addEventListener('click', () => { this.count++; })"
+        "referenceAnswer": "Replace the regular function with an arrow function: .addEventListener('click', () => { this.count++; })",
+        "lang": "javascript"
     },
     {
         "id": "js-bug-coercion-001",
@@ -1397,7 +1406,8 @@
         },
         "code": "function isValidNumber(value) {\n  return typeof value === 'number';\n}",
         "correct": "`NaN` passes the check because `typeof NaN === 'number'`",
-        "referenceAnswer": "return typeof value === 'number' && !Number.isNaN(value);"
+        "referenceAnswer": "return typeof value === 'number' && !Number.isNaN(value);",
+        "lang": "javascript"
     },
     {
         "id": "js-bug-prototype-001",
@@ -1415,7 +1425,8 @@
         },
         "code": "function User(name) {\n  this.name = name;\n}\nUser.prototype.roles = [];\n\nconst alice = new User('Alice');\nconst bob = new User('Bob');\nalice.roles.push('admin');\nconsole.log(bob.roles); // Expected: [], Actual: ['admin']",
         "correct": "`roles` is defined on the prototype and shared across all instances — mutating it via one instance affects all",
-        "referenceAnswer": "Move the array initialisation into the constructor: this.roles = []; — each constructor call creates a new array on the instance."
+        "referenceAnswer": "Move the array initialisation into the constructor: this.roles = []; — each constructor call creates a new array on the instance.",
+        "lang": "javascript"
     },
     {
         "id": "js-bug-promise-001",
@@ -1433,7 +1444,8 @@
         },
         "code": "fetch('/api/data')\n  .then(res => {\n    if (!res.ok) throw new Error('HTTP error');\n    return res.json();\n  })\n  .then(data => processData(data))\n  .catch(err => {\n    console.error(err);\n    return null;\n  })\n  .then(result => saveToDatabase(result));",
         "correct": "`saveToDatabase(null)` is called even on errors because `.catch()` returns a fulfilled Promise",
-        "referenceAnswer": "Re-throw inside .catch(): .catch(err => { console.error(err); throw err; }) — this keeps the chain rejected and prevents saveToDatabase from running."
+        "referenceAnswer": "Re-throw inside .catch(): .catch(err => { console.error(err); throw err; }) — this keeps the chain rejected and prevents saveToDatabase from running.",
+        "lang": "javascript"
     },
     {
         "id": "js-bug-scope-001",
@@ -1451,7 +1463,8 @@
         },
         "code": "function getMultiplier(type) {\n  if (type === 'a') {\n    var result = 1;\n  } else if (type === 'b') {\n    var result = 2;\n  } else if (type === 'c') {\n    var result = 3;\n  }\n  return result;\n}",
         "correct": "For unknown types, `result` is never assigned and `var` hoisting causes it to silently return `undefined`",
-        "referenceAnswer": "Add an else clause: else { throw new Error('Unknown type: ' + type); }"
+        "referenceAnswer": "Add an else clause: else { throw new Error('Unknown type: ' + type); }",
+        "lang": "javascript"
     },
     {
         "id": "js-bug-equality-001",
@@ -1469,7 +1482,8 @@
         },
         "code": "function isZero(value) {\n  return !value;\n}",
         "correct": "`!value` returns true for all falsy values (null, undefined, '', false, NaN), not just 0",
-        "referenceAnswer": "return value === 0; — strict equality checks both value and type, accepting only the number zero."
+        "referenceAnswer": "return value === 0; — strict equality checks both value and type, accepting only the number zero.",
+        "lang": "javascript"
     },
     {
         "id": "js-completion-destructuring-001",
@@ -1487,7 +1501,8 @@
         },
         "code": "let a = 1;\nlet b = 2;\n[__BLANK__, __BLANK__] = [b, a];\nconsole.log(a, b); // 2 1",
         "blanks": ["a", "b"],
-        "referenceAnswer": "[a, b] = [b, a]; — Creates a temporary array [2, 1] on the right, then destructures it into a and b."
+        "referenceAnswer": "[a, b] = [b, a]; — Creates a temporary array [2, 1] on the right, then destructures it into a and b.",
+        "lang": "javascript"
     },
     {
         "id": "js-completion-closure-001",
@@ -1505,7 +1520,8 @@
         },
         "code": "function memoize(fn) {\n  const cache = __BLANK__;\n  return function(...args) {\n    const key = JSON.stringify(args);\n    if (__BLANK__ cache[key]) {\n      return cache[key];\n    }\n    cache[key] = fn(...args);\n    return cache[key];\n  };\n}",
         "blanks": ["{}", "key in"],
-        "referenceAnswer": "const cache = {}; and `key in cache` — the `in` operator correctly handles cached falsy values like 0 or false."
+        "referenceAnswer": "const cache = {}; and `key in cache` — the `in` operator correctly handles cached falsy values like 0 or false.",
+        "lang": "javascript"
     },
     {
         "id": "js-completion-promise-001",
@@ -1523,7 +1539,8 @@
         },
         "code": "async function fetchAll(urls) {\n  const promises = urls.map(url => fetch(url).then(r => r.json()));\n  const results = await __BLANK__;\n  return results;\n}",
         "blanks": ["Promise.all(promises)"],
-        "referenceAnswer": "await Promise.all(promises) — fires all fetches in parallel and waits for all to resolve, returning an array of results in input order."
+        "referenceAnswer": "await Promise.all(promises) — fires all fetches in parallel and waits for all to resolve, returning an array of results in input order.",
+        "lang": "javascript"
     },
     {
         "id": "js-completion-error-001",
@@ -1541,7 +1558,8 @@
         },
         "code": "class NetworkError extends __BLANK__ {\n  constructor(message, statusCode) {\n    __BLANK__(message);\n    this.name = 'NetworkError';\n    this.statusCode = statusCode;\n  }\n}\n\nconst err = new NetworkError('Not Found', 404);\nconsole.log(err instanceof Error); // true",
         "blanks": ["Error", "super"],
-        "referenceAnswer": "Extending Error and calling super(message) sets up the prototype chain correctly and sets the message property."
+        "referenceAnswer": "Extending Error and calling super(message) sets up the prototype chain correctly and sets the message property.",
+        "lang": "javascript"
     },
     {
         "id": "js-completion-generator-001",
@@ -1559,7 +1577,8 @@
         },
         "code": "function* __BLANK__(start = 0) {\n  let i = start;\n  while (true) {\n    __BLANK__ i++;\n  }\n}\nconst gen = counter(5);\nconsole.log(gen.next().value); // 5\nconsole.log(gen.next().value); // 6",
         "blanks": ["counter", "yield"],
-        "referenceAnswer": "function* counter(start = 0) { let i = start; while(true) { yield i++; } }"
+        "referenceAnswer": "function* counter(start = 0) { let i = start; while(true) { yield i++; } }",
+        "lang": "javascript"
     },
     {
         "id": "js-completion-proxy-001",
@@ -1577,7 +1596,8 @@
         },
         "code": "const numericObject = new Proxy({}, {\n  __BLANK__(target, prop, value, receiver) {\n    if (typeof value !== 'number') {\n      throw new TypeError(`${prop} must be a number`);\n    }\n    return __BLANK__(target, prop, value, receiver);\n  }\n});",
         "blanks": ["set", "Reflect.set"],
-        "referenceAnswer": "The 'set' trap intercepts property assignments. Reflect.set() forwards the assignment to the target object and returns a boolean indicating success."
+        "referenceAnswer": "The 'set' trap intercepts property assignments. Reflect.set() forwards the assignment to the target object and returns a boolean indicating success.",
+        "lang": "javascript"
     },
     {
         "id": "js-completion-iterator-001",
@@ -1595,7 +1615,8 @@
         },
         "code": "const range = {\n  from: 1,\n  to: 5,\n  [__BLANK__]() {\n    let current = this.from;\n    const last = this.to;\n    return {\n      next() {\n        if (current <= last) {\n          return { value: current++, done: false };\n        }\n        return { value: undefined, done: __BLANK__ };\n      }\n    };\n  }\n};",
         "blanks": ["Symbol.iterator", "true"],
-        "referenceAnswer": "Symbol.iterator is the well-known symbol that marks an object as iterable. The iterator returns { done: true } to signal completion."
+        "referenceAnswer": "Symbol.iterator is the well-known symbol that marks an object as iterable. The iterator returns { done: true } to signal completion.",
+        "lang": "javascript"
     },
     {
         "id": "js-completion-weakmap-001",
@@ -1613,6 +1634,7 @@
         },
         "code": "const _private = new __BLANK__();\n\nclass Person {\n  constructor(name, age) {\n    __BLANK__.set(this, { name, age });\n  }\n  greet() {\n    const { name } = _private.get(this);\n    return `Hello, I'm ${name}`;\n  }\n}",
         "blanks": ["WeakMap", "_private"],
-        "referenceAnswer": "new WeakMap() creates the private store. _private.set(this, data) associates instance data with the instance."
+        "referenceAnswer": "new WeakMap() creates the private store. _private.set(this, data) associates instance data with the instance.",
+        "lang": "javascript"
     }
 ]

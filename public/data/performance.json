@@ -49,23 +49,23 @@
         },
         "options": [
             {
-                "en": "To reduce the number of HTTP requests by combining files",
-                "ru": "Уменьшить число HTTP-запросов, объединяя файлы"
-            },
-            {
                 "en": "To break the bundle into smaller chunks that can be loaded on demand, reducing initial parse/execute time",
                 "ru": "Разбить бандл на меньшие чанки, которые можно загружать по требованию, сокращая время парсинга и выполнения при старте"
+            },
+            {
+                "en": "To improve TypeScript compilation speed",
+                "ru": "Ускорить компиляцию TypeScript"
             },
             {
                 "en": "To enable tree shaking by removing unused exports",
                 "ru": "Включить tree shaking путём удаления неиспользуемых экспортов"
             },
             {
-                "en": "To improve TypeScript compilation speed",
-                "ru": "Ускорить компиляцию TypeScript"
+                "en": "To reduce the number of HTTP requests by combining files",
+                "ru": "Уменьшить число HTTP-запросов, объединяя файлы"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "perf-treeshake-001",
@@ -87,19 +87,19 @@
                 "ru": "CommonJS (require/module.exports)"
             },
             {
+                "en": "UMD (Universal Module Definition)",
+                "ru": "UMD (Universal Module Definition)"
+            },
+            {
                 "en": "AMD (define/require)",
                 "ru": "AMD (define/require)"
             },
             {
                 "en": "ES Modules (import/export)",
                 "ru": "ES Modules (import/export)"
-            },
-            {
-                "en": "UMD (Universal Module Definition)",
-                "ru": "UMD (Universal Module Definition)"
             }
         ],
-        "correct": 2
+        "correct": 3
     },
     {
         "id": "perf-image-001",
@@ -117,23 +117,23 @@
         },
         "options": [
             {
-                "en": "AVIF has wider browser support than WebP",
-                "ru": "У AVIF шире браузерная поддержка, чем у WebP"
-            },
-            {
-                "en": "AVIF typically achieves better compression ratios than WebP at the same visual quality",
-                "ru": "AVIF обычно даёт лучшее сжатие, чем WebP, при том же визуальном качестве"
+                "en": "AVIF files load faster because they are parsed on the GPU",
+                "ru": "AVIF грузится быстрее, потому что парсится на GPU"
             },
             {
                 "en": "AVIF supports animation while WebP does not",
                 "ru": "AVIF поддерживает анимацию, а WebP — нет"
             },
             {
-                "en": "AVIF files load faster because they are parsed on the GPU",
-                "ru": "AVIF грузится быстрее, потому что парсится на GPU"
+                "en": "AVIF has wider browser support than WebP",
+                "ru": "У AVIF шире браузерная поддержка, чем у WebP"
+            },
+            {
+                "en": "AVIF typically achieves better compression ratios than WebP at the same visual quality",
+                "ru": "AVIF обычно даёт лучшее сжатие, чем WebP, при том же визуальном качестве"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "perf-font-001",
@@ -151,23 +151,23 @@
         },
         "options": [
             {
-                "en": "Immediately shows the custom font or hides text until it loads",
-                "ru": "Сразу показывает кастомный шрифт или скрывает текст до его загрузки"
-            },
-            {
-                "en": "Shows a fallback font immediately and swaps to the custom font when it loads",
-                "ru": "Сразу показывает fallback-шрифт и подменяет его на кастомный, когда тот загрузится"
-            },
-            {
                 "en": "Blocks rendering until the custom font is loaded, then shows text",
                 "ru": "Блокирует рендеринг до загрузки кастомного шрифта, затем показывает текст"
             },
             {
+                "en": "Immediately shows the custom font or hides text until it loads",
+                "ru": "Сразу показывает кастомный шрифт или скрывает текст до его загрузки"
+            },
+            {
                 "en": "Uses the system font and never loads the custom font",
                 "ru": "Использует системный шрифт и никогда не грузит кастомный"
+            },
+            {
+                "en": "Shows a fallback font immediately and swaps to the custom font when it loads",
+                "ru": "Сразу показывает fallback-шрифт и подменяет его на кастомный, когда тот загрузится"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "perf-debounce-001",
@@ -185,10 +185,6 @@
         },
         "options": [
             {
-                "en": "Debounce limits calls to once per animation frame; throttle limits calls per second",
-                "ru": "Debounce ограничивает вызовы одним разом на animation frame, а throttle — одним разом в секунду"
-            },
-            {
                 "en": "Debounce delays execution until after a quiet period; throttle limits execution to at most once per interval regardless of call frequency",
                 "ru": "Debounce откладывает выполнение до окончания «тишины», а throttle ограничивает выполнение максимум одним вызовом за интервал, независимо от частоты обращений"
             },
@@ -199,9 +195,13 @@
             {
                 "en": "Debounce is for UI events; throttle is for network requests",
                 "ru": "Debounce используется для UI-событий, а throttle — для сетевых запросов"
+            },
+            {
+                "en": "Debounce limits calls to once per animation frame; throttle limits calls per second",
+                "ru": "Debounce ограничивает вызовы одним разом на animation frame, а throttle — одним разом в секунду"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "perf-memo-001",
@@ -219,16 +219,16 @@
         },
         "options": [
             {
-                "en": "On every computed value to prevent unnecessary recalculations",
-                "ru": "На каждом вычисляемом значении, чтобы избежать лишних пересчётов"
+                "en": "To memoize event handlers passed to child components",
+                "ru": "Чтобы мемоизировать обработчики событий, передаваемые дочерним компонентам"
             },
             {
                 "en": "Only for expensive computations where the cost of calculation outweighs the overhead of memoization",
                 "ru": "Только для тяжёлых вычислений, где стоимость пересчёта выше накладных расходов на мемоизацию"
             },
             {
-                "en": "To memoize event handlers passed to child components",
-                "ru": "Чтобы мемоизировать обработчики событий, передаваемые дочерним компонентам"
+                "en": "On every computed value to prevent unnecessary recalculations",
+                "ru": "На каждом вычисляемом значении, чтобы избежать лишних пересчётов"
             },
             {
                 "en": "Whenever a component re-renders more than 3 times",
@@ -287,23 +287,23 @@
         },
         "options": [
             {
-                "en": "Loads the image using a Service Worker for offline support",
-                "ru": "Загружает картинку через Service Worker для оффлайн-поддержки"
-            },
-            {
-                "en": "Defers loading the image until it is near the viewport, reducing initial page weight",
-                "ru": "Откладывает загрузку картинки до момента, когда она окажется близко к viewport, уменьшая вес первой загрузки"
-            },
-            {
                 "en": "Compresses the image before download using the browser's built-in codec",
                 "ru": "Сжимает изображение перед скачиванием встроенным в браузер кодеком"
             },
             {
                 "en": "Loads the image at low quality first, then upgrades to full quality",
                 "ru": "Сначала загружает картинку в низком качестве, затем заменяет на полное"
+            },
+            {
+                "en": "Defers loading the image until it is near the viewport, reducing initial page weight",
+                "ru": "Откладывает загрузку картинки до момента, когда она окажется близко к viewport, уменьшая вес первой загрузки"
+            },
+            {
+                "en": "Loads the image using a Service Worker for offline support",
+                "ru": "Загружает картинку через Service Worker для оффлайн-поддержки"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "perf-preconnect-001",
@@ -321,23 +321,23 @@
         },
         "options": [
             {
-                "en": "Fetches and caches the HTML from https://api.example.com",
-                "ru": "Скачивает и кэширует HTML с https://api.example.com"
-            },
-            {
                 "en": "Establishes the TCP/TLS handshake to the origin early, before the resource is actually needed",
                 "ru": "Заранее устанавливает TCP/TLS-хендшейк с origin — до того, как ресурс реально понадобится"
             },
             {
-                "en": "Pre-renders the next page to enable instant navigation",
-                "ru": "Пререндерит следующую страницу для мгновенной навигации"
+                "en": "Fetches and caches the HTML from https://api.example.com",
+                "ru": "Скачивает и кэширует HTML с https://api.example.com"
             },
             {
                 "en": "Loads all scripts from api.example.com in parallel",
                 "ru": "Параллельно загружает все скрипты с api.example.com"
+            },
+            {
+                "en": "Pre-renders the next page to enable instant navigation",
+                "ru": "Пререндерит следующую страницу для мгновенной навигации"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "perf-willchange-001",
@@ -355,23 +355,23 @@
         },
         "options": [
             {
-                "en": "Apply it to all animated elements globally in your base CSS",
-                "ru": "Применять ко всем анимируемым элементам глобально в базовом CSS"
-            },
-            {
-                "en": "Apply it only just before the animation starts and remove it after the animation ends",
-                "ru": "Применять только непосредственно перед стартом анимации и снимать после её завершения"
-            },
-            {
                 "en": "Apply it only to elements with more than 100 child nodes",
                 "ru": "Применять только к элементам с более чем 100 дочерними узлами"
             },
             {
+                "en": "Apply it to all animated elements globally in your base CSS",
+                "ru": "Применять ко всем анимируемым элементам глобально в базовом CSS"
+            },
+            {
                 "en": "Apply it in combination with `transform: translateZ(0)` for maximum effect",
                 "ru": "Применять в связке с `transform: translateZ(0)` для максимального эффекта"
+            },
+            {
+                "en": "Apply it only just before the animation starts and remove it after the animation ends",
+                "ru": "Применять только непосредственно перед стартом анимации и снимать после её завершения"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "perf-virtuallist-001",
@@ -389,23 +389,23 @@
         },
         "options": [
             {
-                "en": "It reduces network requests by paginating data server-side",
-                "ru": "Уменьшает число сетевых запросов за счёт серверной пагинации"
-            },
-            {
-                "en": "It renders only the visible items (plus a small buffer) instead of all items, dramatically reducing DOM nodes",
-                "ru": "Рендерит только видимые элементы (плюс небольшой буфер) вместо всех, резко сокращая число DOM-узлов"
+                "en": "It uses CSS `content-visibility: auto` to skip paint for off-screen items",
+                "ru": "Использует CSS `content-visibility: auto`, чтобы пропускать paint для невидимых элементов"
             },
             {
                 "en": "It pre-renders off-screen items using Web Workers",
                 "ru": "Пререндерит невидимые элементы в Web Workers"
             },
             {
-                "en": "It uses CSS `content-visibility: auto` to skip paint for off-screen items",
-                "ru": "Использует CSS `content-visibility: auto`, чтобы пропускать paint для невидимых элементов"
+                "en": "It renders only the visible items (plus a small buffer) instead of all items, dramatically reducing DOM nodes",
+                "ru": "Рендерит только видимые элементы (плюс небольшой буфер) вместо всех, резко сокращая число DOM-узлов"
+            },
+            {
+                "en": "It reduces network requests by paginating data server-side",
+                "ru": "Уменьшает число сетевых запросов за счёт серверной пагинации"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "perf-reactmemo-001",
@@ -423,23 +423,23 @@
         },
         "options": [
             {
-                "en": "Memoizes the return value of a pure function called inside the component",
-                "ru": "Мемоизирует результат вызова чистой функции внутри компонента"
-            },
-            {
                 "en": "Wraps a functional component to skip re-rendering when props haven't changed (shallow comparison)",
                 "ru": "Оборачивает функциональный компонент, чтобы пропускать ререндер, если пропсы не изменились (поверхностное сравнение)"
+            },
+            {
+                "en": "Caches the component's JSX output in the virtual DOM indefinitely",
+                "ru": "Бессрочно кэширует JSX-вывод компонента в virtual DOM"
             },
             {
                 "en": "Prevents the component from ever re-rendering once mounted",
                 "ru": "Запрещает компоненту ререндериться после монтирования"
             },
             {
-                "en": "Caches the component's JSX output in the virtual DOM indefinitely",
-                "ru": "Бессрочно кэширует JSX-вывод компонента в virtual DOM"
+                "en": "Memoizes the return value of a pure function called inside the component",
+                "ru": "Мемоизирует результат вызова чистой функции внутри компонента"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "perf-ttfb-001",
@@ -457,23 +457,23 @@
         },
         "options": [
             {
-                "en": "Time for the first DOM element to appear; caused by large HTML files",
-                "ru": "Время до появления первого DOM-элемента; вызывается большими HTML-файлами"
-            },
-            {
                 "en": "Time from navigation start until the first byte of the response body is received; caused by slow server processing, network latency, or missing CDN",
                 "ru": "Время от начала навигации до получения первого байта тела ответа; причины — медленная обработка на сервере, сетевые задержки или отсутствие CDN"
+            },
+            {
+                "en": "Time for the first image to load; caused by unoptimized images",
+                "ru": "Время до загрузки первой картинки; вызывается неоптимизированными изображениями"
             },
             {
                 "en": "Time for the first JavaScript byte to execute; caused by large script files",
                 "ru": "Время до выполнения первого байта JavaScript; вызывается крупными файлами скриптов"
             },
             {
-                "en": "Time for the first image to load; caused by unoptimized images",
-                "ru": "Время до загрузки первой картинки; вызывается неоптимизированными изображениями"
+                "en": "Time for the first DOM element to appear; caused by large HTML files",
+                "ru": "Время до появления первого DOM-элемента; вызывается большими HTML-файлами"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "perf-fcp-001",
@@ -491,23 +491,23 @@
         },
         "options": [
             {
-                "en": "When the browser starts downloading the first resource",
-                "ru": "Момент начала загрузки браузером первого ресурса"
-            },
-            {
-                "en": "When the first piece of content (text, image, SVG, or canvas) is painted to the screen",
-                "ru": "Момент, когда на экран отрисовывается первая часть контента (текст, картинка, SVG или canvas)"
-            },
-            {
                 "en": "When the page becomes fully interactive",
                 "ru": "Момент, когда страница становится полностью интерактивной"
             },
             {
                 "en": "When the largest element in the viewport finishes painting",
                 "ru": "Момент, когда отрисовывается самый крупный элемент во viewport"
+            },
+            {
+                "en": "When the first piece of content (text, image, SVG, or canvas) is painted to the screen",
+                "ru": "Момент, когда на экран отрисовывается первая часть контента (текст, картинка, SVG или canvas)"
+            },
+            {
+                "en": "When the browser starts downloading the first resource",
+                "ru": "Момент начала загрузки браузером первого ресурса"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "perf-bundle-001",
@@ -525,23 +525,23 @@
         },
         "options": [
             {
-                "en": "Runtime performance bottlenecks and memory leaks",
-                "ru": "Узкие места в runtime-производительности и утечки памяти"
-            },
-            {
-                "en": "Large dependencies, duplicate modules, and opportunities for code splitting",
-                "ru": "Крупные зависимости, дублирующиеся модули и возможности для code splitting"
+                "en": "Security vulnerabilities in npm packages",
+                "ru": "Уязвимости безопасности в npm-пакетах"
             },
             {
                 "en": "Unused CSS rules that can be purged",
                 "ru": "Неиспользуемые CSS-правила, которые можно удалить"
             },
             {
-                "en": "Security vulnerabilities in npm packages",
-                "ru": "Уязвимости безопасности в npm-пакетах"
+                "en": "Runtime performance bottlenecks and memory leaks",
+                "ru": "Узкие места в runtime-производительности и утечки памяти"
+            },
+            {
+                "en": "Large dependencies, duplicate modules, and opportunities for code splitting",
+                "ru": "Крупные зависимости, дублирующиеся модули и возможности для code splitting"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "perf-srcset-001",
@@ -559,23 +559,23 @@
         },
         "options": [
             {
-                "en": "To provide multiple image formats (WebP, AVIF) for format negotiation",
-                "ru": "Предоставить несколько форматов (WebP, AVIF) для согласования формата"
-            },
-            {
-                "en": "To provide multiple image resolutions so the browser can choose the most appropriate one based on device pixel ratio and viewport size",
-                "ru": "Предоставить несколько разрешений, чтобы браузер выбрал наиболее подходящее исходя из device pixel ratio и размера viewport"
+                "en": "To preload multiple images simultaneously",
+                "ru": "Преддагружать несколько картинок одновременно"
             },
             {
                 "en": "To specify fallback images if the primary image fails to load",
                 "ru": "Задать fallback-картинки на случай, если основная не загрузится"
             },
             {
-                "en": "To preload multiple images simultaneously",
-                "ru": "Преддагружать несколько картинок одновременно"
+                "en": "To provide multiple image formats (WebP, AVIF) for format negotiation",
+                "ru": "Предоставить несколько форматов (WebP, AVIF) для согласования формата"
+            },
+            {
+                "en": "To provide multiple image resolutions so the browser can choose the most appropriate one based on device pixel ratio and viewport size",
+                "ru": "Предоставить несколько разрешений, чтобы браузер выбрал наиболее подходящее исходя из device pixel ratio и размера viewport"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "perf-css-contain-001",
@@ -593,23 +593,23 @@
         },
         "options": [
             {
-                "en": "It prevents the element from being affected by external CSS specificity",
-                "ru": "Защищает элемент от влияния внешней CSS-специфичности"
+                "en": "It prevents CSS animations from running on the element",
+                "ru": "Запрещает запуск CSS-анимаций на элементе"
             },
             {
-                "en": "It tells the browser the element is independent: changes inside it cannot affect outside elements, enabling rendering optimizations",
-                "ru": "Сообщает браузеру, что элемент изолирован: изменения внутри него не могут повлиять на внешние элементы, что даёт возможность оптимизировать рендеринг"
+                "en": "It prevents the element from being affected by external CSS specificity",
+                "ru": "Защищает элемент от влияния внешней CSS-специфичности"
             },
             {
                 "en": "It forces the element to be painted on a separate GPU layer",
                 "ru": "Принудительно выносит элемент на отдельный GPU-слой для отрисовки"
             },
             {
-                "en": "It prevents CSS animations from running on the element",
-                "ru": "Запрещает запуск CSS-анимаций на элементе"
+                "en": "It tells the browser the element is independent: changes inside it cannot affect outside elements, enabling rendering optimizations",
+                "ru": "Сообщает браузеру, что элемент изолирован: изменения внутри него не могут повлиять на внешние элементы, что даёт возможность оптимизировать рендеринг"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "perf-memoryleak-001",
@@ -627,23 +627,23 @@
         },
         "options": [
             {
-                "en": "Using async/await instead of Promise chains",
-                "ru": "Использование async/await вместо цепочек Promise"
+                "en": "Using `const` instead of `let` for component state",
+                "ru": "Использование `const` вместо `let` для состояния компонента"
             },
             {
-                "en": "Retaining references to detached DOM nodes in JavaScript variables or closures",
-                "ru": "Удержание ссылок на detached DOM-узлы в переменных JavaScript или замыканиях"
+                "en": "Using async/await instead of Promise chains",
+                "ru": "Использование async/await вместо цепочек Promise"
             },
             {
                 "en": "Having too many CSS variables defined in :root",
                 "ru": "Слишком большое количество CSS-переменных, объявленных в :root"
             },
             {
-                "en": "Using `const` instead of `let` for component state",
-                "ru": "Использование `const` вместо `let` для состояния компонента"
+                "en": "Retaining references to detached DOM nodes in JavaScript variables or closures",
+                "ru": "Удержание ссылок на detached DOM-узлы в переменных JavaScript или замыканиях"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "perf-http-cache-001",
@@ -661,10 +661,6 @@
         },
         "options": [
             {
-                "en": "Cache-Control: no-cache",
-                "ru": "Cache-Control: no-cache"
-            },
-            {
                 "en": "Cache-Control: max-age=0, must-revalidate",
                 "ru": "Cache-Control: max-age=0, must-revalidate"
             },
@@ -673,11 +669,15 @@
                 "ru": "Cache-Control: public, max-age=31536000, immutable"
             },
             {
+                "en": "Cache-Control: no-cache",
+                "ru": "Cache-Control: no-cache"
+            },
+            {
                 "en": "Cache-Control: private, max-age=3600",
                 "ru": "Cache-Control: private, max-age=3600"
             }
         ],
-        "correct": 2
+        "correct": 1
     },
     {
         "id": "perf-webworker-001",
@@ -695,23 +695,23 @@
         },
         "options": [
             {
-                "en": "DOM manipulation and event handling",
-                "ru": "Работа с DOM и обработку событий"
-            },
-            {
-                "en": "Network requests via fetch",
-                "ru": "Сетевые запросы через fetch"
+                "en": "LocalStorage reads and writes",
+                "ru": "Чтение и запись в LocalStorage"
             },
             {
                 "en": "CPU-intensive computations like image processing, cryptography, or data transformation",
                 "ru": "CPU-интенсивные вычисления: обработку изображений, криптографию, трансформации данных"
             },
             {
-                "en": "LocalStorage reads and writes",
-                "ru": "Чтение и запись в LocalStorage"
+                "en": "Network requests via fetch",
+                "ru": "Сетевые запросы через fetch"
+            },
+            {
+                "en": "DOM manipulation and event handling",
+                "ru": "Работа с DOM и обработку событий"
             }
         ],
-        "correct": 2
+        "correct": 1
     },
     {
         "id": "perf-above-fold-001",
@@ -729,23 +729,23 @@
         },
         "options": [
             {
-                "en": "CSS that must not be removed during tree shaking because it's required for functionality",
-                "ru": "CSS, который нельзя удалять при tree shaking, потому что он нужен для работы"
-            },
-            {
                 "en": "Styles required to render above-the-fold content, inlined in `<head>` to avoid a render-blocking stylesheet request",
                 "ru": "Стили, необходимые для отрисовки контента выше сгиба, инлайнятся в `<head>`, чтобы избежать render-blocking запроса за таблицей стилей"
             },
             {
-                "en": "CSS that applies only to interactive elements like buttons and forms",
-                "ru": "CSS, применяемый только к интерактивным элементам вроде кнопок и форм"
+                "en": "CSS that must not be removed during tree shaking because it's required for functionality",
+                "ru": "CSS, который нельзя удалять при tree shaking, потому что он нужен для работы"
             },
             {
                 "en": "Minified CSS delivered through a CDN with Cache-Control: immutable",
                 "ru": "Минифицированный CSS, отдаваемый через CDN с Cache-Control: immutable"
+            },
+            {
+                "en": "CSS that applies only to interactive elements like buttons and forms",
+                "ru": "CSS, применяемый только к интерактивным элементам вроде кнопок и форм"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "perf-perfmark-001",
@@ -763,6 +763,10 @@
         },
         "options": [
             {
+                "en": "performance.mark() works in Web Workers; console.time() does not",
+                "ru": "performance.mark() работает в Web Workers, а console.time() — нет"
+            },
+            {
                 "en": "performance.mark() is synchronous; console.time() uses microtasks",
                 "ru": "performance.mark() синхронен, а console.time() использует микрозадачи"
             },
@@ -773,13 +777,9 @@
             {
                 "en": "console.time() has higher overhead than performance.mark()",
                 "ru": "У console.time() выше накладные расходы, чем у performance.mark()"
-            },
-            {
-                "en": "performance.mark() works in Web Workers; console.time() does not",
-                "ru": "performance.mark() работает в Web Workers, а console.time() — нет"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "perf-lcp-001",
@@ -797,10 +797,6 @@
         },
         "options": [
             {
-                "en": "Adding `loading=\"lazy\"` to the hero image",
-                "ru": "Добавление `loading=\"lazy\"` к hero-изображению"
-            },
-            {
                 "en": "Using `<link rel=\"preload\" as=\"image\">` for the hero image in the `<head>`",
                 "ru": "Использование `<link rel=\"preload\" as=\"image\">` для hero-изображения в `<head>`"
             },
@@ -809,11 +805,15 @@
                 "ru": "Сжатие hero-изображения с 1 МБ до 500 КБ"
             },
             {
+                "en": "Adding `loading=\"lazy\"` to the hero image",
+                "ru": "Добавление `loading=\"lazy\"` к hero-изображению"
+            },
+            {
                 "en": "Serving the hero image from a CDN",
                 "ru": "Отдача hero-изображения с CDN"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "perf-useCallback-001",
@@ -831,10 +831,6 @@
         },
         "options": [
             {
-                "en": "Always — useCallback prevents any function from being recreated",
-                "ru": "Всегда — useCallback предотвращает пересоздание любой функции"
-            },
-            {
                 "en": "Only when the child component is wrapped in React.memo and the callback is passed as a prop",
                 "ru": "Только когда дочерний компонент обёрнут в React.memo и колбэк передаётся ему как prop"
             },
@@ -843,11 +839,15 @@
                 "ru": "Только когда колбэк используется как зависимость в useEffect дочернего компонента"
             },
             {
+                "en": "Always — useCallback prevents any function from being recreated",
+                "ru": "Всегда — useCallback предотвращает пересоздание любой функции"
+            },
+            {
                 "en": "When the function is defined with the function keyword instead of arrow syntax",
                 "ru": "Когда функция объявлена через ключевое слово function, а не как стрелочная"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "perf-renderblock-001",
@@ -865,16 +865,16 @@
         },
         "options": [
             {
-                "en": "The total time blocked by CORS preflight requests during page load",
-                "ru": "Суммарное время, потраченное на CORS preflight-запросы при загрузке страницы"
+                "en": "The total time the main thread spends on synchronous XHR requests",
+                "ru": "Суммарное время, которое main thread тратит на синхронные XHR-запросы"
             },
             {
                 "en": "The sum of 'blocking portions' of all long tasks (tasks exceeding 50ms) between FCP and TTI",
                 "ru": "Сумма «блокирующих частей» всех long tasks (задач длиннее 50 мс) между FCP и TTI"
             },
             {
-                "en": "The total time the main thread spends on synchronous XHR requests",
-                "ru": "Суммарное время, которое main thread тратит на синхронные XHR-запросы"
+                "en": "The total time blocked by CORS preflight requests during page load",
+                "ru": "Суммарное время, потраченное на CORS preflight-запросы при загрузке страницы"
             },
             {
                 "en": "The cumulative time all render-blocking resources delay the first paint",
@@ -899,12 +899,12 @@
         },
         "options": [
             {
-                "en": "It loads fonts faster by using HTTP/2 server push",
-                "ru": "Ускоряет загрузку шрифтов за счёт HTTP/2 server push"
-            },
-            {
                 "en": "It only uses the custom font if it loads within a very short block period; otherwise uses the fallback permanently, preventing any layout shift from a late font swap",
                 "ru": "Использует кастомный шрифт, только если он успевает загрузиться за очень короткий block-период; иначе навсегда остаётся fallback, что предотвращает layout shift от поздней подмены шрифта"
+            },
+            {
+                "en": "It loads fonts faster by using HTTP/2 server push",
+                "ru": "Ускоряет загрузку шрифтов за счёт HTTP/2 server push"
             },
             {
                 "en": "It prevents FOUT by keeping text invisible until the custom font loads",
@@ -915,7 +915,7 @@
                 "ru": "Включает интерполяцию переменных шрифтов, чтобы избежать несовпадения метрик"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "perf-inp-001",
@@ -933,23 +933,23 @@
         },
         "options": [
             {
-                "en": "Using Web Workers to move all event handling off the main thread",
-                "ru": "Использование Web Workers, чтобы вынести всю обработку событий с main thread"
-            },
-            {
-                "en": "Using `scheduler.postTask()` or `setTimeout(fn, 0)` to yield to the browser between chunks of work",
-                "ru": "Использование `scheduler.postTask()` или `setTimeout(fn, 0)`, чтобы отдавать управление браузеру между порциями работы"
+                "en": "Using CSS `pointer-events: none` during expensive operations",
+                "ru": "Использование CSS `pointer-events: none` на время тяжёлых операций"
             },
             {
                 "en": "Replacing addEventListener with passive event listeners",
                 "ru": "Замена addEventListener на passive event listeners"
             },
             {
-                "en": "Using CSS `pointer-events: none` during expensive operations",
-                "ru": "Использование CSS `pointer-events: none` на время тяжёлых операций"
+                "en": "Using `scheduler.postTask()` or `setTimeout(fn, 0)` to yield to the browser between chunks of work",
+                "ru": "Использование `scheduler.postTask()` или `setTimeout(fn, 0)`, чтобы отдавать управление браузеру между порциями работы"
+            },
+            {
+                "en": "Using Web Workers to move all event handling off the main thread",
+                "ru": "Использование Web Workers, чтобы вынести всю обработку событий с main thread"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "perf-multicodevitals-001",
@@ -967,6 +967,10 @@
         },
         "options": [
             {
+                "en": "The LCP element being lazy-loaded",
+                "ru": "LCP-элемент, загружаемый лениво (lazy-loading)"
+            },
+            {
                 "en": "A hero image without a preload hint",
                 "ru": "Hero-изображение без preload-хинта"
             },
@@ -975,19 +979,15 @@
                 "ru": "Render-blocking таблицы стилей в head"
             },
             {
-                "en": "A high CLS score on the page",
-                "ru": "Высокий CLS на странице"
-            },
-            {
                 "en": "Slow server response time (high TTFB)",
                 "ru": "Медленный ответ сервера (высокий TTFB)"
             },
             {
-                "en": "The LCP element being lazy-loaded",
-                "ru": "LCP-элемент, загружаемый лениво (lazy-loading)"
+                "en": "A high CLS score on the page",
+                "ru": "Высокий CLS на странице"
             }
         ],
-        "correct": [0, 1, 3, 4]
+        "correct": [0, 1, 2, 3]
     },
     {
         "id": "perf-multicode-001",
@@ -1009,23 +1009,23 @@
                 "ru": "Использование React.lazy() с динамическим import()"
             },
             {
-                "en": "Using import() directly in event handlers for on-demand loading",
-                "ru": "Вызов import() прямо в обработчиках событий для загрузки по требованию"
-            },
-            {
-                "en": "Using CSS modules instead of styled-components",
-                "ru": "Использование CSS modules вместо styled-components"
+                "en": "Adding nomodule to script tags",
+                "ru": "Добавление nomodule к тегам script"
             },
             {
                 "en": "Configuring manualChunks in Vite/Rollup",
                 "ru": "Настройка manualChunks в Vite/Rollup"
             },
             {
-                "en": "Adding nomodule to script tags",
-                "ru": "Добавление nomodule к тегам script"
+                "en": "Using import() directly in event handlers for on-demand loading",
+                "ru": "Вызов import() прямо в обработчиках событий для загрузки по требованию"
+            },
+            {
+                "en": "Using CSS modules instead of styled-components",
+                "ru": "Использование CSS modules вместо styled-components"
             }
         ],
-        "correct": [0, 1, 3]
+        "correct": [0, 2, 3]
     },
     {
         "id": "perf-multimemo-001",
@@ -1043,10 +1043,6 @@
         },
         "options": [
             {
-                "en": "Filtering and sorting a list of 10,000 items based on user input",
-                "ru": "Фильтрация и сортировка списка из 10 000 элементов по пользовательскому вводу"
-            },
-            {
                 "en": "Computing a simple string concatenation like `fullName = firstName + ' ' + lastName`",
                 "ru": "Простая конкатенация строк вроде `fullName = firstName + ' ' + lastName`"
             },
@@ -1059,11 +1055,15 @@
                 "ru": "Форматирование даты, которая меняется только при изменении prop `date`"
             },
             {
+                "en": "Filtering and sorting a list of 10,000 items based on user input",
+                "ru": "Фильтрация и сортировка списка из 10 000 элементов по пользовательскому вводу"
+            },
+            {
                 "en": "Calculating a value inside a component that never re-renders",
                 "ru": "Вычисление значения внутри компонента, который никогда не ререндерится"
             }
         ],
-        "correct": [0, 2, 3]
+        "correct": [1, 2, 3]
     },
     {
         "id": "perf-multiimage-001",
@@ -1081,27 +1081,27 @@
         },
         "options": [
             {
-                "en": "Using WebP or AVIF format instead of JPEG/PNG",
-                "ru": "Использование формата WebP или AVIF вместо JPEG/PNG"
+                "en": "Lazy loading below-the-fold images",
+                "ru": "Lazy loading для изображений ниже сгиба"
             },
             {
                 "en": "Adding width and height attributes to img tags",
                 "ru": "Добавление атрибутов width и height к тегам img"
             },
             {
+                "en": "Serving images via HTTPS",
+                "ru": "Отдача изображений по HTTPS"
+            },
+            {
                 "en": "Using responsive images with srcset and appropriate sizes",
                 "ru": "Использование адаптивных изображений с srcset и подходящими sizes"
             },
             {
-                "en": "Lazy loading below-the-fold images",
-                "ru": "Lazy loading для изображений ниже сгиба"
-            },
-            {
-                "en": "Serving images via HTTPS",
-                "ru": "Отдача изображений по HTTPS"
+                "en": "Using WebP or AVIF format instead of JPEG/PNG",
+                "ru": "Использование формата WebP или AVIF вместо JPEG/PNG"
             }
         ],
-        "correct": [0, 2, 3]
+        "correct": [0, 3, 4]
     },
     {
         "id": "perf-multirenderblock-001",
@@ -1119,27 +1119,27 @@
         },
         "options": [
             {
-                "en": "Adding `async` or `defer` to non-critical scripts",
-                "ru": "Добавление `async` или `defer` к некритичным скриптам"
+                "en": "Moving stylesheets to the bottom of the body",
+                "ru": "Перенос таблиц стилей в конец body"
             },
             {
                 "en": "Inlining critical CSS and loading the full stylesheet asynchronously",
                 "ru": "Инлайн critical CSS и асинхронная загрузка полной таблицы стилей"
             },
             {
-                "en": "Using `font-display: block` for web fonts",
-                "ru": "Использование `font-display: block` для веб-шрифтов"
-            },
-            {
                 "en": "Serving stylesheets via HTTP/2 push",
                 "ru": "Отдача таблиц стилей через HTTP/2 push"
             },
             {
-                "en": "Moving stylesheets to the bottom of the body",
-                "ru": "Перенос таблиц стилей в конец body"
+                "en": "Using `font-display: block` for web fonts",
+                "ru": "Использование `font-display: block` для веб-шрифтов"
+            },
+            {
+                "en": "Adding `async` or `defer` to non-critical scripts",
+                "ru": "Добавление `async` или `defer` к некритичным скриптам"
             }
         ],
-        "correct": [0, 1]
+        "correct": [1, 4]
     },
     {
         "id": "perf-multicachetypes-001",
@@ -1161,16 +1161,16 @@
                 "ru": "Cache-Control: no-store"
             },
             {
-                "en": "Cache-Control: no-cache",
-                "ru": "Cache-Control: no-cache"
+                "en": "Cache-Control: must-revalidate",
+                "ru": "Cache-Control: must-revalidate"
             },
             {
                 "en": "Cache-Control: private",
                 "ru": "Cache-Control: private"
             },
             {
-                "en": "Cache-Control: must-revalidate",
-                "ru": "Cache-Control: must-revalidate"
+                "en": "Cache-Control: no-cache",
+                "ru": "Cache-Control: no-cache"
             },
             {
                 "en": "Pragma: no-cache",
@@ -1195,27 +1195,27 @@
         },
         "options": [
             {
-                "en": "postMessage always creates a deep copy of the data (structured clone)",
-                "ru": "postMessage по умолчанию делает глубокую копию данных (structured clone)"
-            },
-            {
-                "en": "ArrayBuffers can be transferred (zero-copy) using the transferable objects mechanism",
-                "ru": "ArrayBuffer можно передавать без копирования (zero-copy) через механизм transferable objects"
-            },
-            {
-                "en": "DOM nodes can be transferred to workers using postMessage",
-                "ru": "DOM-узлы можно передавать в worker через postMessage"
+                "en": "Strings are always transferred by reference",
+                "ru": "Строки всегда передаются по ссылке"
             },
             {
                 "en": "SharedArrayBuffer allows true shared memory between the main thread and workers",
                 "ru": "SharedArrayBuffer даёт настоящую разделяемую память между main thread и workers"
             },
             {
-                "en": "Strings are always transferred by reference",
-                "ru": "Строки всегда передаются по ссылке"
+                "en": "DOM nodes can be transferred to workers using postMessage",
+                "ru": "DOM-узлы можно передавать в worker через postMessage"
+            },
+            {
+                "en": "ArrayBuffers can be transferred (zero-copy) using the transferable objects mechanism",
+                "ru": "ArrayBuffer можно передавать без копирования (zero-copy) через механизм transferable objects"
+            },
+            {
+                "en": "postMessage always creates a deep copy of the data (structured clone)",
+                "ru": "postMessage по умолчанию делает глубокую копию данных (structured clone)"
             }
         ],
-        "correct": [0, 1, 3]
+        "correct": [1, 3, 4]
     },
     {
         "id": "perf-multiresource-001",
@@ -1237,23 +1237,23 @@
                 "ru": "`preload` с `as=\"script\"` выполняет скрипт сразу после скачивания"
             },
             {
-                "en": "`prefetch` resources are fetched at low priority and may be ignored on slow connections",
-                "ru": "Ресурсы с `prefetch` загружаются с низким приоритетом и могут быть проигнорированы на медленных соединениях"
-            },
-            {
                 "en": "`preconnect` should be used for every third-party domain on the page",
                 "ru": "`preconnect` стоит ставить на каждый сторонний домен на странице"
             },
             {
-                "en": "`modulepreload` preloads an ES module and its dependency tree",
-                "ru": "`modulepreload` преддагружает ES-модуль вместе с деревом его зависимостей"
-            },
-            {
                 "en": "`preload` without an `as` attribute is treated as a low-priority generic fetch",
                 "ru": "`preload` без атрибута `as` трактуется как низкоприоритетный generic fetch"
+            },
+            {
+                "en": "`prefetch` resources are fetched at low priority and may be ignored on slow connections",
+                "ru": "Ресурсы с `prefetch` загружаются с низким приоритетом и могут быть проигнорированы на медленных соединениях"
+            },
+            {
+                "en": "`modulepreload` preloads an ES module and its dependency tree",
+                "ru": "`modulepreload` преддагружает ES-модуль вместе с деревом его зависимостей"
             }
         ],
-        "correct": [1, 3, 4]
+        "correct": [2, 3, 4]
     },
     {
         "id": "perf-bug-memoryleak-001",
@@ -1271,7 +1271,8 @@
         },
         "code": "function UserProfile({ userId }) {\n  const [data, setData] = useState(null);\n\n  useEffect(() => {\n    fetch(`/api/users/${userId}`)\n      .then(res => res.json())\n      .then(user => setData(user));\n  }, [userId]);\n\n  return <div>{data?.name}</div>;\n}",
         "correct": "If the component unmounts before the fetch completes, setData is called on an unmounted component, causing a state update on unmounted component warning and potential memory leak",
-        "referenceAnswer": "Add a cleanup flag: in useEffect, set `let cancelled = false` and only call `setData(user)` if `!cancelled`. Return a cleanup function that sets `cancelled = true`. Alternatively, use AbortController to cancel the fetch itself: `const controller = new AbortController(); fetch(url, { signal: controller.signal })` and return `() => controller.abort()`."
+        "referenceAnswer": "Add a cleanup flag: in useEffect, set `let cancelled = false` and only call `setData(user)` if `!cancelled`. Return a cleanup function that sets `cancelled = true`. Alternatively, use AbortController to cancel the fetch itself: `const controller = new AbortController(); fetch(url, { signal: controller.signal })` and return `() => controller.abort()`.",
+        "lang": "jsx"
     },
     {
         "id": "perf-bug-debounce-001",
@@ -1289,7 +1290,8 @@
         },
         "code": "function SearchBar() {\n  const [query, setQuery] = useState('');\n\n  const debouncedSearch = debounce((q) => {\n    fetchResults(q);\n  }, 300);\n\n  return (\n    <input\n      value={query}\n      onChange={(e) => {\n        setQuery(e.target.value);\n        debouncedSearch(e.target.value);\n      }}\n    />\n  );\n}",
         "correct": "A new debounce function is created on every render, so the timer never actually debounces — each keystroke creates a fresh debounced function with its own timer",
-        "referenceAnswer": "The debounced function must be stable across renders. Fix: wrap with useCallback and useMemo, or use useRef: `const debouncedSearch = useRef(debounce((q) => fetchResults(q), 300)).current;` Or use a library hook like `useDebounce`. The debounce instance must be created only once."
+        "referenceAnswer": "The debounced function must be stable across renders. Fix: wrap with useCallback and useMemo, or use useRef: `const debouncedSearch = useRef(debounce((q) => fetchResults(q), 300)).current;` Or use a library hook like `useDebounce`. The debounce instance must be created only once.",
+        "lang": "jsx"
     },
     {
         "id": "perf-bug-virtuallist-001",
@@ -1307,7 +1309,8 @@
         },
         "code": "function ItemList({ items }) {\n  return (\n    <ul>\n      {items.map((item, index) => (\n        <li key={index}>\n          <ExpensiveItemComponent item={item} />\n        </li>\n      ))}\n    </ul>\n  );\n}",
         "correct": "Using array index as key causes unnecessary re-renders when the list is reordered, filtered, or items are prepended",
-        "referenceAnswer": "Use a stable, unique identifier from the data as the key (e.g., `key={item.id}`). Index-based keys confuse React's reconciliation when items are reordered — it remounts components unnecessarily instead of reusing them. For large lists, also consider react-window or TanStack Virtual."
+        "referenceAnswer": "Use a stable, unique identifier from the data as the key (e.g., `key={item.id}`). Index-based keys confuse React's reconciliation when items are reordered — it remounts components unnecessarily instead of reusing them. For large lists, also consider react-window or TanStack Virtual.",
+        "lang": "jsx"
     },
     {
         "id": "perf-bug-bundle-001",
@@ -1325,7 +1328,8 @@
         },
         "code": "import _ from 'lodash';\n\nfunction formatDate(date) {\n  return _.format(date, 'YYYY-MM-DD');\n}\n\nfunction isEqual(a, b) {\n  return _.isEqual(a, b);\n}",
         "correct": "Importing the entire lodash default export (CJS build) includes the entire library in the bundle — lodash's CommonJS format cannot be tree-shaken",
-        "referenceAnswer": "Use named imports from lodash-es: `import { isEqual } from 'lodash-es'` or per-method imports: `import isEqual from 'lodash/isEqual'`. The standard `lodash` package uses CommonJS which bundlers cannot tree-shake. `lodash-es` provides ES module builds."
+        "referenceAnswer": "Use named imports from lodash-es: `import { isEqual } from 'lodash-es'` or per-method imports: `import isEqual from 'lodash/isEqual'`. The standard `lodash` package uses CommonJS which bundlers cannot tree-shake. `lodash-es` provides ES module builds.",
+        "lang": "javascript"
     },
     {
         "id": "perf-bug-react-001",
@@ -1343,7 +1347,8 @@
         },
         "code": "function DataGrid({ rows, onSelect }) {\n  const columns = [\n    { key: 'name', label: 'Name' },\n    { key: 'age', label: 'Age' },\n  ];\n\n  const config = {\n    columns,\n    onSelect,\n    pageSize: 25,\n  };\n\n  return <MemoizedGrid config={config} />;\n}",
         "correct": "A new `columns` array and `config` object are created on every render, so MemoizedGrid always receives new object references and re-renders despite React.memo",
-        "referenceAnswer": "Memoize the stable values: `const columns = useMemo(() => [{ key: 'name', label: 'Name' }, { key: 'age', label: 'Age' }], []);` and `const config = useMemo(() => ({ columns, onSelect, pageSize: 25 }), [columns, onSelect]);`. This preserves referential stability so React.memo's shallow comparison works."
+        "referenceAnswer": "Memoize the stable values: `const columns = useMemo(() => [{ key: 'name', label: 'Name' }, { key: 'age', label: 'Age' }], []);` and `const config = useMemo(() => ({ columns, onSelect, pageSize: 25 }), [columns, onSelect]);`. This preserves referential stability so React.memo's shallow comparison works.",
+        "lang": "jsx"
     },
     {
         "id": "perf-bug-css-001",
@@ -1361,7 +1366,8 @@
         },
         "code": "/* Base styles */\n* {\n  will-change: transform, opacity;\n}\n\n.card {\n  will-change: contents;\n}\n\n.static-header {\n  will-change: transform;\n}",
         "correct": "Applying will-change to every element (*) and static elements wastes GPU memory by promoting all elements to compositor layers unnecessarily",
-        "referenceAnswer": "Remove `will-change` from the universal selector and static elements entirely. Only add it via JavaScript just before an animation begins, then remove it: `el.style.willChange = 'transform'` before animating, `el.style.willChange = 'auto'` after. `will-change: contents` is particularly problematic as it invalidates all descendants."
+        "referenceAnswer": "Remove `will-change` from the universal selector and static elements entirely. Only add it via JavaScript just before an animation begins, then remove it: `el.style.willChange = 'transform'` before animating, `el.style.willChange = 'auto'` after. `will-change: contents` is particularly problematic as it invalidates all descendants.",
+        "lang": "javascript"
     },
     {
         "id": "perf-cc-codesplit-001",
@@ -1377,8 +1383,8 @@
             "en": "React.lazy + dynamic import() is the standard pattern for route-based code splitting. The Dashboard chunk is downloaded only when the route is visited, reducing initial bundle size.",
             "ru": "React.lazy + динамический import() — стандартный паттерн для code splitting по роутам. Чанк Dashboard скачивается только при переходе на этот роут, что уменьшает размер первоначального бандла."
         },
-        "code": "import { __BLANK__, Suspense } from 'react';\n\nconst Dashboard = __BLANK__(__BLANK__(() => import('./pages/Dashboard')));\n\nfunction App() {\n  return (\n    <__BLANK__ fallback={<div>Loading...</div>}>\n      <Dashboard />\n    </__BLANK__>\n  );\n}",
-        "blanks": ["lazy", "lazy", "", "Suspense", "Suspense"],
+        "code": "import { __BLANK__, Suspense } from 'react';\n\nconst Dashboard = __BLANK__(() => import('./pages/Dashboard'));\n\nfunction App() {\n  return (\n    <__BLANK__ fallback={<div>Loading...</div>}>\n      <Dashboard />\n    </__BLANK__>\n  );\n}",
+        "blanks": ["lazy", "lazy", "Suspense", "Suspense"],
         "lang": "javascript",
         "referenceAnswer": "React.lazy() accepts a factory function returning a dynamic import(). Suspense provides a fallback UI while the lazy component loads. The chunk is only downloaded when the component is first rendered."
     },
