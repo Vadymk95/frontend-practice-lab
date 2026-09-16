@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { track } from '@/lib/analytics';
 import type { CodeCompletionQuestion } from '@/lib/data/schema';
+import { normalizeAnswer } from '@/lib/utils/normalizeAnswer';
 import { useSessionStore } from '@/store/session';
 
 interface UseCodeCompletionQuestionProps {
@@ -62,8 +63,7 @@ export function useCodeCompletionQuestion({
 
         const results = question.blanks.map((expected, i) => {
             const input = blanksInput[i];
-            return input !== undefined &&
-                input.trim().toLowerCase() === expected.trim().toLowerCase()
+            return input !== undefined && normalizeAnswer(input) === normalizeAnswer(expected)
                 ? ('correct' as const)
                 : ('incorrect' as const);
         });
