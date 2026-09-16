@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { track } from '@/lib/analytics';
 import type { MultiChoiceQuestion } from '@/lib/data/schema';
+import { createOptionOrder } from '@/lib/utils/optionOrder';
 import { useSessionStore } from '@/store/session';
 
 export function useMultiChoiceQuestion(
@@ -13,9 +14,23 @@ export function useMultiChoiceQuestion(
 ) {
     const [_selectedIndices, setSelectedIndices] = useState<number[]>([]);
     const [_isChecked, setIsChecked] = useState(false);
+    // One draw per question — see createOptionOrder for why the bank order is not shown as-is.
+    const [optionOrder, setOptionOrder] = useState(() =>
+        createOptionOrder(question.options.length)
+    );
     const selectedIndices = isSkipped ? question.correct : _selectedIndices;
     const isChecked = isSkipped || _isChecked;
     const setAnswer = useSessionStore.use.setAnswer();
+
+    // A question swapped in without a remount renders once before the reset effect runs;
+    // fall back to bank order for that frame so no display index can dangle.
+    const displayOrder = useMemo(
+        () =>
+            optionOrder.length === question.options.length
+                ? optionOrder
+                : question.options.map((_, i) => i),
+        [optionOrder, question.options]
+    );
 
     // Track whether onSelectionChange has been called for current indices to avoid
     // calling parent setState inside a child setState updater (React warning).
@@ -29,13 +44,17 @@ export function useMultiChoiceQuestion(
     }, [_selectedIndices, onSelectionChange]);
 
     const onToggle = useCallback(
-        (index: number) => {
+        (displayIndex: number) => {
             if (isChecked) return;
+            const originalIndex = displayOrder[displayIndex];
+            if (originalIndex === undefined) return;
             setSelectedIndices((prev) =>
-                prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+                prev.includes(originalIndex)
+                    ? prev.filter((i) => i !== originalIndex)
+                    : [...prev, originalIndex]
             );
         },
-        [isChecked]
+        [isChecked, displayOrder]
     );
 
     const onCheck = useCallback(() => {
@@ -62,14 +81,20 @@ export function useMultiChoiceQuestion(
         onSelectOptionRegister?.(onToggle);
     }, [onToggle, onSelectOptionRegister]);
 
+    const drawnForId = useRef(question.id);
+
     // Reset state when question changes
     useEffect(() => {
         setSelectedIndices([]);
         setIsChecked(false);
         prevSelectionRef.current = false;
         onSelectionChange(false);
+        if (drawnForId.current !== question.id) {
+            drawnForId.current = question.id;
+            setOptionOrder(createOptionOrder(question.options.length));
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [question.id]);
 
-    return { selectedIndices, isChecked, onToggle };
+    return { selectedIndices, isChecked, onToggle, displayOrder };
 }

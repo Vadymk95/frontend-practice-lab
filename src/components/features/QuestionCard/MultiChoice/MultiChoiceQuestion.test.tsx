@@ -7,6 +7,15 @@ import { renderWithProviders } from '@/test/test-utils';
 
 import { MultiChoiceQuestion as MultiChoiceQuestionComponent } from './MultiChoiceQuestion';
 
+const forcedOrder = vi.hoisted(() => ({ value: null as number[] | null }));
+
+vi.mock('@/lib/utils/optionOrder', async (importOriginal) => {
+    const actual = await importOriginal<typeof import('@/lib/utils/optionOrder')>();
+    return {
+        createOptionOrder: (length: number) => forcedOrder.value ?? actual.createOptionOrder(length)
+    };
+});
+
 const makeQuestion = (overrides: Partial<MultiChoiceQuestion> = {}): MultiChoiceQuestion => ({
     id: 'mc-test-001',
     type: 'multi-choice',
@@ -34,6 +43,9 @@ const defaultCallbacks = {
 };
 
 beforeEach(() => {
+    // Legacy behaviour specs below address options by display position; pin the draw to
+    // bank order so they keep asserting toggling, not shuffling.
+    forcedOrder.value = [0, 1, 2, 3];
     useSessionStore.setState({
         questionList: [],
         currentIndex: 0,
@@ -277,5 +289,95 @@ describe('MultiChoiceQuestion', () => {
         });
         // onSelectionChange(false) called on reset
         expect(onSelectionChange).toHaveBeenCalledWith(false);
+    });
+});
+
+describe('MultiChoiceQuestion — option shuffling', () => {
+    it('renders options in the drawn display order, not in bank order', () => {
+        forcedOrder.value = [3, 2, 1, 0];
+        renderWithProviders(
+            <MultiChoiceQuestionComponent question={makeQuestion()} {...defaultCallbacks} />
+        );
+        expect(screen.getAllByRole('checkbox').map((el) => el.textContent)).toEqual([
+            'AOption D',
+            'BOption C',
+            'COption B',
+            'DOption A'
+        ]);
+    });
+
+    it('stores ORIGINAL option indices when shuffled options are checked', () => {
+        forcedOrder.value = [3, 2, 1, 0];
+        let capturedCheckFn: (() => void) | null = null;
+        renderWithProviders(
+            <MultiChoiceQuestionComponent
+                question={makeQuestion()}
+                onSelectionChange={vi.fn()}
+                onCheckRegister={(fn) => {
+                    capturedCheckFn = fn;
+                }}
+            />
+        );
+
+        const checkboxes = screen.getAllByRole('checkbox');
+        fireEvent.click(checkboxes[0]!); // displays "Option D" = bank index 3
+        fireEvent.click(checkboxes[1]!); // displays "Option C" = bank index 2
+        act(() => {
+            capturedCheckFn!();
+        });
+
+        const stored = useSessionStore.getState().answers['mc-test-001'] as number[];
+        expect([...stored].sort((a, b) => a - b)).toEqual([2, 3]);
+    });
+
+    it('maps a keyboard display index through the drawn order', () => {
+        forcedOrder.value = [3, 2, 1, 0];
+        let capturedCheckFn: (() => void) | null = null;
+        const registered: { toggleFn: ((idx: number) => void) | null } = { toggleFn: null };
+        renderWithProviders(
+            <MultiChoiceQuestionComponent
+                question={makeQuestion()}
+                onSelectionChange={vi.fn()}
+                onCheckRegister={(fn) => {
+                    capturedCheckFn = fn;
+                }}
+                onSelectOptionRegister={(fn) => {
+                    registered.toggleFn = fn;
+                }}
+            />
+        );
+
+        // Display position 1 shows "Option C", bank index 2.
+        act(() => registered.toggleFn?.(1));
+        act(() => {
+            capturedCheckFn!();
+        });
+
+        expect(useSessionStore.getState().answers['mc-test-001']).toEqual([2]);
+    });
+
+    it('marks a missed correct option by its ORIGINAL index', () => {
+        forcedOrder.value = [3, 2, 1, 0];
+        let capturedCheckFn: (() => void) | null = null;
+        renderWithProviders(
+            <MultiChoiceQuestionComponent
+                question={makeQuestion({ correct: [0] })}
+                onSelectionChange={vi.fn()}
+                onCheckRegister={(fn) => {
+                    capturedCheckFn = fn;
+                }}
+            />
+        );
+
+        fireEvent.click(screen.getAllByRole('checkbox')[0]!); // "Option D" — wrong
+        act(() => {
+            capturedCheckFn!();
+        });
+
+        const checkboxes = screen.getAllByRole('checkbox');
+        // "Option A" is the only correct answer and is displayed last.
+        expect(checkboxes[3]!.textContent).toContain('Option A');
+        expect(checkboxes[3]!.className).toContain('bg-accent/10');
+        expect(checkboxes[0]!.className).toContain('bg-error/10');
     });
 });

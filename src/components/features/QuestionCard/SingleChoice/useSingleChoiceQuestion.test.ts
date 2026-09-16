@@ -54,22 +54,32 @@ describe('useSingleChoiceQuestion', () => {
         expect(result.current.selectedIndex).toBeNull();
     });
 
-    it('onSelect sets selectedIndex and calls setAnswer', () => {
+    it('onSelect maps the display index to the original index and calls setAnswer', () => {
         const q = makeQuestion();
         const { result } = renderHook(() => useSingleChoiceQuestion(q));
+        const originalIndex = result.current.displayOrder[2];
 
         act(() => {
             result.current.onSelect(2);
         });
 
-        expect(result.current.selectedIndex).toBe(2);
+        expect(result.current.selectedIndex).toBe(originalIndex);
         expect(result.current.isAnswered).toBe(true);
-        expect(useSessionStore.getState().answers[q.id]).toBe(2);
+        expect(useSessionStore.getState().answers[q.id]).toBe(originalIndex);
+    });
+
+    it('displayOrder is a permutation of every option index', () => {
+        const q = makeQuestion();
+        const { result } = renderHook(() => useSingleChoiceQuestion(q));
+
+        expect([...result.current.displayOrder].sort((a, b) => a - b)).toEqual([0, 1, 2, 3]);
     });
 
     it('onSelect is locked after first selection (no re-select)', () => {
         const q = makeQuestion();
         const { result } = renderHook(() => useSingleChoiceQuestion(q));
+
+        const firstPick = result.current.displayOrder[0];
 
         act(() => {
             result.current.onSelect(0);
@@ -79,8 +89,8 @@ describe('useSingleChoiceQuestion', () => {
             result.current.onSelect(2);
         });
 
-        expect(result.current.selectedIndex).toBe(0);
-        expect(useSessionStore.getState().answers[q.id]).toBe(0);
+        expect(result.current.selectedIndex).toBe(firstPick);
+        expect(useSessionStore.getState().answers[q.id]).toBe(firstPick);
     });
 
     it('selectedIndex resets when question.id changes', () => {
@@ -94,7 +104,7 @@ describe('useSingleChoiceQuestion', () => {
         act(() => {
             result.current.onSelect(1);
         });
-        expect(result.current.selectedIndex).toBe(1);
+        expect(result.current.selectedIndex).toBe(result.current.displayOrder[1]);
 
         rerender({ question: q2 });
         expect(result.current.selectedIndex).toBeNull();

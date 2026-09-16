@@ -150,3 +150,18 @@ startable is left; both preset launchers must call it and show the
 `presetOutdated` flash on null. Without it a removed slug fetched
 `/data/<slug>.json`, got index.html back through the SPA rewrite and parked the
 user on an error screen whose Retry could never succeed.
+
+## Answer options are shuffled at render — the store keeps ORIGINAL indices
+
+`useSingleChoiceQuestion` / `useMultiChoiceQuestion` draw a per-question permutation
+(`createOptionOrder`, `src/lib/utils/optionOrder.ts`) that maps DISPLAY position to the
+option's index in the bank. The A-E labels follow display order, but everything that
+leaves the component — `sessionStore.answers[id]` (number for single, number[] for multi),
+the analytics `correct` flag, the summary's comparison against `question.correct` — uses
+the ORIGINAL bank index.
+
+- `onSelect` / `onToggle` take a DISPLAY index (the keyboard path in `useSessionPlayPage`
+  passes display positions too) and map it through `displayOrder` themselves.
+- Never store a display index and never re-sort the options into bank order for rendering:
+  the bank has the correct answer at the same index in ~74% of questions, which is what the
+  draw exists to break.
