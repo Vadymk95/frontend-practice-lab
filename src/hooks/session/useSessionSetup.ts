@@ -35,10 +35,11 @@ export function sampleWithCategoryGuarantee(
     questions: Question[],
     weights: Record<string, number>,
     count: number,
-    categories: string[]
+    categories: string[],
+    errorRates: Record<string, number> = {}
 ): Question[] {
     if (count <= 0) return [];
-    if (count >= questions.length) return sampleWeighted(questions, weights, count);
+    if (count >= questions.length) return sampleWeighted(questions, weights, count, errorRates);
 
     const seeded: Question[] = [];
     const remaining = [...questions];
@@ -46,7 +47,7 @@ export function sampleWithCategoryGuarantee(
     for (const cat of categories) {
         const catPool = remaining.filter((q) => q.category === cat);
         if (catPool.length === 0) continue;
-        const picked = sampleWeighted(catPool, weights, 1)[0];
+        const picked = sampleWeighted(catPool, weights, 1, errorRates)[0];
         if (picked) {
             seeded.push(picked);
             const idx = remaining.findIndex((q) => q.id === picked.id);
@@ -56,9 +57,11 @@ export function sampleWithCategoryGuarantee(
     }
 
     const fillCount = Math.max(0, count - seeded.length);
-    const filled = fillCount > 0 ? sampleWeighted(remaining, weights, fillCount) : [];
+    const filled = fillCount > 0 ? sampleWeighted(remaining, weights, fillCount, errorRates) : [];
     const combined = [...seeded, ...filled];
-    return sampleWeighted(combined, weights, combined.length); // count === length → shuffle path
+    // Final pass re-orders the seeded + filled set by weight so the guaranteed picks are not
+    // always the first questions the user sees.
+    return sampleWeighted(combined, weights, combined.length, errorRates);
 }
 
 export function useSessionSetup() {
@@ -67,6 +70,7 @@ export function useSessionSetup() {
     const setQuestionList = useSessionStore.use.setQuestionList();
     const questionList = useSessionStore.use.questionList();
     const weights = useProgressStore.use.weights();
+    const errorRates = useProgressStore.use.errorRates();
 
     useEffect(() => {
         if (!config) {
@@ -90,7 +94,8 @@ export function useSessionSetup() {
             filtered,
             weights,
             config.questionCount,
-            config.categories
+            config.categories,
+            errorRates
         );
         const ordered = config.order === 'sequential' ? sortByDifficulty(sampled) : sampled;
 
@@ -101,7 +106,16 @@ export function useSessionSetup() {
             mode: config.mode,
             count: ordered.length
         });
-    }, [config, isLoading, isError, allQuestions, weights, setQuestionList, questionList.length]);
+    }, [
+        config,
+        isLoading,
+        isError,
+        allQuestions,
+        weights,
+        errorRates,
+        setQuestionList,
+        questionList.length
+    ]);
 
     return { isLoading, isError, refetch };
 }

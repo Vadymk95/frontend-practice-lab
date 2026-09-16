@@ -75,3 +75,28 @@
 **Decision**: The `state-vendor` chunk groups `zustand`, `@tanstack/react-query`, and **`@tanstack/query-core`**.
 
 **Why**: `ANALYZE` / rollup-visualizer showed `query-core` split between the entry chunk and `state-vendor` because only `react-query` was matched. Adding `query-core` merges all TanStack Query packages into one cacheable chunk and **reduces entry JS size** (fewer bytes on the app entry module graph).
+
+## [2026-09-16] Adaptive weights: per-question outcome, category rate only as a prior
+
+**Decision**: A question's weight now moves by that question's own outcome — wrong multiplies by
+`HIGH_ERROR_MULTIPLIER` (capped at `MAX_WEIGHT`), correct by `LOW_ERROR_MULTIPLIER` (floored at
+`MIN_WEIGHT`). The per-category error rate keeps its own update (`updateErrorRate`) because the home
+widget and the summary's focus areas read it, but it no longer drives the weight of the question
+just answered. It is instead the **prior** for a question that has no stored weight:
+`rate > HIGH_ERROR_THRESHOLD → DEFAULT × HIGH`, `rate < LOW_ERROR_THRESHOLD → DEFAULT × LOW`, else
+`DEFAULT` — the same step `calculateWeight` already computed, applied once to `DEFAULT_WEIGHT`.
+`sampleWeighted` and `sampleWithCategoryGuarantee` take `errorRates` as an optional last parameter
+so the prior reaches sampling; `useSessionSetup` passes `useProgressStore.use.errorRates()`.
+`sampleWeighted` also lost its `count >= questions.length` shuffle short-circuit.
+
+**Why**: Two defects cancelled the adaptive layer out. (1) The configurator defaults to "all
+available", so `count >= pool.length` was the *normal* path and it returned a plain shuffle — the
+weights were computed, stored and never used. (2) Deriving the question's weight from the category
+rate meant a correct answer inside a weak category *doubled* the weight of the question the user had
+just got right, while questions never answered stayed at `DEFAULT_WEIGHT` forever, so a weak
+category kept re-serving the same handful of questions.
+
+**Trade-offs / not done**: No spaced repetition. There is still no per-question timestamp, no
+interval and no scheduling — weights are a frequency bias, not an SRS, and adding one would need a
+storage-schema change and a migration. Weighted sampling without replacement over the full pool is
+O(n²) per session; at ~955 questions and one sample per session that is not worth optimising.

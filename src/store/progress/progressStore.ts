@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import { calculateWeight, updateErrorRate } from '@/lib/algorithm';
+import { nextQuestionWeight, updateErrorRate } from '@/lib/algorithm';
 import { ALGORITHM_CONFIG } from '@/lib/algorithm/config';
 import { isYesterday } from '@/lib/date';
 import { storageService } from '@/lib/storage';
@@ -77,7 +77,7 @@ const useProgressStoreBase = create<ProgressState>()(
                 const newRates = { ...errorRates, [category]: newErrorRate };
 
                 const prevWeight = weights[questionId] ?? ALGORITHM_CONFIG.DEFAULT_WEIGHT;
-                const newWeight = calculateWeight(newErrorRate, prevWeight);
+                const newWeight = nextQuestionWeight(prevWeight, correct);
                 const newWeights = { ...weights, [questionId]: newWeight };
 
                 storageService.setErrorRates(newRates);

@@ -212,3 +212,48 @@ describe('progressStore — initial load from storageService', () => {
         expect(errorRates['react']).toBeCloseTo(0.48);
     });
 });
+
+describe('progressStore — recordAnswer weighs the question by its own outcome', () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
+        useProgressStoreBase.setState({
+            weights: {},
+            errorRates: {},
+            streak: { current: 0, lastActivityDate: '' },
+            records: {},
+            lastSessionResults: {}
+        });
+    });
+
+    it('lowers the question weight on a correct answer inside a weak category', () => {
+        useProgressStoreBase.setState({ weights: { q1: 2 }, errorRates: { react: 0.9 } });
+
+        useProgressStoreBase.getState().recordAnswer('q1', 'react', true);
+
+        expect(useProgressStoreBase.getState().weights['q1']).toBeCloseTo(1.0);
+    });
+
+    it('raises the question weight on a wrong answer inside a strong category', () => {
+        useProgressStoreBase.setState({ weights: { q1: 1 }, errorRates: { react: 0 } });
+
+        useProgressStoreBase.getState().recordAnswer('q1', 'react', false);
+
+        expect(useProgressStoreBase.getState().weights['q1']).toBeCloseTo(2.0);
+    });
+
+    it('leaves the other questions of the category untouched', () => {
+        useProgressStoreBase.setState({ weights: { q1: 1, q2: 1 }, errorRates: { react: 0.9 } });
+
+        useProgressStoreBase.getState().recordAnswer('q1', 'react', false);
+
+        expect(useProgressStoreBase.getState().weights['q2']).toBeCloseTo(1.0);
+    });
+
+    it('still moves the category error rate — it feeds the home widget and focus areas', () => {
+        useProgressStoreBase.setState({ weights: {}, errorRates: { react: 0.5 } });
+
+        useProgressStoreBase.getState().recordAnswer('q1', 'react', false);
+
+        expect(useProgressStoreBase.getState().errorRates['react']).toBeCloseTo(0.6);
+    });
+});
