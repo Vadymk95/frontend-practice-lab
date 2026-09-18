@@ -2107,5 +2107,312 @@
             }
         ],
         "correct": 2
+    },
+    {
+        "id": "ts-inferred-predicate-001",
+        "type": "single-choice",
+        "category": "typescript",
+        "difficulty": "medium",
+        "tags": ["type-predicates", "narrowing", "inference", "ts-5.5"],
+        "question": {
+            "en": "Since TypeScript 5.5 the compiler can infer a type predicate (`x is T`) for a function that just returns a boolean. Which set of conditions must hold for that inference to happen?",
+            "ru": "Начиная с TypeScript 5.5 компилятор может вывести type predicate (`x is T`) для функции, которая просто возвращает boolean. При каком наборе условий это происходит?"
+        },
+        "options": [
+            {
+                "en": "No return annotation, one `return`, no parameter mutation, and the returned expression refines it",
+                "ru": "Нет аннотации возвращаемого типа, один `return`, параметр не мутируется, возвращаемое выражение сужает его"
+            },
+            {
+                "en": "Only `function` declarations qualify — an arrow function assigned to a `const` never gets an inferred predicate",
+                "ru": "Подходят только объявления через `function` — у стрелочной функции в `const` предикат никогда не выводится"
+            },
+            {
+                "en": "The parameter must be typed `unknown`; predicates are not inferred for a parameter with a declared union type",
+                "ru": "Параметр обязан иметь тип `unknown`; для параметра с объявленным union-типом предикат не выводится"
+            },
+            {
+                "en": "The function must be annotated `: boolean` and the project must switch on the `inferTypePredicates` flag",
+                "ru": "Функция должна быть аннотирована как `: boolean`, а в проекте должен быть включён флаг `inferTypePredicates`"
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "The 5.5 release notes list four conditions: no explicit return type or predicate annotation, a single `return` with no implicit returns, no mutation of the parameter, and a boolean expression tied to a refinement of that parameter. There is no opt-in flag — it is plain inference, which is exactly why adding a `: boolean` annotation silently turns it off. Remember the predicate has if-and-only-if semantics: a `false` result also narrows the value out of `T`, so a sloppy condition narrows wrongly in the `else` branch.",
+            "ru": "В release notes 5.5 перечислены четыре условия: нет явного возвращаемого типа или предиката, один `return` без неявных возвратов, параметр не мутируется, а возвращается boolean-выражение, завязанное на сужение этого параметра. Отдельного флага нет — это обычный вывод типов, поэтому аннотация `: boolean` молча его отключает. Важно: предикат работает «тогда и только тогда» — ветка `false` тоже сужает значение, убирая из него `T`, так что небрежное условие даст неверное сужение в `else`."
+        }
+    },
+    {
+        "id": "ts-const-type-param-001",
+        "type": "single-choice",
+        "category": "typescript",
+        "difficulty": "hard",
+        "tags": ["const-type-parameters", "generics", "inference", "ts-5.0"],
+        "question": {
+            "en": "In TypeScript 5.3 or later, two identical-looking helpers differ only in their generic constraint. What are the inferred types of `a` and `b`?",
+            "ru": "В TypeScript 5.3 и новее два почти одинаковых хелпера отличаются только ограничением дженерика. Какие типы будут выведены для `a` и `b`?"
+        },
+        "code": "declare function tag<const T extends string[]>(items: T): T;\ndeclare function tagRO<const T extends readonly string[]>(items: T): T;\n\nconst a = tag(['x', 'y']);\nconst b = tagRO(['x', 'y']);",
+        "lang": "typescript",
+        "options": [
+            {
+                "en": "Both are `readonly ['x', 'y']` — the `const` modifier makes the literal readonly in either case",
+                "ru": "Оба — `readonly ['x', 'y']`: модификатор `const` в любом случае делает литерал readonly"
+            },
+            {
+                "en": "`a` is `['x', 'y']` and `b` is `readonly ['x', 'y']` — the constraint only controls readonly-ness",
+                "ru": "`a` — это `['x', 'y']`, а `b` — `readonly ['x', 'y']`: ограничение влияет только на readonly"
+            },
+            {
+                "en": "Both are `string[]` — `const` type parameters affect primitive arguments only, never arrays or objects",
+                "ru": "Оба — `string[]`: `const`-параметры влияют только на примитивные аргументы, но не на массивы и объекты"
+            },
+            {
+                "en": "`a` is `string[]`, `b` is `readonly ['x', 'y']` — a mutable constraint discards the const candidate",
+                "ru": "`a` — это `string[]`, `b` — `readonly ['x', 'y']`: изменяемое ограничение отбрасывает const-кандидат"
+            }
+        ],
+        "correct": 1,
+        "explanation": {
+            "en": "A `const` type parameter makes the compiler infer the argument as if it had `as const`, so the candidate for `T` is `readonly ['x', 'y']`. Since TypeScript 5.3 a mutable constraint no longer throws that candidate away: the compiler strips the `readonly` modifier and keeps the literal tuple, so `a` is `['x', 'y']` and `b` is `readonly ['x', 'y']`. A `readonly` constraint is still the one to reach for, because it preserves immutability, not because literal inference needs it. The other caveat matters as much in practice: `const` only affects expressions written inside the call, so passing a pre-assigned `const arr = ['x', 'y']` still infers `string[]`.",
+            "ru": "`const`-параметр заставляет компилятор выводить аргумент так, будто к нему применён `as const`, то есть кандидат для `T` — `readonly ['x', 'y']`. Начиная с TypeScript 5.3 изменяемое ограничение больше не отбрасывает этот кандидат: компилятор просто снимает модификатор `readonly` и сохраняет литеральный кортеж, поэтому `a` — это `['x', 'y']`, а `b` — `readonly ['x', 'y']`. Ограничение с `readonly` всё равно предпочтительно, но ради сохранения неизменяемости, а не потому что без него не работает вывод литералов. Вторая оговорка не менее важна на практике: `const` влияет только на выражения, записанные прямо в вызове, поэтому для заранее объявленной переменной `const arr = ['x', 'y']` всё равно выведется `string[]`."
+        }
+    },
+    {
+        "id": "ts-native-port-001",
+        "type": "single-choice",
+        "category": "typescript",
+        "difficulty": "medium",
+        "tags": ["tsgo", "typescript-7", "tooling", "migration"],
+        "question": {
+            "en": "As of TypeScript 7.0 (GA in July 2026, before the 7.1 compiler API lands), the native Go port of the compiler (`tsgo`) reports roughly a 10x speed-up on type-checking. Your monorepo has Vue SFCs and Svelte components. What is the concrete blocker that stops those two toolchains from moving to it, even when plain `.ts` projects already can?",
+            "ru": "На момент TypeScript 7.0 (GA в июле 2026 года, до появления программного API в 7.1) нативный порт компилятора на Go (`tsgo`) даёт примерно десятикратное ускорение проверки типов. В вашей монорепе есть Vue SFC и компоненты Svelte. Что конкретно мешает этим двум тулчейнам перейти на него, хотя обычные `.ts`-проекты уже могут?"
+        },
+        "options": [
+            {
+                "en": "They drive the compiler through its programmatic API, and the native port ships without a stable API surface",
+                "ru": "Они работают с компилятором через его программный API, а у нативного порта нет стабильного API"
+            },
+            {
+                "en": "The Go port only type-checks and cannot emit JavaScript at all, so every project needs a separate transpiler",
+                "ru": "Go-порт только проверяет типы и вообще не умеет эмитить JavaScript, поэтому нужен отдельный транспайлер"
+            },
+            {
+                "en": "Its checker implements a subset of the type system — conditional and mapped types are not supported there",
+                "ru": "Его чекер реализует подмножество системы типов — условные и mapped-типы в нём не поддерживаются"
+            },
+            {
+                "en": "It requires every file to be fully annotated the way `isolatedDeclarations` does, which generated template code cannot satisfy",
+                "ru": "Он требует полной аннотации каждого файла, как `isolatedDeclarations`, а сгенерированный код шаблонов этого не может"
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "Embedded-language tooling — Vue, Svelte, Astro, MDX, Angular templates — does not shell out to `tsc`; it constructs a Program and a LanguageService in-process to type-check virtual files it generates from the template. The native port is a faithful port of the same checker, so the type system is unchanged, but 7.0 shipped without that programmatic API, which is why those plugins were blocked while `tsc`-only projects were not. This is a dated constraint, not a permanent one: the replacement API is scheduled for TypeScript 7.1, targeted around October 2026. The practical lead-level takeaway: measure who in your pipeline depends on the API, not just who runs the binary.",
+            "ru": "Тулинг для встроенных языков — Vue, Svelte, Astro, MDX, шаблоны Angular — не вызывает `tsc` как процесс, а собирает Program и LanguageService внутри себя, чтобы проверять виртуальные файлы, сгенерированные из шаблона. Нативный порт — это точный порт того же чекера, система типов не изменилась, но 7.0 вышел без программного API, поэтому такие плагины оказались заблокированы, а проекты на чистом `tsc` — нет. Это ограничение привязано ко времени, а не навсегда: новый API запланирован на TypeScript 7.1 ориентировочно на октябрь 2026 года. Практический вывод для лида: смотреть, кто в пайплайне зависит именно от API, а не только кто запускает бинарник."
+        }
+    },
+    {
+        "id": "ts-isolated-declarations-001",
+        "type": "single-choice",
+        "category": "typescript",
+        "difficulty": "hard",
+        "tags": ["isolatedDeclarations", "tsconfig", "declaration-emit", "monorepo"],
+        "question": {
+            "en": "A monorepo turns on `isolatedDeclarations` (alongside `declaration`). What does the flag actually demand of the code, and what does that buy the build?",
+            "ru": "В монорепе включают `isolatedDeclarations` (вместе с `declaration`). Что именно этот флаг требует от кода и что он даёт сборке?"
+        },
+        "options": [
+            {
+                "en": "It stops the compiler from emitting `.d.ts` files, so package consumers type-check against the `.ts` sources",
+                "ru": "Он запрещает компилятору эмитить `.d.ts`, и потребители пакета проверяют типы прямо по `.ts`-исходникам"
+            },
+            {
+                "en": "It forbids `enum`, `namespace` and parameter properties so a type-stripping runtime can execute the file as-is",
+                "ru": "Он запрещает `enum`, `namespace` и параметр-свойства, чтобы рантайм со срезанием типов выполнял файл как есть"
+            },
+            {
+                "en": "It isolates each file's declarations so a global `declare` block in one file no longer leaks into the others",
+                "ru": "Он изолирует декларации каждого файла, чтобы глобальный `declare`-блок из одного файла не протекал в другие"
+            },
+            {
+                "en": "Exports need explicit annotations, so declaration emit needs no cross-file inference and parallelises",
+                "ru": "Экспортам нужны явные аннотации, поэтому эмит деклараций обходится без межфайлового вывода и параллелится"
+            }
+        ],
+        "correct": 3,
+        "explanation": {
+            "en": "`isolatedDeclarations` errors when a module cannot be reliably transformed into a `.d.ts` without a type-checker — in practice, when an export lacks an explicit type annotation. The payoff is that third-party tools and build systems can generate declarations file-by-file, in parallel, without building a whole program, which is the expensive part of declaration emit in a large monorepo. It also requires `declaration` or `composite` to be set. The common confusion is with `erasableSyntaxOnly`, which is about runtime-erasable syntax, not about declaration emit.",
+            "ru": "`isolatedDeclarations` выдаёт ошибку, когда модуль нельзя надёжно превратить в `.d.ts` без чекера типов — на практике это значит, что у экспорта нет явной аннотации типа. Выгода в том, что сторонние инструменты и сборщики могут генерировать декларации пофайлово и параллельно, не строя целую программу, а это и есть дорогая часть declaration emit в большой монорепе. Флаг также требует включённого `declaration` или `composite`. Чаще всего его путают с `erasableSyntaxOnly`, но тот отвечает за стираемый в рантайме синтаксис, а не за эмит деклараций."
+        }
+    },
+    {
+        "id": "ts-react-props-union-001",
+        "type": "single-choice",
+        "category": "typescript",
+        "difficulty": "medium",
+        "tags": ["react", "props", "discriminated-unions", "never"],
+        "question": {
+            "en": "A `Button` must accept either `href` (renders an `<a>`) or `onClick` (renders a `<button>`) — never both, never neither. The props type below allows all four combinations. Without introducing a new discriminant prop such as `as`, which typing technique enforces the rule at compile time?",
+            "ru": "`Button` должен принимать либо `href` (рендерит `<a>`), либо `onClick` (рендерит `<button>`) — никогда оба и никогда ни одного. Тип пропсов ниже допускает все четыре комбинации. Не вводя новый пропс-дискриминант вроде `as`, какой приём типизации обеспечит это правило на этапе компиляции?"
+        },
+        "code": "type ButtonProps = {\n  children: ReactNode;\n  href?: string;\n  onClick?: () => void;\n};",
+        "lang": "tsx",
+        "options": [
+            {
+                "en": "Keep one object type, mark both props required, and let `exactOptionalPropertyTypes` reject the surplus prop",
+                "ru": "Оставить один объектный тип, сделать оба пропса обязательными и дать `exactOptionalPropertyTypes` отбросить лишний"
+            },
+            {
+                "en": "A union of two props types, where each member declares the other prop as optional `never`",
+                "ru": "Union из двух типов пропсов, где каждый вариант объявляет чужой пропс как необязательный `never`"
+            },
+            {
+                "en": "An intersection `{ href: string } & { onClick: () => void }`, which resolves to an exclusive choice of the two",
+                "ru": "Пересечение `{ href: string } & { onClick: () => void }`, которое сводится к исключающему выбору одного из двух"
+            },
+            {
+                "en": "Keep both props optional and add a runtime `invariant()` guard, which the compiler propagates to the call site",
+                "ru": "Оставить оба пропса необязательными и добавить рантайм-проверку `invariant()`, которую компилятор перенесёт на место вызова"
+            }
+        ],
+        "correct": 1,
+        "explanation": {
+            "en": "`{ href: string; onClick?: never } | { onClick: () => void; href?: never }` makes the two shapes mutually exclusive: passing both fails because the surplus prop is checked against `never`, and passing neither fails because each member has one required prop. An intersection does the opposite — it demands both — and a runtime guard is invisible to the type checker. Overloading the component function also rejects both bad call sites, but the body then sees the widened implementation signature, so in-body narrowing is lost and the diagnostic degrades to \"No overload matches this call\". With the union you still narrow inside the component via `'href' in props`, which is why this shape is worth the extra type noise.",
+            "ru": "`{ href: string; onClick?: never } | { onClick: () => void; href?: never }` делает две формы взаимоисключающими: передать оба нельзя, потому что лишний пропс проверяется против `never`, а не передать ни одного нельзя, потому что в каждом варианте есть обязательный пропс. Пересечение даёт обратный эффект — оно требует оба, — а рантайм-проверка для чекера типов вообще не существует. Перегрузки функции компонента тоже отсекут оба неверных вызова, но внутри тела виден расширенный implementation-сигнатурой тип, так что сужение внутри компонента теряется, а диагностика вырождается в \"No overload matches this call\". С union внутри компонента вы дальше сужаете через `'href' in props` — ради этого дополнительный шум в типах и терпят."
+        }
+    },
+    {
+        "id": "ts-erasable-syntax-001",
+        "type": "multi-choice",
+        "category": "typescript",
+        "difficulty": "medium",
+        "tags": ["erasableSyntaxOnly", "tsconfig", "type-stripping", "ts-5.8"],
+        "question": {
+            "en": "A project enables `erasableSyntaxOnly` so that Node can run the `.ts` files directly by stripping types. Which of the following constructs become compile errors under that flag?",
+            "ru": "В проекте включают `erasableSyntaxOnly`, чтобы Node мог запускать `.ts`-файлы напрямую, просто срезая типы. Какие из этих конструкций станут ошибками компиляции при этом флаге?"
+        },
+        "options": [
+            {
+                "en": "`enum Direction { Up, Down }`",
+                "ru": "`enum Direction { Up, Down }`"
+            },
+            {
+                "en": "A constructor parameter property: `constructor(private readonly id: string) {}`",
+                "ru": "Параметр-свойство в конструкторе: `constructor(private readonly id: string) {}`"
+            },
+            {
+                "en": "`import fs = require('fs')`",
+                "ru": "`import fs = require('fs')`"
+            },
+            {
+                "en": "`declare enum Direction { Up, Down }` in an ambient declaration",
+                "ru": "`declare enum Direction { Up, Down }` в ambient-декларации"
+            },
+            {
+                "en": "A `satisfies` expression such as `const config = { port: 3000 } satisfies Config`",
+                "ru": "Выражение с `satisfies`, например `const config = { port: 3000 } satisfies Config`"
+            }
+        ],
+        "correct": [0, 1, 2],
+        "explanation": {
+            "en": "`erasableSyntaxOnly` rejects exactly the constructs that generate runtime code: `enum` declarations, `namespace`/`module` blocks with a body, parameter properties, and the non-ECMAScript `import =` / `export =` forms. Ambient declarations (`declare enum`) emit nothing, and `satisfies` is a pure type-level operator, so both survive. The flag mirrors Node's type-stripping requirements and is normally paired with `verbatimModuleSyntax` so import elision cannot change the emitted module graph either.",
+            "ru": "`erasableSyntaxOnly` отвергает ровно те конструкции, которые порождают код в рантайме: объявления `enum`, блоки `namespace`/`module` с телом, параметр-свойства и не-ECMAScript формы `import =` / `export =`. Ambient-декларации (`declare enum`) ничего не эмитят, а `satisfies` — чисто типовой оператор, поэтому оба остаются валидными. Флаг повторяет требования type stripping в Node и обычно идёт в паре с `verbatimModuleSyntax`, чтобы элизия импортов тоже не меняла итоговый граф модулей."
+        }
+    },
+    {
+        "id": "ts-react-ref-typing-001",
+        "type": "multi-choice",
+        "category": "typescript",
+        "difficulty": "medium",
+        "tags": ["react", "refs", "ComponentProps", "react-19"],
+        "question": {
+            "en": "You are typing a design-system `Input` in React 19 with `@types/react` 19. Which statements are correct?",
+            "ru": "Вы типизируете `Input` из дизайн-системы на React 19 с `@types/react` 19. Какие утверждения верны?"
+        },
+        "options": [
+            {
+                "en": "A function component can declare `ref` in its own props type and receive it as a normal prop — `forwardRef` is no longer required",
+                "ru": "Функциональный компонент может объявить `ref` в своём типе пропсов и получать его как обычный пропс — `forwardRef` больше не нужен"
+            },
+            {
+                "en": "`ComponentPropsWithoutRef<'input'>` gives the intrinsic `<input>` props with `ref` omitted",
+                "ru": "`ComponentPropsWithoutRef<'input'>` даёт пропсы нативного `<input>` без `ref`"
+            },
+            {
+                "en": "`useRef<HTMLInputElement>(null)` is typed `RefObject<HTMLInputElement | null>`, so a prop typed `RefObject<HTMLInputElement>` rejects it",
+                "ru": "`useRef<HTMLInputElement>(null)` имеет тип `RefObject<HTMLInputElement | null>`, поэтому пропс с типом `RefObject<HTMLInputElement>` его не примет"
+            },
+            {
+                "en": "`PropsWithChildren<P>` makes `children` a required prop on `P`",
+                "ru": "`PropsWithChildren<P>` делает `children` обязательным пропсом в `P`"
+            },
+            {
+                "en": "`ComponentProps<typeof Input>` works only for class components; function components need a different helper",
+                "ru": "`ComponentProps<typeof Input>` работает только для классовых компонентов; для функциональных нужен другой хелпер"
+            }
+        ],
+        "correct": [0, 1, 2],
+        "explanation": {
+            "en": "React 19 passes `ref` to function components as an ordinary prop and `forwardRef` is on its way out, so the prop belongs in the props type — and it should be typed `Ref<HTMLInputElement>`, the union that also covers callback refs and `null`. `RefObject<HTMLInputElement>` is too narrow: React 19 changed `useRef<T>(null)` to return `RefObject<T | null>`, which is not assignable to it. `PropsWithChildren<P>` adds an optional `children?: ReactNode`, and `ComponentProps<T>` accepts any intrinsic tag or component type, class or function.",
+            "ru": "React 19 передаёт `ref` функциональным компонентам как обычный пропс, а `forwardRef` постепенно выводится из обихода, поэтому этот пропс место в типе пропсов — и типизировать его надо как `Ref<HTMLInputElement>`, то есть union, куда входят и callback-рефы, и `null`. `RefObject<HTMLInputElement>` слишком узок: в React 19 `useRef<T>(null)` возвращает `RefObject<T | null>`, а он туда не присваивается. `PropsWithChildren<P>` добавляет необязательный `children?: ReactNode`, а `ComponentProps<T>` принимает и нативный тег, и любой компонент — хоть классовый, хоть функциональный."
+        }
+    },
+    {
+        "id": "ts-bug-inferred-predicate-001",
+        "type": "bug-finding",
+        "category": "typescript",
+        "difficulty": "hard",
+        "tags": ["type-predicates", "filter", "narrowing", "bugs"],
+        "question": {
+            "en": "TypeScript 5.9, `strict` is on. A teammate says inferred type predicates should make this work, but the last line still errors with 'Object is possibly undefined'. Find the bug.",
+            "ru": "TypeScript 5.9, `strict` включён. Коллега утверждает, что выведенные type predicates должны это чинить, но последняя строка всё равно падает с «Object is possibly undefined». Найдите ошибку."
+        },
+        "code": "function isDefined(value: string | undefined): boolean {\n  return value !== undefined;\n}\n\nconst raw: (string | undefined)[] = ['a', undefined, 'b'];\nconst names = raw.filter(isDefined);\n\nconsole.log(names[0].toUpperCase());",
+        "lang": "typescript",
+        "correct": "The explicit `: boolean` return annotation on `isDefined` blocks predicate inference, so `filter` keeps the `(string | undefined)[]` type.",
+        "referenceAnswer": "Inferred type predicates (TypeScript 5.5+) only kick in when the function has NO explicit return type annotation. `isDefined` is annotated `: boolean`, so the compiler takes that at face value, `Array.prototype.filter` resolves to the plain `(value: T) => unknown` overload instead of the `value is S` overload, and `names` stays `(string | undefined)[]`.\n\nFix by removing the annotation and letting inference do its job:\n\n```ts\nfunction isDefined(value: string | undefined) {\n  return value !== undefined; // inferred as `value is string`\n}\n```\n\nOr, if the codebase requires explicit return types (a common lint rule — which is why this bites real projects), write the predicate out:\n\n```ts\nfunction isDefined(value: string | undefined): value is string {\n  return value !== undefined;\n}\n```\n\nEither way `raw.filter(isDefined)` is then typed `string[]`.",
+        "explanation": {
+            "en": "This is the most common way 5.5's inferred predicates fail to show up: an `explicit-function-return-type` lint rule forces `: boolean` on every helper and silently opts the whole codebase out of the feature. The compiler never warns, because `: boolean` is a perfectly valid annotation — the symptom appears far away, at the `filter` call site. If your team enforces explicit return types, teach the predicate form rather than expecting inference.",
+            "ru": "Это самый частый способ не получить выведенные предикаты из 5.5: правило линтера `explicit-function-return-type` навязывает `: boolean` каждому хелперу и молча отключает фичу во всём проекте. Компилятор ничего не подскажет, потому что `: boolean` — вполне корректная аннотация, а симптом всплывает далеко в стороне, на вызове `filter`. Если команда требует явные возвращаемые типы, учите писать форму предиката, а не надейтесь на вывод."
+        }
+    },
+    {
+        "id": "ts-react-generic-component-001",
+        "type": "code-completion",
+        "category": "typescript",
+        "difficulty": "hard",
+        "tags": ["react", "generics", "inference", "keyof"],
+        "question": {
+            "en": "Complete the generic `List` component so that `T` is inferred from `items`, `keyOf` is constrained to a property name of `T`, and the `renderItem` callback receives a fully typed item. The second blank is the type-parameter modifier that gives callers literal-type inference without writing `as const`.",
+            "ru": "Дополните дженерик-компонент `List` так, чтобы `T` выводился из `items`, `keyOf` был ограничен именем свойства `T`, а колбэк `renderItem` получал полностью типизированный элемент. Второй пропуск — модификатор параметра типа, который даёт вызывающему коду вывод литеральных типов без явного `as const`."
+        },
+        "code": "import type { ReactNode } from 'react';\n\ntype ListProps<T> = {\n  items: readonly T[];\n  keyOf: __BLANK__;\n  renderItem: (item: T) => ReactNode;\n};\n\nfunction List<__BLANK__ T>({ items, keyOf, renderItem }: ListProps<T>) {\n  return (\n    <ul>\n      {items.map((item) => (\n        <li key={String(item[keyOf])}>{renderItem(item)}</li>\n      ))}\n    </ul>\n  );\n}\n\nconst users = [{ id: 1, name: 'Ada' }];\n\n// T is inferred from `items`, so `user` is { id: number; name: string }\nconst list = <List items={users} keyOf=\"id\" renderItem={(user) => user.name.toUpperCase()} />;",
+        "blanks": ["keyof T", "const"],
+        "lang": "tsx",
+        "referenceAnswer": "`keyOf: keyof T` ties the prop to the keys of whatever `T` inference produced, so `keyOf=\"id\"` is checked and `keyOf=\"missing\"` is an error. Because `items` is the first inference site, `T` resolves to `{ id: number; name: string }` and `renderItem`'s parameter is typed with no annotation at the call site — `user.name.toUpperCase()` type-checks while `user.nmae` does not.\n\n`function List<const T>` marks the type parameter as a const type parameter: an array or object literal written inline at the JSX call site is then inferred with literal types, exactly as if the caller had written `as const`. It changes nothing for the pre-assigned `const users = [...]` above, because `const` only applies to expressions written inside the call itself.\n\nOne `.tsx` parser note: a generic arrow function needs a trailing comma (`const List = <T,>(props: ListProps<T>) => ...`) so the parser does not read `<T>` as JSX; a `function` declaration, as used here, avoids that entirely.",
+        "explanation": {
+            "en": "A generic component is just a generic function: inference flows from the props object at the JSX call site, so `items` fixes `T` and every other prop is checked against it. Constraining a prop with `keyof T` is the standard way to make a string prop refer to a field of the data, and it is what keeps `renderItem` free of annotations. Adding `const` to the type parameter pushes literal inference onto inline arguments, so callers get `'Ada'` instead of `string` without an `as const`. The failure mode to recognise in review is a component typed with `any[]` or a stray explicit type argument — both silently disable this inference and the callback parameter degrades to `any`.",
+            "ru": "Дженерик-компонент — это просто дженерик-функция: вывод типов идёт от объекта пропсов на месте вызова в JSX, поэтому `items` фиксирует `T`, а остальные пропсы проверяются уже против него. Ограничение пропса через `keyof T` — стандартный способ заставить строковый пропс ссылаться на поле данных, и именно оно избавляет `renderItem` от аннотаций. Модификатор `const` у параметра типа включает вывод литеральных типов для аргументов, записанных прямо в вызове, так что вызывающий код получает `'Ada'` вместо `string` без `as const`. На ревью стоит ловить обратный случай: компонент с `any[]` или лишним явным type argument — и то и другое молча ломает вывод, а параметр колбэка деградирует до `any`."
+        }
+    },
+    {
+        "id": "ts-using-dispose-001",
+        "type": "code-completion",
+        "category": "typescript",
+        "difficulty": "easy",
+        "tags": ["using", "explicit-resource-management", "Symbol.dispose", "ts-5.2"],
+        "question": {
+            "en": "Complete this explicit resource management example: the first blank is the computed method name that makes a class `Disposable`, the second is the declaration keyword that schedules synchronous cleanup at the end of the scope.",
+            "ru": "Дополните пример explicit resource management: первый пропуск — вычисляемое имя метода, которое делает класс `Disposable`, второй — ключевое слово объявления, планирующее синхронную очистку в конце области видимости."
+        },
+        "code": "class Connection implements Disposable {\n  readonly id: string;\n\n  constructor(id: string) {\n    this.id = id;\n  }\n\n  [__BLANK__]() {\n    console.log(`closing ${this.id}`);\n  }\n}\n\nfunction run(doWork: (c: Connection) => void) {\n  __BLANK__ conn = new Connection('primary');\n  doWork(conn);\n  // conn is closed here, even if doWork() throws\n}",
+        "blanks": ["Symbol.dispose", "using"],
+        "lang": "typescript",
+        "referenceAnswer": "`[Symbol.dispose]() { ... }` satisfies the global `Disposable` interface, and `using conn = ...` registers the value for disposal when the enclosing block exits — on normal completion, an early `return`, or a thrown exception.\n\nThe async counterpart is `[Symbol.asyncDispose]()` with `await using`, described by `AsyncDisposable`. Resources are disposed in reverse order of declaration (last in, first out). If the body throws AND disposal throws, the runtime raises a `SuppressedError` whose `error` is the disposal failure and whose `suppressed` is the original exception — so a naive `catch (e) { log(e.message) }` loses the real cause.\n\nConfiguration: the feature needs `esnext.disposable` in `lib` (and a runtime polyfill of `Symbol.dispose` if the target engine lacks it).",
+        "explanation": {
+            "en": "`using` is TypeScript's implementation of the TC39 explicit resource management proposal: cleanup is attached to the value at its declaration instead of to a `try/finally` block the caller has to remember to write. That matters most where an early `return` or a throw would otherwise skip the cleanup — file handles, DB connections, locks, test fixtures. Disposal is last-in-first-out, and `await using` with `Symbol.asyncDispose` covers cleanup that itself awaits.",
+            "ru": "`using` — это реализация предложения TC39 про explicit resource management: очистка привязывается к самому значению в месте объявления, а не к блоку `try/finally`, который вызывающий код должен не забыть написать. Особенно это важно там, где ранний `return` или исключение иначе пропустили бы очистку: файловые дескрипторы, соединения с БД, локи, тестовые фикстуры. Освобождение идёт в обратном порядке объявления, а для очистки, которая сама асинхронна, есть `await using` с `Symbol.asyncDispose`."
+        }
     }
 ]

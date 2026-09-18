@@ -1510,5 +1510,361 @@
             }
         ],
         "correct": [1, 2, 3, 4]
+    },
+    {
+        "id": "css-baseline-001",
+        "type": "single-choice",
+        "category": "css",
+        "difficulty": "easy",
+        "tags": ["baseline", "browser-support", "policy"],
+        "question": {
+            "en": "Team policy allows a CSS feature only once it is Baseline **Widely available**. What does that status actually guarantee?",
+            "ru": "По правилам команды CSS-фичу можно брать только когда она Baseline **Widely available**. Что именно гарантирует этот статус?"
+        },
+        "options": [
+            {
+                "en": "Every core browser has supported it for at least 30 months",
+                "ru": "Все core-браузеры поддерживают её минимум 30 месяцев"
+            },
+            {
+                "en": "The feature covers more than 95% of the traffic in your own analytics",
+                "ru": "Фича покрывает больше 95% трафика по данным вашей собственной аналитики"
+            },
+            {
+                "en": "The feature has shipped in Chrome and Safari, with Firefox support planned",
+                "ru": "Фича уже вышла в Chrome и Safari, поддержка в Firefox запланирована"
+            },
+            {
+                "en": "The specification reached W3C Recommendation instead of being a draft",
+                "ru": "Спецификация дошла до статуса W3C Recommendation, а не осталась черновиком"
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "Baseline has two levels. **Newly available** means the feature works in the current versions of all core browsers — Chrome, Edge, Firefox and Safari, desktop and mobile. **Widely available** arrives 30 months after that date, once older versions have largely cycled out of real traffic. It is a calendar rule about interoperability, not a measurement of your audience: your own analytics can justify a stricter or a looser bar.",
+            "ru": "У Baseline два уровня. **Newly available** — фича работает в актуальных версиях всех core-браузеров: Chrome, Edge, Firefox, Safari, десктоп и мобильные. **Widely available** наступает через 30 месяцев после этой даты, когда старые версии успевают вымыться из реального трафика. Это календарное правило про интероперабельность, а не замер вашей аудитории: своя аналитика может оправдать и более строгую, и более мягкую планку."
+        }
+    },
+    {
+        "id": "css-baseline-002",
+        "type": "single-choice",
+        "category": "css",
+        "difficulty": "hard",
+        "tags": ["baseline", "browser-support", "popover", "anchor-positioning"],
+        "question": {
+            "en": "It is September 2026 and your commercial product accepts only Baseline **Widely available** features. Which of `:has()`, the `popover` attribute and CSS anchor positioning clear that bar?",
+            "ru": "Сентябрь 2026, коммерческий продукт принимает только Baseline **Widely available**. Кто из троих проходит: `:has()`, атрибут `popover`, CSS anchor positioning?"
+        },
+        "options": [
+            {
+                "en": "`:has()` and `popover` pass; anchor positioning is the only one still Newly available",
+                "ru": "`:has()` и `popover` проходят; из троих только anchor positioning всё ещё Newly available"
+            },
+            {
+                "en": "Only `:has()` passes; `popover` and anchor positioning are not Widely available yet",
+                "ru": "Проходит только `:has()`; `popover` и anchor positioning ещё не Widely available"
+            },
+            {
+                "en": "All three pass; each of them shipped in every core browser well before 2026",
+                "ru": "Проходят все три; каждая вышла во всех core-браузерах задолго до 2026"
+            },
+            {
+                "en": "None of the three passes; all of them sit inside the 30-month window",
+                "ru": "Не проходит ни одна: все три внутри 30-месячного окна"
+            }
+        ],
+        "correct": 1,
+        "explanation": {
+            "en": "`:has()` became Newly available in December 2023 and only crossed into Widely available in June 2026 — it cleared the bar three months ago. The Popover API became Newly available in January 2025, so its 30-month clock runs out in 2027; anchor positioning is newer still — the core properties date to January 2026 and the feature group is not even uniformly Baseline yet. Newly available is not a veto, it is a fallback requirement: an engine that does not know the `popover` attribute renders the element as ordinary page content, so gate it with `@supports selector(:popover-open)`, and keep absolute positioning behind the anchored placement.",
+            "ru": "`:has()` стал Newly available в декабре 2023 и перешёл в Widely available только в июне 2026 — планку он взял три месяца назад. Popover API стал Newly available в январе 2025, его 30 месяцев истекают в 2027; anchor positioning ещё моложе — основные свойства датируются январём 2026, а сама группа фич пока даже не везде Baseline. Newly available — это не запрет, а требование фолбэка: движок, который не знает атрибут `popover`, отрисует элемент как обычный контент, поэтому закрывайте его через `@supports selector(:popover-open)`, а под anchor positioning оставляйте absolute-позиционирование."
+        }
+    },
+    {
+        "id": "css-has-001",
+        "type": "multi-choice",
+        "category": "css",
+        "difficulty": "medium",
+        "tags": ["selectors", "has", "progressive-enhancement"],
+        "question": {
+            "en": "Which of these can `:has()` express on its own, letting you delete JavaScript class toggling?",
+            "ru": "Что из этого `:has()` умеет сам, позволяя выкинуть JS-переключение классов?"
+        },
+        "options": [
+            {
+                "en": "Mark a form as invalid while any field inside it is invalid: `form:has(:invalid)`",
+                "ru": "Пометить форму как невалидную, пока внутри есть невалидное поле: `form:has(:invalid)`"
+            },
+            {
+                "en": "Give a card a different layout when it contains a figure: `.card:has(> figure)`",
+                "ru": "Дать карточке другой layout, когда внутри есть figure: `.card:has(> figure)`"
+            },
+            {
+                "en": "Style a label while the checkbox right after it is checked: `label:has(+ input:checked)`",
+                "ru": "Стилизовать label, пока следующий за ним чекбокс отмечен: `label:has(+ input:checked)`"
+            },
+            {
+                "en": "Style a paragraph by the text it contains, such as `p:has('sale')`",
+                "ru": "Стилизовать параграф по тексту внутри, например `p:has('sale')`"
+            },
+            {
+                "en": "Style the header once the page has been scrolled past 200px",
+                "ru": "Стилизовать шапку, когда страница прокручена больше чем на 200px"
+            }
+        ],
+        "correct": [0, 1, 2],
+        "explanation": {
+            "en": "`:has()` takes a relative selector list, so it reaches descendants (`> figure`), later siblings (`+ input:checked`) and any state pseudo-class inside them, while the element you style stays the subject — that is exactly the work class toggling used to do. It cannot match text content: CSS has no `:contains()`. Scroll offset is also out of a selector's reach; scroll-driven animations and scroll-state container queries cover that case.",
+            "ru": "`:has()` принимает relative selector list, поэтому дотягивается до потомков (`> figure`), последующих соседей (`+ input:checked`) и их state-псевдоклассов, а субъектом остаётся тот элемент, который вы стилизуете — ровно то, чем раньше занималось переключение классов. Текст внутри он не матчит: `:contains()` в CSS нет. Позиция скролла селектору тоже недоступна — это про scroll-driven animations и scroll-state container queries."
+        }
+    },
+    {
+        "id": "css-has-002",
+        "type": "single-choice",
+        "category": "css",
+        "difficulty": "hard",
+        "tags": ["selectors", "has", "specificity", "cascade"],
+        "question": {
+            "en": "What is the specificity of the selector `.card:has(#promo img)`?",
+            "ru": "Какова специфичность селектора `.card:has(#promo img)`?"
+        },
+        "options": [
+            {
+                "en": "0-1-0 — `:has()` is forgiving and adds nothing, the way `:where()` does not",
+                "ru": "0-1-0 — `:has()` forgiving и ничего не добавляет, как и `:where()`"
+            },
+            {
+                "en": "0-2-0 — `:has()` counts once as a pseudo-class, a class-level unit",
+                "ru": "0-2-0 — `:has()` считается за псевдокласс, то есть за единицу уровня класса"
+            },
+            {
+                "en": "1-1-1 — `:has()` contributes the specificity of its most specific argument",
+                "ru": "1-1-1 — `:has()` добавляет специфичность самого специфичного аргумента"
+            },
+            {
+                "en": "1-0-1 — the leading `.card` stops counting once `:has()` has matched",
+                "ru": "1-0-1 — ведущий `.card` перестаёт учитываться, если `:has()` уже совпал"
+            }
+        ],
+        "correct": 2,
+        "explanation": {
+            "en": "Like `:is()` and `:not()`, `:has()` takes the specificity of the most specific selector in its argument list: `#promo img` is 1-0-1, and `.card` adds the class, giving 1-1-1. So dropping an id inside a `:has()` argument silently lifts the whole rule above every class-based override — that is how such rules start winning fights nobody meant to start. Wrapping the argument in `:where()`, as in `.card:has(:where(#promo img))`, keeps the match and zeroes the cost.",
+            "ru": "Как и `:is()`/`:not()`, `:has()` берёт специфичность самого специфичного селектора из своего списка: `#promo img` — это 1-0-1, плюс класс `.card`, итого 1-1-1. То есть id внутри аргумента `:has()` молча поднимает правило выше любых переопределений по классам — так такие правила и начинают выигрывать споры, которых никто не планировал. Обёртка в `:where()` — `.card:has(:where(#promo img))` — сохраняет матчинг и обнуляет вклад."
+        }
+    },
+    {
+        "id": "css-bug-container-query-001",
+        "type": "bug-finding",
+        "category": "css",
+        "difficulty": "medium",
+        "tags": ["container-queries", "responsive", "containment"],
+        "question": {
+            "en": "Find the bug: the card should switch to two columns once it is wider than 30rem, but it never does:",
+            "ru": "Найдите баг: карточка должна переключаться на две колонки при ширине больше 30rem, но этого не происходит:"
+        },
+        "code": ".card {\n  container-type: inline-size;\n  display: grid;\n  grid-template-columns: 1fr;\n}\n\n@container (inline-size > 30rem) {\n  .card {\n    grid-template-columns: 1fr 1fr;\n  }\n}",
+        "lang": "css",
+        "correct": "A container query can only style descendants of the container — `.card` is its own container, so the rule never applies to it",
+        "referenceAnswer": "Move the containment to a wrapper and keep the queried styles on the child:\n\n```css\n.card-wrap { container-type: inline-size; }\n\n.card { display: grid; grid-template-columns: 1fr; }\n\n@container (inline-size > 30rem) {\n  .card { grid-template-columns: 1fr 1fr; }\n}\n```\n\nSelf-querying is forbidden by design: styles applied from inside `@container` could change the size the query just tested, and the layout would oscillate. Note that `container-type: size` would also need a definite block size, which is why `inline-size` is the usual choice.",
+        "explanation": {
+            "en": "A size query is evaluated against the container, but the declarations inside `@container` apply only to its **descendants**, never to the container element itself. Allowing it to style itself would be circular — the new styles could change the very size the query tested. The fix is always the same shape: one wrapper carries `container-type`, the queried styles live on the child.",
+            "ru": "Размерный запрос вычисляется по контейнеру, но объявления внутри `@container` применяются только к его **потомкам**, а не к самому контейнеру. Иначе получилась бы циклическая зависимость: новые стили могли бы изменить ту самую ширину, которую проверил запрос. Фикс всегда одной формы: обёртка несёт `container-type`, а стили из запроса живут на потомке."
+        }
+    },
+    {
+        "id": "css-complete-container-001",
+        "type": "code-completion",
+        "category": "css",
+        "difficulty": "medium",
+        "tags": ["container-queries", "responsive", "feature-queries"],
+        "question": {
+            "en": "Complete the setup: the wrapper is a **named** query container on the inline axis, and a feature query supplies a viewport-based fallback where container queries are unsupported.",
+            "ru": "Дополните настройку: обёртка — **именованный** query-контейнер по inline-оси, а feature query даёт fallback через viewport там, где container queries не поддерживаются."
+        },
+        "code": ".card-wrap {\n  container-type: __BLANK__;\n  container-name: card;\n}\n\n@__BLANK__ card (inline-size > 30rem) {\n  .card { grid-template-columns: 1fr 1fr; }\n}\n\n@__BLANK__ not (container-type: inline-size) {\n  @media (min-width: 60rem) {\n    .card { grid-template-columns: 1fr 1fr; }\n  }\n}",
+        "blanks": ["inline-size", "container", "supports"],
+        "lang": "css",
+        "referenceAnswer": "container-type: inline-size applies layout, style and inline-size containment, so the wrapper's inline size comes from its parent and can be queried; container-name lets @container card target this specific ancestor instead of the nearest query container. The fallback needs @supports not (container-type: inline-size), because an unsupporting engine simply ignores the whole @container block — without the feature query the media-query rules would also apply in supporting browsers and fight the container query.",
+        "explanation": {
+            "en": "Naming a container matters as soon as containers nest: an unnamed `@container` resolves against the nearest ancestor container, which may not be the one you meant. The `@supports` guard is the honest way to ship a fallback — `@container` blocks are dropped by parsers that do not know them, so without the guard both sets of rules would apply in modern browsers. In practice container queries have been Newly available since February 2023 and Widely available since August 2025, so this fallback is only for genuinely old engines.",
+            "ru": "Имя контейнера начинает играть роль, как только контейнеры вкладываются: безымянный `@container` резолвится на ближайший контейнер-предок, а это не всегда тот, который вы имели в виду. Обёртка в `@supports` — честный способ дать fallback: блок `@container` просто игнорируется парсером, который его не знает, и без гварда оба набора правил применялись бы в современных браузерах. На практике container queries — Newly available с февраля 2023, Widely available — с августа 2025, так что fallback тут нужен только под совсем старые движки."
+        }
+    },
+    {
+        "id": "css-subgrid-001",
+        "type": "single-choice",
+        "category": "css",
+        "difficulty": "medium",
+        "tags": ["grid", "subgrid", "layout"],
+        "question": {
+            "en": "Three cards sit in one row of a page grid; each card holds a title, a body and a footer, spans three parent rows and sets `grid-template-rows: subgrid`. What does that buy over a nested `display: grid`?",
+            "ru": "Три карточки стоят в одном ряду общей сетки; в каждой — заголовок, тело и футер, карточка занимает три строки родителя и объявляет `grid-template-rows: subgrid`. Что это даёт по сравнению с вложенным `display: grid`?"
+        },
+        "options": [
+            {
+                "en": "Each card gets its own row tracks, sized to the tallest card in the row",
+                "ru": "Каждая карточка получает свои строки, размер которых берётся от самой высокой карточки в ряду"
+            },
+            {
+                "en": "The cards inherit the parent's `gap` but still size their rows independently",
+                "ru": "Карточки наследуют `gap` родителя, но строки всё равно считают независимо"
+            },
+            {
+                "en": "The cards stretch to equal height, which a nested grid cannot achieve",
+                "ru": "Карточки растягиваются до одинаковой высоты, чего вложенный grid не умеет"
+            },
+            {
+                "en": "All three cards share the parent's row tracks, so their sections line up",
+                "ru": "Все три карточки используют строки родителя, поэтому их секции выравниваются"
+            }
+        ],
+        "correct": 3,
+        "explanation": {
+            "en": "A nested grid builds its own track list, so each card sizes its rows from its own content and nothing aligns between siblings — equal card height (which flex/grid stretch already gives) is not the same as aligned internal rows. `subgrid` makes the child adopt the parent's tracks in that axis, inheriting its `gap` and line names while still being free to add its own. It has been Newly available since September 2023, and Widely available since March 2026 — so under a widely-available policy it needs no fallback as of this year.",
+            "ru": "Вложенный grid строит собственный список треков, поэтому каждая карточка считает строки по своему контенту и между соседями ничего не выравнивается — одинаковая высота карточек (её и так даёт stretch) это не то же самое, что выровненные внутренние строки. `subgrid` заставляет потомка взять треки родителя по этой оси вместе с его `gap` и именами линий, при этом свои имена линий добавить всё ещё можно. Newly available с сентября 2023, Widely available — с марта 2026, так что под политику widely фолбэк не нужен только с этого года."
+        }
+    },
+    {
+        "id": "css-popover-001",
+        "type": "multi-choice",
+        "category": "css",
+        "difficulty": "medium",
+        "tags": ["popover", "top-layer", "accessibility"],
+        "question": {
+            "en": "A dropdown must close on outside click and on Escape and must layer above everything, with no focus-trap code. Which of these does `popover=\"auto\"` give you for free?",
+            "ru": "Дропдаун должен закрываться по клику снаружи и по Escape и лежать поверх всего, без кода фокус-ловушки. Что из этого `popover=\"auto\"` даёт из коробки?"
+        },
+        "options": [
+            {
+                "en": "Rendering in the top layer, above any `z-index` and any clipping ancestor",
+                "ru": "Отрисовку в top layer — поверх любого `z-index` и любого обрезающего предка"
+            },
+            {
+                "en": "Light dismiss: a click outside the popover closes it",
+                "ru": "Light dismiss: клик снаружи закрывает поповер"
+            },
+            {
+                "en": "Closing on the Escape key",
+                "ru": "Закрытие по клавише Escape"
+            },
+            {
+                "en": "A focus trap and an inert background — nothing outside is reachable",
+                "ru": "Фокус-ловушку и inert-фон — снаружи ничего не доступно"
+            },
+            {
+                "en": "Placement next to the button that invoked it",
+                "ru": "Позиционирование рядом с кнопкой, которая его открыла"
+            }
+        ],
+        "correct": [0, 1, 2],
+        "explanation": {
+            "en": "Popovers are **always non-modal**: the top layer, light dismiss and Escape are built in, but the rest of the page stays interactive and focus is never contained — `<dialog>.showModal()` is the API that makes the background inert. Placement is a separate problem the attribute does not touch: you need CSS anchor positioning, Baseline Newly available since January 2026, so a commercial project still ships an absolute-positioning or JS fallback for it.",
+            "ru": "Поповеры **всегда немодальные**: top layer, light dismiss и Escape встроены, но остальная страница остаётся интерактивной, а фокус не удерживается — inert-фон делает `<dialog>.showModal()`. Позиционирование — отдельная задача, атрибут её не решает: нужен CSS anchor positioning, Baseline Newly available с января 2026, так что в коммерческом проекте под него всё ещё держат fallback на absolute или JS."
+        }
+    },
+    {
+        "id": "css-dialog-modal-001",
+        "type": "single-choice",
+        "category": "css",
+        "difficulty": "easy",
+        "tags": ["dialog", "popover", "accessibility", "top-layer"],
+        "question": {
+            "en": "When is `<dialog>` with `showModal()` the right call instead of `popover=\"auto\"` on the same element?",
+            "ru": "Когда для оверлея правильнее `<dialog>` с `showModal()`, а не `popover=\"auto\"` на том же элементе?"
+        },
+        "options": [
+            {
+                "en": "When the page behind must go inert and focus must stay inside the overlay",
+                "ru": "Когда страница позади должна стать inert, а фокус — остаться внутри оверлея"
+            },
+            {
+                "en": "When the overlay must paint above a clipping ancestor and a high `z-index`",
+                "ru": "Когда оверлей должен рисоваться поверх обрезающего предка и высокого `z-index`"
+            },
+            {
+                "en": "When the overlay must close on the Escape key without extra JavaScript",
+                "ru": "Когда оверлей должен закрываться по Escape без дополнительного JavaScript"
+            },
+            {
+                "en": "When the overlay must close on a click outside it without extra JavaScript",
+                "ru": "Когда оверлей должен закрываться по клику снаружи без дополнительного JavaScript"
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "Both render in the top layer, so `z-index` and clipping ancestors stop mattering either way, and both close on Escape. The real difference is modality: `showModal()` makes everything outside inert and keeps focus in the dialog, which a popover by definition never does. Light dismiss goes the other way — it is built into `popover=auto`, while a dialog needs the newer `closedby=\"any\"` attribute, which is not Baseline yet.",
+            "ru": "Оба рисуются в top layer, так что `z-index` и обрезающие предки перестают иметь значение в любом случае, и оба закрываются по Escape. Разница в модальности: `showModal()` делает всё снаружи inert и удерживает фокус внутри, чего поповер по определению не делает. Light dismiss — наоборот: он встроен в `popover=auto`, а диалогу нужен более новый атрибут `closedby=\"any\"`, который пока не Baseline."
+        }
+    },
+    {
+        "id": "css-bug-view-transition-001",
+        "type": "bug-finding",
+        "category": "css",
+        "difficulty": "hard",
+        "tags": ["view-transitions", "react", "async"],
+        "question": {
+            "en": "Find the bug in this React component: the route swap happens but nothing animates — the view transition is a no-op:",
+            "ru": "Найдите баг в этом React-компоненте: контент меняется, но ничего не анимируется — view transition отрабатывает вхолостую:"
+        },
+        "code": "function Gallery({ id, setId }) {\n  const open = (next) => {\n    document.startViewTransition(() => {\n      setId(next);\n    });\n  };\n\n  return <Grid current={id} onSelect={open} />;\n}",
+        "lang": "jsx",
+        "correct": "The callback returns before React has committed the new DOM, so the API takes the 'after' snapshot of an unchanged page and there is nothing to animate",
+        "referenceAnswer": "startViewTransition captures the 'after' state as soon as the callback (or the promise it returns) settles, but a React setState is asynchronous, so at that moment the DOM is still the old one. The direct fix is to force the commit inside the callback:\n\n```jsx\nimport { flushSync } from 'react-dom';\n\ndocument.startViewTransition(() => {\n  flushSync(() => setId(next));\n});\n```\n\nflushSync comes from react-dom, not from react, and forces a synchronous re-render so the new DOM is in place before the second snapshot. On React 19.3 or newer (stable since September 2026) you can instead let React drive the transition:\n\n```jsx\n<ViewTransition>\n  <Grid current={id} />\n</ViewTransition>\n// and update inside a transition:\nstartTransition(() => setId(next));\n```\n\nViewTransition animates updates made inside startTransition, a useDeferredValue change or a Suspense reveal — a plain setState stays urgent and does not animate.",
+        "explanation": {
+            "en": "`document.startViewTransition()` snapshots the page, runs your callback, and then snapshots again once the callback settles; whatever DOM mutation you want animated must be finished by then. React batches state updates, so `setId` has changed nothing yet when the callback returns and both snapshots are identical. The portable fix is to commit synchronously with `flushSync` (imported from `react-dom`) inside the callback; on React 19.3 and newer you can instead hand the problem to `<ViewTransition>` and update inside a transition.",
+            "ru": "`document.startViewTransition()` снимает снапшот страницы, выполняет колбэк и снимает второй снапшот, как только колбэк завершился; к этому моменту нужная мутация DOM уже должна произойти. React батчит обновления состояния, поэтому на выходе из колбэка `setId` ещё ничего не изменил, и оба снапшота одинаковые. Переносимый фикс — коммит синхронно через `flushSync` (импорт из `react-dom`) внутри колбэка; на React 19.3 и новее можно вместо этого отдать задачу `<ViewTransition>` и обновлять состояние внутри transition."
+        }
+    },
+    {
+        "id": "css-view-transition-001",
+        "type": "single-choice",
+        "category": "css",
+        "difficulty": "medium",
+        "tags": ["view-transitions", "animation"],
+        "question": {
+            "en": "In a same-document view transition the page should cross-fade, except the hero image, which must animate from its old position and size to the new one. What is the minimum needed?",
+            "ru": "В same-document view transition страница должна кросс-фейдиться, а hero-картинка — переезжать из старой позиции и размера в новые. Что для этого минимально нужно?"
+        },
+        "options": [
+            {
+                "en": "Wrap the hero in an element with `contain: paint` so it is snapshotted on its own",
+                "ru": "Обернуть hero в элемент с `contain: paint`, чтобы он снимался отдельным снапшотом"
+            },
+            {
+                "en": "Write keyframes for `::view-transition-old(root)` and `::view-transition-new(root)`",
+                "ru": "Написать keyframes для `::view-transition-old(root)` и `::view-transition-new(root)`"
+            },
+            {
+                "en": "Call `startViewTransition` a second time for the hero once the first one is `ready`",
+                "ru": "Вызвать `startViewTransition` второй раз для hero, когда первый дойдёт до `ready`"
+            },
+            {
+                "en": "Give the hero the same `view-transition-name` in the old and in the new DOM",
+                "ru": "Дать hero одинаковый `view-transition-name` в старом и в новом DOM"
+            }
+        ],
+        "correct": 3,
+        "explanation": {
+            "en": "Everything without a `view-transition-name` is captured as a single snapshot pair called `root`, which is why the default looks like a full-page cross-fade. A named element is lifted out into its own `::view-transition-group(name)` → `::view-transition-image-pair(name)` → `::view-transition-old(name)` / `::view-transition-new(name)` tree, and the group animates between the two positions and sizes for you. The name must be unique among rendered elements: two of them at once make `ready` reject and the transition is skipped.",
+            "ru": "Всё, у чего нет `view-transition-name`, снимается одной парой снапшотов с именем `root` — отсюда и дефолтный кросс-фейд всей страницы. Именованный элемент выносится в собственное дерево `::view-transition-group(name)` → `::view-transition-image-pair(name)` → `::view-transition-old(name)` / `::view-transition-new(name)`, и группа сама анимируется между двумя позициями и размерами. Имя должно быть уникальным среди отрисованных элементов: если их два одновременно, `ready` реджектится и переход пропускается."
+        }
+    },
+    {
+        "id": "css-complete-view-transition-001",
+        "type": "code-completion",
+        "category": "css",
+        "difficulty": "medium",
+        "tags": ["view-transitions", "mpa", "navigation"],
+        "question": {
+            "en": "Complete the opt-in that enables a **cross-document** view transition for same-origin navigations. The same block must be present in both the outgoing and the incoming document.",
+            "ru": "Дополните opt-in, который включает **cross-document** view transition для same-origin навигаций. Такой же блок должен быть в обоих документах — и в том, откуда уходим, и в том, куда приходим."
+        },
+        "code": "@__BLANK__ {\n  navigation: __BLANK__;\n}\n\n::view-transition-old(root),\n::view-transition-new(root) {\n  animation-duration: 300ms;\n}",
+        "blanks": ["view-transition", "auto"],
+        "lang": "css",
+        "referenceAnswer": "@view-transition { navigation: auto; } opts a document into cross-document view transitions. Both pages must carry it and they must be same-origin (scheme, host and port); the outgoing page's opt-in alone does nothing. navigation: auto covers traverse, push and replace navigations that are not user-initiated through browser UI; navigation: none is the default. Use the pageswap and pagereveal events when either side has to set view-transition-name values before its snapshot is taken.",
+        "explanation": {
+            "en": "Cross-document transitions are pure CSS — there is no `startViewTransition` call, the browser runs the transition as part of the navigation. Because two documents are involved, both must opt in and both must be same-origin; one-sided opt-in silently gives you the old hard cut. Shared elements still work the same way: a matching `view-transition-name` on both pages makes the browser animate between them.",
+            "ru": "Cross-document переходы — это чистый CSS: никакого вызова `startViewTransition`, браузер проводит переход в рамках самой навигации. Документов два, поэтому opt-in нужен с обеих сторон и обе страницы должны быть same-origin; односторонний opt-in молча оставит обычный резкий переход. Shared elements работают так же: совпадающий `view-transition-name` на обеих страницах заставляет браузер анимировать переход между ними."
+        }
     }
 ]
