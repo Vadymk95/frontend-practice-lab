@@ -1126,8 +1126,8 @@
         "difficulty": "hard",
         "tags": ["caching", "fetch", "data-cache"],
         "question": {
-            "en": "Which of the following actions cause a Next.js route to render **dynamically** (per-request) instead of statically? (Select all that apply)",
-            "ru": "Какие из перечисленных действий приводят к тому, что маршрут Next.js рендерится **динамически** (на каждый запрос), а не статически? (Выберите все подходящие варианты)"
+            "en": "Without Cache Components (`cacheComponents` not enabled), which of the following actions cause a Next.js route to render **dynamically** (per-request) instead of statically? (Select all that apply)",
+            "ru": "Без Cache Components (флаг `cacheComponents` не включён): какие из перечисленных действий приводят к тому, что маршрут Next.js рендерится **динамически** (на каждый запрос), а не статически? (Выберите все подходящие варианты)"
         },
         "explanation": {
             "en": "Next.js opts a route into dynamic rendering when it detects inherently request-specific data: `cookies()` and `headers()` read per-request values, `cache: 'no-store'` disables caching, and `searchParams` varies per URL. `export const dynamic = 'force-static'` does the opposite — it forces static rendering even if dynamic APIs are used (returning empty values for them).",
@@ -1364,8 +1364,8 @@
         "difficulty": "hard",
         "tags": ["rendering", "ssg", "ssr", "isr", "app-router"],
         "question": {
-            "en": "In the Next.js App Router, which of the following correctly describe how a route's rendering mode is determined? (Select all that apply)",
-            "ru": "В Next.js App Router какие из утверждений корректно описывают, как определяется режим рендеринга маршрута? (Выберите все подходящие варианты)"
+            "en": "Without Cache Components (`cacheComponents` not enabled), which of the following correctly describe how a route's rendering mode is determined in the Next.js App Router? (Select all that apply)",
+            "ru": "Без Cache Components (флаг `cacheComponents` не включён): какие из утверждений корректно описывают, как определяется режим рендеринга маршрута в Next.js App Router? (Выберите все подходящие варианты)"
         },
         "explanation": {
             "en": "Next.js defaults to static rendering and automatically upgrades to dynamic when it detects dynamic functions (`cookies()`, `headers()`, `searchParams`) or uncached data. `force-dynamic` overrides this detection. ISR is triggered by `revalidate` on `fetch` calls. Importing a Client Component does NOT make the page fully client-rendered — the parent Server Component still renders on the server; only the Client Component subtree is hydrated.",
@@ -1458,5 +1458,471 @@
             }
         ],
         "correct": [0, 2, 3]
+    },
+    {
+        "id": "next-async-request-apis-001",
+        "type": "single-choice",
+        "category": "nextjs",
+        "difficulty": "medium",
+        "tags": ["next-16", "async-params", "breaking-changes", "app-router"],
+        "question": {
+            "en": "After upgrading to Next.js 16 this page no longer compiles. What is the minimal correct fix?",
+            "ru": "После апгрейда на Next.js 16 эта страница перестала компилироваться. Каков минимальный корректный фикс?"
+        },
+        "code": "// app/blog/[slug]/page.tsx\nexport default function Page({ params }: { params: { slug: string } }) {\n  return <h1>{params.slug}</h1>\n}",
+        "lang": "tsx",
+        "options": [
+            {
+                "en": "Type `params` as a Promise and await it in an async component: `const { slug } = await params`",
+                "ru": "Типизировать `params` как Promise и заawait'ить его в async-компоненте: `const { slug } = await params`"
+            },
+            {
+                "en": "Add `export const dynamic = 'force-dynamic'` — on a dynamically rendered route `params` stays synchronous",
+                "ru": "Добавить `export const dynamic = 'force-dynamic'` — на динамически рендерящемся роуте `params` остаётся синхронным"
+            },
+            {
+                "en": "Read the segment from a `headers()` call instead, because `params` no longer reaches page components",
+                "ru": "Читать сегмент через `headers()`, потому что `params` больше не доходит до компонентов страницы"
+            },
+            {
+                "en": "Run `npx next typegen` and switch to `PageProps<'/blog/[slug]'>` — the generated type restores synchronous access",
+                "ru": "Выполнить `npx next typegen` и перейти на `PageProps<'/blog/[slug]'>` — сгенерированный тип вернёт синхронный доступ"
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "Next.js 15 made `cookies`, `headers`, `draftMode`, `params` and `searchParams` async with a temporary synchronous fallback; Next.js 16 removed synchronous access entirely, so the prop is a Promise and the component must await it. `next typegen` only generates the `PageProps` / `LayoutProps` / `RouteContext` helpers — it types the Promise, it does not remove the await. The mechanical migration is `npx @next/codemod@canary next-async-request-api .`",
+            "ru": "В Next.js 15 `cookies`, `headers`, `draftMode`, `params` и `searchParams` стали асинхронными с временной синхронной совместимостью; в Next.js 16 синхронный доступ убран полностью — проп это Promise, и компонент обязан его заawait'ить. `next typegen` только генерирует хелперы `PageProps` / `LayoutProps` / `RouteContext`: он типизирует Promise, но не отменяет await. Механическая миграция — `npx @next/codemod@canary next-async-request-api .`"
+        }
+    },
+    {
+        "id": "next-proxy-runtime-001",
+        "type": "single-choice",
+        "category": "nextjs",
+        "difficulty": "medium",
+        "tags": ["next-16", "proxy", "middleware", "next-config"],
+        "question": {
+            "en": "You migrate `middleware.ts` to `proxy.ts` on Next.js 16. Your `next.config.ts` sets `skipMiddlewareUrlNormalize: true`. What does the migration require of that flag?",
+            "ru": "Вы мигрируете `middleware.ts` в `proxy.ts` на Next.js 16. В `next.config.ts` стоит `skipMiddlewareUrlNormalize: true`. Что миграция требует от этого флага?"
+        },
+        "options": [
+            {
+                "en": "Nothing — config flags kept their names, only the file and the exported function were renamed",
+                "ru": "Ничего — флаги конфига сохранили имена, переименованы только файл и экспортируемая функция"
+            },
+            {
+                "en": "It has to be renamed to `skipProxyUrlNormalize`; the v16 codemod rewrites such flags",
+                "ru": "Его нужно переименовать в `skipProxyUrlNormalize`; кодмод v16 переписывает такие флаги"
+            },
+            {
+                "en": "It has to move out of the config file and into the `config` export of `proxy.ts` itself",
+                "ru": "Его нужно вынести из файла конфига в экспорт `config` внутри самого `proxy.ts`"
+            },
+            {
+                "en": "It was removed in v16 — URL normalisation can no longer be skipped before the handler runs",
+                "ru": "В v16 он удалён — пропустить нормализацию URL до запуска обработчика больше нельзя"
+            }
+        ],
+        "correct": 1,
+        "explanation": {
+            "en": "Renaming the file and the exported function is only part of the migration: configuration flags that carry the `middleware` name are renamed as well, so `skipMiddlewareUrlNormalize` becomes `skipProxyUrlNormalize`. The v16 `upgrade` codemod updates those flags along with the file — `npx @next/codemod@canary upgrade latest`. The flag stays in the Next config: it was never part of the file's own `config` export, and skipping URL normalisation is still supported.",
+            "ru": "Переименование файла и экспортируемой функции — только часть миграции: флаги конфигурации, в имени которых есть `middleware`, тоже переименованы, поэтому `skipMiddlewareUrlNormalize` становится `skipProxyUrlNormalize`. Кодмод `upgrade` из v16 обновляет такие флаги вместе с файлом — `npx @next/codemod@canary upgrade latest`. Сам флаг остаётся в конфиге Next: он никогда не был частью экспорта `config` внутри файла, а пропуск нормализации URL по-прежнему поддерживается."
+        }
+    },
+    {
+        "id": "next-update-tag-001",
+        "type": "single-choice",
+        "category": "nextjs",
+        "difficulty": "medium",
+        "tags": ["next-16", "updateTag", "revalidateTag", "server-actions", "caching"],
+        "question": {
+            "en": "A Server Action updates a profile and then `redirect`s to `/profile`, which renders a `'use cache'` function tagged `user-123`. The user still lands on the old name. Which call fixes it?",
+            "ru": "Server Action обновляет профиль и делает `redirect` на `/profile`, где рендерится функция с `'use cache'` и тегом `user-123`. Пользователь всё равно попадает на старое имя. Какой вызов это чинит?"
+        },
+        "options": [
+            {
+                "en": "`refresh()` — it refreshes the client router from inside the Server Action",
+                "ru": "`refresh()` — он обновляет клиентский роутер прямо из Server Action"
+            },
+            {
+                "en": "`revalidateTag('user-123', 'max')` — it marks the entry stale and refetches it in the background",
+                "ru": "`revalidateTag('user-123', 'max')` — он помечает запись устаревшей и перезапрашивает её в фоне"
+            },
+            {
+                "en": "`updateTag('user-123')` — it expires the entry so the next request waits for fresh data",
+                "ru": "`updateTag('user-123')` — он немедленно инвалидирует запись, и следующий запрос дожидается свежих данных"
+            },
+            {
+                "en": "`cacheLife('seconds')` on the cached function — the entry then expires before the redirect lands",
+                "ru": "`cacheLife('seconds')` на кэширующей функции — тогда запись протухнет раньше, чем отработает редирект"
+            }
+        ],
+        "correct": 2,
+        "explanation": {
+            "en": "`updateTag` is the read-your-own-writes API: it is Server-Action-only and expires the tagged data immediately, so the next request waits for fresh data instead of being served stale content. `revalidateTag(tag, 'max')` is explicitly stale-while-revalidate — it hands this user exactly the stale name. `refresh()` re-renders the client router but expires no cache entry, and shortening `cacheLife` is a race, not a guarantee.",
+            "ru": "`updateTag` — это API для read-your-own-writes: он доступен только в Server Actions и сразу помечает данные по тегу протухшими, поэтому следующий запрос дожидается свежих данных, а не получает stale. `revalidateTag(tag, 'max')` — это как раз stale-while-revalidate, то есть он и отдаст пользователю старое имя. `refresh()` перерисовывает клиентский роутер, но не инвалидирует ни одной записи кэша, а укорачивание `cacheLife` — это гонка, а не гарантия."
+        }
+    },
+    {
+        "id": "next-use-cache-constraints-001",
+        "type": "single-choice",
+        "category": "nextjs",
+        "difficulty": "hard",
+        "tags": ["next-16", "use-cache", "cache-components", "cookies", "failure-modes"],
+        "question": {
+            "en": "With `cacheComponents: true`, a function marked `'use cache'` calls a helper, and that helper does `await cookies()`. What happens?",
+            "ru": "При `cacheComponents: true` функция с `'use cache'` вызывает хелпер, а внутри хелпера — `await cookies()`. Что произойдёт?"
+        },
+        "options": [
+            {
+                "en": "The cookie value is folded into the cache key, so every session simply gets its own entry",
+                "ru": "Значение куки попадает в ключ кэша, так что у каждой сессии просто будет своя запись"
+            },
+            {
+                "en": "It works — the restriction only applies to a direct `cookies()` call in the cached function body",
+                "ru": "Всё работает — ограничение действует только на прямой вызов `cookies()` в теле кэшируемой функции"
+            },
+            {
+                "en": "The prerender stalls and the build fails after 50 seconds with a cache-fill timeout",
+                "ru": "Пререндер зависает, и сборка падает через 50 секунд с таймаутом заполнения кэша"
+            },
+            {
+                "en": "It throws `next-request-in-use-cache` — the restriction follows the call stack into the helper",
+                "ru": "Бросается `next-request-in-use-cache` — ограничение следует по стеку вызовов и в хелпер тоже"
+            }
+        ],
+        "correct": 3,
+        "explanation": {
+            "en": "A cached scope cannot touch request-time APIs, and the ban follows the call stack: a helper that reads `cookies()`, `headers()` or `searchParams` fails with the same `next-request-in-use-cache` error. On a dynamically rendered route this surfaces when the route runs, so it can pass `next build` and only blow up under `next start`. The 50-second timeout is a different failure — it happens when a request-time promise is awaited inside the cached scope. The fix is to read the cookie outside and pass the value in as an argument, or to use `'use cache: private'`.",
+            "ru": "Кэшируемая область не имеет права трогать request-time API, и запрет распространяется по стеку вызовов: хелпер, читающий `cookies()`, `headers()` или `searchParams`, падает с той же ошибкой `next-request-in-use-cache`. На динамически рендерящемся роуте это вылезает во время выполнения — то есть `next build` может пройти, а упадёт уже под `next start`. Таймаут на 50 секунд — это другой сбой: он случается, когда внутри кэшируемой области ждут promise с request-time данными. Чинится чтением куки снаружи и передачей значения аргументом либо директивой `'use cache: private'`."
+        }
+    },
+    {
+        "id": "next-static-shell-001",
+        "type": "single-choice",
+        "category": "nextjs",
+        "difficulty": "hard",
+        "tags": ["ppr", "static-shell", "suspense", "cache-components", "streaming"],
+        "question": {
+            "en": "`slug` here is not covered by `generateStaticParams` and `cacheComponents` is on. What changes if the `await` of `params` moves into a `<Suspense>`-wrapped child instead?",
+            "ru": "`slug` здесь не покрыт `generateStaticParams`, `cacheComponents` включён. Что изменится, если перенести `await params` в дочерний компонент под `<Suspense>`?"
+        },
+        "code": "// app/shop/[slug]/layout.tsx\nexport default async function Layout({ children, params }: LayoutProps<'/shop/[slug]'>) {\n  const { slug } = await params\n\n  return (\n    <div>\n      <Sidebar />\n      <h1>{slug}</h1>\n      {children}\n    </div>\n  )\n}",
+        "lang": "tsx",
+        "options": [
+            {
+                "en": "`<Sidebar />`, `children` and the fallback join the static shell; only the heading streams at request time",
+                "ru": "`<Sidebar />`, `children` и fallback попадают в статическую оболочку; в рантайме стримится только заголовок"
+            },
+            {
+                "en": "Nothing changes — awaiting `params` anywhere in the subtree opts the entire route into dynamic rendering",
+                "ru": "Ничего не меняется — await `params` в любом месте поддерева переводит весь роут в динамический рендеринг"
+            },
+            {
+                "en": "The layout is prerendered, but `children` is held out of the shell until the param resolves at request time",
+                "ru": "Лейаут пререндерится, но `children` не попадает в оболочку, пока параметр не разрешится в рантайме"
+            },
+            {
+                "en": "Every visit is served the App Shell instead, including the paths listed by `generateStaticParams`",
+                "ru": "Любой визит начинает получать App Shell, включая пути, перечисленные в `generateStaticParams`"
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "Under Cache Components a runtime access no longer poisons the whole route — it carves a hole at its own Suspense boundary, and everything outside that boundary is prerendered. So the deeper the `await` sits, the larger the static shell: moving the boundary higher would pull `<Sidebar />` and `children` out of the shell and make the perceived load worse. The layout itself can stop being `async` and pass the `params` promise down.",
+            "ru": "При Cache Components обращение к request-time данным больше не отравляет весь роут — оно вырезает дырку ровно на своей границе Suspense, а всё за её пределами пререндерится. Поэтому чем глубже сидит `await`, тем больше статическая оболочка: поднять границу выше значило бы вынести `<Sidebar />` и `children` из оболочки и ухудшить ощущаемую загрузку. Сам лейаут при этом перестаёт быть `async` и просто прокидывает promise `params` вниз."
+        }
+    },
+    {
+        "id": "next-static-export-limits-001",
+        "type": "single-choice",
+        "category": "nextjs",
+        "difficulty": "medium",
+        "tags": ["static-export", "deployment", "next-image", "image-loader"],
+        "question": {
+            "en": "Which of these still works in a build with `output: 'export'`?",
+            "ru": "Что из перечисленного продолжает работать при сборке с `output: 'export'`?"
+        },
+        "options": [
+            {
+                "en": "Proxy (`proxy.ts`) that redirects unauthenticated visitors to `/login` before the page renders",
+                "ru": "Proxy (`proxy.ts`), который редиректит неаутентифицированных посетителей на `/login` до рендера страницы"
+            },
+            {
+                "en": "`next/image` with `loader: 'custom'` and a `loaderFile` pointing at an image CDN",
+                "ru": "`next/image` с `loader: 'custom'` и `loaderFile`, указывающим на CDN картинок"
+            },
+            {
+                "en": "`next/image` with the default loader, optimising the image when the request comes in",
+                "ru": "`next/image` с дефолтным лоадером, оптимизирующий картинку в момент прихода запроса"
+            },
+            {
+                "en": "A `POST` Route Handler that writes the submitted form body to the CMS at request time",
+                "ru": "`POST`-роут-хендлер, который в момент запроса пишет тело отправленной формы в CMS"
+            }
+        ],
+        "correct": 1,
+        "explanation": {
+            "en": "A static export writes one HTML file per route at build time, so everything that needs a server at request time is out: Proxy, `cookies()`, config rewrites, redirects and headers, ISR, Server Actions, Draft Mode, intercepting routes, and dynamic routes without `generateStaticParams`. Route Handlers survive for `GET` only, so a `POST` handler is impossible. Image Optimization is the nuanced one: the built-in optimiser needs a server, so the default `loader` is unsupported, while `images: { loader: 'custom', loaderFile: './my-loader.ts' }` keeps `next/image` working by handing URL construction to a service such as Cloudinary.",
+            "ru": "Статический экспорт на этапе сборки пишет по одному HTML-файлу на роут, поэтому всё, чему нужен сервер в момент запроса, отпадает: Proxy, `cookies()`, rewrites/redirects/headers из конфига, ISR, Server Actions, Draft Mode, intercepting-роуты и динамические роуты без `generateStaticParams`. Роут-хендлеры остаются только для `GET`, так что `POST`-хендлер невозможен. С оптимизацией картинок тоньше: встроенному оптимизатору нужен сервер, поэтому дефолтный `loader` не поддерживается, а `images: { loader: 'custom', loaderFile: './my-loader.ts' }` оставляет `next/image` рабочим, отдавая построение URL сервису вроде Cloudinary."
+        }
+    },
+    {
+        "id": "next-turbopack-default-001",
+        "type": "single-choice",
+        "category": "nextjs",
+        "difficulty": "easy",
+        "tags": ["next-16", "turbopack", "build", "breaking-changes"],
+        "question": {
+            "en": "After upgrading to Next.js 16, `next build` fails on a project whose `next.config.js` contains a `webpack` option added by a plugin. What is going on?",
+            "ru": "После апгрейда на Next.js 16 `next build` падает на проекте, где в `next.config.js` есть опция `webpack`, добавленная плагином. Что происходит?"
+        },
+        "options": [
+            {
+                "en": "Only `next dev` switched to Turbopack; `next build` still runs webpack, so the config cannot be the cause",
+                "ru": "На Turbopack перешёл только `next dev`; `next build` по-прежнему webpack, так что конфиг не может быть причиной"
+            },
+            {
+                "en": "The `webpack` option moved under `experimental.turbopack` and simply has to be relocated there",
+                "ru": "Опция `webpack` переехала внутрь `experimental.turbopack`, её достаточно просто перенести туда"
+            },
+            {
+                "en": "Turbopack is the default builder in 16 and fails the build on a webpack config; `--webpack` opts out",
+                "ru": "В 16 Turbopack — сборщик по умолчанию, и он намеренно валит сборку при наличии webpack-конфига; выйти можно флагом `--webpack`"
+            },
+            {
+                "en": "Turbopack silently ignores any webpack config, so the real failure has to come from somewhere else",
+                "ru": "Turbopack молча игнорирует любой webpack-конфиг, значит реальная причина падения где-то в другом месте"
+            }
+        ],
+        "correct": 2,
+        "explanation": {
+            "en": "Turbopack is stable and the default for both `next dev` and `next build` in Next.js 16, and a webpack config present at build time fails the build deliberately rather than being silently ignored — the point is to surface the misconfiguration. Three ways out: `next build --turbopack` to ignore the config, migrate the options to the now top-level `turbopack` key (it left `experimental`), or `next build --webpack` to keep webpack.",
+            "ru": "В Next.js 16 Turbopack стабилен и используется по умолчанию и для `next dev`, и для `next build`, а найденный webpack-конфиг намеренно валит сборку вместо тихого игнора — чтобы вы увидели рассинхрон конфигурации. Выходов три: `next build --turbopack` (игнорировать конфиг), перенести опции в ключ `turbopack` верхнего уровня (он вышел из `experimental`) или `next build --webpack`, чтобы остаться на webpack."
+        }
+    },
+    {
+        "id": "next-cache-components-001",
+        "type": "single-choice",
+        "category": "nextjs",
+        "difficulty": "easy",
+        "tags": ["next-16", "cache-components", "rendering", "ppr"],
+        "question": {
+            "en": "What does `cacheComponents: true` change about the default rendering model in the App Router?",
+            "ru": "Что меняет `cacheComponents: true` в дефолтной модели рендеринга App Router?"
+        },
+        "options": [
+            {
+                "en": "Every route becomes static by default again, and a route opts out with `export const dynamic = 'force-dynamic'`",
+                "ru": "Каждый роут снова становится статическим по умолчанию, а выйти из этого можно через `export const dynamic = 'force-dynamic'`"
+            },
+            {
+                "en": "`fetch` responses become cached by default again, the way they were before Next.js 15",
+                "ru": "Ответы `fetch` снова кэшируются по умолчанию, как это было до Next.js 15"
+            },
+            {
+                "en": "It only unlocks the `cacheLife` and `cacheTag` helpers, while rendering behaviour stays as it was",
+                "ru": "Он лишь открывает хелперы `cacheLife` и `cacheTag`, а поведение рендеринга остаётся прежним"
+            },
+            {
+                "en": "Data fetching is dynamic by default; you opt into caching with `use cache` per component or function",
+                "ru": "Загрузка данных по умолчанию динамическая; в кэш вы входите явно через `use cache` на уровне компонента или функции"
+            }
+        ],
+        "correct": 3,
+        "explanation": {
+            "en": "Cache Components inverts the old defaults: data fetching is dynamic and caching is an explicit opt-in via `use cache` at page, component or function level. It also makes Partial Prerendering the default — Next.js prerenders a static shell served immediately while dynamic content streams in — which is why `experimental.ppr`, `experimental.dynamicIO` and `experimental.useCache` were all folded into this one flag in v16.",
+            "ru": "Cache Components переворачивает старые умолчания: загрузка данных динамическая, а кэширование — явный opt-in через `use cache` на уровне страницы, компонента или функции. Заодно Partial Prerendering становится поведением по умолчанию: Next.js пререндерит статическую оболочку, которая отдаётся сразу, а динамика достримливается — поэтому в v16 `experimental.ppr`, `experimental.dynamicIO` и `experimental.useCache` схлопнули в один этот флаг."
+        }
+    },
+    {
+        "id": "next-v16-removals-001",
+        "type": "multi-choice",
+        "category": "nextjs",
+        "difficulty": "medium",
+        "tags": ["next-16", "breaking-changes", "migration", "config"],
+        "question": {
+            "en": "Which of these still work after upgrading a project to Next.js 16? (Select all that apply)",
+            "ru": "Что из перечисленного продолжает работать после апгрейда проекта на Next.js 16? (Выберите все подходящие)"
+        },
+        "options": [
+            {
+                "en": "`export const config = { matcher: '/dashboard/:path*' }` exported from `proxy.ts`",
+                "ru": "`export const config = { matcher: '/dashboard/:path*' }`, экспортированный из `proxy.ts`"
+            },
+            {
+                "en": "`serverRuntimeConfig` read through `getConfig()` from `next/config`",
+                "ru": "`serverRuntimeConfig`, читаемый через `getConfig()` из `next/config`"
+            },
+            {
+                "en": "`images.remotePatterns` in the Next config file",
+                "ru": "`images.remotePatterns` в конфиге Next"
+            },
+            {
+                "en": "`next lint` as the lint step of the build pipeline",
+                "ru": "`next lint` в качестве шага линтинга в пайплайне сборки"
+            },
+            {
+                "en": "`export const config = { amp: true }` on a page",
+                "ru": "`export const config = { amp: true }` на странице"
+            }
+        ],
+        "correct": [0, 2],
+        "explanation": {
+            "en": "Proxy keeps its in-file `config.matcher`, and `remotePatterns` is the supported replacement for the deprecated `images.domains`. Removed in v16: `serverRuntimeConfig` / `publicRuntimeConfig` (use env vars, with `connection()` before reading `process.env` when you need a runtime value), the `next lint` command together with the `eslint` config option — `next build` no longer lints — and every AMP API including `next/amp` and the page-level `amp` config.",
+            "ru": "Proxy сохраняет свой `config.matcher` в самом файле, а `remotePatterns` — поддерживаемая замена устаревшего `images.domains`. В v16 убрали: `serverRuntimeConfig` / `publicRuntimeConfig` (вместо них env-переменные, а для рантайм-значения — `connection()` перед чтением `process.env`), команду `next lint` вместе с опцией `eslint` в конфиге — `next build` больше не линтит — и весь AMP, включая `next/amp` и постраничный конфиг `amp`."
+        }
+    },
+    {
+        "id": "next-cache-invalidation-001",
+        "type": "multi-choice",
+        "category": "nextjs",
+        "difficulty": "hard",
+        "tags": ["next-16", "revalidateTag", "revalidatePath", "cache-tags", "caching"],
+        "question": {
+            "en": "Which statements about on-demand cache invalidation in Next.js 16 are true? (Select all that apply)",
+            "ru": "Какие утверждения про on-demand инвалидацию кэша в Next.js 16 верны? (Выберите все подходящие)"
+        },
+        "options": [
+            {
+                "en": "`revalidateTag` cannot be called from a Client Component or from `proxy.ts`",
+                "ru": "`revalidateTag` нельзя вызвать из Client Component или из `proxy.ts`"
+            },
+            {
+                "en": "A tag longer than 256 characters is never assigned to cached data, so revalidating it does nothing",
+                "ru": "Тег длиннее 256 символов вообще не привязывается к кэшированным данным, поэтому его ревалидация ничего не делает"
+            },
+            {
+                "en": "`revalidatePath` invalidates specific page or layout paths, while `revalidateTag` cuts across every page carrying the tag",
+                "ru": "`revalidatePath` инвалидирует конкретные пути страниц или лейаутов, а `revalidateTag` бьёт по всем страницам с этим тегом"
+            },
+            {
+                "en": "The call revalidates every page carrying that tag at once, without waiting for a request",
+                "ru": "Вызов сразу ревалидирует все страницы с этим тегом, не дожидаясь запросов к ним"
+            },
+            {
+                "en": "Tags are matched case-insensitively, so `Posts` and `posts` hit the same cache entries",
+                "ru": "Теги сравниваются без учёта регистра, поэтому `Posts` и `posts` попадают в одни и те же записи кэша"
+            }
+        ],
+        "correct": [0, 1, 2],
+        "explanation": {
+            "en": "`revalidateTag` only works in server environments — Server Functions and Route Handlers; a Client Component or a `proxy.ts` file cannot call it. Tags are case-sensitive and capped at 256 characters, and a tag over the cap is never attached to cached data in the first place, so revalidating it silently does nothing. `revalidatePath` operates on paths while `revalidateTag` operates on every page carrying the tag, which is why the two are often used together. Revalidation is triggered by the next request for that data, not by the call itself, so tagged pages refresh as they are visited.",
+            "ru": "`revalidateTag` работает только в серверных окружениях — в Server Functions и роут-хендлерах; из Client Component или из файла `proxy.ts` его не вызвать. Теги чувствительны к регистру и ограничены 256 символами, а тег сверх лимита вообще не привязывается к кэшированным данным, так что его ревалидация тихо ничего не делает. `revalidatePath` работает по путям, а `revalidateTag` — по всем страницам с этим тегом, поэтому их часто применяют вместе. Ревалидацию запускает следующий запрос к этим данным, а не сам вызов, поэтому страницы с тегом обновляются по мере их посещения."
+        }
+    },
+    {
+        "id": "next-ppr-shell-001",
+        "type": "multi-choice",
+        "category": "nextjs",
+        "difficulty": "hard",
+        "tags": ["ppr", "static-shell", "suspense", "streaming", "cache-components"],
+        "question": {
+            "en": "Which statements about the static shell under Cache Components are true? (Select all that apply)",
+            "ru": "Какие утверждения о статической оболочке при Cache Components верны? (Выберите все подходящие)"
+        },
+        "options": [
+            {
+                "en": "A `<Suspense>` fallback ships inside the prerendered shell while its content streams at request time",
+                "ru": "Fallback у `<Suspense>` уезжает внутри пререндеренной оболочки, а его содержимое стримится в рантайме"
+            },
+            {
+                "en": "Wrapping a component in `<Suspense>` makes it render at request time even if it only does synchronous work",
+                "ru": "Обёртка компонента в `<Suspense>` переводит его в рантайм-рендеринг, даже если внутри только синхронная работа"
+            },
+            {
+                "en": "An App Shell that reads `cookies()` or `headers()` is session-specific and cached per session on the client",
+                "ru": "App Shell, который читает `cookies()` или `headers()`, специфичен для сессии и кэшируется на клиенте по сессиям"
+            },
+            {
+                "en": "A detected crawler is served the static shell first and the rest streams in behind it",
+                "ru": "Определённому по user agent краулеру сначала отдаётся статическая оболочка, а остальное достримливается"
+            },
+            {
+                "en": "A `use cache` result joins the static shell only if its cache life is not too short to store",
+                "ru": "Результат `use cache` попадает в статическую оболочку, только если его время жизни не слишком мало для хранения"
+            }
+        ],
+        "correct": [0, 2, 4],
+        "explanation": {
+            "en": "`<Suspense>` marks where request-time work may stream, but it does not itself opt a component into dynamic rendering — a purely synchronous child still completes during prerender. An App Shell that reads `cookies()` or `headers()` carries session data, so it is kept per session in the browser rather than in the shared server cache. Bots are detected by user agent and deliberately skip the shell: Next.js renders the whole page dynamically and sends finished HTML, so shell content that only exists at build time can fail for a crawler. And a `use cache` entry whose life is too short to store safely leaves a hole that resolves at request time instead.",
+            "ru": "`<Suspense>` размечает место, где рантайм-работа может стримиться, но сам по себе не переводит компонент в динамический рендеринг — чисто синхронный ребёнок всё равно досчитается на пререндере. App Shell, читающий `cookies()` или `headers()`, несёт данные сессии, поэтому хранится на клиенте отдельно для каждой сессии, а не в общем серверном кэше. Ботов определяют по user agent и намеренно ведут мимо оболочки: Next.js рендерит страницу целиком в рантайме и отдаёт готовый HTML, поэтому контент оболочки, существующий только на билде, для краулера может сломаться. А запись `use cache` со слишком коротким временем жизни в оболочку не попадёт — на её месте останется дырка, которая разрешится в рантайме."
+        }
+    },
+    {
+        "id": "next-bug-public-env-build-001",
+        "type": "bug-finding",
+        "category": "nextjs",
+        "difficulty": "medium",
+        "tags": ["environment-variables", "docker", "deployment", "bugs", "runtime-shape"],
+        "question": {
+            "en": "This image is built once in CI and promoted from staging to production, but the production container still calls the staging API. Find the defect.",
+            "ru": "Образ собирается один раз в CI и промоутится со staging в production, но продакшн-контейнер всё равно ходит в staging API. Найдите дефект."
+        },
+        "code": "# Dockerfile\nFROM node:20-alpine AS build\nWORKDIR /app\nCOPY . .\nARG NEXT_PUBLIC_API_URL\nENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL\nRUN npm ci && npm run build\n\nFROM node:20-alpine\nWORKDIR /app\nCOPY --from=build /app ./\nCMD [\"npm\", \"run\", \"start\"]\n\n# CI pipeline\n# docker build --build-arg NEXT_PUBLIC_API_URL=https://staging.api.example.com -t shop:1.4.0 .\n# docker run -e NEXT_PUBLIC_API_URL=https://api.example.com shop:1.4.0",
+        "lang": "bash",
+        "correct": "NEXT_PUBLIC_API_URL is inlined into the client bundle during next build, so the -e value passed when the promoted image starts is ignored",
+        "referenceAnswer": "Every `NEXT_PUBLIC_*` variable is substituted into the JavaScript sent to the browser at `next build` time: `process.env.NEXT_PUBLIC_API_URL` becomes the literal staging URL inside the bundle and is frozen into the image. Passing `-e NEXT_PUBLIC_API_URL=...` at container start changes `process.env` on the server but cannot rewrite code that is already built, so a build-once-promote-everywhere pipeline can never repoint it.\n\nEither build one image per environment (keeping the ARG), or stop shipping the value through the bundle and read a server-only variable at request time:\n\n```tsx\nimport { connection } from 'next/server'\n\nexport default async function Page() {\n  await connection()\n  const apiUrl = process.env.API_URL // evaluated at runtime, never inlined\n  return <SearchWidget apiUrl={apiUrl} />\n}\n```\n\nNote also that indirect lookups such as `process.env[varName]` are never inlined, so they silently become `undefined` in the browser.",
+        "explanation": {
+            "en": "`NEXT_PUBLIC_` is a build-time inlining mechanism, not a runtime lookup — the value is baked into the client JavaScript and cannot be changed by the environment the container later runs in. This is the classic break of a build-once-promote-everywhere pipeline. Values that must vary per environment stay server-side and are read during dynamic rendering, for example after `await connection()`.",
+            "ru": "`NEXT_PUBLIC_` — это механизм подстановки на этапе сборки, а не чтение в рантайме: значение вшивается в клиентский JavaScript, и окружение, в котором потом стартует контейнер, его уже не изменит. Это классическая поломка пайплайна build-once-promote-everywhere. Значения, которые должны отличаться по окружениям, остаются серверными и читаются при динамическом рендеринге, например после `await connection()`."
+        }
+    },
+    {
+        "id": "next-bug-use-cache-searchparams-001",
+        "type": "bug-finding",
+        "category": "nextjs",
+        "difficulty": "hard",
+        "tags": ["use-cache", "cache-components", "searchParams", "bugs", "build"],
+        "question": {
+            "en": "With `cacheComponents: true`, `next build` hangs on this route and then fails with a cache-fill timeout. Find the bug.",
+            "ru": "При `cacheComponents: true` `next build` зависает на этом роуте и падает с таймаутом заполнения кэша. Найдите ошибку."
+        },
+        "code": "// app/search/page.tsx\nimport { Suspense } from 'react'\n\nexport default function Page(props: PageProps<'/search'>) {\n  return (\n    <Suspense fallback={<p>Loading results...</p>}>\n      <Results searchParams={props.searchParams} />\n    </Suspense>\n  )\n}\n\nasync function Results({ searchParams }: { searchParams: Promise<{ q?: string }> }) {\n  'use cache'\n  const { q } = await searchParams\n  const results = await db.search(q)\n\n  return (\n    <ul>\n      {results.map((r) => (\n        <li key={r.id}>{r.title}</li>\n      ))}\n    </ul>\n  )\n}",
+        "lang": "tsx",
+        "correct": "The cached component awaits the request-time searchParams promise, so the prerender can never fill the entry and times out",
+        "referenceAnswer": "A `use cache` scope is filled during prerendering, where `searchParams` does not resolve. Awaiting that promise inside the scope makes the fill wait for data that only exists at request time, and Next.js aborts after 50 seconds with `Filling a cache during prerender timed out, likely because request-specific arguments such as params, searchParams, cookies() or uncached data were used inside \"use cache\"`.\n\nResolve the promise outside the cached scope and pass the plain value in as an argument — it then becomes part of the cache key. The `<Suspense>` boundary is already in place, so the shell keeps prerendering while the uncached read streams:\n\n```tsx\nexport default function Page(props: PageProps<'/search'>) {\n  return (\n    <Suspense fallback={<p>Loading results...</p>}>\n      <Results searchParams={props.searchParams} />\n    </Suspense>\n  )\n}\n\nasync function Results({ searchParams }: { searchParams: Promise<{ q?: string }> }) {\n  const { q } = await searchParams\n  return <ul>{(await search(q)).map((r) => <li key={r.id}>{r.title}</li>)}</ul>\n}\n\nasync function search(query: string | undefined) {\n  'use cache'\n  return db.search(query)\n}\n```\n\nWith a prefetched `<Link href=\"/search?q=shoes\">`, the framework resolves `searchParams` from the link URL, so the cached `search` result can be ready before the click.",
+        "explanation": {
+            "en": "Passing a request-time promise into a cached scope is the quiet version of the `next-request-in-use-cache` error: a direct `cookies()` call fails immediately, but an awaited promise just starves the prerender until it times out. The rule is the same either way — resolve runtime values outside the cached scope and pass serialisable arguments in, which also gives you the cache key you want.",
+            "ru": "Передача promise с request-time данными в кэшируемую область — это тихая версия ошибки `next-request-in-use-cache`: прямой вызов `cookies()` падает сразу, а заawait'енный promise просто морит пререндер голодом до таймаута. Правило одно и то же: разрешайте рантайм-значения снаружи кэшируемой области и передавайте внутрь сериализуемые аргументы — заодно получите тот ключ кэша, который вам нужен."
+        }
+    },
+    {
+        "id": "next-completion-use-cache-001",
+        "type": "code-completion",
+        "category": "nextjs",
+        "difficulty": "medium",
+        "tags": ["use-cache", "cacheTag", "cacheLife", "cache-components"],
+        "question": {
+            "en": "Complete the data function so it opts into Cache Components caching and attaches the tag `posts` to its entry:",
+            "ru": "Дополните функцию так, чтобы она включала кэширование Cache Components и вешала на свою запись тег `posts`:"
+        },
+        "code": "import { cacheLife, __BLANK__ } from 'next/cache'\n\nexport async function getPosts() {\n  '__BLANK__'\n  cacheLife('hours')\n  __BLANK__('posts')\n\n  const res = await fetch('https://api.example.com/posts')\n  return res.json()\n}",
+        "blanks": ["cacheTag", "use cache", "cacheTag"],
+        "lang": "typescript",
+        "referenceAnswer": "`'use cache'` marks the function cacheable; it must be async and `cacheComponents: true` must be set in the Next config. `cacheLife('hours')` gives the entry an explicit lifetime instead of silently inheriting the `default` profile (stale 5 minutes on the client, revalidate 15 minutes on the server, no time-based expiry). `cacheTag('posts')` attaches the tag that `updateTag('posts')` in a Server Action, or `revalidateTag('posts', 'max')` in a Route Handler, later invalidates.",
+        "explanation": {
+            "en": "Time-based and on-demand revalidation are complementary, not alternatives: `cacheLife` bounds how long an entry may drift on its own, and `cacheTag` gives you a handle to kill it after a mutation. Setting `cacheLife` explicitly in every cached scope keeps the behaviour readable at the call site instead of depending on the implicit `default` profile or the surrounding cache.",
+            "ru": "Инвалидация по времени и on-demand дополняют друг друга, а не заменяют: `cacheLife` ограничивает, насколько запись может разъехаться сама по себе, а `cacheTag` даёт ручку, чтобы убить её после мутации. Явный `cacheLife` в каждой кэшируемой области делает поведение читаемым прямо на месте вызова, а не зависящим от неявного профиля `default` или от внешнего кэша."
+        }
+    },
+    {
+        "id": "next-completion-revalidate-tag-001",
+        "type": "code-completion",
+        "category": "nextjs",
+        "difficulty": "medium",
+        "tags": ["revalidateTag", "route-handlers", "cache-profile", "caching"],
+        "question": {
+            "en": "A takedown service calls this Route Handler: once it returns, no visitor may be served the old content. Complete the invalidation call.",
+            "ru": "Этот роут-хендлер дёргает сервис takedown: после его выполнения ни один посетитель не должен получить старый контент. Дополните вызов инвалидации."
+        },
+        "code": "// app/api/takedown/route.ts\nimport { revalidateTag } from 'next/cache'\n\nexport async function POST(request: Request) {\n  const { tag } = await request.json()\n\n  revalidateTag(tag, { __BLANK__: __BLANK__ })\n\n  return Response.json({ purged: true, now: Date.now() })\n}",
+        "blanks": ["expire", "0"],
+        "lang": "typescript",
+        "referenceAnswer": "`revalidateTag` is the invalidation API that works in a Route Handler — `updateTag` and `refresh` are Server-Action-only. Its second argument says how long stale content may still be served. `{ expire: 0 }` means stale content is never served, so the next request is a blocking revalidate; `'max'` is the opposite, a one-year stale-while-revalidate window. The docs name `{ expire: 0 }` as the form to use when the caller needs the data gone immediately and `updateTag` is not reachable. Any `cacheLife` profile name is accepted there too, and only its `expire` is read.",
+        "explanation": {
+            "en": "The second argument is where you decide whether latency or correctness wins. `'max'` keeps handing out the cached entry while the refetch runs, which suits a CMS save but is wrong for a takedown — nobody may see the old content again. `{ expire: 0 }` leaves no stale window, so the next request for that tag blocks until fresh data arrives. Inside a Server Action `updateTag` expresses the same intent directly, but it is not callable from a Route Handler.",
+            "ru": "Второй аргумент — это как раз место, где вы решаете, что важнее: латентность или корректность. `'max'` продолжает отдавать закэшированную запись, пока идёт перезапрос: для сохранения в CMS это подходит, а для takedown — нет, старый контент больше никто не должен увидеть. `{ expire: 0 }` не оставляет окна для stale, поэтому следующий запрос по этому тегу ждёт свежих данных. Внутри Server Action ту же задачу прямо решает `updateTag`, но из роут-хендлера он недоступен."
+        }
     }
 ]
