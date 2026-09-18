@@ -74,12 +74,12 @@
         "difficulty": "easy",
         "tags": ["csrf", "cookies"],
         "question": {
-            "en": "What is the primary defense mechanism that prevents CSRF attacks by ensuring cookies are only sent in same-site requests?",
-            "ru": "Какой основной механизм защиты предотвращает CSRF-атаки, гарантируя, что cookies отправляются только в same-site запросах?"
+            "en": "Which cookie attribute limits when the browser attaches a cookie to cross-site requests?",
+            "ru": "Какой атрибут cookie ограничивает, когда браузер прикрепляет cookie к cross-site запросам?"
         },
         "explanation": {
-            "en": "The SameSite cookie attribute controls whether cookies are sent with cross-site requests. Setting it to 'Strict' or 'Lax' prevents the browser from sending cookies in cross-origin requests, blocking CSRF attacks.",
-            "ru": "Атрибут cookie SameSite контролирует, отправляются ли cookies в cross-site запросах. Значения 'Strict' или 'Lax' запрещают браузеру отправлять cookies в cross-origin запросах, блокируя CSRF-атаки."
+            "en": "The SameSite attribute controls whether a cookie travels with cross-site requests: 'Strict' withholds it on every cross-site request, 'Lax' allows it only on top-level safe navigations. OWASP treats SameSite as defense-in-depth, not the primary CSRF defense - that role belongs to a synchronizer or double-submit token, because state-changing GET endpoints and non-conforming browsers slip past SameSite.",
+            "ru": "Атрибут SameSite определяет, уходит ли cookie с cross-site запросами: 'Strict' не отдаёт её ни при каком cross-site запросе, 'Lax' — только при top-level переходах безопасными методами. OWASP считает SameSite defense-in-depth, а не основной защитой от CSRF: основная — synchronizer- или double-submit-токен, потому что state-changing GET-эндпоинты и несоответствующие браузеры проходят мимо SameSite."
         },
         "options": [
             {
@@ -491,20 +491,20 @@
         },
         "options": [
             {
-                "en": "To limit the number of requests a client can make in a given time window, preventing abuse and brute-force attacks",
-                "ru": "Ограничить количество запросов, которые клиент может сделать за заданное временное окно, предотвращая злоупотребления и brute-force атаки"
+                "en": "To cap how many requests one client can make per time window",
+                "ru": "Ограничить число запросов от одного клиента за временное окно"
             },
             {
-                "en": "To reduce server costs",
-                "ru": "Снизить затраты на сервер"
+                "en": "To cut infrastructure cost by shedding traffic at peak hours",
+                "ru": "Снизить расходы на инфраструктуру, отсекая трафик в пики нагрузки"
             },
             {
-                "en": "To prioritize VIP users",
-                "ru": "Приоритизировать VIP-пользователей"
+                "en": "To give paying customers a larger share of server capacity",
+                "ru": "Дать платящим клиентам большую долю ёмкости сервера"
             },
             {
-                "en": "To cache responses more effectively",
-                "ru": "Эффективнее кэшировать ответы"
+                "en": "To raise the cache hit rate by deduplicating repeated requests",
+                "ru": "Поднять hit rate кэша за счёт дедупликации повторных запросов"
             }
         ],
         "correct": 0
@@ -525,20 +525,20 @@
         },
         "options": [
             {
-                "en": "The malicious payload is stored in the database",
-                "ru": "Вредоносный payload хранится в базе данных"
+                "en": "The malicious payload is stored in the database and served to every visitor",
+                "ru": "Вредоносный payload хранится в базе данных и отдаётся каждому посетителю"
             },
             {
-                "en": "It only affects Internet Explorer",
-                "ru": "Затрагивает только Internet Explorer"
+                "en": "The payload is reflected by the server into the initial HTML response",
+                "ru": "Payload отражается сервером в исходный HTML-ответ"
             },
             {
-                "en": "It requires a server-side vulnerability",
-                "ru": "Требует серверной уязвимости"
+                "en": "It requires a server-side vulnerability to be exploitable at all",
+                "ru": "Для эксплуатации обязательно нужна серверная уязвимость"
             },
             {
-                "en": "The payload never reaches the server; the vulnerability lives entirely in client-side JavaScript processing attacker-controlled data sources",
-                "ru": "Payload вообще не попадает на сервер; уязвимость целиком живёт в клиентском JavaScript, который обрабатывает подконтрольные атакующему источники данных"
+                "en": "The payload never reaches the server; the flow is entirely client-side",
+                "ru": "Payload вообще не попадает на сервер; весь поток целиком клиентский"
             }
         ],
         "correct": 3
@@ -550,12 +550,12 @@
         "difficulty": "medium",
         "tags": ["csp", "nonce"],
         "question": {
-            "en": "Which CSP directive allows a specific inline script to execute without permitting all inline scripts?",
-            "ru": "Какая CSP-директива разрешает исполнение конкретного inline-скрипта, не открывая доступ всем inline-скриптам?"
+            "en": "Which CSP source expression allows one specific inline script to execute without permitting all inline scripts?",
+            "ru": "Какое CSP source expression разрешает выполнить один конкретный inline-скрипт, не открывая доступ всем inline-скриптам?"
         },
         "explanation": {
-            "en": "A nonce (number used once) is a random per-request value added to both the CSP header (nonce-<value>) and the script tag (nonce=\"<value>\"). Only scripts with the matching nonce execute, allowing specific inline scripts without enabling all inline scripts.",
-            "ru": "Nonce (number used once) — это случайное значение, генерируемое на каждый запрос и добавляемое одновременно в CSP-заголовок (nonce-<value>) и в тег <script nonce=\"<value>\">. Исполняются только скрипты с совпадающим nonce, что разрешает конкретные inline-скрипты без включения всех inline-скриптов сразу."
+            "en": "A nonce is a source expression inside a directive's source list, not a directive of its own. The random per-request value goes into the header as 'nonce-<value>' (quotes included) and into the tag as nonce=\"<value>\"; only a script whose nonce matches executes.",
+            "ru": "Nonce — это source expression внутри source list директивы, а не отдельная директива. Случайное значение на каждый запрос попадает в заголовок как 'nonce-<value>' (кавычки — часть синтаксиса) и в тег как nonce=\"<value>\"; выполняется только скрипт с совпадающим nonce."
         },
         "options": [
             {
@@ -567,8 +567,8 @@
                 "ru": "default-src 'none'"
             },
             {
-                "en": "nonce-<base64value>",
-                "ru": "nonce-<base64value>"
+                "en": "script-src 'nonce-<base64value>'",
+                "ru": "script-src 'nonce-<base64value>'"
             },
             {
                 "en": "'unsafe-inline'",
@@ -683,7 +683,7 @@
         "id": "sec-npm-001",
         "type": "single-choice",
         "category": "security",
-        "difficulty": "medium",
+        "difficulty": "easy",
         "tags": ["npm", "supply-chain"],
         "question": {
             "en": "Which command identifies known vulnerabilities in your project's dependencies?",
@@ -921,7 +921,7 @@
         "id": "sec-npm-002",
         "type": "single-choice",
         "category": "security",
-        "difficulty": "hard",
+        "difficulty": "easy",
         "tags": ["supply-chain", "npm"],
         "question": {
             "en": "A supply-chain attack via a malicious npm package most commonly uses which technique?",
@@ -1402,8 +1402,8 @@
             "ru": "Какие утверждения о PKCE в OAuth 2.0 верны? (выберите все подходящие)"
         },
         "explanation": {
-            "en": "PKCE uses a random verifier hashed into a challenge sent with the authorization request. At token exchange the verifier is sent and validated. PKCE does not replace HTTPS, and it is now recommended for all public clients including SPAs, not just mobile apps.",
-            "ru": "PKCE использует случайный verifier, из которого считается challenge, отправляемый с authorization-запросом. На этапе обмена на токен verifier отправляется и проверяется. PKCE не заменяет HTTPS и сегодня рекомендуется для всех публичных клиентов, включая SPA, а не только для мобильных приложений."
+            "en": "PKCE uses a random verifier; with code_challenge_method=S256 the challenge is base64url(SHA-256(verifier)), while the plain method sends the verifier itself and is only kept for constrained clients. At token exchange the verifier is sent and validated. PKCE does not replace HTTPS, and it is now recommended for all public clients including SPAs, not just mobile apps.",
+            "ru": "PKCE использует случайный verifier; при code_challenge_method=S256 challenge — это base64url(SHA-256(verifier)), а метод plain отправляет сам verifier и остаётся только для ограниченных клиентов. На этапе обмена на токен verifier отправляется и проверяется. PKCE не заменяет HTTPS и сегодня рекомендуется для всех публичных клиентов, включая SPA, а не только для мобильных приложений."
         },
         "options": [
             {
@@ -1411,8 +1411,8 @@
                 "ru": "PKCE нужен только для мобильных приложений"
             },
             {
-                "en": "The code_challenge is SHA-256(code_verifier), base64url-encoded",
-                "ru": "code_challenge — это SHA-256(code_verifier) в кодировке base64url"
+                "en": "With code_challenge_method=S256, the code_challenge is base64url(SHA-256(code_verifier))",
+                "ru": "При code_challenge_method=S256 code_challenge — это base64url(SHA-256(code_verifier))"
             },
             {
                 "en": "The code_verifier is a cryptographically random string stored by the client",
@@ -1440,8 +1440,8 @@
             "ru": "В React-приложении какие из перечисленных способов безопасны для рендеринга пользовательского текста? (выберите все подходящие)"
         },
         "explanation": {
-            "en": "React automatically escapes string values rendered in JSX, making {userInput} and <p>{userInput}</p> safe. Using dangerouslySetInnerHTML with DOMPurify sanitization is acceptable. Raw dangerouslySetInnerHTML with unsanitized input and direct innerHTML assignment are both unsafe.",
-            "ru": "React автоматически экранирует строковые значения, отрендеренные в JSX, поэтому {userInput} и <p>{userInput}</p> безопасны. dangerouslySetInnerHTML с санитизацией через DOMPurify допустим. Сырой dangerouslySetInnerHTML с несанитизированным вводом и прямое присваивание innerHTML — оба варианта небезопасны."
+            "en": "React escapes string values rendered in JSX, so {userInput} is safe. dangerouslySetInnerHTML is acceptable only with a real sanitizer such as DOMPurify - stripping <script> with a regex still lets <img src=x onerror=...> through. Raw dangerouslySetInnerHTML and direct innerHTML assignment are unsafe.",
+            "ru": "React экранирует строковые значения, отрендеренные в JSX, поэтому {userInput} безопасен. dangerouslySetInnerHTML допустим только с настоящим санитайзером вроде DOMPurify — вырезание <script> регуляркой всё равно пропускает <img src=x onerror=...>. Сырой dangerouslySetInnerHTML и прямое присваивание innerHTML небезопасны."
         },
         "options": [
             {
@@ -1453,8 +1453,8 @@
                 "ru": "dangerouslySetInnerHTML={{ __html: userInput }}"
             },
             {
-                "en": "<p>{userInput}</p>",
-                "ru": "<p>{userInput}</p>"
+                "en": "dangerouslySetInnerHTML={{ __html: userInput.replace(/<script>/g, '') }}",
+                "ru": "dangerouslySetInnerHTML={{ __html: userInput.replace(/<script>/g, '') }}"
             },
             {
                 "en": "dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(userInput) }}",
@@ -1465,7 +1465,7 @@
                 "ru": "document.getElementById('el').innerHTML = userInput"
             }
         ],
-        "correct": [0, 2, 3]
+        "correct": [0, 3]
     },
     {
         "id": "sec-xss-008",
@@ -1535,12 +1535,12 @@
             "ru": "Найдите проблему безопасности в этой конфигурации session cookie для Express.js:"
         },
         "explanation": {
-            "en": "HttpOnly and Secure are set correctly, but the absence of SameSite leaves the session cookie vulnerable to CSRF. Modern best practice is to always set SameSite on session cookies.",
-            "ru": "HttpOnly и Secure выставлены корректно, но отсутствие SameSite оставляет session cookie уязвимой к CSRF. Современная best practice — всегда задавать SameSite на session cookies."
+            "en": "HttpOnly and Secure are set correctly, but SameSite is never set. The browser's Lax-by-default behaviour covers part of the gap and is not portable, so set SameSite explicitly - and keep it as defense-in-depth next to a CSRF token, not as the whole defense.",
+            "ru": "HttpOnly и Secure выставлены корректно, но SameSite не задан вообще. Дефолт браузера Lax закрывает часть дыры, но полагаться на него нельзя, поэтому SameSite задают явно — и держат как defense-in-depth рядом с CSRF-токеном, а не как единственную защиту."
         },
-        "code": "app.use(session({\n  secret: 'keyboard cat',\n  resave: false,\n  saveUninitialized: false,\n  cookie: {\n    httpOnly: true,\n    secure: true\n  }\n}));",
+        "code": "app.use(session({\n  secret: process.env.SESSION_SECRET,\n  resave: false,\n  saveUninitialized: false,\n  cookie: {\n    httpOnly: true,\n    secure: true\n  }\n}));",
         "correct": "The SameSite attribute is missing from the cookie configuration",
-        "referenceAnswer": "Without SameSite, the cookie is sent with all cross-origin requests (including form submissions from attacker sites), enabling CSRF. Fix: add sameSite: 'strict' or sameSite: 'lax' to the cookie options.",
+        "referenceAnswer": "The cookie options never set sameSite. Most current browsers treat a cookie with no SameSite attribute as Lax, which already blocks a cross-site form POST, so the classic \"sent with every cross-origin request\" description no longer holds - but relying on that default is not portable: older and embedded browsers still fall back to None, and a state-changing GET endpoint is not covered by Lax at all. Fix: set sameSite: 'lax' (or 'strict') explicitly, and keep SameSite as defense-in-depth next to a synchronizer or double-submit CSRF token.",
         "lang": "javascript"
     },
     {
@@ -1576,7 +1576,7 @@
             "en": "Using eval() to parse data is dangerous even when the source appears trusted. A compromised CDN, MITM attack, or server-side injection can turn this into remote code execution.",
             "ru": "Использование eval() для парсинга данных опасно даже когда источник выглядит доверенным. Скомпрометированный CDN, MITM-атака или серверная инъекция превращают это в remote code execution."
         },
-        "code": "async function loadConfig(configName) {\n  const response = await fetch(`/configs/${configName}`);\n  const text = await response.text();\n  return eval('(' + text + ')');\n}",
+        "code": "const ALLOWED_CONFIGS = new Set(['theme', 'flags']);\n\nasync function loadConfig(configName) {\n  if (!ALLOWED_CONFIGS.has(configName)) throw new Error('Unknown config');\n  const response = await fetch(`/configs/${configName}`);\n  const text = await response.text();\n  return eval('(' + text + ')');\n}",
         "correct": "eval() is used to parse server responses, enabling code injection if the server or network is compromised",
         "referenceAnswer": "Replace eval() with JSON.parse(). Configuration data should be valid JSON, not arbitrary JavaScript. eval() executes any code in the response, giving a man-in-the-middle attacker full code execution.",
         "lang": "javascript"
@@ -1604,7 +1604,7 @@
         "id": "sec-bug-csp-001",
         "type": "bug-finding",
         "category": "security",
-        "difficulty": "hard",
+        "difficulty": "medium",
         "tags": ["csp", "unsafe-inline"],
         "question": {
             "en": "Find the CSP misconfiguration that nullifies its XSS protection:",
@@ -1634,7 +1634,7 @@
             "ru": "localStorage доступен любому скрипту на странице. Если случится XSS, атакующий прочитает токен через localStorage.getItem('authToken') и сможет выдавать себя за пользователя."
         },
         "code": "async function login(credentials) {\n  const { token } = await authApi.login(credentials);\n  localStorage.setItem('authToken', token);\n  return token;\n}\n\nfunction getAuthHeader() {\n  return { Authorization: `Bearer ${localStorage.getItem('authToken')}` };\n}",
-        "correct": "Storing the JWT in localStorage exposes it to XSS attacks that can steal the token via document.cookie-like access",
+        "correct": "Storing the JWT in localStorage exposes it to any XSS on the origin, which can read it with localStorage.getItem and exfiltrate it",
         "referenceAnswer": "Store authentication tokens in HttpOnly cookies instead. They are inaccessible to JavaScript, preventing XSS-based token theft. The browser sends them automatically, so getAuthHeader() becomes unnecessary.",
         "lang": "javascript"
     },
@@ -1668,13 +1668,13 @@
             "ru": "Дополните этот Express middleware, который генерирует per-request CSP nonce и выставляет строгий CSP-заголовок:"
         },
         "explanation": {
-            "en": "Per-request nonces prevent inline script injection. strict-dynamic allows trusted scripts to load further scripts dynamically, which is necessary for modern bundled applications.",
-            "ru": "Per-request nonce защищают от инъекции inline-скриптов. strict-dynamic разрешает доверенным скриптам динамически подгружать другие скрипты, что необходимо для современных бандлированных приложений."
+            "en": "Per-request nonces prevent inline script injection: only a script carrying the current nonce runs. 'strict-dynamic' lets an already trusted script load further scripts, which is what a bundler's dynamic chunks need.",
+            "ru": "Per-request nonce защищает от инъекции inline-скриптов: выполняется только скрипт с текущим nonce. 'strict-dynamic' разрешает уже доверенному скрипту подгружать другие скрипты — это нужно динамическим чанкам, которые создаёт бандлер."
         },
-        "code": "import crypto from 'node:crypto';\n\nexport function cspMiddleware(req, res, next) {\n  const nonce = crypto.__BLANK__('16', 'base64url');\n  res.locals.cspNonce = nonce;\n  res.setHeader(\n    'Content-Security-Policy',\n    `default-src 'none'; script-src 'nonce-${nonce}' '__BLANK__'; style-src 'self'; img-src 'self' data:`\n  );\n  next();\n}",
+        "code": "import crypto from 'node:crypto';\n\nexport function cspMiddleware(req, res, next) {\n  const nonce = crypto.__BLANK__(16).toString('base64url');\n  res.locals.cspNonce = nonce;\n  res.setHeader(\n    'Content-Security-Policy',\n    `default-src 'none'; script-src 'nonce-${nonce}' '__BLANK__'; style-src 'self'; img-src 'self' data:`\n  );\n  next();\n}",
         "blanks": ["randomBytes", "strict-dynamic"],
         "lang": "javascript",
-        "referenceAnswer": "crypto.randomBytes('16', 'base64url') generates a cryptographically random nonce. 'strict-dynamic' propagates trust from the nonce to dynamically loaded scripts, enabling module bundlers to work without host whitelists."
+        "referenceAnswer": "crypto.randomBytes(size) takes a byte count and returns a Buffer, so the nonce is built as crypto.randomBytes(16).toString('base64url') - there is no encoding parameter on randomBytes itself. 'strict-dynamic' propagates trust from the nonce to dynamically loaded scripts, so a bundler's chunks load without host allowlists."
     },
     {
         "id": "sec-cc-sanitize-001",
@@ -1702,17 +1702,17 @@
         "difficulty": "medium",
         "tags": ["jwt", "verification"],
         "question": {
-            "en": "Complete this JWT verification utility with secure algorithm pinning and audience validation:",
-            "ru": "Дополните эту утилиту верификации JWT с безопасным закреплением алгоритма и валидацией audience:"
+            "en": "Complete this JWT verification utility for the API service `api.example.com`, with the signing algorithm pinned and the audience validated:",
+            "ru": "Дополните эту утилиту верификации JWT для API-сервиса `api.example.com`: алгоритм подписи зафиксирован, audience валидируется:"
         },
         "explanation": {
             "en": "Pinning the algorithm prevents alg:none and algorithm confusion attacks. Audience validation ensures tokens cannot be replayed across different services in the same infrastructure.",
             "ru": "Жёсткая фиксация алгоритма защищает от атак alg:none и algorithm confusion. Валидация audience не даёт переиспользовать токены между разными сервисами в одной инфраструктуре."
         },
-        "code": "import jwt from 'jsonwebtoken';\n\nexport function verifyAccessToken(token: string) {\n  return jwt.verify(token, process.env.JWT_PUBLIC_KEY!, {\n    algorithms: [__BLANK__],\n    audience: __BLANK__,\n    issuer: 'auth.example.com',\n  });\n}",
-        "blanks": ["'RS256'", "'api.example.com'"],
+        "code": "import jwt from 'jsonwebtoken';\n\nexport function verifyAccessToken(token: string) {\n  return jwt.verify(token, process.env.JWT_PUBLIC_KEY!, {\n    algorithms: ['__BLANK__'],\n    audience: '__BLANK__',\n    issuer: 'auth.example.com',\n  });\n}",
+        "blanks": ["RS256", "api.example.com"],
         "lang": "typescript",
-        "referenceAnswer": "Hardcode the algorithm to 'RS256' to prevent algorithm confusion. Set audience to the expected service identifier so tokens issued for other services are rejected."
+        "referenceAnswer": "Hardcode the algorithm to 'RS256' so a token whose header claims alg: none or alg: HS256 is rejected instead of being verified with the public key as an HMAC secret. Set audience to this service's own identifier, 'api.example.com', so a token minted for another service in the same infrastructure is rejected."
     },
     {
         "id": "sec-cc-sri-001",
@@ -1737,7 +1737,7 @@
         "id": "sec-cc-prototype-001",
         "type": "code-completion",
         "category": "security",
-        "difficulty": "hard",
+        "difficulty": "easy",
         "tags": ["prototype-pollution", "safe-merge"],
         "question": {
             "en": "Complete this safe object merge function that prevents prototype pollution:",
@@ -1778,23 +1778,23 @@
         "difficulty": "easy",
         "tags": ["cookies", "express"],
         "question": {
-            "en": "Complete the secure cookie options for storing a session token in an Express response:",
-            "ru": "Дополните безопасные опции cookie для хранения session-токена в Express-ответе:"
+            "en": "Complete the cookie options for a session token that must never be attached to a cross-site request, including a top-level navigation from another site:",
+            "ru": "Дополните опции cookie для session-токена, который не должен прикрепляться ни к одному cross-site запросу, включая переход по ссылке с другого сайта:"
         },
         "explanation": {
-            "en": "All three flags together provide the strongest cookie security posture: no JS access, HTTPS-only transmission, and CSRF protection via SameSite.",
-            "ru": "Все три флага вместе обеспечивают максимально надёжную конфигурацию cookie: недоступность из JS, передачу только по HTTPS и защиту от CSRF через SameSite."
+            "en": "httpOnly and secure keep the cookie out of JavaScript and off plain HTTP. For the cross-site rule, 'lax' would still send the cookie on a top-level GET navigation from another site, so only 'strict' satisfies the requirement in the stem - at the cost of breaking inbound links and OAuth redirect returns.",
+            "ru": "httpOnly и secure убирают cookie из JavaScript и из открытого HTTP. Для правила про cross-site 'lax' всё ещё отправит cookie при top-level GET-переходе с чужого сайта, поэтому условию задачи удовлетворяет только 'strict' — ценой сломанных входящих ссылок и возвратов из OAuth-редиректов."
         },
         "code": "res.cookie('sessionId', token, {\n  httpOnly: __BLANK__,\n  secure: __BLANK__,\n  sameSite: '__BLANK__',\n  maxAge: 15 * 60 * 1000,\n});",
         "blanks": ["true", "true", "strict"],
         "lang": "javascript",
-        "referenceAnswer": "httpOnly:true prevents JS access, secure:true sends cookie over HTTPS only, sameSite:'strict' blocks cross-site submission. maxAge of 15 minutes limits session lifetime."
+        "referenceAnswer": "httpOnly:true prevents JS access, secure:true sends the cookie over HTTPS only, and sameSite:'strict' is the only value that also withholds the cookie on a top-level navigation from another site ('lax' would send it). maxAge of 15 minutes limits session lifetime."
     },
     {
         "id": "sec-cc-cors-001",
         "type": "code-completion",
         "category": "security",
-        "difficulty": "hard",
+        "difficulty": "medium",
         "tags": ["cors", "express"],
         "question": {
             "en": "Complete this Express CORS middleware that validates origins against an allowlist:",

@@ -248,8 +248,8 @@
             "ru": "Какое из перечисленного является валидным правилом таргетинга для feature flag?"
         },
         "explanation": {
-            "en": "Targeting rules segment users by attributes (plan type, user group, region, etc.) to control flag exposure. Targeting by beta group and plan type is a standard use case. Browser focus and CPU speed are not standard targeting attributes; time-based rules exist but are uncommon.",
-            "ru": "Правила таргетинга сегментируют пользователей по атрибутам (тариф, группа, регион и т. д.), чтобы управлять выдачей флага. Таргетинг по beta-группе и тарифу — стандартный кейс. Фокус вкладки и частота CPU — не стандартные атрибуты; правила по времени существуют, но встречаются редко."
+            "en": "Targeting rules segment users by attributes carried in the evaluation context — group, plan, region, custom fields — so the flag service can resolve them deterministically for a given user. Group plus plan is the standard case. Tab focus, battery level and CPU speed are transient client-side device state, not context attributes a flag platform targets on.",
+            "ru": "Правила таргетинга сегментируют пользователей по атрибутам из evaluation context — группа, тариф, регион, кастомные поля, — чтобы сервис флагов мог детерминированно их разрешить для конкретного пользователя. Группа плюс тариф — стандартный кейс. Фокус вкладки, заряд батареи и частота CPU — это временное состояние устройства на клиенте, а не атрибуты контекста, по которым таргетится платформа флагов."
         },
         "options": [
             {
@@ -257,8 +257,8 @@
                 "ru": "Включать флаг только для пользователей, у которых вкладка браузера в фокусе"
             },
             {
-                "en": "Enable the flag only during weekdays between 9am and 5pm UTC",
-                "ru": "Включать флаг только в будни с 9:00 до 17:00 UTC"
+                "en": "Enable the flag only for users whose device battery level is above 50%",
+                "ru": "Включать флаг только для пользователей, у которых заряд батареи устройства выше 50%"
             },
             {
                 "en": "Enable the flag based on the user's CPU speed",
@@ -516,8 +516,8 @@
         "difficulty": "medium",
         "tags": ["feature-flags", "risks", "flag-explosion"],
         "question": {
-            "en": "What is 'flag explosion' and how can it be mitigated?",
-            "ru": "Что такое «flag explosion» и как её сдерживать?"
+            "en": "What is 'flag explosion' in a codebase that uses feature flags?",
+            "ru": "Что такое «flag explosion» в кодовой базе, использующей feature flags?"
         },
         "explanation": {
             "en": "Flag explosion is the accumulation of too many flags with no clear ownership or retirement plan. Each flag multiplies the number of code paths and test cases. Mitigation includes flag lifecycle policies (owner, expiry date), automated stale flag detection, and dedicated cleanup sprints.",
@@ -525,20 +525,20 @@
         },
         "options": [
             {
-                "en": "An increase in bundle size caused by the flag SDK",
-                "ru": "Рост размера бандла из-за SDK флагов"
+                "en": "An increase in bundle size caused by the flag SDK and its streaming connection",
+                "ru": "Рост размера бандла из-за SDK флагов и его streaming-соединения"
             },
             {
-                "en": "A security vulnerability where flags leak to unauthenticated users",
-                "ru": "Уязвимость безопасности, при которой флаги утекают неаутентифицированным пользователям"
+                "en": "A security vulnerability where flag values leak to unauthenticated users",
+                "ru": "Уязвимость безопасности, при которой значения флагов утекают неаутентифицированным пользователям"
             },
             {
-                "en": "A runtime error when too many flags are evaluated simultaneously",
-                "ru": "Рантайм-ошибка при одновременном вычислении слишком большого числа флагов"
+                "en": "A runtime error thrown when too many flags are evaluated in the same request",
+                "ru": "Рантайм-ошибка, возникающая при вычислении слишком большого числа флагов в одном запросе"
             },
             {
-                "en": "The uncontrolled growth of flags across a codebase, making it hard to understand which code paths are active; mitigated by flag lifecycle policies and regular cleanup sprints",
-                "ru": "Неконтролируемый рост числа флагов по всей кодовой базе, из-за которого сложно понять, какие ветки кода активны; сдерживается политиками жизненного цикла флагов и регулярными cleanup-спринтами"
+                "en": "The uncontrolled growth of flags across a codebase, making it hard to know which code paths are active",
+                "ru": "Неконтролируемый рост числа флагов по всей кодовой базе, из-за которого сложно понять, какие ветки кода активны"
             }
         ],
         "correct": 3
@@ -563,8 +563,8 @@
                 "ru": "Edge-вычисление быстрее, потому что полностью устраняет сетевую задержку"
             },
             {
-                "en": "Edge evaluation reduces bundle size since the flag SDK is not shipped to the client",
-                "ru": "Edge-вычисление уменьшает размер бандла, потому что SDK флагов не едет на клиент"
+                "en": "Edge evaluation removes the need for a flag SDK anywhere in the stack",
+                "ru": "Edge-вычисление полностью убирает необходимость в SDK флагов где-либо в стеке"
             },
             {
                 "en": "Edge evaluation prevents layout shifts caused by conditional rendering in the browser",
@@ -584,29 +584,29 @@
         "difficulty": "medium",
         "tags": ["feature-flags", "Unleash", "tools"],
         "question": {
-            "en": "Unleash is an open-source feature flag platform. What is its primary evaluation model?",
-            "ru": "Unleash — это open-source платформа feature flags. Какова её основная модель вычисления?"
+            "en": "Unleash frontend SDKs run in the browser. How do they obtain feature flag values?",
+            "ru": "Frontend SDK Unleash работают в браузере. Как они получают значения feature flags?"
         },
         "explanation": {
-            "en": "Unleash evaluates flags on the server. In production setups, an Unleash Proxy sits between the SDK and clients, serving pre-evaluated decisions. This keeps the flag configuration secure and reduces client bundle size while supporting per-user targeting.",
-            "ru": "Unleash вычисляет флаги на сервере. В production-конфигурации между SDK и клиентами стоит Unleash Proxy, раздающий уже готовые решения. Это сохраняет конфигурацию флагов в безопасности и уменьшает клиентский бандл, сохраняя поддержку пользовательского таргетинга."
+            "en": "Unleash splits its SDKs in two. Backend SDKs cache the whole flag dataset in memory and apply activation strategies locally, so evaluation is a local function call. Frontend SDKs evaluate nothing: they send an Unleash Context and receive back only the flags enabled for it, with the evaluation happening inside Unleash Edge or the Unleash server — the ruleset never reaches the browser. Unleash Edge is the current component for this; the older Unleash Proxy is deprecated.",
+            "ru": "SDK Unleash делятся на два вида. Backend SDK кешируют весь набор данных о флагах в памяти и применяют стратегии активации локально, так что вычисление — это обычный локальный вызов. Frontend SDK не вычисляют ничего: они отправляют Unleash Context и получают обратно только включённые для него флаги, а вычисление происходит внутри Unleash Edge или сервера Unleash — набор правил в браузер не попадает. Сейчас за это отвечает Unleash Edge; более старый Unleash Proxy объявлен deprecated."
         },
         "options": [
             {
-                "en": "Flags are stored in environment variables and evaluated at build time",
-                "ru": "Флаги хранятся в переменных окружения и вычисляются на этапе сборки"
+                "en": "Flags are stored in environment variables and resolved at build time",
+                "ru": "Флаги хранятся в переменных окружения и разрешаются на этапе сборки"
             },
             {
-                "en": "All evaluation happens in the browser with no server component",
-                "ru": "Всё вычисление происходит в браузере, без серверного компонента"
+                "en": "The SDK downloads the full activation-strategy ruleset and evaluates it in the browser",
+                "ru": "SDK скачивает полный набор правил активации и вычисляет их в браузере"
             },
             {
-                "en": "Flags are evaluated server-side; clients receive pre-evaluated flag decisions via a proxy",
-                "ru": "Флаги вычисляются на сервере; клиенты получают уже готовые решения через прокси"
+                "en": "Unleash Edge or the Unleash server evaluates the strategies and returns only the enabled flags for the Unleash Context",
+                "ru": "Unleash Edge или сервер Unleash вычисляет стратегии и возвращает только включённые флаги для переданного Unleash Context"
             },
             {
-                "en": "Flags are evaluated by a CDN based on request headers",
-                "ru": "Флаги вычисляются CDN на основе заголовков запроса"
+                "en": "A CDN resolves the flags from request headers before the response reaches the browser",
+                "ru": "CDN разрешает флаги по заголовкам запроса до того, как ответ доходит до браузера"
             }
         ],
         "correct": 2
@@ -618,29 +618,29 @@
         "difficulty": "medium",
         "tags": ["feature-flags", "lifecycle"],
         "question": {
-            "en": "Which phase is missing from this feature flag lifecycle: Create → __ → Evaluate → Rollout → Cleanup?",
-            "ru": "Какая фаза пропущена в жизненном цикле feature flag: Create → __ → Evaluate → Rollout → Cleanup?"
+            "en": "In LaunchDarkly's flag lifecycle, a temporary flag has served a single variation in every critical environment for more than 30 days and still has code references. Which lifecycle stage is it in?",
+            "ru": "В жизненном цикле флага LaunchDarkly временный флаг больше 30 дней отдаёт единственный вариант во всех критичных окружениях и всё ещё имеет ссылки в коде. В какой стадии жизненного цикла он находится?"
         },
         "explanation": {
-            "en": "The full flag lifecycle is: Create → Configure (set targeting rules, environments, variants) → Evaluate (run in production) → Rollout (increase to 100%) → Cleanup (remove flag and dead code). Configuring targeting rules is a distinct step before the flag goes live.",
-            "ru": "Полный жизненный цикл флага: Create → Configure (задаются правила таргетинга, окружения, варианты) → Evaluate (работа в продакшене) → Rollout (постепенный выход на 100%) → Cleanup (удаление флага и мёртвого кода). Конфигурация правил таргетинга — это отдельный шаг до того, как флаг уйдёт в работу."
+            "en": "LaunchDarkly documents the stages as Live → Ready for code removal → Ready to archive → Deprecated → Archived → Deleted. A temporary flag that is 30 days or older, has a `Launched` status in every critical environment and still has code references is *Ready for code removal*: the decision is settled, so the dead branch should go before the flag itself is archived. `Deprecated` and `Archived` are manual stages that come later, and `Inactive` is an evaluation status (no evaluations for seven days), not this stage.",
+            "ru": "LaunchDarkly описывает стадии так: Live → Ready for code removal → Ready to archive → Deprecated → Archived → Deleted. Временный флаг возрастом 30+ дней со статусом `Launched` во всех критичных окружениях и с оставшимися ссылками в коде находится в стадии *Ready for code removal*: решение принято, поэтому мёртвую ветку убирают раньше, чем архивируют сам флаг. `Deprecated` и `Archived` — ручные стадии позже по циклу, а `Inactive` — это статус вычисления (нет вычислений семь дней), а не эта стадия."
         },
         "options": [
             {
-                "en": "Configure (targeting rules and environments)",
-                "ru": "Configure (правила таргетинга и окружения)"
+                "en": "Ready for code removal — the branch can be deleted from the codebase",
+                "ru": "Ready for code removal — ветку можно удалять из кодовой базы"
             },
             {
-                "en": "Monitor",
-                "ru": "Monitor"
+                "en": "Archived — the flag is no longer served to customers at all",
+                "ru": "Archived — флаг больше вообще не отдаётся пользователям"
             },
             {
-                "en": "Archive",
-                "ru": "Archive"
+                "en": "Deprecated — the flag is served only by older versions of the app",
+                "ru": "Deprecated — флаг отдаётся только старыми версиями приложения"
             },
             {
-                "en": "Deploy",
-                "ru": "Deploy"
+                "en": "Inactive — the flag has not been evaluated for at least seven days",
+                "ru": "Inactive — флаг не вычислялся как минимум семь дней"
             }
         ],
         "correct": 0
@@ -751,7 +751,7 @@
         "id": "ff-risk-001",
         "type": "single-choice",
         "category": "feature-flags",
-        "difficulty": "hard",
+        "difficulty": "medium",
         "tags": ["feature-flags", "risks", "cascading"],
         "question": {
             "en": "A feature flag service is unreachable at startup. What is the recommended default behavior for the application?",
@@ -978,8 +978,8 @@
             "ru": "Какие из перечисленного практик образуют здоровый процесс управления жизненным циклом feature flags?"
         },
         "explanation": {
-            "en": "Healthy flag lifecycle management includes: assigning owners and expiry dates (accountability), tracking evaluation metrics to find dead flags, and automating stale flag detection in CI. Creating all flags as permanent and separating flag config into another repo are anti-patterns that increase debt and friction.",
-            "ru": "Здоровое управление жизненным циклом флагов включает: назначение владельцев и дат истечения (ответственность), сбор метрик вычисления для поиска мёртвых флагов и автоматизацию выявления устаревших флагов в CI. Делать все флаги постоянными и выносить их конфигурацию в отдельный репозиторий — это антипаттерны, увеличивающие долг и трение."
+            "en": "Healthy flag lifecycle management includes: assigning owners and expiry dates (accountability), tracking evaluation metrics to find dead flags, and automating stale flag detection in CI. Creating every flag as permanent is an anti-pattern, and so is deleting a flag from the dashboard while the branch stays in the code — the SDK then silently falls back to the default and the dead path lives on.",
+            "ru": "Здоровое управление жизненным циклом флагов включает: назначение владельцев и дат истечения (ответственность), сбор метрик вычисления для поиска мёртвых флагов и автоматизацию выявления устаревших флагов в CI. Делать все флаги постоянными — антипаттерн, как и удалять флаг из дашборда, оставляя ветку в коде: SDK после этого молча откатывается на дефолт, а мёртвая ветка продолжает жить."
         },
         "options": [
             {
@@ -999,8 +999,8 @@
                 "ru": "Создавать все флаги как постоянные, чтобы максимизировать переиспользование"
             },
             {
-                "en": "Keep all flag configurations in a separate Git repository from the application code",
-                "ru": "Хранить всю конфигурацию флагов в отдельном Git-репозитории, отдельно от кода приложения"
+                "en": "Remove the flag from the dashboard and leave the branching code in place",
+                "ru": "Удалять флаг из дашборда, оставляя ветвление в коде"
             }
         ],
         "correct": [0, 1, 2]
@@ -1016,8 +1016,8 @@
             "ru": "Какие из перечисленного могут сделать невалидными результаты A/B-теста, проводимого через feature flags?"
         },
         "explanation": {
-            "en": "A/B test validity threats: peeking (stopping early when you see significance inflates false positive rate), non-sticky targeting (users in both groups corrupt the sample), and novelty effect (short-term behavioral change not reflective of long-term usage). Running longer or at 100% are not validity threats in themselves.",
-            "ru": "Угрозы валидности A/B-теста: peeking (ранний останов при виде значимости завышает false positive rate), отсутствие sticky targeting (пользователи в обеих группах портят выборку) и novelty effect (краткосрочное изменение поведения не отражает долгосрочное). Более длительный запуск или запуск на 100% сами по себе угрозами валидности не являются."
+            "en": "A/B test validity threats: peeking (stopping early when significance appears inflates the false positive rate), non-sticky targeting (users drifting between groups corrupt the sample), and the novelty effect (short-term behaviour change that does not reflect long-term usage). Running longer than planned, or enrolling every eligible user from the start with a proper control split, are not validity threats in themselves.",
+            "ru": "Угрозы валидности A/B-теста: peeking (ранний останов при появлении значимости завышает false positive rate), отсутствие sticky targeting (пользователи дрейфуют между группами и портят выборку) и novelty effect (краткосрочное изменение поведения, не отражающее долгосрочное). Более длительный запуск или набор всех подходящих пользователей с самого начала при корректном делении на control и treatment сами по себе угрозами валидности не являются."
         },
         "options": [
             {
@@ -1029,8 +1029,8 @@
                 "ru": "Запуск теста дольше запланированного ради большей выборки"
             },
             {
-                "en": "Testing on 100% of users from the start",
-                "ru": "Тестирование сразу на 100% пользователей с самого начала"
+                "en": "Enrolling 100% of eligible users from the start, split evenly between control and treatment",
+                "ru": "Набор сразу 100% подходящих пользователей с самого начала, с равным делением на control и treatment"
             },
             {
                 "en": "Users switching between variants due to non-sticky targeting",
@@ -1092,12 +1092,12 @@
             "ru": "В этом компоненте под feature flag есть баг. В чём он?"
         },
         "explanation": {
-            "en": "Reading flags in render is correct, but the flag key should be a constant (not a magic string) and the component should avoid unnecessary re-renders from flag streaming. Most importantly, ensure the component handles the loading state before flags are resolved to prevent flickering.",
-            "ru": "Читать флаги в рендере корректно, но ключ флага должен быть константой (а не magic string), и компонент не должен лишний раз ререндериться из-за стриминга флагов. Главное — компонент должен корректно обрабатывать loading-состояние до того, как флаги разрешатся, чтобы избежать мерцания."
+            "en": "Until the SDK resolves, `flags` is an empty object, so `flags['new-dashboard']` is `undefined` — falsy. The component therefore renders the control variant for everyone, including users targeted for the new one, and swaps it out when the flags land: a visible flash, a layout shift, and a control impression recorded against a treatment user. `isReady` is right there and is simply ignored. Branch on readiness, or remove the loading window altogether by bootstrapping flags server-side.",
+            "ru": "Пока SDK не разрешил флаги, `flags` — пустой объект, поэтому `flags['new-dashboard']` равен `undefined`, то есть falsy. Компонент рендерит контрольный вариант всем, включая пользователей, которым нацелен новый, и подменяет его, когда флаги приезжают: видимое мерцание, layout shift и показ контрольного варианта, записанный на пользователя из treatment-группы. `isReady` есть в коде и просто игнорируется. Нужно ветвиться по готовности или вообще убрать окно загрузки, забутстрапив флаги на сервере."
         },
-        "code": "function NewDashboard() {\n  const flags = useFlags();\n\n  if (flags['new-dashboard']) {\n    return <Dashboard v2 />;\n  }\n\n  return <Dashboard />;\n}\n\n// Usage:\n<NewDashboard />",
-        "correct": "The flag is re-evaluated inside the render function on every render; if useFlags() triggers a re-render (e.g., streaming updates), the component may flash between variants",
-        "referenceAnswer": "Memoize the flag evaluation or use a stable selector: const isEnabled = useMemo(() => flags['new-dashboard'], [flags]); or rely on the SDK's built-in memoization. Also ensure the flag key 'new-dashboard' is extracted to a constant to prevent typos.",
+        "code": "// useFlags() returns { flags, isReady } — isReady stays false until the SDK has fetched the flag set\nfunction NewDashboard() {\n  const { flags, isReady } = useFlags();\n\n  if (flags['new-dashboard']) {\n    return <DashboardV2 />;\n  }\n\n  return <Dashboard />;\n}",
+        "correct": "The component never checks isReady, so it renders while flags is still empty and every user gets the control variant on first paint, flipping to DashboardV2 once the flags arrive",
+        "referenceAnswer": "Gate the render on the SDK's readiness instead of on the flag value alone:\n\n```jsx\nfunction NewDashboard() {\n  const { flags, isReady } = useFlags();\n  if (!isReady) return <DashboardSkeleton />;\n  return flags['new-dashboard'] ? <DashboardV2 /> : <Dashboard />;\n}\n```\n\nThe skeleton removes the flash but still costs a loading pass. The stronger fix is to bootstrap the resolved flag values from the server (or evaluate at the edge) so the first render already has real values and the loading branch disappears entirely.",
         "lang": "jsx"
     },
     {
@@ -1187,13 +1187,13 @@
             "ru": "Допишите этот простой детерминированный процентный эвалюатор флага:"
         },
         "explanation": {
-            "en": "Deterministic rollout hashes the user ID combined with the flag key (to avoid all flags activating for the same users) and maps to 0-99. Users below the percentage threshold see the flag enabled. The same inputs always produce the same output, ensuring sticky assignment.",
-            "ru": "Детерминированная раскатка хеширует user ID в паре с ключом флага (чтобы все флаги не активировались для одних и тех же пользователей) и маппит в 0–99. Пользователи ниже порога процента видят флаг включённым. Одинаковые входы всегда дают одинаковый результат, что обеспечивает sticky-назначение."
+            "en": "Deterministic rollout hashes the user ID together with the flag key — combining the two stops every flag from activating for the same users; the order of the two parts is arbitrary as long as it never changes. Taking the hash modulo 100 maps it into buckets 0..99, and users below the percentage threshold see the flag enabled. The same inputs always produce the same bucket, which is what makes the assignment sticky.",
+            "ru": "Детерминированная раскатка хеширует user ID вместе с ключом флага — их комбинация не даёт всем флагам активироваться для одних и тех же пользователей; порядок двух частей произвольный, главное — никогда его не менять. Взятие хеша по модулю 100 раскладывает его в корзины 0..99, и пользователи ниже порога процента видят флаг включённым. Одинаковые входы всегда дают одну и ту же корзину — именно это делает назначение sticky."
         },
-        "code": "function isInRollout(userId: string, flagKey: string, percentage: number): boolean {\n  const hash = simpleHash(`${__BLANK__}-${__BLANK__}`);\n  return (hash % __BLANK__) < percentage;\n}\n\n// simpleHash returns a number 0..Number.MAX_SAFE_INTEGER",
-        "blanks": ["userId", "flagKey", "100"],
+        "code": "function isInRollout(userId: string, flagKey: string, percentage: number): boolean {\n  const hash = simpleHash(`${userId}-${flagKey}`);\n  return (hash % __BLANK__) < percentage;\n}\n\n// simpleHash returns a number 0..Number.MAX_SAFE_INTEGER\n// percentage is 0..100",
+        "blanks": ["100"],
         "lang": "typescript",
-        "referenceAnswer": "Hash the combination of userId and flagKey; take modulo 100; compare to the rollout percentage."
+        "referenceAnswer": "Hash userId together with flagKey (either order works, as long as it is consistent), take the hash modulo 100 to land in a 0..99 bucket, and compare that bucket to the rollout percentage."
     },
     {
         "id": "ff-openfeature-002",
@@ -1202,17 +1202,17 @@
         "difficulty": "hard",
         "tags": ["OpenFeature", "standards", "React"],
         "question": {
-            "en": "Complete the OpenFeature-style flag evaluation using a provider:",
-            "ru": "Допишите вычисление флага в стиле OpenFeature через провайдер:"
+            "en": "Complete this OpenFeature evaluation — the client lookup, the boolean evaluation call and its safe default:",
+            "ru": "Допишите вычисление флага через OpenFeature — получение клиента, вызов булева вычисления и его безопасный дефолт:"
         },
         "explanation": {
-            "en": "OpenFeature's API: setProvider registers the backend; getClient() returns a named evaluation client; getBooleanValue(key, default) evaluates a boolean flag synchronously with a fallback. This API works identically regardless of which provider (LaunchDarkly, Unleash, etc.) is registered.",
-            "ru": "API OpenFeature: setProvider регистрирует backend; getClient() возвращает именованного клиента для вычисления; getBooleanValue(key, default) синхронно вычисляет булев флаг с fallback. Этот API работает одинаково независимо от того, какой провайдер (LaunchDarkly, Unleash и т. д.) зарегистрирован."
+            "en": "The OpenFeature Web SDK: `setProviderAndWait` registers the backend and waits for it to initialise — the plain `setProvider` returns immediately, so any evaluation made while the provider is still starting up silently falls back to its default. `getClient()` returns a named evaluation client, and `getBooleanValue(key, default)` evaluates a boolean flag synchronously, returning the default when no value is available. The same API works whichever provider (LaunchDarkly, Unleash, …) is registered.",
+            "ru": "Web SDK OpenFeature: `setProviderAndWait` регистрирует backend и дожидается его инициализации — обычный `setProvider` возвращается сразу, поэтому любое вычисление во время старта провайдера молча откатится на дефолт. `getClient()` возвращает именованного клиента для вычисления, а `getBooleanValue(key, default)` синхронно вычисляет булев флаг и отдаёт дефолт, если значения нет. Этот API одинаков независимо от того, какой провайдер (LaunchDarkly, Unleash и т. д.) зарегистрирован."
         },
-        "code": "import { OpenFeature } from '@openfeature/web-sdk';\n\n// Setup (once at app init)\nOpenFeature.__BLANK__(new MyFlagProvider());\n\n// In a component:\nfunction PricingPanel() {\n  const client = OpenFeature.__BLANK__('app');\n  const showNewPricing = client.__BLANK__(  \n    'new-pricing',\n    __BLANK__ // default value\n  );\n  return showNewPricing ? <NewPricing /> : <OldPricing />;\n}",
-        "blanks": ["setProvider", "getClient", "getBooleanValue", "false"],
-        "lang": "typescript",
-        "referenceAnswer": "OpenFeature.setProvider() registers the provider; getClient() retrieves a named client; getBooleanValue('flag-key', false) evaluates the flag with a safe default."
+        "code": "import { OpenFeature } from '@openfeature/web-sdk';\n\n// Setup (once at app init) — awaited so evaluations do not fall back while the provider initialises\nawait OpenFeature.setProviderAndWait(new MyFlagProvider());\n\n// In a component:\nfunction PricingPanel() {\n  const client = OpenFeature.__BLANK__('app');\n  const showNewPricing: boolean = client.__BLANK__(\n    'new-pricing',\n    __BLANK__ // safe default when the flag has no value\n  );\n  return showNewPricing ? <NewPricing /> : <OldPricing />;\n}",
+        "blanks": ["getClient", "getBooleanValue", "false"],
+        "lang": "tsx",
+        "referenceAnswer": "await OpenFeature.setProviderAndWait(provider) registers the provider and waits until it is ready; OpenFeature.getClient('app') returns a named evaluation client; client.getBooleanValue('new-pricing', false) evaluates the flag and returns the safe default when no value is available."
     },
     {
         "id": "ff-mock-001",
@@ -1225,31 +1225,31 @@
             "ru": "Допишите настройку мока Vitest для тестирования компонента, использующего useFeatureFlag:"
         },
         "explanation": {
-            "en": "Testing flagged components requires mocking the flag hook to control which variant is tested. vi.mock() replaces the module; vi.mocked().mockReturnValue() sets the return value for each test case. Always test both the enabled and disabled path for complete coverage.",
-            "ru": "Тестирование зафлаженных компонентов требует мока хука флага, чтобы контролировать, какой вариант проверяется. vi.mock() заменяет модуль; vi.mocked().mockReturnValue() задаёт возвращаемое значение для каждого теста. Для полного покрытия всегда тестируйте и включённую, и выключенную ветки."
+            "en": "Testing a flagged component means mocking the flag hook so each variant can be rendered on demand. `vi.mock()` replaces the module and is hoisted to the top of the file, above the imports, so the static import of `useFeatureFlag` already points at the mock — no dynamic `import()` is needed. `vi.mocked(...).mockReturnValue()` then sets the value per test case; always cover both the enabled and the disabled branch.",
+            "ru": "Тестирование зафлаженного компонента требует мока хука флага, чтобы рендерить нужный вариант по требованию. `vi.mock()` подменяет модуль и поднимается (hoisting) в начало файла, выше импортов, поэтому статический импорт `useFeatureFlag` уже указывает на мок — динамический `import()` не нужен. `vi.mocked(...).mockReturnValue()` задаёт значение для конкретного теста; всегда покрывайте и включённую, и выключенную ветку."
         },
-        "code": "import { vi, describe, it, expect } from 'vitest';\nimport { render, screen } from '@testing-library/react';\n\nvi.__BLANK__(__BLANK__('@/hooks/useFeatureFlag'), () => ({\n  useFeatureFlag: vi.fn(),\n}));\n\nconst { useFeatureFlag } = await import('@/hooks/useFeatureFlag');\n\ndescribe('PricingPanel', () => {\n  it('shows new pricing when flag is enabled', () => {\n    vi.mocked(useFeatureFlag).__BLANK__(true);\n    render(<PricingPanel />);\n    expect(screen.getByText('New Pricing')).__BLANK__();\n  });\n});",
-        "blanks": ["mock", "'@/hooks/useFeatureFlag'", "mockReturnValue", "toBeInTheDocument"],
-        "lang": "typescript",
-        "referenceAnswer": "vi.mock() mocks the module; vi.mocked(useFeatureFlag).mockReturnValue(true) controls the return; toBeInTheDocument() asserts the element is present."
+        "code": "import { vi, describe, it, expect } from 'vitest';\nimport { render, screen } from '@testing-library/react';\nimport { useFeatureFlag } from '@/hooks/useFeatureFlag';\nimport { PricingPanel } from './PricingPanel';\n\n// hoisted above the imports, so the static import above already resolves to the mock\nvi.__BLANK__('@/hooks/useFeatureFlag', () => ({\n  useFeatureFlag: vi.fn(),\n}));\n\ndescribe('PricingPanel', () => {\n  it('shows new pricing when the flag is enabled', () => {\n    vi.mocked(useFeatureFlag).__BLANK__(true);\n    render(<PricingPanel />);\n    expect(screen.getByText('New Pricing')).__BLANK__();\n  });\n});",
+        "blanks": ["mock", "mockReturnValue", "toBeInTheDocument"],
+        "lang": "tsx",
+        "referenceAnswer": "vi.mock('@/hooks/useFeatureFlag', factory) replaces the module; the call is hoisted to the top of the file, above the imports, so the static import of useFeatureFlag already resolves to the mocked version. vi.mocked(useFeatureFlag).mockReturnValue(true) sets the value for one test case, and toBeInTheDocument() asserts the rendered variant."
     },
     {
         "id": "ff-provider-001",
         "type": "code-completion",
         "category": "feature-flags",
-        "difficulty": "hard",
+        "difficulty": "easy",
         "tags": ["feature-flags", "React", "bootstrap"],
         "question": {
             "en": "Complete this server-bootstrapped flag provider that avoids a loading state:",
             "ru": "Допишите провайдер флагов с bootstrap от сервера, который не требует loading-состояния:"
         },
         "explanation": {
-            "en": "Bootstrapping flags from a server-injected window variable eliminates the loading state — flags are available synchronously on the first render. The lazy useState initializer (function form) reads window.__FLAGS__ once at mount, preventing stale closure issues on updates.",
-            "ru": "Bootstrap флагов из server-injected window-переменной убирает loading-состояние: флаги синхронно доступны на первом рендере. Ленивый инициализатор useState (функциональная форма) читает window.__FLAGS__ один раз при монтировании, что предотвращает проблемы stale closure при обновлениях."
+            "en": "Bootstrapping flags from a server-injected `window` variable removes the loading state — the values are already present on the very first render. The function form of `useState` runs the initializer only on that first render instead of on every render, so `window.__FLAGS__` is read once; the provider is client-only, so touching `window` there is safe.",
+            "ru": "Bootstrap флагов из server-injected window-переменной убирает loading-состояние: значения уже есть на самом первом рендере. Функциональная форма `useState` выполняет инициализатор только на этом первом рендере, а не на каждом, поэтому `window.__FLAGS__` читается один раз; провайдер работает только на клиенте, так что обращаться к `window` здесь безопасно."
         },
         "code": "// Server renders: <script>window.__FLAGS__ = { 'new-ui': true }</script>\n\nfunction FlagsProvider({ children }: { children: React.ReactNode }) {\n  const [flags] = useState<Record<string, boolean>>(\n    () => (window as any).__BLANK__ ?? {}\n  );\n\n  return (\n    <FlagsContext.__BLANK__ value={__BLANK__}>\n      {children}\n    </FlagsContext.__BLANK__>\n  );\n}",
         "blanks": ["__FLAGS__", "Provider", "flags", "Provider"],
-        "lang": "typescript",
+        "lang": "tsx",
         "referenceAnswer": "Read window.__FLAGS__ in the useState initializer (lazy init, runs once); provide via FlagsContext.Provider."
     },
     {
@@ -1324,7 +1324,7 @@
         "id": "ff-context-001",
         "type": "single-choice",
         "category": "feature-flags",
-        "difficulty": "hard",
+        "difficulty": "medium",
         "tags": ["feature-flags", "evaluation-context"],
         "question": {
             "en": "In the OpenFeature standard, what is an 'evaluation context'?",
@@ -1437,8 +1437,8 @@
             "ru": "Какие из перечисленного — возможности, которые обычно предоставляет SDK feature flags?"
         },
         "explanation": {
-            "en": "Core SDK features: streaming updates (near-real-time flag changes), local caching (no HTTP per evaluation), and safe defaults for resilience. Statistical analysis is a platform-level feature (GrowthBook, LaunchDarkly Experimentation), not a base SDK concern. Audit logs are also platform-level, not SDK-level.",
-            "ru": "Базовые возможности SDK: streaming-обновления (near-real-time изменения флагов), локальное кеширование (без HTTP на каждое вычисление) и безопасные дефолты для устойчивости. Статистический анализ — это фича уровня платформы (GrowthBook, LaunchDarkly Experimentation), а не базового SDK. Audit logs тоже относятся к платформе, а не к SDK."
+            "en": "Core SDK features: streaming updates (near-real-time flag changes), local caching (no HTTP request per evaluation), and safe defaults for resilience. Statistical analysis is a platform-level feature (GrowthBook, LaunchDarkly Experimentation), not a base SDK concern — and so is the management dashboard with its approval workflows.",
+            "ru": "Базовые возможности SDK: streaming-обновления (near-real-time изменения флагов), локальное кеширование (без HTTP-запроса на каждое вычисление) и безопасные дефолты для устойчивости. Статистический анализ — фича уровня платформы (GrowthBook, LaunchDarkly Experimentation), а не базового SDK, как и дашборд управления с его workflow согласования."
         },
         "options": [
             {
@@ -1458,8 +1458,8 @@
                 "ru": "Безопасные значения по умолчанию при недоступности сервиса флагов"
             },
             {
-                "en": "Flag evaluation history and audit log",
-                "ru": "История вычислений флагов и audit log"
+                "en": "A web dashboard with role-based approval workflows for flag changes",
+                "ru": "Веб-дашборд с ролевыми workflow согласования изменений флагов"
             }
         ],
         "correct": [0, 1, 3]
@@ -1475,13 +1475,13 @@
             "ru": "Какие из перечисленного — валидные архитектурные паттерны доставки feature flags в React-приложение?"
         },
         "explanation": {
-            "en": "Valid patterns: client-side (browser evaluates via SDK), server-side (SSR resolves flags before HTML), edge (CDN worker evaluates before request reaches origin), and compile-time (environment-based dead code elimination, not true runtime flags but valid for static toggles). Database-per-flag is not a recognized architecture pattern.",
-            "ru": "Валидные паттерны: client-side (браузер вычисляет через SDK), server-side (SSR разрешает флаги до отдачи HTML), edge (CDN worker вычисляет до того, как запрос доходит до origin) и compile-time (удаление мёртвого кода по окружению — не настоящие runtime-флаги, но корректный подход для статических переключателей). Database-per-flag общепризнанным архитектурным паттерном не является."
+            "en": "Valid runtime patterns: client-side (the browser evaluates a streamed ruleset through the SDK), server-side (SSR resolves flags before the HTML is sent), edge (a CDN worker evaluates before the request reaches origin), and the hybrid of the last two — a server-bootstrapped payload plus a streaming client SDK for later changes. Compile-time constants stripped by tree shaking are a build-time technique: the switch is baked into the bundle and cannot be flipped without a deploy, which is exactly what a feature flag is defined not to require. Database-per-flag is not a recognised pattern.",
+            "ru": "Валидные runtime-паттерны: client-side (браузер вычисляет стримящийся набор правил через SDK), server-side (SSR разрешает флаги до отдачи HTML), edge (CDN worker вычисляет до того, как запрос доходит до origin) и гибрид двух последних — забутстрапленные сервером значения плюс клиентский SDK со стримингом последующих изменений. Compile-time константы, вырезаемые tree shaking, — это приём времени сборки: переключатель зашит в бандл и не меняется без деплоя, а feature flag по определению этого не требует. Database-per-flag общепризнанным паттерном не является."
         },
         "options": [
             {
-                "en": "Compile-time flags: remove dead code at build time using tree shaking",
-                "ru": "Compile-time флаги: удаление мёртвого кода на этапе сборки через tree shaking"
+                "en": "Compile-time constants stripped by tree shaking — a build-time technique, not a runtime flag",
+                "ru": "Compile-time константы, вырезаемые tree shaking, — это приём времени сборки, а не runtime-флаг"
             },
             {
                 "en": "Database-per-flag: store each flag in a separate database table",
@@ -1498,9 +1498,13 @@
             {
                 "en": "Edge evaluation: evaluate flags at CDN edge workers before serving the HTML",
                 "ru": "Edge-вычисление: вычисление флагов на CDN edge workers перед отдачей HTML"
+            },
+            {
+                "en": "Hybrid: the server bootstraps resolved values into the HTML and a client SDK streams later changes",
+                "ru": "Гибрид: сервер отдаёт уже вычисленные значения в HTML, а клиентский SDK стримит последующие изменения"
             }
         ],
-        "correct": [0, 2, 3, 4]
+        "correct": [2, 3, 4, 5]
     },
     {
         "id": "ff-targeting-bug-001",
@@ -1535,10 +1539,10 @@
             "en": "Flag cleanup means removing: the flag evaluation call, the conditional branching, and the dead code path (OldCheckout). The result is a simpler component with one code path. This is the correct end-state — not replacing the condition with `if (true)`.",
             "ru": "Очистка флага означает удаление: вызова вычисления флага, условного ветвления и мёртвой ветки (OldCheckout). В итоге получается более простой компонент с одной веткой. Это и есть правильное конечное состояние — а не замена условия на `if (true)`."
         },
-        "code": "// Before:\nfunction CheckoutPage() {\n  const isNewCheckout = useFeatureFlag('use-new-checkout');\n  if (__BLANK__) {\n    return <NewCheckout />;\n  }\n  return <OldCheckout />;\n}\n\n// After cleanup (flag removed permanently):\nfunction CheckoutPage() {\n  return __BLANK__;\n}",
-        "blanks": ["isNewCheckout", "<NewCheckout />"],
-        "lang": "typescript",
-        "referenceAnswer": "The condition was `if (isNewCheckout)`; after cleanup, return only `<NewCheckout />` — the entire flag check and OldCheckout are removed."
+        "code": "// Before:\nfunction CheckoutPage() {\n  const isNewCheckout = useFeatureFlag('use-new-checkout');\n  if (__BLANK__) {\n    return <NewCheckout />;\n  }\n  return <OldCheckout />;\n}\n\n// After cleanup (flag removed permanently):\nfunction CheckoutPage() {\n  return <__BLANK__ />;\n}",
+        "blanks": ["isNewCheckout", "NewCheckout"],
+        "lang": "tsx",
+        "referenceAnswer": "The condition was `if (isNewCheckout)`; after cleanup the component returns `<NewCheckout />` only — the flag evaluation, the branch and OldCheckout are all removed."
     },
     {
         "id": "ff-ownership-001",

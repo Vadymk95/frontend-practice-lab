@@ -656,8 +656,8 @@
             "ru": "Какая библиотека интегрирует accessibility-проверки axe-core в тесты Vitest?"
         },
         "explanation": {
-            "en": "vitest-axe extends Vitest's expect with toHaveNoViolations(). It runs axe-core against a rendered component and reports WCAG violations as test failures.",
-            "ru": "vitest-axe расширяет expect из Vitest матчером toHaveNoViolations(). Он прогоняет axe-core по отрендеренному компоненту и сообщает о нарушениях WCAG как о падениях тестов."
+            "en": "vitest-axe extends Vitest's expect with toHaveNoViolations(). It runs axe-core against a rendered component and reports WCAG violations as test failures. The original package is effectively dormant — no stable release past 0.1.0 — so teams now usually take a maintained fork such as @chialab/vitest-axe, or use jest-axe, which works under Vitest too.",
+            "ru": "vitest-axe расширяет expect из Vitest матчером toHaveNoViolations(). Он прогоняет axe-core по отрендеренному компоненту и сообщает о нарушениях WCAG как о падениях тестов. Сам пакет практически заморожен — стабильных релизов после 0.1.0 не было, — поэтому сейчас обычно берут поддерживаемый форк вроде @chialab/vitest-axe или jest-axe, который под Vitest тоже работает."
         },
         "options": [
             {
@@ -887,7 +887,7 @@
         "id": "test-hooks-002",
         "type": "single-choice",
         "category": "testing",
-        "difficulty": "hard",
+        "difficulty": "medium",
         "tags": ["hooks", "async-hooks"],
         "question": {
             "en": "When testing a custom hook that fetches data asynchronously with renderHook, how do you wait for the async state update?",
@@ -1026,12 +1026,12 @@
         "difficulty": "easy",
         "tags": ["vitest", "matchers"],
         "question": {
-            "en": "Which Vitest matchers are used for checking function calls? (select all that apply)",
-            "ru": "Какие матчеры Vitest применяются для проверки вызовов функции? (выберите все подходящие)"
+            "en": "Which Vitest matchers assert on a mock function — its calls or its return values? (select all that apply)",
+            "ru": "Какие матчеры Vitest проверяют mock-функцию — её вызовы или возвращаемые значения? (выберите все подходящие)"
         },
         "explanation": {
-            "en": "toHaveBeenCalled, toHaveBeenCalledWith, toHaveBeenCalledTimes, and toHaveReturnedWith are all mock-function matchers. toHaveLength checks array or string length and is not specific to mock functions.",
-            "ru": "toHaveBeenCalled, toHaveBeenCalledWith, toHaveBeenCalledTimes и toHaveReturnedWith — всё это матчеры для mock-функций. toHaveLength проверяет длину массива или строки и к mock-функциям отношения не имеет."
+            "en": "toHaveBeenCalled, toHaveBeenCalledWith and toHaveBeenCalledTimes assert on the call log; toHaveReturnedWith asserts on what the mock returned. All four are mock-function matchers. toHaveLength checks array or string length and has nothing to do with mocks, and vi.isMockFunction is a vi utility, not an expect matcher.",
+            "ru": "toHaveBeenCalled, toHaveBeenCalledWith и toHaveBeenCalledTimes проверяют лог вызовов; toHaveReturnedWith — то, что mock вернул. Все четыре — матчеры для mock-функций. toHaveLength проверяет длину массива или строки и к мокам отношения не имеет, а vi.isMockFunction — это утилита vi, а не матчер expect."
         },
         "options": [
             {
@@ -1053,6 +1053,10 @@
             {
                 "en": "toHaveBeenCalledWith(...args)",
                 "ru": "toHaveBeenCalledWith(...args)"
+            },
+            {
+                "en": "vi.isMockFunction(fn)",
+                "ru": "vi.isMockFunction(fn)"
             }
         ],
         "correct": [0, 1, 3, 4]
@@ -1064,12 +1068,12 @@
         "difficulty": "medium",
         "tags": ["react-testing-library", "queries"],
         "question": {
-            "en": "Which query variants in React Testing Library throw when the element is NOT found? (select all that apply)",
-            "ru": "Какие варианты запросов в React Testing Library бросают исключение, если элемент НЕ найден? (выберите все подходящие)"
+            "en": "Which React Testing Library query variants throw synchronously when the element is NOT found? (select all that apply)",
+            "ru": "Какие варианты запросов в React Testing Library бросают исключение синхронно, если элемент НЕ найден? (выберите все подходящие)"
         },
         "explanation": {
-            "en": "getBy* and getAllBy* throw immediately if the element is not found. queryBy* returns null. findBy* returns a rejected Promise after timeout. queryAllBy* returns an empty array.",
-            "ru": "getBy* и getAllBy* сразу бросают исключение, если элемент не найден. queryBy* возвращает null. findBy* после таймаута возвращает rejected-Promise. queryAllBy* возвращает пустой массив."
+            "en": "getBy* and getAllBy* throw immediately when the element is not found. queryBy* returns null and queryAllBy* returns an empty array. findBy* is async: it returns a Promise that is rejected after the default 1000 ms timeout — Testing Library's own summary table files it under 'throw error', but the failure arrives as a rejection you have to await, not as a synchronous throw.",
+            "ru": "getBy* и getAllBy* бросают исключение сразу, если элемент не найден. queryBy* возвращает null, queryAllBy* — пустой массив. findBy* асинхронный: он возвращает Promise, который реджектится по истечении дефолтного таймаута в 1000 мс — в сводной таблице Testing Library он тоже стоит под 'throw error', но падение приходит как rejection, который нужно await'ить, а не как синхронный throw."
         },
         "options": [
             {
@@ -1182,8 +1186,8 @@
             "ru": "Какие API Vitest помогают восстанавливать состояние между тестами? (выберите все подходящие)"
         },
         "explanation": {
-            "en": "clearAllMocks resets call history. resetAllMocks also removes implementations. restoreAllMocks restores spies to their original implementation. useRealTimers restores real timers after useFakeTimers. vi.unmock() removes a module mock for subsequent imports.",
-            "ru": "clearAllMocks сбрасывает историю вызовов. resetAllMocks дополнительно удаляет реализации. restoreAllMocks возвращает spy'ям их оригинальные реализации. useRealTimers восстанавливает реальные таймеры после useFakeTimers. vi.unmock() снимает mock модуля для последующих импортов."
+            "en": "clearAllMocks resets call history. resetAllMocks also removes implementations, including queued 'once' values. restoreAllMocks returns vi.spyOn spies to their original implementation. useRealTimers restores real timers after useFakeTimers. vi.unmock() does not help between tests: it is hoisted to the top of the file, so it only unmocks modules registered in setup files — vi.doUnmock() is the non-hoisted, runtime variant. vi.stubGlobal() installs a global stub rather than restoring one; its counterpart is vi.unstubAllGlobals().",
+            "ru": "clearAllMocks сбрасывает историю вызовов. resetAllMocks дополнительно удаляет реализации, включая значения из очередей once. restoreAllMocks возвращает spy'ям из vi.spyOn их оригинальные реализации. useRealTimers восстанавливает реальные таймеры после useFakeTimers. vi.unmock() между тестами не поможет: он поднимается в начало файла, поэтому снимает mock только с модулей, замоканных в setup-файлах, — рантайм-вариант без хойстинга это vi.doUnmock(). vi.stubGlobal() наоборот ставит заглушку на глобал, а восстанавливает её vi.unstubAllGlobals()."
         },
         "options": [
             {
@@ -1205,6 +1209,10 @@
             {
                 "en": "vi.restoreAllMocks()",
                 "ru": "vi.restoreAllMocks()"
+            },
+            {
+                "en": "vi.stubGlobal(name, value)",
+                "ru": "vi.stubGlobal(name, value)"
             }
         ],
         "correct": [0, 1, 2, 4]
@@ -1334,12 +1342,12 @@
             "ru": "Найдите проблему в этом тестовом сьюте:"
         },
         "explanation": {
-            "en": "mockResolvedValueOnce queues a value. If a test fails before consuming it, the queued value bleeds into the next test. Calling vi.clearAllMocks() in afterEach removes the queued values and call history.",
-            "ru": "mockResolvedValueOnce ставит значение в очередь. Если тест падает, не успев его потребить, значение утечёт в следующий тест. Вызов vi.clearAllMocks() в afterEach чистит очередь значений и историю вызовов."
+            "en": "mockResolvedValueOnce queues a value. If a test fails before consuming it, the queued value bleeds into the next test. vi.clearAllMocks() is not enough: mockClear wipes call history and explicitly does not reset implementations, so the queued once-values survive. vi.resetAllMocks() (or mockReset: true in vitest.config.ts) clears the history and resets the implementation, including every queued 'once' value.",
+            "ru": "mockResolvedValueOnce ставит значение в очередь. Если тест падает, не успев его потребить, значение утечёт в следующий тест. vi.clearAllMocks() здесь не спасает: mockClear чистит историю вызовов и намеренно не трогает реализации, поэтому значения из очереди once остаются. vi.resetAllMocks() (или mockReset: true в vitest.config.ts) чистит историю и сбрасывает реализацию вместе со всеми очередями once."
         },
         "code": "import { fetchData } from './api';\n\nvi.mock('./api');\n\ndescribe('Component', () => {\n  it('shows data', async () => {\n    fetchData.mockResolvedValueOnce({ name: 'Alice' });\n    // ... render and assert\n  });\n\n  it('shows error', async () => {\n    fetchData.mockRejectedValueOnce(new Error('fail'));\n    // ... render and assert\n  });\n});",
         "correct": "No mock cleanup between tests — if test order changes, leftover mock implementations can bleed into subsequent tests",
-        "referenceAnswer": "Add afterEach(() => vi.clearAllMocks()) or configure clearMocks: true in vitest.config.ts. This resets call history and queued return values between tests, preventing state leakage.",
+        "referenceAnswer": "Add afterEach(() => vi.resetAllMocks()) or set mockReset: true in vitest.config.ts. clearAllMocks/mockClear only resets the call log and leaves queued 'once' implementations in place; resetAllMocks/mockReset resets the implementation too, which is what drains the values queued by mockResolvedValueOnce and mockRejectedValueOnce. Use restoreAllMocks instead when the mocks are vi.spyOn spies that must be returned to their original implementation.",
         "lang": "javascript"
     },
     {
@@ -1372,12 +1380,12 @@
             "ru": "Найдите проблему в этом тестовом файле Vitest:"
         },
         "explanation": {
-            "en": "Because vi.mock() is hoisted to the top at compile time, variables declared in the module scope are not yet initialised when the factory runs. vi.hoisted() is the Vitest-specific fix for this pattern.",
-            "ru": "Поскольку vi.mock() на этапе компиляции поднимается в начало файла, переменные в скоупе модуля ещё не инициализированы к моменту выполнения фабрики. vi.hoisted() — Vitest-специфичное решение для такого паттерна."
+            "en": "vi.mock() is hoisted to the top of the file at transform time, so the factory evaluates before the module body's const is initialised. The docs are explicit that a factory cannot use variables defined outside it: the result is a temporal-dead-zone error, not a silent undefined. vi.hoisted() is the Vitest-specific fix for this pattern.",
+            "ru": "vi.mock() на этапе трансформации поднимается в начало файла, поэтому фабрика выполняется раньше, чем инициализируется const в теле модуля. В документации прямо сказано, что переменные, объявленные вне фабрики, использовать нельзя: получается ошибка temporal dead zone, а не тихий undefined. vi.hoisted() — Vitest-специфичное решение для такого паттерна."
         },
         "code": "import { render } from '@testing-library/react';\nimport { MyComponent } from './MyComponent';\n\nconst mockFn = vi.fn();\n\nvi.mock('./service', () => ({\n  fetchData: mockFn,\n}));\n\nit('calls fetchData', () => {\n  render(<MyComponent />);\n  expect(mockFn).toHaveBeenCalled();\n});",
-        "correct": "vi.mock() is hoisted above all imports, but the factory references mockFn which is declared after the imports — the factory closure captures undefined",
-        "referenceAnswer": "Move mockFn inside the factory or use vi.hoisted(): const mockFn = vi.hoisted(() => vi.fn()); vi.mock('./service', () => ({ fetchData: mockFn })); vi.hoisted ensures the variable is available before hoisting.",
+        "correct": "vi.mock() is hoisted above the imports, so its factory runs before the module-scope const mockFn is initialised — a factory cannot use variables defined outside it, and the file fails with a 'Cannot access ... before initialization' error",
+        "referenceAnswer": "Use vi.hoisted(): const mockFn = vi.hoisted(() => vi.fn()); vi.mock('./service', () => ({ fetchData: mockFn })); vi.hoisted() runs its callback before the hoisted vi.mock factory, so the binding is already initialised when the factory evaluates. Declaring the mock inside the factory is not an alternative here — the test body would lose its reference and would have to reach for it via vi.mocked(await import('./service')).fetchData.",
         "lang": "jsx"
     },
     {
@@ -1467,13 +1475,13 @@
             "ru": "Допишите этот Vitest-тест для чистой функции, складывающей два числа:"
         },
         "explanation": {
-            "en": "The standard Vitest structure: describe wraps related tests, it defines a case, expect creates assertions. All are imported from 'vitest'.",
-            "ru": "Стандартная структура Vitest: describe оборачивает связанные тесты, it описывает кейс, expect создаёт assert. Всё импортируется из 'vitest'."
+            "en": "The standard Vitest structure: describe groups related tests, it defines a single case, expect creates the assertion. Vitest globals are off by default, so all three are imported from 'vitest' unless globals: true is set in the config.",
+            "ru": "Стандартная структура Vitest: describe группирует связанные тесты, it описывает один кейс, expect создаёт assert. Глобалы в Vitest по умолчанию выключены, поэтому все три импортируются из 'vitest', если в конфиге не выставлен globals: true."
         },
-        "code": "import { __BLANK__ } from 'vitest';\nimport { add } from './math';\n\n__BLANK__(add, () => {\n  __BLANK__('returns the sum of two numbers', () => {\n    __BLANK__(add(2, 3)).toBe(5);\n  });\n});",
-        "blanks": ["describe", "describe", "it", "expect"],
+        "code": "import { describe, it, expect } from 'vitest';\nimport { add } from './math';\n\n__BLANK__('add', () => {\n  __BLANK__('returns the sum of two numbers', () => {\n    __BLANK__(add(2, 3)).toBe(5);\n  });\n});",
+        "blanks": ["describe", "it", "expect"],
         "lang": "typescript",
-        "referenceAnswer": "import { describe } from 'vitest'. describe() groups tests. it() defines a test case. expect() creates an assertion."
+        "referenceAnswer": "describe('add', ...) groups the tests for one unit, it('returns the sum of two numbers', ...) defines the case, and expect(add(2, 3)).toBe(5) is the assertion. The suite name is a string here; describe also accepts a function as the name, but the string form is what real suites use."
     },
     {
         "id": "test-cc-mock-001",
@@ -1482,17 +1490,17 @@
         "difficulty": "medium",
         "tags": ["vitest", "vi-fn"],
         "question": {
-            "en": "Complete this test that verifies a callback is called with the correct argument:",
-            "ru": "Допишите этот тест, который проверяет, что callback вызван с правильным аргументом:"
+            "en": "Complete this test that verifies a callback is called with the submitted payload:",
+            "ru": "Допишите этот тест, который проверяет, что callback вызван с отправленным payload:"
         },
         "explanation": {
-            "en": "vi.fn() creates a spy that records calls. toHaveBeenCalledWith uses deep equality to match arguments, so passing the expected object works for POJOs.",
-            "ru": "vi.fn() создаёт spy, фиксирующий вызовы. toHaveBeenCalledWith сравнивает аргументы по глубокому равенству, поэтому для POJO-объектов достаточно передать ожидаемое значение."
+            "en": "vi.fn() creates a spy that records calls. toHaveBeenCalledWith compares arguments by deep equality, so passing the same object literal that was submitted is enough for POJOs — reference identity is not required.",
+            "ru": "vi.fn() создаёт spy, фиксирующий вызовы. toHaveBeenCalledWith сравнивает аргументы по глубокому равенству, поэтому для POJO достаточно передать тот же объектный литерал, что и отправляли, — совпадение по ссылке не нужно."
         },
-        "code": "it('calls onSuccess with response data', async () => {\n  const onSuccess = vi.__BLANK__();\n  await submitForm({ name: 'Alice' }, { onSuccess });\n  expect(onSuccess).toHaveBeenCalledWith(__BLANK__);\n});",
+        "code": "it('calls onSuccess with the submitted payload', async () => {\n  const onSuccess = vi.__BLANK__();\n  await submitForm({ name: 'Alice' }, { onSuccess });\n  expect(onSuccess).toHaveBeenCalledWith(__BLANK__);\n});",
         "blanks": ["fn", "{ name: 'Alice' }"],
         "lang": "typescript",
-        "referenceAnswer": "vi.fn() creates a mock function. toHaveBeenCalledWith({ name: 'Alice' }) asserts the mock was called with the expected argument."
+        "referenceAnswer": "vi.fn() creates a mock function. toHaveBeenCalledWith({ name: 'Alice' }) asserts the callback received the submitted payload; the match is a deep equality check, not reference identity."
     },
     {
         "id": "test-cc-rtl-001",
@@ -1501,17 +1509,17 @@
         "difficulty": "medium",
         "tags": ["react-testing-library", "user-event"],
         "question": {
-            "en": "Complete this RTL test that types into a search input and submits the form:",
-            "ru": "Допишите этот RTL-тест, который печатает в поле поиска и сабмитит форму:"
+            "en": "Complete this RTL test. `SearchForm` renders `<input type=\"text\" aria-label=\"Search\" />` plus a submit button:",
+            "ru": "Допишите этот RTL-тест. `SearchForm` рендерит `<input type=\"text\" aria-label=\"Search\" />` и кнопку сабмита:"
         },
         "explanation": {
-            "en": "userEvent.setup() is the v14+ API that correctly maintains pointer and keyboard state across interactions. 'textbox' is the implicit ARIA role of <input type='text'>.",
-            "ru": "userEvent.setup() — это API v14+, корректно сохраняющий состояние указателя и клавиатуры между действиями. 'textbox' — неявная ARIA-роль у <input type='text'>."
+            "en": "userEvent.setup() is the v14+ API that correctly maintains pointer and keyboard state across interactions. `textbox` is the implicit ARIA role of `<input type=\"text\">`. The type matters: `<input type=\"search\">` exposes the `searchbox` role instead, so getByRole('textbox') would not match it.",
+            "ru": "userEvent.setup() — это API v14+, корректно сохраняющий состояние указателя и клавиатуры между действиями. `textbox` — неявная ARIA-роль у `<input type=\"text\">`. Тип важен: у `<input type=\"search\">` роль уже `searchbox`, и getByRole('textbox') такой инпут не найдёт."
         },
         "code": "import { render, screen } from '@testing-library/react';\nimport userEvent from '@testing-library/user-event';\n\nit('searches for items', async () => {\n  const user = userEvent.__BLANK__();\n  render(<SearchForm onSearch={mockSearch} />);\n  await user.type(screen.getByRole('__BLANK__', { name: /search/i }), 'react');\n  await user.click(screen.getByRole('button', { name: /submit/i }));\n  expect(mockSearch).toHaveBeenCalledWith('react');\n});",
         "blanks": ["setup", "textbox"],
         "lang": "typescript",
-        "referenceAnswer": "userEvent.setup() creates a userEvent instance with a simulated pointer/keyboard state. getByRole('textbox') finds input elements by their ARIA role."
+        "referenceAnswer": "userEvent.setup() creates a userEvent instance with simulated pointer/keyboard state. getByRole('textbox') matches <input type=\"text\">; an <input type=\"search\"> would need getByRole('searchbox') instead."
     },
     {
         "id": "test-cc-msw-001",
@@ -1543,13 +1551,13 @@
             "ru": "Допишите этот тест для кастомного хука, загружающего данные:"
         },
         "explanation": {
-            "en": "renderHook returns { result } where result.current holds the hook's latest return value. waitFor is needed because the data arrives asynchronously.",
-            "ru": "renderHook возвращает { result }, где в result.current лежит последнее возвращаемое значение хука. waitFor нужен, потому что данные приходят асинхронно."
+            "en": "renderHook returns { result } where result.current holds the hook's latest return value. waitFor polls the callback until it passes, which is what accommodates the asynchronous data. waitFor is an export of @testing-library/react (re-exported from @testing-library/dom) — 'vitest' has no named waitFor export; its own polling helper is vi.waitFor.",
+            "ru": "renderHook возвращает { result }, где в result.current лежит последнее возвращаемое значение хука. waitFor поллит callback, пока тот не пройдёт, — именно это и покрывает асинхронную загрузку. waitFor экспортируется из @testing-library/react (реэкспорт из @testing-library/dom); у 'vitest' именованного экспорта waitFor нет, его собственный хелпер — vi.waitFor."
         },
-        "code": "import { __BLANK__ } from '@testing-library/react';\nimport { __BLANK__ } from 'vitest';\nimport { useData } from './useData';\n\nit('fetches and returns data', async () => {\n  const { result } = __BLANK__(useData);\n  await __BLANK__(()  => expect(result.current.data).toBeDefined());\n});",
-        "blanks": ["renderHook, waitFor", "waitFor", "renderHook", "waitFor"],
+        "code": "import { renderHook, __BLANK__ } from '@testing-library/react';\nimport { it, expect } from 'vitest';\nimport { useData } from './useData';\n\nit('fetches and returns data', async () => {\n  const { result } = __BLANK__(useData);\n  await __BLANK__(() => expect(result.current.data).toBeDefined());\n});",
+        "blanks": ["waitFor", "renderHook", "waitFor"],
         "lang": "typescript",
-        "referenceAnswer": "renderHook() from @testing-library/react renders the hook in a minimal host component. waitFor() polls until the assertion passes, accommodating async state updates."
+        "referenceAnswer": "renderHook() from @testing-library/react renders the hook in a minimal host component. waitFor() polls until the assertion passes, accommodating async state updates. Both come from @testing-library/react — 'vitest' supplies only it/expect here, since its polling helper is vi.waitFor, not a named waitFor export."
     },
     {
         "id": "test-cc-fake-timers-001",
@@ -1581,13 +1589,13 @@
             "ru": "Допишите этот тест, который проверяет, что optimistic-мутация обновляет UI до ответа сервера:"
         },
         "explanation": {
-            "en": "TanStack Query components need a QueryClient provider. A fresh QueryClient per test prevents cache leakage. The optimistic update should render the item immediately despite the 1-second server delay.",
-            "ru": "Компонентам TanStack Query нужен provider QueryClient. Свежий QueryClient в каждом тесте исключает утечки кеша. Optimistic-обновление должно отрендерить элемент мгновенно, несмотря на секундную задержку сервера."
+            "en": "TanStack Query components need a QueryClient provider, so render() is given a wrapper. Creating the QueryClient in beforeEach gives each test a fresh cache and prevents leakage between tests. The optimistic update should render the item immediately, despite the one-second server delay.",
+            "ru": "Компонентам TanStack Query нужен provider QueryClient, поэтому render() получает wrapper. Создание QueryClient в beforeEach даёт каждому тесту свежий кеш и исключает утечки между тестами. Optimistic-обновление должно отрендерить элемент мгновенно, несмотря на секундную задержку сервера."
         },
-        "code": "it('shows optimistic update immediately', async () => {\n  server.use(\n    http.post('/api/todos', async () => {\n      await new Promise(r => setTimeout(r, 1000));\n      return HttpResponse.json({ id: 2, text: 'New todo' });\n    })\n  );\n\n  const user = userEvent.setup();\n  render(<TodoList />, { wrapper: __BLANK__ });\n  await user.click(screen.getByRole('button', { name: /add/i }));\n  expect(screen.getByText('New todo')).__BLANK__();\n});",
+        "code": "let queryClient;\nbeforeEach(() => {\n  queryClient = new QueryClient();\n});\n\nconst QueryClientWrapper = ({ children }) => (\n  <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>\n);\n\nit('shows optimistic update immediately', async () => {\n  server.use(\n    http.post('/api/todos', async () => {\n      await new Promise(r => setTimeout(r, 1000));\n      return HttpResponse.json({ id: 2, text: 'New todo' });\n    })\n  );\n\n  const user = userEvent.setup();\n  render(<TodoList />, { wrapper: __BLANK__ });\n  await user.click(screen.getByRole('button', { name: /add/i }));\n  expect(screen.getByText('New todo')).__BLANK__();\n});",
         "blanks": ["QueryClientWrapper", "toBeInTheDocument"],
         "lang": "typescript",
-        "referenceAnswer": "QueryClientWrapper is a custom wrapper that provides a fresh QueryClient to the component. toBeInTheDocument() asserts the optimistic item is visible before the delayed server response."
+        "referenceAnswer": "QueryClientWrapper is the wrapper defined above the test: it feeds the per-test QueryClient into the component tree. toBeInTheDocument() asserts the optimistic item is already visible before the delayed server response resolves."
     },
     {
         "id": "test-cc-spy-001",
@@ -1751,12 +1759,12 @@
         "difficulty": "medium",
         "tags": ["bdd", "jest", "vitest", "describe-it"],
         "question": {
-            "en": "How do describe() and it() blocks in Jest/Vitest relate to BDD's Given/When/Then?",
-            "ru": "Как блоки describe() и it() в Jest/Vitest соотносятся с Given/When/Then из BDD?"
+            "en": "In BDD-style Jest/Vitest specs, how do describe() and it() map onto Gherkin's Feature and Given/When/Then?",
+            "ru": "Как в спеках Jest/Vitest в BDD-стиле describe() и it() соотносятся с Feature и Given/When/Then из Gherkin?"
         },
         "explanation": {
-            "en": "Jest and Vitest borrow BDD vocabulary. describe() groups tests by context (Given — the precondition/system-under-test). it() names the specific action being tested (When). The expect() assertions inside verify the outcome (Then). This is sometimes called 'soft BDD' — BDD-style naming without Gherkin tooling.",
-            "ru": "Jest и Vitest заимствуют BDD-вокабуляр. describe() группирует тесты по контексту (Given — предусловие / система под тестом). it() именует конкретное тестируемое действие (When). Внутренние assert'ы через expect() проверяют результат (Then). Это иногда называют 'soft BDD' — именование в стиле BDD без Gherkin-тулинга."
+            "en": "Jest and Vitest borrow BDD vocabulary but have no Gherkin parser. describe() plays the role of a Feature — the unit or behaviour under discussion — and each it('should ...') is one scenario. Given/When/Then live inside the test body as arrange/act/assert: the setup is the Given, the call under test is the When, and the expect() assertions are the Then. describe() is not a Given: sibling tests in the same describe routinely have different preconditions.",
+            "ru": "Jest и Vitest заимствуют вокабуляр BDD, но Gherkin не парсят. describe() играет роль Feature — это юнит или поведение, о котором идёт речь, — а каждый it('should ...') это один сценарий. Given/When/Then живут внутри тела теста как arrange/act/assert: подготовка — Given, вызов тестируемого кода — When, assert'ы через expect() — Then. describe() это не Given: у соседних тестов в одном describe спокойно бывают разные предусловия."
         },
         "options": [
             {
@@ -1764,19 +1772,19 @@
                 "ru": "Они никак не связаны — Jest/Vitest это чисто unit-фреймворки"
             },
             {
-                "en": "describe() maps to a Feature, and it() maps to a full Given/When/Then scenario",
-                "ru": "describe() соответствует Feature, а it() — целому сценарию Given/When/Then"
+                "en": "describe() is the Feature, each it() a full Given/When/Then scenario",
+                "ru": "describe() — это Feature, а каждый it() — целый сценарий Given/When/Then"
             },
             {
                 "en": "it() maps to Given, describe() maps to Then",
                 "ru": "it() соответствует Given, describe() — Then"
             },
             {
-                "en": "describe() maps to Given, it() maps to When, expect() maps to Then",
-                "ru": "describe() соответствует Given, it() — When, expect() — Then"
+                "en": "describe() maps to Given, it() maps to When, and the expect() calls map to Then",
+                "ru": "describe() соответствует Given, it() — When, а вызовы expect() — Then"
             }
         ],
-        "correct": 3
+        "correct": 1
     },
     {
         "id": "test-bdd-006",
@@ -1933,8 +1941,8 @@
             "ru": "Какие утверждения корректно описывают интеграцию BDD с Playwright или Jest-Cucumber? (выберите все подходящие)"
         },
         "explanation": {
-            "en": "Jest-Cucumber uses loadFeature() to bind .feature files to step definition blocks. Playwright BDD packages run the full Cucumber/Gherkin pipeline in a Playwright context, giving access to all locator APIs. Regex parameters allow one step definition to handle 'I have 3 items' and 'I have 5 items'. Feature files are always separate from step definitions — that separation is fundamental to Gherkin's readability.",
-            "ru": "Jest-Cucumber через loadFeature() связывает .feature-файлы с блоками step definitions. Пакеты Playwright BDD гоняют полный Cucumber/Gherkin-конвейер в контексте Playwright, открывая доступ ко всем API локаторов. Параметры regex позволяют одному step definition обрабатывать и 'I have 3 items', и 'I have 5 items'. Feature-файлы всегда отделены от step definitions — это разделение фундаментально для читаемости Gherkin."
+            "en": "Jest-Cucumber uses loadFeature() to bind .feature files to step definition blocks. playwright-bdd converts .feature files into native Playwright tests, so the generated specs run on the Playwright runner with full access to page.getByRole() and the rest of the locator API. Regex parameters allow one step definition to handle 'I have 3 items' and 'I have 5 items'. Feature files are always separate from step definitions — that separation is fundamental to Gherkin's readability.",
+            "ru": "Jest-Cucumber через loadFeature() связывает .feature-файлы с блоками step definitions. playwright-bdd конвертирует .feature-файлы в нативные Playwright-тесты, поэтому сгенерированные спеки идут на раннере Playwright с полным доступом к page.getByRole() и остальному API локаторов. Параметры regex позволяют одному step definition обрабатывать и 'I have 3 items', и 'I have 5 items'. Feature-файлы всегда отделены от step definitions — это разделение фундаментально для читаемости Gherkin."
         },
         "options": [
             {
@@ -1946,16 +1954,16 @@
                 "ru": "Jest-Cucumber парсит .feature-файлы и связывает каждый шаг со step definition-функцией через loadFeature()"
             },
             {
-                "en": "Step definitions in Playwright BDD can use page.getByRole() and other Playwright locators",
-                "ru": "Step definitions в Playwright BDD могут использовать page.getByRole() и другие локаторы Playwright"
+                "en": "Step definitions in playwright-bdd can use page.getByRole() and other Playwright locators",
+                "ru": "Step definitions в playwright-bdd могут использовать page.getByRole() и другие локаторы Playwright"
             },
             {
                 "en": "Gherkin .feature files must be written in the same file as the step definitions",
                 "ru": "Gherkin-файлы .feature должны находиться в том же файле, что и step definitions"
             },
             {
-                "en": "Playwright BDD (e.g., @cucumber/playwright) runs Gherkin scenarios directly in a Playwright browser context",
-                "ru": "Playwright BDD (например, @cucumber/playwright) запускает Gherkin-сценарии прямо в браузерном контексте Playwright"
+                "en": "playwright-bdd generates Playwright test files from .feature files and runs them on the Playwright runner",
+                "ru": "playwright-bdd генерирует Playwright-тесты из .feature-файлов и запускает их на раннере Playwright"
             }
         ],
         "correct": [0, 1, 2, 4]
@@ -1967,17 +1975,17 @@
         "difficulty": "medium",
         "tags": ["bdd", "gherkin", "login"],
         "question": {
-            "en": "Complete this Gherkin scenario for a user login feature. Fill in the missing Gherkin keywords:",
-            "ru": "Допишите этот Gherkin-сценарий для фичи логина пользователя. Вставьте недостающие ключевые слова Gherkin:"
+            "en": "Complete this Gherkin scenario for a user login feature. Fill in the missing step keywords — use `And` where a step continues the type of the step above it:",
+            "ru": "Допишите этот Gherkin-сценарий для фичи логина. Вставьте недостающие ключевые слова шагов — используйте `And` там, где шаг продолжает тип предыдущего шага:"
         },
         "explanation": {
-            "en": "Gherkin keywords: Feature groups scenarios. Scenario names one test case. Given/When/Then structure the steps. And/But extend a previous clause type — 'And' after 'Then' means another Then assertion.",
-            "ru": "Ключевые слова Gherkin: Feature группирует сценарии. Scenario называет один тест-кейс. Given/When/Then задают структуру шагов. And/But продолжают предыдущий тип клаузы — 'And' после 'Then' означает ещё один Then-assert."
+            "en": "Given sets the precondition, When describes the action, Then asserts the outcome. And/But continue the previous clause type — 'And' after 'Then' is simply another Then assertion, which is why the last step reads And rather than a repeated Then.",
+            "ru": "Given задаёт предусловие, When описывает действие, Then проверяет результат. And/But продолжают предыдущий тип клаузы — 'And' после 'Then' это просто ещё один Then-assert, поэтому последний шаг — And, а не повторный Then."
         },
-        "code": "Feature: User authentication\n\n  __BLANK__: Successful login redirects to dashboard\n    __BLANK__ a registered user with email \"user@example.com\" and password \"secret\"\n    __BLANK__ the user submits the login form\n    __BLANK__ the user should be redirected to the dashboard\n    __BLANK__ the user should see \"Welcome back\" message",
-        "blanks": ["Scenario", "Given", "When", "Then", "And"],
+        "code": "Feature: User authentication\n\n  Scenario: Successful login redirects to dashboard\n    __BLANK__ a registered user with email \"user@example.com\" and password \"secret\"\n    __BLANK__ the user submits the login form\n    __BLANK__ the user should be redirected to the dashboard\n    __BLANK__ the user should see \"Welcome back\" message",
+        "blanks": ["Given", "When", "Then", "And"],
         "lang": "gherkin",
-        "referenceAnswer": "Scenario names the test case. Given sets the precondition (registered user). When describes the action (submitting the form). Then asserts the primary outcome (redirect). And continues the Then clause with an additional assertion."
+        "referenceAnswer": "Given sets the precondition (a registered user). When describes the action (submitting the form). Then asserts the primary outcome (the redirect). And continues the Then clause with an additional assertion — a repeated Then parses identically, but And is the convention for a continued clause."
     },
     {
         "id": "test-bdd-012",
@@ -1996,6 +2004,6 @@
         "code": "Feature: Add item to cart\n\n  Scenario: User adds a product to their shopping cart\n    Given the React component \"<ProductCard />\" is mounted with props { id: 42, price: 29.99 }\n    When the user triggers a \"click\" event on the DOM element with data-testid=\"add-to-cart-btn\"\n    Then the Redux store action \"ADD_TO_CART\" should be dispatched with payload { productId: 42 }\n    And the component state variable \"cartCount\" should equal 1",
         "correct": "The scenario tests internal implementation details (component names, DOM test IDs, Redux action types, internal state variables) instead of observable user behavior",
         "referenceAnswer": "Rewrite focusing on behavior: Given the user is on the product page for 'Wireless Headphones' priced at $29.99 / When the user clicks 'Add to cart' / Then the cart icon should show 1 item / And the user should see a confirmation 'Item added to cart'. Gherkin scenarios must be readable by non-technical stakeholders and describe what the user experiences, not how the code works.",
-        "lang": "jsx"
+        "lang": "gherkin"
     }
 ]

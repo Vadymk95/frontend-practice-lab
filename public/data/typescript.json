@@ -324,8 +324,8 @@
             "ru": "Какой тип TypeScript выведет для `const x = 'hello' as const`?"
         },
         "explanation": {
-            "en": "The 'as const' assertion widens a string to its literal type. 'const x = \"hello\" as const' gives x the type 'hello' (the literal), not the broad string type.",
-            "ru": "Assertion 'as const' сужает строку до её литерального типа. 'const x = \"hello\" as const' даёт x тип 'hello' (литерал), а не широкий тип string."
+            "en": "The `as const` assertion prevents literal widening, so `const x = 'hello' as const` keeps the literal type `'hello'` instead of being widened to `string`. Widening is the opposite direction — it is what TypeScript does by default to a mutable binding.",
+            "ru": "Assertion `as const` предотвращает расширение литерала (widening), поэтому `const x = 'hello' as const` сохраняет литеральный тип `'hello'`, а не расширяется до `string`. Widening — это обратное направление, именно так TypeScript поступает по умолчанию с изменяемой привязкой."
         },
         "options": [
             {
@@ -426,8 +426,8 @@
             "ru": "В чём главное преимущество `const enum` перед обычным `enum`?"
         },
         "explanation": {
-            "en": "const enum members are inlined as literal values in the emitted JavaScript, so no enum object exists at runtime. This reduces bundle size but makes the enum unavailable for dynamic lookups.",
-            "ru": "Члены const enum подставляются как литеральные значения в скомпилированный JavaScript, поэтому enum-объекта в рантайме не существует. Это уменьшает размер бандла, но делает enum недоступным для динамических обращений."
+            "en": "const enum members are inlined as literal values in the emitted JavaScript, so no enum object exists at runtime. This reduces bundle size but makes the enum unavailable for dynamic lookups. In modern setups const enums are discouraged: they are incompatible with `isolatedModules` and `erasableSyntaxOnly` and with transpile-only pipelines (Vite, esbuild, SWC) — prefer a plain object with `as const`, or a regular enum.",
+            "ru": "Члены const enum подставляются как литеральные значения в скомпилированный JavaScript, поэтому enum-объекта в рантайме не существует. Это уменьшает размер бандла, но делает enum недоступным для динамических обращений. В современных сборках const enum не рекомендуют: он несовместим с `isolatedModules` и `erasableSyntaxOnly`, а также с transpile-only пайплайнами (Vite, esbuild, SWC) — лучше использовать обычный объект с `as const` или обычный enum."
         },
         "options": [
             {
@@ -728,12 +728,12 @@
         "difficulty": "medium",
         "tags": ["type-guards", "user-defined-guards"],
         "question": {
-            "en": "What is the return type annotation needed to write a custom type guard function?",
-            "ru": "Какая аннотация возвращаемого типа нужна для пользовательской функции-type guard?"
+            "en": "Which return type annotation turns a function that returns a boolean into a custom type guard (a type predicate)?",
+            "ru": "Какая аннотация возвращаемого типа превращает функцию, возвращающую boolean, в пользовательский type guard (type predicate)?"
         },
         "explanation": {
-            "en": "A type guard function uses the return type annotation 'param is T'. When the function returns true, TypeScript narrows the type of param to T in the calling scope.",
-            "ru": "Функция-type guard использует аннотацию возврата 'param is T'. Когда функция возвращает true, TypeScript сужает тип param до T в вызывающей области видимости."
+            "en": "A type predicate uses the return type annotation `value is T` on a function that returns a boolean: when it returns true, TypeScript narrows the argument to `T` in the calling scope. `asserts value is T` is the other user-defined narrowing form — an assertion signature, which returns `void` and throws instead of returning false.",
+            "ru": "Type predicate — это аннотация возврата `value is T` у функции, возвращающей boolean: когда она возвращает true, TypeScript сужает аргумент до `T` в вызывающей области видимости. `asserts value is T` — вторая форма пользовательского narrowing, assertion signature: она возвращает `void` и бросает исключение вместо возврата false."
         },
         "options": [
             {
@@ -902,13 +902,13 @@
             "ru": "В чём разница между `private` и `#` (приватные поля ECMAScript) в классах TypeScript?"
         },
         "explanation": {
-            "en": "TypeScript's private keyword is a compile-time-only restriction that disappears in JavaScript output. ECMAScript private fields (#name) are truly private at runtime and cannot be accessed outside the class even in plain JS.",
-            "ru": "Ключевое слово private в TypeScript — это ограничение только на этапе компиляции, которое исчезает в JavaScript. Приватные поля ECMAScript (#name) действительно приватны в рантайме — к ним нельзя обратиться вне класса даже в чистом JS."
+            "en": "TypeScript's `private` keyword is a compile-time-only restriction that disappears in the JavaScript output — the field stays an ordinary enumerable own property, so `Object.keys(new A())` lists it and `a['x']` reads it. ECMAScript private fields (`#name`) are hard-private at runtime: they are not enumerable, not reachable by bracket access, and cannot be read outside the class even from plain JS.",
+            "ru": "Ключевое слово `private` в TypeScript — ограничение только на этапе компиляции, которое исчезает в JavaScript: поле остаётся обычным перечисляемым собственным свойством, поэтому `Object.keys(new A())` его показывает, а `a['x']` читает. Приватные поля ECMAScript (`#name`) приватны по-настоящему в рантайме: они не перечисляемы, недоступны через скобочную нотацию и не читаются вне класса даже из чистого JS."
         },
         "options": [
             {
-                "en": "private fields are readable via Object.keys(); # fields are not",
-                "ru": "Поля private доступны через Object.keys(); поля # — нет"
+                "en": "private fields are hidden from Object.keys(); # fields are enumerable",
+                "ru": "Поля private скрыты от Object.keys(); поля # — перечисляемые"
             },
             {
                 "en": "# is deprecated; private is preferred",
@@ -1206,34 +1206,34 @@
         "type": "multi-choice",
         "category": "typescript",
         "difficulty": "medium",
-        "tags": ["type-guards", "narrowing"],
+        "tags": ["narrowing", "control-flow-analysis"],
         "question": {
-            "en": "Which expressions can TypeScript use to narrow a type inside a conditional block?",
-            "ru": "Какие выражения TypeScript может использовать для narrowing внутри условного блока?"
+            "en": "Which of these narrowing forms does TypeScript's control-flow analysis actually apply?",
+            "ru": "Какие из этих форм narrowing реально применяет control-flow анализ TypeScript?"
         },
         "explanation": {
-            "en": "typeof, instanceof, and 'in' checks all narrow types. Type assertions (as) do not narrow — they override the type without a runtime check and TypeScript does not use them for control-flow narrowing.",
-            "ru": "Проверки typeof, instanceof и 'in' сужают типы. Type assertions (as) не сужают — они переопределяют тип без runtime-проверки, и TypeScript не использует их для control-flow narrowing."
+            "en": "Truthiness checks, discriminant (equality) checks on a tagged union and built-in type predicates such as `Array.isArray` all feed control-flow analysis. A `catch` binding is never narrowed for you: it is typed `any`, or `unknown` under `useUnknownInCatchVariables` (on by default with `strict`), and you have to narrow it yourself with `instanceof Error`.",
+            "ru": "Проверки на truthiness, проверки дискриминанта (равенства) в tagged union и встроенные type predicates вроде `Array.isArray` участвуют в control-flow анализе. Биндинг `catch` не сужается сам: его тип — `any`, либо `unknown` при `useUnknownInCatchVariables` (включён по умолчанию вместе со `strict`), и сужать его приходится вручную через `instanceof Error`."
         },
         "options": [
             {
-                "en": "'property' in value",
-                "ru": "'property' in value"
+                "en": "Truthiness checks — `if (value)` narrows out `null` and `undefined`",
+                "ru": "Проверки на truthiness — `if (value)` убирает `null` и `undefined`"
             },
             {
-                "en": "value as SpecificType",
-                "ru": "value as SpecificType"
+                "en": "Discriminant checks — `if (shape.kind === 'circle')` on a tagged union",
+                "ru": "Проверки дискриминанта — `if (shape.kind === 'circle')` в tagged union"
             },
             {
-                "en": "value instanceof Date",
-                "ru": "value instanceof Date"
+                "en": "`Array.isArray(value)` — a built-in type predicate (`arg is any[]`)",
+                "ru": "`Array.isArray(value)` — встроенный type predicate (`arg is any[]`)"
             },
             {
-                "en": "typeof value === 'number'",
-                "ru": "typeof value === 'number'"
+                "en": "`catch (e)` — the compiler narrows the catch binding to `Error`",
+                "ru": "`catch (e)` — компилятор сужает биндинг catch до `Error`"
             }
         ],
-        "correct": [0, 2, 3]
+        "correct": [0, 1, 2]
     },
     {
         "id": "ts-multi-006",
@@ -1458,8 +1458,8 @@
             "ru": "Какие опции tsconfig влияют на то, как TypeScript генерирует выходной код?"
         },
         "explanation": {
-            "en": "target sets the ECMAScript version of emitted code, module sets the module system, and outDir sets the output directory. strict affects type checking but does not change the shape of emitted JavaScript.",
-            "ru": "target задаёт версию ECMAScript генерируемого кода, module — систему модулей, outDir — директорию вывода. strict влияет на проверку типов, но не меняет вид генерируемого JavaScript."
+            "en": "`target` sets the ECMAScript version of the emitted code, `module` sets the module system and `outDir` sets the output directory. `noUnusedLocals` only reports unused locals during type checking and never changes the emitted JavaScript. Note that `strict` is not purely a checking flag — it turns on `alwaysStrict`, which adds a `\"use strict\"` prologue to each emitted file.",
+            "ru": "`target` задаёт версию ECMAScript генерируемого кода, `module` — систему модулей, `outDir` — директорию вывода. `noUnusedLocals` только сообщает о неиспользуемых локальных переменных при проверке типов и никак не меняет генерируемый JavaScript. Обратите внимание: `strict` — не чисто проверочный флаг, он включает `alwaysStrict`, который добавляет пролог `\"use strict\"` в каждый выходной файл."
         },
         "options": [
             {
@@ -1471,8 +1471,8 @@
                 "ru": "target"
             },
             {
-                "en": "strict",
-                "ru": "strict"
+                "en": "noUnusedLocals",
+                "ru": "noUnusedLocals"
             },
             {
                 "en": "outDir",
@@ -1507,17 +1507,17 @@
         "difficulty": "medium",
         "tags": ["generics", "constraints", "bugs"],
         "question": {
-            "en": "Find the TypeScript error in this generic function:",
-            "ru": "Найдите ошибку TypeScript в этой generic-функции:"
+            "en": "`noUncheckedIndexedAccess` is enabled. Find the TypeScript error in this generic function:",
+            "ru": "Включён `noUncheckedIndexedAccess`. Найдите ошибку TypeScript в этой generic-функции:"
         },
         "explanation": {
-            "en": "Array index access does not automatically produce T | undefined without the noUncheckedIndexedAccess tsconfig flag. Explicitly typing the return as T | undefined makes the function safer.",
-            "ru": "Доступ по индексу к массиву не даёт автоматически T | undefined без флага tsconfig noUncheckedIndexedAccess. Явное указание возвращаемого типа как T | undefined делает функцию безопаснее."
+            "en": "Index access into an array only produces `T | undefined` when `noUncheckedIndexedAccess` is on — with the flag off this function compiles cleanly, which is exactly why the flag exists. With it on, `arr[0]` is `T | undefined` and does not satisfy the declared return type `T`, so tsc reports TS2322. Declare the return type as `T | undefined`, or check the length and return a default.",
+            "ru": "Доступ по индексу к массиву даёт `T | undefined` только при включённом `noUncheckedIndexedAccess` — без этого флага функция компилируется без ошибок, ради чего флаг и существует. С ним `arr[0]` имеет тип `T | undefined` и не подходит под объявленный возвращаемый тип `T`, поэтому tsc выдаёт TS2322. Объявите возвращаемый тип как `T | undefined` или проверьте длину и верните значение по умолчанию."
         },
         "code": "function getFirstElement<T>(arr: T[]): T {\n  return arr[0];\n}",
-        "correct": "The function returns T but arr[0] can be undefined when the array is empty",
-        "referenceAnswer": "When the array is empty, arr[0] is undefined, but the return type is T (not T | undefined). Fix the return type to T | undefined, or add a runtime check with a default value.",
-        "lang": "tsx"
+        "correct": "With noUncheckedIndexedAccess on, arr[0] is T | undefined, which is not assignable to the declared return type T",
+        "referenceAnswer": "Under noUncheckedIndexedAccess an index access widens to `T | undefined`, so `return arr[0];` fails with `error TS2322: Type 'T | undefined' is not assignable to type 'T'.` Fix: widen the signature, or narrow before returning.\n\n```typescript\nfunction getFirstElement<T>(arr: T[]): T | undefined {\n  return arr[0];\n}\n```",
+        "lang": "typescript"
     },
     {
         "id": "ts-bug-003",
@@ -1526,16 +1526,16 @@
         "difficulty": "medium",
         "tags": ["enums", "const-enum", "bugs"],
         "question": {
-            "en": "Identify the issue with this code that uses a const enum across module boundaries:",
-            "ru": "Определите проблему в этом коде, использующем const enum между модулями:"
+            "en": "Identify the issue with this code that uses a `const enum` across module boundaries:",
+            "ru": "Определите проблему в этом коде, использующем `const enum` между модулями:"
         },
         "explanation": {
-            "en": "const enums are purely a compile-time construct. The enum object is not present in the emitted JavaScript, so any runtime lookup will throw a ReferenceError.",
-            "ru": "const enum — чисто compile-time-конструкция. Enum-объект отсутствует в сгенерированном JavaScript, поэтому любое обращение к нему в рантайме приведёт к ReferenceError."
+            "en": "This never reaches runtime: tsc rejects `Direction[Direction.Up]` with **TS2476 — a const enum member can only be accessed using a string literal**, because a `const enum` is erased and its members are inlined at compile time. Switching to a regular `enum` does not fix it either: only numeric enums emit a reverse mapping, and string enum members get none.",
+            "ru": "До рантайма дело не доходит: tsc отклоняет `Direction[Direction.Up]` с ошибкой **TS2476 — к члену const enum можно обратиться только по строковому литералу**, потому что `const enum` стирается, а его члены инлайнятся на этапе компиляции. Замена на обычный `enum` тоже не помогает: reverse mapping генерируется только для числовых enum, у строковых членов его нет."
         },
         "code": "// constants.ts\nexport const enum Direction {\n  Up = 'UP',\n  Down = 'DOWN'\n}\n\n// consumer.ts\nimport { Direction } from './constants';\nconsole.log(Direction[Direction.Up]);",
-        "correct": "const enum reverse mappings do not work at runtime; the enum object is erased",
-        "referenceAnswer": "const enums are inlined at compile time and no runtime object is emitted. Reverse lookups like Direction[Direction.Up] fail at runtime because Direction does not exist. Use a regular enum if you need reverse mapping.",
+        "correct": "A const enum member can only be accessed with a string literal, so Direction[Direction.Up] is a compile error (TS2476); and string enum members get no reverse mapping anyway",
+        "referenceAnswer": "tsc reports `error TS2476: A const enum member can only be accessed using a string literal.` A const enum is inlined at compile time and emits no runtime object, so there is nothing to index. Converting it to a regular enum does not help: the members are strings, and string enum members never get a reverse mapping (`Direction['UP']` then fails with TS2551). Fix: use a numeric enum, the only kind that emits a reverse mapping, or keep the string enum and add an explicit lookup object.\n\n```typescript\nexport enum Direction {\n  Up = 'UP',\n  Down = 'DOWN'\n}\n\nconst directionName: Record<Direction, string> = {\n  [Direction.Up]: 'Up',\n  [Direction.Down]: 'Down'\n};\n\nconsole.log(directionName[Direction.Up]); // 'Up'\n```",
         "lang": "typescript"
     },
     {
@@ -1751,20 +1751,20 @@
         "id": "ts-completion-008",
         "type": "code-completion",
         "category": "typescript",
-        "difficulty": "hard",
+        "difficulty": "medium",
         "tags": ["infer", "conditional-types", "tuples"],
         "question": {
-            "en": "Complete this type that extracts the first element type from a tuple:",
-            "ru": "Дополните тип, извлекающий тип первого элемента из tuple:"
+            "en": "Complete this conditional type so `Head` returns the element type captured by `infer H`:",
+            "ru": "Дополните условный тип так, чтобы `Head` возвращал тип элемента, захваченный через `infer H`:"
         },
         "explanation": {
-            "en": "Tuple inference with infer allows extracting specific positional element types. This pattern mirrors the array destructuring syntax at the type level.",
-            "ru": "Вывод типов tuple через infer позволяет извлекать типы конкретных позиционных элементов. Этот паттерн повторяет синтаксис деструктуризации массива на уровне типов."
+            "en": "`infer H` binds the first element's type inside the tuple pattern, and the true branch of the conditional type returns that binding. `Head<[string, number]>` resolves to `string`; anything that is not a non-empty tuple falls through to `never`.",
+            "ru": "`infer H` связывает тип первого элемента внутри tuple-паттерна, а истинная ветка условного типа возвращает эту привязку. `Head<[string, number]>` даёт `string`; всё, что не является непустым tuple, проваливается в `never`."
         },
-        "code": "type Head<T extends any[]> = T extends [infer __BLANK__, ...any[]] ? H : never;",
+        "code": "type Head<T extends any[]> = T extends [infer H, ...any[]] ? __BLANK__ : never;\n\ntype A = Head<[string, number]>; // string",
         "blanks": ["H"],
         "lang": "typescript",
-        "referenceAnswer": "infer H captures the first element's type from the tuple pattern [H, ...rest]. If T matches this shape, H is returned; otherwise never."
+        "referenceAnswer": "`T extends [infer H, ...any[]] ? H : never` — the true branch returns the type bound by `infer H`, the first element of the tuple. The rest element `...any[]` makes the pattern match tuples of any length, and the false branch yields never."
     },
     {
         "id": "ts-advanced-001",
@@ -1807,8 +1807,8 @@
         "difficulty": "hard",
         "tags": ["template-literal-types", "advanced"],
         "question": {
-            "en": "What is the result of `type T = 'get' | 'set'` combined with `type Methods = `${T}Name``?",
-            "ru": "Каков результат комбинации `type T = 'get' | 'set'` и `type Methods = `${T}Name``?"
+            "en": "What is the resulting type of `Methods` in this code?",
+            "ru": "Какой тип получится у `Methods` в этом коде?"
         },
         "explanation": {
             "en": "Template literal types distribute over union members interpolated inside them. `${T}Name` where T is 'get' | 'set' produces 'getName' | 'setName'.",
@@ -1832,7 +1832,9 @@
                 "ru": "'getsetName'"
             }
         ],
-        "correct": 2
+        "correct": 2,
+        "code": "type T = 'get' | 'set';\ntype Methods = `${T}Name`;",
+        "lang": "typescript"
     },
     {
         "id": "ts-advanced-003",
@@ -1906,11 +1908,11 @@
         "id": "ts-advanced-005",
         "type": "single-choice",
         "category": "typescript",
-        "difficulty": "hard",
+        "difficulty": "medium",
         "tags": ["satisfies", "type-checking"],
         "question": {
-            "en": "What is the benefit of using the `satisfies` operator (TypeScript 4.9+)?",
-            "ru": "В чём преимущество использования оператора `satisfies` (TypeScript 4.9+)?"
+            "en": "What is the benefit of using the `satisfies` operator?",
+            "ru": "В чём преимущество использования оператора `satisfies`?"
         },
         "explanation": {
             "en": "satisfies checks that a value conforms to a type but infers the narrowest possible type for the variable, unlike a type annotation which widens to the annotated type. This preserves literal types while still validating shape.",

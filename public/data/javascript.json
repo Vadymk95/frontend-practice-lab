@@ -161,16 +161,16 @@
         "difficulty": "easy",
         "tags": ["template-literals", "strings"],
         "question": {
-            "en": "Complete the tagged template literal to return the string in uppercase:",
-            "ru": "Дополните tagged template literal так, чтобы он возвращал строку в верхнем регистре:"
+            "en": "Complete the tagged template literal so interpolated values are upper-cased with the locale-independent method:",
+            "ru": "Дополните tagged template literal так, чтобы интерполируемые значения приводились к верхнему регистру locale-independent методом:"
         },
         "explanation": {
-            "en": "Tagged template literals receive the string parts and interpolated values separately. Calling .toUpperCase() on each value produces the uppercase output.",
-            "ru": "Tagged template literals получают строковые фрагменты и интерполируемые значения отдельно. Вызов .toUpperCase() на каждом значении приводит их к верхнему регистру."
+            "en": "Tagged template literals receive the string parts and the interpolated values separately. Calling `.toUpperCase()` on each value produces the uppercase output; its locale-aware sibling `.toLocaleUpperCase()` can differ, for example in Turkish.",
+            "ru": "Tagged template literals получают строковые фрагменты и интерполируемые значения отдельно. Вызов `.toUpperCase()` на каждом значении приводит их к верхнему регистру; его locale-aware вариант `.toLocaleUpperCase()` может дать другой результат, например для турецкого языка."
         },
         "code": "function upper(strings, ...values) {\n  return strings.reduce((acc, str, i) => {\n    return acc + (values[i - 1] ? values[i - 1].__BLANK__ : '') + str;\n  });\n}\nconst name = 'world';\nconsole.log(upper`hello ${name}`); // 'hello WORLD'",
         "blanks": ["toUpperCase()"],
-        "referenceAnswer": "values[i - 1].toUpperCase() converts each interpolated value to uppercase before concatenating.",
+        "referenceAnswer": "values[i - 1].toUpperCase() converts each interpolated value to uppercase before concatenating. toLocaleUpperCase() gives the same output here but applies locale-specific mappings (Turkish 'i' becomes 'İ'), so only toUpperCase() is graded.",
         "lang": "javascript"
     },
     {
@@ -529,20 +529,20 @@
         },
         "options": [
             {
-                "en": "The current Unix timestamp in seconds",
-                "ru": "Текущий Unix-таймстамп в секундах"
+                "en": "Seconds since the Unix epoch (1970-01-01 UTC), as an integer",
+                "ru": "Секунды, прошедшие с начала Unix epoch (1 января 1970 UTC)"
             },
             {
-                "en": "The number of milliseconds elapsed since January 1, 1970 00:00:00 UTC",
-                "ru": "Количество миллисекунд, прошедших с 1 января 1970 года 00:00:00 UTC"
+                "en": "Milliseconds since the Unix epoch (1970-01-01 UTC)",
+                "ru": "Миллисекунды с начала Unix epoch (1 января 1970 UTC)"
             },
             {
-                "en": "A Date object representing the current time",
-                "ru": "Объект Date, представляющий текущее время"
+                "en": "A Date object representing the current moment in time",
+                "ru": "Объект Date, представляющий текущий момент времени"
             },
             {
-                "en": "A string in ISO 8601 format",
-                "ru": "Строку в формате ISO 8601"
+                "en": "The current time as a string in ISO 8601 format",
+                "ru": "Строку с текущим временем в формате ISO 8601"
             }
         ],
         "correct": 1
@@ -907,20 +907,20 @@
         },
         "options": [
             {
-                "en": "To properly forward the get operation respecting the original `this` binding and prototype chain",
-                "ru": "Чтобы корректно пробросить операцию get, сохранив исходную привязку `this` и цепочку прототипов"
+                "en": "To forward the get to the target with the correct `receiver`",
+                "ru": "Чтобы пробросить get в target с правильным `receiver`"
             },
             {
-                "en": "To check if a property exists on the target",
-                "ru": "Чтобы проверить, существует ли свойство у target"
+                "en": "To check whether the property exists on the target object",
+                "ru": "Чтобы проверить, есть ли такое свойство у самого target"
             },
             {
-                "en": "To bypass the Proxy and access the property directly",
-                "ru": "Чтобы обойти Proxy и обратиться к свойству напрямую"
+                "en": "To read the property from the target, skipping its prototype chain",
+                "ru": "Чтобы прочитать свойство у target в обход цепочки прототипов"
             },
             {
-                "en": "To create a new Proxy on the accessed property",
-                "ru": "Чтобы создать новый Proxy на запрашиваемом свойстве"
+                "en": "To wrap the value of the accessed property in a new Proxy",
+                "ru": "Чтобы обернуть значение запрошенного свойства в новый Proxy"
             }
         ],
         "correct": 0
@@ -1106,8 +1106,8 @@
             "ru": "Какие из перечисленных пунктов являются различиями между ES Modules и CommonJS?"
         },
         "explanation": {
-            "en": "ESM supports top-level await; CJS does not. CJS `require()` blocks the thread synchronously, while ESM loading is asynchronous. ESM exports are live bindings; CJS copies the value at require time. CJS files cannot use `import` syntax natively.",
-            "ru": "ESM поддерживает top-level await, CJS — нет. `require()` в CJS блокирует поток синхронно, а загрузка ESM асинхронна. Экспорты ESM — это live bindings, CJS копирует значение в момент require. CJS-файлы не могут использовать синтаксис `import` нативно."
+            "en": "ESM supports top-level await; CJS does not. CJS `require()` blocks the thread synchronously, while ESM loading and resolution are asynchronous — the module body itself is still evaluated synchronously unless the module or one of its dependencies uses top-level await. ESM exports are live bindings; CJS copies the value at require time. CJS files cannot use `import` syntax natively.",
+            "ru": "ESM поддерживает top-level await, CJS — нет. `require()` в CJS блокирует поток синхронно, а загрузка и резолв модулей в ESM асинхронны — при этом тело модуля всё равно выполняется синхронно, если в нём или в его зависимостях не используется top-level await. Экспорты ESM — это live bindings, CJS копирует значение в момент require. CJS-файлы не могут использовать синтаксис `import` нативно."
         },
         "options": [
             {
@@ -1123,8 +1123,8 @@
                 "ru": "Экспорты ESM — это live bindings, экспорты CJS — копии значений"
             },
             {
-                "en": "CJS `require()` is synchronous, ESM `import` evaluation is asynchronous",
-                "ru": "`require()` в CJS синхронный, а вычисление `import` в ESM — асинхронное"
+                "en": "CJS `require()` is synchronous, ESM module loading is asynchronous",
+                "ru": "`require()` в CJS синхронный, а загрузка модулей в ESM — асинхронная"
             }
         ],
         "correct": [0, 2, 3]
@@ -1439,12 +1439,12 @@
             "ru": "Найдите баг в этой цепочке промисов:"
         },
         "explanation": {
-            "en": "`.catch()` returns a fulfilled Promise with its return value. Any `.then()` chained after a `.catch()` runs when the error was handled. To stop the chain on error, re-throw inside `.catch()`.",
-            "ru": "`.catch()` возвращает fulfilled Promise со своим возвращённым значением. Любой `.then()`, добавленный после `.catch()`, выполняется, если ошибка была обработана. Чтобы прервать цепочку при ошибке, перебросьте её внутри `.catch()`."
+            "en": "`.catch()` returns a fulfilled Promise with its return value, so a `.then()` chained after it runs as if nothing went wrong — here `saveToDatabase(null)` is called on every failure. The fix is to move the `.catch()` to the end of the chain. Re-throwing inside a mid-chain `.catch()` also skips the later steps, but leaves the chain rejected, so it still needs a terminal `.catch()` to avoid an unhandled rejection.",
+            "ru": "`.catch()` возвращает fulfilled Promise со своим возвращаемым значением, поэтому `.then()` после него выполняется так, будто ошибки не было — здесь `saveToDatabase(null)` вызывается при любом сбое. Правильное решение — перенести `.catch()` в конец цепочки. Переброс ошибки внутри промежуточного `.catch()` тоже пропустит последующие шаги, но оставит цепочку отклонённой, поэтому в конце всё равно нужен терминальный `.catch()`, иначе получится unhandled rejection."
         },
         "code": "fetch('/api/data')\n  .then(res => {\n    if (!res.ok) throw new Error('HTTP error');\n    return res.json();\n  })\n  .then(data => processData(data))\n  .catch(err => {\n    console.error(err);\n    return null;\n  })\n  .then(result => saveToDatabase(result));",
         "correct": "`saveToDatabase(null)` is called even on errors because `.catch()` returns a fulfilled Promise",
-        "referenceAnswer": "Re-throw inside .catch(): .catch(err => { console.error(err); throw err; }) — this keeps the chain rejected and prevents saveToDatabase from running.",
+        "referenceAnswer": "Move the `.catch()` to the end of the chain so failures skip every later step:\n\n```javascript\nfetch('/api/data')\n  .then(res => {\n    if (!res.ok) throw new Error('HTTP error');\n    return res.json();\n  })\n  .then(data => processData(data))\n  .then(result => saveToDatabase(result))\n  .catch(err => console.error(err));\n```\n\nRe-throwing from a mid-chain `.catch()` also skips saveToDatabase, but only when a terminal `.catch()` still follows — otherwise the chain ends rejected and the rejection is unhandled.",
         "lang": "javascript"
     },
     {
@@ -1516,11 +1516,11 @@
         },
         "explanation": {
             "en": "The closure over `cache` persists between calls. Using `key in cache` (rather than `cache[key]`) correctly handles cached falsy values like `0` or `false`. JSON.stringify is a simple but imperfect key — it fails for non-serialisable arguments.",
-            "ru": "Замыкание над `cache` сохраняется между вызовами. Использование `key in cache` (вместо `cache[key]`) корректно обрабатывает закэшированные falsy-значения вроде `0` или `false`. JSON.stringify — простой, но несовершенный ключ: он не работает для неcериализуемых аргументов."
+            "ru": "Замыкание над `cache` сохраняется между вызовами. Использование `key in cache` (вместо `cache[key]`) корректно обрабатывает закэшированные falsy-значения вроде `0` или `false`. JSON.stringify — простой, но несовершенный ключ: он не работает для несериализуемых аргументов."
         },
-        "code": "function memoize(fn) {\n  const cache = __BLANK__;\n  return function(...args) {\n    const key = JSON.stringify(args);\n    if (__BLANK__ cache[key]) {\n      return cache[key];\n    }\n    cache[key] = fn(...args);\n    return cache[key];\n  };\n}",
+        "code": "function memoize(fn) {\n  const cache = __BLANK__;\n  return function(...args) {\n    const key = JSON.stringify(args);\n    if (__BLANK__ cache) {\n      return cache[key];\n    }\n    cache[key] = fn(...args);\n    return cache[key];\n  };\n}",
         "blanks": ["{}", "key in"],
-        "referenceAnswer": "const cache = {}; and `key in cache` — the `in` operator correctly handles cached falsy values like 0 or false.",
+        "referenceAnswer": "const cache = {}; and `key in cache` — the `in` operator tests the key against the cache object itself and correctly handles cached falsy values like 0 or false. `key in cache[key]` would throw a TypeError, because `in` requires an object on its right side.",
         "lang": "javascript"
     },
     {
@@ -1565,7 +1565,7 @@
         "id": "js-completion-generator-001",
         "type": "code-completion",
         "category": "javascript",
-        "difficulty": "hard",
+        "difficulty": "easy",
         "tags": ["generators", "iterators"],
         "question": {
             "en": "Complete the infinite counter generator:",
@@ -1625,16 +1625,16 @@
         "difficulty": "hard",
         "tags": ["WeakMap", "private-data", "encapsulation"],
         "question": {
-            "en": "Complete the private data pattern using WeakMap:",
-            "ru": "Дополните паттерн приватных данных с использованием WeakMap:"
+            "en": "Complete the private-data pattern so the stored data is garbage collected together with the instance:",
+            "ru": "Дополните паттерн приватных данных так, чтобы сохранённые данные собирались сборщиком мусора вместе с экземпляром:"
         },
         "explanation": {
-            "en": "WeakMap is ideal for storing private instance data — keys are instances, values are private objects. When an instance is garbage collected, its WeakMap entry disappears automatically with no memory leak.",
-            "ru": "WeakMap идеально подходит для хранения приватных данных экземпляров — ключами являются экземпляры, значениями — приватные объекты. Когда экземпляр собирается garbage collector'ом, его запись в WeakMap автоматически исчезает без утечек памяти."
+            "en": "A WeakMap holds its keys weakly: keying private data by the instance means the entry disappears when the instance is garbage collected, with no memory leak — a plain `Map` would keep every instance alive. Today native `#private` class fields are the default answer for encapsulation; WeakMap is the right tool when you must attach data to instances of a class you do not control, or need that data collectable independently.",
+            "ru": "WeakMap держит ключи слабо: если ключом служит сам экземпляр, его приватные данные исчезают вместе с ним при сборке мусора и утечки памяти нет — обычный `Map` удерживал бы каждый экземпляр живым. Сегодня дефолтный способ инкапсуляции — нативные приватные поля `#private`; WeakMap нужен тогда, когда надо привязать данные к экземплярам чужого класса или когда они должны собираться независимо."
         },
-        "code": "const _private = new __BLANK__();\n\nclass Person {\n  constructor(name, age) {\n    __BLANK__.set(this, { name, age });\n  }\n  greet() {\n    const { name } = _private.get(this);\n    return `Hello, I'm ${name}`;\n  }\n}",
-        "blanks": ["WeakMap", "_private"],
-        "referenceAnswer": "new WeakMap() creates the private store. _private.set(this, data) associates instance data with the instance.",
+        "code": "const _private = new __BLANK__();\n\nclass Person {\n  constructor(name, age) {\n    _private.set(__BLANK__, { name, age });\n  }\n  greet() {\n    const { name } = _private.get(this);\n    return `Hello, I'm ${name}`;\n  }\n}",
+        "blanks": ["WeakMap", "this"],
+        "referenceAnswer": "new WeakMap() creates a store that holds its keys weakly; _private.set(this, { name, age }) keys the entry by the instance, so the entry is collected with it. A plain Map would keep every instance alive forever.",
         "lang": "javascript"
     }
 ]

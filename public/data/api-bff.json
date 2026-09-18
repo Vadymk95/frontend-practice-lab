@@ -74,29 +74,29 @@
         "difficulty": "easy",
         "tags": ["rest", "idempotency"],
         "question": {
-            "en": "Which HTTP methods are idempotent according to the HTTP specification?",
-            "ru": "Какие HTTP-методы являются идемпотентными согласно спецификации HTTP?"
+            "en": "Which HTTP methods are idempotent according to RFC 9110?",
+            "ru": "Какие HTTP-методы идемпотентны согласно RFC 9110?"
         },
         "explanation": {
-            "en": "GET, PUT, DELETE, HEAD, and OPTIONS are idempotent — calling them multiple times produces the same server state. POST and PATCH are not idempotent by spec; multiple calls can create multiple resources or result in different states.",
-            "ru": "GET, PUT, DELETE, HEAD и OPTIONS идемпотентны — многократный вызов приводит к одному и тому же состоянию сервера. POST и PATCH по спецификации не идемпотентны: повторные вызовы могут создать несколько ресурсов или привести к разным состояниям."
+            "en": "RFC 9110 §9.2.2: PUT, DELETE and the safe methods are idempotent. The safe methods (§9.2.1) are GET, HEAD, OPTIONS and TRACE, so the full set is GET, HEAD, OPTIONS, TRACE, PUT and DELETE. POST and PATCH are not idempotent by spec — repeating them can create several resources or apply a delta twice.",
+            "ru": "RFC 9110 §9.2.2: идемпотентны PUT, DELETE и безопасные методы. Безопасные методы (§9.2.1) — это GET, HEAD, OPTIONS и TRACE, то есть полный набор: GET, HEAD, OPTIONS, TRACE, PUT и DELETE. POST и PATCH по спецификации не идемпотентны — повтор может создать несколько ресурсов или применить дельту дважды."
         },
         "options": [
             {
-                "en": "GET, PUT, DELETE, and HEAD",
-                "ru": "GET, PUT, DELETE и HEAD"
+                "en": "GET, HEAD, OPTIONS, TRACE, PUT and DELETE",
+                "ru": "GET, HEAD, OPTIONS, TRACE, PUT и DELETE"
             },
             {
-                "en": "Only GET",
-                "ru": "Только GET"
+                "en": "GET, HEAD and OPTIONS — a method with a request body is never idempotent",
+                "ru": "GET, HEAD и OPTIONS — метод с телом запроса никогда не идемпотентен"
             },
             {
-                "en": "GET and POST",
-                "ru": "GET и POST"
+                "en": "GET, POST, PUT and DELETE — the four methods a CRUD API uses",
+                "ru": "GET, POST, PUT и DELETE — четыре метода, которые использует CRUD API"
             },
             {
-                "en": "POST and PATCH",
-                "ru": "POST и PATCH"
+                "en": "PUT, DELETE and PATCH — the writing methods are idempotent by design",
+                "ru": "PUT, DELETE и PATCH — пишущие методы идемпотентны по определению"
             }
         ],
         "correct": 0
@@ -616,31 +616,31 @@
         "type": "single-choice",
         "category": "api-bff",
         "difficulty": "medium",
-        "tags": ["error-handling", "rfc-7807"],
+        "tags": ["error-handling", "rfc-9457"],
         "question": {
-            "en": "RFC 7807 (Problem Details) defines a standard error response format. Which field is mandatory?",
-            "ru": "RFC 7807 (Problem Details) задаёт стандартный формат ответа с ошибкой. Какое поле является обязательным?"
+            "en": "Which statement about the RFC 9457 (formerly RFC 7807) Problem Details members is correct?",
+            "ru": "Какое утверждение о полях Problem Details из RFC 9457 (ранее RFC 7807) верно?"
         },
         "explanation": {
-            "en": "RFC 7807 requires the 'type' field (a URI reference that identifies the problem type). All other fields (title, status, detail, instance) are optional but strongly recommended for machine-readable and human-readable error responses.",
-            "ru": "RFC 7807 требует поле 'type' (URI-ссылка, идентифицирующая тип проблемы). Все остальные поля (title, status, detail, instance) опциональны, но настоятельно рекомендуются для машиночитаемых и читаемых человеком ответов с ошибками."
+            "en": "RFC 9457 §3.1 says a problem details object can have the members `type`, `title`, `status`, `detail` and `instance` — none of them is required. When `type` is absent, its value is assumed to be `about:blank`, meaning the problem has no semantics beyond the HTTP status code. Extension members are allowed, and clients must ignore the ones they do not recognise.",
+            "ru": "RFC 9457 §3.1 говорит, что объект problem details может содержать поля `type`, `title`, `status`, `detail` и `instance` — ни одно из них не обязательно. Если `type` отсутствует, его значение считается равным `about:blank`, то есть у проблемы нет семантики сверх HTTP-статуса. Расширенные поля разрешены, а клиент обязан игнорировать те, которых не знает."
         },
         "options": [
             {
-                "en": "type",
-                "ru": "type"
+                "en": "All members are optional; an absent `type` is treated as `about:blank`",
+                "ru": "Все поля опциональны; отсутствующий `type` трактуется как `about:blank`"
             },
             {
-                "en": "title",
-                "ru": "title"
+                "en": "`type` is the only required member, the other four are optional",
+                "ru": "`type` — единственное обязательное поле, остальные четыре опциональны"
             },
             {
-                "en": "status",
-                "ru": "status"
+                "en": "`type`, `title` and `status` are required, `detail` and `instance` are optional",
+                "ru": "`type`, `title` и `status` обязательны, `detail` и `instance` опциональны"
             },
             {
-                "en": "detail",
-                "ru": "detail"
+                "en": "`status` is required and must repeat the HTTP response status code",
+                "ru": "`status` обязателен и должен дублировать HTTP-статус ответа"
             }
         ],
         "correct": 0
@@ -853,11 +853,11 @@
         "id": "api-rest-006",
         "type": "single-choice",
         "category": "api-bff",
-        "difficulty": "hard",
+        "difficulty": "medium",
         "tags": ["rest", "hateoas"],
         "question": {
-            "en": "HATEOAS (Hypermedia As The Engine Of Application State) requires that API responses:",
-            "ru": "HATEOAS (Hypermedia As The Engine Of Application State) требует, чтобы ответы API:"
+            "en": "The HATEOAS constraint requires that REST API responses:",
+            "ru": "Ограничение HATEOAS требует, чтобы ответы REST API:"
         },
         "explanation": {
             "en": "HATEOAS is a REST constraint where responses include hypermedia links describing available actions. Clients navigate the API by following links rather than hardcoding URLs, making the API self-describing and decoupled from client assumptions.",
@@ -899,20 +899,20 @@
         },
         "options": [
             {
-                "en": "It becomes a bottleneck and accumulates conflicting requirements from different clients, defeating the purpose of client-tailored APIs",
-                "ru": "Он становится узким местом и накапливает противоречивые требования от разных клиентов, обнуляя смысл API, заточенного под клиента"
+                "en": "It accumulates conflicting client requirements and becomes a bottleneck",
+                "ru": "Он накапливает противоречивые требования клиентов и становится узким местом"
             },
             {
-                "en": "It prevents horizontal scaling",
-                "ru": "Он мешает горизонтальному масштабированию"
+                "en": "It forces every downstream service onto the same release cadence as the BFF",
+                "ru": "Он заставляет все нижележащие сервисы жить в одном релизном цикле с BFF"
             },
             {
-                "en": "It cannot handle authentication",
-                "ru": "Он не может обрабатывать аутентификацию"
+                "en": "It makes per-client rate limiting impossible to implement",
+                "ru": "Он делает невозможным rate limiting отдельно по каждому клиенту"
             },
             {
-                "en": "It increases deployment complexity",
-                "ru": "Это усложняет деплой"
+                "en": "It rules out horizontal scaling because BFF instances must share state",
+                "ru": "Он исключает горизонтальное масштабирование: инстансы BFF обязаны делить состояние"
             }
         ],
         "correct": 0
@@ -955,7 +955,7 @@
         "id": "api-tanstack-004",
         "type": "single-choice",
         "category": "api-bff",
-        "difficulty": "hard",
+        "difficulty": "medium",
         "tags": ["tanstack-query", "gctime"],
         "question": {
             "en": "In TanStack Query v5, what does gcTime (formerly cacheTime) control?",
@@ -992,17 +992,17 @@
         "difficulty": "hard",
         "tags": ["pagination", "keyset"],
         "question": {
-            "en": "Keyset pagination (also called seek pagination) differs from cursor pagination in that:",
-            "ru": "Keyset-пагинация (также называемая seek-пагинацией) отличается от курсорной тем, что:"
+            "en": "Keyset (seek) pagination is usually described as differing from an opaque-cursor API in that:",
+            "ru": "Keyset-пагинацию (seek) обычно описывают как отличающуюся от API с непрозрачным курсором тем, что:"
         },
         "explanation": {
-            "en": "Keyset pagination uses a WHERE clause like WHERE (created_at, id) < (:last_created_at, :last_id) ORDER BY created_at DESC, id DESC. It leverages composite indexes for constant-time seeks regardless of page depth, unlike offset which degrades linearly.",
-            "ru": "Keyset-пагинация использует WHERE вида WHERE (created_at, id) < (:last_created_at, :last_id) ORDER BY created_at DESC, id DESC. Она опирается на составные индексы и обеспечивает постоянное время поиска независимо от глубины страницы, в отличие от offset, который деградирует линейно."
+            "en": "Most sources treat keyset/seek and cursor pagination as the same technique — an opaque cursor is usually just an encoded keyset — so the difference is in the API surface: keyset exposes the ordering columns, e.g. `WHERE (created_at, id) < (:last_created_at, :last_id) ORDER BY created_at DESC, id DESC`. Its win over OFFSET is not constant time (an index descent is O(log n)); it is that each page costs one index seek instead of scanning and discarding OFFSET rows, so the cost stops growing with page depth. Neither variant can jump to an arbitrary page number.",
+            "ru": "Большинство источников считают keyset/seek и курсорную пагинацию одной и той же техникой — непрозрачный курсор обычно и есть закодированный keyset, — поэтому разница в API-поверхности: keyset показывает колонки сортировки, например `WHERE (created_at, id) < (:last_created_at, :last_id) ORDER BY created_at DESC, id DESC`. Выигрыш перед OFFSET не в постоянном времени (спуск по индексу — O(log n)), а в том, что страница стоит один index seek вместо сканирования и отбрасывания OFFSET строк, то есть цена не растёт с глубиной. Прыгнуть на произвольную страницу не умеет ни один из вариантов."
         },
         "options": [
             {
-                "en": "It supports bidirectional navigation",
-                "ru": "Поддерживает двунаправленную навигацию"
+                "en": "It lets a client jump straight to page 50 without reading the earlier pages",
+                "ru": "Позволяет клиенту прыгнуть сразу на 50-ю страницу, не читая предыдущие"
             },
             {
                 "en": "It uses an opaque cursor token instead of raw column values",
@@ -1013,8 +1013,8 @@
                 "ru": "Работает только с MongoDB"
             },
             {
-                "en": "It uses the actual indexed column values (e.g., created_at + id) directly in the WHERE clause for O(1) seeks",
-                "ru": "Использует реальные значения проиндексированных колонок (например, created_at + id) напрямую в WHERE для O(1)-поиска"
+                "en": "The cursor is the raw indexed column values, not an opaque token",
+                "ru": "Курсор — это сырые значения проиндексированных колонок, а не непрозрачный токен"
             }
         ],
         "correct": 3
@@ -1102,8 +1102,8 @@
             "ru": "Какие из следующих утверждений — различия между fetch и axios? (выберите все подходящие)"
         },
         "explanation": {
-            "en": "fetch resolves for any HTTP status; axios rejects for 4xx/5xx. axios auto-parses JSON. axios has built-in upload progress via XMLHttpRequest. Both work in Node.js (fetch natively in Node 18+; axios via XMLHttpRequest polyfill). fetch does NOT have native interceptors — you must wrap it.",
-            "ru": "fetch резолвится на любом HTTP-статусе, axios реджектится на 4xx/5xx. axios автоматически парсит JSON. axios имеет встроенный прогресс загрузки через XMLHttpRequest. Оба работают в Node.js (fetch нативно в Node 18+, axios через полифилл XMLHttpRequest). У fetch НЕТ нативных интерсепторов — его нужно оборачивать."
+            "en": "fetch resolves for any HTTP status; axios rejects for 4xx/5xx. axios auto-parses JSON. axios exposes upload progress through its browser `xhr` adapter. Both work in Node.js — fetch natively since Node 18, axios through its `http` adapter (the `xhr` adapter is browser-only). fetch does NOT have native interceptors — you must wrap it.",
+            "ru": "fetch резолвится на любом HTTP-статусе, axios реджектится на 4xx/5xx. axios автоматически парсит JSON. axios отдаёт прогресс загрузки через браузерный адаптер `xhr`. Оба работают в Node.js: fetch нативно с Node 18, axios — через адаптер `http` (адаптер `xhr` только браузерный). У fetch НЕТ нативных интерсепторов — его нужно оборачивать."
         },
         "options": [
             {
@@ -1210,14 +1210,14 @@
         "type": "multi-choice",
         "category": "api-bff",
         "difficulty": "hard",
-        "tags": ["error-handling", "rfc-7807"],
+        "tags": ["error-handling", "rfc-9457"],
         "question": {
-            "en": "Which fields are defined in the RFC 7807 Problem Details object? (select all that apply)",
-            "ru": "Какие поля определены в объекте RFC 7807 Problem Details? (выберите все подходящие)"
+            "en": "Which fields are defined in the RFC 9457 (formerly RFC 7807) Problem Details object? (select all that apply)",
+            "ru": "Какие поля определены в объекте Problem Details из RFC 9457 (ранее RFC 7807)? (выберите все подходящие)"
         },
         "explanation": {
-            "en": "RFC 7807 defines five standard members: type (URI identifying the problem), title (short human-readable summary), status (HTTP status code), detail (human-readable explanation) and instance (URI of this occurrence). `code` is not a standard member — extension members are allowed but the RFC defines none.",
-            "ru": "RFC 7807 определяет пять стандартных полей: type (URI, идентифицирующий проблему), title (короткое человекочитаемое резюме), status (HTTP-статус), detail (объяснение) и instance (URI конкретного случая). `code` не стандартное поле — расширения разрешены, но RFC их не определяет."
+            "en": "RFC 9457 defines five members: `type`, `title`, `status`, `detail` and `instance` — all of them optional. `code` and `errors` are not standard members; they are common extensions borrowed from other error formats (extension members are allowed, and clients must ignore the ones they do not recognise).",
+            "ru": "RFC 9457 определяет пять полей: `type`, `title`, `status`, `detail` и `instance` — все опциональные. `code` и `errors` не стандартные поля, это частые расширения из других форматов ошибок (расширения разрешены, а клиент обязан игнорировать незнакомые)."
         },
         "options": [
             {
@@ -1233,15 +1233,15 @@
                 "ru": "title"
             },
             {
-                "en": "detail",
-                "ru": "detail"
-            },
-            {
                 "en": "status",
                 "ru": "status"
+            },
+            {
+                "en": "errors",
+                "ru": "errors"
             }
         ],
-        "correct": [0, 2, 3, 4]
+        "correct": [0, 2, 3]
     },
     {
         "id": "api-pagination-003",
@@ -1285,7 +1285,7 @@
         "id": "api-rest-009",
         "type": "multi-choice",
         "category": "api-bff",
-        "difficulty": "hard",
+        "difficulty": "easy",
         "tags": ["rest", "design"],
         "question": {
             "en": "Which practices align with RESTful API design principles? (select all that apply)",
@@ -1330,8 +1330,8 @@
             "ru": "Какие подходы годятся для аутентификации API-запросов из SPA? (выберите все подходящие)"
         },
         "explanation": {
-            "en": "JWTs in headers, HttpOnly session cookies via a BFF, and OAuth 2.0 PKCE are proper approaches. API keys in query params are logged in URLs and not suited for browser clients. Basic Auth sends credentials on every request and should only be used internally over mTLS.",
-            "ru": "JWT в заголовках, HttpOnly-куки с сессией через BFF и OAuth 2.0 PKCE — корректные подходы. API key в query-параметрах попадает в логи URL и не подходит для браузерных клиентов. Basic Auth отправляет учётные данные в каждом запросе и уместен только во внутренних контурах поверх mTLS."
+            "en": "JWTs in headers, HttpOnly session cookies via a BFF, and OAuth 2.0 PKCE are proper approaches. API keys in query params end up in URL logs and are not suited for browser clients. Basic Auth would require the SPA to hold the raw username and password and resend them on every request — acceptable for server-to-server calls over TLS, not for a browser client.",
+            "ru": "JWT в заголовках, HttpOnly-куки с сессией через BFF и OAuth 2.0 PKCE — корректные подходы. API key в query-параметрах попадает в логи URL и не подходит для браузерных клиентов. Basic Auth потребует от SPA хранить логин и пароль в открытом виде и слать их с каждым запросом — приемлемо для server-to-server поверх TLS, но не для браузерного клиента."
         },
         "options": [
             {
@@ -1440,16 +1440,16 @@
         "difficulty": "medium",
         "tags": ["retry", "backoff"],
         "question": {
-            "en": "Find the issue in this retry implementation:",
-            "ru": "Найдите проблему в этой реализации ретраев:"
+            "en": "This retry helper never retries an endpoint that returns 500. Find the bug:",
+            "ru": "Этот хелпер ретраев никогда не повторяет запрос к эндпоинту, который отвечает 500. Найдите баг:"
         },
         "explanation": {
-            "en": "Constant-delay retries from many clients hit a recovering server simultaneously. Exponential backoff with jitter spreads retry storms. Retrying 400 or 404 wastes resources since the error is permanent.",
-            "ru": "Ретраи с фиксированной задержкой от множества клиентов одновременно бьют по восстанавливающемуся серверу. Exponential backoff с jitter размазывает шторм ретраев. Ретраи 400 или 404 — пустая трата ресурсов, ошибка постоянна."
+            "en": "fetch() only rejects on a network error; any HTTP status — 500 included — resolves. Without a `response.ok` check, a retry loop built around try/catch treats a failed request as a success and never retries. A correct helper inspects the status, retries 5xx and network errors only, and spreads the attempts with exponential backoff plus jitter so a recovering server is not hit by a thundering herd.",
+            "ru": "fetch() реджектится только на сетевой ошибке; любой HTTP-статус, включая 500, резолвится. Без проверки `response.ok` цикл ретраев на try/catch считает упавший запрос успешным и никогда его не повторяет. Правильный хелпер смотрит на статус, ретраит только 5xx и сетевые ошибки и разносит попытки во времени через exponential backoff с jitter, чтобы не добивать восстанавливающийся сервер."
         },
         "code": "async function fetchWithRetry(url, retries = 3) {\n  for (let i = 0; i < retries; i++) {\n    try {\n      return await fetch(url);\n    } catch {\n      if (i === retries - 1) throw new Error('Max retries exceeded');\n      await new Promise(r => setTimeout(r, 1000));\n    }\n  }\n}",
-        "correct": "Fixed 1-second delay causes thundering-herd problems; also retries on all errors including 4xx (client errors that will never succeed)",
-        "referenceAnswer": "Use exponential backoff with jitter: 1000 * 2**i + Math.random() * 1000. Also check response.ok and do NOT retry 4xx status codes — only retry on 5xx and network errors.",
+        "correct": "There is no response.ok check — fetch resolves for 5xx, so the failed response is returned as a success and the catch block, which only sees network errors, never runs",
+        "referenceAnswer": "fetch() rejects only on a network failure, so a 500 response resolves and `return await fetch(url)` hands it back as a success — the loop exits on the first attempt. Fix: check `response.ok`, throw and retry on 5xx, return immediately on 4xx because a client error will not succeed on a retry, and replace the fixed 1000 ms delay with full jitter, e.g. `Math.random() * Math.min(1000 * 2 ** i, 30000)`.",
         "lang": "javascript"
     },
     {
@@ -1463,12 +1463,12 @@
             "ru": "Найдите баг в этом вызове fetch, который должен отправлять куки:"
         },
         "explanation": {
-            "en": "By default fetch uses credentials: 'same-origin'. For cross-origin requests to send cookies or Authorization headers, credentials: 'include' must be explicitly set.",
-            "ru": "По умолчанию fetch использует credentials: 'same-origin'. Чтобы cross-origin-запросы отправляли куки или заголовок Authorization, нужно явно указать credentials: 'include'."
+            "en": "By default fetch uses credentials: 'same-origin'. To send cookies on a cross-origin request, credentials: 'include' must be set explicitly.",
+            "ru": "По умолчанию fetch использует credentials: 'same-origin'. Чтобы cross-origin-запрос отправлял куки, нужно явно указать credentials: 'include'."
         },
         "code": "const response = await fetch('https://api.example.com/profile', {\n  method: 'GET',\n  headers: {\n    'Content-Type': 'application/json',\n  },\n});",
         "correct": "credentials: 'include' is missing — cookies are not sent in cross-origin requests by default",
-        "referenceAnswer": "Add credentials: 'include' to the fetch options. The server must also respond with Access-Control-Allow-Credentials: true and Access-Control-Allow-Origin set to the specific origin (not wildcard).",
+        "referenceAnswer": "Add credentials: 'include' to the fetch options. The server must also respond with Access-Control-Allow-Credentials: true and Access-Control-Allow-Origin set to the specific origin (not a wildcard). Note the scope of the option: credentials are cookies, TLS client certificates and browser-managed username/password entries. A hand-written Authorization: Bearer header is an ordinary request header — it is sent cross-origin regardless of the credentials mode and only needs Access-Control-Allow-Headers on the preflight.",
         "lang": "javascript"
     },
     {
@@ -1542,8 +1542,8 @@
             "en": "The queryKey must include all variables the queryFn depends on. staleTime avoids refetching data that is still fresh. enabled prevents queries with invalid parameters.",
             "ru": "queryKey должен включать все переменные, от которых зависит queryFn. staleTime избавляет от ненужных рефетчей, пока данные свежие. enabled защищает от запросов с невалидными параметрами."
         },
-        "code": "export function useUser(id: string) {\n  return useQuery({\n    queryKey: ['user', __BLANK__],\n    queryFn: () => fetchUser(id),\n    __BLANK__: 5 * 60 * 1000,\n    enabled: __BLANK__,\n  });\n}",
-        "blanks": ["id", "staleTime", "!!id"],
+        "code": "export function useUser(id: string) {\n  return useQuery({\n    queryKey: ['user', __BLANK__],\n    queryFn: () => fetchUser(id),\n    __BLANK__: 5 * 60 * 1000,\n    enabled: !!__BLANK__,\n  });\n}",
+        "blanks": ["id", "staleTime", "id"],
         "lang": "typescript",
         "referenceAnswer": "Include id in the queryKey so different users have separate cache entries. staleTime prevents unnecessary refetches. enabled: !!id skips the query when id is undefined/empty."
     },
@@ -1558,32 +1558,32 @@
             "ru": "Дополните этот калькулятор задержки exponential-backoff-with-jitter:"
         },
         "explanation": {
-            "en": "Full jitter (random between 0 and the exponential value) is one of AWS's recommended backoff strategies. The cap prevents delays from growing indefinitely.",
-            "ru": "Full jitter (случайное значение между 0 и экспоненциальным) — одна из рекомендованных AWS стратегий backoff. Ограничение сверху не даёт задержкам расти бесконечно."
+            "en": "This is AWS's Full Jitter: sleep = random(0, min(cap, base * 2 ** attempt)). The whole interval is randomised rather than a small additive term, which is what actually spreads a retry storm; the cap keeps the delay from growing indefinitely.",
+            "ru": "Это Full Jitter из рекомендаций AWS: sleep = random(0, min(cap, base * 2 ** attempt)). Рандомизируется весь интервал, а не небольшая добавка — именно это размазывает шторм ретраев; ограничение сверху не даёт задержке расти бесконечно."
         },
-        "code": "function getRetryDelay(attempt: number, baseMs = 1000, maxMs = 30000): number {\n  const exponential = baseMs * __BLANK__(2, attempt);\n  const jitter = Math.random() * baseMs;\n  return __BLANK__(exponential + jitter, __BLANK__);\n}",
-        "blanks": ["Math.pow", "Math.min", "maxMs"],
+        "code": "function getRetryDelay(attempt: number, baseMs = 1000, maxMs = 30000): number {\n  const exponential = baseMs * __BLANK__(2, attempt);\n  const capped = __BLANK__(exponential, maxMs);\n  return Math.random() * __BLANK__;\n}",
+        "blanks": ["Math.pow", "Math.min", "capped"],
         "lang": "typescript",
-        "referenceAnswer": "Math.pow(2, attempt) computes the exponential growth. Math.random() * baseMs adds jitter to spread retry storms. Math.min caps the delay at maxMs to prevent unreasonably long waits."
+        "referenceAnswer": "Math.pow(2, attempt) grows the interval exponentially, Math.min caps it at maxMs, and multiplying the capped value by Math.random() picks a uniform delay in [0, cap) — AWS's Full Jitter. Additive jitter (exponential + Math.random() * baseMs) is a weaker variant: the deterministic term keeps all clients roughly in sync."
     },
     {
         "id": "api-cc-openapi-001",
         "type": "code-completion",
         "category": "api-bff",
         "difficulty": "medium",
-        "tags": ["openapi", "rfc-7807"],
+        "tags": ["openapi", "rfc-9457"],
         "question": {
-            "en": "Complete this RFC 7807 Problem Details error response builder:",
-            "ru": "Дополните этот билдер ответа ошибки в формате RFC 7807 Problem Details:"
+            "en": "Complete this RFC 9457 Problem Details error response builder:",
+            "ru": "Дополните этот билдер ответа с ошибкой в формате RFC 9457 Problem Details:"
         },
         "explanation": {
-            "en": "RFC 7807 standardises error responses so clients can parse them generically. Using httpstatuses.com as the type URI is a common shortcut when you don't have custom problem type URIs.",
-            "ru": "RFC 7807 стандартизирует ответы ошибок, чтобы клиенты могли парсить их единообразно. Использование httpstatuses.com в качестве type URI — распространённое сокращение, когда нет собственных URI для типов проблем."
+            "en": "RFC 9457 (formerly RFC 7807) standardises error responses so clients can parse them generically. The `type` URI should be one you own and can document — when there is no custom problem type the correct default is `about:blank`, not a third-party status-code page. Formally every member is optional, but `title` and `status` are what make the response useful.",
+            "ru": "RFC 9457 (ранее RFC 7807) стандартизирует ответы с ошибками, чтобы клиенты парсили их единообразно. URI в `type` должен быть вашим собственным и документируемым — если своего типа проблемы нет, корректное значение по умолчанию `about:blank`, а не страница стороннего сервиса со статусами. Формально все поля опциональны, но полезным ответ делают именно `title` и `status`."
         },
-        "code": "interface ProblemDetails {\n  type: string;\n  title: string;\n  status: number;\n  detail?: string;\n}\n\nfunction problemDetails(status: number, title: string, detail?: string): ProblemDetails {\n  return {\n    type: `https://httpstatuses.com/${__BLANK__}`,\n    __BLANK__,\n    __BLANK__,\n    detail,\n  };\n}",
+        "code": "interface ProblemDetails {\n  type: string;\n  title: string;\n  status: number;\n  detail?: string;\n}\n\nfunction problemDetails(status: number, title: string, detail?: string): ProblemDetails {\n  return {\n    type: `https://api.example.com/problems/${__BLANK__}`,\n    title: __BLANK__,\n    status: __BLANK__,\n    detail,\n  };\n}",
         "blanks": ["status", "title", "status"],
         "lang": "typescript",
-        "referenceAnswer": "The type URI should identify the problem type (using the status code is a simple default). title and status are required recommended fields. detail is optional."
+        "referenceAnswer": "The type URI identifies the problem type and should live on a domain you control (about:blank when you have no custom type). title is the short human-readable summary, status repeats the HTTP status code, and detail is optional."
     },
     {
         "id": "api-cc-graphql-001",
@@ -1596,13 +1596,13 @@
             "ru": "Дополните эту настройку DataLoader для батчинга запросов пользователей по ID:"
         },
         "explanation": {
-            "en": "DataLoader batches all .load() calls within one event-loop tick. The batch function must return an array where each element corresponds to the input ID at the same index, or null if not found.",
-            "ru": "DataLoader батчит все вызовы .load() в пределах одного тика event loop. Batch-функция должна вернуть массив, в котором каждый элемент соответствует входному ID с тем же индексом, либо null, если не найдено."
+            "en": "DataLoader batches every `.load()` call made within one event-loop tick into a single batch-function call. The batch function receives a readonly array and must return an array of the same length, aligned with the input IDs by index — mapping over `ids` guarantees that alignment, while returning the raw DB rows does not, because the database may reorder or omit them.",
+            "ru": "DataLoader собирает все вызовы `.load()` в пределах одного тика event loop в один вызов batch-функции. Batch-функция получает readonly-массив и обязана вернуть массив той же длины, элементы которого соответствуют входным ID по индексу — `map` по `ids` это гарантирует, а возврат сырых строк из БД нет: база может вернуть их в другом порядке или не вернуть вовсе."
         },
-        "code": "import DataLoader from 'dataloader';\n\nconst userLoader = new __BLANK__(async (ids: readonly string[]) => {\n  const users = await db.users.findByIds(__BLANK__(ids));\n  return ids.__BLANK__(id => users.find(u => u.id === id) ?? null);\n});\n\nexport { userLoader };",
-        "blanks": ["DataLoader", "Array.from", "map"],
+        "code": "import DataLoader from 'dataloader';\n\nconst userLoader = new DataLoader(async (ids: readonly string[]) => {\n  const users = await db.users.findByIds([...__BLANK__]);\n  return ids.__BLANK__(id => users.find(u => u.id === id) ?? null);\n});\n\nexport async function getAuthor(post: { authorId: string }) {\n  return userLoader.__BLANK__(post.authorId);\n}",
+        "blanks": ["ids", "map", "load"],
         "lang": "typescript",
-        "referenceAnswer": "DataLoader expects a batch function receiving a readonly array. Array.from converts it to a mutable array for DB queries. The return value must be an array aligned with the input IDs order — map ensures this."
+        "referenceAnswer": "The batch function receives a readonly array, so spread it into a mutable one for the DB call. Map over ids — not over the DB rows — so the result is aligned with the input order and a missing user becomes null. userLoader.load(id) queues a single id for the next batch; loadMany takes an array."
     },
     {
         "id": "api-cc-pagination-001",
@@ -1611,17 +1611,17 @@
         "difficulty": "hard",
         "tags": ["pagination", "cursor"],
         "question": {
-            "en": "Complete this TanStack Query infinite-scroll hook using cursor-based pagination:",
-            "ru": "Дополните этот хук TanStack Query для бесконечной прокрутки с курсорной пагинацией:"
+            "en": "Complete this TanStack Query infinite-scroll hook. `fetchPosts` resolves to `{ items, nextCursor }`, where `nextCursor` is `null` on the last page:",
+            "ru": "Дополните этот хук TanStack Query для бесконечной прокрутки. `fetchPosts` возвращает `{ items, nextCursor }`, где на последней странице `nextCursor` равен `null`:"
         },
         "explanation": {
-            "en": "useInfiniteQuery manages paginated data automatically. getNextPageParam returning undefined signals no more pages. The cursor is passed as pageParam to each queryFn call.",
-            "ru": "useInfiniteQuery автоматически управляет постраничными данными. Возврат undefined из getNextPageParam сигнализирует, что страниц больше нет. Курсор передаётся в каждый вызов queryFn как pageParam."
+            "en": "useInfiniteQuery passes the current cursor into queryFn as `pageParam` and starts from `initialPageParam`. When `getNextPageParam` returns `null` or `undefined`, `hasNextPage` becomes false and the infinite scroll stops.",
+            "ru": "useInfiniteQuery передаёт текущий курсор в queryFn как `pageParam` и стартует со значения `initialPageParam`. Когда `getNextPageParam` возвращает `null` или `undefined`, `hasNextPage` становится false и бесконечная прокрутка останавливается."
         },
-        "code": "export function useInfinitePosts() {\n  return useInfiniteQuery({\n    queryKey: ['posts'],\n    queryFn: ({ __BLANK__ }) => fetchPosts({ cursor: pageParam }),\n    initialPageParam: __BLANK__,\n    getNextPageParam: (lastPage) => lastPage.__BLANK__,\n  });\n}",
-        "blanks": ["pageParam", "null", "nextCursor"],
+        "code": "export function useInfinitePosts() {\n  return useInfiniteQuery({\n    queryKey: ['posts'],\n    queryFn: ({ __BLANK__ }) => fetchPosts({ cursor: pageParam }),\n    initialPageParam: null as string | null,\n    getNextPageParam: (lastPage) => lastPage.__BLANK__,\n  });\n}",
+        "blanks": ["pageParam", "nextCursor"],
         "lang": "typescript",
-        "referenceAnswer": "pageParam holds the cursor for the current page. initialPageParam: null starts from the beginning. getNextPageParam extracts the nextCursor from the last page response — if null/undefined, infinite scroll stops."
+        "referenceAnswer": "pageParam holds the cursor of the current page and is destructured from the queryFn context. initialPageParam pins the first request (null here, typed as string | null). getNextPageParam reads nextCursor from the last page — returning null or undefined stops the infinite scroll."
     },
     {
         "id": "api-cc-sse-001",
