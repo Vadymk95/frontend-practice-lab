@@ -10,8 +10,8 @@
             "ru": "Какова главная цель code review?"
         },
         "explanation": {
-            "en": "Code review serves multiple purposes: catching bugs and defects, sharing knowledge across the team, enforcing standards, and mentoring. The tone should be collaborative, not adversarial — the goal is better software, not finding fault with individuals.",
-            "ru": "Code review решает сразу несколько задач: ловит баги и дефекты, распространяет знания внутри команды, поддерживает стандарты и помогает менторить. Тон должен быть совместным, а не конфронтационным — цель в качестве продукта, а не в поиске виноватых."
+            "en": "Code review does several things at once: it catches defects, spreads knowledge across the team, keeps standards consistent and mentors. It is not a performance measurement, not a gate owned by one person, and not a replacement for QA. The tone should be collaborative — the goal is better software, not fault-finding.",
+            "ru": "Code review решает сразу несколько задач: ловит дефекты, распространяет знания внутри команды, поддерживает единые стандарты и помогает менторить. Это не замер производительности, не гейт одного человека и не замена QA. Тон должен быть совместным — цель в качестве продукта, а не в поиске виноватых."
         },
         "options": [
             {
@@ -19,16 +19,16 @@
                 "ru": "Оценивать производительность отдельных разработчиков"
             },
             {
-                "en": "To share knowledge, improve code quality, and catch issues before they reach production",
-                "ru": "Обмениваться знаниями, повышать качество кода и ловить проблемы до того, как они попадут в продакшн"
+                "en": "To share knowledge, raise code quality and catch issues before production",
+                "ru": "Обмениваться знаниями, повышать качество кода и ловить проблемы до продакшена"
             },
             {
-                "en": "To ensure the code author rewrites it completely",
-                "ru": "Заставить автора полностью переписать код"
+                "en": "To gate merges so that only the tech lead approves code going to production",
+                "ru": "Сделать merge-гейт, на котором код в продакшен апрувит только тимлид"
             },
             {
-                "en": "To find as many bugs as possible to justify the review process",
-                "ru": "Найти как можно больше багов, чтобы оправдать сам процесс review"
+                "en": "To act as the sign-off that lets QA skip regression testing on the change",
+                "ru": "Быть сайн-оффом, который позволяет QA пропустить регрессию по этому изменению"
             }
         ],
         "correct": 1
@@ -312,29 +312,29 @@
         "difficulty": "easy",
         "tags": ["DORA-metrics", "engineering-metrics"],
         "question": {
-            "en": "Which of the following is NOT one of the four DORA metrics?",
-            "ru": "Что из перечисленного НЕ входит в четыре метрики DORA?"
+            "en": "Which of the following is NOT one of DORA's software delivery metrics?",
+            "ru": "Что из перечисленного НЕ входит в метрики доставки ПО от DORA?"
         },
         "explanation": {
-            "en": "The four DORA (DevOps Research and Assessment) metrics are: Deployment Frequency, Lead Time for Changes, Change Failure Rate, and Mean Time to Recovery (MTTR). Code Coverage is an important quality metric but is not part of the DORA framework.",
-            "ru": "Четыре метрики DORA (DevOps Research and Assessment): Deployment Frequency, Lead Time for Changes, Change Failure Rate и Mean Time to Recovery (MTTR). Покрытие кода — важная метрика качества, но в DORA она не входит."
+            "en": "DORA currently publishes five software delivery metrics: change lead time (from committed to version control to deployed in production), deployment frequency, failed deployment recovery time, change fail rate and deployment rework rate. The metric once published as mean time to recover (MTTR) was renamed and redefined as failed deployment recovery time in the 2023 State of DevOps report, and deployment rework rate was added as the fifth metric in 2024. Code coverage is a useful quality signal, but it has never been part of the set.",
+            "ru": "Сейчас DORA публикует пять метрик доставки ПО: change lead time (от коммита в систему контроля версий до деплоя в продакшен), deployment frequency, failed deployment recovery time, change fail rate и deployment rework rate. То, что раньше публиковалось как mean time to recover (MTTR), в отчёте State of DevOps 2023 переименовали и переопределили в failed deployment recovery time, а deployment rework rate добавили пятой метрикой в 2024 году. Покрытие кода — полезный сигнал качества, но в набор DORA оно никогда не входило."
         },
         "options": [
             {
-                "en": "Deployment Frequency",
-                "ru": "Deployment Frequency"
+                "en": "Deployment frequency",
+                "ru": "Deployment frequency"
             },
             {
-                "en": "Lead Time for Changes",
-                "ru": "Lead Time for Changes — время от коммита до продакшена"
+                "en": "Change lead time",
+                "ru": "Change lead time"
             },
             {
-                "en": "Code Coverage Percentage",
-                "ru": "Процент покрытия кода тестами"
+                "en": "Code coverage",
+                "ru": "Покрытие кода тестами"
             },
             {
-                "en": "Change Failure Rate",
-                "ru": "Change Failure Rate"
+                "en": "Change fail rate",
+                "ru": "Change fail rate"
             }
         ],
         "correct": 2
@@ -589,7 +589,7 @@
         },
         "explanation": {
             "en": "A spike is a time-boxed investigation task (e.g., 1-2 days) with the explicit goal of reducing uncertainty enough to estimate. It produces knowledge, not production code. Spikes prevent teams from committing to wild estimates or paralysis on poorly-understood work.",
-            "ru": "Spike — это time-boxed исследовательская задача (например, на 1–2 дня) с явной целью снизить неопределённость до оцениваемого уровня. Её продукт — знания, а не production-код. Spike'и не дают команде брать на себя «потолочные» оценки и не позволяют заткнуться в плохо понятной работе."
+            "ru": "Spike — это time-boxed исследовательская задача (например, на 1–2 дня) с явной целью снизить неопределённость до оцениваемого уровня. Её продукт — знания, а не production-код. Spike'и не дают команде брать на себя «потолочные» оценки и не дают застрять на плохо понятной работе."
         },
         "options": [
             {
@@ -792,8 +792,8 @@
             "ru": "Что такое cycle time в инженерных метриках?"
         },
         "explanation": {
-            "en": "Cycle time measures the time from 'work started' to 'delivered to production'. It is a key engineering efficiency metric — shorter cycle times indicate less WIP, less context-switching, and faster feedback loops. It differs from lead time, which starts from when the task was requested.",
-            "ru": "Cycle time измеряет время от «взяли в работу» до «выкатили в production». Это ключевая метрика инженерной эффективности: короткий cycle time говорит о меньшем WIP, меньшем контекстном переключении и более быстрых циклах обратной связи. Отличается от lead time, который считается с момента постановки задачи."
+            "en": "Cycle time measures the time from 'work started' to 'delivered to production'. It is a key efficiency metric — shorter cycle times mean less WIP, less context-switching and faster feedback loops. Do not mix the two senses of 'lead time': Lean/Kanban lead time runs from the request to delivery, while DORA's change lead time runs from the commit to production.",
+            "ru": "Cycle time измеряет время от «взяли в работу» до «выкатили в production». Это ключевая метрика инженерной эффективности: короткий cycle time означает меньше WIP, меньше переключений контекста и более быструю обратную связь. Не смешивайте два смысла «lead time»: в Lean/Kanban это время от запроса до поставки, а change lead time у DORA — от коммита до продакшена."
         },
         "options": [
             {
@@ -894,12 +894,12 @@
         "difficulty": "medium",
         "tags": ["estimation", "techniques"],
         "question": {
-            "en": "Which of the following are valid estimation techniques used in software teams?",
-            "ru": "Какие из перечисленного являются валидными техниками оценки в командах разработки?"
+            "en": "Which of the following are valid approaches to sizing or forecasting work in software teams?",
+            "ru": "Какие из перечисленного — валидные подходы к сайзингу или прогнозированию работы в командах разработки?"
         },
         "explanation": {
-            "en": "Planning Poker, T-shirt sizing, #NoEstimates (throughput-based), and Monte Carlo simulation are all recognized techniques. Counting lines of code per task is not a valid estimation technique — LoC is a poor proxy for effort and incentivizes verbose code.",
-            "ru": "Planning Poker, T-shirt sizing, #NoEstimates (на основе throughput) и симуляция Монте-Карло — признанные техники. Подсчёт строк кода на задачу валидной техникой оценки не является: LoC — плохой прокси для усилий и поощряет многословный код."
+            "en": "Planning Poker, T-shirt sizing, Monte Carlo forecasting and #NoEstimates are all recognised approaches to sizing or forecasting delivery — #NoEstimates replaces per-item estimates with throughput-based forecasting, it does not drop forecasting. Counting lines of code per task is not one of them: LoC is a poor proxy for effort and rewards verbose code.",
+            "ru": "Planning Poker, T-shirt sizing, прогноз по Монте-Карло и #NoEstimates — признанные подходы к сайзингу или прогнозированию поставки: #NoEstimates заменяет поштучные оценки прогнозом по throughput, а не отменяет прогнозирование. Подсчёт строк кода на задачу сюда не относится: LoC — плохой прокси для трудозатрат и поощряет многословный код."
         },
         "options": [
             {
@@ -932,36 +932,44 @@
         "difficulty": "medium",
         "tags": ["DORA-metrics", "elite-team"],
         "question": {
-            "en": "Which of the following are the four DORA metrics used to measure software delivery performance?",
-            "ru": "Какие из перечисленного входят в четыре метрики DORA, измеряющие эффективность доставки ПО?"
+            "en": "Which of the following metrics does DORA currently publish for software delivery performance?",
+            "ru": "Какие метрики DORA публикует сейчас для оценки эффективности доставки ПО?"
         },
         "explanation": {
-            "en": "The four DORA metrics: Deployment Frequency (how often you deploy to production), Lead Time for Changes (time from commit to prod), Change Failure Rate (percentage of deployments causing failures), and MTTR (how quickly you recover from incidents). Code coverage is a quality metric, not a DORA metric.",
-            "ru": "Четыре метрики DORA: Deployment Frequency (как часто деплоим в production), Lead Time for Changes (время от коммита до prod), Change Failure Rate (доля деплоев, приводящих к сбоям) и MTTR (насколько быстро восстанавливаемся после инцидентов). Покрытие кода — метрика качества, в DORA она не входит."
+            "en": "Since the 2024 State of DevOps report DORA publishes five metrics: change lead time, deployment frequency, failed deployment recovery time, change fail rate and deployment rework rate. Four of them are the original keys — the one published for years as mean time to recover (MTTR) was renamed and redefined as failed deployment recovery time in 2023, and deployment rework rate joined as the fifth metric in 2024. Test coverage and velocity are team-local signals, not DORA metrics.",
+            "ru": "С отчёта State of DevOps 2024 DORA публикует пять метрик: change lead time, deployment frequency, failed deployment recovery time, change fail rate и deployment rework rate. Четыре из них — исходные ключевые: то, что годами публиковалось как mean time to recover (MTTR), в 2023 году переименовали и переопределили в failed deployment recovery time, а deployment rework rate добавили пятой метрикой в 2024-м. Покрытие тестами и velocity — внутрикомандные сигналы, а не метрики DORA."
         },
         "options": [
             {
-                "en": "Deployment Frequency",
-                "ru": "Deployment Frequency"
+                "en": "Deployment frequency",
+                "ru": "Deployment frequency"
             },
             {
-                "en": "Lead Time for Changes",
-                "ru": "Lead Time for Changes — время от коммита до продакшена"
+                "en": "Change lead time",
+                "ru": "Change lead time"
             },
             {
-                "en": "Code Test Coverage",
+                "en": "Code test coverage",
                 "ru": "Покрытие кода тестами"
             },
             {
-                "en": "Change Failure Rate",
-                "ru": "Change Failure Rate"
+                "en": "Change fail rate",
+                "ru": "Change fail rate"
             },
             {
-                "en": "Mean Time to Recovery (MTTR)",
-                "ru": "Mean Time to Recovery (MTTR) — среднее время восстановления"
+                "en": "Failed deployment recovery time",
+                "ru": "Failed deployment recovery time"
+            },
+            {
+                "en": "Deployment rework rate",
+                "ru": "Deployment rework rate"
+            },
+            {
+                "en": "Team velocity in story points per sprint",
+                "ru": "Velocity команды в story points за спринт"
             }
         ],
-        "correct": [0, 1, 3, 4]
+        "correct": [0, 1, 3, 4, 5]
     },
     {
         "id": "lead-psychological-safety-002",
@@ -1108,7 +1116,7 @@
         },
         "explanation": {
             "en": "Chronic under-delivery signals a planning dysfunction: insufficient refinement leads to underestimates, over-commitment reduces quality, and carry-over accumulates without addressing root causes. Sustainable planning aligns commitment to demonstrated velocity and requires adequately refined stories.",
-            "ru": "Хронический недобор по поставке сигнализирует о дисфункции планирования: недостаточный refinement приводит к недооценке, перебор по коммиту роняет качество, а переносы копятся без работы с корневыми причинами. Устойчивое планирование выравнивает коммит по реально показанной velocity и требует достаточно отrefinе-ных стори."
+            "ru": "Хронический недобор по поставке сигнализирует о дисфункции планирования: недостаточный refinement приводит к недооценке, перебор по коммиту роняет качество, а переносы копятся без работы с корневыми причинами. Устойчивое планирование выравнивает коммит по реально показанной velocity и требует достаточно проработанных историй."
         },
         "code": "// Sprint planning process:\n// 1. PM shares 30 stories the morning of planning\n// 2. Team estimates all 30 in 2 hours\n// 3. Team commits to the top 20 for the 2-week sprint\n// 4. Any incomplete stories are moved to next sprint\n// Result: last 3 sprints delivered 40% of committed stories",
         "correct": "The team is consistently over-committing because there is not enough time to refine stories before estimation, the sprint is overloaded (20 stories), and incomplete work carries forward without addressing the root cause",
@@ -1138,20 +1146,20 @@
         "id": "lead-1on1-002",
         "type": "code-completion",
         "category": "team-lead",
-        "difficulty": "medium",
+        "difficulty": "easy",
         "tags": ["1on1", "agenda"],
         "question": {
-            "en": "Complete the 1:1 agenda template with the correct section labels:",
-            "ru": "Дополните шаблон повестки 1:1 правильными названиями разделов:"
+            "en": "Complete the closing section of this 1:1 template — the standard two-word heading for owned commitments:",
+            "ru": "Дополните завершающий раздел шаблона 1:1 — стандартный заголовок из двух слов для зафиксированных обязательств:"
         },
         "explanation": {
             "en": "An effective 1:1 agenda starts with the team member's items (signaling it is their meeting), includes manager topics, and always ends with concrete, owned action items. Without action items, 1:1s become passive check-ins with no follow-through.",
             "ru": "Эффективная повестка 1:1 начинается с пунктов сотрудника (сигнал о том, что это его встреча), включает темы менеджера и всегда заканчивается конкретными action items с назначенными владельцами. Без action items 1:1 превращаются в пассивные check-in без последствий."
         },
-        "code": "## 1:1 — Vadym & Alex — 2024-W12\n\n### __BLANK__ (Alex's items first)\n- Feeling stuck on the auth refactor — need help prioritizing\n- Question about the Q2 roadmap direction\n\n### __BLANK__ (Vadym's items)\n- Feedback on last sprint's PRs\n- Discuss promotion criteria timeline\n\n### __BLANK__ (both commit to actions)\n- [ ] Vadym: unblock auth refactor by Friday\n- [ ] Alex: draft promotion self-assessment by EOW",
-        "blanks": ["Team Member Agenda", "Manager Agenda", "Action Items"],
+        "code": "## 1:1 — Vadym & Alex — 2024-W12\n\n### Team member's topics (Alex's items first)\n- Feeling stuck on the auth refactor — need help prioritizing\n- Question about the Q2 roadmap direction\n\n### Manager's topics (Vadym's items)\n- Feedback on last sprint's PRs\n- Discuss promotion criteria timeline\n\n### __BLANK__ (each one has an owner and a date)\n- [ ] Vadym: unblock auth refactor by Friday\n- [ ] Alex: draft promotion self-assessment by EOW",
+        "blanks": ["Action Items"],
         "lang": "markdown",
-        "referenceAnswer": "Sections: Team Member Agenda (their concerns first), Manager Agenda (feedback and topics), Action Items (concrete commitments from both)."
+        "referenceAnswer": "Action Items. The template opens with the team member's topics (it is their meeting), then the manager's topics, and closes with action items that each carry an owner and a date."
     },
     {
         "id": "lead-rice-002",
@@ -1160,17 +1168,17 @@
         "difficulty": "hard",
         "tags": ["prioritization", "RICE"],
         "question": {
-            "en": "Calculate the RICE score and complete the formula for this feature:",
-            "ru": "Посчитайте RICE score и дополните формулу для этой фичи:"
+            "en": "Complete the RICE calculation. Use the variable names declared above in the formula, and write numbers as plain decimals:",
+            "ru": "Дополните расчёт RICE. В формуле используйте имена переменных, объявленных выше, а числа пишите обычными десятичными:"
         },
         "explanation": {
-            "en": "RICE score = (Reach × Impact × Confidence) / Effort. Confidence is expressed as a decimal (80% = 0.8). A score of 1000 tells you this feature delivers 1000 units of value per unit of effort — use this to rank against other features.",
-            "ru": "RICE score = (Reach × Impact × Confidence) / Effort. Confidence выражается в виде десятичной дроби (80% = 0.8). Оценка 1000 означает, что фича даёт 1000 единиц ценности на единицу усилий — используйте это число, чтобы ранжировать её относительно других фич."
+            "en": "RICE score = (Reach × Impact × Confidence) / Effort. Confidence is a percentage written as a decimal (80% = 0.8) and Effort is counted in person-months, so this feature scores (5000 × 0.5 × 0.8) / 2 = 1000 units of value per person-month. The number means nothing on its own — it exists to rank this feature against the other candidates.",
+            "ru": "RICE score = (Reach × Impact × Confidence) / Effort. Confidence — это процент в виде десятичной дроби (80% = 0.8), а Effort считается в человеко-месяцах, поэтому фича набирает (5000 × 0.5 × 0.8) / 2 = 1000 единиц ценности на человеко-месяц. Само по себе число ничего не значит — оно нужно, чтобы ранжировать фичу относительно других."
         },
-        "code": "// Feature: Add dark mode toggle\n// Reach: 5000 users/month\n// Impact: 0.5 (low — convenience, not core)\n// Confidence: 80% = __BLANK__\n// Effort: 2 person-weeks\n\nconst riceScore = (reach * impact * __BLANK__) / __BLANK__;\n// riceScore = (5000 * 0.5 * 0.8) / 2 = __BLANK__",
+        "code": "// Feature: add a dark mode toggle\nconst reach = 5000;           // users reached per month\nconst impact = 0.5;           // low — convenience, not core\nconst confidence = __BLANK__; // 80% expressed as a decimal\nconst effort = 2;             // person-months\n\nconst riceScore = (reach * impact * __BLANK__) / __BLANK__;\nconsole.log(riceScore); // __BLANK__",
         "blanks": ["0.8", "confidence", "effort", "1000"],
         "lang": "javascript",
-        "referenceAnswer": "Confidence 80% = 0.8; formula: (reach * impact * confidence) / effort = (5000 * 0.5 * 0.8) / 2 = 1000."
+        "referenceAnswer": "confidence = 0.8; riceScore = (reach * impact * confidence) / effort = (5000 * 0.5 * 0.8) / 2 = 1000 value units per person-month."
     },
     {
         "id": "lead-postmortem-003",
@@ -1183,13 +1191,13 @@
             "ru": "Дополните разделы шаблона blameless postmortem:"
         },
         "explanation": {
-            "en": "A complete postmortem has: Impact Summary (scope and cost), Timeline (events in order), Root Cause Analysis, and Action Items (concrete, owned, time-bound). The goal is to prevent recurrence, not document blame. Action items without owners and deadlines are rarely completed.",
-            "ru": "Полноценный postmortem содержит: Impact Summary (масштаб и стоимость), Timeline (события по порядку), Root Cause Analysis и Action Items (конкретные, с владельцем и сроком). Цель — предотвратить повторение, а не зафиксировать виноватых. Action items без владельцев и дедлайнов почти никогда не доводятся до конца."
+            "en": "Google's SRE postmortem template keeps Summary and Impact apart: Summary is the one-paragraph what-happened, Impact states who and what was affected and the business cost. Timeline lists the events in order, Root Causes explains why, and Action Items are concrete, owned and time-bound. The goal is preventing recurrence, not recording blame — action items without an owner and a date are rarely completed.",
+            "ru": "В шаблоне postmortem у Google SRE Summary и Impact — разные разделы: Summary — это абзац «что произошло», а Impact фиксирует, кого и что задело и во сколько это обошлось бизнесу. Timeline перечисляет события по порядку, Root Causes объясняет причину, а Action Items — конкретные пункты с владельцем и сроком. Цель — предотвратить повторение, а не зафиксировать виноватых: action items без владельца и дедлайна почти никогда не доводятся до конца."
         },
-        "code": "# Incident Postmortem — 2024-03-15 Checkout Outage\n\n## __BLANK__\nCheckout was unavailable for 23 minutes (14:35–14:58 UTC).\nEstimated revenue impact: $12,000.\n\n## __BLANK__\n14:35 — Deployment of v2.3.1 completed\n14:38 — Error rate spiked to 45%\n14:42 — On-call alerted via PagerDuty\n14:58 — Rollback completed, service restored\n\n## Root Cause\nNew DB migration ran synchronously, locking the orders table\n\n## __BLANK__\n- [ ] Add migration dry-run step to deployment pipeline\n- [ ] Set up DB lock monitoring alert\n- [ ] Update runbook with rollback steps",
-        "blanks": ["Impact Summary", "Timeline", "Action Items"],
+        "code": "# Incident Postmortem — 2024-03-15 Checkout Outage\n\n## Summary\nA synchronous DB migration shipped in v2.3.1 locked the orders table and took checkout down.\n\n## __BLANK__\nCheckout was unavailable for 23 minutes (14:35–14:58 UTC).\nEstimated revenue impact: $12,000.\n\n## __BLANK__\n14:35 — Deployment of v2.3.1 completed\n14:38 — Error rate spiked to 45%\n14:42 — On-call alerted via PagerDuty\n14:58 — Rollback completed, service restored\n\n## Root Causes\nNew DB migration ran synchronously, locking the orders table\n\n## __BLANK__\n- [ ] Add migration dry-run step to deployment pipeline\n- [ ] Set up DB lock monitoring alert\n- [ ] Update runbook with rollback steps",
+        "blanks": ["Impact", "Timeline", "Action Items"],
         "lang": "markdown",
-        "referenceAnswer": "Sections: Impact Summary (who/what affected, business cost), Timeline (ordered events), Action Items (concrete preventive measures with owners)."
+        "referenceAnswer": "Impact, Timeline, Action Items. Google's SRE template keeps Summary and Impact as separate sections: Summary is the narrative of what happened, Impact states who and what was affected and what it cost."
     },
     {
         "id": "lead-feedback-002",
@@ -1275,20 +1283,20 @@
         },
         "options": [
             {
-                "en": "Propose the change via an RFC or direct collaboration with the owning team, agree on the API contract, and let the owning team implement it or contribute with their guidance",
-                "ru": "Предложить изменение через RFC или прямую коллаборацию с командой-владельцем, согласовать контракт API и либо дать им реализовать это самим, либо сделать самому под их руководством"
+                "en": "Agree the API contract with the owning team via an RFC, then build it together or hand it over",
+                "ru": "Согласовать контракт API с командой-владельцем через RFC и дальше делать вместе или передать им"
             },
             {
-                "en": "Fork the shared component into your own codebase",
-                "ru": "Форкнуть shared-компонент к себе в кодовую базу"
+                "en": "Fork the shared component into your codebase so your release is not blocked by another team's backlog",
+                "ru": "Форкнуть shared-компонент к себе, чтобы релиз не зависел от бэклога другой команды"
             },
             {
-                "en": "Ask your manager to mandate the change to the other team",
-                "ru": "Попросить своего менеджера приказать другой команде сделать изменение"
+                "en": "Escalate to your manager so the other team is told to prioritise the change this sprint",
+                "ru": "Эскалировать своему менеджеру, чтобы другой команде поручили взять изменение в этот спринт"
             },
             {
-                "en": "Directly modify the shared component without asking",
-                "ru": "Прямо поменять shared-компонент, ничего не спрашивая"
+                "en": "Change the shared component directly and let the owning team review the PR after it is merged",
+                "ru": "Поменять shared-компонент напрямую, а команда-владелец посмотрит PR уже после мержа"
             }
         ],
         "correct": 0
@@ -1406,25 +1414,25 @@
             "ru": "В чём ключевой принцип async-first коммуникации в команде?"
         },
         "explanation": {
-            "en": "Async-first communication respects deep work time, works across timezones, and creates a written record of decisions. Meetings are reserved for high-bandwidth situations: creative brainstorming, conflict resolution, and rapid iterations. The anti-pattern is holding a meeting for anything that could be a doc or Slack thread.",
-            "ru": "Async-first коммуникация уважает время на deep work, работает через часовые пояса и оставляет письменный след решений. Встречи резервируются под high-bandwidth ситуации: креативный брейншторм, разрешение конфликтов, быстрые итерации. Антипаттерн — собирать митинг под всё, что можно было бы оформить документом или тредом в Slack."
+            "en": "Async-first communication protects deep work, works across timezones and leaves a written record of decisions. Synchronous time is reserved for high-bandwidth situations: creative work, conflict, fast iteration. The ordering matters as much as the channel — the doc comes before the meeting, so the meeting reacts to a written proposal instead of becoming the only place the decision exists.",
+            "ru": "Async-first коммуникация бережёт время на deep work, работает через часовые пояса и оставляет письменный след решений. Синхронное время резервируется под high-bandwidth ситуации: креативная работа, конфликт, быстрые итерации. Порядок важен не меньше канала: документ идёт до встречи, чтобы встреча реагировала на письменное предложение, а не оставалась единственным местом, где живёт решение."
         },
         "options": [
             {
-                "en": "Avoid all meetings and only use email",
-                "ru": "Избегать всех встреч и использовать только email"
+                "en": "Avoid meetings entirely and keep every discussion in email so there is always a written record",
+                "ru": "Полностью отказаться от встреч и вести все обсуждения в почте, чтобы всегда оставался письменный след"
             },
             {
-                "en": "All decisions must be made in real-time meetings",
-                "ru": "Все решения обязательно принимаются на реал-тайм встречах"
+                "en": "Hold the meeting first and write the doc afterwards, so the meeting stays the place decisions are made",
+                "ru": "Сначала собирать встречу, а документ писать после — чтобы решения принимались именно на встрече"
             },
             {
-                "en": "Respond to all messages within 5 minutes to maximize team speed",
-                "ru": "Отвечать на все сообщения в течение 5 минут, чтобы максимизировать скорость команды"
+                "en": "Expect a reply within minutes on chat so the team never blocks waiting for an answer",
+                "ru": "Ждать ответа в чате за считаные минуты, чтобы команда никогда не простаивала в ожидании"
             },
             {
-                "en": "Prefer written, async communication (docs, Slack threads, PRs) over synchronous meetings — reserve real-time for decisions requiring rapid back-and-forth or emotional nuance",
-                "ru": "Предпочитать письменную асинхронную коммуникацию (документы, треды в Slack, PR) синхронным встречам — оставлять реал-тайм для решений, требующих быстрого обмена репликами или эмоционального нюанса"
+                "en": "Default to written async (docs, threads, PRs); reserve synchronous time for high-bandwidth decisions",
+                "ru": "По умолчанию писать асинхронно (документы, треды, PR), а синхронное время беречь для решений, требующих плотного обмена"
             }
         ],
         "correct": 3
@@ -1474,8 +1482,8 @@
             "ru": "Какие аспекты code review лучше автоматизировать, а какие требуют человеческого суждения?"
         },
         "explanation": {
-            "en": "Automate everything mechanical: formatting (Prettier), linting (ESLint), coverage (Vitest), and static security analysis (Snyk, CodeQL). Reserve human review for: architecture decisions, whether the solution fits the requirement, business logic correctness (machines cannot know intent), and design trade-offs.",
-            "ru": "Автоматизируйте всё механическое: форматирование (Prettier), линтинг (ESLint), coverage (Vitest) и статический анализ безопасности (Snyk, CodeQL). На человеческий review оставляйте: архитектурные решения, насколько решение соответствует требованию, корректность бизнес-логики (машина не знает намерения) и design trade-off'ы."
+            "en": "Automate everything mechanical: formatting (Prettier), linting (ESLint), coverage thresholds (Vitest) and static security analysis (Snyk, CodeQL). Keep for human review: architecture decisions, whether the solution fits the requirement, whether the rule that was implemented is the one the product actually wanted (machines cannot know intent), and design trade-offs. A test can check that a rule behaves as written — only a person can check it is the right rule.",
+            "ru": "Автоматизируйте всё механическое: форматирование (Prettier), линтинг (ESLint), пороги покрытия (Vitest) и статический анализ безопасности (Snyk, CodeQL). Человеку оставляйте: архитектурные решения, соответствие решения требованию, вопрос «та ли это бизнес-логика, которую хотел продукт» (машина не знает намерения) и design trade-off'ы. Тест проверяет, что правило работает так, как написано, — и только человек проверит, что правило вообще то самое."
         },
         "options": [
             {
@@ -1495,8 +1503,8 @@
                 "ru": "Человек: решает ли код правильную задачу"
             },
             {
-                "en": "Automate: business logic correctness",
-                "ru": "Автоматизировать: корректность бизнес-логики"
+                "en": "Automate: deciding whether the business rule that was implemented is the one the product wanted",
+                "ru": "Автоматизировать: решение о том, та ли это бизнес-логика, которую хотел продукт"
             }
         ],
         "correct": [0, 1, 2, 3]
@@ -1553,52 +1561,47 @@
             "en": "OKRs (Objectives and Key Results): the Objective is an inspiring, qualitative direction. Key Results are quantifiable outcomes that prove the objective was achieved — not tasks or outputs. Good KRs are measurable, time-bound, and set at ~70% confidence level (stretch goals).",
             "ru": "OKR (Objectives and Key Results): Objective — это вдохновляющее качественное направление. Key Results — измеримые результаты, которые доказывают достижение Objective, это не задачи и не артефакты. Хорошие KR измеримы, ограничены по времени и ставятся на уровень уверенности ~70% (stretch goals)."
         },
-        "code": "// OKR format: Objective + Key Results\n\n// __BLANK__: Ambitious, qualitative goal\n\"Improve developer experience and reduce onboarding time\"\n\n// __BLANK__ (measurable outcomes):\n// KR1: __BLANK__ time from git clone to running app from 2h to 15min\n// KR2: Achieve __BLANK__ score on developer satisfaction survey (currently 6.2/10)\n// KR3: Zero new engineers take >1 day to merge their first PR",
-        "blanks": ["Objective", "Key Results", "Reduce", "8.0+"],
+        "code": "// OKR format: Objective + Key Results\n\n// __BLANK__: ambitious, qualitative goal\n\"Improve developer experience and reduce onboarding time\"\n\n// __BLANK__ (measurable outcomes):\n// KR1: Reduce time from git clone to running app from 2h to 15min\n// KR2: Raise the developer satisfaction survey score from 6.2/10 to 8.0/10\n// KR3: Zero new engineers take >1 day to merge their first PR",
+        "blanks": ["Objective", "Key Results"],
         "lang": "markdown",
-        "referenceAnswer": "Objective is the qualitative goal; Key Results are specific, measurable outcomes. KR1 reduces setup time; KR2 targets a satisfaction score; KR3 sets a binary milestone."
+        "referenceAnswer": "The Objective is the qualitative direction; the Key Results are the measurable outcomes that prove it was reached. KR1 cuts setup time, KR2 moves a survey score, KR3 sets a binary milestone."
     },
     {
         "id": "lead-conflict-001",
         "type": "code-completion",
         "category": "team-lead",
-        "difficulty": "hard",
+        "difficulty": "medium",
         "tags": ["conflict-resolution", "leadership"],
         "question": {
-            "en": "Complete the constructive conflict resolution script for a tech lead mediating a disagreement between two developers:",
-            "ru": "Дополните сценарий конструктивного разрешения конфликта для тимлида, медиатирующего спор двух разработчиков:"
+            "en": "A tech lead is mediating a disagreement between two developers. Complete the facilitation script — each blank takes one of these terms, used exactly once: `ADR`, `objective`, `spike`.",
+            "ru": "Тимлид медиатирует спор двух разработчиков. Дополните сценарий фасилитации — в каждый пропуск подставьте один из терминов, каждый ровно один раз: `ADR`, `objective`, `spike`."
         },
         "explanation": {
             "en": "Effective tech conflict resolution: avoid positional bargaining (GraphQL vs REST) by identifying underlying interests (flexibility vs simplicity). Establish objective criteria to evaluate options. Run a time-boxed spike to get data. Document the outcome so the debate does not resurface.",
             "ru": "Эффективное разрешение технического конфликта: уходить от позиционного торга (GraphQL vs REST), выявляя лежащие за позициями интересы (гибкость vs простота). Установить объективные критерии для сравнения вариантов. Запустить time-boxed spike, чтобы получить данные. Зафиксировать итог, чтобы спор не всплывал заново."
         },
-        "code": "// Scenario: Dev A wants to use GraphQL; Dev B insists on REST.\n// Tech lead facilitation steps:\n\n// 1. __BLANK__ both perspectives without taking sides initially\n// 2. Reframe from positions to interests:\n//    'What problem are you trying to solve with __BLANK__?'\n// 3. Identify __BLANK__ criteria: latency, flexibility, team familiarity\n// 4. Agree to a __BLANK__ or PoC to validate assumptions\n// 5. Document the decision and rationale in an __BLANK__",
-        "blanks": ["Hear", "GraphQL / REST", "objective", "spike", "ADR"],
+        "code": "// Scenario: Dev A wants to use GraphQL; Dev B insists on REST.\n// Tech lead facilitation steps:\n\n// 1. Hear both perspectives without taking sides initially\n// 2. Reframe from positions to interests:\n//    'What problem are you trying to solve with this approach?'\n// 3. Compare the options against __BLANK__ criteria: latency, flexibility, team familiarity\n// 4. Agree to a time-boxed __BLANK__ to validate the assumptions with real data\n// 5. Record the decision, its context and its consequences in an __BLANK__",
+        "blanks": ["objective", "spike", "ADR"],
         "lang": "markdown",
-        "referenceAnswer": "Hear both sides; reframe to interests; define objective criteria; run a spike/PoC; document in an ADR."
+        "referenceAnswer": "Hear both sides; reframe positions into interests; compare the options against objective criteria; run a time-boxed spike for real data; record the decision, its context and its consequences in an ADR."
     },
     {
         "id": "lead-mentoring-002",
         "type": "code-completion",
         "category": "team-lead",
-        "difficulty": "medium",
+        "difficulty": "easy",
         "tags": ["mentoring", "growth-framework"],
         "question": {
-            "en": "Complete this simplified engineering growth ladder for a frontend team:",
-            "ru": "Дополните упрощённую инженерную карьерную лестницу для frontend-команды:"
+            "en": "Complete this simplified engineering growth ladder — each blank takes one of these levels, used exactly once: `Mid`, `Senior`, `Staff`, `Trainee`.",
+            "ru": "Дополните упрощённую инженерную карьерную лестницу — в каждый пропуск подставьте один из уровней, каждый ровно один раз: `Mid`, `Senior`, `Staff`, `Trainee`."
         },
         "explanation": {
             "en": "Engineering ladders define scope of impact and autonomy at each level. Trainee: guided, small scope. Mid: independent feature ownership. Senior: domain ownership + mentoring. Staff: cross-team technical strategy. Clarity on levels helps both performance reviews and career conversations.",
             "ru": "Инженерные лестницы определяют scope влияния и автономии на каждом уровне. Trainee: работает под руководством, маленький scope. Mid: самостоятельное владение фичей. Senior: владение доменом + менторинг. Staff: кросс-командная техническая стратегия. Чёткость по уровням помогает и в performance review, и в карьерных разговорах."
         },
-        "code": "const growthLadder = [\n  {\n    level: 'Trainee',\n    scope: '__BLANK__',           // single task, guided\n    autonomy: 'needs guidance on every task',\n  },\n  {\n    level: 'Mid',\n    scope: '__BLANK__',           // owns a feature end-to-end\n    autonomy: 'independent within team norms',\n  },\n  {\n    level: 'Senior',\n    scope: '__BLANK__',           // drives technical direction for a domain\n    autonomy: 'mentors others, makes architectural decisions',\n  },\n  {\n    level: 'Staff',\n    scope: '__BLANK__',           // cross-team technical strategy\n    autonomy: 'sets direction across teams',\n  },\n];",
-        "blanks": [
-            "Single component or bug fix",
-            "Feature / small project",
-            "Team domain / system design",
-            "Multi-team / org-wide initiatives"
-        ],
+        "code": "const growthLadder = [\n  {\n    level: '__BLANK__',\n    scope: 'a single component or bug fix',\n    autonomy: 'needs guidance on every task',\n  },\n  {\n    level: '__BLANK__',\n    scope: 'a feature, end to end',\n    autonomy: 'independent within team norms',\n  },\n  {\n    level: '__BLANK__',\n    scope: 'a team domain and its system design',\n    autonomy: 'mentors others, makes architectural decisions',\n  },\n  {\n    level: '__BLANK__',\n    scope: 'multi-team, org-wide initiatives',\n    autonomy: 'sets technical direction across teams',\n  },\n];",
+        "blanks": ["Trainee", "Mid", "Senior", "Staff"],
         "lang": "javascript",
-        "referenceAnswer": "Scope increases from individual task → feature → domain → org-wide. Autonomy grows from guided → independent → mentoring → org leadership."
+        "referenceAnswer": "Trainee -> Mid -> Senior -> Staff. Scope grows from one task to a feature, then a domain, then org-wide initiatives; autonomy grows from guided to independent to mentoring to setting direction across teams."
     }
 ]

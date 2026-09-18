@@ -248,8 +248,8 @@
             "ru": "Какой минимальный коэффициент контрастности WCAG требуется для обычного текста, чтобы соответствовать уровню AA?"
         },
         "explanation": {
-            "en": "WCAG 2.1 AA requires a contrast ratio of at least 4.5:1 for normal text and 3:1 for large text (18pt or 14pt bold). AAA requires 7:1 for normal text. Tools like axe, Lighthouse, or browser DevTools can check contrast ratios automatically.",
-            "ru": "WCAG 2.1 AA требует коэффициент контрастности не менее 4.5:1 для обычного текста и 3:1 для крупного текста (18pt или 14pt bold). AAA требует 7:1 для обычного текста. Инструменты вроде axe, Lighthouse или браузерных DevTools проверяют контрастность автоматически."
+            "en": "WCAG Success Criterion 1.4.3 Contrast (Minimum) requires at least 4.5:1 for normal text and 3:1 for large text (18pt, or 14pt bold). It is unchanged from 2.0 through WCAG 2.2, the current W3C Recommendation (published 5 October 2023, updated 12 December 2024). Level AAA (1.4.6) raises normal text to 7:1. axe, Lighthouse and the DevTools contrast picker check it automatically.",
+            "ru": "Критерий успеха WCAG 1.4.3 Contrast (Minimum) требует не менее 4.5:1 для обычного текста и 3:1 для крупного (18pt или 14pt bold). Он не менялся от 2.0 до WCAG 2.2 — текущей рекомендации W3C (опубликована 5 октября 2023, обновлена 12 декабря 2024). Уровень AAA (1.4.6) поднимает планку для обычного текста до 7:1. axe, Lighthouse и contrast picker в DevTools проверяют это автоматически."
         },
         "options": [
             {
@@ -588,8 +588,8 @@
             "ru": "Какой подход правильно обрабатывает плюрализацию в i18n?"
         },
         "explanation": {
-            "en": "String concatenation for pluralization breaks for languages with complex pluralization rules (Russian, Arabic, Polish have multiple plural forms). i18n libraries (i18next, react-intl) handle pluralization through CLDR rules per locale. Never concatenate translated strings.",
-            "ru": "Конкатенация строк для плюрализации ломается на языках со сложными правилами множественного числа (в русском, арабском, польском — несколько форм множественного числа). i18n-библиотеки (i18next, react-intl) обрабатывают плюрализацию через CLDR-правила для каждой локали. Никогда не конкатенируйте переведённые строки."
+            "en": "Concatenating a translated string with a hand-rolled suffix, or branching on `count` yourself between two keys, breaks in every language whose plural rules are not English: Russian needs three forms, Arabic six. i18n libraries (i18next, react-intl) resolve the form from the CLDR rules of the active locale via `Intl.PluralRules` — you pass `count` and the library picks the key. The `_one` / `_few` / `_many` / `_other` suffixes in an i18next resource file are how that selection is stored, not a branch you write by hand.",
+            "ru": "Конкатенация переведённой строки с самодельным окончанием — как и ручное ветвление по `count` между двумя ключами — ломается в любом языке, чьи правила множественного числа отличаются от английских: русскому нужно три формы, арабскому — шесть. i18n-библиотеки (i18next, react-intl) выбирают форму по CLDR-правилам активной локали через `Intl.PluralRules`: вы передаёте `count`, а ключ подбирает библиотека. Суффиксы `_one` / `_few` / `_many` / `_other` в ресурсном файле i18next — это способ хранения такого выбора, а не ветвление, которое вы пишете руками."
         },
         "options": [
             {
@@ -605,8 +605,8 @@
                 "ru": "Всегда использовать множественную форму, чтобы обойти проблему"
             },
             {
-                "en": "Store separate translation keys: messages_one and messages_many",
-                "ru": "Хранить отдельные ключи переводов: messages_one и messages_many"
+                "en": "Branch on `count` in the component and pick between two hard-coded keys: `messages_singular` / `messages_plural`",
+                "ru": "Ветвиться по `count` в компоненте и выбирать между двумя захардкоженными ключами: `messages_singular` / `messages_plural`"
             }
         ],
         "correct": 1
@@ -656,8 +656,8 @@
             "ru": "Когда следует использовать `aria-label` на элементе?"
         },
         "explanation": {
-            "en": "aria-label provides an accessible name for interactive elements that have no visible text label (e.g., an icon button: <button aria-label='Close dialog'>✕</button>). Avoid using it when visible text already exists — it creates redundancy. Never use aria-label on non-interactive elements that are already in the document flow.",
-            "ru": "aria-label задаёт accessible name для интерактивных элементов без видимой текстовой подписи (например, icon-кнопка: <button aria-label='Close dialog'>✕</button>). Не используйте его, если видимый текст уже есть — это создаёт избыточность. Никогда не ставьте aria-label на неинтерактивные элементы, которые и так находятся в document flow."
+            "en": "aria-label provides an accessible name for interactive elements that have no visible text label (e.g. an icon button: <button aria-label='Close dialog'>✕</button>). Avoid it when visible text already names the element — it creates a redundant or conflicting name. It has no effect on a generic element (a plain <div>/<span> with no role), but it is the correct way to label landmarks and regions (nav, section, table) when no visible heading serves as the label — and a landmark role used more than once on a page needs a unique label on each instance.",
+            "ru": "aria-label задаёт accessible name для интерактивных элементов без видимой текстовой подписи (например, icon-кнопка: <button aria-label='Close dialog'>✕</button>). Не используйте его, если видимый текст уже называет элемент, — получится избыточное или конфликтующее имя. На generic-элементе (обычный <div>/<span> без роли) он не действует, но это корректный способ подписать лендмарки и регионы (nav, section, table), когда видимого заголовка-подписи нет, — а лендмарк-роль, встречающаяся на странице больше одного раза, требует уникальной подписи на каждом экземпляре."
         },
         "options": [
             {
@@ -792,13 +792,13 @@
             "ru": "Какие из перечисленных соглашений об именовании корректны в контексте TypeScript/React-проекта?"
         },
         "explanation": {
-            "en": "Conventions: PascalCase for components (React distinguishes components from HTML by case), camelCase for variables/functions, SCREAMING_SNAKE_CASE for module-level constants, kebab-case for file names and CSS custom properties. Tailwind uses utility class names defined by the framework, not custom conventions.",
-            "ru": "Соглашения: PascalCase для компонентов (React отличает компоненты от HTML по регистру), camelCase для переменных/функций, SCREAMING_SNAKE_CASE для констант уровня модуля, kebab-case для имён файлов и CSS custom properties. Tailwind использует собственные имена utility-классов, заданные фреймворком, а не кастомные соглашения."
+            "en": "Conventions: PascalCase for components (React tells components from HTML tags by case), camelCase for variables and functions, SCREAMING_SNAKE_CASE for module-level constants, kebab-case for CSS custom properties. File naming is not settled the same way — the common React convention is PascalCase for component files and kebab-case for the rest, so it is a team decision rather than a rule. Tailwind utility class names are defined by the framework, not by a convention you pick.",
+            "ru": "Соглашения: PascalCase для компонентов (React отличает компоненты от HTML-тегов по регистру), camelCase для переменных и функций, SCREAMING_SNAKE_CASE для констант уровня модуля, kebab-case для CSS custom properties. С именами файлов единого правила нет: распространённая React-конвенция — PascalCase для файлов компонентов и kebab-case для остального, то есть это решение команды. Имена utility-классов Tailwind задаёт фреймворк, а не выбранная вами конвенция."
         },
         "options": [
             {
-                "en": "kebab-case for CSS custom properties and file names",
-                "ru": "kebab-case для CSS custom properties и имён файлов"
+                "en": "kebab-case for CSS custom properties: `--brand-color`",
+                "ru": "kebab-case для CSS custom properties: `--brand-color`"
             },
             {
                 "en": "PascalCase for React component names: UserProfile",
@@ -982,8 +982,8 @@
             "ru": "Какие из перечисленных пунктов — это best practices для code review со стороны автора?"
         },
         "explanation": {
-            "en": "Author best practices: small focused PRs (easier to review and revert), clear descriptions (context for reviewers), self-review before requesting (catches obvious issues), and respond to all comments (shows respect and keeps communication clear). Large PRs with unrelated changes are harder to review and understand.",
-            "ru": "Best practices автора: маленькие сфокусированные PR (легче ревьюить и откатывать), понятные описания (контекст для ревьюеров), self-review перед запросом (ловит очевидные проблемы) и ответы на все комментарии (уважение и прозрачная коммуникация). Большие PR с несвязанными изменениями сложнее ревьюить и понимать."
+            "en": "Author best practices: small focused PRs (easier to review and to revert), a description that gives reviewers the context, a self-review before requesting one, and a reply to every comment even if it only defers the change. The one to reject is force-pushing a rebase mid-review: it rewrites the commits the reviewer has already read, so the incremental 'changes since your last review' comparison and the anchors of existing comments no longer line up. Rebase or squash at merge time, not between rounds.",
+            "ru": "Best practices автора: маленькие сфокусированные PR (легче ревьюить и откатывать), описание, дающее ревьюерам контекст, self-review перед запросом ревью и ответ на каждый комментарий, пусть даже с переносом правки. Отклонить нужно force-push перебазированной ветки посреди ревью: он переписывает коммиты, которые ревьюер уже прочитал, и инкрементальное сравнение «что изменилось с прошлого ревью» вместе с якорями существующих комментариев перестаёт сходиться. Ребейзить или сквошить стоит при мерже, а не между раундами."
         },
         "options": [
             {
@@ -995,8 +995,8 @@
                 "ru": "Отвечать на все комментарии, пусть даже просто подтверждая получение или откладывая"
             },
             {
-                "en": "Submit a PR with as many changes as possible to minimize review rounds",
-                "ru": "Отправлять PR с максимумом изменений, чтобы минимизировать количество итераций ревью"
+                "en": "Force-push a rebased branch after each round of review fixes to keep history clean",
+                "ru": "После каждого раунда правок делать force-push перебазированной ветки, чтобы история оставалась чистой"
             },
             {
                 "en": "Pre-review your own PR before requesting reviews",
@@ -1054,16 +1054,16 @@
         "difficulty": "medium",
         "tags": ["a11y", "accessibility", "semantic-HTML"],
         "question": {
-            "en": "This form has two accessibility violations. Find them.",
-            "ru": "В этой форме два нарушения accessibility. Найдите их."
+            "en": "This login form has three defects — two accessibility violations and one security issue. Find them.",
+            "ru": "В этой форме входа три дефекта — два нарушения accessibility и одна проблема безопасности. Найдите их."
         },
         "explanation": {
-            "en": "Three issues: 1) <div> labels are not programmatically associated with inputs — use <label htmlFor='id'>. 2) <div onClick> is not a button — not focusable, not keyboard-accessible, no ARIA role. 3) type='text' for password exposes input in plain text — must be type='password'.",
-            "ru": "Три проблемы: 1) <div>-подписи не связаны программно с input'ами — нужен <label htmlFor='id'>. 2) <div onClick> — это не кнопка: не фокусируется, недоступна с клавиатуры, без ARIA-role. 3) type='text' для пароля показывает ввод в открытом виде — должно быть type='password'."
+            "en": "1) A <div> sitting next to an input is not a label — associate the two with <label htmlFor='email'> and id='email', or wrap the input in the label. 2) <div onClick> is invisible to the keyboard: no tab stop, no Enter/Space activation, no announced role — use <button type='submit'>. 3) type='text' on a password field is a security and privacy defect as much as an a11y one: the value is shown in plain text and browsers and password managers cannot recognise the field as a credential.",
+            "ru": "1) <div> рядом с input — это не подпись: свяжите их через <label htmlFor='email'> и id='email' либо оберните input в label. 2) <div onClick> невидим для клавиатуры: нет tab-stop, нет активации по Enter/Space, нет объявляемой роли — нужен <button type='submit'>. 3) type='text' у поля пароля — дефект безопасности и приватности не меньше, чем accessibility: значение видно открытым текстом, а браузеры и менеджеры паролей не распознают поле как поле учётных данных."
         },
         "code": "function LoginForm() {\n  return (\n    <form>\n      <div>Email</div>\n      <input type=\"text\" placeholder=\"Enter email\" />\n      <div>Password</div>\n      <input type=\"text\" />\n      <div onClick={() => handleSubmit()}>Login</div>\n    </form>\n  );\n}",
-        "correct": "1) Labels are not associated with inputs (using <div> instead of <label htmlFor=>) — screen readers cannot announce field names; 2) The submit 'button' is a <div> not a <button> — not focusable or keyboard-activatable; also the password field should use type='password'",
-        "referenceAnswer": "Use <label htmlFor='email'> and id='email' on inputs; use <button type='submit'>Login</button> instead of <div onClick>; use type='password' for the password field.",
+        "correct": "1) The <div> labels are not programmatically associated with the inputs — a screen reader cannot announce the field name; 2) the submit control is a <div onClick>, not a <button> — it is not focusable, not keyboard-activatable and has no role; 3) the password field is type='text', so the value is rendered in plain sight and browsers cannot treat it as a credential",
+        "referenceAnswer": "Use <label htmlFor='email'>Email</label> with <input id='email' type='email'> and <label htmlFor='password'>Password</label> with <input id='password' type='password' autocomplete='current-password'>; replace <div onClick={handleSubmit}> with <button type='submit'>Login</button> so the form submits from the keyboard as well as the mouse.",
         "lang": "jsx"
     },
     {
@@ -1102,7 +1102,7 @@
         "code": "function processPayment(payload: PaymentPayload) {\n  logger.info('Processing payment', {\n    userId: payload.userId,\n    amount: payload.amount,\n    cardNumber: payload.cardNumber,\n    cvv: payload.cvv,\n  });\n  return chargeCard(payload);\n}",
         "correct": "The function logs sensitive payment data (cardNumber and CVV) which is a PCI DSS violation and serious security risk",
         "referenceAnswer": "Never log sensitive data. Log only safe identifiers: logger.info('Processing payment', { userId: payload.userId, amount: payload.amount, lastFour: payload.cardNumber.slice(-4) }). CVV must never be logged or stored under any circumstances.",
-        "lang": "javascript"
+        "lang": "typescript"
     },
     {
         "id": "bp-precommit-bug-001",
@@ -1111,17 +1111,17 @@
         "difficulty": "hard",
         "tags": ["pre-commit", "git-hooks", "configuration"],
         "question": {
-            "en": "This Husky + lint-staged configuration does not run as expected. Find the bug.",
-            "ru": "Эта конфигурация Husky + lint-staged работает не так, как ожидается. Найдите баг."
+            "en": "This `package.json` lint-staged configuration does not do what its author thinks. Find the bug.",
+            "ru": "Эта конфигурация lint-staged в `package.json` делает не то, что думает её автор. Найдите баг."
         },
         "explanation": {
-            "en": "lint-staged passes a list of staged files to each command. ESLint and Prettier accept file lists. tsc --noEmit does NOT accept file lists — it checks the entire project using tsconfig.json. Running it in lint-staged is both slow (full project check) and misleading. Type-checking belongs in CI, not per-staged-file.",
-            "ru": "lint-staged передаёт список staged-файлов каждой команде. ESLint и Prettier принимают списки файлов. tsc --noEmit НЕ принимает списки файлов — он проверяет весь проект по tsconfig.json. Запускать его в lint-staged одновременно медленно (полная проверка проекта) и вводит в заблуждение. Проверка типов относится к CI, а не к per-staged-file."
+            "en": "lint-staged appends the staged file paths to each command. ESLint and Prettier accept file lists. `tsc` accepts them too — and that is the trap: when input files are given on the command line, tsconfig.json is ignored, so the check runs with default compiler options on a partial set of files and misses exactly the errors the project's own settings would catch. It is a false green, not a slow run. Wrap the command in a function (`'*.{ts,tsx}': () => 'tsc --noEmit'`) or use tsc-files. `git add` is obsolete since lint-staged v10 — it re-stages on its own.",
+            "ru": "lint-staged дописывает пути staged-файлов к каждой команде. ESLint и Prettier принимают списки файлов. `tsc` их тоже принимает — и в этом ловушка: когда входные файлы заданы в командной строке, tsconfig.json игнорируется, поэтому проверка идёт с дефолтными compilerOptions и по неполному набору файлов, пропуская ровно те ошибки, которые поймали бы настройки проекта. Это ложный green, а не медленный прогон. Оборачивайте команду в функцию (`'*.{ts,tsx}': () => 'tsc --noEmit'`) или используйте tsc-files. `git add` не нужен начиная с lint-staged v10 — он перестейджит сам."
         },
-        "code": "// package.json\n{\n  \"lint-staged\": {\n    \"*.{ts,tsx}\": [\n      \"eslint\",\n      \"tsc --noEmit\",\n      \"git add\"\n    ]\n  }\n}",
-        "correct": "Running tsc --noEmit in lint-staged is problematic because tsc type-checks the entire project, not just staged files, and does not accept a list of files from lint-staged — this causes slow, incorrect behavior",
-        "referenceAnswer": "Use eslint --fix for linting (it can take file arguments). For type checking, run tsc separately (not via lint-staged) or use a project-wide check in CI. Also: 'git add' in lint-staged v10+ is no longer needed — lint-staged handles re-staging automatically.",
-        "lang": "javascript"
+        "code": "{\n  \"lint-staged\": {\n    \"*.{ts,tsx}\": [\n      \"eslint\",\n      \"tsc --noEmit\",\n      \"git add\"\n    ]\n  }\n}",
+        "correct": "Passing the staged file paths to tsc makes it ignore tsconfig.json, so the hook type-checks those files with default compiler options and outside the project graph — the result is a false green, not a slow full-project check",
+        "referenceAnswer": "lint-staged appends the staged file paths to every command. ESLint and Prettier are built for that; tsc is not — the TypeScript handbook states that when input files are specified on the command line, tsconfig.json files are ignored, so strict, paths, lib and the rest of compilerOptions are dropped and the files are checked outside the project graph. Fix: hand lint-staged a function so no paths are appended — '*.{ts,tsx}': () => 'tsc --noEmit' — or use tsc-files, which synthesises a temporary tsconfig that extends yours. Also, 'git add' has been unnecessary since lint-staged v10: it re-stages modified files itself.",
+        "lang": "json"
     },
     {
         "id": "bp-naming-005",
@@ -1130,17 +1130,17 @@
         "difficulty": "easy",
         "tags": ["naming", "clean-code"],
         "question": {
-            "en": "Refactor the poor names in this function to follow clean code naming conventions:",
-            "ru": "Отрефакторьте плохие имена в этой функции, чтобы они соответствовали принципам именования clean code:"
+            "en": "The single-letter names in this helper have already been renamed to reveal intent. Complete the two `Date` API calls:",
+            "ru": "Однобуквенные имена в этом хелпере уже переименованы так, чтобы раскрывать намерение. Дополните два вызова `Date` API:"
         },
         "explanation": {
-            "en": "Rename single-letter variables (d→date, n→daysToAdd) and the function itself (fn→addDaysToDate) to reveal intent. The body methods setDate and getDate are the correct Date API methods for this operation.",
-            "ru": "Переименуйте однобуквенные переменные (d→date, n→daysToAdd) и саму функцию (fn→addDaysToDate), чтобы раскрыть намерение. Методы setDate и getDate в теле — корректные методы Date API для этой операции."
+            "en": "Intent-revealing names remove the need to decode the code: `fn` → `addDaysToDate`, `d` → `date`, `n` → `daysToAdd`, `r` → `result`. The body copies the input first — `Date` is mutable, so writing to the argument would be a side effect the caller never asked for — and then `setDate(getDate() + daysToAdd)` shifts the copy, rolling over month and year boundaries for you.",
+            "ru": "Имена, раскрывающие намерение, избавляют от расшифровки кода: `fn` → `addDaysToDate`, `d` → `date`, `n` → `daysToAdd`, `r` → `result`. Тело сначала копирует вход — `Date` мутабелен, и запись в аргумент была бы побочным эффектом, которого вызывающий не просил, — а затем `setDate(getDate() + daysToAdd)` сдвигает копию, сам корректно переходя через границы месяца и года."
         },
-        "code": "// Before (bad names):\nfunction fn(d: Date, n: number): Date {\n  const r = new Date(d);\n  r.__BLANK__(r.__BLANK__() + n);\n  return r;\n}\n\n// After (good names):\nfunction addDaysToDate(__BLANK__: Date, __BLANK__: number): Date {",
-        "blanks": ["setDate", "getDate", "date", "daysToAdd"],
+        "code": "// Before: function fn(d: Date, n: number): Date { const r = new Date(d); ... }\nfunction addDaysToDate(date: Date, daysToAdd: number): Date {\n  const result = new Date(date);\n  result.__BLANK__(result.__BLANK__() + daysToAdd);\n  return result;\n}",
+        "blanks": ["setDate", "getDate"],
         "lang": "typescript",
-        "referenceAnswer": "setDate and getDate manipulate the day; function signature uses date and daysToAdd as intent-revealing parameter names."
+        "referenceAnswer": "getDate() reads the day of the month and setDate() writes it back, so result.setDate(result.getDate() + daysToAdd) shifts the copy by whole days and rolls over month and year boundaries. The renames carry the intent: fn -> addDaysToDate, d -> date, n -> daysToAdd, r -> result."
     },
     {
         "id": "bp-a11y-005",
@@ -1156,10 +1156,10 @@
             "en": "Accessible modals require: role='dialog' (announces to screen readers), aria-modal={true} (traps screen reader virtual cursor inside), aria-labelledby pointing to the dialog's title element. Without these, screen reader users may not know a dialog opened or be able to navigate it.",
             "ru": "Доступные модалки требуют: role='dialog' (объявляется screen reader'ам), aria-modal={true} (захватывает виртуальный курсор screen reader'а внутри), aria-labelledby, указывающий на элемент заголовка диалога. Без этого пользователи screen reader'ов могут не узнать, что диалог открылся, или не смогут по нему навигировать."
         },
-        "code": "function Modal({ isOpen, title, children, onClose }: ModalProps) {\n  if (!isOpen) return null;\n  return (\n    <div\n      role=\"__BLANK__\"\n      aria-__BLANK__={true}\n      aria-labelledby=\"modal-title\"\n    >\n      <h2 id=\"__BLANK__\">{title}</h2>\n      {children}\n      <button onClick={onClose} aria-label=\"Close __BLANK__\">\n        ✕\n      </button>\n    </div>\n  );\n}",
-        "blanks": ["dialog", "modal", "modal-title", "dialog"],
-        "lang": "typescript",
-        "referenceAnswer": "role='dialog', aria-modal={true} traps virtual cursor; aria-labelledby references the title; id='modal-title' on the heading; aria-label='Close dialog' on the close button."
+        "code": "function Modal({ isOpen, title, children, onClose }: ModalProps) {\n  if (!isOpen) return null;\n  return (\n    <div\n      role=\"__BLANK__\"\n      aria-__BLANK__={true}\n      aria-labelledby=\"modal-title\"\n    >\n      <h2 id=\"__BLANK__\">{title}</h2>\n      {children}\n      <button onClick={onClose} aria-label=\"Close dialog\">\n        ✕\n      </button>\n    </div>\n  );\n}",
+        "blanks": ["dialog", "modal", "modal-title"],
+        "lang": "tsx",
+        "referenceAnswer": "role='dialog' announces the container as a dialog, aria-modal={true} keeps the screen reader's virtual cursor inside it, and aria-labelledby='modal-title' points at the <h2 id='modal-title'> that names the dialog. The close button already carries its own accessible name via aria-label='Close dialog'."
     },
     {
         "id": "bp-error-004",
@@ -1229,13 +1229,13 @@
             "ru": "Дополните этот GitHub Actions workflow, запускающий lint и тесты на каждом PR:"
         },
         "explanation": {
-            "en": "GitHub Actions workflow: trigger on both push to main and pull_request targeting main. Use npm ci (not npm install) for reproducible installs in CI — it uses package-lock.json exactly. Run lint before tests (fail fast) so developers get feedback on style issues immediately.",
-            "ru": "GitHub Actions workflow: триггеры — push в main и pull_request с таргетом main. Используйте npm ci (а не npm install) для воспроизводимой установки в CI — она использует package-lock.json в точности. Запускайте lint до тестов (fail fast), чтобы разработчики сразу получали фидбэк по проблемам стиля."
+            "en": "The triggers are given: `push` to main and `pull_request` targeting main. The install step has to be `npm ci` — it installs exactly what `package-lock.json` pins and exits with an error when the lockfile and `package.json` disagree, while `npm install` may rewrite the lockfile and make the run non-reproducible. Lint runs before the suite so a style failure comes back in seconds instead of after the whole test run.",
+            "ru": "Триггеры уже заданы: `push` в main и `pull_request` с таргетом main. Шаг установки — именно `npm ci`: он ставит ровно то, что зафиксировано в `package-lock.json`, и падает с ошибкой, когда lockfile расходится с `package.json`, тогда как `npm install` может переписать lockfile и сделать прогон невоспроизводимым. Lint идёт до тестов, чтобы падение по стилю возвращалось за секунды, а не после полного прогона."
         },
-        "code": "name: CI\non:\n  __BLANK__:\n    branches: ['main']\n  __BLANK__:\n    branches: ['main']\n\njobs:\n  quality:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n      - run: npm __BLANK__\n      - run: npm run __BLANK__\n      - run: npm run __BLANK__",
-        "blanks": ["push", "pull_request", "ci", "lint", "test"],
+        "code": "name: CI\non:\n  push:\n    branches: ['main']\n  pull_request:\n    branches: ['main']\n\njobs:\n  quality:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n          cache: 'npm'\n      - run: npm __BLANK__ # frozen install straight from package-lock.json\n      - run: npm run __BLANK__ # static analysis first, so style failures come back in seconds\n      - run: npm run __BLANK__ # then the unit suite",
+        "blanks": ["ci", "lint", "test"],
         "lang": "yaml",
-        "referenceAnswer": "Triggers: push and pull_request on main; steps: npm ci (clean install), npm run lint, npm run test."
+        "referenceAnswer": "npm ci performs the frozen install (it requires package-lock.json and exits with an error when the lockfile and package.json disagree, instead of rewriting the lockfile the way npm install would), then npm run lint, then npm run test."
     },
     {
         "id": "bp-concerns-002",
@@ -1380,12 +1380,12 @@
         "difficulty": "medium",
         "tags": ["immutability", "patterns"],
         "question": {
-            "en": "Which of the following patterns enforce immutability in JavaScript/TypeScript?",
-            "ru": "Какие из перечисленных паттернов обеспечивают иммутабельность в JavaScript/TypeScript?"
+            "en": "Which of the following actually prevent a value from being mutated in JavaScript/TypeScript?",
+            "ru": "Какие из перечисленных приёмов действительно защищают значение от мутации в JavaScript/TypeScript?"
         },
         "explanation": {
-            "en": "Immutability techniques: const prevents reassignment (not mutation), Object.freeze() prevents runtime mutation, readonly prevents mutation at compile time in TypeScript, and returning new structures is the functional approach. let vs var has nothing to do with immutability.",
-            "ru": "Техники иммутабельности: const запрещает переприсваивание (но не мутацию), Object.freeze() запрещает мутацию в runtime, readonly запрещает мутацию на этапе компиляции в TypeScript, возврат новых структур — функциональный подход. let vs var не имеет отношения к иммутабельности."
+            "en": "`Object.freeze()` blocks mutation at runtime, `readonly` blocks it at compile time in TypeScript, and returning a new array/object instead of editing the old one avoids mutation altogether. `const` is the classic near-miss: it freezes the binding, not the value — `const items = []; items.push(1)` is perfectly legal. `let` vs `var` is about scoping and has nothing to do with mutation.",
+            "ru": "`Object.freeze()` блокирует мутацию в рантайме, `readonly` — на этапе компиляции в TypeScript, а возврат нового массива/объекта вместо правки старого уводит от мутации вовсе. `const` — классическая ловушка: он фиксирует привязку, а не значение — `const items = []; items.push(1)` совершенно легален. `let` против `var` — это про область видимости и к мутации отношения не имеет."
         },
         "options": [
             {
@@ -1409,7 +1409,7 @@
                 "ru": "Использование модификатора readonly в полях типов TypeScript"
             }
         ],
-        "correct": [0, 1, 2, 4]
+        "correct": [1, 2, 4]
     },
     {
         "id": "bp-concerns-003",
@@ -1422,13 +1422,13 @@
             "ru": "Какие из перечисленных подходов — корректные способы разделения concerns в большом frontend-приложении?"
         },
         "explanation": {
-            "en": "Valid separation of concerns strategies: custom hooks for logic/UI split, feature modules for cohesion, pure functions/domain models for business logic isolation, and path aliases to enforce architectural boundaries. A monolithic App.tsx is the opposite of separation of concerns.",
-            "ru": "Корректные стратегии separation of concerns: кастомные хуки для разделения логики и UI, feature-модули для когезии, чистые функции / domain model для изоляции бизнес-логики и path-алиасы для фиксации архитектурных границ. Монолитный App.tsx — противоположность separation of concerns."
+            "en": "Valid strategies: custom hooks to split logic from UI, feature modules to co-locate what changes together, pure functions or a domain model layer to isolate business rules, and path aliases to make architectural boundaries explicit. Reaching into another feature's internals is the opposite of separation: it looks like reuse but couples two features through a private path, so the owning feature can no longer refactor its own insides. Shared code moves to `@/shared` or is exposed through the feature's public entry point.",
+            "ru": "Корректные стратегии: кастомные хуки для разделения логики и UI, feature-модули, чтобы держать рядом то, что меняется вместе, чистые функции или слой domain model для изоляции бизнес-правил и path-алиасы, делающие архитектурные границы явными. Лезть во внутренности соседней feature — противоположность разделению: выглядит как переиспользование, но связывает две feature через приватный путь, и владелец feature больше не может свободно рефакторить свои внутренности. Общий код переезжает в `@/shared` или отдаётся через публичную точку входа feature."
         },
         "options": [
             {
-                "en": "Put all application logic in a single 1000-line App.tsx file for simplicity",
-                "ru": "Складывать всю логику приложения в один App.tsx на 1000 строк ради простоты"
+                "en": "Import another feature's internals directly (`@/features/billing/model/tax`) to avoid duplication",
+                "ru": "Импортировать внутренности другой feature напрямую (`@/features/billing/model/tax`), чтобы избежать дублирования"
             },
             {
                 "en": "Use path aliases (@/features, @/shared) to enforce module boundaries",
@@ -1489,22 +1489,39 @@
     },
     {
         "id": "bp-commenting-002",
-        "type": "code-completion",
+        "type": "single-choice",
         "category": "best-practices",
-        "difficulty": "hard",
+        "difficulty": "medium",
         "tags": ["comments", "self-documenting-code"],
         "question": {
-            "en": "Refactor this over-commented code into self-documenting code by choosing better names:",
-            "ru": "Отрефакторьте этот перегруженный комментариями код в самодокументируемый, подобрав более подходящие имена:"
+            "en": "This function needs three comments to say what it does. Which change makes all of them redundant?",
+            "ru": "Этой функции нужны три комментария, чтобы объяснить, что она делает. Какое изменение делает их все избыточными?"
         },
         "explanation": {
-            "en": "Self-documenting code uses names that make the intent obvious, eliminating the need for comments. canUserPerformAction reads like natural language; allowedRoles clearly describes what the variable holds. The comments become redundant — good naming is the best documentation.",
-            "ru": "Самодокументируемый код использует имена, делающие намерение очевидным, и убирает нужду в комментариях. canUserPerformAction читается как естественный язык; allowedRoles ясно описывает, что лежит в переменной. Комментарии становятся избыточными — хорошее именование и есть лучшая документация."
+            "en": "Self-documenting code puts the intent in the names: `canUserPerformAction` says what the first comment says, `allowedRoles` says what the second one says, and the third only restates the expression below it. A JSDoc block or a test name moves the same prose somewhere else instead of removing the need for it, and extracting a helper without renaming leaves every comment in place. Delete comments that restate the code; keep the ones that explain why the code is the way it is.",
+            "ru": "Самодокументируемый код кладёт намерение в имена: `canUserPerformAction` говорит то же, что первый комментарий, `allowedRoles` — то же, что второй, а третий просто пересказывает выражение под ним. JSDoc-блок или название теста переносят ту же прозу в другое место, но не убирают нужду в ней, а вынос хелпера без переименования оставляет все комментарии на месте. Удаляйте комментарии, пересказывающие код; оставляйте те, что объясняют, почему код такой."
         },
-        "code": "// Check if the user can perform the action\n// by verifying their role and subscription status\nfunction __BLANK__(user: User, action: string): boolean {\n  // Get the roles that are allowed for this action\n  const __BLANK__ = ACTION_ROLE_MAP[action];\n  // Check if the user's role is in the allowed roles\n  // and also check that their subscription is active\n  return __BLANK__?.includes(user.role) && user.subscriptionStatus === 'active';\n}",
-        "blanks": ["canUserPerformAction", "allowedRoles", "allowedRoles"],
+        "code": "// Check if the user can perform the action\n// by verifying their role and subscription status\nfunction check(user: User, action: string): boolean {\n  // Get the roles that are allowed for this action\n  const r = ACTION_ROLE_MAP[action];\n  // Check if the user's role is in the allowed roles\n  // and also check that their subscription is active\n  return r?.includes(user.role) && user.subscriptionStatus === 'active';\n}",
         "lang": "typescript",
-        "referenceAnswer": "Function canUserPerformAction; variable allowedRoles; reference allowedRoles in the condition."
+        "options": [
+            {
+                "en": "Move the three comments into a JSDoc block above the function signature",
+                "ru": "Перенести три комментария в JSDoc-блок над сигнатурой функции"
+            },
+            {
+                "en": "Delete the comments and add a unit test named after each of them",
+                "ru": "Удалить комментарии и добавить unit-тест с названием по каждому из них"
+            },
+            {
+                "en": "Rename `check` to `canUserPerformAction` and `r` to `allowedRoles`",
+                "ru": "Переименовать `check` в `canUserPerformAction`, а `r` — в `allowedRoles`"
+            },
+            {
+                "en": "Extract the subscription check into a helper and keep the names as they are",
+                "ru": "Вынести проверку подписки в отдельный хелпер, оставив имена как есть"
+            }
+        ],
+        "correct": 2
     },
     {
         "id": "bp-ci-002",

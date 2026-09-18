@@ -520,8 +520,8 @@
             "ru": "Где хранятся Git-хуки в репозитории?"
         },
         "explanation": {
-            "en": "Git hooks are shell scripts stored in .git/hooks/. They are not committed to the repository by default (since .git/ is not tracked). Tools like Husky solve this by storing hooks in a committed directory and symlinking them into .git/hooks/ during npm install.",
-            "ru": "Git-хуки — это shell-скрипты, хранящиеся в .git/hooks/. По умолчанию они не коммитятся в репозиторий (так как .git/ не отслеживается). Инструменты вроде Husky решают это, храня хуки в коммитящейся директории и создавая симлинки в .git/hooks/ во время npm install."
+            "en": "Git looks for hooks in .git/hooks/ by default, and .git/ is not tracked, so hooks are not shared through a clone. A hook is any properly named executable — shell, Python, Node, whatever. Tools like Husky commit their hooks to a tracked `.husky/` directory and point Git at it with `core.hooksPath`, set by a `prepare` script on install; they have not symlinked into .git/hooks/ since v5.",
+            "ru": "По умолчанию Git ищет хуки в .git/hooks/, а .git/ не отслеживается, поэтому через клон хуки не передаются. Хук — это любой исполняемый файл с правильным именем: shell, Python, Node — что угодно. Инструменты вроде Husky коммитят свои хуки в отслеживаемую директорию `.husky/` и направляют на неё Git через `core.hooksPath`, который выставляет скрипт `prepare` при установке; симлинки в .git/hooks/ не используются с версии 5."
         },
         "options": [
             {
@@ -758,25 +758,25 @@
             "ru": "Что делает 'squash merge' при мёрже feature-ветки в main?"
         },
         "explanation": {
-            "en": "Squash merge takes all commits from the feature branch, combines their changes, and creates a single new commit on main. This keeps main's history clean (one commit per feature) at the cost of losing individual commit granularity from the feature branch.",
-            "ru": "Squash merge берёт все коммиты feature-ветки, объединяет их изменения и создаёт один новый коммит на main. История main остаётся чистой (один коммит на фичу) ценой потери детализации отдельных коммитов feature-ветки."
+            "en": "`git merge --squash` produces the tree and index of a real merge but records no MERGE_HEAD, so the commit you then make has a single parent — an ordinary commit, not a merge commit. main gets one commit per feature and stays clean, at the cost of the branch's individual commits and of any link back to it: Git does not consider the branch merged afterwards.",
+            "ru": "`git merge --squash` формирует дерево и индекс как при настоящем мёрже, но не записывает MERGE_HEAD, поэтому следующий коммит имеет одного родителя — это обычный коммит, а не merge-коммит. На main получается один коммит на фичу и чистая история, ценой потери отдельных коммитов ветки и связи с ней: Git после этого не считает ветку смёрженной."
         },
         "options": [
             {
-                "en": "It merges with a merge commit that combines all feature commits' changes into a single new commit on main",
-                "ru": "Мёржит через merge-коммит, объединяющий изменения всех коммитов feature-ветки в один новый коммит на main"
+                "en": "It creates one new ordinary commit on main with all the branch's changes, not a merge commit",
+                "ru": "Создаёт на main один новый обычный коммит со всеми изменениями ветки, а не merge-коммит"
             },
             {
-                "en": "It rebases all feature commits onto main individually",
-                "ru": "Ребейзит все коммиты feature-ветки на main по отдельности"
+                "en": "It rebases all feature commits onto main individually, keeping their original hashes",
+                "ru": "Ребейзит все коммиты feature-ветки на main по отдельности, сохраняя их исходные хэши"
             },
             {
-                "en": "It keeps all feature commits as-is on main without a merge commit",
-                "ru": "Сохраняет все коммиты feature-ветки в main как есть, без merge-коммита"
+                "en": "It keeps all feature commits as-is on main and records a merge commit linking them",
+                "ru": "Сохраняет все коммиты feature-ветки на main как есть и создаёт связывающий merge-коммит"
             },
             {
-                "en": "It fast-forwards main to the tip of the feature branch",
-                "ru": "Делает fast-forward main на вершину feature-ветки"
+                "en": "It fast-forwards main to the tip of the feature branch without creating any commit",
+                "ru": "Делает fast-forward main на вершину feature-ветки, не создавая никакого коммита"
             }
         ],
         "correct": 0
@@ -1023,7 +1023,7 @@
         "id": "git-internals-001",
         "type": "single-choice",
         "category": "git",
-        "difficulty": "hard",
+        "difficulty": "easy",
         "tags": ["git", "internals", "objects"],
         "question": {
             "en": "Which Git object type stores the content of a file at a specific version?",
@@ -1064,8 +1064,8 @@
             "ru": "Какие из перечисленных вариантов являются валидными merge-стратегиями или опциями Git?"
         },
         "explanation": {
-            "en": "Git merge strategies include fast-forward (simple pointer move), 3-way/recursive merge (creates a merge commit), squash merge (combines all commits into one), and rebase merge (replays commits on top of target). 'Hot-swap merge' does not exist in Git.",
-            "ru": "Merge-стратегии Git: fast-forward (простое перемещение указателя), 3-way/recursive merge (создаёт merge-коммит), squash merge (объединяет все коммиты в один) и rebase merge (переигрывает коммиты поверх целевой ветки). 'Hot-swap merge' в Git не существует."
+            "en": "Git's own merge strategies are ort (default for two heads; `recursive` became a synonym for it in 2.50), resolve, octopus, ours and subtree; fast-forward and squash are options of git merge (--ff, --squash). 'Hot-swap merge' does not exist in Git.",
+            "ru": "Собственные merge-стратегии Git — это ort (по умолчанию для двух голов; `recursive` стал его синонимом в 2.50), resolve, octopus, ours и subtree; fast-forward и squash — это опции git merge (--ff, --squash). 'Hot-swap merge' в Git не существует."
         },
         "options": [
             {
@@ -1077,8 +1077,8 @@
                 "ru": "Squash merge"
             },
             {
-                "en": "Rebase merge",
-                "ru": "Rebase merge"
+                "en": "`ours` merge strategy",
+                "ru": "Merge-стратегия `ours`"
             },
             {
                 "en": "3-way merge (recursive/ort)",
@@ -1098,12 +1098,12 @@
         "difficulty": "medium",
         "tags": ["git", "reset", "modes"],
         "question": {
-            "en": "Which of the following correctly describe the three modes of `git reset`?",
-            "ru": "Какие из утверждений корректно описывают три режима `git reset`?"
+            "en": "Which of the following correctly describe modes of `git reset`?",
+            "ru": "Какие из утверждений корректно описывают режимы `git reset`?"
         },
         "explanation": {
-            "en": "git reset has three modes: --soft (moves HEAD only), --mixed/default (moves HEAD, clears staging), and --hard (moves HEAD, clears staging and working directory). --force is a push flag, not a reset mode. --keep exists but is rarely used and is not a primary mode.",
-            "ru": "У git reset три режима: --soft (двигает только HEAD), --mixed/по умолчанию (двигает HEAD, очищает staging) и --hard (двигает HEAD, очищает staging и рабочую директорию). --force — это флаг push, а не режим reset. --keep существует, но используется редко и не относится к основным режимам."
+            "en": "git reset documents five modes: --soft (moves HEAD only), --mixed (the default — moves HEAD and resets the index), --hard (also clears the working tree), --merge and --keep. --force is a git push flag, not a reset mode, and --stage does not exist at all.",
+            "ru": "У git reset документировано пять режимов: --soft (двигает только HEAD), --mixed (по умолчанию — двигает HEAD и сбрасывает индекс), --hard (очищает ещё и рабочую директорию), --merge и --keep. --force — это флаг git push, а не режим reset, а --stage не существует вовсе."
         },
         "options": [
             {
@@ -1115,8 +1115,8 @@
                 "ru": "--force: двигает HEAD и пушит изменение на remote"
             },
             {
-                "en": "--keep: moves HEAD, resets staging but keeps uncommitted changes",
-                "ru": "--keep: двигает HEAD, сбрасывает staging, но сохраняет незакоммиченные изменения"
+                "en": "--stage: moves HEAD and re-stages the diff against the new commit",
+                "ru": "--stage: двигает HEAD и заново кладёт в staging дифф относительно нового коммита"
             },
             {
                 "en": "--soft: moves HEAD, keeps staging area and working directory unchanged",
@@ -1136,12 +1136,12 @@
         "difficulty": "medium",
         "tags": ["git", "hooks"],
         "question": {
-            "en": "Which of the following are client-side Git hooks that run during a commit workflow?",
-            "ru": "Какие из перечисленных — это клиентские Git-хуки, запускающиеся в процессе коммит-workflow?"
+            "en": "Which of the following are client-side Git hooks?",
+            "ru": "Какие из перечисленных хуков Git — клиентские?"
         },
         "explanation": {
-            "en": "Client-side commit hooks: pre-commit (runs before commit message prompt, used for linting/testing), prepare-commit-msg (modifies commit message template), commit-msg (validates the message), and pre-push (runs before git push). post-receive is a server-side hook.",
-            "ru": "Клиентские commit-хуки: pre-commit (запускается до приглашения ввести сообщение коммита, используется для линтинга/тестов), prepare-commit-msg (модифицирует шаблон сообщения коммита), commit-msg (валидирует сообщение) и pre-push (запускается перед git push). post-receive — серверный хук."
+            "en": "pre-commit, prepare-commit-msg and commit-msg are the committing-workflow hooks (inspect the snapshot, edit the message template, validate the message). pre-push is another client-side hook — Pro Git groups it under \"other client hooks\" — and runs before refs are sent to the remote. post-receive runs on the server after the refs are updated, so it is not a client hook.",
+            "ru": "pre-commit, prepare-commit-msg и commit-msg — это хуки коммит-workflow (проверяют снапшот, правят шаблон сообщения, валидируют сообщение). pre-push — тоже клиентский хук (в Pro Git он в группе «прочие клиентские») и запускается перед отправкой refs на remote. post-receive выполняется на сервере после обновления refs, то есть клиентским не является."
         },
         "options": [
             {
@@ -1278,7 +1278,7 @@
         },
         "code": "# On branch: feature/shared-api (3 teammates have pulled this branch)\n$ git rebase -i origin/main\n$ git push --force origin feature/shared-api",
         "correct": "Force-pushing a rebased branch that teammates have already pulled rewrites history they are based on, causing everyone else to have diverged histories and losing their local commits",
-        "referenceAnswer": "Never force-push a shared branch. Options: (1) use git push --force-with-lease (safer — fails if someone else pushed since your last fetch), (2) communicate with the team before rebasing shared branches, or (3) create a new branch from the rebased work instead of force-pushing.",
+        "referenceAnswer": "Do not rebase a branch other people have already pulled. `--force-with-lease` is not the fix here: it only refuses the push when the remote ref moved since your last fetch, so against an untouched remote it succeeds and every teammate is still left on orphaned commits. Real options: (1) merge origin/main into the shared branch instead of rebasing it, (2) if the history must be cleaned up, publish the rebased work as a new branch and let the team switch to it, (3) keep rebase for branches that are still private to you. If the force-push already happened, every teammate has to replay their own work onto the new tip (git fetch, then git rebase --onto origin/feature/shared-api <old-tip>) — the manual cleanup this mistake forces on the whole team.",
         "lang": "bash"
     },
     {
@@ -1307,17 +1307,17 @@
         "difficulty": "easy",
         "tags": ["git", "log"],
         "question": {
-            "en": "Complete the git log command that shows a graphical, one-line branch history with all branches:",
-            "ru": "Дополните команду git log, которая показывает графическую историю веток в одну строку со всеми ветками:"
+            "en": "Fill in the single `git log` flag that produces each described behaviour (together they give a compact branch graph):",
+            "ru": "Впишите один флаг `git log`, дающий каждое описанное поведение (вместе они дают компактный граф веток):"
         },
         "explanation": {
             "en": "--oneline shows one commit per line, --graph draws ASCII branch/merge lines, --all includes all local and remote-tracking branches. Together they provide a compact visual overview of the entire repository history.",
             "ru": "--oneline выводит по одному коммиту в строке, --graph рисует ASCII-линии веток/мёржей, --all включает все локальные и remote-tracking ветки. Вместе они дают компактный визуальный обзор всей истории репозитория."
         },
-        "code": "git log __BLANK__  __BLANK__ __BLANK__",
+        "code": "# 1. condense each commit to a single line\ngit log __BLANK__\n\n# 2. draw the ASCII branch/merge topology\ngit log __BLANK__\n\n# 3. start the walk from every ref in refs/, not just HEAD\ngit log __BLANK__",
         "blanks": ["--oneline", "--graph", "--all"],
         "lang": "bash",
-        "referenceAnswer": "git log --oneline --graph --all shows a compact ASCII graph of all branches in the repository."
+        "referenceAnswer": "git log --oneline --graph --all combines the three: one line per commit, an ASCII topology graph, and every ref in refs/ as a starting point. The flags are order-independent."
     },
     {
         "id": "git-stash-002",
@@ -1326,12 +1326,12 @@
         "difficulty": "easy",
         "tags": ["git", "stash"],
         "question": {
-            "en": "Complete these git stash commands: save with a message, list stashes, and apply the most recent:",
-            "ru": "Дополните команды git stash: сохранить с сообщением, вывести список stash'ей и применить самый свежий:"
+            "en": "Complete these git stash commands — save with a message, list stashes, apply the most recent (use the modern subcommand and the short message flag):",
+            "ru": "Дополните команды git stash — сохранить с сообщением, вывести список stash'ей, применить самый свежий (используйте современную подкоманду и короткий флаг сообщения):"
         },
         "explanation": {
-            "en": "git stash push -m saves the current changes with a descriptive message; git stash list shows all stashes with their stash@{N} identifiers; git stash pop applies the most recent stash and removes it from the stack (use git stash apply to keep it).",
-            "ru": "git stash push -m сохраняет текущие изменения вместе с описательным сообщением; git stash list показывает все stash'и с идентификаторами stash@{N}; git stash pop применяет самый свежий stash и удаляет его из стека (используйте git stash apply, чтобы оставить его)."
+            "en": "git stash push -m saves the current changes with a descriptive message (`--message` is the long form; `git stash save` still works but is deprecated in favour of push). git stash list shows all stashes with their stash@{N} identifiers; git stash pop applies the most recent stash and removes it from the stack (use git stash apply to keep it).",
+            "ru": "git stash push -m сохраняет текущие изменения с описательным сообщением (`--message` — длинная форма; `git stash save` ещё работает, но объявлен устаревшим в пользу push). git stash list показывает все stash'и с идентификаторами stash@{N}; git stash pop применяет самый свежий stash и удаляет его из стека (используйте git stash apply, чтобы оставить его)."
         },
         "code": "git stash __BLANK__ 'WIP: refactor auth'\ngit stash __BLANK__\ngit stash __BLANK__",
         "blanks": ["push -m", "list", "pop"],
@@ -1364,8 +1364,8 @@
         "difficulty": "medium",
         "tags": ["git", "interactive-rebase", "squash"],
         "question": {
-            "en": "You want to squash the last 4 commits into one using interactive rebase. Complete the command and describe the interactive editor action:",
-            "ru": "Вы хотите заsquash'ить последние 4 коммита в один через interactive rebase. Дополните команду и опишите действие в интерактивном редакторе:"
+            "en": "You want to squash the last 4 commits into one using interactive rebase. Complete the command and the todo-list action (write the full command word, not its one-letter alias):",
+            "ru": "Вы хотите заsquash'ить последние 4 коммита в один через interactive rebase. Дополните команду и действие в todo-списке (пишите полное слово команды, а не однобуквенный алиас):"
         },
         "explanation": {
             "en": "HEAD~4 references the 4th commit before HEAD. In the interactive editor, 'squash' (or 's') folds a commit into the previous one and combines their messages. 'fixup' does the same but discards the commit message.",
@@ -1402,17 +1402,17 @@
         "difficulty": "hard",
         "tags": ["git", "hooks", "husky"],
         "question": {
-            "en": "Complete the Husky + lint-staged configuration in package.json to run ESLint on staged .ts files before commit:",
-            "ru": "Дополните конфигурацию Husky + lint-staged в package.json, чтобы запускать ESLint на staged .ts-файлах перед коммитом:"
+            "en": "Husky v9 + lint-staged run ESLint on staged .ts files before every commit. Name the hook file and the npm script that installs the hooks:",
+            "ru": "Husky v9 + lint-staged запускают ESLint на staged .ts-файлах перед каждым коммитом. Назовите файл хука и npm-скрипт, который устанавливает хуки:"
         },
         "explanation": {
-            "en": "Husky hooks into the pre-commit Git hook; lint-staged runs configured commands only on files staged for the commit. This pattern catches lint errors before they enter the repository without running lint on the entire codebase.",
-            "ru": "Husky подключается к pre-commit Git-хуку; lint-staged запускает настроенные команды только на файлах, попавших в staging. Этот паттерн ловит lint-ошибки до того, как они попадут в репозиторий, не запуская lint на всей кодовой базе."
+            "en": "Since husky v5 the `husky.hooks` block in package.json is gone — hooks are plain executable files under `.husky/`, and the `prepare` script runs `husky` after install, which points Git at them through `core.hooksPath`. lint-staged runs the configured commands on staged files only and stages the modifications its tasks make, so `git add` in the command array has been unnecessary since v10. A glob without a slash (`*.ts`) is matched against the file's basename, so it covers every directory.",
+            "ru": "Начиная с husky v5 блок `husky.hooks` в package.json больше не поддерживается — хуки это обычные исполняемые файлы в `.husky/`, а скрипт `prepare` запускает `husky` после установки и направляет Git на них через `core.hooksPath`. lint-staged выполняет команды только на staged-файлах и сам добавляет в коммит правки своих задач, поэтому `git add` в массиве команд не нужен с версии 10. Глоб без слэша (`*.ts`) сопоставляется с именем файла, поэтому работает в любой директории."
         },
-        "code": "{\n  \"husky\": {\n    \"hooks\": {\n      \"__BLANK__\": \"lint-staged\"\n    }\n  },\n  \"lint-staged\": {\n    \"__BLANK__\": [\"eslint --fix\", \"git add\"]\n  }\n}",
-        "blanks": ["pre-commit", "**/*.ts"],
-        "lang": "json",
-        "referenceAnswer": "pre-commit hook runs lint-staged; the glob **/*.ts targets all TypeScript files for eslint --fix followed by git add to stage the auto-fixed files."
+        "code": "# .husky/__BLANK__\nnpx lint-staged\n\n# package.json\n# {\n#   \"scripts\": { \"__BLANK__\": \"husky\" },\n#   \"lint-staged\": { \"*.ts\": [\"eslint --fix\"] }\n# }",
+        "blanks": ["pre-commit", "prepare"],
+        "lang": "bash",
+        "referenceAnswer": "`.husky/pre-commit` holds `npx lint-staged`; `\"prepare\": \"husky\"` in package.json reinstalls the hooks after every `npm install` and sets core.hooksPath to `.husky/_`. The lint-staged glob `*.ts` needs no `git add` — lint-staged stages whatever its tasks modify."
     },
     {
         "id": "git-cherrypick-002",
@@ -1421,17 +1421,17 @@
         "difficulty": "hard",
         "tags": ["git", "cherry-pick", "range"],
         "question": {
-            "en": "Complete the command to cherry-pick a range of commits (from abc1234 to def5678 inclusive) onto the current branch:",
-            "ru": "Дополните команду, чтобы cherry-pick'нуть диапазон коммитов (от abc1234 до def5678 включительно) на текущую ветку:"
+            "en": "Complete the command to cherry-pick onto the current branch every commit made after abc1234, up to and including def5678 (abc1234 itself must NOT be re-applied):",
+            "ru": "Дополните команду, чтобы cherry-pick'нуть на текущую ветку все коммиты, сделанные после abc1234, включая def5678 (сам abc1234 применять НЕ нужно):"
         },
         "explanation": {
-            "en": "Cherry-picking a range uses the same two-dot syntax as git log. The start commit is exclusive (not included); append ^ to include it. Note that cherry-picking creates new commits with different hashes, so the range's original commits still exist on their original branch.",
-            "ru": "Cherry-pick диапазона использует тот же синтаксис с двумя точками, что и git log. Начальный коммит исключается (не входит в диапазон); добавьте ^, чтобы включить его. Учтите, что cherry-pick создаёт новые коммиты с другими хэшами, поэтому исходные коммиты из диапазона остаются на своей ветке."
+            "en": "Cherry-picking a range uses the same two-dot syntax as git log: `r1..r2` means everything reachable from r2 but not from r1, so the start commit is excluded. Append `^` to the start (`abc1234^..def5678`) when it must be included. Cherry-pick creates new commits with new hashes, so the originals stay on their branch.",
+            "ru": "Cherry-pick диапазона использует тот же синтаксис с двумя точками, что и git log: `r1..r2` — это всё, что достижимо из r2, но не из r1, поэтому стартовый коммит не входит в диапазон. Добавьте `^` к началу (`abc1234^..def5678`), если его нужно включить. Cherry-pick создаёт новые коммиты с новыми хэшами, исходные остаются на своей ветке."
         },
         "code": "git cherry-pick __BLANK__..__BLANK__",
         "blanks": ["abc1234", "def5678"],
         "lang": "bash",
-        "referenceAnswer": "git cherry-pick abc1234..def5678 applies all commits from abc1234 (exclusive) to def5678 (inclusive). Use abc1234^..def5678 to include abc1234 itself."
+        "referenceAnswer": "git cherry-pick abc1234..def5678 applies every commit reachable from def5678 but not from abc1234 — the two-dot range excludes its start. Use abc1234^..def5678 when abc1234 itself must be applied too."
     },
     {
         "id": "git-branch-003",
@@ -1478,8 +1478,8 @@
             "ru": "Какое из сообщений коммита является валидным Conventional Commit?"
         },
         "explanation": {
-            "en": "Conventional Commits format: `type(optional-scope): description`. Valid types include feat, fix, chore, docs, style, refactor, test, etc. The scope is optional but recommended. The description is lowercase and imperative. Using dashes, uppercase, or no type violates the spec.",
-            "ru": "Формат Conventional Commits: `type(optional-scope): description`. Валидные типы — feat, fix, chore, docs, style, refactor, test и т. п. Scope не обязателен, но желателен. Описание — в нижнем регистре, в императиве. Использование тире, верхнего регистра или отсутствие типа нарушает спецификацию."
+            "en": "Conventional Commits format: `type(optional-scope): description`, with a REQUIRED terminal colon and space. Types other than feat and fix (chore, docs, refactor, test, HOTFIX…) are allowed, and the units are case-insensitive except BREAKING CHANGE, which must be uppercase. `chore(deps) bump eslint v9` has no colon, `feat - add dark mode toggle` uses a dash instead of one, and `Updated the login page` has no type at all.",
+            "ru": "Формат Conventional Commits: `type(optional-scope): description`, двоеточие с пробелом обязательно. Типы помимо feat и fix (chore, docs, refactor, test, HOTFIX…) разрешены, а регистр значения не имеет — кроме BREAKING CHANGE, который должен быть в верхнем регистре. В `chore(deps) bump eslint v9` нет двоеточия, в `feat - add dark mode toggle` вместо него тире, а в `Updated the login page` вообще нет типа."
         },
         "options": [
             {
@@ -1491,8 +1491,8 @@
                 "ru": "fix(auth): не разлогинивать активных пользователей при истечении токена"
             },
             {
-                "en": "HOTFIX: critical security patch",
-                "ru": "HOTFIX: critical security patch"
+                "en": "chore(deps) bump eslint v9",
+                "ru": "chore(deps) bump eslint v9"
             },
             {
                 "en": "feat - add dark mode toggle",
@@ -1512,17 +1512,13 @@
             "ru": "Вы выбираете merge-стратегию для PR-workflow команды. Какие утверждения верны про каждую стратегию?"
         },
         "explanation": {
-            "en": "Each strategy has tradeoffs: merge commit preserves all history (messy log), squash produces one commit per PR (clean log, bisect-friendly, loses granularity), rebase preserves all commits linearly (clean log, full granularity, rewrites hashes). They produce very different git log outputs.",
-            "ru": "У каждой стратегии свои компромиссы: merge commit сохраняет всю историю (грязный лог), squash даёт по одному коммиту на PR (чистый лог, удобен для bisect, теряется детализация), rebase сохраняет все коммиты линейно (чистый лог, полная детализация, переписываются хэши). Они дают совершенно разный вывод git log."
+            "en": "Merge commit keeps every commit and records the merge. Squash produces one ordinary single-parent commit per PR: clean log, no link back to the branch, and Git therefore does not consider the branch merged. Rebase replays the commits onto main, which gives a linear history but rewrites every hash. Whether one commit per PR helps or hurts `git bisect` is a team trade-off, not a fact.",
+            "ru": "Merge commit сохраняет все коммиты и фиксирует сам мёрж. Squash даёт по одному обычному коммиту с одним родителем на PR: чистый лог, никакой связи с веткой — и Git после этого не считает ветку смёрженной. Rebase переигрывает коммиты поверх main: история линейная, но все хэши переписываются. Помогает ли один коммит на PR при `git bisect` или мешает — это компромисс команды, а не факт."
         },
         "options": [
             {
-                "en": "Squash merge makes git bisect easier because each PR is one atomic commit",
-                "ru": "Squash merge упрощает git bisect, так как каждый PR становится одним атомарным коммитом"
-            },
-            {
-                "en": "Squash merge produces a clean linear history but loses individual commit granularity",
-                "ru": "Squash merge даёт чистую линейную историю, но теряется детализация отдельных коммитов"
+                "en": "Squash merge gives one commit per PR — a clean linear history, but the branch's individual commits are lost",
+                "ru": "Squash merge даёт один коммит на PR — чистая линейная история, но отдельные коммиты ветки теряются"
             },
             {
                 "en": "Merge commit preserves the full branch history and creates a merge commit on main",
@@ -1533,11 +1529,15 @@
                 "ru": "Rebase merge даёт линейную историю, сохраняя при этом отдельные коммиты"
             },
             {
-                "en": "All three strategies produce identical git log output",
-                "ru": "Все три стратегии дают одинаковый вывод git log"
+                "en": "Rebase merge replays the commits unchanged, so their original hashes are preserved",
+                "ru": "Rebase merge переигрывает коммиты как есть, поэтому их исходные хэши сохраняются"
+            },
+            {
+                "en": "After a squash merge the source branch still shows up in `git branch --merged`",
+                "ru": "После squash merge исходная ветка всё ещё попадает в `git branch --merged`"
             }
         ],
-        "correct": [0, 1, 2, 3]
+        "correct": [0, 1, 2]
     },
     {
         "id": "git-workflow-004",
@@ -1553,7 +1553,7 @@
             "en": "git switch -c is the modern equivalent of git checkout -b. git add -u stages modifications and deletions for already-tracked files (unlike git add . which also stages untracked files). git push -u sets upstream so future pushes on this branch need no arguments.",
             "ru": "git switch -c — современный эквивалент git checkout -b. git add -u добавляет в staging модификации и удаления уже отслеживаемых файлов (в отличие от git add ., который также добавляет untracked-файлы). git push -u устанавливает upstream, чтобы последующие push'и на этой ветке не требовали аргументов."
         },
-        "code": "# 1. Create and switch to a new feature branch\ngit __BLANK__ -c feature/user-search\n\n# 2. Stage all modified tracked files\ngit __BLANK__ -u\n\n# 3. Commit with a conventional commit message\ngit commit -m \"feat(search): add user search with debouncing\"\n\n# 4. Push and set upstream tracking\ngit push __BLANK__ origin feature/user-search",
+        "code": "# 1. Create and switch to a new feature branch\ngit __BLANK__ -c feature/user-search\n\n# 2. Stage all modified tracked files\ngit __BLANK__ -u\n\n# 3. Commit with a conventional commit message\ngit commit -m \"feat(search): add user search with debouncing\"\n\n# 4. Push and set upstream tracking (use the one-letter flag)\ngit push __BLANK__ origin feature/user-search",
         "blanks": ["switch", "add", "-u"],
         "lang": "bash",
         "referenceAnswer": "git switch -c creates and switches; git add -u stages all tracked modified files; git push -u sets upstream tracking."

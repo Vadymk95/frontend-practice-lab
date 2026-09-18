@@ -520,8 +520,8 @@
             "ru": "Чем MVVM отличается от MVC?"
         },
         "explanation": {
-            "en": "MVVM introduces the ViewModel as a layer between Model and View. The ViewModel exposes data and commands that the View binds to (often two-way), so the View has no direct dependency on the Model. This is common in Angular and Vue.",
-            "ru": "MVVM вводит ViewModel как слой между Model и View. ViewModel предоставляет данные и команды, к которым привязывается View (часто двусторонне), поэтому у View нет прямой зависимости от Model. Этот подход распространён в Angular и Vue."
+            "en": "MVVM introduces the ViewModel as a layer between Model and View. The ViewModel exposes data and commands that the View binds to (often two-way), so the View depends on the ViewModel and never on the Model directly. MVVM says nothing about unidirectional data flow, and the Model layer stays. This shape is common in Angular and Vue.",
+            "ru": "MVVM вводит ViewModel как слой между Model и View. ViewModel предоставляет данные и команды, к которым привязывается View (часто двусторонне), поэтому View зависит от ViewModel и никогда напрямую от Model. Про однонаправленный поток данных MVVM ничего не утверждает, слой Model остаётся на месте. Такой подход распространён в Angular и Vue."
         },
         "options": [
             {
@@ -529,12 +529,12 @@
                 "ru": "MVVM обеспечивает однонаправленный поток данных"
             },
             {
-                "en": "MVVM introduces a ViewModel that exposes data streams and commands for two-way binding with the View",
-                "ru": "MVVM вводит ViewModel, который предоставляет потоки данных и команды для двустороннего связывания с View"
+                "en": "A ViewModel exposes bindable data and commands to the View",
+                "ru": "ViewModel предоставляет данные и команды, к которым привязывается View"
             },
             {
-                "en": "MVVM eliminates the need for a Controller entirely",
-                "ru": "MVVM полностью устраняет необходимость в Controller"
+                "en": "In MVVM the View binds directly to the Model instead of a ViewModel",
+                "ru": "В MVVM View привязывается напрямую к Model, а не к ViewModel"
             },
             {
                 "en": "MVVM has no Model layer",
@@ -559,20 +559,20 @@
         },
         "options": [
             {
-                "en": "Reduced bundle sizes because all code is shared",
-                "ru": "Уменьшение размера бандлов за счёт того, что весь код разделяемый"
+                "en": "Smaller total JavaScript payload than a single SPA",
+                "ru": "Меньший общий объём JavaScript, чем у одной SPA"
             },
             {
-                "en": "Single codebase for all teams to collaborate on",
-                "ru": "Единая кодовая база, в которой совместно работают все команды"
+                "en": "A single shared runtime version across all teams",
+                "ru": "Единая версия общего рантайма во всех командах"
             },
             {
                 "en": "Guaranteed identical tech stacks across all teams",
                 "ru": "Гарантия одинакового технологического стека во всех командах"
             },
             {
-                "en": "Independent deployability — teams can release their slice without coordinating with others",
-                "ru": "Независимый деплой — команды выкатывают свой срез без координации с остальными"
+                "en": "Independent deployability for each team's slice",
+                "ru": "Независимый деплой среза каждой команды"
             }
         ],
         "correct": 3
@@ -978,8 +978,8 @@
             "ru": "Какие из правил действуют в Feature-Sliced Design?"
         },
         "explanation": {
-            "en": "FSD rules: lower layers cannot import from higher layers; slices within the same layer are isolated (no cross-slice imports without explicit public API); the shared layer is flat (no slices); and features may import from entities (which are lower).",
-            "ru": "Правила FSD: нижние слои не импортируют из верхних; слайсы внутри одного слоя изолированы (кросс-слайсовые импорты запрещены без явного public API); слой shared — плоский (без слайсов); features могут импортировать из entities (нижележащий слой)."
+            "en": "FSD rules: a module can only import from layers strictly below it; slices on the same layer may not import each other at all — the single exception is the `@x` cross-import public API, sanctioned only on the entities layer and to be kept to a minimum; the shared layer is flat (no slices); and features may import from entities, which sit lower.",
+            "ru": "Правила FSD: модуль импортирует только из слоёв строго ниже; слайсы одного слоя вообще не могут импортировать друг друга — единственное исключение это кросс-импортный public API `@x`, разрешённый только на слое entities и только по минимуму; слой shared плоский (без слайсов); features могут импортировать из entities, которые лежат ниже."
         },
         "options": [
             {
@@ -1224,7 +1224,7 @@
             },
             {
                 "en": "Always rewriting the API from scratch on major changes",
-                "ru": "Полная переписывание API с нуля при крупных изменениях"
+                "ru": "Полное переписывание API с нуля при крупных изменениях"
             },
             {
                 "en": "Contract testing (e.g., Pact) between consumer and provider",
@@ -1266,10 +1266,10 @@
             "en": "Every subscription in componentDidMount must have a corresponding unsubscription in componentWillUnmount. This is a fundamental Observer pattern cleanup rule — the subscriber must deregister when it is destroyed.",
             "ru": "Каждой подписке в componentDidMount должна соответствовать отписка в componentWillUnmount. Это фундаментальное правило очистки в паттерне Observer — подписчик обязан сняться с регистрации при уничтожении."
         },
-        "code": "class Dashboard extends React.Component {\n  componentDidMount() {\n    eventBus.on('update', this.handleUpdate);\n  }\n\n  handleUpdate = (data: Data) => {\n    this.setState({ data });\n  };\n\n  render() {\n    return <div>{this.state.data}</div>;\n  }\n}",
+        "code": "class Dashboard extends React.Component {\n  state = { data: null };\n\n  componentDidMount() {\n    eventBus.on('update', this.handleUpdate);\n  }\n\n  handleUpdate = (data: Data) => {\n    this.setState({ data });\n  };\n\n  render() {\n    return <div>{this.state.data}</div>;\n  }\n}",
         "correct": "The event listener is never removed in componentWillUnmount, causing a memory leak",
         "referenceAnswer": "componentWillUnmount is missing: componentWillUnmount() { eventBus.off('update', this.handleUpdate); }. Without cleanup, the listener holds a reference to the unmounted component, causing memory leaks and setState calls on unmounted components.",
-        "lang": "jsx"
+        "lang": "tsx"
     },
     {
         "id": "arch-singleton-bug-001",
@@ -1278,12 +1278,12 @@
         "difficulty": "medium",
         "tags": ["design-patterns", "singleton", "bugs"],
         "question": {
-            "en": "This Singleton implementation is not thread-safe and has another bug. Find the bugs.",
-            "ru": "Эта реализация Singleton не потокобезопасна и содержит ещё один баг. Найдите баги."
+            "en": "This Singleton implementation has a bug that lets callers bypass getInstance(). Find it.",
+            "ru": "В этой реализации Singleton есть баг, позволяющий обойти getInstance(). Найдите его."
         },
         "explanation": {
-            "en": "A Singleton must have a private constructor to prevent direct instantiation. The static getInstance() method is the only intended entry point. In JavaScript, note that module-level singletons (exporting an instance) are often simpler and avoid this pitfall.",
-            "ru": "У Singleton должен быть private-конструктор, чтобы исключить прямое создание экземпляра. Единственная предполагаемая точка входа — статический метод getInstance(). В JavaScript, к слову, синглтоны уровня модуля (экспорт готового экземпляра) зачастую проще и обходят эту ловушку."
+            "en": "A Singleton must have a private constructor to prevent direct instantiation — the static getInstance() method is the only intended entry point. Thread safety is not a concern here: JavaScript runs a single thread per realm, so the double-checked-locking race that affects Java or C# singletons cannot occur; the defect is purely access control. In JavaScript, module-level singletons (exporting a ready instance) are often simpler and avoid this pitfall.",
+            "ru": "У Singleton должен быть private-конструктор, чтобы исключить прямое создание экземпляра: единственная предполагаемая точка входа — статический метод getInstance(). Потокобезопасность здесь ни при чём: в JavaScript на один realm приходится один поток выполнения, поэтому гонки double-checked locking, как в Java или C#, не бывает — дефект чисто в контроле доступа. В JavaScript синглтоны уровня модуля (экспорт готового экземпляра) зачастую проще и обходят эту ловушку."
         },
         "code": "class Config {\n  private static instance: Config;\n  public apiUrl: string = '';\n\n  static getInstance(): Config {\n    if (!Config.instance) {\n      Config.instance = new Config();\n    }\n    return Config.instance;\n  }\n\n  constructor() {}\n}",
         "correct": "The constructor is public, allowing direct instantiation and breaking the singleton guarantee",
@@ -1323,7 +1323,7 @@
             "en": "In MVP, the Presenter contains presentation logic but never manipulates DOM directly. Direct DOM access belongs to the View. The Presenter calls View methods to update the UI, keeping it decoupled and testable.",
             "ru": "В MVP Presenter содержит логику представления, но никогда не работает с DOM напрямую. Прямой доступ к DOM — задача View. Presenter вызывает методы View для обновления UI, что сохраняет слабую связанность и тестируемость."
         },
-        "code": "class UserPresenter {\n  constructor(private view: UserView) {}\n\n  async loadUser(id: string) {\n    const response = await fetch(`/api/users/${id}`);\n    const user = await response.json();\n    document.title = `User: ${user.name}`;\n    this.view.displayUser(user);\n  }\n}",
+        "code": "class UserPresenter {\n  constructor(\n    private view: UserView,\n    private repo: UserRepository\n  ) {}\n\n  async loadUser(id: string) {\n    const user = await this.repo.getUser(id);\n    document.title = `User: ${user.name}`;\n    this.view.displayUser(user);\n  }\n}",
         "correct": "The Presenter directly manipulates the DOM (document.title), violating the separation of concerns — that is the View's responsibility",
         "referenceAnswer": "In MVP, the Presenter should not touch the DOM directly. document.title = ... should be delegated to the View: this.view.setTitle(`User: ${user.name}`). The Presenter coordinates logic; the View handles all DOM updates.",
         "lang": "typescript"
@@ -1361,7 +1361,7 @@
             "en": "The if-else chain in the factory violates OCP — the factory is not closed for modification. Using a registry (map of type → constructor) lets you extend the factory by adding entries without modifying the factory function itself.",
             "ru": "Цепочка if-else в фабрике нарушает OCP — фабрика не закрыта для модификации. Реестр (map «тип → конструктор») позволяет расширять фабрику добавлением записей, не меняя код самой функции-фабрики."
         },
-        "code": "function createChart(type: string) {\n  if (type === 'bar') return new BarChart();\n  if (type === 'line') return new LineChart();\n  if (type === 'pie') return new PieChart();\n  // New chart types require editing this function\n  return null;\n}",
+        "code": "function createChart(type: string) {\n  if (type === 'bar') return new BarChart();\n  if (type === 'line') return new LineChart();\n  if (type === 'pie') return new PieChart();\n  return null;\n}",
         "correct": "The factory violates the Open/Closed Principle — every new chart type requires modifying the factory function",
         "referenceAnswer": "Register chart types in a map: const registry: Record<string, new () => Chart> = { bar: BarChart, line: LineChart, pie: PieChart }; function createChart(type: string) { return registry[type] ? new registry[type]() : null; }. Adding a new type only requires updating the registry, not the factory logic.",
         "lang": "typescript"
@@ -1415,13 +1415,13 @@
             "ru": "Дополните DI-контейнер на основе React-контекста, который предоставляет сервис дочерним компонентам:"
         },
         "explanation": {
-            "en": "React Context acts as a DI container. The Provider injects a service instance into the component tree; consumers retrieve it via useContext without needing to know how the service was created, achieving DI without a framework.",
-            "ru": "React Context выступает в роли DI-контейнера. Provider инжектит экземпляр сервиса в дерево компонентов, а потребители получают его через useContext, не зная, как он был создан — DI без фреймворка."
+            "en": "React Context acts as a DI container. Since React 19 the context object itself is rendered as the provider — <ServiceContext value={service}> — while <ServiceContext.Provider> is the legacy form kept for older versions. Consumers retrieve the instance via useContext without knowing how it was created, which is dependency injection without a framework.",
+            "ru": "React Context выступает в роли DI-контейнера. Начиная с React 19 сам объект контекста рендерится как провайдер — <ServiceContext value={service}>, а <ServiceContext.Provider> — это legacy-форма для старых версий. Потребители получают экземпляр через useContext, не зная, как он был создан, — dependency injection без фреймворка."
         },
-        "code": "const ServiceContext = React.createContext<UserService | __BLANK__>(null);\n\nfunction ServiceProvider({ children }: { children: React.ReactNode }) {\n  const service = useMemo(() => new UserService(), []);\n  return (\n    <ServiceContext.__BLANK__ value={service}>\n      {children}\n    </ServiceContext.__BLANK__>\n  );\n}\n\nfunction useUserService(): UserService {\n  const service = useContext(__BLANK__);\n  if (!service) throw new Error('ServiceProvider missing');\n  return service;\n}",
-        "blanks": ["null", "Provider", "Provider", "ServiceContext"],
+        "code": "const ServiceContext = React.createContext<UserService | __BLANK__>(null);\n\nfunction ServiceProvider({ children }: { children: React.ReactNode }) {\n  const service = useMemo(() => new UserService(), __BLANK__);\n  return (\n    <ServiceContext value={service}>\n      {children}\n    </ServiceContext>\n  );\n}\n\nfunction useUserService(): UserService {\n  const service = useContext(__BLANK__);\n  if (!service) throw new Error('ServiceProvider missing');\n  return service;\n}",
+        "blanks": ["null", "[]", "ServiceContext"],
         "lang": "typescript",
-        "referenceAnswer": "createContext<UserService | null>(null); Provider wraps children; useContext(ServiceContext) retrieves the injected service."
+        "referenceAnswer": "createContext<UserService | null>(null); useMemo(() => new UserService(), []) keeps one instance per provider; in React 19 the context itself is the provider (<ServiceContext value={service}>); useContext(ServiceContext) retrieves the injected service."
     },
     {
         "id": "arch-observer-001",
@@ -1494,9 +1494,9 @@
             "en": "Render props pass a function as a prop that receives internal state and returns React nodes. The consumer controls rendering while the component manages behavior (mouse tracking). Hooks have largely replaced this pattern, but it remains relevant in component design interviews.",
             "ru": "Render props передаёт функцию как prop, которая получает внутреннее состояние и возвращает React-узлы. Потребитель управляет рендерингом, а компонент отвечает за поведение (отслеживание мыши). Hooks в значительной мере вытеснили этот паттерн, но он всё ещё актуален на интервью по дизайну компонентов."
         },
-        "code": "interface MouseProps {\n  x: number;\n  y: number;\n}\n\nfunction MouseTracker({ render }: { render: __BLANK__ }) {\n  const [pos, setPos] = useState<MouseProps>({ x: 0, y: 0 });\n\n  const handleMouseMove = (e: React.MouseEvent) => {\n    setPos({ x: e.__BLANK__, y: e.__BLANK__ });\n  };\n\n  return <div onMouseMove={__BLANK__}>{render(pos)}</div>;\n}",
-        "blanks": ["(pos: MouseProps) => React.ReactNode", "clientX", "clientY", "handleMouseMove"],
+        "code": "interface MouseProps {\n  x: number;\n  y: number;\n}\n\ntype RenderFn = (pos: MouseProps) => React.ReactNode;\n\nfunction MouseTracker({ render }: { render: __BLANK__ }) {\n  const [pos, setPos] = useState<MouseProps>({ x: 0, y: 0 });\n\n  const handleMouseMove = (e: React.MouseEvent) => {\n    setPos({ x: e.__BLANK__, y: e.__BLANK__ });\n  };\n\n  return <div onMouseMove={__BLANK__}>{render(pos)}</div>;\n}",
+        "blanks": ["RenderFn", "clientX", "clientY", "handleMouseMove"],
         "lang": "typescript",
-        "referenceAnswer": "render prop type is (pos: MouseProps) => React.ReactNode; clientX and clientY from the event; onMouseMove={handleMouseMove}."
+        "referenceAnswer": "The render prop is typed by the RenderFn alias declared above the component; clientX and clientY come from the mouse event; onMouseMove={handleMouseMove} wires the handler."
     }
 ]
