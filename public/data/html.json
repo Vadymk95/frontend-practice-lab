@@ -282,8 +282,8 @@
             "ru": "Где в HTML-документе должен находиться meta-тег charset?"
         },
         "explanation": {
-            "en": "The charset declaration must appear within the first 1024 bytes so the browser detects encoding before parsing any content. It must be the first element inside <head>, before <title>.",
-            "ru": "Декларация charset должна попадать в первые 1024 байта, чтобы браузер определил кодировку до парсинга контента. Она должна быть первым элементом внутри <head>, до <title>."
+            "en": "The one normative rule is that the element carrying the character encoding declaration is serialized completely within the first 1024 bytes of the document — that window is what the encoding prescan reads. Putting it first inside <head> is the reliable way to stay inside the limit, not a spec ordering rule about <title>.",
+            "ru": "Единственное нормативное требование: элемент с декларацией кодировки должен целиком помещаться в первые 1024 байта документа — именно это окно читает прескан кодировки. Ставить его первым в <head> — надёжный способ уложиться в лимит, а не требование спецификации о порядке относительно <title>."
         },
         "options": [
             {
@@ -291,16 +291,16 @@
                 "ru": "В секции <body>"
             },
             {
-                "en": "After the <title> element",
-                "ru": "После элемента <title>"
+                "en": "Anywhere in the document, as long as there is only one meta charset",
+                "ru": "В любом месте документа, лишь бы meta charset был единственным"
             },
             {
                 "en": "Anywhere inside <head>",
                 "ru": "В любом месте внутри <head>"
             },
             {
-                "en": "Within the first 1024 bytes, inside <head> and before <title>",
-                "ru": "В пределах первых 1024 байт, внутри <head> и до <title>"
+                "en": "Inside <head>, serialized completely within the first 1024 bytes of the document",
+                "ru": "Внутри <head>, целиком в пределах первых 1024 байт документа"
             }
         ],
         "correct": 3
@@ -458,19 +458,19 @@
         "options": [
             {
                 "en": "prefetch fetches current-page resources; preload is for future pages",
-                "ru": "prefetch загружает ресурсы текущей страницы; preload — для будущих страниц"
+                "ru": "prefetch загружает ресурсы текущей страницы, а preload — для будущих страниц"
             },
             {
-                "en": "preload fetches a critical current-page resource at high priority; prefetch fetches a future-navigation resource at low priority",
-                "ru": "preload с высоким приоритетом загружает критичный ресурс текущей страницы; prefetch с низким приоритетом загружает ресурс для будущей навигации"
+                "en": "preload fetches a resource for the current page at high priority; prefetch fetches one for a later navigation at low priority",
+                "ru": "preload загружает ресурс текущей страницы с высоким приоритетом, prefetch — ресурс для будущей навигации с низким"
             },
             {
-                "en": "They are identical",
-                "ru": "Они идентичны"
+                "en": "preload and prefetch differ only in the value of the `as` attribute they require",
+                "ru": "preload и prefetch различаются только значением обязательного атрибута `as`"
             },
             {
-                "en": "preload is for CSS only; prefetch is for JavaScript",
-                "ru": "preload только для CSS; prefetch — для JavaScript"
+                "en": "preload is honoured only for same-origin resources; prefetch only for cross-origin ones",
+                "ru": "preload работает только для same-origin ресурсов, а prefetch — только для кросс-доменных"
             }
         ],
         "correct": 1
@@ -555,7 +555,7 @@
         },
         "explanation": {
             "en": "The HTML spec defines specific tokens: cc-number for card number, cc-name, cc-exp-month, cc-exp-year, cc-csc. These enable correct autofill across browsers and password managers.",
-            "ru": "Спецификация HTML определяет конкретные токены: cc-number для номера карты, cc-name, cc-exp-month, cc-exp-year, cc-csc. Они обеспечивают корректный автозаполнение в браузерах и менеджерах паролей."
+            "ru": "Спецификация HTML определяет конкретные токены: cc-number для номера карты, cc-name, cc-exp-month, cc-exp-year, cc-csc. Они обеспечивают корректное автозаполнение в браузерах и менеджерах паролей."
         },
         "options": [
             {
@@ -615,7 +615,7 @@
         "id": "html-aria-live-001",
         "type": "single-choice",
         "category": "html",
-        "difficulty": "hard",
+        "difficulty": "medium",
         "tags": ["accessibility", "aria", "aria-live"],
         "question": {
             "en": "What does aria-live=\"polite\" communicate to screen readers?",
@@ -649,7 +649,7 @@
         "id": "html-picture-art-direction-001",
         "type": "single-choice",
         "category": "html",
-        "difficulty": "hard",
+        "difficulty": "medium",
         "tags": ["picture", "art-direction"],
         "question": {
             "en": "What advantage does <picture> with <source media> have over <img srcset> alone?",
@@ -661,20 +661,20 @@
         },
         "options": [
             {
-                "en": "<picture> enables different image compositions per breakpoint (art direction); srcset only changes resolution",
-                "ru": "<picture> позволяет использовать разные композиции изображения на разных брейкпоинтах (art direction); srcset меняет только разрешение"
+                "en": "<source media> can swap in a different crop or composition per breakpoint; srcset only varies the resolution of one image",
+                "ru": "<source media> позволяет подставить другой кроп или композицию на каждом брейкпоинте; srcset меняет только разрешение одной и той же картинки"
             },
             {
-                "en": "<picture> loads faster",
-                "ru": "<picture> загружается быстрее"
+                "en": "<source media> lets the browser pick a different resolution of the same image, which srcset cannot express",
+                "ru": "<source media> позволяет браузеру выбрать другое разрешение той же картинки, чего srcset выразить не может"
             },
             {
-                "en": "<picture> works without JavaScript; srcset requires it",
-                "ru": "<picture> работает без JavaScript, а srcset — требует его"
+                "en": "<picture> downloads several sources in parallel and keeps whichever arrives first; srcset downloads only one",
+                "ru": "<picture> качает несколько источников параллельно и оставляет тот, что пришёл первым; srcset качает только один"
             },
             {
-                "en": "<picture> supports WebP; srcset does not",
-                "ru": "<picture> поддерживает WebP, а srcset — нет"
+                "en": "<picture> can reference modern formats such as AVIF through type, while srcset cannot point at AVIF files",
+                "ru": "<picture> умеет ссылаться на современные форматы вроде AVIF через type, а srcset на AVIF-файлы ссылаться не может"
             }
         ],
         "correct": 0
@@ -717,7 +717,7 @@
         "id": "html-webcomponents-slot-001",
         "type": "single-choice",
         "category": "html",
-        "difficulty": "hard",
+        "difficulty": "medium",
         "tags": ["web-components", "shadow-dom", "slot"],
         "question": {
             "en": "What does the <slot> element do inside a Web Component's Shadow DOM?",
@@ -910,8 +910,8 @@
             "ru": "Что из перечисленного улучшает accessibility формы с несколькими группами связанных полей?"
         },
         "explanation": {
-            "en": "<fieldset> + <legend> group related controls with a visible title that screen readers announce. aria-labelledby on the group also works. placeholder is not a substitute for <label> — it disappears on input and has low contrast.",
-            "ru": "<fieldset> + <legend> группируют связанные контролы с видимым заголовком, который озвучивают скринридеры. aria-labelledby на группе тоже работает. placeholder не заменяет <label> — он исчезает при вводе и имеет низкий контраст."
+            "en": "<fieldset> + <legend> group related controls under a visible title that screen readers announce. role=\"group\" with aria-labelledby is the ARIA equivalent — the role matters, because a bare <div> has the implicit role generic, which prohibits naming from the author, so aria-labelledby on it is ignored. placeholder is not a substitute for <label>: it disappears on input and has low contrast.",
+            "ru": "<fieldset> + <legend> группируют связанные контролы под видимым заголовком, который озвучивают скринридеры. role=\"group\" вместе с aria-labelledby — это ARIA-эквивалент, и роль здесь обязательна: у обычного <div> неявная роль generic, для которой имя от автора запрещено, так что aria-labelledby на нём просто игнорируется. placeholder не заменяет <label> — он исчезает при вводе и имеет низкий контраст."
         },
         "options": [
             {
@@ -927,8 +927,8 @@
                 "ru": "Оборачивание связанных input'ов в <fieldset>"
             },
             {
-                "en": "Adding aria-labelledby on each input group",
-                "ru": "Добавление aria-labelledby к каждой группе полей"
+                "en": "Using role=\"group\" with aria-labelledby on each input group",
+                "ru": "Использование role=\"group\" с aria-labelledby для каждой группы полей"
             },
             {
                 "en": "Adding a <legend> to each <fieldset>",
@@ -982,36 +982,36 @@
         "difficulty": "medium",
         "tags": ["script", "module"],
         "question": {
-            "en": "Which statements about <script type=\"module\"> are correct?",
-            "ru": "Какие утверждения о <script type=\"module\"> верны?"
+            "en": "Which statements about how the browser fetches and evaluates <script type=\"module\"> are correct?",
+            "ru": "Какие утверждения о том, как браузер загружает и выполняет <script type=\"module\">, верны?"
         },
         "explanation": {
-            "en": "ES modules: are deferred (A), strict mode (B), support top-level await (C), cached/executed once (E). They do NOT share the global scope — each module has its own scope (D is false).",
-            "ru": "ES-модули: deferred (A), strict mode (B), поддерживают top-level await (C), кэшируются и исполняются один раз (E). Они НЕ разделяют глобальную область видимости — у каждого модуля своя scope (D неверно)."
+            "en": "The module map keys modules by URL: a module is fetched and evaluated once, and later imports reuse the same instance — so it is never re-evaluated per importing tag. Unlike classic scripts, module scripts are fetched with the CORS protocol, so a cross-origin module without Access-Control-Allow-Origin fails to load. Module scripts defer by default, inline ones included, which is why defer has no effect on them.",
+            "ru": "Module map хранит модули по URL: модуль загружается и выполняется один раз, а последующие импорты переиспользуют тот же экземпляр — повторного выполнения на каждый импортирующий тег не происходит. В отличие от классических скриптов, модули загружаются по протоколу CORS, поэтому кросс-доменный модуль без Access-Control-Allow-Origin просто не загрузится. Модули по умолчанию deferred, включая инлайновые, — поэтому defer на них никак не влияет."
         },
         "options": [
             {
-                "en": "Module scripts are deferred by default",
-                "ru": "Module-скрипты по умолчанию deferred"
+                "en": "A module URL is fetched and evaluated only once, however many times it is imported",
+                "ru": "URL модуля загружается и выполняется только один раз, сколько бы раз его ни импортировали"
             },
             {
-                "en": "Module scripts run in strict mode",
-                "ru": "Module-скрипты выполняются в strict mode"
+                "en": "A cross-origin module is fetched with CORS and needs Access-Control-Allow-Origin",
+                "ru": "Кросс-доменный модуль загружается по CORS и требует заголовка Access-Control-Allow-Origin"
             },
             {
-                "en": "A module URL is fetched and executed only once",
-                "ru": "URL модуля скачивается и исполняется только один раз"
+                "en": "An inline <script type=\"module\"> also runs after the document has been parsed",
+                "ru": "Инлайновый <script type=\"module\"> тоже выполняется после разбора документа"
             },
             {
-                "en": "Module scripts share the global scope with classic scripts",
-                "ru": "Module-скрипты разделяют глобальную область видимости с классическими скриптами"
+                "en": "Adding defer to <script type=\"module\"> changes when the script executes",
+                "ru": "Добавление defer к <script type=\"module\"> меняет момент выполнения скрипта"
             },
             {
-                "en": "Module scripts support top-level await",
-                "ru": "Module-скрипты поддерживают top-level await"
+                "en": "A module script is re-evaluated on every <script> tag that imports it",
+                "ru": "Модуль выполняется заново при каждом теге <script>, который его импортирует"
             }
         ],
-        "correct": [0, 1, 2, 4]
+        "correct": [0, 1, 2]
     },
     {
         "id": "html-accessibility-aria-001",
@@ -1024,8 +1024,8 @@
             "ru": "Какие ARIA-роли избыточны, потому что существует нативный HTML-эквивалент?"
         },
         "explanation": {
-            "en": "role=\"button\" duplicates <button>, role=\"navigation\" duplicates <nav>, role=\"list\" duplicates <ul>/<ol>. Native elements include built-in keyboard behavior. role=\"tooltip\" and role=\"banner\" have no single direct HTML equivalent.",
-            "ru": "role=\"button\" дублирует <button>, role=\"navigation\" дублирует <nav>, role=\"list\" дублирует <ul>/<ol>. Нативные элементы уже имеют встроенное поведение клавиатуры. У role=\"tooltip\" и role=\"banner\" нет одного прямого HTML-эквивалента."
+            "en": "role=\"button\" duplicates <button>, role=\"navigation\" duplicates <nav>, role=\"list\" duplicates <ul>/<ol> — and the native elements bring the built-in keyboard behaviour with the role. role=\"tooltip\" and role=\"alert\" have no native HTML element, so they are not redundant.",
+            "ru": "role=\"button\" дублирует <button>, role=\"navigation\" — <nav>, role=\"list\" — <ul>/<ol>, причём нативные элементы дают вместе с ролью и встроенное поведение клавиатуры. У role=\"tooltip\" и role=\"alert\" нативного HTML-элемента нет, поэтому избыточными они не являются."
         },
         "options": [
             {
@@ -1037,8 +1037,8 @@
                 "ru": "role=\"button\""
             },
             {
-                "en": "role=\"banner\"",
-                "ru": "role=\"banner\""
+                "en": "role=\"alert\"",
+                "ru": "role=\"alert\""
             },
             {
                 "en": "role=\"tooltip\"",
@@ -1062,8 +1062,8 @@
             "ru": "Какие утверждения об элементах <header> и <footer> верны?"
         },
         "explanation": {
-            "en": "<header> and <footer> are sectioning elements, not unique landmarks. Each <article> or <section> can have its own <header> and <footer>. <header> frequently contains <nav>. There is no one-per-page restriction.",
-            "ru": "<header> и <footer> — sectioning-элементы, а не уникальные landmark'и. У каждого <article> или <section> может быть свой <header> и <footer>. <header> часто содержит <nav>. Ограничения «один на страницу» нет."
+            "en": "<header> and <footer> are not sectioning content — sectioning content is article, aside, nav and section. They are scoped to their nearest sectioning ancestor, so every <article> or <section> may carry its own, and a page may hold many of them. Only a <header>/<footer> that is not a descendant of article/aside/main/nav/section exposes the banner/contentinfo landmark. <header> commonly contains <nav>.",
+            "ru": "<header> и <footer> не являются sectioning content — к нему относятся только article, aside, nav и section. Они привязаны к ближайшему секционирующему предку, поэтому у каждого <article> или <section> может быть свой, и на странице их может быть много. Landmark banner/contentinfo появляется только у того <header>/<footer>, который не лежит внутри article/aside/main/nav/section. Внутри <header> часто располагают <nav>."
         },
         "options": [
             {
@@ -1100,8 +1100,8 @@
             "ru": "Какие HTML-атрибуты включают встроенную constraint-валидацию полей формы?"
         },
         "explanation": {
-            "en": "required, pattern, and min/max participate in the HTML5 constraint validation API and prevent form submission on failure. maxlength limits input length but doesn't add a validation message. placeholder is purely presentational.",
-            "ru": "required, pattern и min/max участвуют в HTML5 constraint validation API и блокируют submit формы при нарушении. maxlength ограничивает длину ввода, но не добавляет валидационное сообщение. placeholder чисто презентационный."
+            "en": "required, pattern and min/max feed the constraint validation API — valueMissing, patternMismatch, rangeUnderflow/rangeOverflow — and block submission when violated. placeholder is purely presentational and inputmode only hints which on-screen keyboard to show; neither touches ValidityState.",
+            "ru": "required, pattern и min/max участвуют в constraint validation API — valueMissing, patternMismatch, rangeUnderflow/rangeOverflow — и блокируют отправку формы при нарушении. placeholder чисто презентационный, а inputmode лишь подсказывает, какую экранную клавиатуру показать; на ValidityState не влияет ни тот, ни другой."
         },
         "options": [
             {
@@ -1113,8 +1113,8 @@
                 "ru": "min"
             },
             {
-                "en": "maxlength",
-                "ru": "maxlength"
+                "en": "inputmode",
+                "ru": "inputmode"
             },
             {
                 "en": "pattern",
@@ -1176,8 +1176,8 @@
             "ru": "Какие утверждения об ARIA-ролях и клавиатурном взаимодействии верны?"
         },
         "explanation": {
-            "en": "ARIA roles convey semantics but not behavior. role=\"button\" on a div does NOT add keyboard handling (A false). aria-disabled does not remove from tab order — only signals state (C false). Native <button> is always preferred (B), aria-expanded describes state (D), tab pattern requires arrow key management (E).",
-            "ru": "ARIA-роли передают семантику, но не поведение. role=\"button\" на div НЕ добавляет обработку клавиатуры (A неверно). aria-disabled не убирает из tab order, а только сигнализирует о состоянии (C неверно). Нативный <button> всегда предпочтительнее (B), aria-expanded описывает состояние (D), паттерн tab требует управления стрелками (E)."
+            "en": "ARIA roles carry semantics, not behaviour: role=\"button\" on a <div> adds no Enter/Space handling and no tab stop — you write both yourself, which is why the native <button> is preferred. aria-disabled=\"true\" only announces the state; the element stays in the tab order (that is the point — a disabled control users can still reach). aria-expanded is the right state for a disclosure button, and role=\"tab\" comes with the APG requirement to move focus between tabs with the arrow keys.",
+            "ru": "ARIA-роли передают семантику, но не поведение: role=\"button\" на <div> не добавляет ни обработки Enter/Space, ни попадания в tab order — и то и другое пишете вы сами, поэтому нативный <button> предпочтительнее. aria-disabled=\"true\" лишь сообщает состояние, элемент остаётся в порядке обхода по Tab (в этом и смысл — до такого контрола пользователь всё ещё может добраться). aria-expanded — корректное состояние для disclosure-кнопки, а role=\"tab\" по ARIA APG требует перемещать фокус между вкладками стрелками."
         },
         "options": [
             {
@@ -1233,31 +1233,31 @@
             "ru": "Найдите структурную проблему в этой разметке изображения:"
         },
         "explanation": {
-            "en": "<figcaption> can be first or last child of <figure>. Convention places it after the image to match the reading flow where image precedes caption.",
-            "ru": "<figcaption> может быть первым или последним потомком <figure>. По конвенции его ставят после изображения, чтобы соответствовать порядку чтения: сначала картинка, затем подпись."
+            "en": "The content model of <figure> is one <figcaption> followed by flow content, or flow content followed by one <figcaption> — first or last child, both are conforming. A <figcaption> that is not a direct child of <figure> does not caption anything.",
+            "ru": "Контентная модель <figure> — один <figcaption>, за которым идёт flow-контент, либо flow-контент, за которым идёт один <figcaption>: и первым, и последним потомком ставить можно. А <figcaption>, который не является прямым потомком <figure>, ничего не подписывает."
         },
-        "code": "<figure>\n  <figcaption>A sunset over the ocean</figcaption>\n  <img src=\"sunset.jpg\" alt=\"Sunset\">\n</figure>",
-        "correct": "By convention, <figcaption> should appear after the <img>, not before it",
-        "referenceAnswer": "Reorder: <figure><img src=\"sunset.jpg\" alt=\"Sunset\"><figcaption>A sunset over the ocean</figcaption></figure>. Image first, caption second matches visual and reading order.",
+        "code": "<figure>\n  <img src=\"sunset.jpg\" alt=\"Waves breaking on a rocky shore at dusk\">\n  <div class=\"caption\">\n    <figcaption>Sunset over the Atlantic, November</figcaption>\n  </div>\n</figure>",
+        "correct": "The <figcaption> is wrapped in a <div>, so it is not a direct child of <figure> and the figure ends up with no caption",
+        "referenceAnswer": "The figure's caption is its first or last figcaption child; a figcaption nested inside another element is just flow content and no caption is exposed. Drop the wrapper and style the figcaption itself:\n\n```html\n<figure>\n  <img src=\"sunset.jpg\" alt=\"Waves breaking on a rocky shore at dusk\">\n  <figcaption class=\"caption\">Sunset over the Atlantic, November</figcaption>\n</figure>\n```",
         "lang": "html"
     },
     {
         "id": "html-bug-charset-001",
         "type": "bug-finding",
         "category": "html",
-        "difficulty": "easy",
+        "difficulty": "medium",
         "tags": ["meta", "charset", "head"],
         "question": {
             "en": "Find the bug in this HTML head:",
             "ru": "Найдите баг в этом HTML head:"
         },
         "explanation": {
-            "en": "Browsers parse before downloading the full document. Non-ASCII characters in <title> need the charset to be processed first. The spec requires charset within the first 1024 bytes, before <title>.",
-            "ru": "Браузеры начинают парсинг ещё до полной загрузки документа. Для не-ASCII символов в <title> charset должен быть обработан раньше. Спецификация требует объявлять charset в пределах первых 1024 байт, до <title>."
+            "en": "The only placement rule for the charset declaration is the byte limit: it must be serialized completely within the first 1024 bytes. The prescan reads that window before decoding, so ordering against <title> means nothing — but a large inline <style> can push the meta out of the window, after which the browser guesses the encoding and non-ASCII text turns to mojibake.",
+            "ru": "Единственное правило размещения charset — это байтовый лимит: элемент должен целиком помещаться в первые 1024 байта документа. Прескан читает это окно до декодирования, поэтому порядок относительно <title> ни на что не влияет — а вот большой инлайновый <style> легко выталкивает meta за пределы окна, после чего браузер угадывает кодировку и не-ASCII текст превращается в кракозябры."
         },
-        "code": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <title>My Page — Привет</title>\n  <meta charset=\"UTF-8\">\n</head>",
-        "correct": "The charset meta must appear before <title>. Non-ASCII characters in the title require charset to be declared first.",
-        "referenceAnswer": "Move <meta charset=\"UTF-8\"> before <title>: <head><meta charset=\"UTF-8\"><title>My Page — Привет</title></head>",
+        "code": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <style>\n    /* ~2 KB of critical CSS inlined by the build step */\n    :root { --brand: #0b5; --ink: #111 }\n    body { margin: 0; font: 16px/1.5 system-ui, sans-serif }\n    /* ...about 60 more rules... */\n  </style>\n  <meta charset=\"utf-8\">\n  <title>Каталог — Acme</title>\n</head>",
+        "correct": "The inlined critical CSS pushes <meta charset> past the first 1024 bytes of the document, so the encoding prescan never finds the declaration",
+        "referenceAnswer": "The element containing the character encoding declaration must be serialized completely within the first 1024 bytes of the document. Move it to the top of <head>, before the inline <style> (or send Content-Type: text/html; charset=utf-8 from the server):\n\n```html\n<head>\n  <meta charset=\"utf-8\">\n  <style>/* critical CSS */</style>\n  <title>Каталог — Acme</title>\n</head>\n```\nPosition relative to <title> is irrelevant — only the byte limit is normative.",
         "lang": "html"
     },
     {
@@ -1267,16 +1267,16 @@
         "difficulty": "medium",
         "tags": ["iframe", "sandbox", "security"],
         "question": {
-            "en": "Find the security issue in this third-party iframe:",
-            "ru": "Найдите проблему безопасности в этом стороннем iframe:"
+            "en": "Find the missing isolation attribute on this third-party iframe:",
+            "ru": "Найдите отсутствующий атрибут изоляции у этого стороннего iframe:"
         },
         "explanation": {
-            "en": "Third-party iframes should always have sandbox for least-privilege containment. Grant only the minimum tokens the specific widget requires.",
-            "ru": "У сторонних iframe всегда должен быть sandbox для изоляции по принципу наименьших привилегий. Выдавайте только минимальный набор токенов, необходимый конкретному виджету."
+            "en": "A third-party frame should run under least privilege: sandbox strips scripts, forms, popups, top-level navigation and same-origin access, and you add back only the tokens the widget needs. Keep allow-scripts and allow-same-origin apart — together they let a same-origin frame remove the sandbox attribute itself.",
+            "ru": "Сторонний фрейм должен работать по принципу наименьших привилегий: sandbox отключает скрипты, формы, popup'ы, навигацию верхнего уровня и same-origin доступ, а вы возвращаете только те токены, которые нужны виджету. allow-scripts и allow-same-origin вместе не ставят — в такой паре same-origin фрейм может сам снять с себя атрибут sandbox."
         },
-        "code": "<iframe\n  src=\"https://third-party-widget.com\"\n  allow=\"camera; microphone\"\n  width=\"600\"\n  height=\"400\">\n</iframe>",
-        "correct": "The iframe is missing the sandbox attribute, giving embedded content full script execution, form submission, and navigation permissions",
-        "referenceAnswer": "Add sandbox=\"allow-scripts allow-same-origin\" (or minimum required tokens). Without sandbox, third-party content can run scripts, access cookies, navigate the top frame, and submit forms.",
+        "code": "<iframe\n  src=\"https://third-party-widget.com/booking\"\n  title=\"Booking widget\"\n  width=\"600\"\n  height=\"400\">\n</iframe>",
+        "correct": "The iframe has no sandbox attribute, so the embedded document keeps script execution, form submission and top-level navigation privileges",
+        "referenceAnswer": "Add sandbox and grant only the tokens the widget actually needs, e.g. sandbox=\"allow-scripts allow-forms\". Two caveats from the spec: allow-scripts together with allow-same-origin lets a framed document that is same-origin with the embedder remove its own sandbox attribute, so that pair is not containment; and without allow-same-origin the frame runs in an opaque origin — no cookies, no storage, and powerful features cannot be delegated to it.",
         "lang": "html"
     },
     {
@@ -1309,12 +1309,12 @@
             "ru": "Найдите баг: select должен показывать 'Choose a country' как плейсхолдер, который нельзя отправить:"
         },
         "explanation": {
-            "en": "A placeholder <option> with an empty value but without disabled allows submitting a blank choice. Adding disabled prevents selection while still showing it as the default visible option.",
-            "ru": "Плейсхолдерный <option> с пустым value без disabled позволяет отправить форму с пустым выбором. Добавление disabled не даёт выбрать эту опцию, оставляя её видимой как дефолтную."
+            "en": "Without required a <select> happily submits the placeholder's empty value. required is what turns an empty-value first option into the placeholder label option, so the control counts as missing while it is selected. disabled selected then keeps the placeholder visible but unpickable — disabled alone would promote the next option to the default.",
+            "ru": "Без required <select> спокойно отправляет пустое значение плейсхолдера. Именно required превращает первый option с пустым value в placeholder label option, и пока он выбран, поле считается незаполненным. Связка disabled selected оставляет плейсхолдер видимым, но невыбираемым, — а один только disabled сделает дефолтной следующую опцию."
         },
         "code": "<select name=\"country\">\n  <option value=\"\">Choose a country</option>\n  <option value=\"uk\">United Kingdom</option>\n  <option value=\"de\">Germany</option>\n</select>",
-        "correct": "The placeholder option is missing the disabled attribute — users can submit the form with an empty country value",
-        "referenceAnswer": "Add disabled to the placeholder option: <option value=\"\" disabled>Choose a country</option>. Also consider selected to show it initially: <option value=\"\" disabled selected>Choose a country</option>",
+        "correct": "The <select> has no required attribute, so the empty placeholder value can be submitted",
+        "referenceAnswer": "Add required to the select and make the placeholder a disabled, pre-selected empty option:\n\n```html\n<select name=\"country\" required>\n  <option value=\"\" disabled selected>Choose a country</option>\n  <option value=\"uk\">United Kingdom</option>\n  <option value=\"de\">Germany</option>\n</select>\n```\nWith required, a first option whose value is the empty string is the placeholder label option and the control is invalid while it is selected. disabled on its own fixes nothing: the UA then selects the first option in tree order that is not disabled, so the placeholder vanishes and United Kingdom is submitted silently.",
         "lang": "html"
     },
     {
@@ -1423,13 +1423,13 @@
             "ru": "Дополните responsive-изображение с источниками AVIF и WebP:"
         },
         "explanation": {
-            "en": "<source> uses srcset (not src). The type attribute enables format negotiation — browser picks the first <source> it supports. loading=\"lazy\" on <img> defers loading until near the viewport.",
-            "ru": "<source> использует srcset (а не src). Атрибут type включает согласование форматов — браузер выбирает первый поддерживаемый <source>. loading=\"lazy\" у <img> откладывает загрузку до приближения к viewport."
+            "en": "<source> uses srcset, not src. The type attribute enables format negotiation: the browser picks the first <source> it can decode and falls back to the <img>. For an above-the-fold hero, fetchpriority=\"high\" is the right hint — lazy loading belongs to images below the fold, and lazy-loading the LCP image delays it.",
+            "ru": "<source> использует srcset, а не src. Атрибут type включает согласование форматов: браузер берёт первый <source>, который умеет декодировать, и откатывается на <img>. Для hero-изображения выше линии сгиба правильная подсказка — fetchpriority=\"high\"; lazy-загрузка нужна картинкам ниже сгиба, а на LCP-изображении она его только задерживает."
         },
-        "code": "<picture>\n  <source __BLANK__=\"hero.avif\" __BLANK__=\"image/avif\">\n  <source srcset=\"hero.webp\" type=\"image/webp\">\n  <img src=\"hero.jpg\" alt=\"Hero\" __BLANK__=\"lazy\">\n</picture>",
-        "blanks": ["srcset", "type", "loading"],
+        "code": "<picture>\n  <source __BLANK__=\"hero.avif\" __BLANK__=\"image/avif\">\n  <source srcset=\"hero.webp\" type=\"image/webp\">\n  <img src=\"hero.jpg\" alt=\"Hero\" __BLANK__=\"high\">\n</picture>",
+        "blanks": ["srcset", "type", "fetchpriority"],
         "lang": "html",
-        "referenceAnswer": "srcset on <source> specifies the image URL. type=\"image/avif\" declares MIME type for format negotiation. loading=\"lazy\" enables native lazy loading."
+        "referenceAnswer": "srcset on <source> carries the candidate URL (src is not allowed there). type=\"image/avif\" drives format negotiation — the browser takes the first <source> whose type it supports. fetchpriority=\"high\" raises the priority of the hero image, which is usually the LCP element; never put loading=\"lazy\" on an image that is in the initial viewport."
     },
     {
         "id": "html-complete-data-001",
@@ -1445,9 +1445,9 @@
             "en": "HTMLElement.dataset provides a DOMStringMap with camelCase access to data-* attributes. Writing to dataset also updates the HTML attribute.",
             "ru": "HTMLElement.dataset предоставляет DOMStringMap с доступом к data-* атрибутам в camelCase. Запись в dataset также обновляет HTML-атрибут."
         },
-        "code": "const btn = document.querySelector('#btn');\n\n// Read data-item-id\nconst id = btn.__BLANK__.__BLANK__.;\n\n// Write data-item-count\nbtn.__BLANK__.itemCount = '5';",
+        "code": "const btn = document.querySelector('#btn');\n\n// Read data-item-id\nconst id = btn.__BLANK__.__BLANK__;\n\n// Write data-item-count\nbtn.__BLANK__.itemCount = '5';",
         "blanks": ["dataset", "itemId", "dataset"],
-        "lang": "html",
+        "lang": "javascript",
         "referenceAnswer": "btn.dataset.itemId reads data-item-id. btn.dataset.itemCount = '5' writes data-item-count. The dataset API converts kebab-case to camelCase."
     },
     {
@@ -1502,9 +1502,9 @@
             "en": "observedAttributes must list attribute names for attributeChangedCallback to fire. connectedCallback is called when the element is connected to a document — the most common lifecycle hook for initial rendering.",
             "ru": "observedAttributes должен перечислять имена атрибутов, чтобы срабатывал attributeChangedCallback. connectedCallback вызывается при подключении элемента к документу — это самый распространённый lifecycle-хук для инициализации рендеринга."
         },
-        "code": "class TooltipEl extends HTMLElement {\n  static get __BLANK__() {\n    return ['data-text', 'disabled'];\n  }\n\n  __BLANK__Callback() {\n    this.innerHTML = `<span>${this.dataset.text}</span>`;\n  }\n\n  attributeChangedCallback(name, old, val) {\n    if (name === 'data-text') this.querySelector('span').textContent = val;\n  }\n}",
-        "blanks": ["observedAttributes", "connected"],
-        "lang": "html",
+        "code": "class TooltipEl extends HTMLElement {\n  static get __BLANK__() {\n    return ['data-text', 'disabled'];\n  }\n\n  // runs when the element is inserted into the document\n  __BLANK__() {\n    this.innerHTML = `<span>${this.dataset.text}</span>`;\n  }\n\n  attributeChangedCallback(name, old, val) {\n    if (name === 'data-text') this.querySelector('span').textContent = val;\n  }\n}",
+        "blanks": ["observedAttributes", "connectedCallback"],
+        "lang": "javascript",
         "referenceAnswer": "observedAttributes is a static getter listing attributes to monitor for attributeChangedCallback. connectedCallback fires when the element is inserted into the document."
     }
 ]

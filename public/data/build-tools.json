@@ -15,20 +15,20 @@
         },
         "options": [
             {
-                "en": "Vite uses HTTP/3 for module serving",
-                "ru": "Vite использует HTTP/3 для отдачи модулей"
+                "en": "It streams modules over HTTP/3, so the browser can request hundreds of files in parallel",
+                "ru": "Он отдаёт модули по HTTP/3, поэтому браузер запрашивает сотни файлов параллельно"
             },
             {
-                "en": "Vite uses Rust-based compilation for all files",
-                "ru": "Vite использует компиляцию на Rust для всех файлов"
+                "en": "It compiles the whole project with a Rust bundler before the first request arrives",
+                "ru": "Он собирает весь проект Rust-бандлером ещё до того, как придёт первый запрос"
             },
             {
-                "en": "Vite skips bundling in development — it serves files as native ES modules, letting the browser handle module resolution",
-                "ru": "Vite пропускает бандлинг в dev-режиме — он отдаёт файлы как нативные ES-модули, а разрешение модулей выполняет браузер"
+                "en": "It serves source files as native ES modules instead of bundling them up front",
+                "ru": "Он отдаёт исходные файлы как нативные ES-модули, вместо того чтобы сначала их собирать"
             },
             {
-                "en": "Vite pre-compiles all files to WebAssembly at startup",
-                "ru": "Vite при старте пред-компилирует все файлы в WebAssembly"
+                "en": "It pre-compiles the whole source tree to WebAssembly at startup and serves that",
+                "ru": "Он при старте пред-компилирует всё дерево исходников в WebAssembly и отдаёт результат"
             }
         ],
         "correct": 2
@@ -146,13 +146,13 @@
             "ru": "В чём ключевое поведенческое отличие ES Modules (ESM) от CommonJS?"
         },
         "explanation": {
-            "en": "ESM `import` statements are hoisted and resolved statically before code runs, enabling tree shaking and circular dependency analysis. CJS `require()` executes at runtime and can be conditional or dynamic. Interestingly, ESM exports ARE live bindings (mutations visible to importers), while CJS exports a snapshot.",
-            "ru": "Выражения `import` в ESM поднимаются и разрешаются статически ещё до запуска кода, что позволяет делать tree shaking и анализ циклических зависимостей. CJS `require()` исполняется в рантайме и может быть условным или динамическим. Интересно, что именно экспорты ESM — это live bindings (мутации видны импортёрам), тогда как CJS экспортирует снимок значений."
+            "en": "ESM `import` statements are hoisted and resolved statically before code runs, enabling tree shaking and circular dependency analysis. CJS `require()` executes at runtime and can be conditional or dynamic. Watch out for the common inversion: it is ESM whose exports are live bindings (later mutations are visible to importers), while `require()` hands the importer whatever was on `module.exports` at the moment of the call.",
+            "ru": "Выражения `import` в ESM поднимаются и разрешаются статически ещё до запуска кода, что позволяет делать tree shaking и анализ циклических зависимостей. CJS `require()` исполняется в рантайме и может быть условным или динамическим. Осторожно с распространённой путаницей: именно экспорты ESM — это live bindings (последующие мутации видны импортёрам), тогда как `require()` отдаёт импортёру то, что лежало в `module.exports` на момент вызова."
         },
         "options": [
             {
-                "en": "CommonJS exports are immutable; ESM exports are mutable references",
-                "ru": "Экспорты CommonJS неизменяемые, экспорты ESM — мутабельные ссылки"
+                "en": "CommonJS exports are live bindings; ESM exports are copied once at import time",
+                "ru": "Экспорты CommonJS — это live bindings, а экспорты ESM копируются один раз в момент импорта"
             },
             {
                 "en": "CommonJS supports top-level await; ESM does not",
@@ -282,8 +282,8 @@
             "ru": "В чём ключевое хранилищное новшество, делающее pnpm экономным к диску?"
         },
         "explanation": {
-            "en": "pnpm maintains a single global content-addressable store (~/.pnpm-store). When you install a package, it's stored once and hard-linked (or reflinked on supported filesystems) into each project's node_modules. This means 10 projects using React 18.2.0 share one copy on disk.",
-            "ru": "pnpm поддерживает единое глобальное content-addressable хранилище (~/.pnpm-store). При установке пакет сохраняется один раз и через hard link (или reflink на поддерживаемых файловых системах) подключается в node_modules каждого проекта. В итоге 10 проектов с React 18.2.0 делят одну копию на диске."
+            "en": "pnpm maintains a single global content-addressable store (`~/Library/pnpm/store` on macOS, `~/.local/share/pnpm/store` on Linux; `pnpm config get store-dir` prints the active path). When you install a package, it's stored once and hard-linked (or reflinked on supported filesystems) into each project's node_modules. This means 10 projects using React 18.2.0 share one copy on disk.",
+            "ru": "pnpm поддерживает единое глобальное content-addressable хранилище (`~/Library/pnpm/store` на macOS, `~/.local/share/pnpm/store` на Linux; текущий путь печатает `pnpm config get store-dir`). При установке пакет сохраняется один раз и через hard link (или reflink на поддерживаемых файловых системах) подключается в node_modules каждого проекта. В итоге 10 проектов с React 18.2.0 делят одну копию на диске."
         },
         "options": [
             {
@@ -316,8 +316,8 @@
             "ru": "Что поле `exports` в package.json умеет из того, чего не умеет старое поле `main`?"
         },
         "explanation": {
-            "en": "The `exports` field (package.json v9+) enables: conditional exports (different files for require vs import, browser vs Node), subpath exports (controlling which internal paths consumers can import), and encapsulation (deep imports not listed in exports are blocked). `main` only specifies a single CJS entry point.",
-            "ru": "Поле `exports` (package.json v9+) даёт: условные экспорты (разные файлы для require и import, браузер и Node), subpath exports (контроль над тем, какие внутренние пути может импортировать потребитель) и инкапсуляцию (глубокие импорты, не перечисленные в exports, блокируются). `main` задаёт только один CJS entry point."
+            "en": "The `exports` field (Node.js 12.7+, conditional exports stable from 12.16/13.7) enables: conditional exports (different files for require vs import, browser vs Node), subpath exports (controlling which internal paths consumers can import), and encapsulation — a deep import not listed in `exports` throws `ERR_PACKAGE_PATH_NOT_EXPORTED`. `main` only specifies a single CJS entry point.",
+            "ru": "Поле `exports` (Node.js 12.7+, условные экспорты стабильны с 12.16/13.7) даёт: условные экспорты (разные файлы для require и import, браузер и Node), subpath exports (контроль над тем, какие внутренние пути может импортировать потребитель) и инкапсуляцию — глубокий импорт, не перечисленный в `exports`, падает с `ERR_PACKAGE_PATH_NOT_EXPORTED`. `main` задаёт только один CJS entry point."
         },
         "options": [
             {
@@ -350,25 +350,25 @@
             "ru": "Почему для сборки JavaScript-библиотек Rollup предпочтительнее webpack?"
         },
         "explanation": {
-            "en": "Rollup generates clean ESM output without webpack's module runtime wrapper. For libraries, this means: better tree shaking for consumers, no internal module registry overhead, and smaller bundles. Webpack's runtime is more suited to complex application bundles with dynamic imports and HMR.",
-            "ru": "Rollup генерирует чистый ESM-вывод без обёртки module runtime, характерной для webpack. Для библиотек это означает: лучший tree shaking у потребителей, отсутствие оверхеда внутреннего module registry и меньшие бандлы. Рантайм webpack больше подходит сложным приложениям с динамическими импортами и HMR."
+            "en": "Rollup generates clean ESM output without webpack's module runtime wrapper. For libraries, this means: better tree shaking for consumers, no internal module registry overhead, and smaller bundles. Webpack's runtime is more suited to complex application bundles with dynamic imports and HMR. Rolldown now produces the same clean ESM behind a Rollup-compatible plugin API and is taking over new library setups.",
+            "ru": "Rollup генерирует чистый ESM-вывод без обёртки module runtime, характерной для webpack. Для библиотек это означает: лучший tree shaking у потребителей, отсутствие оверхеда внутреннего module registry и меньшие бандлы. Рантайм webpack больше подходит сложным приложениям с динамическими импортами и HMR. Rolldown сейчас даёт такой же чистый ESM при Rollup-совместимом API плагинов и постепенно забирает новые библиотечные сборки."
         },
         "options": [
             {
-                "en": "Rollup produces cleaner, smaller bundles for libraries because it outputs pure ESM with excellent tree shaking and no runtime overhead",
-                "ru": "Rollup выдаёт более чистые и компактные бандлы библиотек: чистый ESM с отличным tree shaking и без рантайм-оверхеда"
+                "en": "It emits clean ESM with no module-runtime wrapper, so consumers can tree-shake it further",
+                "ru": "Он выдаёт чистый ESM без обёртки module runtime, поэтому потребитель тришейкает его глубже"
             },
             {
-                "en": "Rollup has better HMR support for library development",
-                "ru": "У Rollup лучше поддержка HMR для разработки библиотек"
+                "en": "Its HMR support is better suited to iterating on a library while an example app consumes it",
+                "ru": "Его поддержка HMR лучше подходит для правки библиотеки, пока её потребляет демо-приложение"
             },
             {
-                "en": "Rollup is written in Rust and is therefore faster than webpack",
-                "ru": "Rollup написан на Rust и поэтому быстрее webpack"
+                "en": "It is written in Rust, so it bundles large libraries several times faster than webpack does",
+                "ru": "Он написан на Rust, поэтому собирает крупные библиотеки в несколько раз быстрее webpack"
             },
             {
-                "en": "Rollup automatically handles TypeScript without any plugins",
-                "ru": "Rollup автоматически работает с TypeScript без каких-либо плагинов"
+                "en": "It compiles TypeScript sources to declarations and JavaScript without any extra plugin",
+                "ru": "Он компилирует TypeScript в декларации и JavaScript без каких-либо дополнительных плагинов"
             }
         ],
         "correct": 0
@@ -384,8 +384,8 @@
             "ru": "Почему ESBuild значительно быстрее Babel или webpack?"
         },
         "explanation": {
-            "en": "ESBuild is written in Go (natively compiled, no JIT warmup), processes files in parallel threads, uses Go's efficient memory management without GC pauses, and uses a single-pass parsing approach. Benchmarks show it is 10-100x faster than Babel or TypeScript's tsc for transpilation.",
-            "ru": "ESBuild написан на Go (нативная компиляция, без прогрева JIT), обрабатывает файлы в параллельных потоках, опирается на эффективное управление памятью в Go без GC-пауз и использует single-pass парсинг. Бенчмарки показывают, что он в 10–100 раз быстрее Babel или tsc в задачах транспиляции."
+            "en": "ESBuild is written in Go (compiled to native code, no JIT warmup), parallelises parsing and code generation across all cores, shares a single heap between threads where JavaScript gives every worker its own, and touches the JavaScript AST only three times. Benchmarks show it is 10-100x faster than Babel or TypeScript's tsc for transpilation.",
+            "ru": "ESBuild написан на Go (нативная компиляция, без прогрева JIT), распараллеливает парсинг и генерацию кода по всем ядрам, использует одну общую кучу на все потоки — тогда как в JavaScript у каждого воркера своя — и проходит по AST всего три раза. Бенчмарки показывают, что он в 10–100 раз быстрее Babel или tsc в задачах транспиляции."
         },
         "options": [
             {
@@ -530,7 +530,7 @@
             },
             {
                 "en": "Vite HMR requires a full page reload; webpack HMR can update modules in-place",
-                "ru": "HMR в Vite требует полного перезагрузки страницы; HMR в webpack умеет обновлять модули на месте"
+                "ru": "HMR в Vite требует полной перезагрузки страницы; HMR в webpack умеет обновлять модули на месте"
             },
             {
                 "en": "Vite HMR invalidates only the changed module and its direct importers using native ESM; webpack HMR requires re-bundling affected chunks",
@@ -724,8 +724,8 @@
             "ru": "Что делает команда `nx affected` в Nx-монорепозитории?"
         },
         "explanation": {
-            "en": "Nx's `affected` command computes a project graph and determines which projects are impacted by changed files since the base commit. Running `nx affected:test` only tests projects that could be broken by the change, dramatically reducing CI time in large monorepos.",
-            "ru": "Команда `affected` в Nx строит project graph и определяет, какие проекты затронуты изменёнными файлами относительно базового коммита. `nx affected:test` прогоняет тесты только для тех проектов, которые могли сломаться от изменений, что резко сокращает время CI в больших монорепозиториях."
+            "en": "Nx's `affected` command computes a project graph and determines which projects are impacted by changed files since the base commit. Running `nx affected -t test` only tests projects that could be broken by the change, dramatically reducing CI time in large monorepos.",
+            "ru": "Команда `affected` в Nx строит project graph и определяет, какие проекты затронуты изменёнными файлами относительно базового коммита. `nx affected -t test` прогоняет тесты только для тех проектов, которые могли сломаться от изменений, что резко сокращает время CI в больших монорепозиториях."
         },
         "options": [
             {
@@ -758,25 +758,25 @@
             "ru": "Что такое Rolldown и почему он важен для экосистемы Vite?"
         },
         "explanation": {
-            "en": "Rolldown is a Rust-based bundler with Rollup-compatible plugin API. Vite currently uses ESBuild for development transforms and Rollup for production bundling — two different tools with different plugin APIs. Rolldown aims to unify this with a single Rust-based tool that's much faster than Rollup while maintaining plugin compatibility.",
-            "ru": "Rolldown — это бандлер на Rust с Rollup-совместимым API плагинов. Сейчас Vite использует ESBuild для dev-трансформов и Rollup для production-бандлинга — это два разных инструмента с разными API плагинов. Rolldown призван объединить их в один Rust-инструмент, который заметно быстрее Rollup и сохраняет совместимость плагинов."
+            "en": "Through Vite 7 the pipeline used two tools: esbuild for dev transforms and Rollup for production bundling, with separate plugin systems and glue code between them. Vite 8 ships Rolldown as its single, unified, Rust-based bundler for both, keeping the Rollup-compatible plugin API, with Oxc doing parsing, transforms and minification inside it.",
+            "ru": "До Vite 7 включительно конвейер состоял из двух инструментов: esbuild для dev-трансформов и Rollup для production-бандлинга — с разными системами плагинов и связующим кодом между ними. В Vite 8 Rolldown стал единым бандлером на Rust для обоих режимов, сохранив Rollup-совместимый API плагинов; парсинг, трансформы и минификацию внутри него делает Oxc."
         },
         "options": [
             {
-                "en": "Rolldown is a webpack-compatible plugin system for Vite",
-                "ru": "Rolldown — это webpack-совместимая система плагинов для Vite"
+                "en": "A webpack-compatible plugin layer that lets Vite projects reuse webpack loaders in the production build",
+                "ru": "webpack-совместимый слой плагинов, позволяющий Vite-проектам переиспользовать webpack-лоадеры в production-сборке"
             },
             {
-                "en": "Rolldown is a Rust-based Rollup-compatible bundler that will replace Rollup and ESBuild in Vite's production build, providing a unified fast bundler",
-                "ru": "Rolldown — это бандлер на Rust, совместимый с Rollup, который заменит Rollup и ESBuild в production-сборке Vite, предоставив единый быстрый бандлер"
+                "en": "A Rust-based bundler with a Rollup-compatible plugin API that replaced both Rollup and esbuild in Vite 8",
+                "ru": "Бандлер на Rust с Rollup-совместимым API плагинов, заменивший в Vite 8 и Rollup, и esbuild"
             },
             {
-                "en": "Rolldown is a module federation plugin for Vite applications",
-                "ru": "Rolldown — это module federation плагин для Vite-приложений"
+                "en": "A module federation runtime for Vite that lets separate builds load each other's modules at runtime",
+                "ru": "Рантайм module federation для Vite, позволяющий отдельным сборкам подгружать модули друг друга"
             },
             {
-                "en": "Rolldown is a CSS bundling tool integrated into Vite 5",
-                "ru": "Rolldown — это инструмент CSS-бандлинга, встроенный в Vite 5"
+                "en": "A CSS bundling and minification tool that Vite runs after JavaScript bundling to merge stylesheets",
+                "ru": "Инструмент бандлинга и минификации CSS, который Vite запускает после сборки JavaScript, чтобы слить стили"
             }
         ],
         "correct": 1
@@ -792,8 +792,8 @@
             "ru": "Что такое OXC и какую роль он играет в современном JavaScript-тулчейне?"
         },
         "explanation": {
-            "en": "OXC (Oxidation Compiler) is a collection of high-performance JavaScript tools written in Rust: parser, AST, resolver, linter (oxlint), transformer, minifier, and more. It powers Rolldown's internals and is increasingly used by Vite 8+ as its JavaScript transform layer, achieving 50-100x faster transforms than Babel.",
-            "ru": "OXC (Oxidation Compiler) — это набор высокопроизводительных JavaScript-инструментов на Rust: парсер, AST, resolver, линтер (oxlint), трансформер, минификатор и прочее. Он лежит в основе Rolldown и всё активнее используется в Vite 8+ как слой JavaScript-трансформов, давая в 50–100 раз более быстрые трансформы, чем Babel."
+            "en": "OXC (Oxidation Compiler) is a collection of high-performance JavaScript/TypeScript tools written in Rust: parser, AST, resolver, linter (oxlint), transformer, minifier and formatter. Its published benchmarks are per tool — the parser is about 3x faster than SWC and oxlint 50-100x faster than ESLint. In Vite 8, Oxc does the parsing, transforms and minification inside Rolldown, and `@vitejs/plugin-react` v6 dropped Babel in favour of Oxc for the React Refresh transform.",
+            "ru": "OXC (Oxidation Compiler) — набор высокопроизводительных инструментов для JavaScript/TypeScript на Rust: парсер, AST, resolver, линтер (oxlint), трансформер, минификатор, форматтер. Опубликованные бенчмарки даются по каждому инструменту отдельно: парсер примерно в 3 раза быстрее SWC, oxlint — в 50–100 раз быстрее ESLint. В Vite 8 Oxc отвечает за парсинг, трансформы и минификацию внутри Rolldown, а `@vitejs/plugin-react` v6 отказался от Babel в пользу Oxc для React Refresh."
         },
         "options": [
             {
@@ -860,8 +860,8 @@
             "ru": "Какие из перечисленного являются корректными опциями Vite-конфига в `vite.config.ts`?"
         },
         "explanation": {
-            "en": "`plugins`, `resolve.alias`, `build.rollupOptions`, and `server.port` are all valid Vite config options. `loaders` is a webpack concept — Vite uses plugins for file transforms (e.g., `@vitejs/plugin-react` for JSX). Vite's `build.rollupOptions` passes config directly to Rollup.",
-            "ru": "`plugins`, `resolve.alias`, `build.rollupOptions` и `server.port` — всё это валидные опции Vite-конфига. `loaders` — это концепт webpack; в Vite для трансформации файлов используются плагины (например, `@vitejs/plugin-react` для JSX). `build.rollupOptions` в Vite прокидывает конфиг напрямую в Rollup."
+            "en": "`plugins`, `resolve.alias`, `build.rollupOptions`, and `server.port` are all valid Vite config options. `loaders` is a webpack concept — Vite uses plugins for file transforms (e.g., `@vitejs/plugin-react` for JSX). `build.rollupOptions` passes options straight to the underlying bundler — Rolldown since Vite 8, which kept Rollup's option shape and plugin API along with the historical key name.",
+            "ru": "`plugins`, `resolve.alias`, `build.rollupOptions` и `server.port` — всё это валидные опции Vite-конфига. `loaders` — это концепт webpack; в Vite для трансформации файлов используются плагины (например, `@vitejs/plugin-react` для JSX). `build.rollupOptions` прокидывает опции прямо в используемый бандлер — начиная с Vite 8 это Rolldown, который сохранил и форму опций, и API плагинов Rollup вместе с историческим названием ключа."
         },
         "options": [
             {
@@ -932,12 +932,12 @@
         "difficulty": "medium",
         "tags": ["tree-shaking", "requirements", "esm"],
         "question": {
-            "en": "Which conditions are required for tree shaking to work effectively?",
-            "ru": "Какие условия необходимы, чтобы tree shaking работал эффективно?"
+            "en": "Which conditions are required for tree shaking to work effectively in webpack?",
+            "ru": "Какие условия необходимы, чтобы tree shaking эффективно работал в webpack?"
         },
         "explanation": {
-            "en": "Effective tree shaking requires: static ESM imports (needed for static analysis), `sideEffects` flag (so unused modules can be skipped safely), and production mode (development builds often skip tree shaking for speed). TypeScript is not required. Default exports are tree-shakeable — the issue is when you import the whole namespace.",
-            "ru": "Для эффективного tree shaking нужны: статические ESM-импорты (чтобы возможен был статический анализ), флаг `sideEffects` (чтобы можно было безопасно выкидывать неиспользуемые модули) и production-режим (dev-сборки часто пропускают tree shaking ради скорости). TypeScript не обязателен. Default exports тоже тришейкятся — проблема возникает, когда импортируют целый namespace."
+            "en": "In webpack, effective tree shaking requires: static ESM imports (needed for static analysis), the `sideEffects` flag (so unused modules can be dropped safely), and production mode (`mode: 'production'` is what turns on `usedExports` and minification). TypeScript is not required. Default exports are tree-shakeable — the issue is importing a whole namespace. Note that Rollup and Rolldown have no `mode` setting at all and tree-shake by default.",
+            "ru": "В webpack для эффективного tree shaking нужны: статические ESM-импорты (чтобы возможен был статический анализ), флаг `sideEffects` (чтобы можно было безопасно выкидывать неиспользуемые модули) и production-режим (именно `mode: 'production'` включает `usedExports` и минификацию). TypeScript не обязателен. Default exports тоже тришейкятся — проблема возникает, когда импортируют целый namespace. У Rollup и Rolldown никакого `mode` нет вовсе, и tree shaking у них работает по умолчанию."
         },
         "options": [
             {
@@ -1012,13 +1012,13 @@
             "ru": "Какие утверждения точно описывают различия между npm, yarn и pnpm?"
         },
         "explanation": {
-            "en": "All four are correct: pnpm's content store saves disk space; yarn and pnpm both have workspace support; pnpm's strict node_modules prevents phantom dependency issues; yarn Berry PnP replaces node_modules with a zip-based store. npm uses a flat node_modules (hoisting) which can expose phantom dependencies.",
-            "ru": "Все четыре верны: content-store в pnpm экономит место на диске; yarn и pnpm оба умеют workspaces; строгая node_modules в pnpm предотвращает phantom dependencies; yarn Berry PnP заменяет node_modules zip-хранилищем. npm использует плоскую node_modules (hoisting), из-за чего возникают phantom dependencies."
+            "en": "All four are correct: pnpm's content store saves disk space; yarn and pnpm both have workspace support; pnpm's strict node_modules prevents phantom dependency issues; yarn Berry PnP replaces node_modules with a zip-based store. npm hoists aggressively into a mostly flat node_modules — which is what exposes phantom dependencies — but when two dependents need incompatible versions the loser is nested under its dependent, so duplicates do land on disk.",
+            "ru": "Все четыре верны: content-store в pnpm экономит место на диске; yarn и pnpm оба умеют workspaces; строгая node_modules в pnpm предотвращает phantom dependencies; yarn Berry PnP заменяет node_modules zip-хранилищем. npm агрессивно хойстит пакеты в почти плоскую node_modules — из-за чего и возникают phantom dependencies, — но если двум зависимостям нужны несовместимые версии, проигравшая версия кладётся вложенно, так что дубликаты на диске всё-таки появляются."
         },
         "options": [
             {
-                "en": "npm install always produces a flat node_modules structure",
-                "ru": "npm install всегда создаёт плоскую структуру node_modules"
+                "en": "npm install guarantees exactly one copy of each package on disk regardless of version conflicts",
+                "ru": "npm install гарантирует ровно одну копию каждого пакета на диске независимо от конфликтов версий"
             },
             {
                 "en": "yarn Berry (v2+) supports Plug'n'Play (PnP) which eliminates node_modules entirely",
@@ -1088,8 +1088,8 @@
             "ru": "Какие возможности общие и у Turborepo, и у Nx?"
         },
         "explanation": {
-            "en": "Both Turborepo and Nx support: remote caching, affected-based task execution, and dependency graph visualization. Nx has a more extensive plugin ecosystem and built-in code generators. Turborepo is simpler and focused on task orchestration. Nx has richer framework integrations out of the box.",
-            "ru": "И Turborepo, и Nx поддерживают: удалённое кэширование, запуск задач по affected-проектам и визуализацию графа зависимостей. У Nx шире экосистема плагинов и встроенные генераторы кода. Turborepo проще и сфокусирован на оркестрации задач. У Nx богаче интеграции с фреймворками из коробки."
+            "en": "Both Turborepo and Nx support remote caching, affected-based task execution, dependency graph visualization and code generation — `turbo gen` auto-discovers generators in the repo and is built on Plop, while Nx's generators are richer and framework-aware. A plugin system for framework integrations is the Nx-only item here: Turborepo stays deliberately minimal and focuses on task orchestration.",
+            "ru": "И Turborepo, и Nx поддерживают удалённое кэширование, запуск задач только для affected-проектов, визуализацию графа зависимостей и генерацию кода — `turbo gen` сам находит генераторы в репозитории и построен поверх Plop, а генераторы Nx богаче и знают про фреймворки. Система плагинов для интеграции с фреймворками — единственный пункт из списка, которого у Turborepo нет: он намеренно минималистичен и сфокусирован на оркестрации задач."
         },
         "options": [
             {
@@ -1113,7 +1113,7 @@
                 "ru": "Удалённое кэширование результатов задач"
             }
         ],
-        "correct": [1, 2, 4]
+        "correct": [0, 1, 2, 4]
     },
     {
         "id": "build-bug-vite-001",
@@ -1169,7 +1169,7 @@
         },
         "code": "async function loadPage(pageName) {\n  const module = await import(`./pages/${pageName}/index.js`);\n  return module.default;\n}",
         "correct": "A fully dynamic template literal in import() (variable in the path) forces webpack to create chunks for ALL files matching the glob pattern `./pages/*/index.js`, bundling every possible page even if most are never loaded",
-        "referenceAnswer": "webpack cannot statically analyze a fully dynamic path. It creates a 'context module' including all matching files. If dynamic routing is needed, be more specific: `import(/* webpackChunkName: '[request]' */ `./pages/${pageName}`)` at minimum, or better, use explicit `switch`/map to enable specific chunk names and avoid over-bundling.",
+        "referenceAnswer": "webpack cannot statically analyse the variable segment, so it creates a 'context module' that includes every file matching ./pages/*/index.js. Narrow it with magic comments so only the intended files enter the context:\n\n```js\nconst module = await import(\n  /* webpackInclude: /index\\.js$/ */\n  /* webpackChunkName: \"page-[request]\" */\n  `./pages/${pageName}/index.js`\n);\n```\n\nBetter still, replace the dynamic request with an explicit map of thunks - { home: () => import('./pages/home/index.js') } - which gives webpack fully static requests and one real chunk per page.",
         "lang": "javascript"
     },
     {
@@ -1202,12 +1202,12 @@
             "ru": "Определите, какую проблему этот паттерн кода вызывает в рантайме:"
         },
         "explanation": {
-            "en": "ESM handles circular imports via live bindings — the import exists but may be uninitialized ('temporal dead zone' for `const`/`let`). This causes subtle NaN or undefined bugs at module initialization. Circular dependencies should be refactored away.",
-            "ru": "ESM обрабатывает циклические импорты через live bindings — импорт существует, но может быть не инициализирован ('temporal dead zone' для `const`/`let`). Это приводит к незаметным багам вида NaN или undefined на этапе инициализации модуля. Циклические зависимости нужно устранять рефакторингом."
+            "en": "ESM resolves circular imports through live bindings, but a binding declared with `const`/`let` sits in its temporal dead zone until its own module body runs. Depth-first evaluation makes the second module read that binding too early, so the program throws a `ReferenceError` during module evaluation rather than silently computing a wrong value. Break the cycle by extracting the shared values into a third module.",
+            "ru": "ESM разрешает циклические импорты через live bindings, но биндинг, объявленный через `const`/`let`, до выполнения тела своего модуля находится в temporal dead zone. При depth-first вычислении модуль, который выполняется вторым, читает такой биндинг слишком рано — и программа падает с `ReferenceError` прямо на этапе инициализации модулей, а не молча считает неверное значение. Цикл разрывают выносом общих значений в третий модуль."
         },
         "code": "// a.js\nimport { valueB } from './b.js';\nexport const valueA = valueB + 1;\n\n// b.js\nimport { valueA } from './a.js';\nexport const valueB = valueA + 1;",
-        "correct": "Circular dependency causes one of the values to be `undefined` at initialization time — the module that is evaluated first reads an export from the other that hasn't been assigned yet",
-        "referenceAnswer": "Circular deps in ESM: when a.js is evaluated, it imports valueB from b.js. b.js imports valueA from a.js — but a.js hasn't finished evaluating, so valueA is undefined (its binding exists but isn't initialized). Result: valueB = undefined + 1 = NaN, then valueA = NaN + 1 = NaN. Refactor to break the cycle: extract shared values to a third module (c.js).",
+        "correct": "The circular import makes the module that is evaluated second read a `const` export that is still in its temporal dead zone, so module evaluation throws `ReferenceError: Cannot access 'valueA' before initialization` instead of producing a value",
+        "referenceAnswer": "ESM evaluates a cycle depth-first. Entering from a.js, its import of b.js is evaluated first, and b.js immediately reads valueA from a.js. a.js has not run its own body yet, so the const binding for valueA exists but is uninitialized, and reading it throws ReferenceError: Cannot access 'valueA' before initialization. Evaluation stops there - no NaN is ever produced. The same cycle in CommonJS (or after Babel transpiles it with modules: \"commonjs\") is quieter and more dangerous: require returns a partially filled exports object, valueA reads as undefined and valueB becomes NaN with no error. Fix: break the cycle - move the shared values into a third module (c.js) that both a.js and b.js import.",
         "lang": "javascript"
     },
     {
@@ -1259,8 +1259,8 @@
             "ru": "Дополните Vite-конфиг path alias и плагином React:"
         },
         "explanation": {
-            "en": "defineConfig is a helper that provides TypeScript types for the config object. @vitejs/plugin-react adds Babel-based JSX transform and HMR. resolve.alias enables @/ path imports matching tsconfig paths.",
-            "ru": "defineConfig — хелпер, который даёт TypeScript-типы для конфигурационного объекта. @vitejs/plugin-react добавляет JSX-трансформ на базе Babel и HMR. resolve.alias включает path-импорты через @/, соответствующие paths из tsconfig."
+            "en": "defineConfig is a helper that provides TypeScript types for the config object. @vitejs/plugin-react adds the JSX transform and React Fast Refresh; since v6 it runs on Oxc and no longer depends on Babel (a Babel chain is opt-in, for React Compiler and custom Babel plugins). resolve.alias enables @/ path imports matching tsconfig paths.",
+            "ru": "defineConfig — хелпер, который даёт TypeScript-типы для конфигурационного объекта. @vitejs/plugin-react добавляет JSX-трансформ и React Fast Refresh; начиная с v6 он работает на Oxc и больше не тянет Babel (цепочка Babel подключается опционально — для React Compiler и собственных Babel-плагинов). resolve.alias включает path-импорты через @/, соответствующие paths из tsconfig."
         },
         "code": "import { defineConfig } from 'vite';\nimport __BLANK__ from '@vitejs/plugin-react';\nimport { resolve } from 'path';\n\nexport default __BLANK__(() => ({\n  plugins: [__BLANK__()],\n  resolve: {\n    __BLANK__: {\n      '@': resolve(__dirname, './src'),\n    },\n  },\n}));",
         "blanks": ["react", "defineConfig", "react", "alias"],
@@ -1274,8 +1274,8 @@
         "difficulty": "medium",
         "tags": ["webpack", "config", "loaders"],
         "question": {
-            "en": "Complete this webpack config to handle TypeScript and CSS files:",
-            "ru": "Дополните этот webpack-конфиг для обработки TypeScript и CSS-файлов:"
+            "en": "Complete this webpack config so TypeScript is compiled by the TypeScript compiler itself (type errors included, not just stripped) and CSS is injected into the DOM at runtime:",
+            "ru": "Дополните webpack-конфиг так, чтобы TypeScript компилировался самим компилятором TypeScript (с проверкой типов, а не просто вырезанием) и CSS вставлялся в DOM в рантайме:"
         },
         "explanation": {
             "en": "webpack loaders in the `use` array run right-to-left. css-loader resolves @import and url() in CSS, producing a JS module. style-loader takes that module and injects a <style> tag into the DOM.",
@@ -1284,7 +1284,7 @@
         "code": "module.exports = {\n  entry: './src/index.ts',\n  __BLANK__: {\n    rules: [\n      {\n        test: /\\.tsx?$/,\n        use: '__BLANK__',\n        exclude: /node_modules/,\n      },\n      {\n        test: /\\.css$/,\n        use: ['style-loader', '__BLANK__'],\n      },\n    ],\n  },\n  resolve: {\n    extensions: ['.tsx', '.ts', '.js'],\n  },\n};",
         "blanks": ["module", "ts-loader", "css-loader"],
         "lang": "javascript",
-        "referenceAnswer": "module.rules contains the array of loader configurations. ts-loader transforms TypeScript files to JavaScript. css-loader resolves CSS imports; style-loader injects them into the DOM. The order matters: loaders run right-to-left, so css-loader runs before style-loader."
+        "referenceAnswer": "module.rules contains the array of loader configurations. ts-loader runs the TypeScript compiler, so type errors fail the build; babel-loader, swc-loader and esbuild-loader only strip the types and would need a separate tsc --noEmit for checking. css-loader resolves @import and url() in CSS; style-loader injects the result into the DOM. The order matters: loaders run right-to-left, so css-loader runs before style-loader."
     },
     {
         "id": "build-cc-rollup-001",
@@ -1293,17 +1293,17 @@
         "difficulty": "medium",
         "tags": ["rollup", "library", "esm", "cjs"],
         "question": {
-            "en": "Complete this Rollup config to build a library in both ESM and CJS formats:",
-            "ru": "Дополните этот Rollup-конфиг для сборки библиотеки в форматах ESM и CJS:"
+            "en": "Complete this Rollup config to build a library in both ESM and CJS, compile the TypeScript entry, and keep React out of the bundle:",
+            "ru": "Дополните этот Rollup-конфиг: сборка библиотеки в ESM и CJS, компиляция TypeScript-энтрипоинта и исключение React из бандла:"
         },
         "explanation": {
-            "en": "Rollup's output array enables building multiple formats in one pass. Libraries should build both ESM (for bundlers/tree shaking) and CJS (for Node.js require). Always externalize peer dependencies to prevent duplicate instances.",
-            "ru": "Массив output в Rollup позволяет собирать несколько форматов за один проход. Библиотекам стоит собирать и ESM (для бандлеров и tree shaking), и CJS (для Node.js через require). Peer-зависимости всегда выносите во external, чтобы не плодить дубли инстансов."
+            "en": "Rollup's `output` array builds several formats in one pass — ESM for bundlers and tree shaking, CJS for Node's `require`. `external` keeps peer dependencies out of the bundle so consumers never end up with two copies of React. Rollup has no built-in TypeScript support: the entry is compiled by a plugin.",
+            "ru": "Массив `output` в Rollup собирает несколько форматов за один проход — ESM для бандлеров и tree shaking, CJS для `require` в Node. `external` не даёт peer-зависимостям попасть в бандл, чтобы у потребителя не оказалось двух копий React. Встроенной поддержки TypeScript у Rollup нет — entry компилирует плагин."
         },
-        "code": "export default {\n  input: 'src/index.ts',\n  __BLANK__: [\n    {\n      file: 'dist/index.esm.js',\n      format: '__BLANK__',\n    },\n    {\n      file: 'dist/index.cjs.js',\n      format: '__BLANK__',\n    },\n  ],\n  external: ['react', 'react-dom'],\n};",
-        "blanks": ["output", "esm", "cjs"],
+        "code": "import typescript from '@rollup/plugin-typescript';\n\nexport default {\n  input: 'src/index.ts',\n  __BLANK__: [\n    {\n      file: 'dist/index.esm.js',\n      format: 'esm',\n    },\n    {\n      file: 'dist/index.cjs.js',\n      format: 'cjs',\n    },\n  ],\n  __BLANK__: ['react', 'react-dom'],\n  plugins: [__BLANK__()],\n};",
+        "blanks": ["output", "external", "typescript"],
         "lang": "javascript",
-        "referenceAnswer": "output is an array for multiple output formats. format: 'esm' produces ES module output with import/export. format: 'cjs' produces CommonJS with require/module.exports. external: ['react'] prevents React from being bundled (it's a peer dependency)."
+        "referenceAnswer": "output takes an array, so a single pass emits several formats: format: 'esm' for bundlers and tree shaking (Rollup's canonical name for it is 'es', with 'esm' and 'module' as documented aliases) and format: 'cjs' for Node's require. external: ['react', 'react-dom'] keeps peer dependencies out of the bundle so a consumer never loads two React instances. plugins: [typescript()] compiles the TypeScript entry - Rollup has no built-in TypeScript support."
     },
     {
         "id": "build-cc-babel-001",
@@ -1331,17 +1331,17 @@
         "difficulty": "hard",
         "tags": ["typescript", "tsconfig", "paths", "moduleResolution"],
         "question": {
-            "en": "Complete the tsconfig.json for a Vite project with path aliases:",
-            "ru": "Дополните tsconfig.json для Vite-проекта с path aliases:"
+            "en": "Complete the tsconfig.json for a Vite project with path aliases, including the flag that makes every file safe to transpile on its own because Vite never type-checks across files during a build:",
+            "ru": "Дополните tsconfig.json для Vite-проекта с path aliases, включая флаг, который гарантирует, что каждый файл можно транспилировать по отдельности — ведь Vite при сборке не проверяет типы между файлами:"
         },
         "explanation": {
-            "en": "isolatedModules: true catches patterns that break single-file transpilers (like esbuild used by Vite): type-only imports not marked with `import type`, const enums, and namespace re-exports. moduleResolution: bundler enables modern package.json exports field resolution.",
-            "ru": "isolatedModules: true отлавливает паттерны, ломающие пофайловые транспайлеры (вроде esbuild, который использует Vite): type-only импорты без `import type`, const enums и namespace re-exports. moduleResolution: bundler включает современное разрешение поля exports из package.json."
+            "en": "`isolatedModules: true` catches patterns that break single-file transpilers — type-only imports not marked with `import type`, const enums, namespace re-exports. Vite transpiles file by file (Oxc inside Rolldown since Vite 8, esbuild before that) and never type-checks during the build, so these patterns fail silently without the flag. `moduleResolution: bundler` enables modern package.json `exports` field resolution.",
+            "ru": "`isolatedModules: true` отлавливает паттерны, ломающие пофайловые транспайлеры: type-only импорты без `import type`, const enums и namespace re-exports. Vite транспилирует файл за файлом (Oxc внутри Rolldown начиная с Vite 8, до этого esbuild) и типы при сборке не проверяет, так что без этого флага такие паттерны ломаются молча. `moduleResolution: bundler` включает современное разрешение поля `exports` из package.json."
         },
         "code": "{\n  \"compilerOptions\": {\n    \"target\": \"ES2020\",\n    \"__BLANK__\": \"ESNext\",\n    \"moduleResolution\": \"__BLANK__\",\n    \"strict\": true,\n    \"__BLANK__\": true,\n    \"baseUrl\": \".\",\n    \"paths\": {\n      \"@/*\": [\"src/*\"]\n    }\n  }\n}",
         "blanks": ["module", "bundler", "isolatedModules"],
         "lang": "javascript",
-        "referenceAnswer": "`module: ESNext` preserves ESM syntax for Vite. `moduleResolution: bundler` (TS 5.0+) correctly resolves package.json exports fields. `isolatedModules: true` ensures each file can be transpiled independently (required for Babel/esbuild transforms that don't have full type context)."
+        "referenceAnswer": "`module: ESNext` preserves ESM syntax for Vite. `moduleResolution: bundler` (TS 5.0+) correctly resolves package.json exports fields. `isolatedModules: true` ensures each file can be transpiled independently, which is what Vite's file-at-a-time transforms require - they have no cross-file type context."
     },
     {
         "id": "build-cc-modfed-001",
@@ -1350,15 +1350,15 @@
         "difficulty": "hard",
         "tags": ["module-federation", "webpack", "microfrontends"],
         "question": {
-            "en": "Complete the webpack Module Federation config to expose a Button component:",
-            "ru": "Дополните конфиг webpack Module Federation, чтобы экспонировать компонент Button:"
+            "en": "Complete the webpack Module Federation config to expose a Button component and guarantee that exactly one React instance is ever loaded:",
+            "ru": "Дополните конфиг webpack Module Federation, чтобы экспонировать компонент Button и гарантировать, что в рантайме загружается ровно один инстанс React:"
         },
         "explanation": {
             "en": "Module Federation's `shared: { react: { singleton: true } }` is essential for React apps — it ensures all federated modules use the same React instance, preventing 'invalid hook call' errors that occur with duplicate React.",
             "ru": "`shared: { react: { singleton: true } }` в Module Federation обязателен для React-приложений — он гарантирует, что все федерированные модули используют один инстанс React, и защищает от ошибок 'invalid hook call', возникающих при дублировании React."
         },
-        "code": "const { ModuleFederationPlugin } = require('webpack').container;\n\nmodule.exports = {\n  plugins: [\n    new __BLANK__({ \n      name: 'componentLib',\n      filename: '__BLANK__',\n      exposes: {\n        './Button': './src/components/Button',\n      },\n      shared: {\n        react: { __BLANK__, requiredVersion: '^18.0.0' },\n      },\n    }),\n  ],\n};",
-        "blanks": ["ModuleFederationPlugin", "remoteEntry.js", "singleton: true"],
+        "code": "const { ModuleFederationPlugin } = require('webpack').container;\n\nmodule.exports = {\n  plugins: [\n    new __BLANK__({ \n      name: 'componentLib',\n      filename: '__BLANK__',\n      exposes: {\n        './Button': './src/components/Button',\n      },\n      shared: {\n        react: { __BLANK__: true, requiredVersion: '^18.0.0' },\n      },\n    }),\n  ],\n};",
+        "blanks": ["ModuleFederationPlugin", "remoteEntry.js", "singleton"],
         "lang": "javascript",
         "referenceAnswer": "ModuleFederationPlugin enables sharing. `filename: 'remoteEntry.js'` is the manifest consumers will import. `exposes` maps public paths to source files. `singleton: true` in shared ensures only one React instance runs — critical for hooks compatibility."
     },

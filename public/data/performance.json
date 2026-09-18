@@ -560,7 +560,7 @@
         "options": [
             {
                 "en": "To preload multiple images simultaneously",
-                "ru": "Преддагружать несколько картинок одновременно"
+                "ru": "Предзагружать несколько картинок одновременно"
             },
             {
                 "en": "To specify fallback images if the primary image fails to load",
@@ -695,20 +695,20 @@
         },
         "options": [
             {
-                "en": "LocalStorage reads and writes",
-                "ru": "Чтение и запись в LocalStorage"
+                "en": "Reading and writing localStorage so the main thread is not blocked",
+                "ru": "Чтение и запись localStorage, чтобы не блокировать main thread"
             },
             {
-                "en": "CPU-intensive computations like image processing, cryptography, or data transformation",
-                "ru": "CPU-интенсивные вычисления: обработку изображений, криптографию, трансформации данных"
+                "en": "CPU-bound work such as image processing, cryptography or hashing",
+                "ru": "CPU-bound задачи: обработка изображений, криптография, хеширование"
             },
             {
-                "en": "Network requests via fetch",
-                "ru": "Сетевые запросы через fetch"
+                "en": "Parallelising `fetch()` calls so the responses arrive sooner",
+                "ru": "Параллельные `fetch()`-запросы, чтобы ответы приходили быстрее"
             },
             {
-                "en": "DOM manipulation and event handling",
-                "ru": "Работа с DOM и обработку событий"
+                "en": "DOM updates, so layout and paint happen off the main thread",
+                "ru": "Обновления DOM, чтобы layout и paint шли вне main thread"
             }
         ],
         "correct": 1
@@ -788,29 +788,29 @@
         "difficulty": "medium",
         "tags": ["lcp", "web-vitals", "optimization"],
         "question": {
-            "en": "Which of the following has the highest impact on improving LCP for a page with a large hero image?",
-            "ru": "Что даёт наибольший эффект для улучшения LCP на странице с крупным hero-изображением?"
+            "en": "A page's LCP element is a hero `<img>` in the initial HTML, served from a fast CDN and already well compressed, but the LCP breakdown shows a large resource load delay. Which change helps most?",
+            "ru": "LCP-элемент страницы — hero `<img>` в исходном HTML, отдаётся с быстрого CDN и уже хорошо сжат, но в разбивке LCP видна большая resource load delay. Какое изменение поможет больше всего?"
         },
         "explanation": {
-            "en": "For the LCP image specifically, `loading=\"lazy\"` should NOT be used (it delays the LCP element). `<link rel=\"preload\">` tells the browser to start fetching the image immediately, before it's discovered in the HTML. Combined with serving from CDN and proper compression, preloading the LCP image is the single highest-impact optimization.",
-            "ru": "Для LCP-изображения `loading=\"lazy\"` использовать НЕ нужно (он замедляет LCP-элемент). `<link rel=\"preload\">` заставляет браузер начать загрузку картинки сразу, ещё до того, как он найдёт её в HTML. В связке с отдачей через CDN и правильным сжатием preload LCP-изображения — это оптимизация с самым высоким эффектом."
+            "en": "The image is already in the markup, so the preload scanner finds it in the first round trip and a `<link rel=\"preload\">` buys little — preload is for resources referenced only from CSS or JS. A large load delay means the fetch was discovered but started late or ran at low priority: browsers give images Low priority until layout proves they are in the viewport, and `fetchpriority=\"high\"` overrides that. Compressing further attacks load duration, not delay; `loading=\"lazy\"` makes it worse by deferring the fetch; a second CDN origin adds a connection the fast CDN already gives you. web.dev's subpart budget: TTFB ~40%, load delay <10%, load duration ~40%, render delay <10%.",
+            "ru": "Картинка уже есть в разметке, поэтому preload scanner находит её в первом же round trip и `<link rel=\"preload\">` даёт мало — preload нужен для ресурсов, на которые ссылаются только из CSS или JS. Большая load delay означает, что запрос обнаружили, но он стартовал поздно или с низким приоритетом: браузер держит картинки на Low priority, пока layout не докажет, что они во вьюпорте, а `fetchpriority=\"high\"` это переопределяет. Более сильное сжатие бьёт по load duration, а не по delay; `loading=\"lazy\"` только ухудшит, отложив загрузку; второй CDN-origin добавляет соединение, которое быстрый CDN и так даёт. Ориентир web.dev по подчастям: TTFB ~40%, load delay <10%, load duration ~40%, render delay <10%."
         },
         "options": [
             {
-                "en": "Using `<link rel=\"preload\" as=\"image\">` for the hero image in the `<head>`",
-                "ru": "Использование `<link rel=\"preload\" as=\"image\">` для hero-изображения в `<head>`"
+                "en": "Setting `fetchpriority=\"high\"` on the hero `<img>` element",
+                "ru": "Проставить `fetchpriority=\"high\"` на hero-`<img>`"
             },
             {
-                "en": "Compressing the hero image from 1MB to 500KB",
-                "ru": "Сжатие hero-изображения с 1 МБ до 500 КБ"
+                "en": "Compressing the hero image further, from 500KB down to 250KB",
+                "ru": "Сжать hero-изображение ещё сильнее, с 500 КБ до 250 КБ"
             },
             {
-                "en": "Adding `loading=\"lazy\"` to the hero image",
-                "ru": "Добавление `loading=\"lazy\"` к hero-изображению"
+                "en": "Adding `loading=\"lazy\"` to the hero `<img>` element",
+                "ru": "Добавить `loading=\"lazy\"` к hero-`<img>`"
             },
             {
-                "en": "Serving the hero image from a CDN",
-                "ru": "Отдача hero-изображения с CDN"
+                "en": "Adding a `preconnect` hint for a second image CDN origin",
+                "ru": "Добавить `preconnect` для второго CDN-origin с картинками"
             }
         ],
         "correct": 0
@@ -899,20 +899,20 @@
         },
         "options": [
             {
-                "en": "It only uses the custom font if it loads within a very short block period; otherwise uses the fallback permanently, preventing any layout shift from a late font swap",
-                "ru": "Использует кастомный шрифт, только если он успевает загрузиться за очень короткий block-период; иначе навсегда остаётся fallback, что предотвращает layout shift от поздней подмены шрифта"
+                "en": "The custom font is used only if it arrives within a very short block period; otherwise the fallback stays",
+                "ru": "Кастомный шрифт применяется, только если успел прийти за очень короткий block-период, иначе остаётся fallback"
             },
             {
-                "en": "It loads fonts faster by using HTTP/2 server push",
-                "ru": "Ускоряет загрузку шрифтов за счёт HTTP/2 server push"
+                "en": "It preloads the font file so the font always wins the race against first paint",
+                "ru": "Делает preload файла шрифта, поэтому шрифт всегда успевает к первой отрисовке"
             },
             {
-                "en": "It prevents FOUT by keeping text invisible until the custom font loads",
+                "en": "It prevents FOUT by keeping the text invisible until the custom font has loaded",
                 "ru": "Предотвращает FOUT, оставляя текст невидимым до загрузки кастомного шрифта"
             },
             {
-                "en": "It enables variable font interpolation to avoid metric mismatches",
-                "ru": "Включает интерполяцию переменных шрифтов, чтобы избежать несовпадения метрик"
+                "en": "It interpolates a variable font towards the fallback metrics, so the swap shifts nothing",
+                "ru": "Интерполирует переменный шрифт под метрики fallback, поэтому подмена ничего не сдвигает"
             }
         ],
         "correct": 0
@@ -928,21 +928,21 @@
             "ru": "Какой приём помогает улучшить INP за счёт разбиения длинных обработчиков событий?"
         },
         "explanation": {
-            "en": "Long synchronous event handlers block the main thread, delaying the next paint. The solution is to yield to the browser mid-work using `scheduler.postTask()`, `setTimeout(fn, 0)`, or `await Promise.resolve()`. This allows the browser to paint and handle other input between chunks, improving INP responsiveness.",
-            "ru": "Длинные синхронные обработчики блокируют main thread и задерживают следующий paint. Решение — отдавать управление браузеру посреди работы через `scheduler.postTask()`, `setTimeout(fn, 0)` или `await Promise.resolve()`. Это даёт браузеру отрисовать кадр и обработать другой ввод между порциями, улучшая отзывчивость по INP."
+            "en": "A long synchronous handler holds the main thread and delays the next paint — exactly what INP measures. Yielding means handing control back so the browser can run a task and render: `await scheduler.yield()` (its continuation keeps priority over other queued tasks), `scheduler.postTask()`, or `setTimeout(fn, 0)`. Awaiting an already-resolved promise only queues a microtask, and the microtask queue is drained before the browser may render, so the long task is never broken up.",
+            "ru": "Длинный синхронный обработчик держит main thread и задерживает следующий paint — именно это и меряет INP. Отдать управление значит вернуть его браузеру, чтобы он успел выполнить задачу и отрисовать кадр: `await scheduler.yield()` (его продолжение сохраняет приоритет над другими задачами в очереди), `scheduler.postTask()` или `setTimeout(fn, 0)`. Await уже зарезолвленного промиса ставит всего лишь микрозадачу, а очередь микрозадач разгребается до того, как браузер сможет отрисовать кадр, — длинная задача при этом не разбивается."
         },
         "options": [
             {
-                "en": "Using CSS `pointer-events: none` during expensive operations",
-                "ru": "Использование CSS `pointer-events: none` на время тяжёлых операций"
+                "en": "Awaiting an already-resolved promise (`await Promise.resolve()`) between chunks of work",
+                "ru": "Await уже зарезолвленного промиса (`await Promise.resolve()`) между порциями работы"
             },
             {
                 "en": "Replacing addEventListener with passive event listeners",
                 "ru": "Замена addEventListener на passive event listeners"
             },
             {
-                "en": "Using `scheduler.postTask()` or `setTimeout(fn, 0)` to yield to the browser between chunks of work",
-                "ru": "Использование `scheduler.postTask()` или `setTimeout(fn, 0)`, чтобы отдавать управление браузеру между порциями работы"
+                "en": "Yielding to the browser between chunks with `await scheduler.yield()` or `setTimeout(fn, 0)`",
+                "ru": "Отдавать управление браузеру между порциями через `await scheduler.yield()` или `setTimeout(fn, 0)`"
             },
             {
                 "en": "Using Web Workers to move all event handling off the main thread",
@@ -962,8 +962,8 @@
             "ru": "Что из перечисленного может негативно влиять на LCP?"
         },
         "explanation": {
-            "en": "LCP is negatively impacted by: missing preload for the LCP resource, render-blocking CSS delaying rendering, slow TTFB (the browser can't start rendering until HTML arrives), and lazy-loading the LCP element (delays its fetch). CLS is a separate metric and doesn't affect LCP timing.",
-            "ru": "На LCP негативно влияют: отсутствие preload для LCP-ресурса, render-blocking CSS, задерживающий отрисовку, медленный TTFB (браузер не может начать рендер, пока не получит HTML) и lazy-loading LCP-элемента (откладывает его загрузку). CLS — отдельная метрика и на тайминг LCP не влияет."
+            "en": "LCP suffers when the LCP resource is discovered late or fetched late: an image the preload scanner cannot see (a CSS background on a JS-rendered element), render-blocking CSS in the head, a slow TTFB (nothing can render before the HTML arrives), and `loading=\"lazy\"` on the LCP element itself. CLS is a separate metric and does not affect LCP timing.",
+            "ru": "LCP страдает, когда LCP-ресурс поздно обнаруживают или поздно грузят: картинка, которую не видит preload scanner (CSS background на элементе, отрисованном через JS), render-blocking CSS в head, медленный TTFB (до прихода HTML рендерить нечего) и `loading=\"lazy\"` на самом LCP-элементе. CLS — отдельная метрика, на тайминг LCP она не влияет."
         },
         "options": [
             {
@@ -971,8 +971,8 @@
                 "ru": "LCP-элемент, загружаемый лениво (lazy-loading)"
             },
             {
-                "en": "A hero image without a preload hint",
-                "ru": "Hero-изображение без preload-хинта"
+                "en": "The LCP image is a CSS background on a JS-rendered element",
+                "ru": "LCP-изображение — CSS background на элементе, который рендерится через JS"
             },
             {
                 "en": "Render-blocking stylesheets in the head",
@@ -1038,8 +1038,8 @@
             "ru": "Какие из сценариев оправдывают использование `useMemo`?"
         },
         "explanation": {
-            "en": "useMemo is justified for: expensive computations on large datasets, values used as stable references in dependency arrays (to prevent cascading re-memos/effects), and derived values that change infrequently. Simple string ops and values in never-re-rendering components don't benefit from memoization.",
-            "ru": "useMemo оправдан для: тяжёлых вычислений над большими наборами данных, значений, используемых как стабильные ссылки в массивах зависимостей (чтобы избежать каскадных пересчётов мемоизаций/эффектов), и производных значений, меняющихся редко. Простые операции со строками и значения в компонентах, которые не ререндерятся, от мемоизации ничего не выигрывают."
+            "en": "useMemo pays off for expensive computations over large datasets, for values used as stable references in a dependency array (so dependent memos and effects do not cascade), and for objects passed to a `React.memo` child, where a fresh identity on every render would defeat the memo. A single cheap operation — a string concatenation, one date format — costs more in hook bookkeeping than it saves, and a component that never re-renders has nothing to gain.",
+            "ru": "useMemo оправдан для тяжёлых вычислений над большими наборами данных, для значений, которые используются как стабильные ссылки в массиве зависимостей (чтобы не каскадились зависимые мемоизации и эффекты), и для объектов, передаваемых в `React.memo`-потомок, где новая ссылка на каждом рендере сводит мемоизацию на нет. Одна дешёвая операция — конкатенация строк или одно форматирование даты — стоит дороже в накладных расходах хука, чем экономит, а компоненту, который никогда не ререндерится, выигрывать нечего."
         },
         "options": [
             {
@@ -1051,8 +1051,8 @@
                 "ru": "Создание производного значения, которое используется как зависимость в другом useMemo"
             },
             {
-                "en": "Formatting a date that only changes when a `date` prop changes",
-                "ru": "Форматирование даты, которая меняется только при изменении prop `date`"
+                "en": "Building a formatted-date object that is passed to a `React.memo` child",
+                "ru": "Создание объекта с отформатированной датой, который передаётся в `React.memo`-потомок"
             },
             {
                 "en": "Filtering and sorting a list of 10,000 items based on user input",
@@ -1114,8 +1114,8 @@
             "ru": "Какие техники устраняют или уменьшают render-blocking ресурсы?"
         },
         "explanation": {
-            "en": "`async`/`defer` prevent scripts from blocking parsing. Inlining critical CSS and async-loading the rest eliminates CSS render-blocking. `font-display: block` actually causes FOIT (more blocking). HTTP/2 push helps with latency but the stylesheet still blocks. Moving stylesheets to `<body>` causes FOUC and is bad practice.",
-            "ru": "`async`/`defer` не дают скриптам блокировать парсинг. Инлайн critical CSS и асинхронная подгрузка остального убирают CSS render-blocking. `font-display: block` как раз вызывает FOIT (ещё сильнее блокирует). HTTP/2 push помогает с задержкой, но таблица стилей всё равно блокирует рендер. Перенос таблиц стилей в `<body>` вызывает FOUC и считается плохой практикой."
+            "en": "`async`/`defer` stop scripts from blocking parsing. Inlining critical CSS and loading the full stylesheet asynchronously removes the CSS render-blocking. `font-display: block` does the opposite — it causes FOIT. A 103 Early Hints response starts the stylesheet download sooner, but the stylesheet still blocks rendering (its predecessor, HTTP/2 push, was disabled in Chrome 106 and never shipped in Firefox or Safari). Moving stylesheets into `<body>` causes FOUC and is bad practice.",
+            "ru": "`async`/`defer` не дают скриптам блокировать парсинг. Инлайн critical CSS и асинхронная загрузка остальной таблицы стилей убирают CSS render-blocking. `font-display: block` делает ровно обратное — вызывает FOIT. Ответ 103 Early Hints начинает загрузку таблицы стилей раньше, но рендер она всё равно блокирует (её предшественник, HTTP/2 push, отключён в Chrome 106 и так и не появился в Firefox и Safari). Перенос таблиц стилей в `<body>` вызывает FOUC и считается плохой практикой."
         },
         "options": [
             {
@@ -1127,8 +1127,8 @@
                 "ru": "Инлайн critical CSS и асинхронная загрузка полной таблицы стилей"
             },
             {
-                "en": "Serving stylesheets via HTTP/2 push",
-                "ru": "Отдача таблиц стилей через HTTP/2 push"
+                "en": "Sending the stylesheet in a 103 Early Hints response",
+                "ru": "Отдача таблицы стилей через 103 Early Hints"
             },
             {
                 "en": "Using `font-display: block` for web fonts",
@@ -1152,8 +1152,8 @@
             "ru": "Какие из перечисленных HTTP-директив кэширования запрещают сохранение ответа в любом кэше?"
         },
         "explanation": {
-            "en": "`no-store` explicitly prevents any caching. `Pragma: no-cache` is the HTTP/1.0 equivalent. `no-cache` allows storing but requires revalidation. `private` means only the browser can cache (not CDN). `must-revalidate` requires revalidation when stale but still allows caching.",
-            "ru": "`no-store` явно запрещает любое кэширование. `Pragma: no-cache` — эквивалент из HTTP/1.0. `no-cache` сохранять разрешает, но требует ревалидации. `private` означает, что кэшировать может только браузер (но не CDN). `must-revalidate` требует ревалидации при устаревании, но кэширование при этом разрешено."
+            "en": "Only `no-store` forbids writing the response to a cache at all. `no-cache` allows storing but requires revalidation with the origin before each reuse, and `Pragma: no-cache` is its HTTP/1.0 request-header counterpart — kept only for legacy clients, it never prevents storage. `private` allows the browser cache but not shared caches such as a CDN. `must-revalidate` also allows caching and only forbids serving a stale copy without revalidating it.",
+            "ru": "Запретить сохранение ответа в кэш может только `no-store`. `no-cache` сохранять разрешает, но требует ревалидации на origin перед каждым использованием, а `Pragma: no-cache` — его аналог из HTTP/1.0 в заголовке запроса: он оставлен ради старых клиентов и хранение никогда не запрещает. `private` разрешает кэш браузера, но не общие кэши вроде CDN. `must-revalidate` тоже разрешает кэширование и лишь запрещает отдавать устаревшую копию без ревалидации."
         },
         "options": [
             {
@@ -1177,7 +1177,7 @@
                 "ru": "Pragma: no-cache"
             }
         ],
-        "correct": [0, 4]
+        "correct": [0]
     },
     {
         "id": "perf-multiworker-001",
@@ -1211,7 +1211,7 @@
                 "ru": "ArrayBuffer можно передавать без копирования (zero-copy) через механизм transferable objects"
             },
             {
-                "en": "postMessage always creates a deep copy of the data (structured clone)",
+                "en": "postMessage uses structured clone (deep copy) by default",
                 "ru": "postMessage по умолчанию делает глубокую копию данных (structured clone)"
             }
         ],
@@ -1229,7 +1229,7 @@
         },
         "explanation": {
             "en": "Correct: `prefetch` is low-priority and browsers may skip it under data-saver mode. `modulepreload` preloads a module AND its static imports (unlike `preload as='script'`). `preload` without `as` misses browser prioritization. Incorrect: `preload as='script'` fetches but doesn't execute until the `<script>` tag is parsed. `preconnect` to every domain wastes connections — use only for 2-3 critical origins.",
-            "ru": "Верно: `prefetch` идёт с низким приоритетом, и браузеры могут его пропустить в режиме data-saver. `modulepreload` преддагружает модуль И его статические импорты (в отличие от `preload as='script'`). Без `as` `preload` теряет приоритизацию браузера. Неверно: `preload as='script'` скачивает, но не выполняет скрипт до парсинга тега `<script>`. `preconnect` ко всем доменам расходует соединения — используйте его только для 2–3 критичных origin'ов."
+            "ru": "Верно: `prefetch` идёт с низким приоритетом, и браузеры могут его пропустить в режиме data-saver. `modulepreload` предзагружает модуль И его статические импорты (в отличие от `preload as='script'`). Без `as` `preload` теряет приоритизацию браузера. Неверно: `preload as='script'` скачивает, но не выполняет скрипт до парсинга тега `<script>`. `preconnect` ко всем доменам расходует соединения — используйте его только для 2–3 критичных origin'ов."
         },
         "options": [
             {
@@ -1250,7 +1250,7 @@
             },
             {
                 "en": "`modulepreload` preloads an ES module and its dependency tree",
-                "ru": "`modulepreload` преддагружает ES-модуль вместе с деревом его зависимостей"
+                "ru": "`modulepreload` предзагружает ES-модуль вместе с деревом его зависимостей"
             }
         ],
         "correct": [2, 3, 4]
@@ -1259,19 +1259,19 @@
         "id": "perf-bug-memoryleak-001",
         "type": "bug-finding",
         "category": "performance",
-        "difficulty": "easy",
-        "tags": ["memory-leaks", "react", "useEffect"],
+        "difficulty": "medium",
+        "tags": ["race-condition", "react", "useEffect"],
         "question": {
-            "en": "Find the memory leak in this React component:",
-            "ru": "Найдите утечку памяти в этом React-компоненте:"
+            "en": "Find the bug in this React component:",
+            "ru": "Найдите баг в этом React-компоненте:"
         },
         "explanation": {
-            "en": "React useEffect cleanup prevents stale closures from updating unmounted components. AbortController is the preferred approach as it actually cancels the network request, freeing browser resources.",
-            "ru": "Cleanup в useEffect не даёт устаревшим замыканиям обновлять размонтированные компоненты. Предпочтительный подход — AbortController: он реально отменяет сетевой запрос и освобождает ресурсы браузера."
+            "en": "Whenever `userId` changes quickly, two fetches are in flight and the responses can arrive in any order — without cleanup the last one to resolve wins, and that may be the stale one. The effect's cleanup function is the cancellation point: flip a `cancelled` flag before calling setData, or pass an AbortController signal so the obsolete request is actually torn down.",
+            "ru": "Когда `userId` меняется быстро, в полёте оказываются два запроса, а ответы могут прийти в любом порядке — без cleanup выигрывает тот, кто зарезолвился последним, и это вполне может быть устаревший. Точка отмены — cleanup-функция эффекта: либо флаг `cancelled` перед вызовом setData, либо signal от AbortController, чтобы ненужный запрос действительно оборвался."
         },
         "code": "function UserProfile({ userId }) {\n  const [data, setData] = useState(null);\n\n  useEffect(() => {\n    fetch(`/api/users/${userId}`)\n      .then(res => res.json())\n      .then(user => setData(user));\n  }, [userId]);\n\n  return <div>{data?.name}</div>;\n}",
-        "correct": "If the component unmounts before the fetch completes, setData is called on an unmounted component, causing a state update on unmounted component warning and potential memory leak",
-        "referenceAnswer": "Add a cleanup flag: in useEffect, set `let cancelled = false` and only call `setData(user)` if `!cancelled`. Return a cleanup function that sets `cancelled = true`. Alternatively, use AbortController to cancel the fetch itself: `const controller = new AbortController(); fetch(url, { signal: controller.signal })` and return `() => controller.abort()`.",
+        "correct": "The effect has no cleanup: when `userId` changes, a slow response for the previous id can resolve last and overwrite the newer user's data, and the abandoned request is never aborted",
+        "referenceAnswer": "Cancel the previous run in the effect's cleanup. Minimal fix: `let cancelled = false;` inside the effect, `if (!cancelled) setData(user);` in the .then, and `return () => { cancelled = true; };`. Better: abort the request itself — `const controller = new AbortController(); fetch(url, { signal: controller.signal })` and `return () => controller.abort();` — which also frees the connection and stops the JSON parse. Calling setData after unmount is not itself a leak: React 18 removed that warning because the promise is simply garbage-collected. The real defect is the out-of-order response winning the race.",
         "lang": "jsx"
     },
     {
@@ -1304,12 +1304,12 @@
             "ru": "Найдите баг производительности в этом рендере списка:"
         },
         "explanation": {
-            "en": "React uses keys to identify which items have changed. Index keys mean React doesn't know an item moved — it sees the key '0' pointing to a different item and re-renders/remounts. Stable keys from item identity enable efficient DOM reuse.",
-            "ru": "React использует keys, чтобы понимать, какие элементы изменились. При key по индексу React не знает, что элемент передвинулся: он видит, что под ключом '0' теперь другой элемент, и ререндерит/перемонтирует его. Стабильные ключи, привязанные к идентичности элемента, позволяют эффективно переиспользовать DOM."
+            "en": "Keys tell React which data item each element corresponds to. An index key is stable by position, not by identity: after a prepend, key '0' still exists, so React keeps the same component instance and only hands it new props — ExpensiveItemComponent re-renders for every row, and any internal state stays with the position instead of the item. A stable `item.id` key lets React move the existing instance instead of re-feeding it.",
+            "ru": "Ключи говорят React'у, какому элементу данных соответствует каждый узел. Индексный key стабилен по позиции, а не по идентичности: после вставки в начало ключ '0' по-прежнему существует, поэтому React оставляет тот же инстанс компонента и просто передаёт ему новые props — ExpensiveItemComponent ререндерится для каждой строки, а внутреннее состояние остаётся привязанным к позиции, а не к элементу. Стабильный `item.id` позволяет React'у переместить существующий инстанс вместо этого."
         },
         "code": "function ItemList({ items }) {\n  return (\n    <ul>\n      {items.map((item, index) => (\n        <li key={index}>\n          <ExpensiveItemComponent item={item} />\n        </li>\n      ))}\n    </ul>\n  );\n}",
-        "correct": "Using array index as key causes unnecessary re-renders when the list is reordered, filtered, or items are prepended",
-        "referenceAnswer": "Use a stable, unique identifier from the data as the key (e.g., `key={item.id}`). Index-based keys confuse React's reconciliation when items are reordered — it remounts components unnecessarily instead of reusing them. For large lists, also consider react-window or TanStack Virtual.",
+        "correct": "Using the array index as `key`: on a reorder or a prepend React reuses each instance for a different item, so component state stays bound to the wrong row and every row below the change re-renders",
+        "referenceAnswer": "Use a stable identifier from the data as the key (`key={item.id}`). With index keys the keys do not change when the list is reordered or an item is prepended, so React reuses the existing instances and feeds them different props — internal state, uncontrolled input values and effects stay attached to the wrong row, and every row from the insertion point down re-renders. A key that changes is what forces a remount; the index-key bug is the opposite, unwanted reuse. For large lists, also consider react-window or TanStack Virtual.",
         "lang": "jsx"
     },
     {
@@ -1326,7 +1326,7 @@
             "en": "Tree shaking requires static ESM imports. Lodash's default package is CJS, so bundlers must include the entire library. Either use lodash-es (ESM build) with named imports, or import individual methods directly.",
             "ru": "Tree shaking требует статических ESM-импортов. Дефолтный пакет lodash — CJS, поэтому бандлеры вынуждены включать всю библиотеку целиком. Решение: использовать lodash-es (ESM-сборка) с именованными импортами или импортировать конкретные методы напрямую."
         },
-        "code": "import _ from 'lodash';\n\nfunction formatDate(date) {\n  return _.format(date, 'YYYY-MM-DD');\n}\n\nfunction isEqual(a, b) {\n  return _.isEqual(a, b);\n}",
+        "code": "import _ from 'lodash';\n\nfunction padId(id) {\n  return _.padStart(String(id), 8, '0');\n}\n\nfunction isEqual(a, b) {\n  return _.isEqual(a, b);\n}",
         "correct": "Importing the entire lodash default export (CJS build) includes the entire library in the bundle — lodash's CommonJS format cannot be tree-shaken",
         "referenceAnswer": "Use named imports from lodash-es: `import { isEqual } from 'lodash-es'` or per-method imports: `import isEqual from 'lodash/isEqual'`. The standard `lodash` package uses CommonJS which bundlers cannot tree-shake. `lodash-es` provides ES module builds.",
         "lang": "javascript"
@@ -1354,7 +1354,7 @@
         "id": "perf-bug-css-001",
         "type": "bug-finding",
         "category": "performance",
-        "difficulty": "hard",
+        "difficulty": "medium",
         "tags": ["css-performance", "will-change", "memory"],
         "question": {
             "en": "Find the performance anti-pattern in this CSS:",
@@ -1367,7 +1367,7 @@
         "code": "/* Base styles */\n* {\n  will-change: transform, opacity;\n}\n\n.card {\n  will-change: contents;\n}\n\n.static-header {\n  will-change: transform;\n}",
         "correct": "Applying will-change to every element (*) and static elements wastes GPU memory by promoting all elements to compositor layers unnecessarily",
         "referenceAnswer": "Remove `will-change` from the universal selector and static elements entirely. Only add it via JavaScript just before an animation begins, then remove it: `el.style.willChange = 'transform'` before animating, `el.style.willChange = 'auto'` after. `will-change: contents` is particularly problematic as it invalidates all descendants.",
-        "lang": "javascript"
+        "lang": "css"
     },
     {
         "id": "perf-cc-codesplit-001",
@@ -1395,17 +1395,17 @@
         "difficulty": "easy",
         "tags": ["code-splitting", "react", "lazy"],
         "question": {
-            "en": "Complete the route-based code-split component using React.lazy:",
-            "ru": "Дополните компонент с code splitting по роуту через React.lazy:"
+            "en": "Complete the route-level code split so the chunk can also be prefetched on hover:",
+            "ru": "Дополните code splitting на уровне роута так, чтобы чанк можно было префетчить по наведению:"
         },
         "explanation": {
-            "en": "lazy() and import() together enable route-level code splitting. Each lazy() call typically maps to one bundle chunk. Wrap with Suspense to handle the loading state.",
-            "ru": "lazy() и import() в связке дают code splitting на уровне роутов. Обычно каждый вызов lazy() соответствует одному чанку бандла. Оберните в Suspense, чтобы показать загрузочное состояние."
+            "en": "lazy() plus a dynamic import() gives route-level code splitting: the chunk is fetched the first time the component renders. Hoisting the import into a named factory adds prefetch-on-hover — the same module promise is reused, so hovering only moves the download earlier, it does not duplicate it.",
+            "ru": "lazy() вместе с динамическим import() даёт code splitting на уровне роутов: чанк скачивается при первом рендере компонента. Если вынести импорт в именованную фабрику, появляется prefetch по наведению — промис модуля переиспользуется, поэтому hover лишь сдвигает загрузку раньше, а не дублирует её."
         },
-        "code": "import { lazy, Suspense } from 'react';\n\nconst SettingsPage = __BLANK__(__BLANK__(() => __BLANK__('./pages/Settings')));\n\nfunction Router() {\n  return (\n    <Suspense fallback={<Spinner />}>\n      <SettingsPage />\n    </Suspense>\n  );\n}",
-        "blanks": ["lazy", "lazy", "import"],
-        "lang": "javascript",
-        "referenceAnswer": "React.lazy() wraps the dynamic import() call. The import() function is a native browser/bundler feature that creates a separate chunk. When SettingsPage is first rendered, the chunk is downloaded, parsed, and executed."
+        "code": "import { lazy, Suspense } from 'react';\n\nconst loadSettings = () => __BLANK__('./pages/Settings');\nconst SettingsPage = __BLANK__(loadSettings);\n\nfunction SettingsLink() {\n  return <a href=\"/settings\" onMouseEnter={loadSettings}>Settings</a>;\n}\n\nfunction Router() {\n  return (\n    <Suspense fallback={<Spinner />}>\n      <SettingsLink />\n      <SettingsPage />\n    </Suspense>\n  );\n}",
+        "blanks": ["import", "lazy"],
+        "lang": "jsx",
+        "referenceAnswer": "lazy() takes a factory that returns a promise of a module. Hoisting that factory into a named `loadSettings` lets the same dynamic import be triggered early: calling it on hover starts the chunk download before the route is visited, and the module registry caches the request, so rendering SettingsPage later reuses the in-flight or finished download instead of starting a second one."
     },
     {
         "id": "perf-cc-debounce-001",
@@ -1456,13 +1456,13 @@
             "ru": "Дополните обмен сообщениями с Web Worker для CPU-интенсивной работы:"
         },
         "explanation": {
-            "en": "Web Worker communication is message-based. Both directions use postMessage() and onmessage. Data is structured-cloned (deep copied) unless you pass Transferable objects. This keeps heavy computation off the main thread.",
-            "ru": "Общение с Web Worker построено на сообщениях. В обе стороны используются postMessage() и onmessage. Данные проходят через structured clone (глубокое копирование), если не передавать Transferable-объекты. Такой подход держит тяжёлые вычисления вне main thread."
+            "en": "Web Worker communication is message-based and symmetric: both sides send with postMessage() and receive through the onmessage handler. Note that onmessage is a property you assign a function to, not a method you call. Data is structured-cloned (deep copied) unless you pass Transferable objects. This keeps heavy computation off the main thread.",
+            "ru": "Общение с Web Worker построено на сообщениях и симметрично: обе стороны отправляют через postMessage() и принимают через обработчик onmessage. Важно: onmessage — это свойство, которому присваивают функцию, а не метод, который вызывают. Данные проходят через structured clone (глубокое копирование), если не передавать Transferable-объекты. Такой подход держит тяжёлые вычисления вне main thread."
         },
-        "code": "// main.js\nconst worker = new __BLANK__('./heavy-worker.js');\nworker.__BLANK__(({ data }) => {\n  console.log('Result:', data.result);\n});\nworker.__BLANK__(({ inputData: largeArray }));\n\n// heavy-worker.js\nself.__BLANK__(({ data }) => {\n  const result = processHeavyData(data.inputData);\n  self.postMessage({ result });\n});",
+        "code": "// main.js\nconst rows = new Float64Array(1_000_000);\nconst worker = new __BLANK__('./heavy-worker.js');\n\nworker.__BLANK__ = ({ data }) => {\n  console.log('Result:', data.result);\n};\n\nworker.__BLANK__({ inputData: rows });\n\n// heavy-worker.js\nself.__BLANK__ = ({ data }) => {\n  const result = processHeavyData(data.inputData);\n  self.postMessage({ result });\n};",
         "blanks": ["Worker", "onmessage", "postMessage", "onmessage"],
         "lang": "javascript",
-        "referenceAnswer": "new Worker() creates the worker thread. worker.onmessage receives messages from the worker. worker.postMessage() sends data to the worker. Inside the worker, self.onmessage receives messages from the main thread."
+        "referenceAnswer": "new Worker() starts the worker thread. `onmessage` is an event-handler property, so it is assigned (`worker.onmessage = fn`), never called — `worker.addEventListener('message', fn)` is the equivalent longer form. worker.postMessage() sends data into the worker; inside the worker, self.onmessage receives it and self.postMessage() sends the result back."
     },
     {
         "id": "perf-cc-perfobserver-001",
@@ -1475,10 +1475,10 @@
             "ru": "Дополните наблюдение за LCP через PerformanceObserver:"
         },
         "explanation": {
-            "en": "PerformanceObserver is the standard API for observing LCP, FID/INP, CLS, and other performance metrics. `buffered: true` is essential for LCP since it may have already occurred before your JS runs.",
-            "ru": "PerformanceObserver — стандартный API для наблюдения за LCP, FID/INP, CLS и другими метриками. `buffered: true` для LCP особенно важен, так как LCP мог уже произойти до того, как выполнился ваш JS."
+            "en": "PerformanceObserver is the standard API for observing LCP, INP, CLS and other performance entries (INP replaced FID in 2024). The callback receives a PerformanceObserverEntryList, so the entries come from `getEntries()`. `buffered: true` is essential for LCP, since the entry may already have been recorded before your JS ran.",
+            "ru": "PerformanceObserver — стандартный API для наблюдения за LCP, INP, CLS и другими performance-записями (INP заменил FID в 2024). В колбэк приходит PerformanceObserverEntryList, поэтому записи достаются через `getEntries()`. `buffered: true` для LCP особенно важен: запись могла появиться ещё до того, как выполнился ваш JS."
         },
-        "code": "const observer = new __BLANK__(entries => {\n  const last = entries.__BLANK__.at(-1);\n  console.log('LCP:', last.startTime);\n});\n\nobserver.observe({\n  type: '__BLANK__',\n  buffered: true\n});",
+        "code": "const observer = new __BLANK__(entries => {\n  const last = entries.__BLANK__().at(-1);\n  console.log('LCP:', last.startTime);\n});\n\nobserver.observe({\n  type: '__BLANK__',\n  buffered: true\n});",
         "blanks": ["PerformanceObserver", "getEntries", "largest-contentful-paint"],
         "lang": "javascript",
         "referenceAnswer": "PerformanceObserver watches for specific performance entry types. `entries.getEntries()` returns the array of new entries. `type: 'largest-contentful-paint'` enables LCP observation. `buffered: true` captures entries that occurred before the observer was registered."
@@ -1487,19 +1487,19 @@
         "id": "perf-cc-imagepicture-001",
         "type": "code-completion",
         "category": "performance",
-        "difficulty": "hard",
+        "difficulty": "medium",
         "tags": ["images", "picture", "avif", "webp", "srcset"],
         "question": {
-            "en": "Complete the responsive image with format negotiation and responsive sizes:",
-            "ru": "Дополните адаптивное изображение с согласованием формата и адаптивными размерами:"
+            "en": "Complete the responsive image with format negotiation and 1x/2x density variants:",
+            "ru": "Дополните адаптивное изображение с согласованием формата и вариантами плотности 1x/2x:"
         },
         "explanation": {
             "en": "This pattern serves AVIF to supporting browsers (best compression), WebP as fallback, and JPEG for legacy browsers. The browser picks the first source it supports. Always include explicit width/height to prevent CLS.",
             "ru": "Этот паттерн отдаёт AVIF поддерживающим браузерам (лучшее сжатие), WebP — как fallback и JPEG — для старых браузеров. Браузер выбирает первый поддерживаемый source. Всегда указывайте явные width/height, чтобы избежать CLS."
         },
-        "code": "<__BLANK__>\n  <source\n    __BLANK__=\"/hero.avif 1x, /hero@2x.avif 2x\"\n    __BLANK__=\"image/avif\"\n  />\n  <source\n    srcset=\"/hero.webp 1x, /hero@2x.webp 2x\"\n    type=\"image/webp\"\n  />\n  <img\n    src=\"/hero.jpg\"\n    alt=\"Hero image\"\n    width=\"1200\"\n    height=\"600\"\n    fetchpriority=\"high\"\n  />\n</__BLANK__ >",
+        "code": "<__BLANK__>\n  <source\n    __BLANK__=\"/hero.avif 1x, /hero@2x.avif 2x\"\n    __BLANK__=\"image/avif\"\n  />\n  <source\n    srcset=\"/hero.webp 1x, /hero@2x.webp 2x\"\n    type=\"image/webp\"\n  />\n  <img\n    src=\"/hero.jpg\"\n    alt=\"Hero image\"\n    width=\"1200\"\n    height=\"600\"\n    fetchpriority=\"high\"\n  />\n</__BLANK__>",
         "blanks": ["picture", "srcset", "type", "picture"],
-        "lang": "javascript",
+        "lang": "html",
         "referenceAnswer": "The <picture> element enables format negotiation. Browsers pick the first <source> whose type they support. srcset provides resolution variants (1x/2x). The fallback <img> ensures compatibility. fetchpriority='high' on the LCP image speeds up discovery."
     }
 ]
