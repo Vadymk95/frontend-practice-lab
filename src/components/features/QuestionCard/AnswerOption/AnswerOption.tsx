@@ -3,7 +3,11 @@ import type { FC } from 'react';
 import { InlineMarkdown } from '@/components/common/InlineMarkdown';
 import { cn } from '@/lib/utils';
 
-const OPTION_KEYS = ['A', 'B', 'C', 'D', 'E'] as const;
+// Seven options is the widest question in the bank; the numeric fallback keeps the badge
+// labelled if a wider one is ever authored, because an empty badge has no accessible name.
+const OPTION_KEYS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'] as const;
+
+const optionKey = (index: number): string => OPTION_KEYS[index] ?? String(index + 1);
 
 interface AnswerOptionProps {
     index: number;
@@ -68,7 +72,7 @@ export const AnswerOption: FC<AnswerOptionProps> = ({
                     variant === 'checkbox' ? 'rounded-sm' : 'rounded-full'
                 )}
             >
-                {OPTION_KEYS[index]}
+                {optionKey(index)}
             </span>
             <InlineMarkdown text={text} className="flex-1 text-sm" />
             {showCorrectIcon && (

@@ -215,3 +215,17 @@ describe('AnswerOption — select-one vs select-many affordance', () => {
         expect(badgeOf(container).className).toContain('rounded-sm');
     });
 });
+
+describe('AnswerOption — badge label beyond the fifth option', () => {
+    it('labels a sixth and a seventh option instead of leaving the badge blank', () => {
+        const { rerender, container } = render(<AnswerOption {...defaultProps} index={5} />);
+        expect(container.querySelector('button > span')?.textContent).toBe('F');
+        rerender(<AnswerOption {...defaultProps} index={6} />);
+        expect(container.querySelector('button > span')?.textContent).toBe('G');
+    });
+
+    it('falls back to a number past the letter range', () => {
+        const { container } = render(<AnswerOption {...defaultProps} index={8} />);
+        expect(container.querySelector('button > span')?.textContent).toBe('9');
+    });
+});
