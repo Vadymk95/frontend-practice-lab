@@ -2007,40 +2007,6 @@
         "lang": "gherkin"
     },
     {
-        "id": "test-flake-triage-001",
-        "type": "single-choice",
-        "category": "testing",
-        "difficulty": "medium",
-        "tags": ["flake", "quarantine", "ci", "test-strategy"],
-        "question": {
-            "en": "A Playwright spec has failed on roughly 1 in 5 CI runs for two weeks and the team just re-runs the job. What is the correct lead-level first move?",
-            "ru": "Playwright-спека уже две недели падает примерно в 1 из 5 прогонов CI, и команда просто перезапускает джобу. Какой первый шаг здесь правильный для лида?"
-        },
-        "options": [
-            {
-                "en": "Raise `retries` to 3 for the whole suite so the pipeline reports green again",
-                "ru": "Поднять `retries` до 3 на весь сьют, чтобы пайплайн снова был зелёным"
-            },
-            {
-                "en": "Quarantine it in a non-blocking lane with a named owner and a fix deadline",
-                "ru": "Увести её в карантин — неблокирующую линию, с назначенным владельцем и дедлайном на фикс"
-            },
-            {
-                "en": "Delete the spec — an intermittently failing test gives no signal at all",
-                "ru": "Удалить спеку — тест, который падает через раз, не даёт никакого сигнала"
-            },
-            {
-                "en": "Pin the whole suite to `--workers=1` so parallelism can no longer cause the failure",
-                "ru": "Зафиксировать весь сьют на `--workers=1`, чтобы параллелизм больше не вызывал падение"
-            }
-        ],
-        "correct": 1,
-        "explanation": {
-            "en": "Retries and manual re-runs hide flake without lowering its rate, and they cost more than the minutes: once red is routine the team stops reading it, so real regressions in other specs get re-run too. Quarantine is the policy answer — the spec stops blocking merges but stays visible with an owner and a deadline, so it ends in a fix or a deletion instead of rotting. Serialising to one worker often makes the symptom vanish, which is exactly the trap: it taxes every future run and leaves the race in the product code undiagnosed.",
-            "ru": "Retries и ручные перезапуски прячут flake, но не снижают его частоту, и цена тут не только в минутах: когда красный становится нормой, команда перестаёт его читать и перезапускает уже настоящие регрессии в других спеках. Карантин — это политическое решение: спека перестаёт блокировать мержи, но остаётся видимой, с владельцем и дедлайном, и заканчивается фиксом или удалением, а не гниением. Перевод на одного воркера часто убирает симптом — и в этом ловушка: он облагает налогом каждый будущий прогон, а гонка в продакшен-коде остаётся недиагностированной."
-        }
-    },
-    {
         "id": "test-ci-split-001",
         "type": "single-choice",
         "category": "testing",
@@ -2072,74 +2038,6 @@
         "explanation": {
             "en": "Oversubscribing workers past the runner's cores makes specs contend for CPU and turns every timing-sensitive step flaky, so that option buys speed by manufacturing failures. A blanket retry budget and a nightly-only suite both remove the red without removing the risk — a broken checkout journey reaches main and is found hours later, when the revert is expensive. The split that survives is a small tagged subset covering the journeys you would actually roll back for, sharded with `--shard=i/n` to fit the feedback budget, with the full suite on merge and nightly where a longer run is affordable.",
             "ru": "Если выставить workers заметно больше, чем ядер у раннера, спеки начнут драться за CPU, и любой чувствительный к таймингам шаг станет flaky — то есть скорость куплена ценой искусственных падений. Глобальный retry-бюджет и «только ночной сьют» одинаково убирают красный, но не убирают риск: сломанный checkout доезжает до main и находится через несколько часов, когда откат уже дорогой. Рабочее разделение — небольшой tagged-сабсет из сценариев, ради которых вы реально сделали бы rollback, шардированный через `--shard=i/n` под бюджет фидбека, плюс полный сьют на мерже и ночью, где длинный прогон не жалко."
-        }
-    },
-    {
-        "id": "test-contract-001",
-        "type": "single-choice",
-        "category": "testing",
-        "difficulty": "hard",
-        "tags": ["contract-testing", "pact", "bff", "integration"],
-        "question": {
-            "en": "Your React app talks to a BFF owned by another team. Component tests mock the BFF with MSW and stayed green, yet production broke when the BFF renamed a response field. What does consumer-driven contract testing add that the MSW handler does not?",
-            "ru": "React-приложение ходит в BFF, которым владеет другая команда. Тесты компонентов мокают BFF через MSW и остались зелёными, но прод сломался, когда BFF переименовал поле в ответе. Что даёт consumer-driven contract testing такого, чего не даёт MSW-хендлер?"
-        },
-        "options": [
-            {
-                "en": "The consumer generates a contract the provider replays in its own pipeline, so a rename fails its build",
-                "ru": "Консьюмер генерирует контракт, который провайдер проигрывает у себя в пайплайне, — переименование валит его сборку"
-            },
-            {
-                "en": "It checks that the BFF's OpenAPI document stays syntactically valid before every provider deploy",
-                "ru": "Он проверяет, что OpenAPI-документ BFF остаётся синтаксически валидным перед каждым деплоем провайдера"
-            },
-            {
-                "en": "It boots the real BFF in a container during the consumer's test run, so no mock service is needed at all",
-                "ru": "Он поднимает настоящий BFF в контейнере во время прогона тестов консьюмера, так что мок-сервис вообще не нужен"
-            },
-            {
-                "en": "It measures the response-time budget of every BFF endpoint the consumer calls under load",
-                "ru": "Он измеряет бюджет времени ответа каждого эндпоинта BFF, который вызывает консьюмер, под нагрузкой"
-            }
-        ],
-        "correct": 0,
-        "explanation": {
-            "en": "An MSW handler is the consumer's guess about the provider, written once and never checked against it again — it goes green precisely when it has drifted, which is why the rename slipped through. In Pact-style contract testing the pact file is produced by the consumer's own tests and then verified by the provider replaying each recorded interaction, so the breaking change fails on the provider's build rather than in production. It only covers the paths this consumer actually uses, so it is cheaper than end-to-end but does not replace e2e for whole journeys.",
-            "ru": "MSW-хендлер — это догадка консьюмера о провайдере: написали один раз и больше ни с чем не сверяли, поэтому он остаётся зелёным именно тогда, когда разъехался с реальностью. В контрактном тестировании в стиле Pact pact-файл генерируется тестами самого консьюмера, а потом провайдер проигрывает каждую записанную интеракцию у себя — и ломающее изменение валит сборку провайдера, а не прод. Покрываются только те пути, которые консьюмер реально использует: дешевле e2e, но e2e для целых сценариев не заменяет."
-        }
-    },
-    {
-        "id": "test-playwright-assert-001",
-        "type": "single-choice",
-        "category": "testing",
-        "difficulty": "easy",
-        "tags": ["playwright", "web-first-assertions", "flake"],
-        "question": {
-            "en": "In Playwright, why is `await expect(page.getByRole('status')).toHaveText('Saved')` more reliable than `expect(await page.getByRole('status').textContent()).toBe('Saved')`?",
-            "ru": "Почему в Playwright `await expect(page.getByRole('status')).toHaveText('Saved')` надёжнее, чем `expect(await page.getByRole('status').textContent()).toBe('Saved')`?"
-        },
-        "options": [
-            {
-                "en": "The first form runs inside the browser process, the second serialises the whole DOM over the wire",
-                "ru": "Первая форма выполняется внутри процесса браузера, вторая гоняет весь DOM по проводу"
-            },
-            {
-                "en": "The first form compares text case-insensitively, so trailing whitespace can never fail it",
-                "ru": "Первая форма сравнивает текст без учёта регистра, поэтому хвостовые пробелы её не уронят"
-            },
-            {
-                "en": "The first form re-queries and re-checks until the timeout; the second reads the text once",
-                "ru": "Первая форма перезапрашивает элемент и перепроверяет условие до таймаута, вторая читает текст один раз"
-            },
-            {
-                "en": "The first form waits for the network to go idle before asserting, the second does not",
-                "ru": "Первая форма перед проверкой ждёт, пока сеть станет idle, вторая — нет"
-            }
-        ],
-        "correct": 2,
-        "explanation": {
-            "en": "`expect(locator)` matchers are auto-retrying web-first assertions: Playwright re-resolves the locator and re-evaluates the condition until it passes or the expect timeout expires. Awaiting `textContent()` first collapses the element to a plain string, so what follows is an ordinary non-retrying comparison against whatever the DOM said at that instant. On an async UI that is the classic source of flake, and job-level retries do not fix it — they just re-roll the same race.",
-            "ru": "Матчеры `expect(locator)` — это auto-retrying web-first assertions: Playwright заново резолвит локатор и перепроверяет условие, пока оно не выполнится или не истечёт expect-таймаут. Если сначала сделать `await textContent()`, элемент схлопывается в обычную строку, и дальше идёт обычное сравнение без ретраев — с тем, что DOM показал в конкретный момент. На асинхронном UI это классический источник flake, и retries на уровне джобы его не лечат: они просто перебрасывают ту же гонку."
         }
     },
     {
@@ -2188,8 +2086,8 @@
         },
         "options": [
             {
-                "en": "Set `retries: 2` in the config permanently so the job reports green",
-                "ru": "Навсегда прописать в конфиге `retries: 2`, чтобы джоба показывала зелёный"
+                "en": "Set `retries: 2` in the config permanently so the job reports green on merges",
+                "ru": "Навсегда прописать в конфиге `retries: 2`, чтобы джоба всегда показывала зелёный"
             },
             {
                 "en": "Set `trace: 'on-first-retry'` so the retried run produces a trace to debug from",
@@ -2204,8 +2102,8 @@
                 "ru": "Увести спеку в карантин — неблокирующую линию, с назначенным владельцем и дедлайном"
             },
             {
-                "en": "Delete the spec — an unreliable test is worse than no test at all",
-                "ru": "Удалить спеку — ненадёжный тест хуже, чем полное отсутствие теста"
+                "en": "Delete the spec — an unreliable test is worse than having no test for that flow",
+                "ru": "Удалить спеку — ненадёжный тест хуже, чем полное отсутствие теста на этот сценарий"
             }
         ],
         "correct": [1, 2, 3],
@@ -2231,7 +2129,7 @@
             },
             {
                 "en": "Every spec logs into one shared seeded account and mutates that account's data",
-                "ru": "Все спеки логинятся в один общий засиженный аккаунт и меняют данные именно в нём"
+                "ru": "Все спеки логинятся в один общий предзаполненный аккаунт и меняют данные именно в нём"
             },
             {
                 "en": "Namespace generated data with a per-run unique prefix so parallel shards cannot collide",
@@ -2249,7 +2147,7 @@
         "correct": [0, 2],
         "explanation": {
             "en": "Under sharding there is no global ordering and no exclusive access to the environment, so any strategy that quietly assumes one is a race. A per-spec fixture that creates and cleans its own records, plus a unique prefix per run, makes two shards touching the same table harmless. A shared seeded account and a database reset both need exclusivity — the reset would wipe data seven other shards are mid-way through using — and Playwright makes no ordering guarantee across shards, so file names decide nothing.",
-            "ru": "При шардировании нет ни глобального порядка, ни эксклюзивного доступа к окружению, поэтому любая стратегия, которая молча их предполагает, — это гонка. Фикстура на спеку, которая создаёт и убирает свои записи, плюс уникальный префикс на прогон делают безвредной ситуацию, когда два шарда лезут в одну таблицу. Общий засиженный аккаунт и ресет базы требуют эксклюзивности — ресет снесёт данные, которые прямо сейчас используют семь других шардов, — а порядок между шардами Playwright не гарантирует, так что имена файлов ничего не решают."
+            "ru": "При шардировании нет ни глобального порядка, ни эксклюзивного доступа к окружению, поэтому любая стратегия, которая молча их предполагает, — это гонка. Фикстура на спеку, которая создаёт и убирает свои записи, плюс уникальный префикс на прогон делают безвредной ситуацию, когда два шарда лезут в одну таблицу. Общий предзаполненный аккаунт и ресет базы требуют эксклюзивности — ресет снесёт данные, которые прямо сейчас используют семь других шардов, — а порядок между шардами Playwright не гарантирует, так что имена файлов ничего не решают."
         }
     },
     {
@@ -2278,16 +2176,16 @@
         "difficulty": "hard",
         "tags": ["test-strength", "mocking", "mutation-check", "vitest"],
         "question": {
-            "en": "This test is green and has 100% coverage on `calculateTotal`. Apply the mutation check and find the bug:",
-            "ru": "Тест зелёный и даёт 100% покрытия на `calculateTotal`. Примените mutation check и найдите ошибку:"
+            "en": "This test is green and was approved in review. Apply the mutation check and find the bug:",
+            "ru": "Тест зелёный и прошёл ревью. Примените mutation check и найдите ошибку:"
         },
         "code": "import { vi, it, expect } from 'vitest';\n\nvi.mock('@/features/cart/calculateTotal', () => ({\n  calculateTotal: vi.fn(() => 42)\n}));\n\nimport { calculateTotal } from '@/features/cart/calculateTotal';\n\nit('sums the cart line items', () => {\n  const total = calculateTotal([{ price: 20 }, { price: 22 }]);\n  expect(total).toBe(42);\n});",
         "lang": "typescript",
         "correct": "The test mocks the very module it is testing, so it asserts the stub's hard-coded 42 — breaking or deleting the real calculateTotal leaves the suite green",
-        "referenceAnswer": "Mock a unit's dependencies, never the unit itself. Remove the vi.mock and let the real implementation run:\n\n```ts\nimport { it, expect } from 'vitest';\nimport { calculateTotal } from '@/features/cart/calculateTotal';\n\nit('sums the cart line items', () => {\n  expect(calculateTotal([{ price: 20 }, { price: 22 }])).toBe(42);\n});\n```\n\nThe general rule is the mutation check: mentally revert or corrupt the implementation under test and ask whether anything goes red. If the suite still passes, the test is worthless regardless of what the coverage report says. Stryker automates exactly this check by injecting the mutations for you.",
+        "referenceAnswer": "Mock a unit's dependencies, never the unit itself. Remove the vi.mock and let the real implementation run:\n\n```ts\nimport { it, expect } from 'vitest';\nimport { calculateTotal } from '@/features/cart/calculateTotal';\n\nit('sums the cart line items', () => {\n  expect(calculateTotal([{ price: 20 }, { price: 22 }])).toBe(42);\n});\n```\n\nThe general rule is the mutation check: mentally revert or corrupt the implementation under test and ask whether anything goes red. If the suite still passes, the test is worthless no matter what the tooling reports. Stryker automates exactly this check by injecting the mutations for you.",
         "explanation": {
-            "en": "Vitest hoists `vi.mock` above the imports, so `calculateTotal` inside the test body is the factory's `vi.fn(() => 42)`, not the real function. The assertion therefore proves only that 42 equals 42, while the coverage report happily attributes a covered module. This is the canonical worthless test, and the cheap way to catch it in review is the mutation check — revert the implementation in your head and see whether the suite notices.",
-            "ru": "Vitest поднимает `vi.mock` выше импортов, поэтому `calculateTotal` внутри теста — это `vi.fn(() => 42)` из фабрики, а не настоящая функция. Ассершен доказывает только то, что 42 равно 42, а отчёт о покрытии при этом честно засчитывает модуль как покрытый. Это канонический бесполезный тест, и дешёвый способ поймать его на ревью — mutation check: мысленно откатите реализацию и посмотрите, заметит ли это сьют."
+            "en": "Vitest hoists `vi.mock` above the imports, so `calculateTotal` inside the test body is the factory's `vi.fn(() => 42)`, not the real function. When a factory is supplied the original module is never loaded or executed at all, so the assertion proves only that 42 equals 42 and not one line of the implementation is under test. This is the canonical worthless test, and the cheap way to catch it in review is the mutation check — revert the implementation in your head and see whether the suite notices.",
+            "ru": "Vitest поднимает `vi.mock` выше импортов, поэтому `calculateTotal` внутри теста — это `vi.fn(() => 42)` из фабрики, а не настоящая функция. Когда фабрика задана, исходный модуль вообще не загружается и не выполняется, так что ассершен доказывает только то, что 42 равно 42, и ни одна строка реализации не проверяется. Это канонический бесполезный тест, и дешёвый способ поймать его на ревью — mutation check: мысленно откатите реализацию и посмотрите, заметит ли это сьют."
         }
     },
     {
@@ -2297,8 +2195,8 @@
         "difficulty": "medium",
         "tags": ["playwright", "ci", "sharding", "trace"],
         "question": {
-            "en": "Complete the CI setup: record a trace **only** for runs Playwright had to retry (zero overhead when a test passes first try), and combine the four shards' blob reports into one HTML report.",
-            "ru": "Допишите настройку CI: записывать trace **только** для прогонов, которые Playwright перезапустил (без накладных расходов, когда тест прошёл с первой попытки), и склеить blob-отчёты четырёх шардов в один HTML-отчёт."
+            "en": "Complete the CI setup: record a trace on the **first** retry only — the value the Playwright docs recommend for CI — and combine the four shards' blob reports into one HTML report.",
+            "ru": "Допишите настройку CI: записывать trace только на первом ретрае — значение, которое документация Playwright рекомендует для CI, — и склеить blob-отчёты четырёх шардов в один HTML-отчёт."
         },
         "code": "// playwright.config.ts\nexport default defineConfig({\n  fullyParallel: true,\n  retries: process.env.CI ? 2 : 0,\n  reporter: process.env.CI ? 'blob' : 'html',\n  use: {\n    trace: '__BLANK__'\n  }\n});\n\n// CI, four machines in parallel:\n//   npx playwright test --shard=$SHARD_INDEX/4\n// once every shard has finished:\n//   npx playwright __BLANK__ --reporter html ./all-blob-reports",
         "blanks": ["on-first-retry", "merge-reports"],

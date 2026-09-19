@@ -758,8 +758,8 @@
             "ru": "Что такое Rolldown и почему он важен для экосистемы Vite?"
         },
         "explanation": {
-            "en": "Through Vite 7 the pipeline used two tools: esbuild for dev transforms and Rollup for production bundling, with separate plugin systems and glue code between them. Vite 8 ships Rolldown as its single, unified, Rust-based bundler for both, keeping the Rollup-compatible plugin API, with Oxc doing parsing, transforms and minification inside it.",
-            "ru": "До Vite 7 включительно конвейер состоял из двух инструментов: esbuild для dev-трансформов и Rollup для production-бандлинга — с разными системами плагинов и связующим кодом между ними. В Vite 8 Rolldown стал единым бандлером на Rust для обоих режимов, сохранив Rollup-совместимый API плагинов; парсинг, трансформы и минификацию внутри него делает Oxc."
+            "en": "Through Vite 7 the pipeline used two tools: esbuild for dev transforms and Rollup for production bundling, with separate plugin systems and glue code between them. Vite 8 ships Rolldown as its single, unified, Rust-based bundler for both, keeping the Rollup-compatible plugin API, with Oxc doing parsing, transforms and minification inside it. Migration is incremental rather than breaking: `build.rollupOptions` is deprecated in favour of `build.rolldownOptions` instead of being removed, and `minify: 'esbuild'` is deprecated too.",
+            "ru": "До Vite 7 включительно конвейер состоял из двух инструментов: esbuild для dev-трансформов и Rollup для production-бандлинга — с разными системами плагинов и связующим кодом между ними. В Vite 8 Rolldown стал единым бандлером на Rust для обоих режимов, сохранив Rollup-совместимый API плагинов; парсинг, трансформы и минификацию внутри него делает Oxc. Миграция идёт по частям, а не ломающим релизом: `build.rollupOptions` не удалён, а объявлен deprecated в пользу `build.rolldownOptions`; `minify: 'esbuild'` тоже помечен deprecated."
         },
         "options": [
             {
@@ -1439,8 +1439,8 @@
                 "ru": "Значения, зависящие от среды, приходят в рантайме — из небольшого конфига, который приложение запрашивает на старте, или от сервера, отдающего оболочку."
             },
             {
-                "en": "Deploying is a pointer flip onto an already-built artifact, so rolling back is flipping that pointer to the previous one.",
-                "ru": "Деплой — это переключение указателя на уже собранный артефакт, поэтому откат — переключение того же указателя на предыдущий."
+                "en": "The pipeline stores every build under a version id, and a deploy names which stored id an environment should serve.",
+                "ru": "Пайплайн складывает каждую сборку под своим id версии, а деплой лишь указывает, какой сохранённый id должна отдавать среда."
             },
             {
                 "en": "Per-environment secrets are baked into the artifact at build time so the running container needs no configuration at all.",
@@ -1507,8 +1507,8 @@
                 "ru": "Он позволяет передать в `build.rolldownOptions.input` несколько точек входа — а больше для сборки под несколько целей ничего и не нужно."
             },
             {
-                "en": "Each named environment gets its own config, plugin pipeline and module graph, and plugins branch on `this.environment`.",
-                "ru": "У каждой именованной среды свои конфиг, конвейер плагинов и граф модулей, а плагины ветвятся по `this.environment`."
+                "en": "Each named environment has its own resolve conditions, dev runtime and module graph, so Node SSR and edge stay separate.",
+                "ru": "У каждой именованной среды свои resolve-условия, dev-рантайм и граф модулей, поэтому Node SSR и edge остаются раздельными."
             },
             {
                 "en": "It compiles every target into one universal bundle that detects its runtime at startup, which removes the need for separate builds.",
@@ -1517,49 +1517,15 @@
         ],
         "correct": 2,
         "explanation": {
-            "en": "The `environments` config option lets you declare as many environments as your production topology actually has (`client` and `ssr` always exist in dev), each with its own resolve conditions, dev runtime and module graph. A boolean simply cannot express 'Node server' versus 'edge worker' — they resolve different export conditions and expose different APIs — which is why plugin hooks now read `this.environment` instead of the `ssr` argument, and why a plugin declares where it applies with `applyToEnvironment` (or the `perEnvironmentPlugin` helper). Vite 8 still lists the Environment API as work in progress toward stabilisation, so treat the surface as movable.",
-            "ru": "Опция `environments` позволяет объявить столько сред, сколько их реально в проде (`client` и `ssr` в dev есть всегда), и у каждой свои resolve-условия, dev-рантайм и граф модулей. Булевый флаг просто не выражает разницу между «Node-сервером» и «edge-воркером» — у них разные export conditions и разные доступные API, — поэтому хуки плагинов теперь читают `this.environment` вместо аргумента `ssr`, а плагин объявляет область применения через `applyToEnvironment` (или хелпер `perEnvironmentPlugin`). В Vite 8 Environment API всё ещё стабилизируется, так что API стоит считать подвижным."
-        }
-    },
-    {
-        "id": "build-rolldown-002",
-        "type": "single-choice",
-        "category": "build-tools",
-        "difficulty": "medium",
-        "tags": ["vite", "rolldown", "oxc", "bundler", "migration"],
-        "question": {
-            "en": "Vite 8 ships Rolldown as its default bundler. What does that change about the previous 'esbuild in dev, Rollup in production' architecture?",
-            "ru": "В Vite 8 Rolldown стал бандлером по умолчанию. Что это меняет в прежней архитектуре «esbuild в dev, Rollup в проде»?"
-        },
-        "options": [
-            {
-                "en": "One Rust pipeline — Rolldown, built on Oxc — now covers both dev transforms and the production bundle in one pass.",
-                "ru": "Единый Rust-конвейер — Rolldown поверх Oxc — теперь закрывает и dev-трансформы, и продакшен-бандл за один проход."
-            },
-            {
-                "en": "Rolldown replaced Rollup for production output only, while esbuild keeps doing dev-time transforms and dependency pre-bundling as before.",
-                "ru": "Rolldown заменил Rollup только на продакшен-сборке, а esbuild по-прежнему делает dev-трансформы и пребандлинг зависимостей."
-            },
-            {
-                "en": "Oxc became the bundler and Rolldown is only its minifier, so `build.minify` is the single place where Rolldown appears in the config.",
-                "ru": "Бандлером стал Oxc, а Rolldown — только его минификатор, поэтому `build.minify` — единственное место в конфиге, где Rolldown вообще фигурирует."
-            },
-            {
-                "en": "Rollup still produces the production bundle and Rolldown is a compatibility layer that translates Rollup plugins into Rust equivalents.",
-                "ru": "Продакшен-бандл по-прежнему делает Rollup, а Rolldown — слой совместимости, переводящий плагины Rollup в Rust-эквиваленты."
-            }
-        ],
-        "correct": 0,
-        "explanation": {
-            "en": "Vite's original bet was two tools — esbuild for fast dev transforms and pre-bundling, Rollup for the production bundle — which meant two transformation pipelines, two plugin systems and a steady supply of bugs where dev and build disagreed. Vite 8 collapses that into Rolldown, a Rust bundler that uses Oxc for parsing, resolving, transforming and minifying, so the same pipeline serves both. A compatibility layer converts existing config (`build.rollupOptions` is an alias of `build.rolldownOptions`, and the `esbuild` option is mapped onto `oxc`), while `minify: 'esbuild'` is deprecated and slated for removal.",
-            "ru": "Изначальная ставка Vite была на два инструмента — esbuild для быстрых dev-трансформов и пребандлинга и Rollup для продакшен-сборки, — а это два конвейера трансформации, две системы плагинов и постоянный поток багов, где dev и build расходятся. Vite 8 схлопывает это в Rolldown — Rust-бандлер, который использует Oxc для парсинга, резолва, трансформации и минификации, так что оба режима идут по одному конвейеру. Слой совместимости конвертирует существующий конфиг (`build.rollupOptions` — алиас `build.rolldownOptions`, а опция `esbuild` мапится на `oxc`), а `minify: 'esbuild'` объявлен deprecated и будет удалён."
+            "en": "The `environments` config option lets you declare as many environments as your production topology actually has (`client` and `ssr` always exist in dev), each with its own resolve conditions, dev runtime and module graph. A boolean simply cannot express 'Node server' versus 'edge worker' — they resolve different export conditions and expose different APIs, so one shared graph would have to pick one of them and mis-resolve the other. Vite 8 still lists the Environment API as work in progress toward stabilisation, so treat the surface as movable.",
+            "ru": "Опция `environments` позволяет объявить столько сред, сколько их реально в проде (`client` и `ssr` в dev есть всегда), и у каждой свои resolve-условия, dev-рантайм и граф модулей. Булевый флаг просто не выражает разницу между «Node-сервером» и «edge-воркером» — у них разные export conditions и разные доступные API, поэтому единый общий граф выбрал бы что-то одно и неверно отрезолвил вторую цель. В Vite 8 Environment API всё ещё стабилизируется, так что API стоит считать подвижным."
         }
     },
     {
         "id": "build-docker-001",
         "type": "multi-choice",
         "category": "build-tools",
-        "difficulty": "hard",
+        "difficulty": "medium",
         "tags": ["docker", "multi-stage", "env-vars", "deployment", "vite"],
         "question": {
             "en": "You ship a Vite SPA as a Docker image: a `node:22` build stage runs `npm ci && npm run build`, and a final `nginx` stage copies `dist/`. Which statements are correct?",
@@ -1607,8 +1573,8 @@
         },
         "code": "- name: Cache dependencies\n  id: deps\n  uses: actions/cache@v4\n  with:\n    path: node_modules\n    key: ${{ runner.os }}-node-${{ hashFiles('package.json') }}\n\n- name: Install\n  if: steps.deps.outputs.cache-hit != 'true'\n  run: npm ci\n\n- name: Build and test\n  run: npm run build && npm test",
         "lang": "yaml",
-        "correct": "The cache key hashes `package.json` instead of the lockfile, so a lockfile-only change restores a stale `node_modules` and `npm ci` is skipped entirely.",
-        "referenceAnswer": "Key the cache on the resolved dependency tree, not the manifest:\n\n```yaml\nkey: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}\n```\n\n`package.json` holds ranges, so it does not change when a transitive dependency is bumped or when a teammate regenerates the lockfile. Every such run hits the old cache, the `cache-hit` guard skips `npm ci`, and the build and tests run against versions the lockfile no longer pins — CI goes green on a dependency tree that production will never get. The sturdier shape is to cache npm's download cache and keep the install authoritative:\n\n```yaml\n- uses: actions/setup-node@v4\n  with:\n    node-version: 22\n    cache: npm\n- run: npm ci\n```\n\nHere the key is derived from the lockfile by the action, and `npm ci` still rebuilds `node_modules` from the lockfile on every run, so a cache miss costs time and never correctness.",
+        "correct": "The cache key hashes `package.json` instead of the lockfile, so a lockfile-only change restores a stale `node_modules` and `npm ci` is skipped entirely — caching `node_modules` and gating `npm ci` on the hit is the same defect from the other side.",
+        "referenceAnswer": "Key the cache on the resolved dependency tree, not the manifest:\n\n```yaml\nkey: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}\n```\n\n`package.json` holds ranges, so it does not change when a transitive dependency is bumped or when a teammate regenerates the lockfile. Every such run hits the old cache, the `cache-hit` guard skips `npm ci`, and the build and tests run against versions the lockfile no longer pins — CI goes green on a dependency tree that production will never get. The other face of the same defect is caching a derived directory at all: the `actions/cache` examples say it is not recommended to cache `node_modules`, because it breaks across Node versions and does not work with `npm ci`. The sturdier shape is to cache npm's download cache and keep the install authoritative:\n\n```yaml\n- uses: actions/setup-node@v4\n  with:\n    node-version: 22\n    cache: npm\n- run: npm ci\n```\n\nHere the key is derived from the lockfile by the action, and `npm ci` still rebuilds `node_modules` from the lockfile on every run, so a cache miss costs time and never correctness.",
         "explanation": {
             "en": "A cache key must be a function of everything that determines the cached content; for `node_modules` that is the lockfile, because it is the only file that pins exact versions. Keying on the manifest turns the cache into a correctness bug rather than a speed optimisation, and the `cache-hit` guard makes it silent — nothing in the log says the install was skipped against the wrong tree. The general rule: prefer caching an input store (npm's cache, a Turborepo remote cache) over caching a derived directory you then skip regenerating.",
             "ru": "Ключ кеша должен быть функцией от всего, что определяет его содержимое; для `node_modules` это лок-файл, потому что только он фиксирует точные версии. Ключ по манифесту превращает кеш из ускорения в баг корректности, а проверка `cache-hit` делает его тихим — в логе ничего не скажет, что установку пропустили на неправильном дереве. Общее правило: лучше кешировать хранилище входных данных (кеш npm, remote cache Turborepo), чем производную директорию, генерацию которой вы потом пропускаете."
@@ -1621,11 +1587,11 @@
         "difficulty": "easy",
         "tags": ["ci-cd", "github-actions", "concurrency", "pipelines"],
         "question": {
-            "en": "Complete the workflow so that pushing a new commit to a pull request cancels the run still in flight for that same pull request:",
-            "ru": "Дополните workflow так, чтобы новый коммит в pull request отменял ещё выполняющийся прогон для того же pull request:"
+            "en": "Complete the workflow so that pushing a new commit to a pull request cancels the run still in flight for that same pull request. The group must combine the workflow name with the ref of the current run:",
+            "ru": "Дополните workflow так, чтобы новый коммит в pull request отменял ещё выполняющийся прогон для того же pull request. Группа должна объединять имя workflow и ref текущего прогона:"
         },
-        "code": "name: CI\non: pull_request\n\n__BLANK__:\n  group: ${{ github.workflow }}-${{ github.ref }}\n  cancel-in-progress: __BLANK__\n\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - run: npm ci && npm test",
-        "blanks": ["concurrency", "true"],
+        "code": "name: CI\non: pull_request\n\n__BLANK__:\n  group: ${{ github.workflow }}-${{ __BLANK__ }}\n  cancel-in-progress: __BLANK__\n\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - run: npm ci && npm test",
+        "blanks": ["concurrency", "github.ref", "true"],
         "lang": "yaml",
         "referenceAnswer": "`concurrency` with `group: ${{ github.workflow }}-${{ github.ref }}` and `cancel-in-progress: true`.\n\nThe group key is what scopes the cancellation: `github.ref` identifies the pull request, so two runs of the same workflow on the same PR share a group and the older one is cancelled, while other PRs are untouched. Dropping `github.workflow` from the key makes unrelated workflows cancel each other, and a constant group serialises the whole repository. On pushes to the default branch you usually want `cancel-in-progress: false` — cancelling a deploy mid-flight is worse than queueing it.",
         "explanation": {
