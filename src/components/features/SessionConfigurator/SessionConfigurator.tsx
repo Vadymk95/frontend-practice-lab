@@ -87,13 +87,13 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
             {/* Category Grid */}
             <section>
                 <div className="flex items-center justify-between mb-3">
-                    <h2 className="text-sm font-medium text-foreground">
+                    <h2 className="text-base font-medium text-foreground">
                         {t('configurator.categories.label')}
                     </h2>
                     <button
                         type="button"
                         onClick={handleSelectAll}
-                        className="text-xs text-accent-alt hover:underline"
+                        className="min-h-11 px-1 text-sm text-accent-alt hover:underline"
                     >
                         {allSelected
                             ? t('configurator.categories.deselectAll')
@@ -121,7 +121,7 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
                                             aria-checked={selectedCategories.includes(cat.slug)}
                                             onClick={() => handleCategoryToggle(cat.slug)}
                                             className={cn(
-                                                'min-h-11 px-3 py-2 text-sm text-left border transition-colors flex items-center justify-between gap-1',
+                                                'min-h-11 px-3 py-2 text-base text-left border transition-colors flex items-center justify-between gap-1',
                                                 selectedCategories.includes(cat.slug)
                                                     ? 'border-accent-alt bg-accent-alt/10 text-primary'
                                                     : 'border-border bg-surface text-muted-foreground hover:border-accent-alt/50',
@@ -185,7 +185,7 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
 
             {/* Difficulty Filter */}
             <section>
-                <h2 className="text-sm font-medium text-foreground mb-3">
+                <h2 className="text-base font-medium text-foreground mb-3">
                     {t('configurator.difficulty.label')}
                 </h2>
                 <div
@@ -201,7 +201,7 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
                             aria-checked={difficulty === d}
                             onClick={() => handleDifficultyChange(d)}
                             {...difficultyRadioProps(d)}
-                            className={`flex-1 py-2 text-sm border transition-colors ${
+                            className={`min-h-11 flex-1 py-2 text-base border transition-colors ${
                                 difficulty === d
                                     ? 'border-accent-alt bg-accent-alt/10'
                                     : 'border-border'
@@ -215,7 +215,7 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
 
             {/* Mode Filter */}
             <section>
-                <h2 className="text-sm font-medium text-foreground mb-3">
+                <h2 className="text-base font-medium text-foreground mb-3">
                     {t('configurator.mode.label')}
                 </h2>
                 <div
@@ -231,7 +231,7 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
                             aria-checked={mode === m}
                             onClick={() => handleModeChange(m)}
                             {...modeRadioProps(m)}
-                            className={`px-3 py-2 text-sm border transition-colors ${
+                            className={`min-h-11 px-3 py-2 text-base border transition-colors ${
                                 mode === m ? 'border-accent-alt bg-accent-alt/10' : 'border-border'
                             }`}
                         >
@@ -243,7 +243,10 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
 
             {/* Question Count */}
             <section>
-                <h2 id="question-count-label" className="text-sm font-medium text-foreground mb-3">
+                <h2
+                    id="question-count-label"
+                    className="text-base font-medium text-foreground mb-3"
+                >
                     {t('configurator.count.label')}
                 </h2>
                 <Input
@@ -257,7 +260,7 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
                     disabled={maxCount === 0}
                 />
                 {maxCount > 0 && (
-                    <p className="mt-1.5 text-xs text-muted-foreground">
+                    <p className="mt-1.5 text-sm text-muted-foreground">
                         {t('configurator.count.available', { count: availableCount })}
                     </p>
                 )}
@@ -265,7 +268,7 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
 
             {/* Order Toggle */}
             <section>
-                <h2 className="text-sm font-medium text-foreground mb-3">
+                <h2 className="text-base font-medium text-foreground mb-3">
                     {t('configurator.order.label')}
                 </h2>
                 <div
@@ -281,7 +284,7 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
                             aria-checked={order === o}
                             onClick={() => handleOrderChange(o)}
                             {...orderRadioProps(o)}
-                            className={`px-4 py-2 text-sm border transition-colors ${
+                            className={`min-h-11 px-4 py-2 text-base border transition-colors ${
                                 order === o ? 'border-accent-alt bg-accent-alt/10' : 'border-border'
                             }`}
                         >
@@ -294,7 +297,7 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
             {/* Timer Toggle */}
             <section>
                 <div className="flex items-center justify-between">
-                    <h2 className="text-sm font-medium text-foreground">
+                    <h2 className="text-base font-medium text-foreground">
                         {t('configurator.timer')}
                     </h2>
                     <Switch
@@ -314,7 +317,7 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
                         id={HINT_ID}
                         aria-live="polite"
                         aria-atomic="true"
-                        className="text-sm text-muted-foreground lg:flex-1"
+                        className="text-base text-muted-foreground lg:flex-1"
                     >
                         {hint}
                     </p>
@@ -327,7 +330,7 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
                             onClick={handleSavePreset}
                             aria-label={t('configurator.savePreset')}
                             title={t('configurator.savePreset')}
-                            className="lg:w-auto lg:px-4"
+                            className="min-h-11 min-w-11 text-base lg:w-auto lg:px-4"
                         >
                             <Bookmark size={18} aria-hidden="true" />
                             <span className="sr-only lg:not-sr-only">
@@ -336,7 +339,7 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
                         </Button>
                     )}
                     <Button
-                        className="flex-1 lg:flex-none"
+                        className="min-h-11 flex-1 text-base lg:flex-none"
                         disabled={!isStartEnabled}
                         onClick={handleStart}
                     >

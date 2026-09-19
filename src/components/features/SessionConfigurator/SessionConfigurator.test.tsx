@@ -669,3 +669,37 @@ describe('SessionConfigurator — error rate badge', () => {
         expect(tile).toHaveAccessibleName(/Questions: 6/);
     });
 });
+
+describe('SessionConfigurator — legibility and touch targets', () => {
+    beforeEach(() => {
+        vi.mocked(useCategories).mockReturnValue({
+            data: mockCategories,
+            isLoading: false,
+            isError: false
+        } as unknown as ReturnType<typeof useCategories>);
+    });
+
+    it('sets the section headings at body size rather than one step below it', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        screen.getAllByRole('heading', { level: 2 }).forEach((heading) => {
+            expect(heading.className).toContain('text-base');
+        });
+    });
+
+    it('sets the category and filter labels at body size', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        [...screen.getAllByRole('radio'), ...screen.getAllByRole('checkbox')].forEach((option) => {
+            expect(option.className).toContain('text-base');
+        });
+    });
+
+    it('keeps every filter option tappable at the 44px minimum', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        screen.getAllByRole('radio').forEach((option) => {
+            expect(option.className).toContain('min-h-11');
+        });
+    });
+});
