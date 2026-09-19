@@ -7,8 +7,8 @@ import { MemoryRouter } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { ManifestEntry } from '@/hooks/data/useCategories';
-import type { SessionConfig } from '@/lib/storage/types';
 import { useCategories } from '@/hooks/data/useCategories';
+import type { SessionConfig } from '@/lib/storage/types';
 import { useProgressStoreBase } from '@/store/progress/progressStore';
 import { useSessionStore } from '@/store/session';
 import { renderWithProviders } from '@/test/test-utils';

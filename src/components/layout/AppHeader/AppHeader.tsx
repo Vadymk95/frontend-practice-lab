@@ -65,6 +65,9 @@ export const AppHeader: FC = () => {
                 categories={resetDialog.categories}
                 successMessage={resetDialog.successMessage}
                 errorMessage={resetDialog.errorMessage}
+                isConfirmingAll={resetDialog.isConfirmingAll}
+                requestResetAll={resetDialog.requestResetAll}
+                cancelResetAll={resetDialog.cancelResetAll}
             />
         </>
     );

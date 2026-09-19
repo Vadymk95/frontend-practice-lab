@@ -15,6 +15,9 @@ export interface UseResetWeightsDialogReturn {
     categories: ManifestEntry[];
     successMessage: string | null;
     errorMessage: string | null;
+    isConfirmingAll: boolean;
+    requestResetAll: () => void;
+    cancelResetAll: () => void;
 }
 
 export const useResetWeightsDialog = (): UseResetWeightsDialogReturn => {
@@ -23,6 +26,7 @@ export const useResetWeightsDialog = (): UseResetWeightsDialogReturn => {
     const [isOpen, setIsOpen] = useState(false);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [isConfirmingAll, setIsConfirmingAll] = useState(false);
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const setWeights = useProgressStore.use.setWeights();
@@ -51,6 +55,7 @@ export const useResetWeightsDialog = (): UseResetWeightsDialogReturn => {
     const resetAll = async () => {
         setWeights({});
         setErrorRates({});
+        setIsConfirmingAll(false);
         showSuccess(t('resetWeights.successAll'));
     };
 
@@ -94,12 +99,16 @@ export const useResetWeightsDialog = (): UseResetWeightsDialogReturn => {
         open: () => setIsOpen(true),
         close: () => {
             setErrorMessage(null);
+            setIsConfirmingAll(false);
             setIsOpen(false);
         },
         resetAll,
         resetCategory,
         categories,
         successMessage,
-        errorMessage
+        errorMessage,
+        isConfirmingAll,
+        requestResetAll: () => setIsConfirmingAll(true),
+        cancelResetAll: () => setIsConfirmingAll(false)
     };
 };
