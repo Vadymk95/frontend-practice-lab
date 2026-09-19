@@ -1,0 +1,877 @@
+[
+    {
+        "id": "sd-radio-001",
+        "type": "single-choice",
+        "category": "system-design",
+        "difficulty": "easy",
+        "tags": ["radio", "requirements", "interview-process"],
+        "question": {
+            "en": "You have 45 minutes for a frontend system design round and the prompt is **\"design a news feed\"**. What should the first few minutes produce?",
+            "ru": "У вас 45 минут на раунд frontend system design, задача — **«спроектируйте ленту новостей»**. Что должно получиться в первые несколько минут?"
+        },
+        "options": [
+            {
+                "en": "A component tree of the feed page, drawn before any requirements have been discussed with the interviewer",
+                "ru": "Дерево компонентов страницы ленты, нарисованное до того, как требования вообще обсуждались с интервьюером"
+            },
+            {
+                "en": "A choice of state library and data-fetching library, so the rest of the answer has a concrete stack to lean on",
+                "ru": "Выбор библиотеки состояния и библиотеки для запросов, чтобы дальше опираться на конкретный стек"
+            },
+            {
+                "en": "An agreed scope plus the non-functional targets: users, devices, latency, offline",
+                "ru": "Согласованный scope плюс нефункциональные требования: пользователи, устройства, latency, offline"
+            },
+            {
+                "en": "The REST endpoints the feed will call, since the API contract determines everything downstream of it",
+                "ru": "REST-эндпоинты, которые будет дёргать лента, ведь контракт API определяет всё, что идёт после него"
+            }
+        ],
+        "correct": 2,
+        "explanation": {
+            "en": "RADIO is Requirements, Architecture, Data model, Interface, Optimisations — and the round is scored largely on whether you scoped it before you built it. Skipping requirements is the most common failure: you design for 50 items when the interviewer wanted 50,000, or you ignore an offline constraint that changes the whole data layer. Five minutes of scoping also buys you the right to say \"out of scope\" later instead of running out of time.",
+            "ru": "RADIO — это Requirements, Architecture, Data model, Interface, Optimisations, и раунд во многом оценивается по тому, зафиксировали ли вы scope до того, как начали проектировать. Пропуск требований — самая частая ошибка: вы проектируете под 50 элементов, а интервьюер имел в виду 50 000, или игнорируете offline, который меняет весь слой данных. Пять минут на scope дают право позже сказать «это вне scope» вместо того, чтобы не успеть."
+        }
+    },
+    {
+        "id": "sd-radio-002",
+        "type": "multi-choice",
+        "category": "system-design",
+        "difficulty": "easy",
+        "tags": ["radio", "requirements", "non-functional"],
+        "question": {
+            "en": "Which of these belong in the Requirements stage of a RADIO answer, before any boxes are drawn?",
+            "ru": "Что из перечисленного относится к стадии Requirements в ответе по RADIO — до того, как нарисован хоть один блок?"
+        },
+        "options": [
+            {
+                "en": "Whether the feature must work offline, and for how long",
+                "ru": "Должна ли фича работать offline и как долго"
+            },
+            {
+                "en": "Which npm package will render the virtualized list",
+                "ru": "Какой npm-пакет будет рендерить виртуализированный список"
+            },
+            {
+                "en": "The p75 device and network the product actually runs on",
+                "ru": "Устройство и сеть на p75, на которых продукт реально работает"
+            },
+            {
+                "en": "Whether the data is per-user or shared, since that decides what a CDN may cache",
+                "ru": "Данные персональные или общие — от этого зависит, что вообще может кэшировать CDN"
+            },
+            {
+                "en": "The internal shape of the client-side store",
+                "ru": "Внутренняя форма клиентского стора"
+            }
+        ],
+        "correct": [0, 2, 3],
+        "explanation": {
+            "en": "Requirements covers what the system must do and under what conditions — offline behaviour, the real device and network profile, and the public-versus-private nature of the data, because each of those invalidates whole branches of the design. Library choice and store shape are Architecture and Data model decisions; making them first means you commit before you know the constraints.",
+            "ru": "Requirements — это что система должна делать и в каких условиях: поведение offline, реальный профиль устройства и сети, персональность данных. Каждый из этих пунктов отсекает целые ветки дизайна. Выбор библиотеки и форма стора — это уже Architecture и Data model; делать их первыми значит зафиксироваться до того, как известны ограничения."
+        }
+    },
+    {
+        "id": "sd-autocomplete-001",
+        "type": "single-choice",
+        "category": "system-design",
+        "difficulty": "medium",
+        "tags": ["autocomplete", "race-condition", "debounce", "abort"],
+        "question": {
+            "en": "An autocomplete calls `/search?q=` on every keystroke. Two problems show up: one request per character, and an older response sometimes overwriting a newer one. Which combination fixes both?",
+            "ru": "Autocomplete дёргает `/search?q=` на каждое нажатие клавиши. Проявляются две проблемы: запрос на каждый символ и то, что более старый ответ иногда перезаписывает более свежий. Какая комбинация решает обе?"
+        },
+        "options": [
+            {
+                "en": "Debounce the input, abort the in-flight request when a new one starts, and drop any response whose query no longer matches",
+                "ru": "Debounce на ввод, abort текущего запроса при старте нового и отбрасывание любого ответа, чей query больше не совпадает с полем"
+            },
+            {
+                "en": "Raise the debounce delay to 800 ms so that only one request is ever in flight at a time",
+                "ru": "Поднять задержку debounce до 800 мс, чтобы в полёте всегда был только один запрос"
+            },
+            {
+                "en": "Throttle the input and cache every response by its query string in a `Map` keyed by the query",
+                "ru": "Throttle на ввод плюс кэш каждого ответа в `Map` по строке запроса"
+            },
+            {
+                "en": "Fire every request and render whichever response arrives last, since the newest query is normally the one that resolves last",
+                "ru": "Отправлять все запросы и рендерить тот ответ, который пришёл последним — обычно последним резолвится самый свежий запрос"
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "Debounce reduces the request rate but does nothing about ordering: two surviving requests can still resolve out of order. Aborting the previous request handles the common case, and the query-match guard is the belt-and-braces part — an abort is not instantaneous, so a response can still be in the microtask queue when the newer one lands. Raising the debounce delay only makes the race rarer while making the UI feel dead.",
+            "ru": "Debounce снижает частоту запросов, но никак не решает порядок: два выживших запроса всё равно могут зарезолвиться не по порядку. Abort предыдущего закрывает основной случай, а проверка совпадения query — страховка: abort не мгновенный, и ответ может уже лежать в очереди микрозадач, когда придёт более свежий. Увеличение задержки debounce лишь делает гонку реже, зато интерфейс кажется мёртвым."
+        }
+    },
+    {
+        "id": "sd-autocomplete-002",
+        "type": "single-choice",
+        "category": "system-design",
+        "difficulty": "hard",
+        "tags": ["autocomplete", "accessibility", "aria", "combobox"],
+        "question": {
+            "en": "Your autocomplete renders suggestions in a popup below the input. Which wiring matches the ARIA combobox pattern?",
+            "ru": "Autocomplete рендерит подсказки во всплывающем списке под полем ввода. Какая разметка соответствует ARIA-паттерну combobox?"
+        },
+        "options": [
+            {
+                "en": "`role=\"menu\"` on the popup with `role=\"menuitem\"` children, and real DOM focus moved into the menu when the user presses the arrow keys",
+                "ru": "`role=\"menu\"` на списке и `role=\"menuitem\"` на элементах, а реальный DOM-фокус переносится в меню при нажатии стрелок"
+            },
+            {
+                "en": "`role=\"combobox\"` on the input with `aria-expanded` and `aria-controls`; DOM focus stays on the input and the highlighted option is named by `aria-activedescendant`",
+                "ru": "`role=\"combobox\"` на поле с `aria-expanded` и `aria-controls`; DOM-фокус остаётся на поле, а подсвеченный вариант указывается через `aria-activedescendant`"
+            },
+            {
+                "en": "A plain `<input>` plus an `aria-live=\"polite\"` region that announces how many suggestions were found",
+                "ru": "Обычный `<input>` плюс регион `aria-live=\"polite\"`, который объявляет, сколько подсказок найдено"
+            },
+            {
+                "en": "`role=\"listbox\"` on the input itself, with a roving `tabindex` that moves real DOM focus onto each option as the user arrows through them",
+                "ru": "`role=\"listbox\"` на самом поле ввода и roving `tabindex`, который переносит реальный DOM-фокус на каждый вариант при переборе стрелками"
+            }
+        ],
+        "correct": 1,
+        "explanation": {
+            "en": "The APG combobox pattern keeps DOM focus on the input — the user must be able to keep typing — and moves only the assistive-technology focus inside the popup via `aria-activedescendant`. `aria-expanded` tells the screen reader the popup state and `aria-controls` points at the listbox. Moving real focus into the list breaks typing; `role=\"menu\"` is for commands, not for value selection; a live region alone never lets the user reach an option.",
+            "ru": "Паттерн combobox из ARIA APG держит DOM-фокус на поле ввода — пользователь должен продолжать печатать — и двигает только фокус скринридера внутри списка через `aria-activedescendant`. `aria-expanded` сообщает состояние списка, `aria-controls` указывает на сам listbox. Перенос реального фокуса в список ломает ввод; `role=\"menu\"` — про команды, а не про выбор значения; один только live-регион не даёт добраться до варианта."
+        }
+    },
+    {
+        "id": "sd-autocomplete-003",
+        "type": "single-choice",
+        "category": "system-design",
+        "difficulty": "medium",
+        "tags": ["autocomplete", "rate-limit", "failure-modes"],
+        "question": {
+            "en": "Under heavy typing your search API starts answering `429` with `Retry-After: 2`. Which change addresses the cause rather than the symptom?",
+            "ru": "При активном наборе текста ваш search API начинает отвечать `429` с `Retry-After: 2`. Какое изменение бьёт по причине, а не по симптому?"
+        },
+        "options": [
+            {
+                "en": "Retry the 429 immediately with a small random jitter so that the user still sees results quickly",
+                "ru": "Сразу ретраить 429 с небольшим случайным jitter, чтобы пользователь всё же быстро увидел результаты"
+            },
+            {
+                "en": "Queue the failed requests and replay all of them at once as soon as the `Retry-After` window has passed",
+                "ru": "Складывать упавшие запросы в очередь и разом переигрывать их, как только истечёт окно `Retry-After`"
+            },
+            {
+                "en": "Show a toast telling the user to type more slowly, and leave the current request rate unchanged",
+                "ru": "Показывать тост с просьбой печатать медленнее, оставив текущую частоту запросов без изменений"
+            },
+            {
+                "en": "Cut the request rate at the source: debounce to one request per settled input, aborting the previous one",
+                "ru": "Снизить частоту запросов у источника: debounce до одного запроса на устоявшийся ввод с abort предыдущего"
+            }
+        ],
+        "correct": 3,
+        "explanation": {
+            "en": "A 429 means the client is asking for more than its share; retrying sooner or replaying the whole queue at the same instant makes the limiter angrier and can turn one user's typing into a self-inflicted outage. The fix belongs on the sending side — fewer requests per user intent — and any retry that does remain must honour `Retry-After` with jitter so clients do not resynchronise on the same millisecond.",
+            "ru": "429 означает, что клиент просит больше своей доли; более быстрый ретрай или разом переигранная очередь только злят лимитер и превращают набор текста одним пользователем в самодельный отказ. Чинить нужно на стороне отправителя — меньше запросов на одно пользовательское намерение — а оставшийся ретрай обязан уважать `Retry-After` и добавлять jitter, чтобы клиенты не синхронизировались на одной и той же миллисекунде."
+        }
+    },
+    {
+        "id": "sd-autocomplete-cc-001",
+        "type": "code-completion",
+        "category": "system-design",
+        "difficulty": "medium",
+        "tags": ["autocomplete", "abort", "timeout", "error-handling"],
+        "question": {
+            "en": "Complete the rejection branch so that a request cancelled by the next keystroke stays silent while one that blew the 3-second budget is reported:",
+            "ru": "Дополните ветку обработки ошибки так, чтобы запрос, отменённый следующим нажатием клавиши, проходил молча, а превысивший бюджет в 3 секунды — сообщался:"
+        },
+        "code": "async function search(query, userSignal) {\n  const signal = AbortSignal.any([userSignal, AbortSignal.timeout(3000)]);\n\n  try {\n    return await fetch(`/api/search?q=${encodeURIComponent(query)}`, { signal });\n  } catch (err) {\n    // The composed signal carries the reason of whichever input aborted first.\n    logger.debug('search aborted', signal.__BLANK__);\n\n    // A blown deadline is worth showing; a keystroke cancel is not a failure.\n    if (err.name === '__BLANK__') return { timedOut: true };\n    throw err;\n  }\n}",
+        "blanks": ["reason", "TimeoutError"],
+        "lang": "javascript",
+        "referenceAnswer": "`AbortSignal.any()` returns a signal that aborts with the reason of the first input to abort, and `signal.reason` is that value — it is `undefined` while the signal has not been aborted. `AbortSignal.timeout(3000)` aborts \"with its `AbortSignal.reason` property set to a `TimeoutError` DOMException on timeout\" (MDN), while a plain `controller.abort()` with no argument defaults to an `AbortError` DOMException. `fetch` rejects with the signal's reason, so `err.name` is `TimeoutError` for the deadline and `AbortError` for the keystroke — which is the point of composing them into one signal instead of racing two controllers. https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal/timeout_static",
+        "explanation": {
+            "en": "Composing the signals gives you one `signal` to pass to `fetch`, but the branch after the rejection is where the two cancellations stop being interchangeable: a keystroke cancel is the normal path and must not paint an error, while a 3-second deadline is a real failure the user should see. Because the composed signal adopts the first aborter's reason, `err.name` is enough to tell them apart — no flag on the side, no second controller. Note that `AbortSignal.timeout()` keeps its timer whether or not the request has already settled, so create it per request rather than once per component.",
+            "ru": "Композиция сигналов даёт один `signal`, который передаётся в `fetch`, но именно в ветке после отклонения две отмены перестают быть взаимозаменяемыми: отмена следующим нажатием клавиши — это штатный путь, и ошибку рисовать нельзя, а превышение бюджета в 3 секунды — настоящий сбой, который пользователь должен увидеть. Так как композитный сигнал перенимает reason первого сработавшего, различить их достаточно по `err.name` — без отдельного флага и без второго контроллера. Учтите, что `AbortSignal.timeout()` продолжает вести свой таймер независимо от того, завершился ли запрос, поэтому создавайте его на каждый запрос, а не один раз на компонент."
+        }
+    },
+    {
+        "id": "sd-feed-001",
+        "type": "single-choice",
+        "category": "system-design",
+        "difficulty": "medium",
+        "tags": ["feed", "cursor", "refresh", "gap-detection"],
+        "question": {
+            "en": "An infinite feed paginates downward with a tail cursor. A tab sat idle for an hour; the user pulls to refresh and `GET /feed?limit=50` comes back with 50 brand-new posts — exactly the page cap. What does the client have to do with them?",
+            "ru": "Бесконечная лента листается вниз по tail-курсору. Вкладка час простояла без дела; пользователь делает pull-to-refresh, и `GET /feed?limit=50` возвращает 50 совершенно новых постов — ровно размер страницы. Что клиенту делать с ними?"
+        },
+        "options": [
+            {
+                "en": "Prepend them to the existing array: a cursor is anchored to a sort key, so the tail cursor stays valid and the two ranges join cleanly",
+                "ru": "Добавить их в начало существующего массива: курсор привязан к ключу сортировки, поэтому tail-курсор остаётся валидным и оба диапазона стыкуются без швов"
+            },
+            {
+                "en": "Hold them as a separate range behind an `N new posts` control and reset the list to it when tapped, since the gap may not be empty",
+                "ru": "Держать их отдельным диапазоном за кнопкой «N новых постов» и по нажатию сбрасывать список к нему, так как разрыв может оказаться непустым"
+            },
+            {
+                "en": "Merge everything into one array and de-duplicate by post id, because a duplicate post is the only thing an hour-long gap can produce",
+                "ru": "Слить всё в один массив и дедуплицировать по id поста, потому что дубликат — единственное, что может породить часовой разрыв"
+            },
+            {
+                "en": "Drop the tail cursor and re-fetch every page the user has already loaded, so the array is one continuous range again before rendering",
+                "ru": "Выбросить tail-курсор и заново запросить все уже загруженные страницы, чтобы перед рендером массив снова был одним непрерывным диапазоном"
+            }
+        ],
+        "correct": 1,
+        "explanation": {
+            "en": "A full page of new posts is the client telling you it does not know how much it missed: 50 came back because 50 was the limit, and there may be 500 more between them and the top of the loaded list. Prepending asserts the two ranges are adjacent, which is exactly the unknown — the feed then shows a silent hole that no de-duplication can detect, because a gap produces missing posts, not duplicate ones. The standard answer is two cursors, one at the head and one at the tail, with the unmerged head range parked behind an `N new posts` pill; tapping it resets the list to the fresh range and starts a new tail cursor from there. Re-fetching everything already scrolled is the brute-force alternative and costs the user their scroll position.",
+            "ru": "Полная страница новых постов — это сообщение клиента о том, что он не знает, сколько пропустил: пришло 50, потому что 50 было лимитом, и между ними и верхом загруженного списка может быть ещё 500. Вставка в начало утверждает, что диапазоны соседние, — а это ровно то, что неизвестно: лента покажет молчаливую дыру, которую никакая дедупликация не поймает, ведь разрыв порождает пропавшие посты, а не дубликаты. Стандартный ответ — два курсора, головной и хвостовой, и несведённый головной диапазон за плашкой «N новых постов»; нажатие сбрасывает список к свежему диапазону и заводит оттуда новый хвостовой курсор. Перезапрос всего, что уже пролистано, — грубая альтернатива, и стоит она пользователю его позиции прокрутки."
+        }
+    },
+    {
+        "id": "sd-feed-002",
+        "type": "single-choice",
+        "category": "system-design",
+        "difficulty": "medium",
+        "tags": ["feed", "normalization", "optimistic-ui", "data-model"],
+        "question": {
+            "en": "Liking a post must update it everywhere it appears — the feed, the post page, a \"trending\" rail — without a refetch. Which data-model decision makes that a single write?",
+            "ru": "Лайк поста должен обновлять его везде, где он показан — в ленте, на странице поста, в блоке «trending», — без повторного запроса. Какое решение в модели данных делает это одной записью?"
+        },
+        "options": [
+            {
+                "en": "Keep the full post object inside each page array and patch every copy of it whenever a like succeeds",
+                "ru": "Держать полный объект поста внутри массива каждой страницы и патчить все его копии при успешном лайке"
+            },
+            {
+                "en": "Store likes in a parallel array indexed by the post's current position in the feed",
+                "ru": "Хранить лайки в параллельном массиве, индексированном по текущей позиции поста в ленте"
+            },
+            {
+                "en": "Normalize posts into an entity map keyed by id; lists hold only ids",
+                "ru": "Нормализовать посты в entity map по id; списки хранят только id"
+            },
+            {
+                "en": "Refetch the page that contains the post and let the server response be the single source of truth",
+                "ru": "Перезапросить страницу, содержащую пост, и считать ответ сервера единственным источником истины"
+            }
+        ],
+        "correct": 2,
+        "explanation": {
+            "en": "With `posts: Record<id, Post>` and `feed: id[]`, the optimistic like is one write to one entity and every list that references the id re-reads the new value — there is no \"which copy did I miss\" class of bug, and rollback on failure is one write too. Duplicating the object into each list is the usual first draft and the usual source of a stale like count in the third place it appears; indexing by position breaks the moment the list re-sorts.",
+            "ru": "При `posts: Record<id, Post>` и `feed: id[]` оптимистичный лайк — это одна запись в одну сущность, и каждый список, ссылающийся на этот id, читает новое значение сам; класс багов «а какую копию я забыл» просто исчезает, и откат при ошибке тоже одна запись. Дублирование объекта в каждый список — типичный первый черновик и типичная причина устаревшего счётчика лайков в третьем месте показа; индексация по позиции ломается при первой же пересортировке."
+        }
+    },
+    {
+        "id": "sd-feed-003",
+        "type": "single-choice",
+        "category": "system-design",
+        "difficulty": "hard",
+        "tags": ["feed", "virtualization", "layout"],
+        "question": {
+            "en": "A virtualized feed keeps only the visible window in the DOM, and row heights are unknown until a row renders. Which approach keeps the scrollbar from jumping as the user scrolls?",
+            "ru": "Виртуализированная лента держит в DOM только видимое окно, а высоты строк неизвестны до их рендера. Какой подход не даёт скроллбару прыгать при прокрутке?"
+        },
+        "options": [
+            {
+                "en": "Use one fixed height estimate for every row and accept that the estimate is usually wrong",
+                "ru": "Использовать одну фиксированную оценку высоты для всех строк и мириться с тем, что она почти всегда неверна"
+            },
+            {
+                "en": "Measure each row after it mounts, cache the measured height by item id, and estimate only rows never yet rendered",
+                "ru": "Измерять каждую строку после монтирования, кэшировать измеренную высоту по id элемента и оценивать только те строки, что ещё ни разу не рендерились"
+            },
+            {
+                "en": "Render every row off-screen once to measure it, then virtualize the list using the exact heights you collected",
+                "ru": "Один раз отрендерить все строки за экраном, чтобы их измерить, и затем виртуализировать список уже по точным высотам"
+            },
+            {
+                "en": "Give every row `content-visibility: auto` with `contain-intrinsic-size` and let the browser skip rendering the off-screen ones for you",
+                "ru": "Дать каждой строке `content-visibility: auto` с `contain-intrinsic-size` и позволить браузеру самому пропускать рендер строк за экраном"
+            }
+        ],
+        "correct": 1,
+        "explanation": {
+            "en": "Measure-and-cache is what every mature virtualizer does: the total height is an estimate that gets more accurate as rows are seen, and because measured rows keep their cached height the scrollbar stops drifting for regions the user has already passed. A single fixed estimate makes the scrollbar lie permanently. Measuring everything up front defeats the point of virtualizing. `content-visibility` is rendering-skipping, not virtualization — it requires all rows to be in the DOM, which is exactly what this design removed.",
+            "ru": "Измерить и закэшировать — то, что делает любой зрелый виртуализатор: общая высота остаётся оценкой, но уточняется по мере показа строк, а так как измеренные строки сохраняют свою высоту, скроллбар перестаёт «плыть» на уже пройденных участках. Одна фиксированная оценка заставляет скроллбар врать постоянно. Измерение всего заранее убивает смысл виртуализации. `content-visibility` — это пропуск рендера, а не виртуализация: он требует, чтобы все строки были в DOM, а именно от этого мы здесь и ушли."
+        }
+    },
+    {
+        "id": "sd-feed-004",
+        "type": "multi-choice",
+        "category": "system-design",
+        "difficulty": "hard",
+        "tags": ["feed", "scroll-restoration", "navigation"],
+        "question": {
+            "en": "A user opens an item from an infinite feed and presses Back. Which mechanisms are needed to restore both the list and the scroll position?",
+            "ru": "Пользователь открыл элемент из бесконечной ленты и нажал Back. Какие механизмы нужны, чтобы восстановить и список, и позицию скролла?"
+        },
+        "options": [
+            {
+                "en": "The already-fetched pages come back from a cache instead of being refetched from page one",
+                "ru": "Уже загруженные страницы возвращаются из кэша, а не перезапрашиваются с первой"
+            },
+            {
+                "en": "`history.scrollRestoration` is set to `manual` and the app saves and restores the offset itself",
+                "ru": "`history.scrollRestoration` выставлен в `manual`, и приложение само сохраняет и восстанавливает смещение"
+            },
+            {
+                "en": "A service worker caches the feed HTML so the browser can repaint the page instantly",
+                "ru": "Service worker кэширует HTML ленты, чтобы браузер мгновенно перерисовал страницу"
+            },
+            {
+                "en": "The list regains its previous height **before** the scroll offset is applied",
+                "ru": "Список возвращает прежнюю высоту **до** того, как применяется смещение скролла"
+            },
+            {
+                "en": "The browser's automatic scroll restoration is enough once the route component mounts",
+                "ru": "Автоматического восстановления скролла браузером достаточно, как только смонтируется компонент роута"
+            }
+        ],
+        "correct": [0, 1, 3],
+        "explanation": {
+            "en": "The three failures compound: without the cached pages you are back at item 1, and without the restored height there is nothing to scroll to, so a correct offset silently clamps to the bottom of a short page. That ordering constraint is why the automatic restoration fails for SPAs — the browser restores at a moment when the client-rendered list is still empty. A service worker caching HTML changes nothing here, because the list is client-rendered from data.",
+            "ru": "Три отказа складываются: без кэша страниц вы снова на первом элементе, а без восстановленной высоты некуда скроллить — корректное смещение молча упирается в низ короткой страницы. Именно из-за этого порядка автоматическое восстановление не работает в SPA: браузер восстанавливает скролл в момент, когда клиентский список ещё пуст. Service worker с кэшем HTML здесь ничего не меняет, потому что список рендерится на клиенте из данных."
+        }
+    },
+    {
+        "id": "sd-feed-bug-001",
+        "type": "bug-finding",
+        "category": "system-design",
+        "difficulty": "medium",
+        "tags": ["feed", "intersection-observer", "stale-closure", "pagination"],
+        "question": {
+            "en": "This infinite-feed hook loads the first page over and over instead of advancing. Find the bug:",
+            "ru": "Этот хук бесконечной ленты снова и снова грузит первую страницу вместо того, чтобы двигаться дальше. Найдите ошибку:"
+        },
+        "code": "function useInfiniteFeed() {\n  const [items, setItems] = useState<Post[]>([]);\n  const [cursor, setCursor] = useState<string | null>(null);\n  const sentinel = useRef<HTMLDivElement>(null);\n  const loadingRef = useRef(false);\n\n  const loadMore = async (from: string | null) => {\n    if (loadingRef.current) return;\n    loadingRef.current = true;\n    try {\n      const page = await fetchFeed(from);\n      setItems((prev) => [...prev, ...page.items]);\n      setCursor(page.nextCursor);\n    } finally {\n      loadingRef.current = false;\n    }\n  };\n\n  useEffect(() => {\n    const io = new IntersectionObserver(\n      ([entry]) => {\n        if (entry.isIntersecting) void loadMore(cursor);\n      },\n      { rootMargin: '600px' }\n    );\n\n    if (sentinel.current) io.observe(sentinel.current);\n    return () => io.disconnect();\n  }, []);\n\n  return { items, sentinel };\n}",
+        "lang": "tsx",
+        "correct": "The observer is created once with an empty dependency array, so its callback closes over the initial `cursor` value (`null`) forever and every trigger refetches the first page.",
+        "referenceAnswer": "The in-flight guard is already in place, which is why the symptom is a repeat rather than a storm — the cursor is the defect. The IntersectionObserver callback is created inside an effect with `[]` deps, so it captures `cursor` from the first render (`null`) and keeps calling `loadMore(null)`. Fix: keep the cursor in a ref that the callback reads at call time, so the observer stays subscribed across pages:\n\n```tsx\nconst cursorRef = useRef<string | null>(null);\n\nconst loadMore = async () => {\n  if (loadingRef.current) return;\n  loadingRef.current = true;\n  try {\n    const page = await fetchFeed(cursorRef.current);\n    cursorRef.current = page.nextCursor;\n    setItems((prev) => [...prev, ...page.items]);\n  } finally {\n    loadingRef.current = false;\n  }\n};\n```\n\nAdding `cursor` to the effect's deps also works, at the cost of tearing down and re-creating the observer on every page; re-observing a still-visible sentinel fires immediately, which with the guard in place simply loads the next page.",
+        "explanation": {
+            "en": "A sentinel observer is a long-lived subscription, and the value it needs — the cursor — changes on every page: the classic mismatch that produces a stale closure. Either put the changing value in a ref the callback reads at call time, or recreate the subscription and accept the churn. The in-flight guard in this hook is necessary but not sufficient, and the distinction is worth naming in a review: the guard decides how many requests are in flight, the closure decides which request is sent.",
+            "ru": "Observer на sentinel — это долгоживущая подписка, а нужное ей значение, cursor, меняется на каждой странице: классическое расхождение, порождающее устаревшее замыкание. Либо кладите меняющееся значение в ref, который колбэк читает в момент вызова, либо пересоздавайте подписку и миритесь с churn. Guard на запрос в полёте в этом хуке необходим, но недостаточен, и различие стоит называть вслух на ревью: guard решает, сколько запросов летит одновременно, а замыкание — какой именно запрос уходит."
+        }
+    },
+    {
+        "id": "sd-chat-001",
+        "type": "single-choice",
+        "category": "system-design",
+        "difficulty": "medium",
+        "tags": ["chat", "ordering", "realtime"],
+        "question": {
+            "en": "A chat client receives messages from three places: the live socket, an HTTP backfill after a reconnect, and its own optimistic echo. Which mechanism orders them correctly?",
+            "ru": "Чат-клиент получает сообщения из трёх источников: живого сокета, HTTP-backfill после переподключения и собственного оптимистичного эха. Какой механизм упорядочивает их правильно?"
+        },
+        "options": [
+            {
+                "en": "Sort by the `Date.now()` value the client stamps on each message as it is received",
+                "ru": "Сортировать по значению `Date.now()`, которое клиент проставляет каждому сообщению при получении"
+            },
+            {
+                "en": "Rely on the transport, since a WebSocket delivers its frames in exactly the order they were sent",
+                "ru": "Полагаться на транспорт: WebSocket доставляет кадры ровно в том порядке, в каком они были отправлены"
+            },
+            {
+                "en": "Append in arrival order and re-sort only when the user scrolls, so that re-renders stay cheap",
+                "ru": "Добавлять в порядке поступления и пересортировывать только при прокрутке, чтобы ре-рендеры оставались дешёвыми"
+            },
+            {
+                "en": "Sort by a server-assigned monotonic sequence id carried on every message",
+                "ru": "Сортировать по монотонному sequence id, который присваивает сервер и который несёт каждое сообщение"
+            }
+        ],
+        "correct": 3,
+        "explanation": {
+            "en": "Only the server sees all writers, so only the server can assign a total order — a monotonic sequence per conversation. Client clocks are unsynchronised and trivially wrong on mobile. The transport argument is the seductive one: a single WebSocket does preserve frame order, but that guarantee covers one connection, and here the backfill and the optimistic echo arrive outside it. A sequence id also gives you the resume point for the reconnect backfill for free.",
+            "ru": "Всех писателей видит только сервер, поэтому только он может задать полный порядок — монотонную последовательность в рамках беседы. Часы клиентов не синхронизированы и на мобильных легко врут. Соблазнительный аргумент про транспорт: один WebSocket действительно сохраняет порядок кадров, но эта гарантия про одно соединение, а backfill и оптимистичное эхо приходят вне него. Бонусом sequence id даёт точку возобновления для backfill при переподключении."
+        }
+    },
+    {
+        "id": "sd-chat-002",
+        "type": "single-choice",
+        "category": "system-design",
+        "difficulty": "medium",
+        "tags": ["chat", "optimistic-ui", "reconciliation", "idempotency"],
+        "question": {
+            "en": "You render a sent message optimistically. The server then broadcasts the same message back over the socket and the user briefly sees it twice. What is the correct fix?",
+            "ru": "Вы рендерите отправленное сообщение оптимистично. Затем сервер рассылает то же сообщение обратно по сокету, и пользователь на мгновение видит его дважды. Как это правильно починить?"
+        },
+        "options": [
+            {
+                "en": "Send a client-generated message id; the server echo carries it back, so the client replaces the optimistic entry",
+                "ru": "Отправлять сгенерированный на клиенте id сообщения; эхо сервера возвращает его, и клиент заменяет оптимистичную запись"
+            },
+            {
+                "en": "Match the echo against the optimistic entry by comparing the message text and a timestamp tolerance window",
+                "ru": "Сопоставлять эхо с оптимистичной записью, сравнивая текст сообщения и временную метку с допуском"
+            },
+            {
+                "en": "Have the server skip broadcasting a message back to the very socket connection that sent it",
+                "ru": "Заставить сервер не рассылать сообщение обратно в то же соединение сокета, из которого оно пришло"
+            },
+            {
+                "en": "Delete the optimistic entry as soon as the HTTP ack returns, and let the socket echo render the real one",
+                "ru": "Удалять оптимистичную запись сразу после HTTP-ack и позволять эху из сокета отрисовать настоящую"
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "A client-generated id (a UUID) is the join key between the optimistic entry and the server's canonical row, and it doubles as the idempotency key if the send is retried. Matching on text plus a time window fails the moment someone sends \"ok\" twice. Suppressing the echo per connection breaks the same user's second device and leaves the client without the server's sequence id. Deleting on ack produces a visible flicker and a reordering as the echo lands.",
+            "ru": "Сгенерированный клиентом id (UUID) — это ключ связи между оптимистичной записью и канонической строкой сервера, и он же работает ключом идемпотентности при ретрае отправки. Сопоставление по тексту и временному окну ломается, как только кто-то дважды отправит «ок». Подавление эха для конкретного соединения ломает второе устройство того же пользователя и оставляет клиента без серверного sequence id. Удаление по ack даёт заметное мигание и перестановку, когда придёт эхо."
+        }
+    },
+    {
+        "id": "sd-chat-003",
+        "type": "multi-choice",
+        "category": "system-design",
+        "difficulty": "hard",
+        "tags": ["chat", "reconnect", "backoff", "realtime"],
+        "question": {
+            "en": "10,000 clients drop at once when a load balancer restarts. Which parts of a reconnect strategy prevent both a thundering herd and a gap in the transcript?",
+            "ru": "10 000 клиентов одновременно отваливаются при перезапуске балансировщика. Какие части стратегии переподключения предотвращают и thundering herd, и дыру в истории сообщений?"
+        },
+        "options": [
+            {
+                "en": "Exponential backoff with full jitter on the retry delay",
+                "ru": "Экспоненциальный backoff с полным jitter в задержке ретрая"
+            },
+            {
+                "en": "Reconnecting immediately on `close`, since the fastest client wins the connection slot",
+                "ru": "Мгновенное переподключение по `close`: самый быстрый клиент занимает слот соединения"
+            },
+            {
+                "en": "A cap on the maximum backoff, so a client does not end up waiting minutes",
+                "ru": "Ограничение максимального backoff, чтобы клиент не ждал минутами"
+            },
+            {
+                "en": "Reconnecting on a fixed one-second interval — simpler than backoff and still bounded",
+                "ru": "Переподключение с фиксированным интервалом в одну секунду — проще, чем backoff, и тоже ограничено"
+            },
+            {
+                "en": "Resuming from the last received sequence id so the server backfills what was missed",
+                "ru": "Возобновление с последнего полученного sequence id, чтобы сервер дослал пропущенное"
+            },
+            {
+                "en": "Refetching the whole conversation from the top on reconnect instead of resuming from a sequence id",
+                "ru": "Перезапрос всей переписки с самого начала при переподключении вместо возобновления по sequence id"
+            }
+        ],
+        "correct": [0, 2, 4],
+        "explanation": {
+            "en": "Backoff alone does not help if every client computes the same delay — the jitter is the part that actually spreads the load, and the cap keeps a client from being unreachable for minutes after a short blip. The backfill is the correctness half: a reconnect that does not resume from a sequence id leaves a silent hole in the transcript. A fixed one-second interval fails the first goal precisely because it is fixed — 10,000 clients resynchronise on the same second and hammer the balancer until it gives in — and refetching the whole conversation moves the herd from the socket layer to the API while still being unable to say which messages were missed.",
+            "ru": "Один backoff не помогает, если все клиенты считают одинаковую задержку — реально разносит нагрузку именно jitter, а cap не даёт клиенту быть недоступным минутами после короткого сбоя. Backfill отвечает за корректность: переподключение без возобновления по sequence id оставляет молчаливую дыру в истории. Фиксированный интервал в секунду проваливает первую цель именно из-за фиксированности — 10 000 клиентов синхронизируются на одной и той же секунде и долбят балансировщик, пока тот не сдастся, — а перезапрос всей переписки переносит толпу с уровня сокетов на уровень API и при этом всё равно не может сказать, какие сообщения были пропущены."
+        }
+    },
+    {
+        "id": "sd-chat-bug-001",
+        "type": "bug-finding",
+        "category": "system-design",
+        "difficulty": "hard",
+        "tags": ["chat", "websocket", "offline-queue", "backpressure"],
+        "question": {
+            "en": "A laptop sleeps for an hour with the chat tab open while the user keeps typing. On wake the room is flooded with hour-old messages in one burst and the server's rate limiter disconnects the client. Find the bug:",
+            "ru": "Ноутбук час спит с открытой вкладкой чата, пока пользователь продолжает печатать. После пробуждения комнату заливает залп часовой давности сообщений, и rate limiter сервера отключает клиента. Найдите ошибку:"
+        },
+        "code": "class ChatSocket {\n  private ws: WebSocket | null = null;\n  private queue: string[] = [];\n  private attempt = 0;\n\n  constructor(private url: string) {\n    this.connect();\n  }\n\n  private connect() {\n    this.ws = new WebSocket(this.url);\n\n    this.ws.addEventListener('open', () => {\n      this.attempt = 0;\n      const pending = this.queue;\n      this.queue = [];\n      for (const message of pending) this.ws!.send(message);\n    });\n\n    this.ws.addEventListener('close', () => {\n      const ceiling = Math.min(1000 * 2 ** this.attempt++, 30000);\n      setTimeout(() => this.connect(), Math.random() * ceiling);\n    });\n  }\n\n  send(message: string) {\n    if (this.ws?.readyState === WebSocket.OPEN) {\n      this.ws.send(message);\n      return;\n    }\n    this.queue.push(message);\n  }\n}",
+        "lang": "typescript",
+        "correct": "Nothing bounds `queue` — no size cap and no age check — so everything typed during the hour offline is still in it, and the `open` handler replays all of it in one tick.",
+        "referenceAnswer": "The queue is filled and flushed correctly; what is missing is any bound on it. Fix in three parts: store `{ body, queuedAt }` so entries can be aged out, cap the number kept, and pace the drain instead of emitting the whole array in one tick.\n\n```ts\nprivate flush() {\n  const now = Date.now();\n  const fresh = this.queue\n    .filter((m) => now - m.queuedAt < 5 * 60_000)\n    .slice(-50);\n  const dropped = this.queue.length - fresh.length;\n  this.queue = [];\n  if (dropped > 0) this.onDropped(dropped);\n\n  const pump = () => {\n    const next = fresh.shift();\n    if (!next || this.ws?.readyState !== WebSocket.OPEN) return;\n    this.ws.send(next.body);\n    setTimeout(pump, 50);\n  };\n  pump();\n}\n```\n\nThe product decision comes before the code: an hour-old chat message is usually not worth delivering at all, so the TTL is the part to agree on first, and the drop has to be visible in the UI rather than silent.",
+        "explanation": {
+            "en": "An offline queue is a buffer, and a buffer with no policy for overflow and staleness is just a delayed flood. Bound it on both axes — a size cap and a per-message TTL — and drain it at a pace the server accepts rather than emitting the whole array at once. The part candidates forget is the UI: a message dropped by the cap or the TTL has to be shown as dropped, otherwise the bound reintroduces exactly the silent loss the queue was added to prevent.",
+            "ru": "Офлайн-очередь — это буфер, а буфер без политики переполнения и устаревания превращается просто в отложенный потоп. Ограничивайте её по обеим осям — предел размера и TTL на сообщение — и сливайте в темпе, который принимает сервер, а не выбрасывайте весь массив разом. О чём чаще всего забывают: сообщение, выброшенное по пределу или по TTL, должно быть показано в интерфейсе как несостоявшееся, иначе ограничение вернёт ровно ту молчаливую потерю, ради предотвращения которой очередь и заводили."
+        }
+    },
+    {
+        "id": "sd-dashboard-001",
+        "type": "single-choice",
+        "category": "system-design",
+        "difficulty": "hard",
+        "tags": ["dashboard", "sse", "multiplexing", "connection-limit"],
+        "question": {
+            "en": "A live-ops dashboard renders 40 widgets, each with its own update feed, and operators routinely keep three tabs of it open. Which delivery design keeps both the origin's connections and the client's work bounded?",
+            "ru": "Дашборд live-ops рисует 40 виджетов, у каждого свой поток обновлений, и операторы обычно держат открытыми три вкладки. Какая схема доставки удерживает в границах и число соединений к origin, и работу клиента?"
+        },
+        "options": [
+            {
+                "en": "One `EventSource` per widget, since the browser transparently multiplexes same-origin event streams onto a single connection",
+                "ru": "По одному `EventSource` на виджет: браузер прозрачно мультиплексирует потоки событий одного origin в одно соединение"
+            },
+            {
+                "en": "One `EventSource` per widget spread across eight numbered subdomains, so that no single origin ever reaches its connection limit",
+                "ru": "По одному `EventSource` на виджет, разнесённые по восьми пронумерованным поддоменам, чтобы ни один origin не упирался в свой лимит соединений"
+            },
+            {
+                "en": "A one-second `fetch` poll per widget, because short request/response pairs never hold a connection open and therefore cannot hit a per-origin limit",
+                "ru": "Опрос через `fetch` раз в секунду на каждый виджет: короткие пары запрос/ответ не держат соединение открытым и потому не упираются в лимит на origin"
+            },
+            {
+                "en": "One stream per tab, each widget a named `event:` type, with a leader tab holding the connection and relaying over `BroadcastChannel`",
+                "ru": "Один поток на вкладку, каждый виджет — именованный тип `event:`, соединение держит вкладка-лидер и раздаёт остальным через `BroadcastChannel`"
+            }
+        ],
+        "correct": 3,
+        "explanation": {
+            "en": "Forty streams means forty connections, and HTTP/1.1 allows six per origin — the seventh widget simply never connects, and three tabs triple the demand. The fix has two halves. On the wire one stream carries everything and the `event:` field names the widget, so `es.addEventListener('cpu', …)` routes it; without that field the event type defaults to `message`. Across tabs one tab elects itself leader, holds the only connection and republishes over `BroadcastChannel`, so the origin sees one connection per user rather than one per tab. Subdomain sharding only moves the cap around, at the cost of extra handshakes and duplicated auth, and per-widget polling multiplies requests instead of connections.",
+            "ru": "Сорок потоков — это сорок соединений, а HTTP/1.1 разрешает шесть на origin: седьмой виджет просто никогда не подключится, а три вкладки утраивают спрос. Решение состоит из двух половин. На проводе один поток несёт всё, а поле `event:` называет виджет, поэтому `es.addEventListener('cpu', …)` его и получает; без этого поля тип события по умолчанию — `message`. Между вкладками одна назначает себя лидером, держит единственное соединение и переопубликовывает данные через `BroadcastChannel`, так что origin видит одно соединение на пользователя, а не на вкладку. Шардирование по поддоменам лишь переносит лимит, добавляя лишние рукопожатия и дублируя аутентификацию, а опрос на каждый виджет умножает запросы вместо соединений."
+        }
+    },
+    {
+        "id": "sd-dashboard-cc-001",
+        "type": "code-completion",
+        "category": "system-design",
+        "difficulty": "medium",
+        "tags": ["dashboard", "sse", "event-types", "reconnect"],
+        "question": {
+            "en": "Complete the dashboard's SSE wiring so that one stream feeds many widgets and the browser waits 10 seconds before it reconnects:",
+            "ru": "Дополните SSE-обвязку дашборда так, чтобы один поток кормил много виджетов, а браузер ждал 10 секунд перед переподключением:"
+        },
+        "code": "// Client: one connection for the whole dashboard.\nconst es = new __BLANK__('/api/metrics');\n\n// Only events whose `event:` field is `cpu` reach this handler.\nes.__BLANK__('cpu', (e) => renderCpu(JSON.parse(e.data)));\n\n// Server: name the widget, then ask the browser for a 10 s reconnection delay.\nres.write(`event: cpu\\ndata: ${JSON.stringify(sample)}\\n\\n`);\nres.write(`__BLANK__: 10000\\n\\n`);",
+        "blanks": ["EventSource", "addEventListener", "retry"],
+        "lang": "javascript",
+        "referenceAnswer": "`new EventSource(url)` opens the stream. An event whose `event:` field is `cpu` is dispatched with that type, so `es.addEventListener('cpu', …)` receives only those events — the spec's own example is `source.addEventListener('add', addHandler, false)`, and \"the default event type is 'message'\" when the field is absent. `retry: 10000` sets the reconnection time: \"If the field value consists of only ASCII digits, then interpret the field value as an integer in base ten, and set the event stream's reconnection time to that integer\", and that time is in milliseconds. Spec: https://html.spec.whatwg.org/multipage/server-sent-events.html",
+        "explanation": {
+            "en": "A dashboard does not need one connection per widget: the `event:` field turns a single stream into as many logical channels as you like, and each widget subscribes to its own type with `addEventListener`. `retry:` is the other lever the server holds — when a deploy kills every stream at once, raising the reconnection time is how the server spreads the returning clients out instead of taking the whole herd at its default pace. A handler attached as `onmessage` sees only untyped events, which is the usual reason a named event looks like it never arrives.",
+            "ru": "Дашборду не нужно по соединению на виджет: поле `event:` превращает один поток в сколько угодно логических каналов, и каждый виджет подписывается на свой тип через `addEventListener`. `retry:` — второй рычаг на стороне сервера: когда деплой рвёт все потоки разом, увеличенное время переподключения растягивает возвращающихся клиентов во времени вместо того, чтобы принимать всю толпу с задержкой по умолчанию. Обработчик, повешенный как `onmessage`, видит только события без типа — это обычная причина, по которой именованное событие «не приходит»."
+        }
+    },
+    {
+        "id": "sd-table-001",
+        "type": "single-choice",
+        "category": "system-design",
+        "difficulty": "hard",
+        "tags": ["table", "virtualization", "server-side-ops", "sorting"],
+        "question": {
+            "en": "A 50,000-row table sorts, filters and paginates on the server and virtualizes the viewport. The user is scrolled to row 12,000 and changes the sort column. What is the correct client behaviour?",
+            "ru": "Таблица на 50 000 строк сортирует, фильтрует и пагинирует на сервере и виртуализирует вьюпорт. Пользователь прокрутил до строки 12 000 и меняет колонку сортировки. Как должен повести себя клиент?"
+        },
+        "options": [
+            {
+                "en": "Keep the scroll offset and refetch just the window around row 12,000 under the new sort order",
+                "ru": "Сохранить смещение скролла и перезапросить только окно вокруг строки 12 000 в новом порядке сортировки"
+            },
+            {
+                "en": "Drop the cached windows, reset the scroll to the top, and fetch the first window of the new order",
+                "ru": "Сбросить закэшированные окна, вернуть скролл наверх и запросить первое окно нового порядка"
+            },
+            {
+                "en": "Re-sort the rows that are already in the cache and lazily fetch the remainder as the user keeps scrolling",
+                "ru": "Пересортировать строки, которые уже есть в кэше, и лениво догружать остальное по мере прокрутки"
+            },
+            {
+                "en": "Keep the currently rendered rows pinned in place and apply the new sort only to rows fetched afterwards",
+                "ru": "Оставить сейчас отрисованные строки на месте и применить новую сортировку только к строкам, загруженным позже"
+            }
+        ],
+        "correct": 1,
+        "explanation": {
+            "en": "Row index is meaningful only relative to a sort order: under the new order, position 12,000 is a different row, and any cached window is indexed against an order that no longer exists. Preserving the offset produces a table that looks like it kept your place and did not. Client-side re-sorting is worse — it orders only the few hundred rows you happen to hold, so the user sees a sorted page inside an unsorted table. If keeping the user's place matters, anchor on the focused row's id and ask the server for its new index.",
+            "ru": "Индекс строки осмыслен только относительно порядка сортировки: в новом порядке позиция 12 000 — это другая строка, а любое закэшированное окно проиндексировано под порядок, которого больше нет. Сохранение смещения даёт таблицу, которая делает вид, что запомнила ваше место, но не запомнила. Клиентская пересортировка ещё хуже: она упорядочивает лишь те несколько сотен строк, что оказались под рукой, и пользователь видит отсортированную страницу внутри неотсортированной таблицы. Если удержать место действительно важно — привязывайтесь к id сфокусированной строки и спрашивайте сервер о её новом индексе."
+        }
+    },
+    {
+        "id": "sd-table-002",
+        "type": "multi-choice",
+        "category": "system-design",
+        "difficulty": "hard",
+        "tags": ["table", "accessibility", "virtualization", "aria"],
+        "question": {
+            "en": "A grid virtualizes 5,000 rows and keeps 25 of them in the DOM. Which of these are required for screen-reader and keyboard users?",
+            "ru": "Grid виртуализирует 5 000 строк и держит в DOM 25 из них. Что из перечисленного обязательно для пользователей скринридера и клавиатуры?"
+        },
+        "options": [
+            {
+                "en": "`aria-rowcount=\"5000\"` on the grid, rather than the number of rendered rows",
+                "ru": "`aria-rowcount=\"5000\"` на самом grid, а не количество отрисованных строк"
+            },
+            {
+                "en": "`aria-rowindex` on each rendered row, carrying its position in the full set",
+                "ru": "`aria-rowindex` на каждой отрисованной строке с её позицией в полном наборе"
+            },
+            {
+                "en": "An `aria-live` region that announces every row as it scrolls into view",
+                "ru": "Регион `aria-live`, который объявляет каждую строку, попадающую в зону видимости"
+            },
+            {
+                "en": "Moving focus off a row before it is unmounted, so focus does not fall back to `<body>`",
+                "ru": "Перенос фокуса со строки до её размонтирования, чтобы фокус не упал на `<body>`"
+            },
+            {
+                "en": "`aria-busy=\"true\"` left on the grid permanently while virtualization is active",
+                "ru": "Постоянно выставленный `aria-busy=\"true\"` на grid, пока работает виртуализация"
+            }
+        ],
+        "correct": [0, 1, 3],
+        "explanation": {
+            "en": "Without `aria-rowcount` and `aria-rowindex` a screen reader announces \"row 3 of 25\" for a 5,000-row table — the user is told the data set is 200 times smaller than it is; use `-1` for the count when the total is genuinely unknown. The focus rule is the one teams forget: when a focused row scrolls out and unmounts, focus resets to `<body>` and keyboard position is lost. A live region per row would be a torrent of announcements, and a permanent `aria-busy` tells assistive tech the grid is never ready to read.",
+            "ru": "Без `aria-rowcount` и `aria-rowindex` скринридер объявит «строка 3 из 25» для таблицы на 5 000 строк — пользователю сообщают набор данных в 200 раз меньше реального; если общее число действительно неизвестно, ставьте `-1`. Про фокус забывают чаще всего: когда сфокусированная строка уезжает за пределы окна и размонтируется, фокус сбрасывается на `<body>` и позиция с клавиатуры теряется. Live-регион на каждую строку превратится в поток объявлений, а постоянный `aria-busy` сообщает вспомогательным технологиям, что grid никогда не готов к чтению."
+        }
+    },
+    {
+        "id": "sd-table-bug-001",
+        "type": "bug-finding",
+        "category": "system-design",
+        "difficulty": "medium",
+        "tags": ["table", "selection", "identity", "server-side-ops"],
+        "question": {
+            "en": "Rows are sorted on the server. After the user ticks three rows and then changes the sort column, the ticks are on three different rows. Find the bug:",
+            "ru": "Строки сортируются на сервере. Пользователь отметил три строки, затем сменил колонку сортировки — и галочки оказались на трёх других строках. Найдите ошибку:"
+        },
+        "code": "function DataTable({ rows }: { rows: Row[] }) {\n  const [selected, setSelected] = useState<Set<number>>(new Set());\n\n  const toggle = (index: number) => {\n    setSelected((prev) => {\n      const next = new Set(prev);\n      if (next.has(index)) {\n        next.delete(index);\n      } else {\n        next.add(index);\n      }\n      return next;\n    });\n  };\n\n  return (\n    <tbody>\n      {rows.map((row, index) => (\n        <tr key={row.id}>\n          <td>\n            <input\n              type=\"checkbox\"\n              checked={selected.has(index)}\n              onChange={() => toggle(index)}\n            />\n          </td>\n          <td>{row.name}</td>\n        </tr>\n      ))}\n    </tbody>\n  );\n}",
+        "lang": "tsx",
+        "correct": "Selection is stored by the row's position in the current page (`index`) instead of by the row's stable `id`, so any server re-sort or page change moves the ticks onto whatever rows now occupy those positions.",
+        "referenceAnswer": "The `key` is correct — `row.id` — but the selection set is keyed by array index, which is a property of the current ordering, not of the row. Fix: store ids.\n\n```tsx\nconst [selected, setSelected] = useState<Set<string>>(new Set());\n\nconst toggle = (id: string) => {\n  setSelected((prev) => {\n    const next = new Set(prev);\n    next.has(id) ? next.delete(id) : next.add(id);\n    return next;\n  });\n};\n\n// ...\n<input checked={selected.has(row.id)} onChange={() => toggle(row.id)} />\n```\n\nWith server-side paging this also decides what \"select all\" means: a set of ids can only ever describe the rows the client has loaded, so a true select-all across 50,000 rows has to be modelled as a filter predicate sent to the server, not as a set.",
+        "explanation": {
+            "en": "Anything derived from a row's position — selection, expansion, an edit buffer, a focused cell — is invalidated the moment the server returns a different ordering, and the bug is invisible in a demo with one page and no sorting. The rule for a design round: client state about server data is keyed by the entity id, never by its index, and the same applies to a virtualized window where the index is not even stable within one sort order.",
+            "ru": "Всё, что выводится из позиции строки — выделение, раскрытие, буфер редактирования, сфокусированная ячейка — становится недействительным в момент, когда сервер вернул другой порядок, и в демо с одной страницей без сортировки баг не виден. Правило для design-раунда: клиентское состояние о серверных данных ключуется по id сущности, а не по индексу; то же верно и для виртуализированного окна, где индекс нестабилен даже внутри одного порядка сортировки."
+        }
+    },
+    {
+        "id": "sd-gallery-001",
+        "type": "single-choice",
+        "category": "system-design",
+        "difficulty": "medium",
+        "tags": ["gallery", "upload", "architecture"],
+        "question": {
+            "en": "Users upload 20 MB photos. Which upload path keeps your API servers out of the byte path entirely?",
+            "ru": "Пользователи загружают фотографии по 20 МБ. Какой путь загрузки полностью выводит ваши API-серверы из потока байтов?"
+        },
+        "options": [
+            {
+                "en": "POST the file base64-encoded inside a JSON request body to the API, which then forwards it on",
+                "ru": "Отправлять файл POST-ом в base64 внутри JSON-тела в API, который затем пересылает его дальше"
+            },
+            {
+                "en": "Stream the file through the BFF, which validates it and forwards the bytes on to object storage",
+                "ru": "Стримить файл через BFF, который валидирует его и пересылает байты в объектное хранилище"
+            },
+            {
+                "en": "Upload from a service worker so the transfer is retried in the background and the main thread is never blocked",
+                "ru": "Грузить из service worker, чтобы передача ретраилась в фоне и главный поток никогда не блокировался"
+            },
+            {
+                "en": "Ask the API for a pre-signed URL, `PUT` the bytes straight to object storage, then send the key back",
+                "ru": "Запросить у API pre-signed URL, сделать `PUT` байтов прямо в объектное хранилище и затем отправить ключ обратно"
+            }
+        ],
+        "correct": 3,
+        "explanation": {
+            "en": "A pre-signed URL keeps authorisation on the API — it decides who may write, where and for how long — while the bytes go directly from browser to storage, so upload concurrency stops consuming API memory, sockets and egress. Base64 inflates the payload by roughly a third and forces the whole file into a JSON parse. Streaming through the BFF works but makes every large upload a long-lived connection on a server you also need for everything else. The service worker changes where the request is issued, not who carries the bytes.",
+            "ru": "Pre-signed URL оставляет авторизацию на API — он решает, кто, куда и как долго может писать, — а байты идут напрямую из браузера в хранилище, так что параллельные загрузки перестают есть память, сокеты и egress API. Base64 раздувает полезную нагрузку примерно на треть и загоняет весь файл в разбор JSON. Стриминг через BFF работает, но превращает каждую крупную загрузку в долгоживущее соединение на сервере, который нужен вам и для всего остального. Service worker меняет, откуда отправлен запрос, а не то, кто несёт байты."
+        }
+    },
+    {
+        "id": "sd-gallery-002",
+        "type": "single-choice",
+        "category": "system-design",
+        "difficulty": "easy",
+        "tags": ["gallery", "lcp", "images", "performance"],
+        "question": {
+            "en": "A gallery page has a hero image that is the LCP element and 60 thumbnails below the fold. Which loading setup is right?",
+            "ru": "На странице галереи есть hero-изображение, которое является LCP-элементом, и 60 миниатюр ниже первого экрана. Какая настройка загрузки правильная?"
+        },
+        "options": [
+            {
+                "en": "Hero: `fetchpriority=\"high\"` and `loading=\"eager\"`; thumbnails: `loading=\"lazy\"`",
+                "ru": "Hero: `fetchpriority=\"high\"` и `loading=\"eager\"`; миниатюры: `loading=\"lazy\"`"
+            },
+            {
+                "en": "Everything `loading=\"lazy\"`, the hero included, so that nothing competes for bandwidth on first paint",
+                "ru": "Всё через `loading=\"lazy\"`, включая hero, чтобы ничто не конкурировало за канал на первой отрисовке"
+            },
+            {
+                "en": "Everything `loading=\"eager\"` with a `<link rel=\"preload\">` emitted for each of the thumbnails as well",
+                "ru": "Всё через `loading=\"eager\"` плюс `<link rel=\"preload\">` на каждую из миниатюр"
+            },
+            {
+                "en": "Hero as a CSS `background-image` and thumbnails as `<img loading=\"lazy\">` elements in the markup",
+                "ru": "Hero как CSS `background-image`, а миниатюры как элементы `<img loading=\"lazy\">` в разметке"
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "`loading=\"lazy\"` on the LCP image is the single most common self-inflicted LCP regression: the browser defers the very request the metric is waiting on. `fetchpriority=\"high\"` additionally lifts it above the other images the preload scanner found. Preloading 60 thumbnails just moves the contention rather than removing it, and a CSS background is discovered only after the stylesheet is parsed, which delays it further.",
+            "ru": "`loading=\"lazy\"` на LCP-изображении — самая частая самодельная регрессия LCP: браузер откладывает ровно тот запрос, которого ждёт метрика. `fetchpriority=\"high\"` вдобавок поднимает его над остальными картинками, найденными preload-сканером. Preload на 60 миниатюр лишь переносит конкуренцию, а не убирает её, а CSS-фон обнаруживается только после разбора стилей, что задерживает его ещё сильнее."
+        }
+    },
+    {
+        "id": "sd-gallery-bug-001",
+        "type": "bug-finding",
+        "category": "system-design",
+        "difficulty": "medium",
+        "tags": ["gallery", "upload", "memory-leak", "object-url"],
+        "question": {
+            "en": "After a user picks several batches of photos, the tab's memory keeps climbing and never comes back down. Find the bug:",
+            "ru": "После того как пользователь выбрал несколько пачек фотографий, память вкладки растёт и никогда не возвращается назад. Найдите ошибку:"
+        },
+        "code": "function UploadPreview({ files }: { files: File[] }) {\n  const [urls, setUrls] = useState<string[]>([]);\n\n  useEffect(() => {\n    setUrls(files.map((file) => URL.createObjectURL(file)));\n  }, [files]);\n\n  return (\n    <div className=\"grid grid-cols-4 gap-2\">\n      {urls.map((url) => (\n        <img key={url} src={url} alt=\"\" />\n      ))}\n    </div>\n  );\n}",
+        "lang": "tsx",
+        "correct": "Every object URL created by `URL.createObjectURL` is never revoked, so each blob stays alive for the lifetime of the document even after the preview is replaced or unmounted.",
+        "referenceAnswer": "An object URL holds a strong reference to its Blob until `URL.revokeObjectURL` is called or the document is discarded — the garbage collector cannot help, because the URL entry is the reference. With 20 MB photos, a few batches pin hundreds of megabytes. Fix by creating and revoking in the same effect:\n\n```tsx\nuseEffect(() => {\n  const next = files.map((file) => URL.createObjectURL(file));\n  setUrls(next);\n  return () => next.forEach(URL.revokeObjectURL);\n}, [files]);\n```\n\nNote that the cleanup must revoke the URLs created by *that* run of the effect — reading them back out of state in the cleanup would revoke whatever the latest render happened to hold.",
+        "explanation": {
+            "en": "This is the canonical frontend leak that a heap snapshot shows as retained Blobs rather than as detached DOM: nothing about the component looks wrong, and it only hurts when the files are large or the user picks several times. The general rule for a design round is that any browser resource with an explicit `create`/`revoke` or `observe`/`disconnect` pair belongs to the effect that made it, and the cleanup closes over that run's values.",
+            "ru": "Это каноническая фронтовая утечка, которую heap snapshot показывает как удерживаемые Blob, а не как detached DOM: в самом компоненте ничего не выглядит неправильно, и больно становится только при крупных файлах или нескольких выборах подряд. Общее правило для design-раунда: любой браузерный ресурс с явной парой `create`/`revoke` или `observe`/`disconnect` принадлежит тому эффекту, который его создал, а cleanup замыкается на значения именно того запуска."
+        }
+    },
+    {
+        "id": "sd-editor-001",
+        "type": "single-choice",
+        "category": "system-design",
+        "difficulty": "hard",
+        "tags": ["collaborative-editor", "crdt", "ot", "offline"],
+        "question": {
+            "en": "A collaborative editor must let a user work offline for hours and merge cleanly on reconnect, with no central server available to order the operations. Which model fits, and what does it cost?",
+            "ru": "Совместный редактор должен позволять работать offline часами и чисто мёржиться при переподключении, причём центрального сервера, который упорядочил бы операции, нет. Какая модель подходит и чем за это платят?"
+        },
+        "options": [
+            {
+                "en": "Operational transformation, because its transform functions resolve concurrent edits without needing any central ordering at all",
+                "ru": "Operational transformation: её transform-функции разрешают конкурентные правки вообще без центрального упорядочивания"
+            },
+            {
+                "en": "Last-write-wins on the whole document, because a single writer at a time is the common case in practice",
+                "ru": "Last-write-wins по всему документу: на практике чаще всего пишет кто-то один за раз"
+            },
+            {
+                "en": "A CRDT, because concurrent edits converge regardless of order — at the cost of per-character metadata",
+                "ru": "CRDT: конкурентные правки сходятся независимо от порядка — ценой метаданных на каждый символ"
+            },
+            {
+                "en": "Operational transformation with a local queue that is replayed on reconnect, which is what makes it offline-capable",
+                "ru": "Operational transformation с локальной очередью, переигрываемой при переподключении, — именно это делает её offline-способной"
+            }
+        ],
+        "correct": 2,
+        "explanation": {
+            "en": "A CRDT gives each insertion a globally unique, order-independent identity, so two replicas that applied the same set of operations in different orders end up with the same document — which is exactly the guarantee you need when nothing can serialise the operations. The price is metadata: identity per character, plus tombstones for deletions, so the document grows with its edit history and needs compaction. Production OT (Google Docs, ShareDB) transforms incoming operations against a server-maintained canonical order; remove the server and the transform has nothing to transform against.",
+            "ru": "CRDT даёт каждой вставке глобально уникальную идентичность, не зависящую от порядка, поэтому две реплики, применившие один и тот же набор операций в разном порядке, приходят к одному документу — ровно та гарантия, которая нужна, когда сериализовать операции некому. Цена — метаданные: идентичность на каждый символ плюс tombstone на удаления, так что документ растёт вместе с историей правок и требует компакции. Продакшен-OT (Google Docs, ShareDB) трансформирует входящие операции относительно канонического порядка, который ведёт сервер; уберите сервер — и трансформировать будет не относительно чего."
+        }
+    },
+    {
+        "id": "sd-notification-cc-001",
+        "type": "code-completion",
+        "category": "system-design",
+        "difficulty": "medium",
+        "tags": ["notifications", "multi-tab", "broadcast-channel"],
+        "question": {
+            "en": "One tab owns the socket and the other tabs must show the same unread badge. Complete the browser-native bus that carries the count between same-origin tabs:",
+            "ru": "Сокетом владеет одна вкладка, но одинаковый бейдж непрочитанного должны показывать все. Дополните браузерную шину, которая переносит счётчик между вкладками одного origin:"
+        },
+        "code": "const bus = new __BLANK__('notifications');\n\nsocket.addEventListener('message', (event) => {\n  const { unread } = JSON.parse(event.data);\n  renderBadge(unread);\n  bus.__BLANK__({ unread });\n});\n\nbus.onmessage = (event) => renderBadge(event.data.unread);",
+        "blanks": ["BroadcastChannel", "postMessage"],
+        "lang": "javascript",
+        "referenceAnswer": "`new BroadcastChannel('notifications')` opens a named channel shared by every same-origin browsing context, and `bus.postMessage(value)` delivers a structured-clone of the value to every other context on that channel — the sender does not receive its own message, which is why the socket handler calls `renderBadge` directly as well. The alternative, a `storage` event on `localStorage`, works but forces the value through a string and fires only on a real write. Note the leader tab still has to be elected and re-elected when it closes; `BroadcastChannel` moves the data, not the ownership.",
+        "explanation": {
+            "en": "Opening one socket per tab is the default mistake here: it multiplies server connections by the number of tabs a user leaves open and lets the badges drift apart when one tab misses an event. One owner plus a broadcast keeps a single source of truth. The part candidates forget is the handover — when the owning tab closes, some other tab must notice and take over, so the design needs a heartbeat or a lock, not just the channel.",
+            "ru": "Открыть по сокету на вкладку — типичная ошибка по умолчанию: это умножает соединения с сервером на число открытых вкладок и позволяет бейджам разъехаться, когда одна вкладка пропустит событие. Один владелец плюс broadcast сохраняют единый источник истины. Про что забывают — про передачу владения: когда вкладка-владелец закрывается, кто-то должен это заметить и взять роль на себя, так что дизайну нужен heartbeat или lock, а не только канал."
+        }
+    },
+    {
+        "id": "sd-checkout-001",
+        "type": "single-choice",
+        "category": "system-design",
+        "difficulty": "hard",
+        "tags": ["checkout", "idempotency", "persistence", "failure-modes"],
+        "question": {
+            "en": "A checkout page creates an idempotency key with `crypto.randomUUID()` in component state and sends it with `POST /orders`. The request times out, the user reloads the page and pays again — and is charged twice. Where does the design go wrong?",
+            "ru": "Страница оформления заказа создаёт ключ идемпотентности через `crypto.randomUUID()` в состоянии компонента и отправляет его вместе с `POST /orders`. Запрос отваливается по таймауту, пользователь перезагружает страницу и платит снова — и получает двойное списание. В чём ошибка дизайна?"
+        },
+        "options": [
+            {
+                "en": "`crypto.randomUUID()` can repeat across clients, so the key has to be derived by hashing the basket contents instead of being random",
+                "ru": "`crypto.randomUUID()` может повториться у разных клиентов, поэтому ключ нужно выводить хешированием содержимого корзины, а не брать случайным"
+            },
+            {
+                "en": "The server dropped the stored result of the first attempt before the second one arrived — a response recorded against a key has to be retained indefinitely",
+                "ru": "Сервер выбросил сохранённый результат первой попытки до прихода второй — ответ, записанный по ключу, обязан храниться бессрочно"
+            },
+            {
+                "en": "The key lives in component state, so the reload mints a new one and the server sees an unrelated intent; it has to be persisted with the basket",
+                "ru": "Ключ живёт в состоянии компонента, поэтому перезагрузка создаёт новый, и сервер видит другое намерение; ключ нужно сохранять вместе с корзиной"
+            },
+            {
+                "en": "The reload should have been intercepted with a `beforeunload` handler, because nothing on the client can stay safe once the page has been torn down",
+                "ru": "Перезагрузку следовало перехватить обработчиком `beforeunload`, потому что после разрушения страницы на клиенте уже ничего нельзя сделать безопасным"
+            }
+        ],
+        "correct": 2,
+        "explanation": {
+            "en": "An idempotency key identifies a user *intent*, not a request, so its lifetime must match the intent: from the moment the user commits to paying until the order is confirmed. In component state it dies with the render tree — the reload produces a fresh UUID, the server has no way to connect the two attempts, and it creates a second order exactly as asked. Persist the key next to the basket (`sessionStorage` is the usual home), send the same value on every attempt including after a reload, and clear it only on a confirmed response. Randomness is not the problem: a v4 UUID is fine, and hashing the basket would block a customer who genuinely wants to buy the same thing twice. Retention is a real design question, but it is a bounded window, and it is not the cause here — the second request never carried the first key at all.",
+            "ru": "Ключ идемпотентности идентифицирует *намерение* пользователя, а не запрос, поэтому его время жизни должно совпадать с намерением: от момента, когда пользователь решил платить, до подтверждения заказа. В состоянии компонента он умирает вместе с деревом рендера — перезагрузка порождает новый UUID, сервер не может связать две попытки и создаёт второй заказ ровно так, как его попросили. Храните ключ рядом с корзиной (обычное место — `sessionStorage`), отправляйте одно и то же значение на каждой попытке, включая попытку после перезагрузки, и очищайте его только по подтверждённому ответу. Случайность здесь ни при чём: UUID v4 подходит, а хеш корзины заблокировал бы покупателя, который осознанно хочет купить то же самое второй раз. Срок хранения результата — реальный вопрос дизайна, но это ограниченное окно, и причина не в нём: второй запрос вообще не нёс первый ключ."
+        }
+    },
+    {
+        "id": "sd-checkout-bug-001",
+        "type": "bug-finding",
+        "category": "system-design",
+        "difficulty": "hard",
+        "tags": ["checkout", "optimistic-ui", "rollback", "cart"],
+        "question": {
+            "en": "Support reports carts that show an item the server has never heard of, and a total that disagrees with the one at checkout. Find the bug:",
+            "ru": "Поддержка сообщает о корзинах, где показан товар, о котором сервер ничего не знает, и об итоговой сумме, расходящейся с суммой на оформлении. Найдите ошибку:"
+        },
+        "code": "async function addToCart(store: CartStore, item: CartItem) {\n  // Optimistic: render the item immediately.\n  store.setItems([...store.items, item]);\n\n  try {\n    await api.post('/cart/items', {\n      sku: item.sku,\n      quantity: item.quantity\n    });\n  } catch (error) {\n    logger.error('add to cart failed', { sku: item.sku, error });\n  }\n}",
+        "lang": "typescript",
+        "correct": "The optimistic insert is never rolled back when the request fails — the `catch` only logs, so the UI keeps an item the server rejected and silently diverges from server state.",
+        "referenceAnswer": "An optimistic update is a two-sided bet and this code only implements the winning side. Snapshot before the write, restore on failure, and surface the failure to the user:\n\n```ts\nasync function addToCart(store: CartStore, item: CartItem) {\n  const snapshot = store.items;\n  store.setItems([...snapshot, item]);\n\n  try {\n    const server = await api.post('/cart/items', { sku: item.sku, quantity: item.quantity });\n    store.setItems(server.items); // reconcile with the authoritative list\n  } catch (error) {\n    store.setItems(snapshot);\n    notify.error('Could not add that item');\n    logger.error('add to cart failed', { sku: item.sku, error });\n  }\n}\n```\n\nThe snapshot has to be taken before the optimistic write, and the reconcile step matters as much as the rollback: the server may have clamped the quantity or repriced the line, so trusting the local guess on success is the same class of bug one step later.",
+        "explanation": {
+            "en": "Optimistic UI trades correctness for latency, and the rollback is the premium you pay for that trade — without it the client is simply lying, and the lie survives until something forces a refetch, which on a cart is usually the checkout page. A logged error is not a rollback and is not user feedback. In a design round, say out loud which mutations are worth rendering optimistically at all: a like, yes; anything whose result only the server can compute, such as price or stock, no.",
+            "ru": "Оптимистичный UI меняет корректность на отзывчивость, и откат — это премия, которую вы платите за такой обмен; без него клиент просто врёт, и враньё живёт до тех пор, пока что-нибудь не заставит сделать перезапрос — в случае корзины обычно это страница оформления. Залогированная ошибка — не откат и не обратная связь пользователю. На design-раунде проговаривайте вслух, какие мутации вообще стоит рендерить оптимистично: лайк — да; всё, результат чего может посчитать только сервер (цена, остаток) — нет."
+        }
+    },
+    {
+        "id": "sd-design-system-001",
+        "type": "multi-choice",
+        "category": "system-design",
+        "difficulty": "medium",
+        "tags": ["design-system", "versioning", "deprecation", "rollout"],
+        "question": {
+            "en": "A shared `<Select>` must rename its `onValueChange` prop. There are 40 call sites across 12 repos that deploy independently. Which steps let consumers migrate without a coordinated release?",
+            "ru": "В общем компоненте `<Select>` нужно переименовать проп `onValueChange`. Есть 40 мест использования в 12 репозиториях, которые деплоятся независимо. Какие шаги позволят потребителям мигрировать без согласованного релиза?"
+        },
+        "options": [
+            {
+                "en": "Ship a minor version that accepts both prop names and maps the old one onto the new one",
+                "ru": "Выпустить minor-версию, которая принимает оба имени пропа и маппит старое на новое"
+            },
+            {
+                "en": "Warn once per component in development when the deprecated name is used",
+                "ru": "Один раз на компонент предупреждать в development-сборке об использовании устаревшего имени"
+            },
+            {
+                "en": "Ship the rename as a patch, since the runtime behaviour of the component is unchanged",
+                "ru": "Выпустить переименование как patch, ведь поведение компонента в рантайме не меняется"
+            },
+            {
+                "en": "Remove the old name only in a major version, once the consumers have migrated",
+                "ru": "Убрать старое имя только в major-версии, после того как потребители мигрировали"
+            },
+            {
+                "en": "Open a single pull request that edits all 12 repos and merge them within the same hour",
+                "ru": "Открыть один пулл-реквест, правящий все 12 репозиториев, и вмёржить их в течение одного часа"
+            }
+        ],
+        "correct": [0, 1, 3],
+        "explanation": {
+            "en": "Independent deploys mean you never get a moment when all consumers change at once, so the library has to hold both shapes for a while: accept both names (minor, because it is additive), make the old path noisy in development so the migration is visible, then delete it in a major. A patch that renames a prop is a breaking change mislabelled, and anyone on a caret range gets it silently. The synchronised mega-PR is the thing this release sequence exists to avoid.",
+            "ru": "Независимые деплои означают, что момента, когда все потребители поменяются разом, просто не наступит, поэтому библиотека какое-то время держит обе формы: принимает оба имени (minor, так как изменение аддитивное), шумит в development на старом пути, чтобы миграция была заметна, и удаляет его в major. Patch, переименовывающий проп, — это ломающее изменение с неправильным лейблом, и все, кто сидит на caret-диапазоне, получат его молча. Синхронный мега-PR — ровно то, ради избавления от чего эта последовательность релизов и существует."
+        }
+    },
+    {
+        "id": "sd-design-system-cc-001",
+        "type": "code-completion",
+        "category": "system-design",
+        "difficulty": "easy",
+        "tags": ["design-system", "design-tokens", "theming", "css"],
+        "question": {
+            "en": "The card must re-theme at runtime when `data-theme` flips, with no rebuild and no JavaScript. Complete the token reference:",
+            "ru": "Карточка должна перекрашиваться в рантайме при смене `data-theme` — без пересборки и без JavaScript. Дополните обращение к токену:"
+        },
+        "code": ":root {\n  --color-surface: #ffffff;\n}\n\n[data-theme='dark'] {\n  --color-surface: #101114;\n}\n\n.card {\n  background-color: __BLANK__(--color-surface, #ffffff);\n}",
+        "blanks": ["var"],
+        "lang": "css",
+        "referenceAnswer": "`var(--color-surface, #ffffff)` reads the custom property from the nearest ancestor that defines it, with the second argument as the fallback when the property is missing or invalid. Because custom properties are resolved at computed-value time and inherit, flipping `data-theme` on an ancestor re-resolves every descendant that references the token — no class rewriting and no re-render. A build-time constant (a Sass variable, a token baked into a bundle) cannot do this: it is gone by the time the CSS ships, so runtime theming would need a second stylesheet.",
+        "explanation": {
+            "en": "This is the whole argument for shipping design tokens as CSS custom properties rather than as build-time constants: theming, density and per-brand overrides become a change of one attribute on an ancestor. The trade-off worth naming is that custom properties are untyped strings at runtime — a typo silently falls back — so a design system usually pairs them with generated TypeScript token names or a lint rule that rejects raw hex values.",
+            "ru": "Это и есть главный аргумент за поставку дизайн-токенов как CSS custom properties, а не как констант времени сборки: темизация, плотность и переопределения под бренд сводятся к смене одного атрибута у предка. Trade-off, который стоит назвать: в рантайме custom properties — нетипизированные строки, опечатка молча уходит в fallback, поэтому дизайн-система обычно дополняет их сгенерированными именами токенов на TypeScript или lint-правилом, запрещающим сырые hex-значения."
+        }
+    }
+]
