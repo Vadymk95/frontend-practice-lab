@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils';
 
 import { AnswerOption } from '../AnswerOption';
 import { ExplanationPanel } from '../ExplanationPanel';
+import { useReferenceAnswer } from '../referenceAnswer';
 import { useBugFindingQuestion } from './useBugFindingQuestion';
 
 const DEFAULT_SNIPPET_LANG = 'javascript';
@@ -33,6 +34,7 @@ export const BugFindingQuestion: FC<Props> = ({
 }) => {
     const { t } = useTranslation('question');
     const pick = useLocalized();
+    const pickReference = useReferenceAnswer();
     const {
         selectedOption,
         textAnswer,
@@ -95,7 +97,7 @@ export const BugFindingQuestion: FC<Props> = ({
                             {t('referenceSolution')}
                         </p>
                         <MarkdownBlocks
-                            text={question.referenceAnswer}
+                            text={pickReference(question.referenceAnswer)}
                             lang={question.lang ?? DEFAULT_SNIPPET_LANG}
                         />
                     </div>

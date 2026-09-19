@@ -179,3 +179,34 @@ describe('main()', () => {
         expect(() => main(tmpDir)).not.toThrow();
     });
 });
+
+describe('localized reference answers', () => {
+    it('flags a reference answer whose RU side is still English', () => {
+        const q = completion('cc-untranslated', ['x'], 'javascript');
+        (q as { referenceAnswer: unknown }).referenceAnswer = {
+            en: 'Move the catch to the end of the chain so failures skip every later step.',
+            ru: 'Move the catch to the end of the chain so failures skip every later step.'
+        };
+        const findings = auditBank(bank([q]));
+        expect(kinds(findings)).toContain('untranslated-ru');
+        expect(findings.find((f) => f.kind === 'untranslated-ru')?.detail).toContain(
+            'referenceAnswer'
+        );
+    });
+
+    it('flags a reference answer with an empty translation', () => {
+        const q = completion('cc-empty-ru', ['x'], 'javascript');
+        (q as { referenceAnswer: unknown }).referenceAnswer = { en: 'Move the catch.', ru: '  ' };
+        expect(kinds(auditBank(bank([q])))).toContain('empty-text');
+    });
+
+    it('passes a translated reference answer and the legacy string form', () => {
+        const translated = completion('cc-translated', ['x'], 'javascript');
+        (translated as { referenceAnswer: unknown }).referenceAnswer = {
+            en: 'Move the catch to the end.',
+            ru: 'Перенесите catch в конец цепочки.'
+        };
+        const legacy = completion('cc-legacy', ['x'], 'javascript');
+        expect(kinds(auditBank(bank([translated, legacy])))).toEqual([]);
+    });
+});

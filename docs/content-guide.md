@@ -20,7 +20,7 @@ This guide documents how to add and edit questions in InterviewOS — both manua
 
 ## Bilingual content (RU / EN)
 
-Every user-facing natural-language field (`question`, `explanation`, and option entries) is a **`{ en, ru }` object**, not a plain string:
+Every user-facing natural-language field (`question`, `explanation`, `referenceAnswer`, and option entries) is a **`{ en, ru }` object**, not a plain string:
 
 ```json
 "question": {
@@ -36,10 +36,22 @@ The UI picks `en` or `ru` via `useLocalized()` based on the active i18n language
 - `id`, `category`, `tags[]`
 - `code` (code snippets)
 - `blanks[]` (code-completion expected tokens — identifiers, expressions)
-- `referenceAnswer` (bug-finding / code-completion — technical post-mortem kept English-only by convention)
 - `correct` when it is a number (index) or a free-text code description in `bug-finding`
 
 If you add a question manually, both `en` and `ru` must be non-empty. The validator does not check translation quality, but an empty string will fail the schema.
+
+### `referenceAnswer` is prose, so it is bilingual
+
+`referenceAnswer` is the text the reader is graded against, and it is written as prose about the fix rather than as source code. The canonical shape is therefore `{ en, ru }`:
+
+```json
+"referenceAnswer": {
+    "en": "Move the .catch() to the end of the chain so failures skip every later step.",
+    "ru": "Перенесите .catch() в конец цепочки, чтобы ошибка пропускала все последующие шаги."
+}
+```
+
+A bare string is still accepted while the existing bank is migrated; it renders as the same English text in both languages. **New questions use the object form** — the data gate runs its untranslated-RU heuristic on `referenceAnswer.ru` exactly as it does on `explanation.ru`. Code belongs inside a ` ``` ` fence in the prose, not in place of it: the card renders the prose as wrapping text and each fence as a highlighted code block.
 
 ---
 
@@ -63,7 +75,7 @@ The source of truth for all schemas is [`src/lib/data/schema.ts`](../src/lib/dat
 
 ### What renders
 
-The question card renders **inline** markdown only: `` `code` `` spans, `**bold**` and line breaks. Everything else is shown literally. A fenced block (` ``` `) in `question`, `explanation` or an option is a data-gate error — put the snippet in the `code` field with a `lang`, and the card shows it as a highlighted block under the stem. `referenceAnswer` may contain fenced blocks; they are rendered as code blocks.
+The question card renders **inline** markdown only: `` `code` `` spans, `**bold**` and line breaks. Everything else is shown literally. A fenced block (` ``` `) in `question`, `explanation` or an option is a data-gate error — put the snippet in the `code` field with a `lang`, and the card shows it as a highlighted block under the stem. `referenceAnswer` may contain fenced blocks; the prose around them wraps as text and each fence is rendered as a code block.
 
 ### Options are shuffled
 
@@ -194,7 +206,7 @@ The user reads a code snippet and identifies the bug.
 | `code`            | `string`                       | ✅       | Code snippet containing the bug. Use `\n` for newlines. Language-agnostic (not translated).                                   |
 | `lang`            | `string`                       | ✅       | Highlighting language (see base fields). The data gate requires it.                                                           |
 | `correct`         | `number \| string`             | ✅       | Index of the correct option when `options` is present; otherwise a short free-text bug description.                           |
-| `referenceAnswer` | `string`                       | ✅       | Full explanation of the fix. Kept English-only by convention (technical post-mortem).                                         |
+| `referenceAnswer` | `{ en, ru } \| string`         | ✅       | Full explanation of the fix, as prose with optional fenced code. Bilingual — the plain string is the legacy form.             |
 | `options`         | `{ en: string; ru: string }[]` | ❌       | Optional multiple-choice options (bilingual per entry). If omitted, the user types a free answer. Minimum 1 item if provided. |
 
 ### JSON example (free-text mode — no `options`)
@@ -212,7 +224,10 @@ The user reads a code snippet and identifies the bug.
     },
     "code": "function isObject(value) {\n  return typeof value === 'object';\n}",
     "correct": "null passes the check because typeof null === 'object'",
-    "referenceAnswer": "The function returns true for null because typeof null === 'object' is a well-known JavaScript bug. Fix: return value !== null && typeof value === 'object';",
+    "referenceAnswer": {
+        "en": "The function returns true for null because typeof null === 'object' is a well-known JavaScript bug. Fix: return value !== null && typeof value === 'object';",
+        "ru": "Функция возвращает true для null, потому что typeof null === 'object' — известный баг JavaScript. Исправление: return value !== null && typeof value === 'object';"
+    },
     "explanation": {
         "en": "typeof null === 'object' is a historical JavaScript quirk. Always add a null check when using typeof to verify objects.",
         "ru": "typeof null === 'object' — исторический квирк JavaScript. Всегда добавляйте проверку на null при использовании typeof для проверки объектов."
@@ -228,12 +243,12 @@ The user fills in the blanks (`__BLANK__`) in a code template.
 
 ### Additional fields
 
-| Field             | Type       | Required | Description                                                                                                       |
-| ----------------- | ---------- | -------- | ----------------------------------------------------------------------------------------------------------------- |
-| `code`            | `string`   | ✅       | Code template with `__BLANK__` marking each blank. Language-agnostic (not translated).                            |
-| `blanks`          | `string[]` | ✅       | Expected fill-in values for each blank, in order of appearance. Identifiers/expressions — not translated.         |
-| `referenceAnswer` | `string`   | ✅       | Complete code or rationale shown after the user answers. Kept English-only by convention (technical post-mortem). |
-| `lang`            | `string`   | ✅       | Language for syntax highlighting. The data gate requires it.                                                      |
+| Field             | Type                   | Required | Description                                                                                                                  |
+| ----------------- | ---------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `code`            | `string`               | ✅       | Code template with `__BLANK__` marking each blank. Language-agnostic (not translated).                                       |
+| `blanks`          | `string[]`             | ✅       | Expected fill-in values for each blank, in order of appearance. Identifiers/expressions — not translated.                    |
+| `referenceAnswer` | `{ en, ru } \| string` | ✅       | Rationale shown after the user answers, as prose with optional fenced code. Bilingual — the plain string is the legacy form. |
+| `lang`            | `string`               | ✅       | Language for syntax highlighting. The data gate requires it.                                                                 |
 
 > **Blank marker:** the only valid placeholder is the literal string `__BLANK__`. Triple underscores (`___`) and any other variant are NOT recognised — the schema rejects code where the `__BLANK__` marker count does not equal `blanks.length`.
 
@@ -253,7 +268,10 @@ The user fills in the blanks (`__BLANK__`) in a code template.
     "code": "function upper(strings, ...values) {\n  return strings.reduce((acc, str, i) => {\n    return acc + (values[i - 1] ? values[i - 1].__BLANK__  : '') + str;\n  });\n}\nconst name = 'world';\nconsole.log(upper`hello ${name}`); // 'hello WORLD'",
     "blanks": ["toUpperCase()"],
     "lang": "javascript",
-    "referenceAnswer": "values[i - 1].toUpperCase() converts each interpolated value to uppercase before concatenating.",
+    "referenceAnswer": {
+        "en": "values[i - 1].toUpperCase() converts each interpolated value to uppercase before concatenating.",
+        "ru": "values[i - 1].toUpperCase() приводит каждое подставленное значение к верхнему регистру перед конкатенацией."
+    },
     "explanation": {
         "en": "Tagged template literals receive the string parts and interpolated values separately. Calling .toUpperCase() on each value produces the uppercase output.",
         "ru": "Тегированные шаблонные литералы получают строковые части и интерполированные значения раздельно. Вызов .toUpperCase() на каждом значении даёт вывод в верхнем регистре."
@@ -351,8 +369,8 @@ Copy and fill in this template when asking an AI agent to generate questions:
 
 ```
 Generate 5 questions for category "javascript", difficulty "medium", type "single-choice".
-Follow docs/content-guide.md schema exactly — ALL user-facing text fields (`question`, `explanation`, each `options[]` entry) MUST be `{ en: "...", ru: "..." }` bilingual objects. Both locales required, both non-empty, RU must be natural Russian (not transliteration).
-Language-agnostic fields (`code`, `blanks`, `referenceAnswer`) stay plain strings and are NOT translated.
+Follow docs/content-guide.md schema exactly — ALL user-facing text fields (`question`, `explanation`, `referenceAnswer`, each `options[]` entry) MUST be `{ en: "...", ru: "..." }` bilingual objects. Both locales required, both non-empty, RU must be natural Russian (not transliteration).
+Language-agnostic fields (`code`, `blanks`) stay plain strings and are NOT translated.
 Text fields use inline markdown only (`code` spans, **bold**); a snippet goes in the `code` field with a `lang`, never in a fence inside the text.
 Options are shuffled at render: never reference a position ("all of the above"); keep the correct option and the distractors of similar length; make every distractor a real misconception.
 ID format: js-{topic}-NNN (use the next available sequence number based on existing IDs).

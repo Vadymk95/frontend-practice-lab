@@ -485,3 +485,35 @@ describe('BugFindingQuestion — free-text field and submit gating', () => {
         expect(onCanSubmitChange).toHaveBeenLastCalledWith(true);
     });
 });
+
+describe('BugFindingQuestion — localized reference answer', () => {
+    const textOnlyQuestion = (overrides: Partial<BugFindingQuestion> = {}) =>
+        makeBugFindingQuestion({ options: undefined, correct: 'stale closure', ...overrides });
+
+    it('resolves the { en, ru } form for the active language', async () => {
+        let submitFn: (() => void) | null = null;
+        const { container } = renderWithProviders(
+            <BugFindingQuestionComponent
+                question={textOnlyQuestion({
+                    referenceAnswer: {
+                        en: 'Bound the queue before flushing it.',
+                        ru: 'Ограничьте очередь перед сбросом.'
+                    }
+                })}
+                onSubmitRegister={(fn) => {
+                    submitFn = fn;
+                }}
+                onSelfAssessRegister={vi.fn()}
+            />
+        );
+
+        fireEvent.change(screen.getByRole('textbox', { name: 'Your answer' }), {
+            target: { value: 'unbounded queue' }
+        });
+        await waitFor(() => expect(submitFn).not.toBeNull());
+        act(() => submitFn?.());
+
+        expect(container.textContent).toContain('Bound the queue before flushing it.');
+        expect(container.textContent).not.toContain('[object Object]');
+    });
+});

@@ -488,3 +488,72 @@ describe('CodeCompletionQuestion — skipped reveal', () => {
         expect(screen.getAllByRole('textbox')[0]!.className).toContain('text-accent');
     });
 });
+
+describe('CodeCompletionQuestion — reference answer', () => {
+    const submitAnswered = async (question: CodeCompletionQuestionData) => {
+        let capturedSubmitFn: (() => void) | null = null;
+        const view = renderWithProviders(
+            <CodeCompletionQuestion
+                question={question}
+                onSubmitRegister={(fn) => {
+                    capturedSubmitFn = fn;
+                }}
+                onAllBlanksFilled={vi.fn()}
+            />
+        );
+        const inputs = screen.getAllByRole('textbox');
+        fireEvent.change(inputs[0]!, { target: { value: 'a' } });
+        fireEvent.change(inputs[1]!, { target: { value: 'b' } });
+        await waitFor(() => expect(capturedSubmitFn).not.toBeNull());
+        await act(async () => {
+            capturedSubmitFn!();
+        });
+        return view;
+    };
+
+    it('renders a prose reference answer as wrapping text, not as a code block', async () => {
+        const { container } = await submitAnswered(
+            makeCodeCompletionQuestion({
+                referenceAnswer: 'Use `useCallback` so the handler identity stays stable.'
+            })
+        );
+
+        await waitFor(() =>
+            expect(container.textContent).toContain('so the handler identity stays stable')
+        );
+        const highlighted = [...container.querySelectorAll('.shiki')].map((el) => el.textContent);
+        expect(highlighted.join('')).not.toContain('so the handler identity stays stable');
+        const codeSpans = [...container.querySelectorAll('code')].map((el) => el.textContent);
+        expect(codeSpans).toContain('useCallback');
+    });
+
+    it('renders only the fenced part of a reference answer as code', async () => {
+        const { container } = await submitAnswered(
+            makeCodeCompletionQuestion({
+                referenceAnswer: 'Return the sum:\n```js\nreturn a + b;\n```'
+            })
+        );
+
+        await waitFor(() => expect(container.textContent).toContain('Return the sum:'));
+        const highlighted = [...container.querySelectorAll('.shiki')].map((el) => el.textContent);
+        expect(highlighted.join('')).not.toContain('Return the sum');
+        expect(highlighted.join('')).toContain('return a + b;');
+    });
+
+    it('resolves a localized reference answer for the active language', async () => {
+        const { container } = await submitAnswered(
+            makeCodeCompletionQuestion({
+                referenceAnswer: {
+                    en: 'Add the two parameters together.',
+                    ru: 'Сложите два параметра.'
+                }
+            })
+        );
+
+        await waitFor(() =>
+            expect(container.textContent).toContain('Add the two parameters together.')
+        );
+        expect(container.textContent).not.toContain('Сложите два параметра.');
+        expect(container.textContent).not.toContain('[object Object]');
+    });
+});

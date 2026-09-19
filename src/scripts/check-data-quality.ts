@@ -159,6 +159,16 @@ export function auditBank(files: CategoryFile[]): DataFinding[] {
                 }
             }
 
+            // A localized reference answer is body text like any other — the legacy plain-string
+            // form carries no RU side to judge, so it is skipped until the bank is migrated.
+            if ('referenceAnswer' in q && typeof q.referenceAnswer === 'object') {
+                const { en, ru } = q.referenceAnswer;
+                if (!en.trim() || !ru.trim()) push('error', 'empty-text', q.id, 'referenceAnswer');
+                else if (isUntranslated(ru)) {
+                    push('error', 'untranslated-ru', q.id, `referenceAnswer: ${ru.slice(0, 60)}`);
+                }
+            }
+
             if (q.explanation.en.trim().length < THRESHOLDS.MIN_EXPLANATION_CHARS) {
                 push('warn', 'short-explanation', q.id, `${q.explanation.en.length} chars`);
             }

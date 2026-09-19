@@ -7,6 +7,13 @@ const LocalizedStringSchema = z.object({
 
 export type LocalizedString = z.infer<typeof LocalizedStringSchema>;
 
+// `referenceAnswer` is prose about the fix, not source code, so it needs translating like any
+// other body text. The localized `{ en, ru }` shape is the canonical one; a bare string is the
+// legacy form still present in the bank and renders as the same English text in both languages.
+const ReferenceAnswerSchema = z.union([LocalizedStringSchema, z.string()]);
+
+export type ReferenceAnswer = z.infer<typeof ReferenceAnswerSchema>;
+
 // `code` + `lang` are optional on EVERY type: a choice question may show a snippet under its stem
 // ("what does this log?"), and bug-finding / code-completion use `lang` for highlighting. Markdown
 // fences inside `question` are not rendered — the snippet belongs here. `lang` is a Shiki id
@@ -45,11 +52,11 @@ export const BugFindingSchema = BaseQuestionSchema.extend({
     lang: z.string().optional(),
     options: z.array(LocalizedStringSchema).min(1).optional(),
     correct: z.union([z.number().int().nonnegative(), z.string()]),
-    referenceAnswer: z.string()
+    referenceAnswer: ReferenceAnswerSchema
 });
 
-// CodeCompletion: `code`, `blanks`, `lang`, `referenceAnswer` are language-agnostic
-// (source code / identifiers / code snippets).
+// CodeCompletion: `code`, `blanks` and `lang` are language-agnostic (source code / identifiers).
+// `referenceAnswer` is not — see ReferenceAnswerSchema.
 //
 // Authoring invariant: every `__BLANK__` marker in `code` maps 1:1 to a `blanks`
 // entry. Enforced at the schema level so CI's `validate:data` step blocks any
@@ -59,7 +66,7 @@ export const CodeCompletionSchema = BaseQuestionSchema.extend({
     type: z.literal('code-completion'),
     code: z.string(),
     blanks: z.array(z.string()),
-    referenceAnswer: z.string()
+    referenceAnswer: ReferenceAnswerSchema
 }).refine((q) => q.code.split('__BLANK__').length - 1 === q.blanks.length, {
     message: "code-completion: '__BLANK__' marker count in code must equal blanks.length",
     path: ['code']

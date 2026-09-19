@@ -1,14 +1,16 @@
 import { Fragment, type FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { CodeBlock } from '@/components/common/CodeBlock';
+import { MarkdownBlocks } from '@/components/common/InlineMarkdown';
 import type { CodeCompletionQuestion as CodeCompletionQuestionData } from '@/lib/data/schema';
 import { useLocalized } from '@/lib/i18n/localized';
 import { cn } from '@/lib/utils';
 
 import { ExplanationPanel } from '../ExplanationPanel';
+import { useReferenceAnswer } from '../referenceAnswer';
 import { useCodeCompletionQuestion } from './useCodeCompletionQuestion';
 
+const DEFAULT_SNIPPET_LANG = 'javascript';
 const ENTER_KEY = 'Enter';
 /** Wide enough to stay a 44px-class tap target on a phone. */
 const MIN_BLANK_WIDTH_CH = 6;
@@ -28,6 +30,7 @@ export const CodeCompletionQuestion: FC<Props> = ({
 }) => {
     const { t } = useTranslation('question');
     const pick = useLocalized();
+    const pickReference = useReferenceAnswer();
     const { segments, blanksInput, isSubmitted, blankResults, onBlankChange, onSubmit } =
         useCodeCompletionQuestion({ question, isSkipped, onSubmitRegister, onAllBlanksFilled });
 
@@ -36,7 +39,7 @@ export const CodeCompletionQuestion: FC<Props> = ({
             <div className="relative rounded-none border border-border bg-white font-mono text-sm dark:bg-[#0d1117]">
                 <div className="flex items-center border-b border-border px-3 py-1">
                     <span className="text-xs text-muted-foreground">
-                        {question.lang ?? 'javascript'}
+                        {question.lang ?? DEFAULT_SNIPPET_LANG}
                     </span>
                 </div>
                 <pre className="m-0 overflow-x-auto bg-white p-4 whitespace-pre-wrap dark:bg-[#0d1117]">
@@ -104,9 +107,9 @@ export const CodeCompletionQuestion: FC<Props> = ({
                         <p className="text-xs font-medium text-muted-foreground mb-2">
                             {t('referenceSolution')}
                         </p>
-                        <CodeBlock
-                            code={question.referenceAnswer}
-                            lang={question.lang ?? 'javascript'}
+                        <MarkdownBlocks
+                            text={pickReference(question.referenceAnswer)}
+                            lang={question.lang ?? DEFAULT_SNIPPET_LANG}
                         />
                     </div>
                     <ExplanationPanel explanation={pick(question.explanation)} />
