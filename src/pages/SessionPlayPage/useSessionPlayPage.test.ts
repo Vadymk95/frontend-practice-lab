@@ -279,6 +279,33 @@ describe('SessionPlayPage — keyboard shortcuts reach the rendered question', (
     });
 });
 
+describe('SessionPlayPage — the advance control names where it leads', () => {
+    it('offers the results on the last question instead of another Next', async () => {
+        useSessionStore.setState({
+            questionList: [singleChoiceQuestion],
+            answers: { 'sc-1': 0 }
+        });
+
+        renderPlayPage();
+
+        expect(await screen.findAllByRole('button', { name: /Show results/i })).not.toHaveLength(0);
+        expect(screen.queryByRole('button', { name: /^Next$/i })).not.toBeInTheDocument();
+    });
+
+    it('still offers Next while questions remain', async () => {
+        const second = { ...singleChoiceQuestion, id: 'sc-2' } as Question;
+        useSessionStore.setState({
+            questionList: [singleChoiceQuestion, second],
+            currentIndex: 0,
+            answers: { 'sc-1': 0 }
+        });
+
+        renderPlayPage();
+
+        expect(await screen.findAllByRole('button', { name: /^Next$/i })).not.toHaveLength(0);
+    });
+});
+
 describe('SessionPlayPage — the end dialog states what ending will do', () => {
     it('promises results for the answered questions once something is answered', async () => {
         useSessionStore.setState({

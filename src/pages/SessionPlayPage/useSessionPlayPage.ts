@@ -16,6 +16,8 @@ export interface SessionPlayPageState {
     questionCount: number;
     currentQuestion: Question | null;
     isAnswered: boolean;
+    /** The advance control leads to the results, not to another question. */
+    isLastQuestion: boolean;
     timerEnabled: boolean;
     timerMs: number;
 
@@ -288,6 +290,7 @@ export function useSessionPlayPage(): SessionPlayPageState {
         questionCount: questionList.length,
         currentQuestion,
         isAnswered,
+        isLastQuestion,
         timerEnabled,
         timerMs,
 

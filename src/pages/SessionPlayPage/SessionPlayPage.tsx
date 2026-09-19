@@ -31,6 +31,7 @@ export const SessionPlayPage: FC = () => {
         isSetupError,
         questionCount,
         isAnswered,
+        isLastQuestion,
         timerEnabled,
         timerMs,
         isMultiChoice,
@@ -70,7 +71,11 @@ export const SessionPlayPage: FC = () => {
     }
 
     const actionBar: ActionBarState | null = isAnswered
-        ? { label: tSession('next'), onClick: handleNext, disabled: false }
+        ? {
+              label: tSession(isLastQuestion ? 'showResults' : 'next'),
+              onClick: handleNext,
+              disabled: false
+          }
         : isBugFindingPendingSelfAssess
           ? null
           : isMultiChoice
