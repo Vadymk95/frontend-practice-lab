@@ -111,7 +111,7 @@ describe('useSessionPlayPage — bug-finding pending-self-assess gate', () => {
 });
 
 describe('useSessionPlayPage — leaving the session', () => {
-    it('replaces the play route when ending a session so Back cannot return to it', () => {
+    it('replaces the play route when ending an untouched session so Back cannot return to it', () => {
         const { result } = renderHook(() => useSessionPlayPage(), { wrapper });
 
         act(() => {
@@ -122,6 +122,57 @@ describe('useSessionPlayPage — leaving the session', () => {
             replace: true,
             state: { flash: 'sessionEnded' }
         });
+        expect(useSessionStore.getState().questionList).toHaveLength(0);
+    });
+
+    it('scores what was answered on the summary instead of discarding the session', () => {
+        const second = { ...bugFindingQuestion, id: 'bf-2' } as Question;
+        const third = { ...bugFindingQuestion, id: 'bf-3' } as Question;
+        useSessionStore.setState({
+            questionList: [bugFindingQuestion, second, third],
+            answers: { 'bf-1': 'gotIt' },
+            currentIndex: 1
+        });
+        const { result } = renderHook(() => useSessionPlayPage(), { wrapper });
+
+        act(() => {
+            result.current.confirmEndSession();
+        });
+
+        expect(navigateMock).toHaveBeenCalledWith('/session/summary');
+        const state = useSessionStore.getState();
+        expect(state.questionList.map((q) => q.id)).toEqual(['bf-1']);
+        expect(state.answers).toEqual({ 'bf-1': 'gotIt' });
+        expect(state.endedAt).toBeNull();
+    });
+
+    it('keeps a skipped question in the scored list so the summary still reports it', () => {
+        const second = { ...bugFindingQuestion, id: 'bf-2' } as Question;
+        useSessionStore.setState({
+            questionList: [bugFindingQuestion, second],
+            answers: { 'bf-1': 'skipped' },
+            skipList: ['bf-1']
+        });
+        const { result } = renderHook(() => useSessionPlayPage(), { wrapper });
+
+        act(() => {
+            result.current.confirmEndSession();
+        });
+
+        expect(navigateMock).toHaveBeenCalledWith('/session/summary');
+        expect(useSessionStore.getState().questionList.map((q) => q.id)).toEqual(['bf-1']);
+    });
+
+    it('warns that progress is lost only while nothing has been answered', () => {
+        const { result, rerender } = renderHook(() => useSessionPlayPage(), { wrapper });
+        expect(result.current.willScoreOnEnd).toBe(false);
+
+        act(() => {
+            useSessionStore.setState({ answers: { 'bf-1': 'gotIt' } });
+        });
+        rerender();
+
+        expect(result.current.willScoreOnEnd).toBe(true);
     });
 
     it('explains the bounce home when the configured filters match no questions', async () => {
@@ -196,6 +247,31 @@ describe('SessionPlayPage — keyboard shortcuts reach the rendered question', (
         await waitFor(() => {
             expect(useSessionStore.getState().answers['sc-2']).toBe(expected);
         });
+    });
+});
+
+describe('SessionPlayPage — the end dialog states what ending will do', () => {
+    it('promises results for the answered questions once something is answered', async () => {
+        useSessionStore.setState({
+            questionList: [singleChoiceQuestion],
+            answers: { 'sc-1': 0 }
+        });
+
+        renderWithProviders(createElement(SessionPlayPage));
+        fireEvent.click(screen.getByRole('button', { name: /End session/i }));
+
+        expect(
+            await screen.findByText(/questions you answered will be scored/i)
+        ).toBeInTheDocument();
+    });
+
+    it('warns that progress is lost while the session is untouched', async () => {
+        useSessionStore.setState({ questionList: [singleChoiceQuestion], answers: {} });
+
+        renderWithProviders(createElement(SessionPlayPage));
+        fireEvent.click(screen.getByRole('button', { name: /End session/i }));
+
+        expect(await screen.findByText(/progress will not be saved/i)).toBeInTheDocument();
     });
 });
 

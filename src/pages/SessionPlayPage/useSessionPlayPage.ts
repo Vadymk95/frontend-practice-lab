@@ -27,6 +27,8 @@ export interface SessionPlayPageState {
     bugFindingCanSubmit: boolean;
 
     isEndDialogOpen: boolean;
+    /** True once something is answered: ending now produces a scored summary, not a discard. */
+    willScoreOnEnd: boolean;
     openEndDialog: () => void;
     closeEndDialog: () => void;
     confirmEndSession: () => void;
@@ -53,6 +55,7 @@ export function useSessionPlayPage(): SessionPlayPageState {
     const answers = useSessionStore.use.answers();
     const nextQuestion = useSessionStore.use.nextQuestion();
     const endSession = useSessionStore.use.endSession();
+    const setQuestionList = useSessionStore.use.setQuestionList();
     const timerMs = useSessionStore.use.timerMs();
     const setTimerMs = useSessionStore.use.setTimerMs();
 
@@ -90,30 +93,37 @@ export function useSessionPlayPage(): SessionPlayPageState {
 
     const [isEndDialogOpen, setIsEndDialogOpen] = useState(false);
 
+    const willScoreOnEnd = Object.keys(answers).length > 0;
+
     const openEndDialog = useCallback(() => setIsEndDialogOpen(true), []);
     const closeEndDialog = useCallback(() => setIsEndDialogOpen(false), []);
 
     const confirmEndSession = useCallback(() => {
-        // Track abandonment here so the unmount cleanup doesn't re-emit a duplicate event
-        // after we wipe the store. Mirrors the cleanup-effect contract.
         const state = useSessionStore.getState();
-        if (state.questionList.length > 0 && Object.keys(state.answers).length > 0) {
-            track('session_abandoned', {
-                answered: Object.keys(state.answers).length,
-                total: state.questionList.length
-            });
-        }
+        const attempted = state.questionList.filter((q) => state.answers[q.id] !== undefined);
+        // The unmount cleanup below must not read this as an abandonment: either the summary
+        // scores the session (and emits its own completion event), or there was nothing to score.
         sessionCompletedRef.current = true;
         setIsEndDialogOpen(false);
-        // endSession() wipes session data and stamps endedAt — useSessionSetup's
-        // !config redirect reads endedAt and skips, so this navigate's sessionEnded
-        // flash is preserved.
+
+        if (attempted.length > 0) {
+            // Ending mid-run keeps the questions the user actually reached. Without the trim the
+            // untouched remainder would score as wrong and would be written into the adaptive
+            // weights as questions the user got wrong rather than never saw.
+            setQuestionList(attempted);
+            navigate(RoutesPath.SessionSummary);
+            return;
+        }
+
+        // Nothing was answered, so there is no summary to show. endSession() wipes session data
+        // and stamps endedAt — useSessionSetup's !config redirect reads endedAt and skips, so
+        // this navigate's sessionEnded flash is preserved.
         endSession();
         const flash: FlashState = { flash: 'sessionEnded' };
         // replace, not push: the session behind this route no longer exists, so a
         // Back onto /session/play would land on a page with nothing to show.
         navigate(RoutesPath.Root, { replace: true, state: flash });
-    }, [navigate, endSession]);
+    }, [navigate, endSession, setQuestionList]);
 
     // Fire session_abandoned when navigating away mid-session without completing
     useEffect(() => {
@@ -266,6 +276,7 @@ export function useSessionPlayPage(): SessionPlayPageState {
         bugFindingCanSubmit,
 
         isEndDialogOpen,
+        willScoreOnEnd,
         openEndDialog,
         closeEndDialog,
         confirmEndSession,

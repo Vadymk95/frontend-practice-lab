@@ -41,6 +41,7 @@ export const SessionPlayPage: FC = () => {
         codeCompletionAllFilled,
         bugFindingCanSubmit,
         isEndDialogOpen,
+        willScoreOnEnd,
         openEndDialog,
         closeEndDialog,
         confirmEndSession,
@@ -131,7 +132,13 @@ export const SessionPlayPage: FC = () => {
                 <DialogContent>
                     <DialogHeader>
                         <DialogTitle>{tSession('end.dialog.title')}</DialogTitle>
-                        <DialogDescription>{tSession('end.dialog.description')}</DialogDescription>
+                        <DialogDescription>
+                            {tSession(
+                                willScoreOnEnd
+                                    ? 'end.dialog.descriptionScored'
+                                    : 'end.dialog.description'
+                            )}
+                        </DialogDescription>
                     </DialogHeader>
                     <div className="flex flex-col gap-2 sm:flex-row sm:justify-end">
                         <Button variant="outline" onClick={closeEndDialog}>
