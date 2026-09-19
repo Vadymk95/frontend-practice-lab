@@ -200,3 +200,18 @@ describe('AnswerOption — skipped reveal', () => {
         expect(screen.getByRole('radio').className).toContain('bg-accent/10');
     });
 });
+
+describe('AnswerOption — select-one vs select-many affordance', () => {
+    const badgeOf = (container: HTMLElement) => container.querySelector('button > span')!;
+
+    it('draws a round badge for a pick-one option', () => {
+        const { container } = render(<AnswerOption {...defaultProps} variant="radio" />);
+        expect(badgeOf(container).className).toContain('rounded-full');
+    });
+
+    it('draws a square badge for a pick-many option', () => {
+        const { container } = render(<AnswerOption {...defaultProps} variant="checkbox" />);
+        expect(badgeOf(container).className).not.toContain('rounded-full');
+        expect(badgeOf(container).className).toContain('rounded-sm');
+    });
+});

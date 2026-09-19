@@ -60,7 +60,14 @@ export const AnswerOption: FC<AnswerOptionProps> = ({
                     'cursor-not-allowed opacity-60'
             )}
         >
-            <span className="shrink-0 w-6 h-6 flex items-center justify-center rounded-full border text-xs font-medium">
+            <span
+                className={cn(
+                    'shrink-0 w-6 h-6 flex items-center justify-center border text-xs font-medium',
+                    // Square reads as "pick several", round as "pick one" — the only pre-tap
+                    // signal a sighted user gets, since role=checkbox reaches assistive tech only.
+                    variant === 'checkbox' ? 'rounded-sm' : 'rounded-full'
+                )}
+            >
                 {OPTION_KEYS[index]}
             </span>
             <InlineMarkdown text={text} className="flex-1 text-sm" />

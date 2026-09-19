@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import type { MultiChoiceQuestion as MultiChoiceQuestionData } from '@/lib/data/schema';
 import { useLocalized } from '@/lib/i18n/localized';
@@ -30,9 +31,11 @@ export const MultiChoiceQuestion: FC<Props> = ({
         onSelectOptionRegister
     );
     const pick = useLocalized();
+    const { t } = useTranslation('question');
 
     return (
         <div className="flex flex-col gap-2">
+            <p className="text-base text-muted-foreground">{t('multiChoice.hint')}</p>
             <div role="group" aria-label="Answer options">
                 {displayOrder.map((originalIndex, displayIndex) => {
                     const isSelected = selectedIndices.includes(originalIndex);

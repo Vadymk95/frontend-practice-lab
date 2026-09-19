@@ -381,3 +381,12 @@ describe('MultiChoiceQuestion — option shuffling', () => {
         expect(checkboxes[0]!.className).toContain('bg-error/10');
     });
 });
+
+describe('MultiChoiceQuestion — selection rule', () => {
+    it('states that more than one option may be picked before the first tap', () => {
+        renderWithProviders(
+            <MultiChoiceQuestionComponent question={makeQuestion()} {...defaultCallbacks} />
+        );
+        expect(screen.getByText('Select all that apply')).toBeInTheDocument();
+    });
+});
