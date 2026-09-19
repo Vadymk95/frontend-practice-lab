@@ -84,6 +84,8 @@ function renderPlayPage() {
 }
 
 beforeEach(() => {
+    // jsdom implements neither of these; the page calls both when an answer is revealed.
+    Element.prototype.scrollIntoView = vi.fn();
     navigateMock.mockReset();
     useSessionStore.setState({
         config,
@@ -276,6 +278,44 @@ describe('SessionPlayPage — keyboard shortcuts reach the rendered question', (
         await waitFor(() => {
             expect(useSessionStore.getState().answers['sc-2']).toBe(expected);
         });
+    });
+});
+
+describe('SessionPlayPage — the answer feedback is brought into view', () => {
+    it('scrolls the forward control into view once the answer is revealed', async () => {
+        useSessionStore.setState({ questionList: [singleChoiceQuestion], answers: {} });
+        renderPlayPage();
+        await screen.findByText('Beta');
+        expect(Element.prototype.scrollIntoView).not.toHaveBeenCalled();
+
+        fireEvent.keyDown(document, { key: '1' });
+
+        await waitFor(() => {
+            expect(Element.prototype.scrollIntoView).toHaveBeenCalledWith({
+                block: 'end',
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    it('jumps instead of gliding when the viewer asked for reduced motion', async () => {
+        vi.stubGlobal(
+            'matchMedia',
+            vi.fn(() => ({ matches: true }))
+        );
+        useSessionStore.setState({ questionList: [singleChoiceQuestion], answers: {} });
+        renderPlayPage();
+        await screen.findByText('Beta');
+
+        fireEvent.keyDown(document, { key: '1' });
+
+        await waitFor(() => {
+            expect(Element.prototype.scrollIntoView).toHaveBeenCalledWith({
+                block: 'end',
+                behavior: 'auto'
+            });
+        });
+        vi.unstubAllGlobals();
     });
 });
 

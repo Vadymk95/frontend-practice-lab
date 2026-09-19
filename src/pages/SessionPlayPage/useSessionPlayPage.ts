@@ -1,3 +1,4 @@
+import type { RefObject } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { BlockerFunction } from 'react-router-dom';
 import { useBlocker, useNavigate } from 'react-router-dom';
@@ -16,6 +17,8 @@ export interface SessionPlayPageState {
     questionCount: number;
     currentQuestion: Question | null;
     isAnswered: boolean;
+    /** Attach to the desktop advance control so revealing an answer can bring it into view. */
+    actionBarRef: RefObject<HTMLDivElement | null>;
     /** The advance control leads to the results, not to another question. */
     isLastQuestion: boolean;
     timerEnabled: boolean;
@@ -84,6 +87,20 @@ export function useSessionPlayPage(): SessionPlayPageState {
     const isLastQuestion = questionList.length > 0 && currentIndex === questionList.length - 1;
 
     const sessionCompletedRef = useRef(false);
+    const actionBarRef = useRef<HTMLDivElement>(null);
+
+    // Revealing an answer grows the page below the fold while the scroll position stays put, so
+    // on a desktop viewport both the explanation and the only way forward land off screen.
+    useEffect(() => {
+        if (!isAnswered) return;
+        const prefersReducedMotion =
+            typeof window.matchMedia === 'function' &&
+            window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        actionBarRef.current?.scrollIntoView({
+            block: 'end',
+            behavior: prefersReducedMotion ? 'auto' : 'smooth'
+        });
+    }, [isAnswered, currentQuestion?.id]);
 
     const handleNext = useCallback(() => {
         if (isLastQuestion) {
@@ -290,6 +307,7 @@ export function useSessionPlayPage(): SessionPlayPageState {
         questionCount: questionList.length,
         currentQuestion,
         isAnswered,
+        actionBarRef,
         isLastQuestion,
         timerEnabled,
         timerMs,

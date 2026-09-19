@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC, Ref } from 'react';
 
 import { Button } from '@/components/ui/button';
 
@@ -8,14 +8,16 @@ export interface SessionActionBarProps {
     label: string;
     onClick: () => void;
     disabled?: boolean;
+    /** The in-flow copy of the bar — the caller scrolls it into view when an answer is revealed. */
+    ref?: Ref<HTMLDivElement>;
 }
 
-export const SessionActionBar: FC<SessionActionBarProps> = ({ label, onClick, disabled }) => {
+export const SessionActionBar: FC<SessionActionBarProps> = ({ label, onClick, disabled, ref }) => {
     const { desktopWrapperClass, mobileWrapperClass } = useSessionActionBar();
 
     return (
         <>
-            <div className={desktopWrapperClass}>
+            <div ref={ref} className={desktopWrapperClass}>
                 <Button disabled={disabled} onClick={onClick}>
                     {label}
                 </Button>

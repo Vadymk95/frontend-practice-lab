@@ -31,6 +31,7 @@ export const SessionPlayPage: FC = () => {
         isSetupError,
         questionCount,
         isAnswered,
+        actionBarRef,
         isLastQuestion,
         timerEnabled,
         timerMs,
@@ -127,6 +128,7 @@ export const SessionPlayPage: FC = () => {
 
             {actionBar && (
                 <SessionActionBar
+                    ref={actionBarRef}
                     label={actionBar.label}
                     onClick={actionBar.onClick}
                     disabled={actionBar.disabled}
