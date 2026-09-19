@@ -1359,8 +1359,8 @@
             "en": "client.messages.stream() returns an AsyncIterable of stream events. Use 'for await...of' to process each event asynchronously. The 'text_delta' event type (not 'text') is the discriminator for text content blocks. Other delta types include 'input_json_delta' for tool use streaming.",
             "ru": "`client.messages.stream()` возвращает AsyncIterable событий стрима. Используйте `for await...of` для асинхронной обработки каждого события. Дискриминатор для текстовых content-блоков — именно 'text_delta' (не 'text'). Среди прочих типов delta — 'input_json_delta' для стриминга tool use."
         },
-        "code": "import Anthropic from '@anthropic-ai/sdk';\n\nconst client = new Anthropic();\n\nasync function streamAndAccumulate(prompt: string): Promise<string> {\n  const stream = client.messages.__BLANK__({ \n    model: 'claude-opus-5',\n    max_tokens: 2048,\n    messages: [{ role: 'user', content: prompt }]\n  });\n\n  let fullText = '';\n  for __BLANK__ (const event of stream) {\n    if (event.type === 'content_block_delta' &&\n        event.delta.type === __BLANK__) {\n      fullText += event.delta.text;\n    }\n  }\n  return fullText;\n}",
-        "blanks": ["stream", "await", "'text_delta'"],
+        "code": "import Anthropic from '@anthropic-ai/sdk';\n\nconst client = new Anthropic();\n\nasync function streamAndAccumulate(prompt: string): Promise<string> {\n  const stream = client.messages.__BLANK__({ \n    model: 'claude-opus-5',\n    max_tokens: 2048,\n    messages: [{ role: 'user', content: prompt }]\n  });\n\n  let fullText = '';\n  for __BLANK__ (const event of stream) {\n    if (event.type === 'content_block_delta' &&\n        event.delta.type === '__BLANK__') {\n      fullText += event.delta.text;\n    }\n  }\n  return fullText;\n}",
+        "blanks": ["stream", "await", "text_delta"],
         "lang": "typescript",
         "referenceAnswer": "client.messages.stream() to get a streaming-capable object; 'for await' to iterate async events; 'text_delta' to identify text content delta events. The event type 'content_block_delta' with delta.type 'text_delta' carries the incremental text chunks."
     },
