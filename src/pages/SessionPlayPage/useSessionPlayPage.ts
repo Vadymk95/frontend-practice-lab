@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import type { BlockerFunction } from 'react-router-dom';
+import { useBlocker, useNavigate } from 'react-router-dom';
 
 import type { FlashState } from '@/components/common/FlashBanner';
 import { useSessionSetup } from '@/hooks/session/useSessionSetup';
@@ -91,12 +92,32 @@ export function useSessionPlayPage(): SessionPlayPageState {
         }
     }, [isLastQuestion, navigate, nextQuestion]);
 
-    const [isEndDialogOpen, setIsEndDialogOpen] = useState(false);
+    const [isEndDialogRequested, setIsEndDialogRequested] = useState(false);
 
     const willScoreOnEnd = Object.keys(answers).length > 0;
 
-    const openEndDialog = useCallback(() => setIsEndDialogOpen(true), []);
-    const closeEndDialog = useCallback(() => setIsEndDialogOpen(false), []);
+    // Leaving through the browser Back gesture, a header link or any other in-app navigation
+    // abandons the session just as the End button does, so it has to ask the same question.
+    // Our own exits set sessionCompletedRef first and pass straight through.
+    const shouldBlockExit = useCallback<BlockerFunction>(
+        ({ currentLocation, nextLocation }) =>
+            !sessionCompletedRef.current &&
+            currentLocation.pathname !== nextLocation.pathname &&
+            useSessionStore.getState().questionList.length > 0,
+        []
+    );
+    const blocker = useBlocker(shouldBlockExit);
+
+    // A blocked navigation IS the request to leave — no separate state to raise.
+    const isEndDialogOpen = isEndDialogRequested || blocker.state === 'blocked';
+
+    const openEndDialog = useCallback(() => setIsEndDialogRequested(true), []);
+    const closeEndDialog = useCallback(() => {
+        setIsEndDialogRequested(false);
+        // A blocked navigation stays pending until it is released; resetting it drops the
+        // attempted exit and leaves the user on the question they were on.
+        if (blocker.state === 'blocked') blocker.reset();
+    }, [blocker]);
 
     const confirmEndSession = useCallback(() => {
         const state = useSessionStore.getState();
@@ -104,7 +125,10 @@ export function useSessionPlayPage(): SessionPlayPageState {
         // The unmount cleanup below must not read this as an abandonment: either the summary
         // scores the session (and emits its own completion event), or there was nothing to score.
         sessionCompletedRef.current = true;
-        setIsEndDialogOpen(false);
+        setIsEndDialogRequested(false);
+        // The end flow navigates on its own, so the attempted exit is dropped rather than
+        // resumed: otherwise a Back gesture would win over the summary we are about to show.
+        if (blocker.state === 'blocked') blocker.reset();
 
         if (attempted.length > 0) {
             // Ending mid-run keeps the questions the user actually reached. Without the trim the
@@ -123,7 +147,7 @@ export function useSessionPlayPage(): SessionPlayPageState {
         // replace, not push: the session behind this route no longer exists, so a
         // Back onto /session/play would land on a page with nothing to show.
         navigate(RoutesPath.Root, { replace: true, state: flash });
-    }, [navigate, endSession, setQuestionList]);
+    }, [navigate, endSession, setQuestionList, blocker]);
 
     // Fire session_abandoned when navigating away mid-session without completing
     useEffect(() => {
