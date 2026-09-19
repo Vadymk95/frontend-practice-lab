@@ -105,7 +105,8 @@ export const SessionPlayPage: FC = () => {
                     variant="ghost"
                     size="sm"
                     onClick={openEndDialog}
-                    className="text-muted-foreground hover:text-destructive"
+                    // A phone tap target is 44px; the pointer-driven layout keeps the compact height.
+                    className="min-h-11 text-muted-foreground hover:text-destructive lg:min-h-9"
                 >
                     <LogOut size={14} aria-hidden="true" />
                     {tSession('end.button')}
@@ -151,10 +152,14 @@ export const SessionPlayPage: FC = () => {
                         </DialogDescription>
                     </DialogHeader>
                     <div className="flex flex-col gap-2 sm:flex-row sm:justify-end">
-                        <Button variant="outline" onClick={closeEndDialog}>
+                        <Button variant="outline" className="min-h-11" onClick={closeEndDialog}>
                             {tSession('end.dialog.cancel')}
                         </Button>
-                        <Button variant="destructive" onClick={confirmEndSession}>
+                        <Button
+                            variant="destructive"
+                            className="min-h-11"
+                            onClick={confirmEndSession}
+                        >
                             {tSession('end.dialog.confirm')}
                         </Button>
                     </div>

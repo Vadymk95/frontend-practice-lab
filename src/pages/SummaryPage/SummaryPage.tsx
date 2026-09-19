@@ -101,8 +101,8 @@ export const SummaryPage: FC = () => {
                 </div>
             )}
 
-            {/* CTAs */}
-            <div className="flex flex-col gap-3 mt-2">
+            {/* CTAs — every one of these is tapped on a phone, so each clears the 44px target */}
+            <div className="flex flex-col gap-3 mt-2 [&>button]:min-h-11">
                 {isPerfectScore ? (
                     <>
                         <Button onClick={handleRestartSession} variant="default">

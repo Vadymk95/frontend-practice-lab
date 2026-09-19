@@ -23,7 +23,7 @@ export const SessionActionBar: FC<SessionActionBarProps> = ({ label, onClick, di
                 </Button>
             </div>
             <div className={mobileWrapperClass}>
-                <Button disabled={disabled} onClick={onClick} className="w-full">
+                <Button disabled={disabled} onClick={onClick} className="min-h-11 w-full">
                     {label}
                 </Button>
             </div>
