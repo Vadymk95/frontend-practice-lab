@@ -14,6 +14,7 @@ import { useReferenceAnswer } from '../referenceAnswer';
 import { useBugFindingQuestion } from './useBugFindingQuestion';
 
 const DEFAULT_SNIPPET_LANG = 'javascript';
+const selfAssessHeadingId = 'self-assess-heading';
 
 type SelfAssessment = 'gotIt' | 'missedIt';
 
@@ -36,6 +37,7 @@ export const BugFindingQuestion: FC<Props> = ({
     const pick = useLocalized();
     const pickReference = useReferenceAnswer();
     const {
+        selfAssessRef,
         selectedOption,
         textAnswer,
         isSubmitted,
@@ -104,21 +106,36 @@ export const BugFindingQuestion: FC<Props> = ({
                     <ExplanationPanel explanation={pick(question.explanation)} />
 
                     {selfAssessment === null && (
-                        <div className="flex gap-3">
-                            <Button
-                                variant="outline"
-                                onClick={() => onSelfAssess('gotIt')}
-                                className="flex-1 border-accent text-accent hover:bg-accent/10"
-                            >
-                                {t('gotIt')}
-                            </Button>
-                            <Button
-                                variant="ghost"
-                                onClick={() => onSelfAssess('missedIt')}
-                                className="flex-1"
-                            >
-                                {t('missedIt')}
-                            </Button>
+                        <div
+                            ref={selfAssessRef}
+                            role="group"
+                            aria-labelledby={selfAssessHeadingId}
+                            className="flex flex-col gap-2"
+                        >
+                            <h3 id={selfAssessHeadingId} className="text-base font-medium">
+                                {t('selfAssess.heading')}
+                            </h3>
+                            <p className="text-base text-muted-foreground">
+                                {t('selfAssess.instruction')}
+                            </p>
+                            <div className="flex gap-3">
+                                {/* Both halves carry the same weight: the one that feeds the
+                                    repeat-mistakes loop must not read as body text. */}
+                                <Button
+                                    variant="outline"
+                                    onClick={() => onSelfAssess('gotIt')}
+                                    className="flex-1 border-accent text-accent hover:bg-accent/10"
+                                >
+                                    {t('gotIt')}
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    onClick={() => onSelfAssess('missedIt')}
+                                    className="flex-1"
+                                >
+                                    {t('missedIt')}
+                                </Button>
+                            </div>
                         </div>
                     )}
                 </>
