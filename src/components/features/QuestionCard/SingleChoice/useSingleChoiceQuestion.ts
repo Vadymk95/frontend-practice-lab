@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { track } from '@/lib/analytics';
 import type { SingleChoiceQuestion } from '@/lib/data/schema';
-import { createOptionOrder } from '@/lib/utils/optionOrder';
+import { getOptionOrder } from '@/lib/utils/optionOrder';
 import { useSessionStore } from '@/store/session';
 
 export function useSingleChoiceQuestion(
@@ -13,10 +13,10 @@ export function useSingleChoiceQuestion(
     const [selectedIndex, setSelectedIndex] = useState<number | null>(
         isSkipped ? question.correct : null
     );
-    // One draw per mount — QuestionCard remounts the variant for every question, so the
-    // displayed order can never shift under the user mid-question.
+    // One draw per question id — QuestionCard remounts the variant on Back as well as on a new
+    // question, and a re-draw there would re-letter the options under the user.
     const [optionOrder, setOptionOrder] = useState(() =>
-        createOptionOrder(question.options.length)
+        getOptionOrder(question.id, question.options.length)
     );
     const setAnswer = useSessionStore.use.setAnswer();
     const isAnswered = isSkipped || selectedIndex !== null;
@@ -57,7 +57,7 @@ export function useSingleChoiceQuestion(
         setSelectedIndex(null);
         if (drawnForId.current !== question.id) {
             drawnForId.current = question.id;
-            setOptionOrder(createOptionOrder(question.options.length));
+            setOptionOrder(getOptionOrder(question.id, question.options.length));
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [question.id]);

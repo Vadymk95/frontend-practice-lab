@@ -310,3 +310,34 @@ describe('QuestionCard — category and skip state', () => {
         });
     });
 });
+
+describe('QuestionCard — option order across un-answering', () => {
+    afterEach(() => {
+        vi.restoreAllMocks();
+    });
+
+    it('keeps the same option order after the answer is taken back', async () => {
+        // Two different draws: the first rotates the options, a second one would restore the
+        // bank order. Without a stable order the two renders disagree.
+        let draws = 0;
+        vi.spyOn(Math, 'random').mockImplementation(() => {
+            draws += 1;
+            return draws <= 3 ? 0 : 0.999;
+        });
+
+        renderWithProviders(<QuestionCard />);
+        const optionTexts = () => screen.getAllByRole('radio').map((el) => el.textContent);
+        const before = optionTexts();
+
+        fireEvent.click(screen.getAllByRole('radio')[0]!);
+        await waitFor(() =>
+            expect(screen.getByRole('button', { name: /back/i })).toBeInTheDocument()
+        );
+        fireEvent.click(screen.getByRole('button', { name: /back/i }));
+
+        await waitFor(() =>
+            expect(screen.queryByRole('button', { name: /back/i })).not.toBeInTheDocument()
+        );
+        expect(optionTexts()).toEqual(before);
+    });
+});

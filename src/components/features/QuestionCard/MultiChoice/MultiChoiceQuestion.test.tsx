@@ -12,7 +12,9 @@ const forcedOrder = vi.hoisted(() => ({ value: null as number[] | null }));
 vi.mock('@/lib/utils/optionOrder', async (importOriginal) => {
     const actual = await importOriginal<typeof import('@/lib/utils/optionOrder')>();
     return {
-        createOptionOrder: (length: number) => forcedOrder.value ?? actual.createOptionOrder(length)
+        ...actual,
+        getOptionOrder: (_questionId: string, length: number) =>
+            forcedOrder.value ?? actual.createOptionOrder(length)
     };
 });
 
