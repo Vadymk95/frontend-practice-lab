@@ -32,3 +32,16 @@ describe('InlineMarkdown', () => {
         expect(screen.getByText('plain question stem')).toBeInTheDocument();
     });
 });
+
+describe('InlineMarkdown — italics', () => {
+    it('renders an italic segment as an em element', () => {
+        const { container } = render(<InlineMarkdown text="created by *that* run" />);
+        expect(container.querySelector('em')).toHaveTextContent('that');
+    });
+
+    it('never turns markup in the data into HTML', () => {
+        const { container } = render(<InlineMarkdown text="*<img src=x onerror=1>*" />);
+        expect(container.querySelector('img')).toBeNull();
+        expect(container.textContent).toContain('<img src=x onerror=1>');
+    });
+});
