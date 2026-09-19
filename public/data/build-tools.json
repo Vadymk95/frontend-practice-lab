@@ -1380,5 +1380,507 @@
         "blanks": ["import", "default"],
         "lang": "javascript",
         "referenceAnswer": "The `import` condition matches ESM consumers (import statement or bundlers). The `require` condition matches CJS consumers (require()). `types` in each condition provides TypeScript declarations for the corresponding format. `default` is the fallback within each condition."
+    },
+    {
+        "id": "build-cicd-rollback-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "hard",
+        "tags": ["ci-cd", "rollback", "cdn", "caching", "deployment"],
+        "question": {
+            "en": "A broken SPA build is live. The CDN serves `index.html` with `max-age=60` and the hashed JS/CSS chunks with `max-age=31536000, immutable`. Which rollback returns users to the previous release fastest **without** breaking sessions that are already open?",
+            "ru": "В прод уехала сломанная сборка SPA. CDN отдаёт `index.html` с `max-age=60`, а хешированные JS/CSS-чанки — с `max-age=31536000, immutable`. Какой откат быстрее всего вернёт пользователей на предыдущий релиз и **не сломает** уже открытые сессии?"
+        },
+        "options": [
+            {
+                "en": "Flip the deploy pointer back to the previous artifact and invalidate only `index.html`; both releases' assets stay up.",
+                "ru": "Переключить указатель деплоя на предыдущий артефакт и инвалидировать только `index.html`; ассеты обоих релизов остаются опубликованными."
+            },
+            {
+                "en": "Purge the entire CDN cache and re-run the build pipeline from the previous commit before letting traffic back in.",
+                "ru": "Сбросить весь кеш CDN и заново прогнать пайплайн сборки с предыдущего коммита, прежде чем снова пускать трафик."
+            },
+            {
+                "en": "Revert the commit and roll forward through the normal pipeline, since every deploy must come from a green build of the trunk.",
+                "ru": "Сделать revert коммита и катиться вперёд через обычный пайплайн — раз любой деплой должен приходить из зелёной сборки транка."
+            },
+            {
+                "en": "Delete the broken release's files from the bucket and set `max-age=0` on `index.html` so that browsers stop requesting them.",
+                "ru": "Удалить файлы сломанного релиза из бакета и выставить `max-age=0` на `index.html`, чтобы браузеры перестали их запрашивать."
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "A rollback is a pointer flip, not a rebuild: the previous artifact already exists and its hashed assets are still on the origin, so re-pointing the alias and invalidating the one short-TTL document is the entire operation. Deleting the bad release's chunks is the classic self-inflicted outage — a tab that already loaded the broken `index.html` keeps lazy-loading chunks by hash and starts getting 404s, and so does every client holding that HTML for the remaining TTL. Keep every hashed asset of the last N releases online and only ever invalidate the entry document.",
+            "ru": "Откат — это переключение указателя, а не пересборка: предыдущий артефакт уже собран, его хешированные ассеты лежат на origin, поэтому вся операция — переключить алиас и инвалидировать единственный документ с коротким TTL. Удаление чанков сломанного релиза — классическая авария своими руками: вкладка, которая уже загрузила битый `index.html`, продолжает подтягивать чанки по хешу и начинает ловить 404, как и все клиенты с закешированным HTML до конца TTL. Держите ассеты последних N релизов опубликованными и инвалидируйте только входной документ."
+        }
+    },
+    {
+        "id": "build-cicd-promotion-001",
+        "type": "multi-choice",
+        "category": "build-tools",
+        "difficulty": "medium",
+        "tags": ["ci-cd", "artifact-immutability", "environment-promotion", "deployment"],
+        "question": {
+            "en": "Your team wants a **build once, promote many** pipeline for a frontend app. Which of these belong to that model?",
+            "ru": "Команда хочет пайплайн **build once, promote many** («собрали один раз — продвигаем по средам») для фронтенд-приложения. Что из перечисленного относится к этой модели?"
+        },
+        "options": [
+            {
+                "en": "The same immutable, content-addressed artifact goes to staging and then, byte-for-byte unchanged, to production.",
+                "ru": "Один и тот же неизменяемый артефакт с контентным хешем едет на staging, а затем байт-в-байт тем же — в прод."
+            },
+            {
+                "en": "Each environment runs its own `npm run build` with that environment's variables, so the output matches the target exactly.",
+                "ru": "Каждая среда запускает свой `npm run build` со своими переменными, чтобы вывод точно соответствовал целевой среде."
+            },
+            {
+                "en": "Environment-specific values arrive at runtime — from a small config the app fetches on boot, or from the server rendering the shell.",
+                "ru": "Значения, зависящие от среды, приходят в рантайме — из небольшого конфига, который приложение запрашивает на старте, или от сервера, отдающего оболочку."
+            },
+            {
+                "en": "Deploying is a pointer flip onto an already-built artifact, so rolling back is flipping that pointer to the previous one.",
+                "ru": "Деплой — это переключение указателя на уже собранный артефакт, поэтому откат — переключение того же указателя на предыдущий."
+            },
+            {
+                "en": "Per-environment secrets are baked into the artifact at build time so the running container needs no configuration at all.",
+                "ru": "Секреты для каждой среды зашиваются в артефакт на этапе сборки, чтобы работающему контейнеру вообще не требовалась конфигурация."
+            }
+        ],
+        "correct": [0, 2, 3],
+        "explanation": {
+            "en": "The point of build-once is that the thing you tested in staging is literally the thing that reaches production: rebuilding per environment throws that guarantee away, and baking secrets into an artifact makes it undeployable anywhere else (and leaks them to anyone who can read the bundle). The honest frontend caveat is that `VITE_*` / `NEXT_PUBLIC_*` values are inlined into the JS at build time — keep them and you are back to one build per environment. A build-once pipeline therefore pushes those values to runtime: a fetched `config.json`, a server-rendered `window.__CONFIG__`, or placeholders substituted by the container entrypoint before the static server starts.",
+            "ru": "Смысл build-once в том, что в прод попадает буквально тот же артефакт, который проверяли на staging: пересборка под каждую среду убивает эту гарантию, а зашитые в артефакт секреты делают его непригодным для других сред (и отдают их любому, кто прочитает бандл). Честная оговорка для фронтенда: значения `VITE_*` / `NEXT_PUBLIC_*` подставляются в JS на этапе сборки — оставите их, и вы снова собираете отдельно под каждую среду. Поэтому в build-once-пайплайне такие значения уезжают в рантайм: запрашиваемый `config.json`, отрендеренный сервером `window.__CONFIG__` или плейсхолдеры, которые подменяет entrypoint контейнера перед запуском статик-сервера."
+        }
+    },
+    {
+        "id": "build-cicd-canary-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "medium",
+        "tags": ["ci-cd", "canary", "progressive-rollout", "cdn", "feature-flags"],
+        "question": {
+            "en": "You want to release a new SPA build to 5% of users first, ramp it to 100%, and keep a kill switch that needs no redeploy. The static assets sit behind a CDN. Which mechanism actually delivers that?",
+            "ru": "Нужно выкатить новую сборку SPA сначала на 5% пользователей, затем довести до 100% и иметь kill switch, который не требует передеплоя. Статика лежит за CDN. Какой механизм реально это даёт?"
+        },
+        "options": [
+            {
+                "en": "Deploy the new build to 5% of the origin servers and let the CDN spread traffic between them as it fills its cache.",
+                "ru": "Выкатить новую сборку на 5% серверов origin и позволить CDN распределять трафик между ними по мере наполнения кеша."
+            },
+            {
+                "en": "Serve both builds from one URL and let a random number drawn in `index.html` pick the asset manifest on every page load.",
+                "ru": "Отдавать обе сборки с одного URL и выбирать манифест ассетов случайным числом в `index.html` при каждой загрузке страницы."
+            },
+            {
+                "en": "Bucket the user at the edge with a sticky cookie and serve that bucket's `index.html`; both builds stay published.",
+                "ru": "Распределять пользователя по бакету на edge через sticky-куку и отдавать `index.html` его бакета; обе сборки остаются опубликованными."
+            },
+            {
+                "en": "Publish the new build on a `canary.` subdomain and ask a group of volunteers to use it until the release is considered safe.",
+                "ru": "Опубликовать новую сборку на поддомене `canary.` и попросить группу добровольцев пользоваться ей, пока релиз не сочтут безопасным."
+            }
+        ],
+        "correct": 2,
+        "explanation": {
+            "en": "For a frontend, the unit of a progressive rollout is which entry document (and therefore which asset manifest) a user receives — the hashed assets are immutable, so every release can stay published side by side and only `index.html` has to be routed. Stickiness is the requirement people miss: a per-request coin flip moves a user between versions on every reload, which mixes chunk graphs, persisted state and analytics, so the bucket must be pinned by cookie or user id. Because the percentage lives in edge config or a flag service, ramping and killing are configuration changes measured in seconds rather than pipeline runs — a `canary.` subdomain, by contrast, is opt-in testing and never exposes the release to representative traffic.",
+            "ru": "Для фронтенда единица прогрессивной выкатки — это то, какой входной документ (а значит, и манифест ассетов) получает пользователь: хешированные ассеты неизменяемы, поэтому релизы спокойно лежат рядом, и маршрутизировать надо только `index.html`. Про липкость обычно забывают: выбор «монеткой» на каждый запрос перекидывает пользователя между версиями при каждой перезагрузке, смешивая графы чанков, сохранённое состояние и аналитику, — бакет должен быть закреплён кукой или id пользователя. Процент живёт в конфиге edge или в сервисе флагов, поэтому наращивание и откат — изменение конфигурации за секунды, а не прогон пайплайна; поддомен `canary.` же — это opt-in-тестирование, он никогда не даёт репрезентативный трафик."
+        }
+    },
+    {
+        "id": "build-vite-envapi-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "hard",
+        "tags": ["vite", "environment-api", "ssr", "edge", "plugins"],
+        "question": {
+            "en": "An app runs the same source in three places: the browser client, a Node SSR server, and a Cloudflare Worker at the edge. What does Vite's Environment API give you that the older single `ssr` boolean could not?",
+            "ru": "Приложение выполняет один и тот же код в трёх местах: браузерный клиент, Node-сервер для SSR и Cloudflare Worker на edge. Что даёт Environment API в Vite, чего не мог дать прежний единственный флаг `ssr`?"
+        },
+        "options": [
+            {
+                "en": "It starts a separate Vite dev server per target and proxies requests between them, so each target gets its own port and cache.",
+                "ru": "Он поднимает отдельный dev-сервер Vite под каждую цель и проксирует запросы между ними, так что у каждой цели свой порт и кеш."
+            },
+            {
+                "en": "It lets `build.rolldownOptions.input` take several entries, which is all that producing output for multiple targets ever required.",
+                "ru": "Он позволяет передать в `build.rolldownOptions.input` несколько точек входа — а больше для сборки под несколько целей ничего и не нужно."
+            },
+            {
+                "en": "Each named environment gets its own config, plugin pipeline and module graph, and plugins branch on `this.environment`.",
+                "ru": "У каждой именованной среды свои конфиг, конвейер плагинов и граф модулей, а плагины ветвятся по `this.environment`."
+            },
+            {
+                "en": "It compiles every target into one universal bundle that detects its runtime at startup, which removes the need for separate builds.",
+                "ru": "Он собирает все цели в один универсальный бандл, который определяет рантайм при старте, что избавляет от отдельных сборок."
+            }
+        ],
+        "correct": 2,
+        "explanation": {
+            "en": "The `environments` config option lets you declare as many environments as your production topology actually has (`client` and `ssr` always exist in dev), each with its own resolve conditions, dev runtime and module graph. A boolean simply cannot express 'Node server' versus 'edge worker' — they resolve different export conditions and expose different APIs — which is why plugin hooks now read `this.environment` instead of the `ssr` argument, and why a plugin declares where it applies with `applyToEnvironment` (or the `perEnvironmentPlugin` helper). Vite 8 still lists the Environment API as work in progress toward stabilisation, so treat the surface as movable.",
+            "ru": "Опция `environments` позволяет объявить столько сред, сколько их реально в проде (`client` и `ssr` в dev есть всегда), и у каждой свои resolve-условия, dev-рантайм и граф модулей. Булевый флаг просто не выражает разницу между «Node-сервером» и «edge-воркером» — у них разные export conditions и разные доступные API, — поэтому хуки плагинов теперь читают `this.environment` вместо аргумента `ssr`, а плагин объявляет область применения через `applyToEnvironment` (или хелпер `perEnvironmentPlugin`). В Vite 8 Environment API всё ещё стабилизируется, так что API стоит считать подвижным."
+        }
+    },
+    {
+        "id": "build-rolldown-002",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "medium",
+        "tags": ["vite", "rolldown", "oxc", "bundler", "migration"],
+        "question": {
+            "en": "Vite 8 ships Rolldown as its default bundler. What does that change about the previous 'esbuild in dev, Rollup in production' architecture?",
+            "ru": "В Vite 8 Rolldown стал бандлером по умолчанию. Что это меняет в прежней архитектуре «esbuild в dev, Rollup в проде»?"
+        },
+        "options": [
+            {
+                "en": "One Rust pipeline — Rolldown, built on Oxc — now covers both dev transforms and the production bundle in one pass.",
+                "ru": "Единый Rust-конвейер — Rolldown поверх Oxc — теперь закрывает и dev-трансформы, и продакшен-бандл за один проход."
+            },
+            {
+                "en": "Rolldown replaced Rollup for production output only, while esbuild keeps doing dev-time transforms and dependency pre-bundling as before.",
+                "ru": "Rolldown заменил Rollup только на продакшен-сборке, а esbuild по-прежнему делает dev-трансформы и пребандлинг зависимостей."
+            },
+            {
+                "en": "Oxc became the bundler and Rolldown is only its minifier, so `build.minify` is the single place where Rolldown appears in the config.",
+                "ru": "Бандлером стал Oxc, а Rolldown — только его минификатор, поэтому `build.minify` — единственное место в конфиге, где Rolldown вообще фигурирует."
+            },
+            {
+                "en": "Rollup still produces the production bundle and Rolldown is a compatibility layer that translates Rollup plugins into Rust equivalents.",
+                "ru": "Продакшен-бандл по-прежнему делает Rollup, а Rolldown — слой совместимости, переводящий плагины Rollup в Rust-эквиваленты."
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "Vite's original bet was two tools — esbuild for fast dev transforms and pre-bundling, Rollup for the production bundle — which meant two transformation pipelines, two plugin systems and a steady supply of bugs where dev and build disagreed. Vite 8 collapses that into Rolldown, a Rust bundler that uses Oxc for parsing, resolving, transforming and minifying, so the same pipeline serves both. A compatibility layer converts existing config (`build.rollupOptions` is an alias of `build.rolldownOptions`, and the `esbuild` option is mapped onto `oxc`), while `minify: 'esbuild'` is deprecated and slated for removal.",
+            "ru": "Изначальная ставка Vite была на два инструмента — esbuild для быстрых dev-трансформов и пребандлинга и Rollup для продакшен-сборки, — а это два конвейера трансформации, две системы плагинов и постоянный поток багов, где dev и build расходятся. Vite 8 схлопывает это в Rolldown — Rust-бандлер, который использует Oxc для парсинга, резолва, трансформации и минификации, так что оба режима идут по одному конвейеру. Слой совместимости конвертирует существующий конфиг (`build.rollupOptions` — алиас `build.rolldownOptions`, а опция `esbuild` мапится на `oxc`), а `minify: 'esbuild'` объявлен deprecated и будет удалён."
+        }
+    },
+    {
+        "id": "build-docker-001",
+        "type": "multi-choice",
+        "category": "build-tools",
+        "difficulty": "hard",
+        "tags": ["docker", "multi-stage", "env-vars", "deployment", "vite"],
+        "question": {
+            "en": "You ship a Vite SPA as a Docker image: a `node:22` build stage runs `npm ci && npm run build`, and a final `nginx` stage copies `dist/`. Which statements are correct?",
+            "ru": "Вы поставляете SPA на Vite как Docker-образ: стадия сборки на `node:22` выполняет `npm ci && npm run build`, финальная стадия на `nginx` копирует `dist/`. Какие утверждения верны?"
+        },
+        "code": "FROM node:22-alpine AS build\nWORKDIR /app\nCOPY package*.json ./\nRUN npm ci\nCOPY . .\nRUN npm run build\n\nFROM nginx:alpine\nCOPY --from=build /app/dist /usr/share/nginx/html",
+        "lang": "docker",
+        "options": [
+            {
+                "en": "`import.meta.env.VITE_API_URL` is inlined into the JS during `npm run build`, so a new value needs a rebuild or a runtime substitution step.",
+                "ru": "`import.meta.env.VITE_API_URL` подставляется в JS прямо во время `npm run build`, поэтому новое значение требует пересборки или подмены в рантайме."
+            },
+            {
+                "en": "`docker run -e VITE_API_URL=https://api.prod` changes what the already-built bundle requests, because nginx forwards the variable to the page.",
+                "ru": "`docker run -e VITE_API_URL=https://api.prod` меняет адрес, к которому обращается уже собранный бандл, потому что nginx пробрасывает переменную в страницу."
+            },
+            {
+                "en": "The final image carries only nginx and the static output — the toolchain and `node_modules` of the build stage are not in its layers.",
+                "ru": "Финальный образ несёт только nginx и статику — тулчейн и `node_modules` со стадии сборки в его слои не попадают."
+            },
+            {
+                "en": "`ARG` values exist only while the image is being built, whereas `ENV` values persist into the running container's environment.",
+                "ru": "Значения `ARG` существуют только во время сборки образа, а значения `ENV` сохраняются в окружении запущенного контейнера."
+            },
+            {
+                "en": "Because both stages live in the same Dockerfile, the final image inherits the build stage's layers and therefore its `node_modules` too.",
+                "ru": "Раз обе стадии описаны в одном Dockerfile, финальный образ наследует слои стадии сборки, а вместе с ними и её `node_modules`."
+            }
+        ],
+        "correct": [0, 2, 3],
+        "explanation": {
+            "en": "A frontend deliverable is static files: everything `import.meta.env.VITE_*` touches is textually replaced at build time, so the environment of the *container* cannot influence an already-built bundle — this is the single most common misunderstanding when a team moves from a Node server to a static image. Teams that want one image per release rather than one per environment either fetch a `/config.json` on boot or run an entrypoint script that rewrites a placeholder inside the built assets before nginx starts. The multi-stage split is what keeps the shipped image small and its attack surface narrow: the final stage begins from a clean base and copies only `dist/`, so the build stage's layers, source maps and `node_modules` are never part of what you push.",
+            "ru": "Фронтенд-поставка — это статические файлы: всё, до чего дотягивается `import.meta.env.VITE_*`, текстово подставляется на этапе сборки, поэтому окружение *контейнера* не влияет на уже собранный бандл — это самое частое заблуждение при переезде с Node-сервера на статический образ. Кто хочет один образ на релиз, а не на среду, либо запрашивает `/config.json` на старте, либо запускает entrypoint-скрипт, который подменяет плейсхолдер внутри собранных ассетов до старта nginx. Разделение на стадии как раз и держит образ маленьким, а поверхность атаки узкой: финальная стадия начинается с чистой базы и копирует только `dist/`, поэтому слои стадии сборки, сорсмапы и `node_modules` в публикуемый образ не попадают."
+        }
+    },
+    {
+        "id": "build-bug-ci-cache-001",
+        "type": "bug-finding",
+        "category": "build-tools",
+        "difficulty": "medium",
+        "tags": ["ci-cd", "github-actions", "caching", "cache-keys", "lockfile"],
+        "question": {
+            "en": "This GitHub Actions job caches dependencies between runs. Find the bug:",
+            "ru": "Эта джоба GitHub Actions кеширует зависимости между прогонами. Найдите ошибку:"
+        },
+        "code": "- name: Cache dependencies\n  id: deps\n  uses: actions/cache@v4\n  with:\n    path: node_modules\n    key: ${{ runner.os }}-node-${{ hashFiles('package.json') }}\n\n- name: Install\n  if: steps.deps.outputs.cache-hit != 'true'\n  run: npm ci\n\n- name: Build and test\n  run: npm run build && npm test",
+        "lang": "yaml",
+        "correct": "The cache key hashes `package.json` instead of the lockfile, so a lockfile-only change restores a stale `node_modules` and `npm ci` is skipped entirely.",
+        "referenceAnswer": "Key the cache on the resolved dependency tree, not the manifest:\n\n```yaml\nkey: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}\n```\n\n`package.json` holds ranges, so it does not change when a transitive dependency is bumped or when a teammate regenerates the lockfile. Every such run hits the old cache, the `cache-hit` guard skips `npm ci`, and the build and tests run against versions the lockfile no longer pins — CI goes green on a dependency tree that production will never get. The sturdier shape is to cache npm's download cache and keep the install authoritative:\n\n```yaml\n- uses: actions/setup-node@v4\n  with:\n    node-version: 22\n    cache: npm\n- run: npm ci\n```\n\nHere the key is derived from the lockfile by the action, and `npm ci` still rebuilds `node_modules` from the lockfile on every run, so a cache miss costs time and never correctness.",
+        "explanation": {
+            "en": "A cache key must be a function of everything that determines the cached content; for `node_modules` that is the lockfile, because it is the only file that pins exact versions. Keying on the manifest turns the cache into a correctness bug rather than a speed optimisation, and the `cache-hit` guard makes it silent — nothing in the log says the install was skipped against the wrong tree. The general rule: prefer caching an input store (npm's cache, a Turborepo remote cache) over caching a derived directory you then skip regenerating.",
+            "ru": "Ключ кеша должен быть функцией от всего, что определяет его содержимое; для `node_modules` это лок-файл, потому что только он фиксирует точные версии. Ключ по манифесту превращает кеш из ускорения в баг корректности, а проверка `cache-hit` делает его тихим — в логе ничего не скажет, что установку пропустили на неправильном дереве. Общее правило: лучше кешировать хранилище входных данных (кеш npm, remote cache Turborepo), чем производную директорию, генерацию которой вы потом пропускаете."
+        }
+    },
+    {
+        "id": "build-cc-ci-concurrency-001",
+        "type": "code-completion",
+        "category": "build-tools",
+        "difficulty": "easy",
+        "tags": ["ci-cd", "github-actions", "concurrency", "pipelines"],
+        "question": {
+            "en": "Complete the workflow so that pushing a new commit to a pull request cancels the run still in flight for that same pull request:",
+            "ru": "Дополните workflow так, чтобы новый коммит в pull request отменял ещё выполняющийся прогон для того же pull request:"
+        },
+        "code": "name: CI\non: pull_request\n\n__BLANK__:\n  group: ${{ github.workflow }}-${{ github.ref }}\n  cancel-in-progress: __BLANK__\n\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - run: npm ci && npm test",
+        "blanks": ["concurrency", "true"],
+        "lang": "yaml",
+        "referenceAnswer": "`concurrency` with `group: ${{ github.workflow }}-${{ github.ref }}` and `cancel-in-progress: true`.\n\nThe group key is what scopes the cancellation: `github.ref` identifies the pull request, so two runs of the same workflow on the same PR share a group and the older one is cancelled, while other PRs are untouched. Dropping `github.workflow` from the key makes unrelated workflows cancel each other, and a constant group serialises the whole repository. On pushes to the default branch you usually want `cancel-in-progress: false` — cancelling a deploy mid-flight is worse than queueing it.",
+        "explanation": {
+            "en": "Without a concurrency group every push to a PR starts another full run, so a branch under active work burns runner minutes on builds whose result nobody will read, and the queue delays the run that matters. The group expression is the whole design decision: it must be narrow enough that only the superseded run is cancelled, and stable enough that consecutive pushes on the same ref land in the same group. Treat cancellation as unsafe for jobs with side effects — deploys, releases, anything that writes outside the runner.",
+            "ru": "Без группы concurrency каждый пуш в PR стартует ещё один полный прогон: активно дорабатываемая ветка жжёт минуты раннеров на сборках, результат которых никто не прочитает, а очередь задерживает нужный прогон. Всё проектное решение — в выражении группы: она должна быть достаточно узкой, чтобы отменялся только устаревший прогон, и достаточно стабильной, чтобы последовательные пуши по одному ref попадали в одну группу. Для джоб с побочными эффектами — деплой, релиз, любая запись за пределами раннера — отмену считайте небезопасной."
+        }
+    },
+    {
+        "id": "build-preview-deploy-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "easy",
+        "tags": ["ci-cd", "preview-deploys", "deployment", "code-review"],
+        "question": {
+            "en": "What does a per-pull-request preview deployment give a frontend team that a green CI run does not?",
+            "ru": "Что даёт превью-деплой на каждый pull request, чего не даёт зелёный CI?"
+        },
+        "options": [
+            {
+                "en": "It guarantees the branch has no regressions, so the manual QA pass can be dropped from the process.",
+                "ru": "Гарантирует отсутствие регрессий в ветке, поэтому ручную QA-проверку можно убрать из процесса."
+            },
+            {
+                "en": "It runs the production build against production data, so the PR is verified on real traffic before merge.",
+                "ru": "Прогоняет production-сборку на боевых данных, то есть PR проверяется на реальном трафике до мержа."
+            },
+            {
+                "en": "It speeds the pipeline up, because the preview build replaces the build step of the post-merge run.",
+                "ru": "Ускоряет пайплайн: сборка превью заменяет шаг build в прогоне после мержа."
+            },
+            {
+                "en": "It puts the branch's real built artifact on a shareable URL that reviewers and QA open before merge.",
+                "ru": "Выкладывает реальный артефакт ветки на отдельный URL, который ревьюеры и QA открывают до мержа."
+            }
+        ],
+        "correct": 3,
+        "explanation": {
+            "en": "A green pipeline says the code compiled and the tests passed; a preview says how it looks and behaves in a browser, so design and product feedback lands before merge instead of after release. The price is isolation: a preview points at its own backend or a seeded environment and is torn down with the PR. A preview wired to production data stops being a review tool and becomes a source of incidents.",
+            "ru": "Зелёный CI говорит, что код собрался и тесты прошли; превью показывает, как оно выглядит и ведёт себя в браузере — дизайн- и продуктовый фидбек приходит до мержа, а не после релиза. Цена — изоляция: превью ходит в отдельный бэкенд или в стенд с тестовыми данными и удаляется вместе с PR. Превью, подключённое к проду, из инструмента ревью превращается в источник инцидентов."
+        }
+    },
+    {
+        "id": "build-cicd-preview-secrets-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "hard",
+        "tags": ["ci-cd", "github-actions", "preview-deploys", "security", "secrets"],
+        "question": {
+            "en": "Preview deploys for fork pull requests fail: a `pull_request` run has no deploy credentials. A teammate proposes switching the workflow to `pull_request_target`, which does get secrets. Which risk must you call out?",
+            "ru": "Превью-деплои для pull request'ов из форков падают: в прогоне по событию `pull_request` нет деплой-креденшелов. Коллега предлагает переключить workflow на `pull_request_target`, где секреты доступны. Какой риск нужно озвучить?"
+        },
+        "options": [
+            {
+                "en": "It only fires after the pull request is merged, so the preview would appear far too late to review.",
+                "ru": "Он срабатывает только после мержа pull request, поэтому превью появится слишком поздно для ревью."
+            },
+            {
+                "en": "It carries base-repo secrets and a write token, so checking out the PR head runs untrusted code.",
+                "ru": "Он несёт секреты базового репозитория и токен на запись, поэтому checkout ветки PR выполнит чужой код."
+            },
+            {
+                "en": "It bypasses required status checks, so the merge queue would accept the pull request without a passing preview job.",
+                "ru": "Он пропускает required status checks, и merge queue примет pull request без успешного превью-джоба."
+            },
+            {
+                "en": "It doubles runner cost, because every commit queues both a `pull_request` and a `pull_request_target` run.",
+                "ru": "Он удваивает расход раннеров: на каждый коммит встанут в очередь оба прогона — `pull_request` и `pull_request_target`."
+            }
+        ],
+        "correct": 1,
+        "explanation": {
+            "en": "The restriction on `pull_request` is deliberate: a run triggered from a fork receives no secrets and a read-only `GITHUB_TOKEN`. `pull_request_target` runs in the context of the base branch with secrets and write access, which is why the documentation says such workflows must not check out untrusted code — doing so is remote code execution with your repository's permissions, plus cache poisoning. The workable shape is to build the untrusted PR in the unprivileged run, upload the artifact, and deploy it from a separate privileged workflow (`workflow_run`) that never executes fork code.",
+            "ru": "Ограничение в `pull_request` намеренное: прогон из форка не получает секретов, а `GITHUB_TOKEN` там read-only. `pull_request_target` выполняется в контексте базовой ветки — с секретами и правом записи, поэтому документация прямо запрещает делать в нём checkout недоверенного кода: это удалённое выполнение с правами вашего репозитория плюс отравление кэша. Рабочая схема: собрать PR в непривилегированном прогоне, выложить артефакт, а деплоить его отдельным привилегированным workflow (`workflow_run`), который код форка не исполняет."
+        }
+    },
+    {
+        "id": "build-monorepo-cache-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "hard",
+        "tags": ["turborepo", "monorepo", "caching", "cache-keys", "env-vars", "ci-cd"],
+        "question": {
+            "en": "A Turborepo pipeline builds an SPA, and `vite.config.ts` reads `process.env.API_BASE_URL` at build time. You change that value for production and re-run `turbo run build`: Turborepo reports a cache hit and the deployed bundle is byte-identical to the previous one. What is the root cause?",
+            "ru": "Turborepo-пайплайн собирает SPA, а `vite.config.ts` читает `process.env.API_BASE_URL` на этапе сборки. Вы меняете значение для production и запускаете `turbo run build` — Turborepo рапортует cache hit, и выкаченный бандл побайтово совпадает с предыдущим. В чём причина?"
+        },
+        "options": [
+            {
+                "en": "`API_BASE_URL` is not declared in the task's `env` (or in `globalEnv`), so its value never entered the hash.",
+                "ru": "`API_BASE_URL` не объявлена в `env` задачи (или в `globalEnv`), поэтому её значение не попало в хэш."
+            },
+            {
+                "en": "Remote cache entries are keyed per branch, so a production run reuses whatever the last branch build produced.",
+                "ru": "Записи remote cache ключуются по ветке, поэтому production-прогон переиспользует то, что собрала последняя ветка."
+            },
+            {
+                "en": "The task declares no `outputs`, so Turborepo restored the previous `dist/` directory instead of the current one.",
+                "ru": "У задачи не объявлены `outputs`, поэтому Turborepo восстановил прошлый `dist/` вместо текущего."
+            },
+            {
+                "en": "Environment variables take part in the hash only in `--affected` mode, which the deploy job does not use.",
+                "ru": "Переменные окружения участвуют в хэше только в режиме `--affected`, который деплой-джоб не использует."
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "Turborepo hashes what you declare: a variable influences the hash only when it is listed in the task's `env` or in `globalEnv`. Framework inference picks up prefixed variables automatically (`VITE_*`, `NEXT_PUBLIC_*`), and an arbitrary name like `API_BASE_URL` falls outside it, so the inputs hash identically and the cache cannot see the change. Strict mode — the default — goes further and filters undeclared variables out of the task's runtime, so the omission has a second face: the run that produced the cached bundle already read `undefined`, and every replay ships that same bundle. Declaring the variable in `env` fixes both halves at once.",
+            "ru": "Turborepo хэширует то, что объявлено: переменная влияет на хэш, только если она есть в `env` задачи или в `globalEnv`. Framework inference автоматически подхватывает префиксные переменные (`VITE_*`, `NEXT_PUBLIC_*`), а произвольное имя вроде `API_BASE_URL` под это не попадает — хэш входов совпадает, изменение для кэша невидимо. Строгий режим (по умолчанию) идёт дальше и вообще не пробрасывает необъявленные переменные в саму задачу, поэтому у ошибки есть второе лицо: прогон, собравший закэшированный бандл, уже видел `undefined`, и каждый повтор выкатывает тот же бандл. Объявление переменной в `env` закрывает обе половины сразу."
+        }
+    },
+    {
+        "id": "build-cicd-verify-001",
+        "type": "single-choice",
+        "category": "build-tools",
+        "difficulty": "medium",
+        "tags": ["ci-cd", "deployment", "observability", "definition-of-done"],
+        "question": {
+            "en": "Your deploy job reports success as soon as the upload to the CDN exits 0. If **done** means deployed **and verified**, which signal actually confirms the release is healthy?",
+            "ru": "Деплой-джоб считается успешным, как только загрузка на CDN завершилась с кодом 0. Если «сделано» значит «выкачено и проверено», какой сигнал реально подтверждает здоровье релиза?"
+        },
+        "options": [
+            {
+                "en": "A green CI run on the trunk commit the artifact was built from, since nothing changed after it.",
+                "ru": "Зелёный CI на коммите trunk, из которого собран артефакт, — после него ничего не менялось."
+            },
+            {
+                "en": "The staging smoke suite that passed before promotion: production receives a byte-identical artifact.",
+                "ru": "Смоук-набор на staging, прошедший до промоушена: в production едет побайтово тот же артефакт."
+            },
+            {
+                "en": "A synthetic check on the production URL plus the client error rate over the release window.",
+                "ru": "Синтетическая проверка production-URL плюс клиентский error rate в окне релиза."
+            },
+            {
+                "en": "A weekly deploy-frequency number that stays above the target the team agreed on.",
+                "ru": "Недельная частота деплоев, которая держится выше согласованной командой цели."
+            }
+        ],
+        "correct": 2,
+        "explanation": {
+            "en": "A successful upload proves that files moved, not that the application boots. The failure modes that live only in production — wrong runtime config, a chunk that did not make it, a CSP or cache-control header applied at the edge, a CDN routing rule — are invisible to every pre-deploy gate, including a smoke suite run on the identical artifact. Verification is a request against the real URL plus a short watch on error rate and chunk-load failures, with the rollback pointer ready while you watch.",
+            "ru": "Успешная загрузка доказывает, что файлы переехали, а не что приложение стартует. Отказы, которые живут только в проде — неверный runtime-конфиг, недоехавший чанк, CSP или cache-control, навешенные на эдже, правило маршрутизации CDN — не видны ни одному пред-деплойному гейту, включая смоук на том же самом артефакте. Проверка — это запрос к боевому URL плюс короткое наблюдение за error rate и ошибками загрузки чанков, с готовым указателем на предыдущий релиз."
+        }
+    },
+    {
+        "id": "build-multi-vite8-plugins-001",
+        "type": "multi-choice",
+        "category": "build-tools",
+        "difficulty": "hard",
+        "tags": ["vite", "rolldown", "oxc", "plugins", "environment-api", "migration"],
+        "question": {
+            "en": "You maintain a Vite plugin and are updating it for Vite 8 (Rolldown + Oxc, Environment API). Which statements about that migration are correct?",
+            "ru": "Вы поддерживаете Vite-плагин и обновляете его под Vite 8 (Rolldown + Oxc, Environment API). Какие утверждения про эту миграцию верны?"
+        },
+        "options": [
+            {
+                "en": "Hook filters (`filter` on `transform` / `load` / `resolveId`) now affect speed, because every JS hook call crosses the Rust↔JS boundary.",
+                "ru": "Фильтры хуков (`filter` у `transform` / `load` / `resolveId`) теперь влияют на скорость: каждый вызов JS-хука — это переход через границу Rust↔JS."
+            },
+            {
+                "en": "Rollup-style plugins no longer run at all, so every plugin has to be rewritten as a Rust plugin before Rolldown will load it during a build.",
+                "ru": "Плагины в стиле Rollup больше не работают, поэтому каждый плагин придётся переписать как Rust-плагин, иначе Rolldown не загрузит его на сборке."
+            },
+            {
+                "en": "`transformWithEsbuild` is deprecated in favour of `transformWithOxc`, and keeping esbuild means depending on it explicitly.",
+                "ru": "`transformWithEsbuild` объявлен deprecated в пользу `transformWithOxc`, а esbuild теперь нужно ставить явной зависимостью."
+            },
+            {
+                "en": "Hooks read `this.environment` instead of the `ssr` boolean, and `applyToEnvironment` decides where the plugin applies.",
+                "ru": "Хуки читают `this.environment` вместо булева `ssr`, а `applyToEnvironment` решает, где плагин применяется."
+            },
+            {
+                "en": "`build.rollupOptions` was removed outright in Vite 8, so a config that still sets it fails to load and has to be renamed before the app will start.",
+                "ru": "`build.rollupOptions` в Vite 8 удалён полностью, поэтому конфиг с этим полем перестанет загружаться и его нужно переименовать до запуска приложения."
+            }
+        ],
+        "correct": [0, 2, 3],
+        "explanation": {
+            "en": "The compatibility layer is the point of the release: Rollup-style JS plugins keep working, and old option names are deprecated and mapped (`build.rollupOptions` → `build.rolldownOptions`) rather than deleted, so migration is incremental. What genuinely changes for an author is that hooks are now invoked from a Rust bundler, so a declared `filter` cuts how often that crossing happens — `withFilter` wraps a third-party plugin that has not adopted filters yet. esbuild is no longer an internal dependency, hence `transformWithOxc`, and the Environment API replaces the `ssr` flag with `this.environment` plus `applyToEnvironment`.",
+            "ru": "Смысл релиза — слой совместимости: JS-плагины в стиле Rollup продолжают работать, а старые имена опций не удаляют, а помечают deprecated и маппят (`build.rollupOptions` → `build.rolldownOptions`), поэтому миграция идёт по частям. Для автора плагина меняется другое: хуки вызываются из Rust-бандлера, поэтому объявленный `filter` сокращает число переходов в JS — `withFilter` оборачивает чужой плагин, который фильтры ещё не поддерживает. esbuild больше не внутренняя зависимость, отсюда `transformWithOxc`, а Environment API заменяет флаг `ssr` на `this.environment` и `applyToEnvironment`."
+        }
+    },
+    {
+        "id": "build-multi-ci-secrets-001",
+        "type": "multi-choice",
+        "category": "build-tools",
+        "difficulty": "medium",
+        "tags": ["ci-cd", "secrets", "oidc", "docker", "security"],
+        "question": {
+            "en": "Which of these actually reduce secret exposure in a frontend CI/CD pipeline?",
+            "ru": "Какие из этих мер действительно снижают риск утечки секретов во фронтенд-пайплайне CI/CD?"
+        },
+        "options": [
+            {
+                "en": "Authenticating to the cloud with OIDC short-lived tokens instead of storing long-lived access keys as repo secrets.",
+                "ru": "Аутентификация в облаке через OIDC с короткоживущими токенами вместо долгоживущих ключей в секретах репозитория."
+            },
+            {
+                "en": "Passing a private registry token through `RUN --mount=type=secret` instead of `ARG`, so it stays out of the image layers.",
+                "ru": "Токен приватного реестра передаётся через `RUN --mount=type=secret`, а не через `ARG`, — он не остаётся в слоях образа."
+            },
+            {
+                "en": "Keeping the API base URL in `VITE_API_URL` as a CI secret, so it is injected at build time and cannot be read out of the bundle.",
+                "ru": "Базовый URL API лежит в `VITE_API_URL` как CI-секрет, поэтому он подставляется на сборке и в бандле его не прочитать."
+            },
+            {
+                "en": "Keeping deploy credentials out of fork-triggered runs and deploying the built artifact from a separate privileged workflow.",
+                "ru": "Деплой-креденшелы недоступны прогонам из форков, а артефакт выкатывает отдельный привилегированный workflow."
+            },
+            {
+                "en": "Relying on the runner masking secrets in logs, so a compromised step cannot print the value anywhere an attacker is able to read it.",
+                "ru": "Расчёт на то, что раннер маскирует секреты в логах, поэтому скомпрометированный шаг не сможет нигде их напечатать."
+            }
+        ],
+        "correct": [0, 1, 3],
+        "explanation": {
+            "en": "OIDC removes the standing credential altogether, which is exactly why the docs recommend it over long-lived cloud keys; build arguments and `ENV` persist in the image and show up in `docker history`, while a secret mount does not. Anything a `VITE_*` variable holds is inlined into the bundle as text, so labelling it a secret in CI changes nothing about who can read it — if the value really is a secret, it has no place in client code. Log masking is best-effort redaction of exact matches, documented as not guaranteed, and it is no control against a step that wants to leak.",
+            "ru": "OIDC убирает сам постоянный секрет — именно поэтому документация советует его вместо долгоживущих ключей облака; build-аргументы и `ENV` остаются в образе и видны через `docker history`, а секрет-маунт — нет. Всё, что попадает в `VITE_*`, текстово вшивается в бандл: пометка «секрет» в CI не меняет того, кто это прочитает, — если значение действительно секретное, ему нечего делать в клиентском коде. Маскирование в логах — best-effort замена точных совпадений, документация прямо пишет, что гарантии нет; против шага, который хочет утечь, это не контроль."
+        }
+    },
+    {
+        "id": "build-bug-deploy-order-001",
+        "type": "bug-finding",
+        "category": "build-tools",
+        "difficulty": "medium",
+        "tags": ["ci-cd", "deployment", "cdn", "atomic-deploy", "code-splitting"],
+        "question": {
+            "en": "This script publishes an SPA release to S3 behind CloudFront. Most deploys look fine, but users who open the app while one is running report a blank page and `Failed to fetch dynamically imported module`. Find the bug:",
+            "ru": "Скрипт публикует релиз SPA в S3 за CloudFront. Обычно деплой проходит нормально, но пользователи, открывшие приложение во время выкатки, видят белый экран и `Failed to fetch dynamically imported module`. Найдите ошибку:"
+        },
+        "code": "#!/usr/bin/env bash\nset -euo pipefail\n\nnpm ci\nnpm run build\n\n# publish the release\naws s3 cp dist/index.html \"s3://$BUCKET/index.html\" --cache-control \"max-age=60\"\naws s3 sync dist/assets \"s3://$BUCKET/assets\" --cache-control \"max-age=31536000,immutable\"\naws s3 sync dist \"s3://$BUCKET\" --exclude \"index.html\" --exclude \"assets/*\" --cache-control \"max-age=300\"\n\naws cloudfront create-invalidation --distribution-id \"$DIST_ID\" --paths \"/index.html\"",
+        "lang": "bash",
+        "correct": "`index.html` is uploaded before the hashed assets it references, so during the upload window clients get HTML pointing at chunks that are not on the origin yet.",
+        "referenceAnswer": "Publish in dependency order — hashed assets and the remaining static files first, the entry document last, invalidation last:\n\n```bash\naws s3 sync dist/assets \"s3://$BUCKET/assets\" --cache-control \"max-age=31536000,immutable\"\naws s3 sync dist \"s3://$BUCKET\" --exclude \"index.html\" --exclude \"assets/*\" --cache-control \"max-age=300\"\naws s3 cp dist/index.html \"s3://$BUCKET/index.html\" --cache-control \"max-age=60\"\naws cloudfront create-invalidation --distribution-id \"$DIST_ID\" --paths \"/index.html\"\n```\n\nThe mirror-image rule applies to cleanup: never delete the previous release's hashed assets right after a deploy, because tabs that already loaded the old `index.html` keep requesting them by hash. Retain the assets of the last N releases and expire them on a schedule instead.",
+        "explanation": {
+            "en": "A static deploy is not atomic: each object becomes visible the moment its own upload finishes, so the upload order is the contract. `index.html` is the only mutable entry point and therefore goes last — publishing it first advertises hashed chunks that are still being uploaded, and any client that loads during that window fails on the first dynamic import. The same reasoning forbids deleting the previous release's chunks immediately, since open sessions are still fetching them.",
+            "ru": "Выкладка статики не атомарна: каждый объект становится виден сразу после своей загрузки, поэтому порядок загрузок — это и есть контракт. `index.html` — единственная изменяемая точка входа, и публиковать её нужно последней: выложенный первым, он уже ссылается на хэшированные чанки, которые ещё заливаются, и любой клиент, зашедший в это окно, падает на первом динамическом импорте. По той же причине нельзя сразу удалять чанки прошлого релиза — открытые вкладки продолжают их запрашивать."
+        }
+    },
+    {
+        "id": "build-cc-turbo-affected-001",
+        "type": "code-completion",
+        "category": "build-tools",
+        "difficulty": "medium",
+        "tags": ["ci-cd", "github-actions", "turborepo", "monorepo", "affected-builds"],
+        "question": {
+            "en": "Complete the job so a pull request builds only the packages affected relative to its base branch: the checkout must bring the **full** git history (the value that means *no depth limit*), and `turbo` must use its built-in affected detection flag:",
+            "ru": "Дополните джоб так, чтобы pull request собирал только пакеты, затронутые относительно базовой ветки: checkout должен принести **полную** историю git (значение, означающее *без ограничения глубины*), а `turbo` — использовать встроенный флаг определения затронутых пакетов:"
+        },
+        "code": "name: CI\non: pull_request\n\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n        with:\n          fetch-depth: __BLANK__\n\n      - uses: actions/setup-node@v4\n        with:\n          node-version: 22\n          cache: npm\n\n      - run: npm ci\n      - run: npx turbo run build --__BLANK__\n        env:\n          TURBO_SCM_BASE: origin/${{ github.base_ref }}",
+        "blanks": ["0", "affected"],
+        "lang": "yaml",
+        "referenceAnswer": "`fetch-depth: 0` fetches the full history. With the default shallow clone there is no merge base to diff against, so Turborepo has to treat every package as changed — the pipeline silently degrades into a full build with no error in the log.\n\n`turbo run build --affected` defaults to the range `main...HEAD`. On GitHub Actions it first reads `GITHUB_BASE_REF`, but that variable holds a branch *name* (`main`), and a stock `actions/checkout` — even at `fetch-depth: 0` — creates only the remote-tracking ref `origin/main`, so `main` does not resolve. Turborepo deliberately does not fall back to main or master once it knows it is on GitHub Actions; it fails with `Failed to resolve base ref` and warns `unable to detect git range, assuming all files have changed`, which is the same silent full build the shallow clone causes. That is why the job pins the base explicitly:\n\n```yaml\n      - run: npx turbo run build --affected\n        env:\n          TURBO_SCM_BASE: origin/${{ github.base_ref }}\n```\n\n`TURBO_SCM_HEAD` overrides the other end of the range the same way, and the opt-in `futureFlags.githubActionsRemoteBaseRefFallback` makes Turborepo retry the inferred ref as `origin/<branch>` by itself. When you need a different base entirely, express the same selection with a `--filter` git range.",
+        "explanation": {
+            "en": "Affected-build selection is only as correct as the git history on the runner, and a shallow checkout fails open, not loud: everything looks changed and the pipeline just gets slow. The GitHub Actions path fails open in the same direction — `GITHUB_BASE_REF` names a branch that a stock checkout has only as `origin/<branch>`, and Turborepo refuses to guess main or master once it knows it is on CI, so it warns and rebuilds everything unless the base is pinned through `TURBO_SCM_BASE`. Expect honest 'everything is affected' runs too — a lockfile or shared-config change legitimately invalidates the whole graph.",
+            "ru": "Affected-сборка настолько корректна, насколько доступна история git на раннере, а shallow-клон ломается «тихо»: изменённым выглядит всё, и пайплайн просто становится полным, без единой ошибки в логе. На GitHub Actions всё ломается в ту же сторону: в `GITHUB_BASE_REF` лежит имя ветки, которая у стандартного checkout есть только как `origin/<branch>`, а угадывать main или master Turborepo в CI отказывается — он пишет предупреждение и пересобирает всё, если базу не зафиксировать через `TURBO_SCM_BASE`. И помните про честные случаи «затронуто всё»: правка лок-файла или общего конфига законно инвалидирует весь граф."
+        }
     }
 ]

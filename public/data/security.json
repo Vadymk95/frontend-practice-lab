@@ -1808,5 +1808,505 @@
         "blanks": ["origin", "has", "true"],
         "lang": "javascript",
         "referenceAnswer": "Read req.headers.origin, check membership with Set.has(), and only reflect the origin if it is in the allowlist. Access-Control-Allow-Credentials must be the string 'true'."
+    },
+    {
+        "id": "sec-bff-001",
+        "type": "single-choice",
+        "category": "security",
+        "difficulty": "medium",
+        "tags": ["oauth", "bff", "token-handler", "spa-auth"],
+        "question": {
+            "en": "Your SPA moves to the **BFF (token-handler)** pattern from the OAuth 2.0 for Browser-Based Apps draft. After the migration, what does the browser actually hold?",
+            "ru": "SPA переезжает на паттерн **BFF (token-handler)** из драфта OAuth 2.0 for Browser-Based Apps. Что после миграции реально лежит в браузере?"
+        },
+        "options": [
+            {
+                "en": "Only an `HttpOnly` session cookie scoped to the BFF; the BFF attaches the access token server-side",
+                "ru": "Только `HttpOnly` session cookie для домена BFF; access token подставляет сам BFF на сервере"
+            },
+            {
+                "en": "The access token in memory and the refresh token in an `HttpOnly` cookie sent to the authorization server",
+                "ru": "Access token в памяти и refresh token в `HttpOnly` cookie, которая уходит на authorization server"
+            },
+            {
+                "en": "The access token in an `HttpOnly` cookie that the browser forwards directly to the resource server",
+                "ru": "Access token в `HttpOnly` cookie, которую браузер шлёт напрямую на resource server"
+            },
+            {
+                "en": "The ID token in `sessionStorage`, which the resource server accepts as a bearer credential",
+                "ru": "ID token в `sessionStorage`, который resource server принимает как bearer-креденшл"
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "In the BFF pattern the backend is a confidential OAuth client: it holds both access and refresh tokens in a cookie-based session and the browser never sees a token at all. That removes token exfiltration via XSS as a class, but it moves the whole attack surface onto the cookie — so CSRF protection on the BFF's proxy routes becomes mandatory, not optional. The variant where the browser does get the access token while the refresh token stays on the server is the weaker *token-mediating backend*, not the BFF.",
+            "ru": "В паттерне BFF бэкенд выступает confidential OAuth client: он держит и access, и refresh token в cookie-сессии, а браузер токен не видит вообще. Это убирает целый класс — кражу токена через XSS, — но переносит всю поверхность атаки на cookie, поэтому CSRF-защита на прокси-роутах BFF становится обязательной, а не опциональной. Вариант, где access token всё-таки отдают в браузер, а refresh оставляют на сервере, — это более слабый *token-mediating backend*, а не BFF."
+        }
+    },
+    {
+        "id": "sec-refresh-001",
+        "type": "single-choice",
+        "category": "security",
+        "difficulty": "hard",
+        "tags": ["oauth", "refresh-token", "rotation", "reuse-detection"],
+        "question": {
+            "en": "Your SPA uses rotating refresh tokens. The authorization server receives a refresh token it has already exchanged once. Per RFC 9700, what is the correct server behaviour?",
+            "ru": "SPA использует ротацию refresh-токенов. Authorization server получает refresh token, который уже был обменян один раз. Что по RFC 9700 сервер должен сделать?"
+        },
+        "options": [
+            {
+                "en": "Issue a new pair anyway — a repeat is normally a client retry after a network error, so it must be tolerated",
+                "ru": "Всё равно выдать новую пару — повтор обычно значит retry клиента после сетевой ошибки, его надо допускать"
+            },
+            {
+                "en": "Reject only that request and keep the current token family alive, since just one token is suspect",
+                "ru": "Отклонить только этот запрос, оставив текущее семейство токенов живым — подозрителен лишь один токен"
+            },
+            {
+                "en": "Rotate as usual but narrow the new access token's scopes until the user re-authenticates interactively",
+                "ru": "Выполнить ротацию как обычно, но урезать scopes нового access token до повторной интерактивной аутентификации"
+            },
+            {
+                "en": "Revoke the whole token family for that grant — a second use means the token was probably exfiltrated",
+                "ru": "Отозвать всё семейство токенов этого grant — второе использование означает, что токен, скорее всего, украли"
+            }
+        ],
+        "correct": 3,
+        "explanation": {
+            "en": "Rotation on its own does not stop a thief; what stops him is that the victim and the attacker end up drawing from the same lineage, so a second use of one token is observable. RFC 9700 §4.14 therefore requires refresh tokens for public clients to be either sender-constrained (DPoP / mTLS) or rotated, and on a detected replay the server revokes the whole grant rather than one token. The operational consequence lands on the frontend: your own client must serialise refreshes, because parallel refresh calls are indistinguishable from a replay and will log real users out.",
+            "ru": "Сама по себе ротация вора не останавливает; останавливает то, что жертва и атакующий тянут токены из одной линии, поэтому второе использование становится заметным. Поэтому RFC 9700 §4.14 требует, чтобы refresh-токены публичных клиентов были либо sender-constrained (DPoP / mTLS), либо ротируемыми, а при обнаружении повтора сервер отзывает весь grant, а не один токен. Эксплуатационное следствие ложится на фронтенд: клиент обязан сериализовать refresh, потому что параллельные refresh-запросы неотличимы от replay и вылогинят живых пользователей."
+        }
+    },
+    {
+        "id": "sec-csrf-002",
+        "type": "single-choice",
+        "category": "security",
+        "difficulty": "medium",
+        "tags": ["csrf", "samesite", "cookies", "defense-in-depth"],
+        "question": {
+            "en": "The session cookie is `SameSite=Lax; Secure; HttpOnly` and the team proposes deleting the CSRF token as redundant. Which residual risk does the OWASP CSRF cheat sheet say survives `SameSite` alone?",
+            "ru": "Session cookie стоит как `SameSite=Lax; Secure; HttpOnly`, и команда предлагает убрать CSRF-токен как избыточный. Какой остаточный риск, по OWASP CSRF cheat sheet, остаётся при опоре на один `SameSite`?"
+        },
+        "options": [
+            {
+                "en": "`SameSite=Lax` still attaches the cookie to cross-site `POST` form submissions from any origin",
+                "ru": "`SameSite=Lax` всё ещё прикладывает cookie к кросс-сайтовым `POST`-отправкам формы с любого origin"
+            },
+            {
+                "en": "`SameSite` is scoped to the registrable domain, so a hijacked sibling subdomain is same-site",
+                "ru": "`SameSite` работает на уровне registrable domain, поэтому захваченный соседний сабдомен остаётся same-site"
+            },
+            {
+                "en": "`Secure` suppresses `SameSite` enforcement on top-level navigations, leaving `GET` endpoints open",
+                "ru": "`Secure` отключает применение `SameSite` при top-level-навигациях, оставляя `GET`-эндпоинты открытыми"
+            },
+            {
+                "en": "`SameSite` is ignored for `fetch()` calls, because those already carry an `Origin` header",
+                "ru": "`SameSite` игнорируется для вызовов `fetch()`, поскольку те и так несут заголовок `Origin`"
+            }
+        ],
+        "correct": 1,
+        "explanation": {
+            "en": "The cheat sheet is explicit that `SameSite` is scoped to the registrable domain and not to the origin: a cookie set on `app.example.com` is still considered same-site for a request from `anything.example.com`. One forgotten marketing subdomain, one wildcard-DNS takeover, and the only defence is gone. `Lax` does *not* send the cookie on cross-site `POST`, but it does send it on top-level cross-site `GET` navigation — which is why OWASP treats `SameSite` as defense-in-depth and still wants a synchronizer or signed double-submit token.",
+            "ru": "Cheat sheet прямо говорит, что `SameSite` действует на уровне registrable domain, а не origin: cookie, выставленная на `app.example.com`, считается same-site и для запроса с `anything.example.com`. Один забытый маркетинговый сабдомен или захват по wildcard-DNS — и единственная защита исчезла. `Lax` действительно *не* отправляет cookie на кросс-сайтовый `POST`, но отправляет её при top-level кросс-сайтовой `GET`-навигации — поэтому OWASP считает `SameSite` мерой defense-in-depth и всё равно требует synchronizer или signed double-submit токен."
+        }
+    },
+    {
+        "id": "sec-dependency-confusion-001",
+        "type": "single-choice",
+        "category": "security",
+        "difficulty": "medium",
+        "tags": ["supply-chain", "npm", "dependency-confusion", "registry"],
+        "question": {
+            "en": "`@yourco/ui` exists only in your internal registry. An attacker publishes `@yourco/ui@99.0.0` to the public npm registry. Which single `.npmrc` line stops your installs from resolving to his copy?",
+            "ru": "`@yourco/ui` существует только во внутреннем registry. Атакующий публикует `@yourco/ui@99.0.0` в публичный npm registry. Какая одна строка в `.npmrc` не даст вашим установкам резолвиться в его копию?"
+        },
+        "options": [
+            {
+                "en": "`@yourco:registry=https://npm.yourco.com` — every `@yourco` request goes to that registry",
+                "ru": "`@yourco:registry=https://npm.yourco.com` — все запросы `@yourco` идут в этот registry"
+            },
+            {
+                "en": "`save-exact=true` — the lockfile then pins `@yourco/ui` to the known-good internal version",
+                "ru": "`save-exact=true` — тогда lockfile зафиксирует `@yourco/ui` на заведомо хорошей внутренней версии"
+            },
+            {
+                "en": "`audit-level=critical` — a package flagged as compromised then fails the install step",
+                "ru": "`audit-level=critical` — пакет, помеченный как скомпрометированный, тогда уронит шаг установки"
+            },
+            {
+                "en": "`registry=https://registry.npmjs.org` plus a defensively published placeholder under that scope",
+                "ru": "`registry=https://registry.npmjs.org` плюс защитно опубликованный placeholder в этом scope"
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "A scope has a many-to-one relationship with registries — it points at exactly one registry — so `@yourco:registry=` makes public resolution for that scope impossible rather than merely unlikely. Version pinning does not help, because the attacker's `99.0.0` wins any range the moment a fresh `npm install` re-resolves, and `npm audit` knows only published advisories, which a brand-new malicious version has none of. Defensive placeholder publishing is a real practice but it is a claim on a name, not a config change, and it fails the moment someone adds a new internal package. The line must also be present wherever CI installs, not only on laptops.",
+            "ru": "Scope связан с registry как many-to-one — он указывает ровно на один registry, — поэтому `@yourco:registry=` делает публичный резолв для этого scope невозможным, а не просто маловероятным. Фиксация версий не спасает: `99.0.0` атакующего выигрывает любой диапазон, как только свежий `npm install` пере-резолвит дерево, а `npm audit` знает только опубликованные advisory, которых у новой вредоносной версии ещё нет. Защитная публикация placeholder — реальная практика, но это захват имени, а не изменение конфига, и она ломается на первом же новом внутреннем пакете. Эта строка должна лежать и там, где ставит зависимости CI, а не только на ноутбуках."
+        }
+    },
+    {
+        "id": "sec-oidc-001",
+        "type": "multi-choice",
+        "category": "security",
+        "difficulty": "medium",
+        "tags": ["oidc", "oauth", "id-token", "nonce"],
+        "question": {
+            "en": "Which statements are true of OpenID Connect compared with plain OAuth 2.0? (select all that apply)",
+            "ru": "Какие утверждения верны для OpenID Connect по сравнению с чистым OAuth 2.0? (выберите все подходящие)"
+        },
+        "options": [
+            {
+                "en": "It adds an ID token: a signed JWT describing the authentication event",
+                "ru": "Он добавляет ID token — подписанный JWT, описывающий факт аутентификации"
+            },
+            {
+                "en": "The ID token's `aud` is the client, so a resource server must not accept it as an access token",
+                "ru": "`aud` у ID token — это клиент, поэтому resource server не должен принимать его как access token"
+            },
+            {
+                "en": "It standardises the access token format as a signed JWT",
+                "ru": "Он стандартизирует формат access token как подписанный JWT"
+            },
+            {
+                "en": "`nonce` associates the ID token with the authentication request and mitigates replay",
+                "ru": "`nonce` связывает ID token с запросом аутентификации и снижает риск replay"
+            },
+            {
+                "en": "The UserInfo endpoint returns the end-user's claims without requiring an access token",
+                "ru": "Эндпоинт UserInfo отдаёт claims пользователя, не требуя access token"
+            }
+        ],
+        "correct": [0, 1, 3],
+        "explanation": {
+            "en": "OAuth 2.0 answers *what may this client do*; OIDC layers *who signed in* on top of it, and the ID token carries that answer. Its `aud` is the client_id, so shipping the ID token to your API as a bearer credential is a classic confusion bug — the API must consume the access token instead. OIDC deliberately leaves the access token opaque to the client: it may be a JWT at your provider and an opaque handle at the next one, so never parse it. UserInfo is itself a protected resource and requires the access token.",
+            "ru": "OAuth 2.0 отвечает на вопрос *что этому клиенту разрешено*; OIDC надстраивает над ним *кто вошёл*, и ответ несёт ID token. Его `aud` — это client_id, поэтому отправлять ID token в своё API как bearer — классическая ошибка путаницы токенов: API должен потреблять именно access token. OIDC сознательно оставляет access token непрозрачным для клиента: у одного провайдера это JWT, у другого — opaque-хэндл, поэтому парсить его нельзя. UserInfo сам является protected resource и требует access token."
+        }
+    },
+    {
+        "id": "sec-supply-chain-002",
+        "type": "multi-choice",
+        "category": "security",
+        "difficulty": "hard",
+        "tags": ["supply-chain", "npm", "ci", "lockfile", "install-scripts"],
+        "question": {
+            "en": "A transitive dependency publishes a malicious patch version. Which of these actually reduce the blast radius in CI? (select all that apply)",
+            "ru": "Транзитивная зависимость публикует вредоносную patch-версию. Что из перечисленного реально уменьшает радиус поражения в CI? (выберите все подходящие)"
+        },
+        "options": [
+            {
+                "en": "`npm ci` against a committed lockfile, so the installed tree is the reviewed one",
+                "ru": "`npm ci` по закоммиченному lockfile, чтобы ставилось именно то дерево, которое ревьюили"
+            },
+            {
+                "en": "`ignore-scripts` enabled in CI, so no package's `postinstall` can execute",
+                "ru": "Включённый в CI `ignore-scripts`, чтобы `postinstall` ни одного пакета не выполнился"
+            },
+            {
+                "en": "Caret ranges on direct dependencies, so patch fixes arrive without manual work",
+                "ru": "Caret-диапазоны у прямых зависимостей, чтобы патчи приезжали без ручной работы"
+            },
+            {
+                "en": "A minimum release age (`min-release-age` in npm), so just-published versions are not installed",
+                "ru": "Минимальный возраст релиза (`min-release-age` в npm), чтобы только что опубликованные версии не ставились"
+            },
+            {
+                "en": "`npm audit --audit-level=high` as the install gate, so a malicious version fails the build",
+                "ru": "`npm audit --audit-level=high` как гейт установки, чтобы вредоносная версия роняла сборку"
+            }
+        ],
+        "correct": [0, 1, 3],
+        "explanation": {
+            "en": "`npm ci` refuses to resolve anything new: it installs the lockfile tree and exits with an error when `package.json` disagrees, instead of quietly updating the lock the way `npm install` does. `ignore-scripts` removes install scripts, which is the execution vector most registry worms rely on — the cost is that packages needing a native build must be allowlisted and built deliberately. A release-age floor buys you the window in which a compromised version is usually reported and unpublished. Caret ranges are the delivery mechanism, not a defence, and `npm audit` only knows advisories that already exist, which a zero-day malicious release does not have.",
+            "ru": "`npm ci` вообще отказывается резолвить что-то новое: он ставит дерево из lockfile и падает с ошибкой, если `package.json` с ним расходится, вместо тихого обновления лока, как делает `npm install`. `ignore-scripts` убирает install-скрипты — основной вектор исполнения, на который опираются registry-черви; цена в том, что пакеты с нативной сборкой приходится заносить в allowlist и собирать осознанно. Минимальный возраст релиза покупает то самое окно, за которое скомпрометированную версию обычно успевают заметить и снять. Caret-диапазоны — это механизм доставки, а не защита, а `npm audit` знает только уже существующие advisory, которых у свежего вредоносного релиза нет."
+        }
+    },
+    {
+        "id": "sec-bug-refresh-001",
+        "type": "bug-finding",
+        "category": "security",
+        "difficulty": "hard",
+        "tags": ["oauth", "refresh-token", "rotation", "interceptor"],
+        "question": {
+            "en": "Three API calls fire in parallel and all three get a 401 because the access token just expired. The refresh tokens rotate on every use. Find the bug in this response interceptor:",
+            "ru": "Три API-вызова уходят параллельно, и все три получают 401, потому что access token только что истёк. Refresh-токены ротируются при каждом использовании. Найдите баг в этом response-интерцепторе:"
+        },
+        "code": "let accessToken: string | null = null;\n\napi.interceptors.response.use(undefined, async (error) => {\n  if (error.response?.status !== 401) throw error;\n\n  const res = await fetch('/auth/refresh', {\n    method: 'POST',\n    credentials: 'include'\n  });\n  if (!res.ok) throw error;\n\n  const { access_token } = await res.json();\n  accessToken = access_token;\n\n  error.config.headers.Authorization = `Bearer ${accessToken}`;\n  return api.request(error.config);\n});",
+        "lang": "typescript",
+        "correct": "Concurrent 401s each start their own refresh, so under rotation the second and third calls replay an already-used refresh token and the server revokes the whole session",
+        "referenceAnswer": "There is no in-flight deduplication. Each 401 independently POSTs to /auth/refresh; with rotation the first call consumes the refresh token, and the two that were already in flight present the now-superseded one. A server implementing reuse detection (RFC 9700 s4.14) reads that as a replayed token and revokes the entire grant family, so the user is logged out by the app's own retry logic — and it only reproduces under concurrency, which is why it survives manual QA.\n\nShare a single refresh promise between all waiters, and guard the retry so a permanently dead session cannot loop:\n\n```ts\nlet refreshing: Promise<string> | null = null;\n\nfunction refreshOnce(): Promise<string> {\n  refreshing ??= fetch('/auth/refresh', { method: 'POST', credentials: 'include' })\n    .then((r) => {\n      if (!r.ok) throw new Error('refresh failed');\n      return r.json();\n    })\n    .then((d) => d.access_token as string)\n    .finally(() => {\n      refreshing = null;\n    });\n  return refreshing;\n}\n\napi.interceptors.response.use(undefined, async (error) => {\n  if (error.response?.status !== 401 || error.config._retried) throw error;\n  error.config._retried = true;\n  const token = await refreshOnce();\n  error.config.headers.Authorization = `Bearer ${token}`;\n  return api.request(error.config);\n});\n```",
+        "explanation": {
+            "en": "Rotation makes a refresh token single-use, and a second exchange of the same token is indistinguishable from an attacker replaying a stolen one — so the authorization server revokes the whole family, which is exactly what it is supposed to do. The failure is therefore on the client: fanning out refreshes turns a routine token expiry into a forced logout for real users, and only under load. The fix is one shared in-flight refresh promise that every 401 awaits, plus a per-request retry flag so a dead session fails instead of looping.",
+            "ru": "Ротация делает refresh token одноразовым, а повторный обмен того же токена неотличим от replay украденного — поэтому authorization server отзывает всё семейство, и это правильное для него поведение. Значит, ошибка на стороне клиента: веером расходящиеся refresh-запросы превращают рядовое истечение токена в принудительный логаут живых пользователей, причём только под нагрузкой. Починка — один общий in-flight refresh promise, которого дожидаются все 401, плюс флаг повторной попытки на запрос, чтобы мёртвая сессия падала, а не зацикливалась."
+        }
+    },
+    {
+        "id": "sec-cc-npmrc-001",
+        "type": "code-completion",
+        "category": "security",
+        "difficulty": "easy",
+        "tags": ["supply-chain", "npm", "ci", "provenance"],
+        "question": {
+            "en": "Complete this CI job so the install is reproducible from the committed lockfile, no package's install scripts run, and registry signatures plus provenance attestations are verified:",
+            "ru": "Дополните этот CI-job так, чтобы установка была воспроизводима из закоммиченного lockfile, install-скрипты пакетов не выполнялись, а подписи registry и provenance-аттестации проверялись:"
+        },
+        "code": "steps:\n  - uses: actions/checkout@v4\n\n  # install the lockfile tree exactly; fail if package.json disagrees with it,\n  # and let no package execute preinstall/install/postinstall\n  - name: Install dependencies\n    run: npm __BLANK__ --__BLANK__\n\n  - name: Verify registry signatures and provenance attestations\n    run: npm audit __BLANK__",
+        "blanks": ["ci", "ignore-scripts", "signatures"],
+        "lang": "yaml",
+        "referenceAnswer": "npm ci requires an existing package-lock.json, never writes to package.json or the lock, and exits with an error when the two disagree instead of silently re-resolving the way npm install does. --ignore-scripts (the config defaults to false) removes preinstall/install/postinstall as an execution vector, which is what most registry worms rely on; the few dependencies that genuinely need a native build get an explicit allowlisted rebuild step. npm audit signatures is a separate command from npm audit: it verifies the registry signature of each downloaded package and its provenance attestation, rather than matching versions against published advisories.",
+        "explanation": {
+            "en": "These three cover different failure modes and none substitutes for another: `npm ci` fixes *which* code is installed, `--ignore-scripts` fixes *whether that code gets to run at install time*, and `npm audit signatures` checks *who actually published it*. Plain `npm audit` answers none of the three — it only compares resolved versions against advisories that already exist, so it is blind on the day a malicious release lands. The real cost of `--ignore-scripts` is the packages with native builds, which is a deliberate allowlist rather than a reason to skip the flag.",
+            "ru": "Эти три меры закрывают разные сценарии отказа и не заменяют друг друга: `npm ci` фиксирует, *какой* код ставится, `--ignore-scripts` — *получит ли этот код выполнение на этапе установки*, а `npm audit signatures` проверяет, *кто его на самом деле опубликовал*. Обычный `npm audit` не отвечает ни на один из трёх вопросов — он лишь сверяет разрезолвленные версии с уже существующими advisory, поэтому в день появления вредоносного релиза он слеп. Реальная цена `--ignore-scripts` — пакеты с нативной сборкой, и это осознанный allowlist, а не повод отказаться от флага."
+        }
+    },
+    {
+        "id": "sec-layout-auth-001",
+        "type": "single-choice",
+        "category": "security",
+        "difficulty": "hard",
+        "tags": ["nextjs", "ssr-auth", "authorization", "rsc"],
+        "question": {
+            "en": "A Next.js App Router dashboard puts its only authorization check in `app/dashboard/layout.tsx`: it awaits the session and returns `null` when there is none. Why do the Next.js docs call this insufficient?",
+            "ru": "В дашборде на Next.js App Router единственная проверка авторизации живёт в `app/dashboard/layout.tsx`: он ждёт сессию и возвращает `null`, если её нет. Почему документация Next.js считает это недостаточным?"
+        },
+        "options": [
+            {
+                "en": "Layouts do not re-render on navigation and do not gate their segments — those render anyway and land in the RSC payload",
+                "ru": "Layout не перерисовывается при навигации и не управляет своими сегментами — те рендерятся в любом случае и попадают в RSC payload"
+            },
+            {
+                "en": "Layouts are compiled into the Edge runtime, where `cookies()` is unavailable, so the session always resolves to `undefined`",
+                "ru": "Layout компилируется в Edge runtime, где `cookies()` недоступен, поэтому сессия всегда резолвится в `undefined`"
+            },
+            {
+                "en": "Returning `null` from a layout is a build-time error in the App Router, so the check never reaches production at all",
+                "ru": "Возврат `null` из layout — ошибка сборки в App Router, поэтому проверка вообще не доезжает до production"
+            },
+            {
+                "en": "Layouts run after the pages they wrap, so the page has already fetched and streamed its data by the time the check runs",
+                "ru": "Layout выполняется после страниц, которые он оборачивает, поэтому страница уже успела получить и отстримить данные к моменту проверки"
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "The router — not the layout — renders route segments and parallel slots, so a layout that hides or swaps `{children}` does not stop them from running or from appearing in the RSC payload, and partial rendering means the layout is not re-evaluated on every navigation inside it. Next.js is explicit that checks belong as close to the data source as possible, in a Data Access Layer whose `verifySession()` runs on every read. A layout is a good place to **fetch** user data and a bad place to be the only gate.",
+            "ru": "Сегменты маршрута и parallel slots рендерит роутер, а не layout, поэтому layout, который прячет или подменяет `{children}`, не мешает им выполниться и попасть в RSC payload, а из-за partial rendering он ещё и не пересчитывается на каждой навигации внутри себя. Next.js прямо говорит: проверки должны быть максимально близко к источнику данных — в Data Access Layer, где `verifySession()` вызывается на каждом чтении. Layout — хорошее место, чтобы **получить** данные пользователя, и плохое, чтобы быть единственным гейтом."
+        }
+    },
+    {
+        "id": "sec-logout-001",
+        "type": "single-choice",
+        "category": "security",
+        "difficulty": "medium",
+        "tags": ["oidc", "logout", "session", "revocation"],
+        "question": {
+            "en": "Your **Log out** button deletes the app's session cookie and redirects to `/login`. The user clicks it, immediately opens the app again, and lands in the dashboard without typing a password. What is the explanation?",
+            "ru": "Кнопка **Log out** удаляет session cookie приложения и редиректит на `/login`. Пользователь нажимает её, тут же снова открывает приложение и оказывается в дашборде без ввода пароля. В чём причина?"
+        },
+        "options": [
+            {
+                "en": "The cookie was deleted without `Clear-Site-Data: \"cookies\"`, so the browser keeps replaying the old value until the tab is closed",
+                "ru": "Cookie удалена без `Clear-Site-Data: \"cookies\"`, поэтому браузер продолжает слать старое значение, пока вкладку не закроют"
+            },
+            {
+                "en": "The IdP session survived, so the next `/authorize` returns a code silently — RP-initiated logout at `end_session_endpoint` ends it",
+                "ru": "Сессия на стороне IdP осталась жива, поэтому следующий `/authorize` молча возвращает код — завершает её RP-initiated logout через `end_session_endpoint`"
+            },
+            {
+                "en": "Rotating the refresh token on logout silently re-authenticates the user, which is why rotation must be disabled on the logout route",
+                "ru": "Ротация refresh-токена при логауте молча переаутентифицирует пользователя, поэтому на маршруте логаута ротацию нужно отключать"
+            },
+            {
+                "en": "The redirect to `/login` happened before the `Set-Cookie` response was applied, so the deletion was dropped by the browser",
+                "ru": "Редирект на `/login` произошёл раньше, чем применился ответ с `Set-Cookie`, поэтому браузер отбросил удаление"
+            }
+        ],
+        "correct": 1,
+        "explanation": {
+            "en": "Local logout and logout at the OpenID Provider are two different operations: the RP-Initiated Logout spec says it is up to the RP whether to log the user out locally before redirecting to the OP's logout endpoint, and the OP still decides about its own session. Drop your cookie only and the IdP happily issues a fresh code on the next silent `/authorize`. A complete logout means invalidating the session server-side (OWASP calls server-side invalidation mandatory), redirecting to `end_session_endpoint` with an `id_token_hint`, and revoking the refresh token via RFC 7009.",
+            "ru": "Локальный логаут и логаут на OpenID Provider — две разные операции: спека RP-Initiated Logout говорит, что RP сам решает, разлогинивать ли пользователя локально перед редиректом на logout-эндпоинт OP, а про свою сессию OP решает сам. Удалите только свою cookie — и IdP спокойно выдаст новый код на следующем тихом `/authorize`. Полный логаут — это инвалидация сессии на сервере (OWASP называет серверную инвалидацию обязательной), редирект на `end_session_endpoint` с `id_token_hint` и отзыв refresh-токена по RFC 7009."
+        }
+    },
+    {
+        "id": "sec-token-memory-001",
+        "type": "single-choice",
+        "category": "security",
+        "difficulty": "medium",
+        "tags": ["spa-auth", "token-storage", "xss", "browser-based-apps"],
+        "question": {
+            "en": "A team moves the access token out of `localStorage` into a module-scope JavaScript variable and reports the XSS risk as closed. What does the OAuth 2.0 for Browser-Based Apps BCP actually say about that?",
+            "ru": "Команда переносит access token из `localStorage` в переменную на уровне модуля и отчитывается, что риск XSS закрыт. Что на самом деле говорит про это BCP OAuth 2.0 for Browser-Based Apps?"
+        },
+        "options": [
+            {
+                "en": "It is closed: a variable inside a module closure is unreachable from injected script, which can only read what is attached to `window`",
+                "ru": "Риск закрыт: переменная внутри замыкания модуля недоступна внедрённому скрипту, который видит только то, что повешено на `window`"
+            },
+            {
+                "en": "It is closed provided the bundle is served under `script-src 'self'`, since that alone stops any injected script from executing",
+                "ru": "Риск закрыт при условии, что бандл отдаётся с `script-src 'self'`, — одного этого достаточно, чтобы внедрённый скрипт не выполнился"
+            },
+            {
+                "en": "Only persistence is gone: injected code runs with the app's privileges, so it can read the variable or just call the API as the user",
+                "ru": "Уходит только персистентность: внедрённый код исполняется с привилегиями приложения, поэтому может прочитать переменную или просто вызвать API от имени пользователя"
+            },
+            {
+                "en": "It is worse than before, because a variable is readable by any browser extension while `localStorage` is partitioned away from extensions",
+                "ru": "Стало хуже, чем было: переменную может прочитать любое расширение браузера, тогда как `localStorage` от расширений изолирован"
+            }
+        ],
+        "correct": 2,
+        "explanation": {
+            "en": "The BCP's premise is that malicious JavaScript running in the application context has the same privileges as the legitimate application code, so in-memory storage — like a service worker — narrows the window rather than removing the class. What it does buy is real but modest: nothing survives a reload for an attacker to scrape later, and the token never sits in a store that a stray third-party script can enumerate. The architectural answer the BCP points at is the BFF / token-handler pattern, where the browser never holds a token at all.",
+            "ru": "Исходная посылка BCP в том, что вредоносный JavaScript в контексте приложения имеет те же привилегии, что и легитимный код, поэтому хранение в памяти — как и service worker — сужает окно, а не убирает класс атаки. Выигрыш реальный, но скромный: после перезагрузки нечего выскрести, и токен не лежит в хранилище, которое может перебрать случайный сторонний скрипт. Архитектурный ответ, к которому ведёт BCP, — паттерн BFF / token handler, где браузер вообще не держит токен."
+        }
+    },
+    {
+        "id": "sec-cookies-004",
+        "type": "single-choice",
+        "category": "security",
+        "difficulty": "easy",
+        "tags": ["cookies", "host-prefix", "session", "subdomains"],
+        "question": {
+            "en": "A session cookie is named `__Host-session`. What does the browser enforce purely because of that name prefix?",
+            "ru": "Session cookie называется `__Host-session`. Что браузер начинает требовать исключительно из-за этого префикса в имени?"
+        },
+        "options": [
+            {
+                "en": "That the cookie is `HttpOnly` and `SameSite=Strict`, so script cannot read it and it is never attached to a cross-site request",
+                "ru": "Что cookie помечена `HttpOnly` и `SameSite=Strict`, так что скрипт её не прочитает и она никогда не уедет в cross-site запросе"
+            },
+            {
+                "en": "That the browser rewrites the cookie's scope to the current `Host` when it is set, so any `Domain` attribute sent is silently ignored",
+                "ru": "Что браузер при установке сам переписывает область видимости cookie на текущий `Host`, поэтому присланный `Domain` просто игнорируется"
+            },
+            {
+                "en": "That the cookie is session-scoped and dropped when the tab closes, because host-prefixed cookies may not be persistent",
+                "ru": "Что cookie живёт только до закрытия вкладки, поскольку cookie с host-префиксом не могут быть персистентными"
+            },
+            {
+                "en": "That it was set with `Secure` and `Path=/` and carries no `Domain` attribute, so no sibling subdomain can overwrite it",
+                "ru": "Что она выставлена с `Secure` и `Path=/` и не несёт атрибута `Domain`, поэтому её не может перезаписать соседний субдомен"
+            }
+        ],
+        "correct": 3,
+        "explanation": {
+            "en": "A `__Host-` cookie is rejected outright unless it comes from a secure origin with `Secure`, `Path=/` and no `Domain` — which is what makes it host-locked rather than domain-scoped. That closes the cookie-tossing hole that `SameSite` leaves open: `SameSite` is scoped to the registrable domain, so a hijacked `blog.example.com` is same-site for `app.example.com` and can normally set a cookie the app will read. The prefix costs nothing and is enforced by the browser, not by your review.",
+            "ru": "Cookie с `__Host-` просто не принимается, если она не пришла с secure-origin с `Secure`, `Path=/` и без `Domain`, — именно это привязывает её к хосту, а не к домену. Так закрывается дыра cookie-tossing, которую `SameSite` оставляет открытой: `SameSite` работает на уровне registrable domain, поэтому захваченный `blog.example.com` считается same-site для `app.example.com` и в обычной ситуации может выставить cookie, которую приложение прочитает. Префикс ничего не стоит и проверяется браузером, а не вашим ревью."
+        }
+    },
+    {
+        "id": "sec-provenance-001",
+        "type": "multi-choice",
+        "category": "security",
+        "difficulty": "hard",
+        "tags": ["supply-chain", "npm", "provenance", "sigstore", "signing"],
+        "question": {
+            "en": "CI runs `npm audit signatures` and reports every installed package as verified. Which statements about what this green report does and does not establish are correct? (select all that apply)",
+            "ru": "В CI выполняется `npm audit signatures`, и он сообщает, что все установленные пакеты проверены. Какие утверждения о том, что этот зелёный отчёт подтверждает, а что нет, верны? (выберите все подходящие)"
+        },
+        "options": [
+            {
+                "en": "The tarballs arrived from the registry unmodified — the registry signature over each package matches",
+                "ru": "Тарболлы пришли из registry без изменений — подпись registry для каждого пакета сходится"
+            },
+            {
+                "en": "For packages published with provenance, there is a Sigstore-signed link from the tarball to the source repo and build job that produced it",
+                "ru": "Для пакетов, опубликованных с provenance, есть подписанная Sigstore связь тарболла с исходным репозиторием и build-джобой, которая его собрала"
+            },
+            {
+                "en": "The contents of those packages are not malicious, since an attestation is a review of what was published",
+                "ru": "Содержимое этих пакетов не вредоносно, поскольку аттестация — это ревью того, что опубликовано"
+            },
+            {
+                "en": "Every dependency in the tree was published from an attested CI pipeline, because npm refuses publishes without provenance",
+                "ru": "Каждая зависимость в дереве опубликована из аттестованного CI-пайплайна, потому что npm не принимает публикации без provenance"
+            },
+            {
+                "en": "A maintainer whose account or repository was taken over could still publish a signed, attested version that this check accepts",
+                "ru": "Мейнтейнер, чей аккаунт или репозиторий угнали, всё ещё может опубликовать подписанную и аттестованную версию, которую эта проверка примет"
+            }
+        ],
+        "correct": [0, 1, 4],
+        "explanation": {
+            "en": "Signatures and provenance answer *where did this artifact come from*, never *is this code safe*. Provenance is a Sigstore-signed statement linking a tarball to the repository and workflow that built it, so it defeats tampering in transit and publishes from an unexpected place — and nothing else. It is also opt-in, so a fully green report says nothing about packages that carry no attestation, and an attacker who owns the account or the workflow inherits the attestation along with it.",
+            "ru": "Подписи и provenance отвечают на вопрос *откуда взялся этот артефакт*, а не *безопасен ли этот код*. Provenance — это подписанное Sigstore утверждение, связывающее тарболл с репозиторием и workflow, который его собрал, то есть оно ловит подмену по дороге и публикацию из неожиданного места — и ничего больше. Плюс это опциональная штука, так что полностью зелёный отчёт ничего не говорит про пакеты без аттестации, а атакующий, захвативший аккаунт или workflow, получает аттестацию в комплекте."
+        }
+    },
+    {
+        "id": "sec-revocation-001",
+        "type": "multi-choice",
+        "category": "security",
+        "difficulty": "medium",
+        "tags": ["oauth", "revocation", "deprovisioning", "access-token"],
+        "question": {
+            "en": "An employee is deprovisioned mid-session. Access tokens are self-contained JWTs living 15 minutes; refresh tokens rotate. Which statements about actually cutting their access are correct? (select all that apply)",
+            "ru": "Сотрудника отключают посреди сессии. Access-токены — самодостаточные JWT со временем жизни 15 минут, refresh-токены ротируются. Какие утверждения о реальном отзыве доступа верны? (выберите все подходящие)"
+        },
+        "options": [
+            {
+                "en": "Revoking the refresh token (RFC 7009) stops renewal but leaves the access token already issued working",
+                "ru": "Отзыв refresh-токена (RFC 7009) останавливает обновление, но уже выданный access token продолжает работать"
+            },
+            {
+                "en": "A self-contained JWT stays valid at the resource server until `exp` unless that server introspects or consults a revocation list",
+                "ru": "Самодостаточный JWT остаётся валидным на resource server до `exp`, если тот не делает introspection и не сверяется со списком отзыва"
+            },
+            {
+                "en": "Ending the IdP session at `end_session_endpoint` also invalidates every access token that session ever issued",
+                "ru": "Завершение сессии IdP через `end_session_endpoint` заодно инвалидирует все access-токены, выданные в рамках этой сессии"
+            },
+            {
+                "en": "Shortening the access-token lifetime bounds the window in which the deprovisioned user still gets through",
+                "ru": "Сокращение времени жизни access-токена ограничивает окно, в котором отключённый пользователь ещё проходит"
+            },
+            {
+                "en": "Clearing the browser's cookies for the app is sufficient, because the resource server validates that cookie on each call",
+                "ru": "Достаточно почистить cookies приложения в браузере, потому что resource server проверяет эту cookie на каждом вызове"
+            }
+        ],
+        "correct": [0, 1, 3],
+        "explanation": {
+            "en": "Self-contained tokens trade revocation for statelessness: the resource server validates a signature and some claims, and nothing in that path knows the user was disabled. So revocation lands on the refresh token, and the access-token lifetime *is* the exposure window — which is the real reason 15 minutes rather than 8 hours. If the product needs instant cut-off, you buy back state: token introspection, a revocation list checked at the gateway, or short-lived sessions at a BFF that holds the tokens.",
+            "ru": "Самодостаточные токены меняют возможность отзыва на stateless: resource server проверяет подпись и часть claims, и ничто в этом пути не знает, что пользователя отключили. Поэтому отзыв ложится на refresh-токен, а время жизни access-токена *и есть* окно экспозиции — вот настоящая причина выбирать 15 минут, а не 8 часов. Если продукту нужно мгновенное отключение, состояние приходится выкупать обратно: token introspection, список отзыва на шлюзе или короткие сессии на BFF, который держит токены."
+        }
+    },
+    {
+        "id": "sec-bug-ssr-auth-001",
+        "type": "bug-finding",
+        "category": "security",
+        "difficulty": "hard",
+        "tags": ["nextjs", "ssr-auth", "authorization", "header-spoofing", "idor"],
+        "question": {
+            "en": "The proxy decodes the session and forwards the user id to the app as a request header. Find the security bug:",
+            "ru": "Proxy декодирует сессию и прокидывает id пользователя в приложение заголовком запроса. Найдите уязвимость:"
+        },
+        "code": "// proxy.ts\nexport default async function proxy(req: NextRequest) {\n  const session = await decrypt(req.cookies.get('session')?.value);\n  const headers = new Headers(req.headers);\n  if (session?.userId) headers.set('x-user-id', session.userId);\n  return NextResponse.next({ request: { headers } });\n}\n\nexport const config = {\n  matcher: ['/((?!api|_next/static|_next/image).*)']\n};\n\n// app/api/invoices/route.ts\nexport async function GET(req: Request) {\n  const userId = req.headers.get('x-user-id');\n  if (!userId) return new Response(null, { status: 401 });\n\n  const invoices = await db.invoice.findMany({ where: { userId } });\n  return Response.json(invoices);\n}",
+        "lang": "typescript",
+        "correct": "The route handler takes identity from `x-user-id`, a header the caller controls — and the matcher excludes `/api`, so the proxy never even runs there",
+        "referenceAnswer": "A request header is attacker-controlled input, not an authentication result. Two things go wrong at once: the matcher negative-lookahead excludes `api`, so the proxy never runs for this route handler and the header the app reads is whatever the client sent; and even on a covered route the proxy only sets `x-user-id` when a session exists — it never deletes an inbound one, so a forged value survives on any unauthenticated request. `curl -H 'x-user-id: <someone-else>' /api/invoices` reads another tenant's invoices with no session at all.\n\nFix: derive identity inside the route handler from the session itself, through the same Data Access Layer every other read uses:\n\n```ts\nexport async function GET() {\n  const { userId } = await verifySession(); // reads + verifies the cookie, redirects/401s on failure\n  const invoices = await db.invoice.findMany({ where: { userId } });\n  return Response.json(invoices);\n}\n```\n\nIf a forwarded header is genuinely wanted for tracing, strip it from the incoming request before setting it (`headers.delete('x-user-id')` first) and still never use it as an authorization input.",
+        "explanation": {
+            "en": "Next.js is explicit that the proxy is for optimistic checks and must not be the only line of defence, and that route handlers deserve the same treatment as public API endpoints — they have their own URL and are reachable directly, matcher or no matcher. The pattern of trusting a gateway-injected identity header is fine only when the boundary that injects it also guarantees it cannot arrive from outside, which a `matcher` exclusion does not. Verifying the session where the data is read costs one memoised call and removes the whole class.",
+            "ru": "Next.js прямо пишет, что proxy нужен для оптимистичных проверок и не должен быть единственной линией обороны, а route handlers надо рассматривать как публичные API-эндпоинты — у них свой URL, и они доступны напрямую, с matcher или без. Паттерн с доверием к заголовку идентичности от шлюза допустим только тогда, когда граница, которая его проставляет, гарантирует, что снаружи он прийти не может, — исключение в `matcher` такой гарантии не даёт. Проверка сессии там, где читаются данные, стоит одного мемоизированного вызова и убирает весь класс проблем."
+        }
+    },
+    {
+        "id": "sec-cc-pkce-001",
+        "type": "code-completion",
+        "category": "security",
+        "difficulty": "medium",
+        "tags": ["oauth", "pkce", "oidc", "spa-auth"],
+        "question": {
+            "en": "Complete this public browser client's OIDC authorization request and the token exchange that follows it:",
+            "ru": "Дополните OIDC authorization request публичного браузерного клиента и последующий обмен кода на токены:"
+        },
+        "code": "async function buildAuthorizeUrl(verifier) {\n  const digest = await crypto.subtle.digest(\n    'SHA-256',\n    new TextEncoder().encode(verifier)\n  );\n\n  const params = new URLSearchParams({\n    response_type: 'code',\n    client_id: CLIENT_ID,\n    redirect_uri: REDIRECT_URI,\n    scope: 'openid profile',\n    state: randomString(32),\n    nonce: randomString(32),\n    code_challenge: base64UrlEncode(new Uint8Array(digest)),\n    code_challenge_method: '__BLANK__'\n  });\n\n  return `${ISSUER}/authorize?${params}`;\n}\n\nasync function exchangeCode(code, verifier) {\n  const body = new URLSearchParams({\n    grant_type: '__BLANK__',\n    client_id: CLIENT_ID,\n    redirect_uri: REDIRECT_URI,\n    code: code,\n    '__BLANK__': verifier\n  });\n\n  return fetch(`${ISSUER}/token`, { method: 'POST', body });\n}",
+        "blanks": ["S256", "authorization_code", "code_verifier"],
+        "lang": "javascript",
+        "referenceAnswer": "code_challenge_method is 'S256' — RFC 7636 registers exactly two methods, 'plain' and 'S256', and a browser client must not use 'plain' because it puts the secret in the front-channel URL. The token request is an ordinary RFC 6749 4.1.3 Access Token Request, so grant_type MUST be 'authorization_code', and PKCE adds one parameter to it: code_verifier (RFC 7636 4.5). The split is the whole point — only the hashed challenge travels through the browser's address bar at /authorize, the verifier itself is sent back-channel to /token, so an attacker who steals the redirect URL holds a code they cannot redeem. Note the two distinct random values in the authorize request: state protects the callback against CSRF, nonce binds the resulting ID token to this authorization request.",
+        "explanation": {
+            "en": "PKCE turns the authorization code into something only the originating client can redeem: the hashed `code_challenge` goes out with the authorization request, the raw `code_verifier` goes up at token exchange, and the server recomputes the hash and compares. Getting the two halves the wrong way round is the common mistake — sending the verifier to `/authorize` would publish the secret in a URL and defeat the whole mechanism. `S256` is the only method a browser client should pick; `plain` exists for constrained devices that cannot hash. The token call is still a plain OAuth access token request, so `grant_type` is `authorization_code`.",
+            "ru": "PKCE превращает authorization code в то, что может обменять только клиент, начавший флоу: хешированный `code_challenge` уходит с authorization request, сырой `code_verifier` отправляется при обмене кода, и сервер пересчитывает хеш и сверяет. Перепутать половинки местами — типовая ошибка: отправить verifier в `/authorize` значит выложить секрет в URL и убить весь механизм. `S256` — единственный метод, уместный для браузерного клиента; `plain` существует ради ограниченных устройств, которые не умеют хешировать. Сам запрос к токен-эндпоинту остаётся обычным OAuth-запросом за токеном, поэтому `grant_type` равен `authorization_code`."
+        }
     }
 ]

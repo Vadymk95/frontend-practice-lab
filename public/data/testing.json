@@ -2005,5 +2005,611 @@
         "correct": "The scenario tests internal implementation details (component names, DOM test IDs, Redux action types, internal state variables) instead of observable user behavior",
         "referenceAnswer": "Rewrite focusing on behavior: Given the user is on the product page for 'Wireless Headphones' priced at $29.99 / When the user clicks 'Add to cart' / Then the cart icon should show 1 item / And the user should see a confirmation 'Item added to cart'. Gherkin scenarios must be readable by non-technical stakeholders and describe what the user experiences, not how the code works.",
         "lang": "gherkin"
+    },
+    {
+        "id": "test-flake-triage-001",
+        "type": "single-choice",
+        "category": "testing",
+        "difficulty": "medium",
+        "tags": ["flake", "quarantine", "ci", "test-strategy"],
+        "question": {
+            "en": "A Playwright spec has failed on roughly 1 in 5 CI runs for two weeks and the team just re-runs the job. What is the correct lead-level first move?",
+            "ru": "Playwright-спека уже две недели падает примерно в 1 из 5 прогонов CI, и команда просто перезапускает джобу. Какой первый шаг здесь правильный для лида?"
+        },
+        "options": [
+            {
+                "en": "Raise `retries` to 3 for the whole suite so the pipeline reports green again",
+                "ru": "Поднять `retries` до 3 на весь сьют, чтобы пайплайн снова был зелёным"
+            },
+            {
+                "en": "Quarantine it in a non-blocking lane with a named owner and a fix deadline",
+                "ru": "Увести её в карантин — неблокирующую линию, с назначенным владельцем и дедлайном на фикс"
+            },
+            {
+                "en": "Delete the spec — an intermittently failing test gives no signal at all",
+                "ru": "Удалить спеку — тест, который падает через раз, не даёт никакого сигнала"
+            },
+            {
+                "en": "Pin the whole suite to `--workers=1` so parallelism can no longer cause the failure",
+                "ru": "Зафиксировать весь сьют на `--workers=1`, чтобы параллелизм больше не вызывал падение"
+            }
+        ],
+        "correct": 1,
+        "explanation": {
+            "en": "Retries and manual re-runs hide flake without lowering its rate, and they cost more than the minutes: once red is routine the team stops reading it, so real regressions in other specs get re-run too. Quarantine is the policy answer — the spec stops blocking merges but stays visible with an owner and a deadline, so it ends in a fix or a deletion instead of rotting. Serialising to one worker often makes the symptom vanish, which is exactly the trap: it taxes every future run and leaves the race in the product code undiagnosed.",
+            "ru": "Retries и ручные перезапуски прячут flake, но не снижают его частоту, и цена тут не только в минутах: когда красный становится нормой, команда перестаёт его читать и перезапускает уже настоящие регрессии в других спеках. Карантин — это политическое решение: спека перестаёт блокировать мержи, но остаётся видимой, с владельцем и дедлайном, и заканчивается фиксом или удалением, а не гниением. Перевод на одного воркера часто убирает симптом — и в этом ловушка: он облагает налогом каждый будущий прогон, а гонка в продакшен-коде остаётся недиагностированной."
+        }
+    },
+    {
+        "id": "test-ci-split-001",
+        "type": "single-choice",
+        "category": "testing",
+        "difficulty": "hard",
+        "tags": ["ci", "e2e", "pipeline-cost", "sharding"],
+        "question": {
+            "en": "Your PR pipeline runs lint, typecheck, unit tests and the full 400-spec Playwright suite, and takes 34 minutes. Which split restores fast feedback without giving up the guarantee?",
+            "ru": "PR-пайплайн гоняет lint, typecheck, юнит-тесты и полный Playwright-сьют из 400 спек и занимает 34 минуты. Какое разделение вернёт быстрый фидбек, не потеряв гарантию?"
+        },
+        "options": [
+            {
+                "en": "Keep the full suite on PR but raise `workers` well above the runner's CPU count so it finishes sooner",
+                "ru": "Оставить полный сьют на PR, но поднять `workers` заметно выше числа CPU раннера, чтобы он отработал быстрее"
+            },
+            {
+                "en": "Move every e2e spec to a nightly run and gate PRs on lint, typecheck and unit tests only",
+                "ru": "Перенести все e2e-спеки в ночной прогон, а на PR оставить только lint, typecheck и юнит-тесты"
+            },
+            {
+                "en": "Keep the full suite on PR and set `retries: 2` globally so re-runs stop blocking merges",
+                "ru": "Оставить полный сьют на PR и выставить глобальный `retries: 2`, чтобы перезапуски не блокировали мержи"
+            },
+            {
+                "en": "Run a sharded critical-journey subset on every PR and the full suite on merge to main and nightly",
+                "ru": "Гонять на каждом PR шардированный сабсет критических сценариев, а полный сьют — на мерже в main и ночью"
+            }
+        ],
+        "correct": 3,
+        "explanation": {
+            "en": "Oversubscribing workers past the runner's cores makes specs contend for CPU and turns every timing-sensitive step flaky, so that option buys speed by manufacturing failures. A blanket retry budget and a nightly-only suite both remove the red without removing the risk — a broken checkout journey reaches main and is found hours later, when the revert is expensive. The split that survives is a small tagged subset covering the journeys you would actually roll back for, sharded with `--shard=i/n` to fit the feedback budget, with the full suite on merge and nightly where a longer run is affordable.",
+            "ru": "Если выставить workers заметно больше, чем ядер у раннера, спеки начнут драться за CPU, и любой чувствительный к таймингам шаг станет flaky — то есть скорость куплена ценой искусственных падений. Глобальный retry-бюджет и «только ночной сьют» одинаково убирают красный, но не убирают риск: сломанный checkout доезжает до main и находится через несколько часов, когда откат уже дорогой. Рабочее разделение — небольшой tagged-сабсет из сценариев, ради которых вы реально сделали бы rollback, шардированный через `--shard=i/n` под бюджет фидбека, плюс полный сьют на мерже и ночью, где длинный прогон не жалко."
+        }
+    },
+    {
+        "id": "test-contract-001",
+        "type": "single-choice",
+        "category": "testing",
+        "difficulty": "hard",
+        "tags": ["contract-testing", "pact", "bff", "integration"],
+        "question": {
+            "en": "Your React app talks to a BFF owned by another team. Component tests mock the BFF with MSW and stayed green, yet production broke when the BFF renamed a response field. What does consumer-driven contract testing add that the MSW handler does not?",
+            "ru": "React-приложение ходит в BFF, которым владеет другая команда. Тесты компонентов мокают BFF через MSW и остались зелёными, но прод сломался, когда BFF переименовал поле в ответе. Что даёт consumer-driven contract testing такого, чего не даёт MSW-хендлер?"
+        },
+        "options": [
+            {
+                "en": "The consumer generates a contract the provider replays in its own pipeline, so a rename fails its build",
+                "ru": "Консьюмер генерирует контракт, который провайдер проигрывает у себя в пайплайне, — переименование валит его сборку"
+            },
+            {
+                "en": "It checks that the BFF's OpenAPI document stays syntactically valid before every provider deploy",
+                "ru": "Он проверяет, что OpenAPI-документ BFF остаётся синтаксически валидным перед каждым деплоем провайдера"
+            },
+            {
+                "en": "It boots the real BFF in a container during the consumer's test run, so no mock service is needed at all",
+                "ru": "Он поднимает настоящий BFF в контейнере во время прогона тестов консьюмера, так что мок-сервис вообще не нужен"
+            },
+            {
+                "en": "It measures the response-time budget of every BFF endpoint the consumer calls under load",
+                "ru": "Он измеряет бюджет времени ответа каждого эндпоинта BFF, который вызывает консьюмер, под нагрузкой"
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "An MSW handler is the consumer's guess about the provider, written once and never checked against it again — it goes green precisely when it has drifted, which is why the rename slipped through. In Pact-style contract testing the pact file is produced by the consumer's own tests and then verified by the provider replaying each recorded interaction, so the breaking change fails on the provider's build rather than in production. It only covers the paths this consumer actually uses, so it is cheaper than end-to-end but does not replace e2e for whole journeys.",
+            "ru": "MSW-хендлер — это догадка консьюмера о провайдере: написали один раз и больше ни с чем не сверяли, поэтому он остаётся зелёным именно тогда, когда разъехался с реальностью. В контрактном тестировании в стиле Pact pact-файл генерируется тестами самого консьюмера, а потом провайдер проигрывает каждую записанную интеракцию у себя — и ломающее изменение валит сборку провайдера, а не прод. Покрываются только те пути, которые консьюмер реально использует: дешевле e2e, но e2e для целых сценариев не заменяет."
+        }
+    },
+    {
+        "id": "test-playwright-assert-001",
+        "type": "single-choice",
+        "category": "testing",
+        "difficulty": "easy",
+        "tags": ["playwright", "web-first-assertions", "flake"],
+        "question": {
+            "en": "In Playwright, why is `await expect(page.getByRole('status')).toHaveText('Saved')` more reliable than `expect(await page.getByRole('status').textContent()).toBe('Saved')`?",
+            "ru": "Почему в Playwright `await expect(page.getByRole('status')).toHaveText('Saved')` надёжнее, чем `expect(await page.getByRole('status').textContent()).toBe('Saved')`?"
+        },
+        "options": [
+            {
+                "en": "The first form runs inside the browser process, the second serialises the whole DOM over the wire",
+                "ru": "Первая форма выполняется внутри процесса браузера, вторая гоняет весь DOM по проводу"
+            },
+            {
+                "en": "The first form compares text case-insensitively, so trailing whitespace can never fail it",
+                "ru": "Первая форма сравнивает текст без учёта регистра, поэтому хвостовые пробелы её не уронят"
+            },
+            {
+                "en": "The first form re-queries and re-checks until the timeout; the second reads the text once",
+                "ru": "Первая форма перезапрашивает элемент и перепроверяет условие до таймаута, вторая читает текст один раз"
+            },
+            {
+                "en": "The first form waits for the network to go idle before asserting, the second does not",
+                "ru": "Первая форма перед проверкой ждёт, пока сеть станет idle, вторая — нет"
+            }
+        ],
+        "correct": 2,
+        "explanation": {
+            "en": "`expect(locator)` matchers are auto-retrying web-first assertions: Playwright re-resolves the locator and re-evaluates the condition until it passes or the expect timeout expires. Awaiting `textContent()` first collapses the element to a plain string, so what follows is an ordinary non-retrying comparison against whatever the DOM said at that instant. On an async UI that is the classic source of flake, and job-level retries do not fix it — they just re-roll the same race.",
+            "ru": "Матчеры `expect(locator)` — это auto-retrying web-first assertions: Playwright заново резолвит локатор и перепроверяет условие, пока оно не выполнится или не истечёт expect-таймаут. Если сначала сделать `await textContent()`, элемент схлопывается в обычную строку, и дальше идёт обычное сравнение без ретраев — с тем, что DOM показал в конкретный момент. На асинхронном UI это классический источник flake, и retries на уровне джобы его не лечат: они просто перебрасывают ту же гонку."
+        }
+    },
+    {
+        "id": "test-mutation-001",
+        "type": "single-choice",
+        "category": "testing",
+        "difficulty": "medium",
+        "tags": ["mutation-testing", "stryker", "test-strength", "coverage"],
+        "question": {
+            "en": "A repo sits at 91% line coverage and still ships regressions. The lead adds mutation testing with Stryker and sets `thresholds.break`. What does that actually buy?",
+            "ru": "В репозитории 91% line coverage, и регрессии всё равно уезжают в прод. Лид добавляет mutation testing на Stryker и выставляет `thresholds.break`. Что это реально даёт?"
+        },
+        "options": [
+            {
+                "en": "It fails the build when too few injected mutations are killed — tests that run code without asserting",
+                "ru": "Сборка падает, когда убито слишком мало внедрённых мутаций, — это тесты, которые выполняют код, но ничего не проверяют"
+            },
+            {
+                "en": "It raises the line-coverage floor automatically whenever measured coverage grows past the configured value",
+                "ru": "Он автоматически поднимает нижнюю планку line coverage, как только измеренное покрытие обгоняет настроенное значение"
+            },
+            {
+                "en": "It reruns the suite in a randomised order to reveal tests that depend on execution order",
+                "ru": "Он перегоняет сьют в случайном порядке, чтобы выявить тесты, зависящие от порядка выполнения"
+            },
+            {
+                "en": "It generates the missing test cases for branches the current suite never reaches",
+                "ru": "Он генерирует недостающие тест-кейсы для веток, до которых текущий сьют не доходит"
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "Line coverage only proves a line executed — a test that renders a component and asserts nothing still counts towards 91%. Mutation testing changes an operator or a return value in the source and asks whether any test goes red; the share of killed mutants is the mutation score. `thresholds.break` turns that score into a ratchet: below it Stryker exits non-zero and the build fails, so test strength cannot quietly decay. Its default is `null`, i.e. report-only, which is the sane first step before you make it blocking.",
+            "ru": "Line coverage доказывает лишь то, что строка выполнилась: тест, который отрендерил компонент и ничего не проверил, всё равно идёт в зачёт этих 91%. Mutation testing меняет в исходнике оператор или возвращаемое значение и спрашивает, покраснеет ли хоть один тест; доля убитых мутантов — это mutation score. `thresholds.break` превращает score в храповик: ниже порога Stryker выходит с ненулевым кодом и валит сборку, так что сила тестов не может тихо деградировать. По умолчанию там `null`, то есть режим «только отчёт», — с него и стоит начинать, прежде чем делать проверку блокирующей."
+        }
+    },
+    {
+        "id": "test-flake-triage-002",
+        "type": "multi-choice",
+        "category": "testing",
+        "difficulty": "medium",
+        "tags": ["flake", "playwright", "ci", "trace"],
+        "question": {
+            "en": "A Playwright spec passes locally and fails about 20% of the time in CI. Which of these are legitimate first moves? (select all that apply)",
+            "ru": "Playwright-спека проходит локально и падает примерно в 20% прогонов CI. Какие из этих действий — адекватные первые шаги? (выберите все подходящие)"
+        },
+        "options": [
+            {
+                "en": "Set `retries: 2` in the config permanently so the job reports green",
+                "ru": "Навсегда прописать в конфиге `retries: 2`, чтобы джоба показывала зелёный"
+            },
+            {
+                "en": "Set `trace: 'on-first-retry'` so the retried run produces a trace to debug from",
+                "ru": "Выставить `trace: 'on-first-retry'`, чтобы перезапущенный прогон оставлял trace для разбора"
+            },
+            {
+                "en": "Replace `page.waitForTimeout(2000)` with a web-first `expect(locator)` assertion",
+                "ru": "Заменить `page.waitForTimeout(2000)` на web-first-ассершен `expect(locator)`"
+            },
+            {
+                "en": "Quarantine the spec in a non-blocking lane with a named owner and a deadline",
+                "ru": "Увести спеку в карантин — неблокирующую линию, с назначенным владельцем и дедлайном"
+            },
+            {
+                "en": "Delete the spec — an unreliable test is worse than no test at all",
+                "ru": "Удалить спеку — ненадёжный тест хуже, чем полное отсутствие теста"
+            }
+        ],
+        "correct": [1, 2, 3],
+        "explanation": {
+            "en": "Traces, web-first assertions and quarantine each attack the failure: one gives you the evidence from the run that actually failed, one removes the timing assumption that usually causes it, one stops the red from eroding trust while the fix is being worked. A permanent retry budget hides the rate instead of lowering it, and once flaky-passed is normal the suite reports it for real regressions too. Deleting silently drops whatever the spec was guarding — quarantine with a deadline is the version of that decision that someone has to sign.",
+            "ru": "Trace, web-first-ассершены и карантин бьют по самой проблеме: первое даёт улики именно с упавшего прогона, второе убирает предположение о таймингах, которое обычно её и вызывает, третье не даёт красному разрушать доверие, пока идёт починка. Постоянный retry-бюджет прячет частоту, а не снижает её, и когда flaky-passed становится нормой, сьют выдаёт тот же статус и на настоящие регрессии. Удаление молча выбрасывает то, что спека охраняла; карантин с дедлайном — это та же развилка, но с подписью ответственного."
+        }
+    },
+    {
+        "id": "test-data-strategy-001",
+        "type": "multi-choice",
+        "category": "testing",
+        "difficulty": "hard",
+        "tags": ["test-data", "e2e", "sharding", "determinism"],
+        "question": {
+            "en": "Eight Playwright shards run in parallel against one shared QA environment. Which practices keep the suite deterministic? (select all that apply)",
+            "ru": "Восемь шардов Playwright гоняются параллельно против одного общего QA-окружения. Какие практики сохраняют детерминированность сьюта? (выберите все подходящие)"
+        },
+        "options": [
+            {
+                "en": "Each spec creates the records it needs through the API in a fixture and removes them afterwards",
+                "ru": "Каждая спека создаёт нужные ей записи через API в фикстуре и удаляет их после себя"
+            },
+            {
+                "en": "Every spec logs into one shared seeded account and mutates that account's data",
+                "ru": "Все спеки логинятся в один общий засиженный аккаунт и меняют данные именно в нём"
+            },
+            {
+                "en": "Namespace generated data with a per-run unique prefix so parallel shards cannot collide",
+                "ru": "Именовать генерируемые данные с уникальным префиксом на прогон, чтобы шарды не сталкивались"
+            },
+            {
+                "en": "Truncate and reseed the database between specs to guarantee everyone a clean slate",
+                "ru": "Чистить и пересеивать базу между спеками, чтобы всем гарантированно доставался чистый лист"
+            },
+            {
+                "en": "Rely on file names so the setup spec always runs before the specs that depend on it",
+                "ru": "Полагаться на имена файлов, чтобы setup-спека всегда выполнялась раньше зависящих от неё"
+            }
+        ],
+        "correct": [0, 2],
+        "explanation": {
+            "en": "Under sharding there is no global ordering and no exclusive access to the environment, so any strategy that quietly assumes one is a race. A per-spec fixture that creates and cleans its own records, plus a unique prefix per run, makes two shards touching the same table harmless. A shared seeded account and a database reset both need exclusivity — the reset would wipe data seven other shards are mid-way through using — and Playwright makes no ordering guarantee across shards, so file names decide nothing.",
+            "ru": "При шардировании нет ни глобального порядка, ни эксклюзивного доступа к окружению, поэтому любая стратегия, которая молча их предполагает, — это гонка. Фикстура на спеку, которая создаёт и убирает свои записи, плюс уникальный префикс на прогон делают безвредной ситуацию, когда два шарда лезут в одну таблицу. Общий засиженный аккаунт и ресет базы требуют эксклюзивности — ресет снесёт данные, которые прямо сейчас используют семь других шардов, — а порядок между шардами Playwright не гарантирует, так что имена файлов ничего не решают."
+        }
+    },
+    {
+        "id": "test-bug-playwright-wait-001",
+        "type": "bug-finding",
+        "category": "testing",
+        "difficulty": "medium",
+        "tags": ["playwright", "flake", "web-first-assertions"],
+        "question": {
+            "en": "This Playwright spec is the top flake in CI. Find the bug:",
+            "ru": "Эта Playwright-спека — главный источник flake в CI. Найдите ошибку:"
+        },
+        "code": "test('saves the profile', async ({ page }) => {\n  await page.goto('/settings/profile');\n  await page.getByLabel('Display name').fill('Ada');\n  await page.getByRole('button', { name: 'Save' }).click();\n\n  await page.waitForTimeout(2000);\n  expect(await page.getByRole('status').textContent()).toBe('Profile saved');\n});",
+        "lang": "typescript",
+        "correct": "A fixed 2-second sleep guards a non-retrying assertion, so the spec fails whenever the save takes longer than the guess and wastes two seconds whenever it does not",
+        "referenceAnswer": "Drop the sleep and use the auto-retrying web-first assertion, which re-resolves the locator and re-checks the condition until the expect timeout:\n\n```ts\nawait page.getByRole('button', { name: 'Save' }).click();\nawait expect(page.getByRole('status')).toHaveText('Profile saved');\n```\n\n`expect(await locator.textContent())` resolves the text once and then compares a plain string, so it cannot recover from a slow response. `page.waitForTimeout` is discouraged outside debugging for exactly this reason: it hard-codes a guess about latency that a loaded CI runner will eventually violate.",
+        "explanation": {
+            "en": "The two lines are one bug: the assertion has no retry of its own, so a fixed sleep is doing the waiting for it. That sleep encodes an assumption about CI latency — under load the save takes longer and the spec is red, on a fast run it still burns the full two seconds. A web-first `expect(locator)` matcher removes both halves at once: it polls until the text appears and returns as soon as it does.",
+            "ru": "Эти две строки — одна ошибка: у ассершена нет собственных ретраев, поэтому ожиданием занимается фиксированный sleep. Этот sleep зашивает предположение о латенси CI — под нагрузкой сохранение занимает дольше, и спека краснеет, а на быстром прогоне всё равно сжигает полные две секунды. Web-first-матчер `expect(locator)` убирает обе половины сразу: он опрашивает элемент, пока текст не появится, и возвращается ровно в этот момент."
+        }
+    },
+    {
+        "id": "test-bug-mutation-001",
+        "type": "bug-finding",
+        "category": "testing",
+        "difficulty": "hard",
+        "tags": ["test-strength", "mocking", "mutation-check", "vitest"],
+        "question": {
+            "en": "This test is green and has 100% coverage on `calculateTotal`. Apply the mutation check and find the bug:",
+            "ru": "Тест зелёный и даёт 100% покрытия на `calculateTotal`. Примените mutation check и найдите ошибку:"
+        },
+        "code": "import { vi, it, expect } from 'vitest';\n\nvi.mock('@/features/cart/calculateTotal', () => ({\n  calculateTotal: vi.fn(() => 42)\n}));\n\nimport { calculateTotal } from '@/features/cart/calculateTotal';\n\nit('sums the cart line items', () => {\n  const total = calculateTotal([{ price: 20 }, { price: 22 }]);\n  expect(total).toBe(42);\n});",
+        "lang": "typescript",
+        "correct": "The test mocks the very module it is testing, so it asserts the stub's hard-coded 42 — breaking or deleting the real calculateTotal leaves the suite green",
+        "referenceAnswer": "Mock a unit's dependencies, never the unit itself. Remove the vi.mock and let the real implementation run:\n\n```ts\nimport { it, expect } from 'vitest';\nimport { calculateTotal } from '@/features/cart/calculateTotal';\n\nit('sums the cart line items', () => {\n  expect(calculateTotal([{ price: 20 }, { price: 22 }])).toBe(42);\n});\n```\n\nThe general rule is the mutation check: mentally revert or corrupt the implementation under test and ask whether anything goes red. If the suite still passes, the test is worthless regardless of what the coverage report says. Stryker automates exactly this check by injecting the mutations for you.",
+        "explanation": {
+            "en": "Vitest hoists `vi.mock` above the imports, so `calculateTotal` inside the test body is the factory's `vi.fn(() => 42)`, not the real function. The assertion therefore proves only that 42 equals 42, while the coverage report happily attributes a covered module. This is the canonical worthless test, and the cheap way to catch it in review is the mutation check — revert the implementation in your head and see whether the suite notices.",
+            "ru": "Vitest поднимает `vi.mock` выше импортов, поэтому `calculateTotal` внутри теста — это `vi.fn(() => 42)` из фабрики, а не настоящая функция. Ассершен доказывает только то, что 42 равно 42, а отчёт о покрытии при этом честно засчитывает модуль как покрытый. Это канонический бесполезный тест, и дешёвый способ поймать его на ревью — mutation check: мысленно откатите реализацию и посмотрите, заметит ли это сьют."
+        }
+    },
+    {
+        "id": "test-cc-playwright-ci-001",
+        "type": "code-completion",
+        "category": "testing",
+        "difficulty": "medium",
+        "tags": ["playwright", "ci", "sharding", "trace"],
+        "question": {
+            "en": "Complete the CI setup: record a trace **only** for runs Playwright had to retry (zero overhead when a test passes first try), and combine the four shards' blob reports into one HTML report.",
+            "ru": "Допишите настройку CI: записывать trace **только** для прогонов, которые Playwright перезапустил (без накладных расходов, когда тест прошёл с первой попытки), и склеить blob-отчёты четырёх шардов в один HTML-отчёт."
+        },
+        "code": "// playwright.config.ts\nexport default defineConfig({\n  fullyParallel: true,\n  retries: process.env.CI ? 2 : 0,\n  reporter: process.env.CI ? 'blob' : 'html',\n  use: {\n    trace: '__BLANK__'\n  }\n});\n\n// CI, four machines in parallel:\n//   npx playwright test --shard=$SHARD_INDEX/4\n// once every shard has finished:\n//   npx playwright __BLANK__ --reporter html ./all-blob-reports",
+        "blanks": ["on-first-retry", "merge-reports"],
+        "lang": "typescript",
+        "referenceAnswer": "trace: 'on-first-retry' writes a trace.zip only for tests that were retried — the documented CI default, because tracing every test is expensive and almost all of it is discarded. With reporter: 'blob' each shard emits its own blob report, and `npx playwright merge-reports --reporter html ./all-blob-reports` stitches them into a single HTML report after all four shards finish, so a sharded run still produces one artifact to open.",
+        "explanation": {
+            "en": "Sharding buys wall-clock time but splits the output: each `--shard=i/4` job produces its own report, so CI needs the `blob` reporter plus a merge step to end up with one artifact. Tracing is the other half of the trade — `on-first-retry` keeps the cost near zero on green runs while guaranteeing the one flaky failure you care about arrives with a full trace attached. Note that Playwright discards the worker process and the browser before a retry, so the trace comes from a clean context rather than the polluted state of the failed attempt.",
+            "ru": "Шардирование покупает время по часам, но разрезает вывод: каждая джоба `--shard=i/4` даёт свой отчёт, поэтому CI нужен репортер `blob` плюс шаг слияния, чтобы на выходе был один артефакт. Вторая половина сделки — трассировка: `on-first-retry` держит стоимость около нуля на зелёных прогонах и при этом гарантирует, что единственное интересное flaky-падение приедет с полным trace. И учтите, что перед ретраем Playwright выбрасывает воркер вместе с браузером, так что trace снимается с чистого контекста, а не с испорченного состояния упавшей попытки."
+        }
+    },
+    {
+        "id": "test-layer-choice-001",
+        "type": "single-choice",
+        "category": "testing",
+        "difficulty": "easy",
+        "tags": ["test-pyramid", "layers", "regression"],
+        "question": {
+            "en": "A bug reached production: the discount badge renders for promos that expired yesterday. Eligibility is decided by one pure function used by the badge and by the checkout summary. Where does the regression test belong?",
+            "ru": "В прод уехал баг: бейдж со скидкой рисуется для промо, истёкших вчера. Право на скидку решает одна чистая функция, которой пользуются и бейдж, и сводка чекаута. Где должен жить регрессионный тест?"
+        },
+        "options": [
+            {
+                "en": "A new e2e spec that creates an expired promo and walks the whole checkout journey",
+                "ru": "Новая e2e-спека, которая создаёт истёкшее промо и проходит весь сценарий чекаута"
+            },
+            {
+                "en": "A snapshot test of the badge component rendered with an expired promo",
+                "ru": "Snapshot-тест компонента бейджа, отрендеренного с истёкшим промо"
+            },
+            {
+                "en": "A raised coverage threshold on the pricing module so the branch cannot stay untested",
+                "ru": "Поднятый порог покрытия на модуле прайсинга, чтобы ветка не осталась непокрытой"
+            },
+            {
+                "en": "A unit test on the eligibility function covering the expiry boundary dates",
+                "ru": "Юнит-тест на функцию проверки права, покрывающий граничные даты истечения"
+            }
+        ],
+        "correct": 3,
+        "explanation": {
+            "en": "Put the test at the cheapest layer that would actually have failed. The defect is a boundary condition in a pure predicate, so a unit test pins it in milliseconds and protects both call sites at once. An e2e spec would also catch it, but it costs minutes on every run and covers one path through the UI; a snapshot cements whatever renders today, including the wrong badge; and a coverage threshold only proves the line executed, not that anything asserted on it.",
+            "ru": "Тест ставится на самый дешёвый слой, который реально упал бы. Дефект — граничное условие в чистом предикате, поэтому юнит-тест фиксирует его за миллисекунды и сразу защищает обе точки вызова. E2e его тоже поймает, но стоит минут на каждом прогоне и покрывает один путь через UI; snapshot закрепит то, что рендерится сегодня, включая неправильный бейдж; а порог покрытия доказывает лишь факт выполнения строки, а не наличие проверки."
+        }
+    },
+    {
+        "id": "test-coverage-policy-001",
+        "type": "single-choice",
+        "category": "testing",
+        "difficulty": "hard",
+        "tags": ["coverage", "policy", "quality-gate", "ci"],
+        "question": {
+            "en": "A repo enforces a global 80% line-coverage gate. A large legacy denominator lets whole untested features land without moving the number, and one team excluded its hardest module from the report. Which policy change gives the gate its value back?",
+            "ru": "В репозитории стоит глобальный гейт на 80% line coverage. Большой легаси-знаменатель позволяет вливать целые непокрытые фичи, почти не сдвигая цифру, а одна команда исключила свой самый сложный модуль из отчёта. Какое изменение политики вернёт гейту смысл?"
+        },
+        "options": [
+            {
+                "en": "Raise the global floor to 95% so that the legacy gap has to be closed before anything else lands",
+                "ru": "Поднять глобальную планку до 95%, чтобы легаси-дыру закрыли раньше, чем вольют что-то ещё"
+            },
+            {
+                "en": "Gate on the coverage of the lines changed in the diff and forbid the total from dropping",
+                "ru": "Гейтить покрытие изменённых в диффе строк и запретить общему проценту падать"
+            },
+            {
+                "en": "Switch the provider from V8 to Istanbul so the same code is measured more strictly",
+                "ru": "Переключить провайдер с V8 на Istanbul, чтобы тот же код мерился строже"
+            },
+            {
+                "en": "Count branch coverage instead of lines, since a stricter metric is harder to inflate",
+                "ru": "Считать branch coverage вместо строк, раз более строгую метрику труднее накрутить"
+            }
+        ],
+        "correct": 1,
+        "explanation": {
+            "en": "A single global percentage is a lagging aggregate: a large legacy denominator lets a completely untested feature land without moving it, and an exclusion edits the denominator directly. Diff coverage puts the gate where the change is, so new code carries its own tests and the excluded module stops hiding behind the size of the repo, while a no-decrease ratchet stops the total sliding over time. A higher floor makes the legacy gap harder to close without ever asking new code to pay for itself, and switching the instrumentation provider or counting branches only re-measures the same files the exclusion already removed from the report.",
+            "ru": "Один глобальный процент — это отстающий агрегат: большой легаси-знаменатель позволяет влить целую непокрытую фичу, почти не сдвинув цифру, а исключение файла правит знаменатель напрямую. Покрытие диффа ставит гейт туда, где произошло изменение: новый код обязан приносить свои тесты, а исключённый модуль перестаёт прятаться за размером репозитория, — плюс храповик «не ниже текущего» не даёт общему проценту сползать. Более высокая планка лишь усложняет закрытие легаси-дыры, так и не требуя от нового кода платить за себя, а смена провайдера инструментирования или переход на branch coverage просто перемеряют те же файлы, которые исключение уже убрало из отчёта."
+        }
+    },
+    {
+        "id": "test-visual-regression-001",
+        "type": "single-choice",
+        "category": "testing",
+        "difficulty": "medium",
+        "tags": ["visual-regression", "playwright", "screenshots", "flake"],
+        "question": {
+            "en": "A nightly visual-regression job takes 180 full-page screenshots. About 30 fail every run on avatars, relative timestamps and font antialiasing — the baselines were captured months ago and the CI image has since been rebuilt with newer font packages. What is the right correction?",
+            "ru": "Ночная джоба визуальных регрессий снимает 180 полностраничных скриншотов. Около 30 падают на каждом прогоне из-за аватарок, относительных таймстемпов и сглаживания шрифтов: бейзлайны сняты несколько месяцев назад, а CI-образ с тех пор пересобрали с новыми шрифтовыми пакетами. Что здесь правильно исправить?"
+        },
+        "options": [
+            {
+                "en": "Raise `maxDiffPixelRatio` until the noisy comparisons stop failing the job",
+                "ru": "Поднять `maxDiffPixelRatio`, пока шумные сравнения не перестанут валить джобу"
+            },
+            {
+                "en": "Regenerate the baselines with `--update-snapshots` at the start of every nightly run",
+                "ru": "Перегенерировать бейзлайны через `--update-snapshots` в начале каждого ночного прогона"
+            },
+            {
+                "en": "Generate baselines in the CI image, `mask` dynamic regions and scope down to key states",
+                "ru": "Снимать бейзлайны в CI-образе, закрывать динамические области `mask` и сузить охват до ключевых состояний"
+            },
+            {
+                "en": "Move the job to every PR so that pixel differences are caught while the change is still small",
+                "ru": "Перенести джобу на каждый PR, чтобы пиксельные различия ловились, пока изменение ещё маленькое"
+            }
+        ],
+        "correct": 2,
+        "explanation": {
+            "en": "Browser rendering varies with OS, fonts, hardware and headless mode, so once the image ships different font packages every antialiasing diff reports the rebuild rather than the change — Playwright's own guidance is to run tests in the same environment where the baseline screenshots were generated. Raising the diff tolerance buys green by blinding the check: a ratio loose enough to swallow an avatar will swallow a broken layout too. `mask` paints over regions that legitimately change, and scoping to components and a few key states keeps the cost of reviewing each diff low enough that people still read them.",
+            "ru": "Рендеринг зависит от ОС, шрифтов, железа и headless-режима, поэтому, как только в образе поехали шрифтовые пакеты, каждый дифф по сглаживанию сообщает о пересборке, а не об изменении — сам Playwright требует гонять тесты в том же окружении, где сняты бейзлайны. Поднятие допуска покупает зелёный ценой слепоты: доля пикселей, достаточная чтобы проглотить аватарку, проглотит и развалившуюся вёрстку. `mask` закрывает области, которые меняются законно, а сужение охвата до компонентов и нескольких ключевых состояний держит стоимость разбора каждого диффа настолько низкой, что их продолжают читать."
+        }
+    },
+    {
+        "id": "test-auth-state-001",
+        "type": "single-choice",
+        "category": "testing",
+        "difficulty": "hard",
+        "tags": ["playwright", "storage-state", "isolation", "ci-cost"],
+        "question": {
+            "en": "Each of 400 Playwright specs signs in through the login form, which is 9 of the suite’s 14 minutes. Which change removes that cost without weakening isolation?",
+            "ru": "Каждая из 400 Playwright-спек логинится через форму входа — это 9 из 14 минут прогона. Какое изменение уберёт эту стоимость, не ослабив изоляцию?"
+        },
+        "options": [
+            {
+                "en": "Sign in once in a setup project, save `storageState` and load it into each test’s own context",
+                "ru": "Логиниться один раз в setup-проекте, сохранять `storageState` и поднимать его в собственный контекст каждого теста"
+            },
+            {
+                "en": "Sign in once in `beforeAll` and share one authenticated page across all of the tests in the file",
+                "ru": "Логиниться один раз в `beforeAll` и переиспользовать одну авторизованную страницу на все тесты файла"
+            },
+            {
+                "en": "Reuse one browser context for the whole run and wrap the specs in `test.describe.serial`",
+                "ru": "Переиспользовать один browser context на весь прогон и обернуть спеки в `test.describe.serial`"
+            },
+            {
+                "en": "Set `workers: 1` so the session cookie set by the first spec survives into the next one",
+                "ru": "Выставить `workers: 1`, чтобы кука сессии, выставленная первой спекой, доживала до следующей"
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "The unit of isolation in Playwright is the browser context — one per test — so sharing a page or a context trades the login cost for state leaking between tests, and serial mode adds a second problem: one failure skips the rest of the group. The setup-project pattern authenticates once, writes the cookies and storage to a `storageState` file, and every test loads that file into its own fresh context, so the isolation model is untouched. Pinning to one worker does not even do what that option claims — contexts are isolated even inside a single browser, so every test still starts without that cookie — and it throws away the parallelism the runner is being paid for.",
+            "ru": "Единица изоляции в Playwright — browser context, по одному на тест, поэтому общая страница или общий контекст меняют стоимость логина на протекание состояния между тестами, а serial-режим добавляет вторую проблему: одно падение скипает остаток группы. Паттерн с setup-проектом логинится один раз, пишет куки и storage в файл `storageState`, и каждый тест поднимает этот файл в собственный свежий контекст — модель изоляции не меняется. Фиксация на одном воркере даже не делает того, что обещает этот вариант: контексты изолированы и внутри одного браузера, так что каждый тест всё равно стартует без той куки, — зато параллелизм, за который платят раннеру, выброшен."
+        }
+    },
+    {
+        "id": "test-e2e-mocking-001",
+        "type": "single-choice",
+        "category": "testing",
+        "difficulty": "medium",
+        "tags": ["e2e", "mocking", "page-route", "test-strategy"],
+        "question": {
+            "en": "To make the e2e suite fast and deterministic, a team stubbed every call to its own BFF with `page.route`. Which risk can the suite no longer see?",
+            "ru": "Чтобы e2e-сьют был быстрым и детерминированным, команда застабила через `page.route` все вызовы к своему же BFF. Какой риск сьют теперь не видит?"
+        },
+        "options": [
+            {
+                "en": "Timing stops being realistic, so the performance assertions in the suite become invalid",
+                "ru": "Тайминги перестают быть реалистичными, поэтому перформанс-ассершены в сьюте становятся невалидными"
+            },
+            {
+                "en": "Route handlers bypass the service worker, so offline behaviour stops being covered",
+                "ru": "Route-хендлеры обходят service worker, поэтому перестаёт покрываться офлайн-поведение"
+            },
+            {
+                "en": "The real request and response path is never exercised, so integration breakage passes",
+                "ru": "Настоящий путь запроса и ответа вообще не выполняется, поэтому поломка интеграции проходит"
+            },
+            {
+                "en": "Cookies set by the stubbed responses are dropped, so authentication stops being covered",
+                "ru": "Куки из застабленных ответов теряются, поэтому перестаёт покрываться аутентификация"
+            }
+        ],
+        "correct": 2,
+        "explanation": {
+            "en": "With every response stubbed, the e2e layer is a component test driven through a browser: it verifies your fixtures, so a renamed field, a changed status code, an auth redirect or a serialization difference all pass while production breaks. That is the one guarantee this layer exists to provide, and it is exactly what was traded away for speed. The workable split is to stub third parties and states that are genuinely hard to seed, keep your own BFF real on the journeys you would roll back for, and push field-level guarantees into contract tests.",
+            "ru": "Когда застаблены все ответы, e2e-слой превращается в компонентный тест, прогоняемый через браузер: он проверяет ваши же фикстуры, так что переименованное поле, изменившийся статус-код, редирект аутентификации или разница в сериализации спокойно проходят, а прод ломается. Именно эту гарантию слой и существует давать — её и обменяли на скорость. Рабочее разделение: стабить третьи стороны и состояния, которые тяжело засеять, оставлять свой BFF настоящим на сценариях, ради которых вы сделали бы откат, а гарантии на уровне полей уносить в контрактные тесты."
+        }
+    },
+    {
+        "id": "test-strength-001",
+        "type": "multi-choice",
+        "category": "testing",
+        "difficulty": "medium",
+        "tags": ["test-strength", "mutation-check", "review", "mocking"],
+        "question": {
+            "en": "You are reviewing the tests that came with a bug fix: it corrected the payload shape sent to the save endpoint and the message shown when the server rejects the submit. Mentally revert the fix — which of these tests still pass, and therefore guard nothing? (select all that apply)",
+            "ru": "Вы ревьюите тесты, приехавшие вместе с багфиксом: он исправил форму payload, уходящего на эндпоинт сохранения, и текст сообщения, которое показывается при отказе сервера. Мысленно откатите фикс — какие из этих тестов всё равно пройдут и, значит, ничего не охраняют? (выберите все подходящие)"
+        },
+        "options": [
+            {
+                "en": "It asserts the Save button is in the document, which neither half of the fix changed at all",
+                "ru": "Он проверяет, что кнопка Save есть в документе, — этого не менял ни один из двух кусков фикса"
+            },
+            {
+                "en": "It asserts the exact validation message the fix started rendering when the submit is rejected",
+                "ru": "Он проверяет точный текст сообщения, который фикс начал рендерить при отклонённом сабмите"
+            },
+            {
+                "en": "A snapshot test of a wrapper whose markup the fix did not change, rebuilt with `-u` in that commit",
+                "ru": "Snapshot-тест обёртки, разметку которой фикс не менял, перегенерированный через `-u` в том коммите"
+            },
+            {
+                "en": "It asserts `saveMock` was called once, while the bug was the shape of the payload passed to it",
+                "ru": "Он проверяет, что `saveMock` вызван один раз, а баг был в форме передаваемого в него payload"
+            },
+            {
+                "en": "It asserts that the payload handed to `saveMock` matches the corrected shape, field by field",
+                "ru": "Он проверяет, что переданный в `saveMock` payload совпадает с исправленной формой, поле за полем"
+            }
+        ],
+        "correct": [0, 2, 3],
+        "explanation": {
+            "en": "The mutation check is the review question: if reverting the fix leaves the suite green, the test characterises the code instead of constraining it, and it will pass through the next regression just as quietly. A presence assertion, a call-count assertion and a snapshot of markup the fix never touched all survive the revert — none of them names either behaviour that changed, and the snapshot is identical before and after, so regenerating it with `-u` neither added nor removed any guard. The two that die are the ones asserting on the output the fix produced: the corrected payload and the new rejection message.",
+            "ru": "Mutation check — это и есть вопрос ревью: если откат фикса оставляет сьют зелёным, тест характеризует код, а не ограничивает его, и так же тихо пропустит следующую регрессию. Проверка наличия элемента, проверка числа вызовов и снапшот разметки, которую фикс не трогал, переживают откат — ни один из них не называет изменившееся поведение, а снапшот одинаков до и после, так что перегенерация через `-u` не добавила и не убрала никакой защиты. Умирают те два, что проверяют результат, который фикс и создал: исправленную форму payload и новый текст отказа."
+        }
+    },
+    {
+        "id": "test-contract-002",
+        "type": "multi-choice",
+        "category": "testing",
+        "difficulty": "hard",
+        "tags": ["contract-testing", "pact", "broker", "deploy-gate"],
+        "question": {
+            "en": "Which statements about consumer-driven contract testing with Pact are accurate? (select all that apply)",
+            "ru": "Какие утверждения про consumer-driven contract testing на Pact верны? (выберите все подходящие)"
+        },
+        "options": [
+            {
+                "en": "The provider replays the consumer’s recorded interactions in its own pipeline, setting up each declared provider state first",
+                "ru": "Провайдер проигрывает записанные консьюмером интеракции у себя в пайплайне, предварительно поднимая каждое заявленное provider state"
+            },
+            {
+                "en": "A response field that no consumer reads is not covered, so the provider may change it freely",
+                "ru": "Поле ответа, которое не читает ни один консьюмер, не покрыто контрактом, и провайдер может менять его свободно"
+            },
+            {
+                "en": "`can-i-deploy` blocks a release when there is no successful verification against the versions already in the target environment",
+                "ru": "`can-i-deploy` блокирует релиз, если нет успешной верификации против версий, уже выкаченных в целевое окружение"
+            },
+            {
+                "en": "Because the provider is verified against real interactions, end-to-end journey tests become redundant",
+                "ru": "Раз провайдер верифицирован на настоящих интеракциях, сквозные e2e-сценарии становятся избыточными"
+            },
+            {
+                "en": "The contract is generated by the provider from its OpenAPI document and handed to the consumer to honour",
+                "ru": "Контракт генерируется провайдером из его OpenAPI-документа и передаётся консьюмеру для соблюдения"
+            }
+        ],
+        "correct": [0, 1, 2],
+        "explanation": {
+            "en": "Consumer-driven means the expectations originate in the consumer’s own tests and the provider verifies them against declared provider states, so a breaking rename fails the provider’s build rather than production. The scope is deliberately exactly what consumers use — unused fields stay unprotected, and that is the trade that keeps the technique cheap and non-blocking for the provider. `can-i-deploy` turns those verification results into a deploy gate against what the broker records as deployed in the target environment. What it never covers is a flow crossing several services, so journey e2e stays; and a schema the provider publishes for consumers to follow is provider-driven schema testing, a different guarantee.",
+            "ru": "Consumer-driven означает, что ожидания рождаются в тестах самого консьюмера, а провайдер верифицирует их на заявленных provider states — поэтому ломающее переименование валит сборку провайдера, а не прод. Охват намеренно равен ровно тому, что консьюмеры используют: неиспользуемые поля остаются незащищёнными, и именно этот размен делает технику дешёвой и не блокирующей провайдера. `can-i-deploy` превращает результаты верификации в гейт на деплой против того, что брокер считает выкаченным в целевое окружение. Чего он не покрывает никогда — это сценарий, проходящий через несколько сервисов, так что сквозные e2e остаются; а схема, которую провайдер публикует для соблюдения консьюмерами, — это provider-driven schema testing, другая гарантия."
+        }
+    },
+    {
+        "id": "test-bug-shared-state-001",
+        "type": "bug-finding",
+        "category": "testing",
+        "difficulty": "hard",
+        "tags": ["playwright", "isolation", "parallel", "fixtures"],
+        "question": {
+            "en": "The config is `{ fullyParallel: true, retries: 2 }` and CI runs the suite with `--shard`. The second spec passes locally and fails in CI. Find the bug:",
+            "ru": "Конфиг — `{ fullyParallel: true, retries: 2 }`, а CI гоняет сьют с `--shard`. Вторая спека проходит локально и падает в CI. Найдите ошибку:"
+        },
+        "code": "let orderId: string;\n\ntest('creates an order', async ({ page }) => {\n  await page.goto('/orders/new');\n  await page.getByRole('button', { name: 'Place order' }).click();\n  await expect(page.getByRole('status')).toHaveText('Order placed');\n  orderId = (await page.getByTestId('order-id').textContent()) ?? '';\n});\n\ntest('cancels the order', async ({ page }) => {\n  await page.goto(`/orders/${orderId}`);\n  await page.getByRole('button', { name: 'Cancel order' }).click();\n  await expect(page.getByRole('status')).toHaveText('Order cancelled');\n});",
+        "lang": "typescript",
+        "correct": "The second test reads `orderId` from a module-level variable written by the first test, so it only works while both run in order inside the same worker process",
+        "referenceAnswer": "Make each test create the data it needs, through a fixture that talks to the API and cleans up afterwards:\n\n```ts\nconst test = base.extend<{ order: { id: string } }>({\n  order: async ({ request }, use) => {\n    const res = await request.post(\"/api/orders\", { data: { sku: \"SKU-1\" } });\n    const order = await res.json();\n    await use(order);\n    await request.delete(`/api/orders/${order.id}`);\n  },\n});\n\ntest(\"cancels an order\", async ({ page, order }) => {\n  await page.goto(`/orders/${order.id}`);\n  await page.getByRole(\"button\", { name: \"Cancel order\" }).click();\n  await expect(page.getByRole(\"status\")).toHaveText(\"Order cancelled\");\n});\n```\n\nThree independent things break the original. With `fullyParallel` the two tests can be picked up by different worker processes, and a module-level variable is per-process. `--shard` can put them on different machines entirely. And a worker is shut down after a failure, so a retry of the second test starts in a fresh process where `orderId` is `undefined` — which is why the retry never recovers. Setup that genuinely must be shared belongs in a setup project or a worker-scoped fixture, never in a module variable.",
+        "explanation": {
+            "en": "This is ordering dependency disguised as a variable: the spec file silently assumes the two tests run in sequence in one process, which the local single-worker run happens to satisfy and CI does not. Under `fullyParallel` and `--shard` the tests are distributed across workers and machines, and because a worker is torn down after a failure, the retry restarts with `orderId` undefined and navigates to `/orders/undefined`. The fix is not serial mode — it is making the second test create its own order through a fixture, so it is independent of who ran before it.",
+            "ru": "Это зависимость от порядка, замаскированная под переменную: файл молча предполагает, что тесты выполняются подряд в одном процессе, — локальный прогон на одном воркере это случайно обеспечивает, а CI нет. При `fullyParallel` и `--shard` тесты растаскиваются по воркерам и машинам, а так как воркер после падения гасится, ретрай стартует с `orderId` равным `undefined` и уходит на `/orders/undefined`. Лечится это не serial-режимом, а тем, что второй тест создаёт свой заказ через фикстуру и перестаёт зависеть от того, кто отработал до него."
+        }
+    },
+    {
+        "id": "test-cc-poll-001",
+        "type": "code-completion",
+        "category": "testing",
+        "difficulty": "medium",
+        "tags": ["playwright", "web-first-assertions", "polling", "flake"],
+        "question": {
+            "en": "Complete both waits without a fixed sleep. The first must re-check until the table settles on exactly three rows; the second must re-run the request until the background job reports `done`.",
+            "ru": "Дополните оба ожидания без фиксированного sleep. Первое должно перепроверять, пока в таблице не останется ровно три строки; второе — перезапускать запрос, пока фоновая джоба не отрапортует `done`."
+        },
+        "code": "// re-check until the rendered table settles on three rows\nawait expect(page.getByRole('row')).__BLANK__(3);\n\n// re-run the request until the background job is finished\nawait expect.__BLANK__(async () => {\n  const res = await request.get('/api/jobs/42');\n  return (await res.json()).status;\n}).toBe('done');",
+        "blanks": ["toHaveCount", "poll"],
+        "lang": "typescript",
+        "referenceAnswer": "`toHaveCount(3)` is an auto-retrying locator assertion: Playwright re-resolves the locator and re-evaluates the count until it matches or the expect timeout expires, so a row arriving late is fine and an extra row eventually fails the test. `expect.poll(fn).toBe('done')` wraps a non-locator value in the same retry loop — the callback is re-invoked on the polling intervals until the chained matcher passes, and it accepts `timeout`, `intervals` and `message` options. When the block contains its own assertions rather than returning a value, `await expect(async () => { ... }).toPass()` is the equivalent form.",
+        "explanation": {
+            "en": "Both blanks replace a guess about latency with a condition that is re-evaluated until it holds. `toHaveCount` is the web-first assertion for a collection, so it absorbs rows that render one render-pass late instead of racing them. `expect.poll` extends the same retry semantics to anything that is not a locator — an API status, a database row, a queue depth — which is what removes `waitForTimeout` from the places a locator assertion cannot reach.",
+            "ru": "Оба бланка заменяют догадку о латенси условием, которое перепроверяется, пока не выполнится. `toHaveCount` — это web-first-ассершен для коллекции: он спокойно переживает строки, которые дорисовались на один проход позже, вместо гонки с ними. `expect.poll` распространяет ту же семантику ретраев на всё, что не является локатором, — статус API, строку в базе, глубину очереди, — и именно это убирает `waitForTimeout` там, куда ассершен по локатору не дотягивается."
+        }
+    },
+    {
+        "id": "test-cc-visual-001",
+        "type": "code-completion",
+        "category": "testing",
+        "difficulty": "medium",
+        "tags": ["playwright", "visual-regression", "screenshots", "determinism"],
+        "question": {
+            "en": "Complete the visual check so that the live “last updated” timestamp cannot produce a pixel diff and CSS animations cannot make the comparison flaky.",
+            "ru": "Дополните визуальную проверку так, чтобы живой таймстемп «last updated» не мог дать пиксельный дифф, а CSS-анимации не могли сделать сравнение flaky."
+        },
+        "code": "await expect(page).toHaveScreenshot('dashboard.png', {\n  __BLANK__: [page.getByTestId('last-updated')],\n  animations: '__BLANK__',\n});",
+        "blanks": ["mask", "disabled"],
+        "lang": "typescript",
+        "referenceAnswer": "`mask` takes locators that Playwright paints over with a solid box (pink `#FF00FF` by default, configurable via `maskColor`) before the comparison, so a region that legitimately changes on every run cannot fail it. `animations: 'disabled'` stops CSS animations, CSS transitions and Web Animations: finite ones are fast-forwarded to their end state and fire `transitionend`, infinite ones are reset to the initial state, so the screenshot is taken at a defined moment rather than a random frame. The remaining variable is the environment — browser rendering depends on OS, fonts and hardware, so baselines must be generated in the same image that runs CI.",
+        "explanation": {
+            "en": "A screenshot assertion fails on any pixel difference, so every source of legitimate variation has to be removed explicitly or it becomes flake. `mask` removes content that is expected to change; `animations: \"disabled\"` removes the timing of the frame being captured. What neither option can fix is a baseline produced on a different OS — that is an environment difference, and it is why baselines belong in the CI image.",
+            "ru": "Скриншотный ассершен падает на любом пиксельном различии, поэтому каждый источник законной вариативности нужно убрать явно, иначе он превращается во flake. `mask` убирает контент, который обязан меняться; `animations: \"disabled\"` убирает неопределённость момента съёмки кадра. Чего ни одна из опций не лечит — это бейзлайн, снятый на другой ОС: это различие окружений, и именно поэтому бейзлайны снимаются в том же образе, где идёт CI."
+        }
     }
 ]

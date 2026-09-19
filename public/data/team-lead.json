@@ -1603,5 +1603,467 @@
         "blanks": ["Trainee", "Mid", "Senior", "Staff"],
         "lang": "javascript",
         "referenceAnswer": "Trainee -> Mid -> Senior -> Staff. Scope grows from one task to a feature, then a domain, then org-wide initiatives; autonomy grows from guided to independent to mentoring to setting direction across teams."
+    },
+    {
+        "id": "lead-conflict-002",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["conflict-resolution", "cross-team", "influence"],
+        "question": {
+            "en": "In a design review a backend lead publicly dismisses your API-contract concern as **frontend over-engineering** in front of eight people, and your team is now blocked on that contract. Which opening move both keeps the working relationship intact and produces a contract decision you can point back to next quarter?",
+            "ru": "На design review бэкенд-лид при восьми свидетелях публично отмахивается от вашего замечания по контракту API как от **оверинжиниринга фронтенда**, и команда теперь заблокирована этим контрактом. Какой первый шаг одновременно сохраняет рабочие отношения и даёт решение по контракту, на которое можно сослаться через квартал?"
+        },
+        "options": [
+            {
+                "en": "Ask him for 15 minutes off the public thread, bring the one concrete request that breaks under the current contract, and agree who writes the outcome up",
+                "ru": "Попросить 15 минут вне треда, принести конкретный запрос, который ломается на текущем контракте, и договориться, кто зафиксирует итог"
+            },
+            {
+                "en": "Reply in the same thread with the failing payloads and the timing data, so everyone who saw the dismissal also sees that the objection was technically right",
+                "ru": "Ответить в том же треде падающими payload-ами и замерами, чтобы все, кто видел отмашку, увидели и то, что замечание было технически верным"
+            },
+            {
+                "en": "Put the contract back on the next design review agenda with the change already drafted, so the decision is made in the same forum",
+                "ru": "Вернуть контракт в повестку следующего design review с уже готовым описанием изменения, чтобы решение приняли в том же форуме"
+            },
+            {
+                "en": "Build a frontend workaround around the contract gap so the release is not blocked, and put the contract back on the agenda after the release when nobody is under date pressure",
+                "ru": "Сделать обходное решение на фронте, чтобы релиз не стоял, и вернуть контракт в повестку после релиза, когда ни на ком не висят сроки"
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "Separate the person from the problem and move the argument from opinion to a single concrete failure case. A public thread rewards defending a position; a short private conversation lets the other side change its mind without losing face, which is exactly what the public dismissal put at risk, and agreeing who writes the outcome up is what turns the conversation into something you can cite later. Re-tabling it at the next review leaves the decision in the forum that already refused it and costs another cycle, and a frontend workaround hides a contract defect that every future consumer will hit.",
+            "ru": "Отделяем человека от проблемы и переводим спор с мнений на один конкретный кейс, который ломается. Публичный тред поощряет защиту позиции; короткий приватный разговор даёт оппоненту передумать, не теряя лица, — а именно это и поставила под удар публичная отмашка, и договорённость о том, кто зафиксирует итог, превращает разговор в то, на что потом можно сослаться. Возврат вопроса в повестку следующего review оставляет решение в том же форуме, где его уже отклонили, и стоит ещё одного цикла, а обходное решение на фронте прячет дефект контракта, в который упрётся каждый следующий потребитель."
+        }
+    },
+    {
+        "id": "lead-influence-001",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["influence", "cross-team", "adoption"],
+        "question": {
+            "en": "You want four teams you do not manage to adopt a shared release-checks package. Two of them see no benefit. What gives you the best chance of real adoption?",
+            "ru": "Вы хотите, чтобы четыре команды, которыми вы не руководите, перешли на общий пакет release-проверок. Две из них не видят в этом пользы. Что даёт наибольший шанс на реальное внедрение?"
+        },
+        "options": [
+            {
+                "en": "Ask the CTO to mandate the package in a company-wide message, so the two reluctant teams have no room left to argue about it",
+                "ru": "Попросить CTO спустить пакет обязательным в общей рассылке, чтобы у двух несогласных команд не осталось пространства для спора"
+            },
+            {
+                "en": "Land it in one willing team first, measure what it changed for them, and let that team present the numbers to the other three",
+                "ru": "Сначала внедрить в одной согласной команде, измерить, что у них изменилось, и дать этой команде самой показать цифры трём остальным"
+            },
+            {
+                "en": "Open the migration PR against all four repositories yourself, so adoption costs the reluctant teams nothing beyond a review click",
+                "ru": "Самому открыть миграционный PR во все четыре репозитория, чтобы внедрение не стоило несогласным командам ничего, кроме клика в review"
+            },
+            {
+                "en": "Write an RFC that answers every objection in advance and keep the comment thread open until every team has explicitly agreed",
+                "ru": "Написать RFC, заранее закрывающий все возражения, и держать тред открытым, пока каждая команда явно не согласится"
+            }
+        ],
+        "correct": 1,
+        "explanation": {
+            "en": "Influence without authority runs on demonstrated value plus a peer advocate: a number from a team like theirs outranks an argument from you. A mandate buys compliance and quiet sabotage, and it spends your manager's capital on your behalf. PR-bombing four repositories makes four teams owners of code they never chose. Consensus-by-thread has no stopping rule, so the two reluctant teams decide the timeline by not replying.",
+            "ru": "Влияние без формальной власти держится на доказанной пользе и союзнике-ровне: цифра от такой же команды весит больше, чем ваш аргумент. Мандат сверху покупает формальное согласие и тихий саботаж, да ещё и тратит капитал вашего менеджера. PR во все четыре репозитория делает четыре команды владельцами кода, который они не выбирали. У консенсуса в треде нет правила остановки, поэтому сроки определяют те две команды, которые просто не отвечают."
+        }
+    },
+    {
+        "id": "lead-stakeholder-001",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["stakeholders", "scope", "saying-no"],
+        "question": {
+            "en": "A sales director asks you mid-sprint for a \"small\" dashboard change he has already promised a client this week. The team is at capacity. What is the strongest way to say no?",
+            "ru": "Директор по продажам в середине спринта просит \"небольшую\" правку дашборда, которую уже пообещал клиенту на этой неделе. Команда загружена под завязку. Как сказать «нет» наиболее сильным образом?"
+        },
+        "options": [
+            {
+                "en": "Tell him the sprint is locked and point him at the intake process so the request is picked up at the next planning session",
+                "ru": "Сказать, что спринт закрыт, и отправить его в стандартный процесс приёма запросов, чтобы задачу взяли на следующем планировании"
+            },
+            {
+                "en": "Absorb it as extra hours outside the sprint, because refusing a request that a client has already been promised damages the relationship with sales",
+                "ru": "Взять сверх спринта за счёт переработки: отказ по запросу, который уже пообещали клиенту, портит отношения с продажами"
+            },
+            {
+                "en": "Name what would have to leave the sprint to fit it, put that trade-off in writing, and let him and the PM choose which one ships",
+                "ru": "Назвать, что придётся вынести из спринта, чтобы это влезло, зафиксировать размен письменно и дать ему и PM выбрать, что поедет"
+            },
+            {
+                "en": "Accept the request but quietly cut it down to whatever fits the remaining time, and tell him after the release what actually shipped",
+                "ru": "Согласиться, но тихо урезать объём до того, что влезает в оставшееся время, и после релиза сообщить, что реально уехало"
+            }
+        ],
+        "correct": 2,
+        "explanation": {
+            "en": "A refusal that holds is a trade-off, not a wall: make the cost explicit and hand the prioritisation decision back to the people who own priority. Pointing at process answers the mechanism but not the client commitment, so the pressure simply returns through your manager. Overtime hides a capacity problem and sets the new normal, and a silent scope cut is the only option here that destroys trust rather than spending it.",
+            "ru": "Работающее «нет» — это размен, а не стена: делаем цену явной и возвращаем решение о приоритете тем, кто им владеет. Ссылка на процесс отвечает про механику, но не про обещание клиенту, поэтому давление просто вернётся через вашего менеджера. Переработка прячет проблему с ёмкостью и задаёт новую норму, а тихое урезание объёма — единственный вариант здесь, который не тратит доверие, а уничтожает его."
+        }
+    },
+    {
+        "id": "lead-performance-001",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "hard",
+        "tags": ["performance-management", "feedback", "1on1"],
+        "question": {
+            "en": "A mid-level engineer's output has dropped over two months: PRs sit unfinished and two commitments slipped without warning. You have not said anything to him yet. What is the right first step?",
+            "ru": "За два месяца результативность мидла просела: PR-ы висят недоделанными, два обязательства сорваны без предупреждения. Вы ему пока ничего не говорили. Какой первый шаг правильный?"
+        },
+        "options": [
+            {
+                "en": "Start a formal performance improvement plan, so the expectations, the timeline and the consequences are documented from the very beginning",
+                "ru": "Запустить формальный performance improvement plan, чтобы ожидания, сроки и последствия были задокументированы с самого начала"
+            },
+            {
+                "en": "Move his in-flight work to faster teammates for a sprint, so delivery stops slipping while you work out what to do about him",
+                "ru": "Передать его текущие задачи более быстрым коллегам на спринт, чтобы поставка перестала съезжать, пока вы решаете, что с ним делать"
+            },
+            {
+                "en": "Raise the pattern in the next retrospective without naming him, so the team re-states the standard instead of you having to confront him",
+                "ru": "Поднять паттерн на ближайшей ретро, не называя его, чтобы стандарт переформулировала команда, а не вы лично"
+            },
+            {
+                "en": "In a 1:1 this week name the specific observations, ask what is going on, and agree one measurable expectation with a review date",
+                "ru": "На этой неделе в 1:1 назвать конкретные наблюдения, спросить, что происходит, и договориться об одном измеримом ожидании с датой"
+            }
+        ],
+        "correct": 3,
+        "explanation": {
+            "en": "Feedback has to be specific, timely and first-hand before any process is attached to it — a PIP opened before the person has ever been told is a management failure, not a performance one, and it is the version that loses at an employment tribunal. Anonymised retro feedback is unreadable to its target and taxes everyone else. Silently reassigning work removes both the signal and the person's dignity, and it hides the most common real cause, which is something outside the codebase.",
+            "ru": "Фидбэк должен быть конкретным, своевременным и из первых рук до того, как на него навешивают процесс: PIP, открытый до первого разговора, — это провал управления, а не результативности, и именно такая версия проигрывает в трудовом споре. Анонимный фидбэк на ретро нечитаем для адресата и облагает налогом всех остальных. Тихое переназначение задач убирает и сигнал, и достоинство человека, и прячет самую частую реальную причину, которая лежит вне кода."
+        }
+    },
+    {
+        "id": "lead-incident-001",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["incident-response", "rollback", "mitigation"],
+        "question": {
+            "en": "Checkout is failing for about 8% of users. A deploy went out 12 minutes ago and the root cause is still unclear. What do you do first?",
+            "ru": "Оформление заказа падает примерно у 8% пользователей. Деплой уехал 12 минут назад, причина пока не ясна. Что делаете первым?"
+        },
+        "options": [
+            {
+                "en": "Roll the deploy back, then investigate the cause with the site stable, because a reversible action beats diagnosis under pressure",
+                "ru": "Откатить деплой, а причину разбирать уже на стабильном сайте: обратимое действие дешевле диагностики под давлением"
+            },
+            {
+                "en": "Debug forward and ship a hotfix, because rolling back would also revert the unrelated fixes that went out in the same release",
+                "ru": "Чинить вперёд и выкатить hotfix: откат заодно снимет и несвязанные фиксы, уехавшие в том же релизе"
+            },
+            {
+                "en": "Deploy extra logging around the checkout path first, so the next batch of failures gives you the data you need to diagnose it properly",
+                "ru": "Сначала выкатить дополнительное логирование вокруг checkout, чтобы следующая порция падений дала данные для нормальной диагностики"
+            },
+            {
+                "en": "Hold the rollback until you can confirm the deploy is actually the cause, to avoid a disruptive change that turns out to fix nothing",
+                "ru": "Придержать откат, пока не подтвердится, что причина именно в деплое, чтобы не делать шумное изменение, которое ничего не починит"
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "Mitigate first, diagnose second: during an incident the goal is to stop the bleeding, and a close correlation in time plus an unknown cause is already enough to revert. Rollback is the cheapest reversible action available, while a hotfix written under pressure is an unreviewed change on top of a broken system. Deploying more logging is a third change during an outage. The entangled-release objection is real, but it is an argument for smaller releases, not for debugging in production.",
+            "ru": "Сначала митигация, потом диагностика: во время инцидента задача — остановить кровотечение, а близкая корреляция по времени плюс неизвестная причина уже достаточное основание для отката. Откат — самое дешёвое обратимое действие, тогда как hotfix под давлением — это неотревьюенное изменение поверх сломанной системы. Выкатить ещё и логирование — третье изменение во время аварии. Возражение про «смешанный релиз» справедливо, но это аргумент за более мелкие релизы, а не за отладку на проде."
+        }
+    },
+    {
+        "id": "lead-incident-002",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "easy",
+        "tags": ["incident-response", "severity", "triage"],
+        "question": {
+            "en": "A scheduled report export — not part of a core user journey — has been failing for one enterprise customer since yesterday. A documented manual workaround exists and no data is lost. Your scale keys severity on user impact and workaround availability (S1 immediate, S2 within two business days, S3 next planned work, S4 backlog). Which severity fits?",
+            "ru": "У одного enterprise-клиента со вчерашнего дня падает выгрузка отчёта по расписанию — она не входит в ключевой пользовательский сценарий. Есть задокументированный ручной обходной путь, данные не теряются. Ваша шкала определяет severity по влиянию на пользователя и наличию обходного пути (S1 — немедленно, S2 — в течение двух рабочих дней, S3 — в ближайшую плановую работу, S4 — бэклог). Какая severity подходит?"
+        },
+        "options": [
+            {
+                "en": "S1, because an enterprise account is affected and enterprise impact always takes the top severity level",
+                "ru": "S1: затронут enterprise-аккаунт, а enterprise-влияние всегда забирает верхний уровень severity"
+            },
+            {
+                "en": "S3, because the broken feature sits outside the core journey and a documented workaround already exists",
+                "ru": "S3: сломанная функция лежит вне ключевого сценария, и уже есть задокументированный обходной путь"
+            },
+            {
+                "en": "S2, because an enterprise customer is blocked on a recurring workflow and the workaround has to be run by hand every day",
+                "ru": "S2: enterprise-клиент заблокирован на регулярном процессе, а обходной путь приходится запускать руками каждый день"
+            },
+            {
+                "en": "S4, because nothing was lost and the customer can still get the data, which makes the defect cosmetic",
+                "ru": "S4: ничего не потеряно и клиент всё равно может получить данные, значит дефект косметический"
+            }
+        ],
+        "correct": 1,
+        "explanation": {
+            "en": "Severity measures user impact and the availability of a workaround, not who the customer is: S1 is production down, data loss or no workaround on a core journey. The S2 case is the honest one — a daily manual workaround is a real cost — but on the stated criteria it loses, because the feature is outside the core journey and the workaround is documented. Account size is a legitimate input to **priority**, the order of work inside a severity band, and folding it into severity inflates the scale until S1 means nothing. S4 is wrong in the other direction, because a broken feature with a manual workaround is still broken and still needs a date.",
+            "ru": "Severity меряет влияние на пользователя и наличие обходного пути, а не то, кто клиент: S1 — это прод лежит, потеря данных или отсутствие обходного пути на ключевом сценарии. Вариант S2 — честный: ежедневный ручной обход действительно стоит денег, — но по заявленным критериям он проигрывает, потому что функция лежит вне ключевого сценария, а обходной путь задокументирован. Размер аккаунта — законный вход в **приоритет**, то есть в порядок разбора внутри уровня, но если засунуть его в severity, шкала раздувается и S1 перестаёт что-либо значить. S4 неверно с другой стороны: сломанная функция с ручным обходом всё ещё сломана и всё ещё требует даты."
+        }
+    },
+    {
+        "id": "lead-adr-003",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "easy",
+        "tags": ["ADR", "documentation", "decision-records"],
+        "question": {
+            "en": "An ADR written last year records a decision the team has now reversed. What is the correct treatment of the original document?",
+            "ru": "Прошлогодний ADR фиксирует решение, которое команда теперь развернула. Что правильно сделать с исходным документом?"
+        },
+        "options": [
+            {
+                "en": "Delete it, because a record of a decision that is no longer in force will mislead the next person who searches the log",
+                "ru": "Удалить: запись о решении, которое больше не действует, собьёт с толку следующего, кто будет искать по логу"
+            },
+            {
+                "en": "Edit it in place to describe the new decision, so that the log keeps exactly one current document per topic",
+                "ru": "Отредактировать на месте под новое решение, чтобы в логе оставался ровно один актуальный документ на тему"
+            },
+            {
+                "en": "Leave the body of the text untouched, set its status to Superseded and add a forward link to the ADR that replaced it",
+                "ru": "Тело текста не трогать, поставить статус Superseded и добавить ссылку вперёд на ADR, который его заменил"
+            },
+            {
+                "en": "Leave it untouched and unchanged, because ADRs are immutable history and a status is written once when the decision is accepted",
+                "ru": "Не трогать вообще, включая статус: ADR — это неизменяемая история, а статус пишется один раз при принятии решения"
+            }
+        ],
+        "correct": 2,
+        "explanation": {
+            "en": "Nygard's original template is explicit: \"if a decision is reversed, we will keep the old one around, but mark it as superseded\" — it is still relevant to know that it **was** the decision. So the body is immutable but the status is not, which is what the last option gets wrong. Deleting or editing in place destroys the context that made the old decision reasonable, and that context is the only reason the log is worth keeping when someone asks a year later why the team chose the thing it chose.",
+            "ru": "Исходный шаблон Nygard говорит прямо: если решение развернули, старый ADR сохраняем и помечаем как superseded — по-прежнему важно знать, что это **было** решением. То есть тело неизменяемо, а статус — нет, и именно в этом ошибается последний вариант. Удаление или правка на месте уничтожают контекст, в котором старое решение было разумным, а ради этого контекста лог и ведут: через год кто-то спросит, почему команда выбрала то, что выбрала."
+        }
+    },
+    {
+        "id": "lead-migration-001",
+        "type": "single-choice",
+        "category": "team-lead",
+        "difficulty": "hard",
+        "tags": ["migration", "strangler", "deprecation"],
+        "question": {
+            "en": "You must move 12 apps off a deprecated internal SDK over two quarters, with no feature freeze. Which sequencing applies the strangler pattern correctly?",
+            "ru": "За два квартала нужно снять 12 приложений с устаревшего внутреннего SDK, без заморозки фич. Какая последовательность корректно применяет strangler-подход?"
+        },
+        "options": [
+            {
+                "en": "Build the replacement SDK to full parity first, then cut all 12 apps over in one coordinated release once every consumer has been accounted for",
+                "ru": "Сначала довести новый SDK до полного паритета, затем в одном скоординированном релизе перевести все 12 приложений, когда учтены все потребители"
+            },
+            {
+                "en": "Freeze the old SDK against all changes, migrate the apps one by one in dependency order, and unfreeze only when the last app is done",
+                "ru": "Заморозить старый SDK от любых изменений, мигрировать приложения по одному в порядке зависимостей и разморозить только после последнего"
+            },
+            {
+                "en": "Let each team migrate on its own schedule with no shared interception layer, and delete the old SDK once its usage metrics reach zero across the fleet",
+                "ru": "Дать каждой команде мигрировать в своём темпе без общего слоя перехвата, а старый SDK удалить, когда метрики использования по всему флоту дойдут до нуля"
+            },
+            {
+                "en": "Put a facade in front of both SDKs, move one app behind it, then route the rest app by app and delete each old path as soon as it empties",
+                "ru": "Поставить фасад перед обоими SDK, перевести за него одно приложение, дальше переключать остальные по одному и удалять старый путь, как только он опустеет"
+            }
+        ],
+        "correct": 3,
+        "explanation": {
+            "en": "The strangler fig grows the new system around the old behind an interception layer, so each increment is small, delivers value and can be rolled back on its own — Fowler's point is that \"since these components are small, there isn't so much risk involved\". A big-bang cutover concentrates all the risk on one date and pays nothing until that date arrives. A freeze contradicts the no-freeze constraint and ties the first app's date to the last. Without the facade there is no rollback boundary and no way to delete the old path incrementally.",
+            "ru": "Strangler fig выращивает новую систему вокруг старой за слоем перехвата, поэтому каждый инкремент мал, приносит пользу и откатывается отдельно — у Fowler это сформулировано так: компоненты маленькие, значит и риск невелик. Big-bang концентрирует весь риск на одной дате и до неё не платит ничего. Заморозка противоречит условию «без freeze» и привязывает дату первого приложения к последнему. Без фасада нет ни границы отката, ни возможности удалять старый путь по частям."
+        }
+    },
+    {
+        "id": "lead-deadline-001",
+        "type": "multi-choice",
+        "category": "team-lead",
+        "difficulty": "hard",
+        "tags": ["communication", "deadlines", "stakeholders"],
+        "question": {
+            "en": "You are two days from a date you committed to, and one of the three scoped features is failing QA. Which of these belong in the message you send to the PM and the stakeholder group **today**?",
+            "ru": "До даты, которую вы зафиксировали, два дня, и одна из трёх заскоупленных фич не проходит QA. Что из перечисленного должно быть в сообщении, которое вы **сегодня** отправляете PM и стейкхолдерам?"
+        },
+        "options": [
+            {
+                "en": "The slip itself, stated plainly, with a new date you are prepared to defend",
+                "ru": "Сам факт срыва, сказанный прямо, и новая дата, которую вы готовы защищать"
+            },
+            {
+                "en": "The option of shipping the two healthy features on the original date and the failing one behind a flag",
+                "ru": "Вариант: две здоровые фичи уезжают в исходную дату, а падающая — под флагом"
+            },
+            {
+                "en": "What each option costs the commitments the stakeholders have already made, so they can choose between them",
+                "ru": "Во что каждый вариант обходится обязательствам, которые стейкхолдеры уже раздали, чтобы они могли выбрать"
+            },
+            {
+                "en": "A root-cause analysis of why QA only found this defect two days before the date",
+                "ru": "Разбор причин того, почему QA нашла дефект только за два дня до даты"
+            },
+            {
+                "en": "A commitment that the team will work the weekend, offered as the way to hold the original date",
+                "ru": "Обязательство, что команда выйдет в выходные, — как способ удержать исходную дату"
+            }
+        ],
+        "correct": [0, 1, 2],
+        "explanation": {
+            "en": "A disclosure has three jobs: state the bad news early and without softening, present the options with their real costs, and hand the choice back to the people who own the commitments. Speed matters more than completeness here — the value of the message decays to zero on the original date. The root-cause analysis is a retrospective item: putting it in the disclosure reads as pre-emptive defence and buries the decision the stakeholders have to make. A weekend is not a plan, it is an unbudgeted cost that also removes the signal that the estimate was wrong.",
+            "ru": "У такого сообщения три задачи: сказать плохую новость рано и без смягчения, показать варианты с их реальной ценой и вернуть выбор тем, кто раздавал обязательства. Скорость здесь важнее полноты — к исходной дате ценность сообщения падает до нуля. Разбор причин — материал ретро: в сообщении о срыве он читается как упреждающая оборона и хоронит решение, которое стейкхолдерам нужно принять. Выходные — не план, а незабюджетированная цена, которая ещё и убирает сигнал о том, что оценка была неверной."
+        }
+    },
+    {
+        "id": "lead-slo-001",
+        "type": "multi-choice",
+        "category": "team-lead",
+        "difficulty": "hard",
+        "tags": ["SLO", "error-budget", "reliability"],
+        "question": {
+            "en": "Which statements about SLOs and error budgets are correct?",
+            "ru": "Какие утверждения про SLO и error budget верны?"
+        },
+        "options": [
+            {
+                "en": "The error budget turns reliability into a release-velocity decision that is agreed in advance rather than argued during an outage",
+                "ru": "Error budget превращает надёжность в решение о скорости релизов, согласованное заранее, а не обсуждаемое во время аварии"
+            },
+            {
+                "en": "A 99.9% monthly availability SLO allows roughly 43 minutes of unavailability in a 30-day month",
+                "ru": "SLO доступности 99,9% в месяц допускает примерно 43 минуты недоступности за 30-дневный месяц"
+            },
+            {
+                "en": "An error budget is another name for the SLA: exceeding it is what triggers the contractual credit to the customer",
+                "ru": "Error budget — это другое название SLA: его превышение и запускает контрактную компенсацию клиенту"
+            },
+            {
+                "en": "An exhausted error budget should, under a policy agreed beforehand, halt feature releases until the service is back inside its SLO",
+                "ru": "Исчерпанный error budget по заранее согласованной политике должен останавливать релизы фич, пока сервис не вернётся в свой SLO"
+            },
+            {
+                "en": "A revenue-critical journey should be given a 100% SLO, because on that path any failure at all is unacceptable to the business",
+                "ru": "Для критичного для выручки сценария нужно ставить SLO 100%, потому что на этом пути любой сбой неприемлем для бизнеса"
+            }
+        ],
+        "correct": [0, 1, 3],
+        "explanation": {
+            "en": "30 days is 43,200 minutes, so 0.1% of it is 43.2 minutes. Google's error-budget policy is explicit that when the budget is spent the team will \"halt all changes and releases other than P0 issues or security fixes until the service is back within its SLO\" — the point being that the rule is agreed while everyone is calm. An SLA is a different object: a contract with users that carries consequences for missing the SLOs inside it. And the SRE book rejects the 100% target outright: it is \"both unrealistic and undesirable\", because the last fraction of a percent costs more than it returns.",
+            "ru": "В 30 днях 43 200 минут, значит 0,1% — это 43,2 минуты. Политика error budget у Google сформулирована прямо: когда бюджет исчерпан, команда останавливает все изменения и релизы, кроме P0 и security-фиксов, пока сервис не вернётся в SLO, — и смысл в том, что правило согласовано, пока все спокойны. SLA — другой объект: контракт с пользователями, где за невыполнение SLO есть последствия. А цель 100% книга SRE отвергает прямо: это и нереалистично, и нежелательно, потому что последняя доля процента стоит дороже, чем приносит."
+        }
+    },
+    {
+        "id": "lead-ai-onboarding-001",
+        "type": "multi-choice",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["onboarding", "ai-tooling", "mentoring"],
+        "question": {
+            "en": "A junior joins your team and produces most of his code with an AI assistant. Which of these are the right guardrails for his first month?",
+            "ru": "В команду приходит джун, который большую часть кода делает с AI-ассистентом. Какие ограничения правильны на его первый месяц?"
+        },
+        "options": [
+            {
+                "en": "He must be able to explain every line he puts in a PR, in review, without the assistant open",
+                "ru": "Он должен уметь объяснить в review каждую строку, которую принёс в PR, без открытого ассистента"
+            },
+            {
+                "en": "Review his PRs against exactly the same bar as everyone else's, and tell him out loud that the bar has not moved",
+                "ru": "Ревьюить его PR ровно по той же планке, что и остальные, и вслух сказать ему, что планка не изменилась"
+            },
+            {
+                "en": "Require a second assistant to re-check every suggestion before he opens the PR, so two tools have to agree before the code lands",
+                "ru": "Требовать, чтобы каждую подсказку перед открытием PR перепроверял второй ассистент: пусть два инструмента сойдутся до того, как код уедет"
+            },
+            {
+                "en": "Pair with him on the first change in each unfamiliar area, so he sees which of the tool's suggestions actually fit this codebase",
+                "ru": "Пройти с ним в паре первое изменение в каждой незнакомой области, чтобы он увидел, какие подсказки инструмента реально подходят этой кодовой базе"
+            },
+            {
+                "en": "Track his ramp-up by merged-PR throughput, since the assistant removes the typing bottleneck that used to make that number unfair",
+                "ru": "Мерить его разгон количеством смерженных PR: ассистент убирает узкое место набора текста, из-за которого эта метрика раньше была несправедливой"
+            }
+        ],
+        "correct": [0, 1, 3],
+        "explanation": {
+            "en": "The accountability boundary is authorship, not tooling: whoever opens the PR owns every line in it, and the comprehension check at review is what keeps that true. Holding the same review bar and saying so out loud prevents the quiet drift where a junior's PRs get waved through because \"the tool wrote it\". Running the output past a second assistant checks tool against tool and still never puts a human who understands the code in the loop. Throughput is the classic Goodhart trap here — it measures the tool's speed, not his learning.",
+            "ru": "Граница ответственности проходит по авторству, а не по инструменту: кто открыл PR, тот владеет каждой строкой в нём, и проверка понимания на review — то, что удерживает это правило. Одинаковая планка ревью, проговорённая вслух, предотвращает тихий сдвиг, когда PR-ы джуна пропускают, потому что «это же написал инструмент». Прогон вывода через второго ассистента сверяет инструмент с инструментом и всё так же не ставит в цепочку человека, который понимает код. Метрика throughput здесь — классическая ловушка Гудхарта: она меряет скорость инструмента, а не его обучение."
+        }
+    },
+    {
+        "id": "lead-star-bug-001",
+        "type": "bug-finding",
+        "category": "team-lead",
+        "difficulty": "hard",
+        "tags": ["STAR", "interviewing", "behavioural"],
+        "question": {
+            "en": "A candidate gave this answer to \"tell me about a time you disagreed with a technical decision\". It scores poorly against a structured behavioural rubric. Name the structural defect.",
+            "ru": "Кандидат так ответил на вопрос «расскажи о случае, когда ты был не согласен с техническим решением». По структурированной поведенческой рубрике ответ набирает мало баллов. Назовите структурный дефект."
+        },
+        "code": "// Transcribed answer:\n//\n// \"So we were migrating to a new state management library and I wasn't\n//  convinced it was the right call. There were a lot of opinions in the\n//  team about it. We discussed it over several meetings, and eventually\n//  we decided to go ahead with it, and honestly we made it work in the\n//  end. It was a good learning experience for everybody and the team\n//  came out of it stronger.\"",
+        "lang": "markdown",
+        "correct": "The answer is all Situation: there is no first-person Action and no measurable Result — it never says what the candidate personally did or what changed as a result.",
+        "referenceAnswer": "Every verb in the middle of the answer is 'we' ('we discussed', 'we decided', 'we made it work'), so a rubric scoring Action has nothing to score — a panel cannot tell whether the candidate led the disagreement, lost it, or watched it. The close ('a good learning experience', 'the team came out stronger') is a feeling, not a Result: no number, no artefact, no decision that stuck. Rewrite with the same story: Situation in one sentence; Task = 'I owned the migration risk assessment'; Action = 'I wrote a two-page comparison against three criteria we agreed first, ran a three-day spike on the largest screen, and took the numbers to the two engineers who disagreed'; Result = 'we adopted the library with a scoped rollout, migrated 40 screens in one quarter with no rollback, and I recorded the trade-off in an ADR that we cited twice the following year'. Keep the ratio roughly 10% Situation, 20% Task, 50% Action, 20% Result.",
+        "explanation": {
+            "en": "A structured behavioural rubric scores the Action and the Result far more heavily than the setup, because those are the only parts that evidence what this person does. A 'we' answer is unscoreable — it may describe a team the candidate merely stood next to — and a Result made of feelings gives the panel nothing to calibrate seniority against. Interviewers also read a missing Result as a candidate who never checked whether the decision worked.",
+            "ru": "Структурированная поведенческая рубрика взвешивает Action и Result заметно выше, чем завязку, потому что только они показывают, что человек реально делает. Ответ на «мы» невозможно оценить — он может описывать команду, рядом с которой кандидат просто стоял, — а Result из ощущений не даёт панели ничего, по чему калибровать грейд. Отсутствующий Result интервьюеры читают ещё и как кандидата, который не проверил, сработало ли решение."
+        }
+    },
+    {
+        "id": "lead-postmortem-bug-001",
+        "type": "bug-finding",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["postmortem", "incident-response", "action-items"],
+        "question": {
+            "en": "This postmortem passed review in your team. What is wrong with it?",
+            "ru": "Этот постмортем прошёл ревью в вашей команде. Что с ним не так?"
+        },
+        "code": "# Postmortem - checkout outage\n\nImpact:     41 minutes, ~8% of checkout requests failed.\nRoot cause: a config change disabled the payment provider retry; the key was\n            undocumented, so nobody reviewing the PR knew what it controlled.\n\nAction items:\n1. Remind the team in standup to be more careful with config changes.  (owner: the team)\n2. Add a note about this provider to the runbook.                      (owner: unassigned)\n3. Be more careful with config PRs.                                    (no date)",
+        "lang": "markdown",
+        "correct": "No action item is a mechanism: they rest on people remembering and on a runbook note instead of changing the system, and none of them carries a named owner with a date.",
+        "referenceAnswer": "The write-up is blameless in tone but not in substance - every action item locates the fix inside human attention, which is exactly the thing the incident proved unreliable. Replace them with changes that survive those people leaving: a required check that fails any config PR touching the payment-retry keys without a second approval; staged config rollout with automatic revert when the checkout error rate crosses the alert threshold; an alert on retry-disabled so the next occurrence is caught in minutes rather than by users. Every item gets a named individual owner, a date, and a ticket id so it is visible outside the document. A useful test: if the same config change were made again tomorrow by someone who never read this postmortem, would anything stop it?",
+        "explanation": {
+            "en": "Blameless means the analysis looks for the system condition that let a reasonable person cause an outage — so an action item that asks for more care has not changed anything, and the next engineer inherits the same trap. Action items need a single named owner rather than 'the team', a date, and a ticket, or they die with the document. If this incident is a recurrence of one already fixed, the process itself is the defect and the fix belongs there, not only in the code.",
+            "ru": "Blameless означает, что разбор ищет условие системы, из-за которого разумный человек смог уронить прод, — поэтому action item «быть внимательнее» не меняет ничего, и следующий инженер наследует ту же ловушку. У action item должен быть один конкретный владелец, а не «команда», дата и тикет, иначе он умирает вместе с документом. Если инцидент — повтор уже починенного, дефект в самом процессе, и чинить надо его, а не только код."
+        }
+    },
+    {
+        "id": "lead-incident-roles-001",
+        "type": "code-completion",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["incident-response", "roles", "communication"],
+        "question": {
+            "en": "Complete this incident runbook — each blank takes one of these values, used exactly once: `commander`, `scribe`, `30`.",
+            "ru": "Дополните этот incident runbook — в каждый пропуск подставьте одно из значений, каждое ровно один раз: `commander`, `scribe`, `30`."
+        },
+        "code": "# Incident runbook - roles and comms (severity S1)\n\n1. The first responder declares the incident and names an incident __BLANK__,\n   who owns the decisions and does not debug personally.\n2. A communications lead posts to the stakeholder channel every __BLANK__ minutes,\n   even when the only update is \"still investigating, next update at HH:MM\".\n3. A __BLANK__ keeps the timeline: actions, timestamps, and what has been ruled out.\n4. That role declares mitigation, then hands over to the postmortem owner.",
+        "blanks": ["commander", "30", "scribe"],
+        "lang": "markdown",
+        "referenceAnswer": "Incident commander (decides, delegates, does not type), communications lead (fixed cadence to stakeholders - 30 minutes for an S1, agreed in the runbook rather than improvised), scribe (timeline, which becomes the spine of the postmortem). Separating these roles is what stops the one person who understands the system from being pulled out of the investigation to answer stakeholder questions.",
+        "explanation": {
+            "en": "The commander's value is that they are not debugging: the moment the person with the deepest system knowledge also owns comms and decisions, the investigation stops. A fixed comms cadence agreed in advance is what prevents the worst pattern in a long incident — silence, which stakeholders read as 'nobody is on it' and answer by messaging engineers directly. The scribe's timeline is also the reason the postmortem can be written from evidence rather than from memory a day later.",
+            "ru": "Ценность commander в том, что он не отлаживает: как только человек с самым глубоким знанием системы забирает себе и коммуникацию, и решения, расследование встаёт. Заранее согласованная частота апдейтов предотвращает худший паттерн долгого инцидента — тишину, которую стейкхолдеры читают как «никто не занимается» и лечат личными сообщениями инженерам. Таймлайн от scribe — ещё и причина того, что постмортем потом пишется по фактам, а не по памяти через сутки."
+        }
+    },
+    {
+        "id": "lead-dependency-001",
+        "type": "code-completion",
+        "category": "team-lead",
+        "difficulty": "medium",
+        "tags": ["dependencies", "policy", "maintenance"],
+        "question": {
+            "en": "Complete this dependency-upgrade policy — each blank takes one of these semver levels, used exactly once: `major`, `minor`.",
+            "ru": "Дополните эту политику обновления зависимостей — в каждый пропуск подставьте один из уровней semver, каждый ровно один раз: `major`, `minor`."
+        },
+        "code": "# Dependency upgrade policy - frontend fleet\n\n1. A bot opens upgrade PRs on a weekly schedule, grouped by ecosystem.\n2. patch and __BLANK__ updates auto-merge once the full CI gate is green.\n3. Each __BLANK__ update gets a ticket, a named owner, and a changelog read\n   before the branch is opened.\n4. A dependency with no release in 24 months is marked end-of-life and scheduled.\n5. Security advisories leave the weekly batch and are handled at the advisory's severity.",
+        "blanks": ["minor", "major"],
+        "lang": "markdown",
+        "referenceAnswer": "Under semver a minor release promises backwards compatibility, so batching patch and minor into an auto-merge lane behind a full CI gate is safe enough and keeps the fleet close to current - which is what makes the occasional major upgrade cheap. Major releases carry intentional breaking changes, so they get a ticket, a named owner and a changelog read, and they never ride in an automated batch. The gate is the load-bearing part: auto-merge without a trustworthy CI gate is just an unattended deploy of somebody else's code.",
+        "explanation": {
+            "en": "The policy exists to keep the upgrade cost linear instead of letting it accumulate into a migration project — a fleet two majors behind pays for the whole gap at once, usually under a security deadline. Semver is a promise, not a guarantee, which is why the auto-merge lane is only as trustworthy as the CI gate behind it. The end-of-life rule matters because an unmaintained dependency is the one that will have no patched version on the day an advisory lands.",
+            "ru": "Политика нужна, чтобы стоимость обновлений оставалась линейной и не копилась в отдельный миграционный проект: флот, отставший на два мажора, платит за весь разрыв сразу и обычно под дедлайном по безопасности. Semver — это обещание, а не гарантия, поэтому полоса auto-merge надёжна ровно настолько, насколько надёжен CI-гейт за ней. Правило про end-of-life важно потому, что именно у заброшенной зависимости не окажется пропатченной версии в день, когда прилетит advisory."
+        }
     }
 ]
