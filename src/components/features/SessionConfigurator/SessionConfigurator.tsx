@@ -123,7 +123,7 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
                                             className={cn(
                                                 'min-h-11 px-3 py-2 text-base text-left border transition-colors flex items-center justify-between gap-1',
                                                 selectedCategories.includes(cat.slug)
-                                                    ? 'border-accent-alt bg-accent-alt/10 text-primary'
+                                                    ? 'border-accent-alt bg-accent-alt/10 text-foreground'
                                                     : 'border-border bg-surface text-muted-foreground hover:border-accent-alt/50',
                                                 count === 0 && 'opacity-50'
                                             )}
@@ -338,9 +338,12 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
                             </span>
                         </Button>
                     )}
+                    {/* A disabled action must read as unavailable and stay legible: the
+                        accent fill at half opacity kept the eye and lost the label. */}
                     <Button
-                        className="min-h-11 flex-1 text-base lg:flex-none"
+                        className="min-h-11 flex-1 text-base disabled:bg-muted-foreground disabled:text-background disabled:opacity-100 lg:flex-none"
                         disabled={!isStartEnabled}
+                        aria-describedby={hint ? HINT_ID : undefined}
                         onClick={handleStart}
                     >
                         {t('configurator.start')}

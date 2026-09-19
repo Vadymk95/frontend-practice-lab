@@ -703,3 +703,44 @@ describe('SessionConfigurator — legibility and touch targets', () => {
         });
     });
 });
+
+describe('SessionConfigurator — contrast of the start affordance', () => {
+    beforeEach(() => {
+        vi.mocked(useCategories).mockReturnValue({
+            data: mockCategories,
+            isLoading: false,
+            isError: false
+        } as unknown as ReturnType<typeof useCategories>);
+    });
+
+    const startButton = () => screen.getAllByRole('button', { name: 'Start Session' })[0]!;
+
+    it('shows an unavailable Start as a desaturated fill, not a dimmed accent', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        expect(startButton()).toBeDisabled();
+        expect(startButton().className).toContain('disabled:opacity-100');
+        expect(startButton().className).toContain('disabled:bg-muted-foreground');
+    });
+
+    it('points an unavailable Start at the sentence that says why', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        const describedBy = startButton().getAttribute('aria-describedby');
+        expect(describedBy).not.toBeNull();
+        expect(document.getElementById(describedBy as string)).toHaveTextContent(
+            'Select at least one category to begin'
+        );
+    });
+
+    it('does not dim a selected category label into the accent colour', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        const tile = screen.getByRole('checkbox', { name: /JavaScript/ });
+        act(() => tile.click());
+
+        expect(tile).toHaveAttribute('aria-checked', 'true');
+        expect(tile.className).toContain('text-foreground');
+        expect(tile.className).not.toContain('text-primary');
+    });
+});
