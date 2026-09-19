@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Personal mobile-first interview preparation SPA for frontend engineers. Daily habit tool (1-hour sessions) to combat cognitive atrophy from AI-assisted workflows. Covers trainee → principal/staff engineer depth across 18 topic categories (952 bilingual RU/EN questions). Adaptive algorithm: per-question weights moved by that question's own outcome, per-category error rates as the prior for unseen questions; the session pool is weight-ordered.
+Personal mobile-first interview preparation SPA for frontend engineers. Daily habit tool (1-hour sessions) to combat cognitive atrophy from AI-assisted workflows. Covers trainee → principal/staff engineer depth across 20 topic categories (1217 bilingual RU/EN questions). Adaptive algorithm: per-question weights moved by that question's own outcome, per-category error rates as the prior for unseen questions; the session pool is weight-ordered.
 
 PRD: `_bmad-output/planning-artifacts/prd.md`
 

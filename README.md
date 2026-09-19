@@ -2,7 +2,7 @@
 
 Personal mobile-first interview preparation SPA for frontend engineers. Daily habit tool to combat cognitive atrophy from AI-assisted workflows.
 
-Covers **trainee → principal/staff engineer** depth across 18 topic categories (952 bilingual RU/EN questions) with an adaptive algorithm: every answered question carries its own weight (wrong → asked more, right → asked less), and a category you keep failing lifts the questions in it you have not seen yet. The whole pool of a session is ordered by those weights, so the weak spots come first even when you take "all available".
+Covers **trainee → principal/staff engineer** depth across 20 topic categories (1217 bilingual RU/EN questions) with an adaptive algorithm: every answered question carries its own weight (wrong → asked more, right → asked less), and a category you keep failing lifts the questions in it you have not seen yet. The whole pool of a session is ordered by those weights, so the weak spots come first even when you take "all available".
 
 ## Stack
 
