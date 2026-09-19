@@ -41,6 +41,16 @@ describe('HomePage', () => {
         buttons.forEach((btn) => expect(btn).toBeDisabled());
     });
 
+    it('opens with the product name as the page heading', () => {
+        renderWithProviders(<HomePage />);
+        expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('InterviewOS');
+    });
+
+    it('says what the app is before the category grid', () => {
+        renderWithProviders(<HomePage />);
+        expect(screen.getByText(/pick your topics/i)).toBeInTheDocument();
+    });
+
     it('has no accessibility violations', async () => {
         const { container } = renderWithProviders(<HomePage />);
         const results = await axe(container);
