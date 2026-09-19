@@ -371,6 +371,40 @@ describe('SessionPlayPage — the end dialog states what ending will do', () => 
     });
 });
 
+describe('SessionPlayPage — focus after the end dialog closes', () => {
+    it('returns focus to the control that opened the dialog when Escape closes it', async () => {
+        useSessionStore.setState({ questionList: [singleChoiceQuestion], answers: {} });
+        renderPlayPage();
+
+        const trigger = screen.getByRole('button', { name: /End session/i });
+        trigger.focus();
+        fireEvent.click(trigger);
+        expect(await screen.findByRole('dialog')).toBeInTheDocument();
+
+        fireEvent.keyDown(document, { key: 'Escape' });
+
+        await waitFor(() => {
+            expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+        });
+        expect(document.activeElement).toBe(trigger);
+    });
+
+    it('returns focus to the trigger when the dialog is dismissed from its own button', async () => {
+        useSessionStore.setState({ questionList: [singleChoiceQuestion], answers: {} });
+        renderPlayPage();
+
+        const trigger = screen.getByRole('button', { name: /End session/i });
+        trigger.focus();
+        fireEvent.click(trigger);
+        fireEvent.click(await screen.findByRole('button', { name: /Continue session/i }));
+
+        await waitFor(() => {
+            expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+        });
+        expect(document.activeElement).toBe(trigger);
+    });
+});
+
 describe('SessionPlayPage — leaving through browser navigation', () => {
     it('asks for confirmation before a Back gesture abandons a live session', async () => {
         useSessionStore.setState({

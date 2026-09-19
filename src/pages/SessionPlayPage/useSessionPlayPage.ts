@@ -33,6 +33,10 @@ export interface SessionPlayPageState {
     bugFindingCanSubmit: boolean;
 
     isEndDialogOpen: boolean;
+    /** Attach to the control that opens the end dialog so focus can come back to it. */
+    endTriggerRef: RefObject<HTMLButtonElement | null>;
+    /** Hand to the dialog's close-autofocus hook: focus belongs back on the trigger. */
+    restoreEndTriggerFocus: (event: Event) => void;
     /** True once something is answered: ending now produces a scored summary, not a discard. */
     willScoreOnEnd: boolean;
     openEndDialog: () => void;
@@ -129,6 +133,15 @@ export function useSessionPlayPage(): SessionPlayPageState {
 
     // A blocked navigation IS the request to leave — no separate state to raise.
     const isEndDialogOpen = isEndDialogRequested || blocker.state === 'blocked';
+
+    const endTriggerRef = useRef<HTMLButtonElement>(null);
+
+    // Closing the dialog otherwise drops focus on the body, so the next Tab restarts at the
+    // skip link at the top of the document instead of where the keyboard user was.
+    const restoreEndTriggerFocus = useCallback((event: Event) => {
+        event.preventDefault();
+        endTriggerRef.current?.focus();
+    }, []);
 
     const openEndDialog = useCallback(() => setIsEndDialogRequested(true), []);
     const closeEndDialog = useCallback(() => {
@@ -321,6 +334,8 @@ export function useSessionPlayPage(): SessionPlayPageState {
         bugFindingCanSubmit,
 
         isEndDialogOpen,
+        endTriggerRef,
+        restoreEndTriggerFocus,
         willScoreOnEnd,
         openEndDialog,
         closeEndDialog,

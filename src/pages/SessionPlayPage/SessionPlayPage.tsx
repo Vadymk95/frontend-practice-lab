@@ -43,6 +43,8 @@ export const SessionPlayPage: FC = () => {
         codeCompletionAllFilled,
         bugFindingCanSubmit,
         isEndDialogOpen,
+        endTriggerRef,
+        restoreEndTriggerFocus,
         willScoreOnEnd,
         openEndDialog,
         closeEndDialog,
@@ -99,6 +101,7 @@ export const SessionPlayPage: FC = () => {
         <div className="flex flex-col gap-4 pb-24 lg:pb-0">
             <div className="flex items-center justify-between gap-3">
                 <Button
+                    ref={endTriggerRef}
                     variant="ghost"
                     size="sm"
                     onClick={openEndDialog}
@@ -136,7 +139,7 @@ export const SessionPlayPage: FC = () => {
             )}
 
             <Dialog open={isEndDialogOpen} onOpenChange={(open) => !open && closeEndDialog()}>
-                <DialogContent>
+                <DialogContent onCloseAutoFocus={restoreEndTriggerFocus}>
                     <DialogHeader>
                         <DialogTitle>{tSession('end.dialog.title')}</DialogTitle>
                         <DialogDescription>
