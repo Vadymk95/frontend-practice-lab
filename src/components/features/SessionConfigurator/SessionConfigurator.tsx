@@ -10,6 +10,7 @@ import { useCategoryDisplay } from '@/hooks/data/useCategoryDisplay';
 import type { SessionConfig } from '@/lib/storage/types';
 import { cn } from '@/lib/utils';
 
+import { useRovingRadioGroup } from './useRovingRadioGroup';
 import { useSessionConfigurator } from './useSessionConfigurator';
 
 type Difficulty = SessionConfig['difficulty'];
@@ -17,6 +18,10 @@ type Mode = SessionConfig['mode'];
 type Order = SessionConfig['order'];
 
 const HINT_ID = 'configurator-hint';
+
+const DIFFICULTY_OPTIONS: Difficulty[] = ['all', 'easy', 'medium', 'hard'];
+const MODE_OPTIONS: Mode[] = ['quiz', 'bug-finding', 'code-completion', 'all'];
+const ORDER_OPTIONS: Order[] = ['random', 'sequential'];
 
 interface SessionConfiguratorProps {
     initialConfig?: SessionConfig;
@@ -51,6 +56,14 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
         handleSavePreset
     } = useSessionConfigurator(initialConfig);
 
+    const difficultyRadioProps = useRovingRadioGroup(
+        DIFFICULTY_OPTIONS,
+        difficulty,
+        handleDifficultyChange
+    );
+    const modeRadioProps = useRovingRadioGroup(MODE_OPTIONS, mode, handleModeChange);
+    const orderRadioProps = useRovingRadioGroup(ORDER_OPTIONS, order, handleOrderChange);
+
     if (isLoading) {
         return (
             <div role="status" aria-live="polite">
@@ -65,10 +78,6 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
             : availableCount === 0
               ? t('configurator.emptyState.message')
               : null;
-
-    const difficultyOptions: Difficulty[] = ['all', 'easy', 'medium', 'hard'];
-    const modeOptions: Mode[] = ['quiz', 'bug-finding', 'code-completion', 'all'];
-    const orderOptions: Order[] = ['random', 'sequential'];
 
     return (
         <div className="flex flex-col gap-6 pb-24 lg:pb-0">
@@ -164,13 +173,14 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
                     aria-label={t('configurator.difficulty.ariaLabel')}
                     className="flex gap-2"
                 >
-                    {difficultyOptions.map((d) => (
+                    {DIFFICULTY_OPTIONS.map((d) => (
                         <button
                             key={d}
                             type="button"
                             role="radio"
                             aria-checked={difficulty === d}
                             onClick={() => handleDifficultyChange(d)}
+                            {...difficultyRadioProps(d)}
                             className={`flex-1 py-2 text-sm border transition-colors ${
                                 difficulty === d
                                     ? 'border-accent-alt bg-accent-alt/10'
@@ -193,13 +203,14 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
                     aria-label={t('configurator.mode.ariaLabel')}
                     className="flex flex-wrap gap-2"
                 >
-                    {modeOptions.map((m) => (
+                    {MODE_OPTIONS.map((m) => (
                         <button
                             key={m}
                             type="button"
                             role="radio"
                             aria-checked={mode === m}
                             onClick={() => handleModeChange(m)}
+                            {...modeRadioProps(m)}
                             className={`px-3 py-2 text-sm border transition-colors ${
                                 mode === m ? 'border-accent-alt bg-accent-alt/10' : 'border-border'
                             }`}
@@ -242,13 +253,14 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
                     aria-label={t('configurator.order.ariaLabel')}
                     className="flex gap-2"
                 >
-                    {orderOptions.map((o) => (
+                    {ORDER_OPTIONS.map((o) => (
                         <button
                             key={o}
                             type="button"
                             role="radio"
                             aria-checked={order === o}
                             onClick={() => handleOrderChange(o)}
+                            {...orderRadioProps(o)}
                             className={`px-4 py-2 text-sm border transition-colors ${
                                 order === o ? 'border-accent-alt bg-accent-alt/10' : 'border-border'
                             }`}

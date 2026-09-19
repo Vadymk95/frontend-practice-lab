@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { renderHook, act, screen, within } from '@testing-library/react';
+import { renderHook, act, fireEvent, screen, within } from '@testing-library/react';
 import { createInstance } from 'i18next';
 import type { ReactNode } from 'react';
 import { initReactI18next } from 'react-i18next';
@@ -489,5 +489,95 @@ describe('SessionConfigurator — start affordance', () => {
         const label = screen.getByText('JavaScript');
         expect(label.className).not.toContain('break-words');
         expect(label.className).toContain('hyphens-manual');
+    });
+});
+
+describe('SessionConfigurator — filter radiogroups', () => {
+    beforeEach(() => {
+        vi.mocked(useCategories).mockReturnValue({
+            data: mockCategories,
+            isLoading: false,
+            isError: false
+        } as unknown as ReturnType<typeof useCategories>);
+    });
+
+    const difficultyGroup = () =>
+        screen.getByRole('radiogroup', { name: 'Select difficulty level' });
+
+    it('costs a single tab stop per filter group, landing on the selected option', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        const radios = within(difficultyGroup()).getAllByRole('radio');
+        const tabbable = radios.filter((radio) => radio.tabIndex === 0);
+        expect(tabbable).toHaveLength(1);
+        expect(tabbable[0]).toHaveAttribute('aria-checked', 'true');
+    });
+
+    it('moves the selection to the next option when the right arrow is pressed', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        const group = difficultyGroup();
+        const all = within(group).getByRole('radio', { name: 'All' });
+        act(() => all.focus());
+        fireEvent.keyDown(all, { key: 'ArrowRight' });
+
+        const easy = within(group).getByRole('radio', { name: 'Easy' });
+        expect(easy).toHaveAttribute('aria-checked', 'true');
+        expect(all).toHaveAttribute('aria-checked', 'false');
+        expect(document.activeElement).toBe(easy);
+    });
+
+    it('wraps to the last option when the left arrow is pressed on the first', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        const group = difficultyGroup();
+        const all = within(group).getByRole('radio', { name: 'All' });
+        act(() => all.focus());
+        fireEvent.keyDown(all, { key: 'ArrowLeft' });
+
+        const hard = within(group).getByRole('radio', { name: 'Hard' });
+        expect(hard).toHaveAttribute('aria-checked', 'true');
+        expect(document.activeElement).toBe(hard);
+    });
+
+    it('jumps to the first and last option with Home and End', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        const group = difficultyGroup();
+        const all = within(group).getByRole('radio', { name: 'All' });
+        act(() => all.focus());
+        fireEvent.keyDown(all, { key: 'End' });
+        expect(within(group).getByRole('radio', { name: 'Hard' })).toHaveAttribute(
+            'aria-checked',
+            'true'
+        );
+
+        fireEvent.keyDown(within(group).getByRole('radio', { name: 'Hard' }), { key: 'Home' });
+        expect(within(group).getByRole('radio', { name: 'All' })).toHaveAttribute(
+            'aria-checked',
+            'true'
+        );
+    });
+
+    it('arrows through the mode and order groups too', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        const modeGroup = screen.getByRole('radiogroup', { name: 'Select question mode' });
+        const modeRadios = within(modeGroup).getAllByRole('radio');
+        const checkedMode = modeRadios.find(
+            (radio) => radio.getAttribute('aria-checked') === 'true'
+        )!;
+        act(() => checkedMode.focus());
+        fireEvent.keyDown(checkedMode, { key: 'ArrowRight' });
+        expect(checkedMode).toHaveAttribute('aria-checked', 'false');
+
+        const orderGroup = screen.getByRole('radiogroup', { name: 'Select question order' });
+        const random = within(orderGroup).getByRole('radio', { name: 'Random' });
+        act(() => random.focus());
+        fireEvent.keyDown(random, { key: 'ArrowDown' });
+        expect(within(orderGroup).getByRole('radio', { name: 'Sequential' })).toHaveAttribute(
+            'aria-checked',
+            'true'
+        );
     });
 });
