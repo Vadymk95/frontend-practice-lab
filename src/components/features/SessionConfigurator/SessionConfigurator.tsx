@@ -20,7 +20,7 @@ type Order = SessionConfig['order'];
 const HINT_ID = 'configurator-hint';
 
 const DIFFICULTY_OPTIONS: Difficulty[] = ['all', 'easy', 'medium', 'hard'];
-const MODE_OPTIONS: Mode[] = ['quiz', 'bug-finding', 'code-completion', 'all'];
+const MODE_OPTIONS: Mode[] = ['all', 'quiz', 'bug-finding', 'code-completion'];
 const ORDER_OPTIONS: Order[] = ['random', 'sequential'];
 
 interface SessionConfiguratorProps {

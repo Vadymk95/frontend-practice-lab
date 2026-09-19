@@ -504,6 +504,16 @@ describe('SessionConfigurator — filter radiogroups', () => {
     const difficultyGroup = () =>
         screen.getByRole('radiogroup', { name: 'Select difficulty level' });
 
+    it('puts the unfiltered option first in every group that offers one', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        const firstOptionOf = (name: string) =>
+            within(screen.getByRole('radiogroup', { name })).getAllByRole('radio')[0];
+
+        expect(firstOptionOf('Select difficulty level')).toHaveTextContent('All');
+        expect(firstOptionOf('Select question mode')).toHaveTextContent('All');
+    });
+
     it('costs a single tab stop per filter group, landing on the selected option', () => {
         renderWithProviders(<SessionConfigurator />);
 
