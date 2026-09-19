@@ -1,5 +1,7 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
+
+import { renderWithProviders as render } from '@/test/test-utils';
 
 import { AnswerOption } from './AnswerOption';
 
@@ -104,7 +106,7 @@ describe('AnswerOption — checkbox variant', () => {
         expect(screen.getByText('✗')).toBeInTheDocument();
     });
 
-    it('shows no icon for isMissed option (correct but not selected)', () => {
+    it('ticks and names a correct option the reader did not pick', () => {
         render(
             <AnswerOption
                 {...defaultProps}
@@ -115,7 +117,8 @@ describe('AnswerOption — checkbox variant', () => {
                 isMissed={true}
             />
         );
-        expect(screen.queryByText('✓')).not.toBeInTheDocument();
+        expect(screen.getByText('✓')).toBeInTheDocument();
+        expect(screen.getByText('Missed correct answer')).toBeInTheDocument();
         expect(screen.queryByText('✗')).not.toBeInTheDocument();
     });
 

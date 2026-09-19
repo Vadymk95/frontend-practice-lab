@@ -56,7 +56,7 @@ export const BugFindingQuestion: FC<Props> = ({
             <CodeBlock code={question.code} lang={question.lang ?? DEFAULT_SNIPPET_LANG} />
 
             {question.options ? (
-                <div role="group" aria-label="Answer options">
+                <div role="group" aria-label={t('answerOptionsLabel')}>
                     {question.options.map((option, index) => (
                         <AnswerOption
                             key={`${question.id}-${index}`}

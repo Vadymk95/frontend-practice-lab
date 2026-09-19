@@ -557,3 +557,45 @@ describe('CodeCompletionQuestion — reference answer', () => {
         expect(container.textContent).not.toContain('[object Object]');
     });
 });
+
+describe('CodeCompletionQuestion — result in words, not only in colour', () => {
+    const submitWith = async (values: string[]) => {
+        let capturedSubmitFn: (() => void) | null = null;
+        const view = renderWithProviders(
+            <CodeCompletionQuestion
+                question={makeCodeCompletionQuestion()}
+                onSubmitRegister={(fn) => {
+                    capturedSubmitFn = fn;
+                }}
+                onAllBlanksFilled={vi.fn()}
+            />
+        );
+        const inputs = screen.getAllByRole('textbox');
+        values.forEach((value, i) => fireEvent.change(inputs[i]!, { target: { value } }));
+        await waitFor(() => expect(capturedSubmitFn).not.toBeNull());
+        await act(async () => {
+            capturedSubmitFn!();
+        });
+        return view;
+    };
+
+    it('announces the verdict in a polite live region', async () => {
+        await submitWith(['a', 'zzz']);
+
+        const status = await screen.findByRole('status');
+        expect(status).toHaveAttribute('aria-live', 'polite');
+        expect(status.textContent).toContain('Incorrect');
+    });
+
+    it('confirms a correct blank in words, not only with a green underline', async () => {
+        await submitWith(['a', 'zzz']);
+
+        await waitFor(() => {
+            const items = screen.getAllByRole('listitem').map((el) => el.textContent);
+            expect(items[0]).toContain('Blank 1');
+            expect(items[0]).toContain('Correct');
+            expect(items[1]).toContain('Blank 2');
+            expect(items[1]).toContain('Expected:');
+        });
+    });
+});

@@ -6,6 +6,7 @@ import type { CodeCompletionQuestion as CodeCompletionQuestionData } from '@/lib
 import { useLocalized } from '@/lib/i18n/localized';
 import { cn } from '@/lib/utils';
 
+import { AnswerVerdict } from '../AnswerVerdict';
 import { ExplanationPanel } from '../ExplanationPanel';
 import { useReferenceAnswer } from '../referenceAnswer';
 import { useCodeCompletionQuestion } from './useCodeCompletionQuestion';
@@ -33,9 +34,17 @@ export const CodeCompletionQuestion: FC<Props> = ({
     const pickReference = useReferenceAnswer();
     const { segments, blanksInput, isSubmitted, blankResults, onBlankChange, onSubmit } =
         useCodeCompletionQuestion({ question, isSkipped, onSubmitRegister, onAllBlanksFilled });
+    // A skipped question reveals the blanks instead of grading them, so it gets no verdict.
+    const status =
+        isSkipped || !isSubmitted || blankResults.length === 0
+            ? null
+            : blankResults.every((r) => r === 'correct')
+              ? ('correct' as const)
+              : ('incorrect' as const);
 
     return (
         <div className="flex flex-col gap-4">
+            <AnswerVerdict status={status} label={status === null ? '' : t(`verdict.${status}`)} />
             <div className="relative rounded-none border border-border bg-white font-mono text-sm dark:bg-[#0d1117]">
                 <div className="flex items-center border-b border-border px-3 py-1">
                     <span className="text-xs text-muted-foreground">
@@ -88,16 +97,21 @@ export const CodeCompletionQuestion: FC<Props> = ({
                 </pre>
             </div>
 
-            {isSubmitted && blankResults.some((r) => r === 'incorrect') && (
-                <ul className="text-xs space-y-1 mt-1">
-                    {blankResults.map((result, i) =>
-                        result === 'incorrect' ? (
-                            <li key={i} className="text-error">
-                                {t('codeCompletion.inputLabel', { index: i + 1 })}:{' '}
-                                {t('codeCompletion.expected')} <code>{question.blanks[i]}</code>
-                            </li>
-                        ) : null
-                    )}
+            {isSubmitted && !isSkipped && blankResults.length > 0 && (
+                <ul className="text-base space-y-1 mt-1">
+                    {blankResults.map((result, i) => (
+                        <li key={i} className={result === 'correct' ? 'text-accent' : 'text-error'}>
+                            <span aria-hidden="true">{result === 'correct' ? '✓' : '✗'}</span>{' '}
+                            {t('codeCompletion.inputLabel', { index: i + 1 })}:{' '}
+                            {result === 'correct' ? (
+                                t('verdict.correct')
+                            ) : (
+                                <>
+                                    {t('codeCompletion.expected')} <code>{question.blanks[i]}</code>
+                                </>
+                            )}
+                        </li>
+                    ))}
                 </ul>
             )}
 

@@ -1,4 +1,4 @@
-import { act, fireEvent, screen } from '@testing-library/react';
+import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { MultiChoiceQuestion } from '@/lib/data/schema';
@@ -390,5 +390,61 @@ describe('MultiChoiceQuestion — selection rule', () => {
             <MultiChoiceQuestionComponent question={makeQuestion()} {...defaultCallbacks} />
         );
         expect(screen.getByText('Select all that apply')).toBeInTheDocument();
+    });
+});
+
+describe('MultiChoiceQuestion — result in words, not only in colour', () => {
+    const checkWith = (question: MultiChoiceQuestion) => {
+        let checkFn: (() => void) | null = null;
+        renderWithProviders(
+            <MultiChoiceQuestionComponent
+                question={question}
+                onSelectionChange={vi.fn()}
+                onCheckRegister={(fn) => {
+                    checkFn = fn;
+                }}
+            />
+        );
+        return () => act(() => checkFn?.());
+    };
+
+    it('says how many of the correct options a partial pick found', async () => {
+        forcedOrder.value = [0, 1, 2, 3];
+        const check = checkWith(makeQuestion());
+
+        fireEvent.click(screen.getAllByRole('checkbox')[0]!);
+        check();
+
+        const status = await screen.findByRole('status');
+        expect(status).toHaveAttribute('aria-live', 'polite');
+        expect(status.textContent).toContain('Incorrect');
+        expect(status.textContent).toContain('1');
+        expect(status.textContent).toContain('2');
+    });
+
+    it('marks a correct option the reader missed as missed, not as a win', async () => {
+        forcedOrder.value = [0, 1, 2, 3];
+        const check = checkWith(makeQuestion());
+
+        fireEvent.click(screen.getAllByRole('checkbox')[0]!);
+        check();
+
+        await waitFor(() => {
+            const options = screen.getAllByRole('checkbox');
+            expect(options[0]!.textContent).toContain('Your answer');
+            expect(options[2]!.textContent).toContain('Missed correct answer');
+        });
+    });
+
+    it('drops the selection hint once the answer is checked', async () => {
+        forcedOrder.value = [0, 1, 2, 3];
+        const check = checkWith(makeQuestion());
+
+        fireEvent.click(screen.getAllByRole('checkbox')[0]!);
+        check();
+
+        await waitFor(() =>
+            expect(screen.queryByText('Select all that apply')).not.toBeInTheDocument()
+        );
     });
 });

@@ -341,3 +341,14 @@ describe('QuestionCard — option order across un-answering', () => {
         expect(optionTexts()).toEqual(before);
     });
 });
+
+describe('QuestionCard — question change announcement', () => {
+    it('announces which question is on screen in a polite live region', () => {
+        renderWithProviders(<QuestionCard />);
+        const regions = screen
+            .getAllByRole('status')
+            .filter((el) => el.textContent?.includes('Question 1 of 1'));
+        expect(regions).toHaveLength(1);
+        expect(regions[0]).toHaveAttribute('aria-live', 'polite');
+    });
+});
