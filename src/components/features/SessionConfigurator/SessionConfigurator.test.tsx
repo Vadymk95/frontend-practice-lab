@@ -7,6 +7,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { ManifestEntry } from '@/hooks/data/useCategories';
+import type { SessionConfig } from '@/lib/storage/types';
 import { useCategories } from '@/hooks/data/useCategories';
 import { useSessionStore } from '@/store/session';
 import { renderWithProviders } from '@/test/test-utils';
@@ -14,6 +15,7 @@ import { renderWithProviders } from '@/test/test-utils';
 import { SessionConfigurator } from './SessionConfigurator';
 import {
     computeAvailableCount,
+    generatePresetName,
     getFilteredCategoryCount,
     useSessionConfigurator
 } from './useSessionConfigurator';
@@ -588,6 +590,51 @@ describe('SessionConfigurator — filter radiogroups', () => {
         expect(within(orderGroup).getByRole('radio', { name: 'Sequential' })).toHaveAttribute(
             'aria-checked',
             'true'
+        );
+    });
+});
+
+describe('generatePresetName', () => {
+    const translatorFor = async (lng: 'en' | 'ru') => {
+        const instance = createInstance();
+        await instance.use(initReactI18next).init({
+            lng,
+            fallbackLng: lng,
+            ns: ['home'],
+            defaultNS: 'home',
+            resources: { en: { home: enHome }, ru: { home: ruHome } },
+            interpolation: { escapeValue: false }
+        });
+        return instance.t;
+    };
+
+    const configWith = (questionCount: number): SessionConfig => ({
+        categories: ['javascript'],
+        questionCount,
+        difficulty: 'hard',
+        mode: 'all',
+        order: 'random',
+        timerEnabled: false
+    });
+
+    it('names a preset with the translated difficulty and a counted unit in Russian', async () => {
+        const t = await translatorFor('ru');
+        expect(generatePresetName(configWith(12), mockCategories, t)).toBe(
+            'JavaScript · Сложный · 12 вопросов'
+        );
+    });
+
+    it('uses the Russian singular when the preset holds one question', async () => {
+        const t = await translatorFor('ru');
+        expect(generatePresetName(configWith(1), mockCategories, t)).toBe(
+            'JavaScript · Сложный · 1 вопрос'
+        );
+    });
+
+    it('names a preset with the translated difficulty and a counted unit in English', async () => {
+        const t = await translatorFor('en');
+        expect(generatePresetName(configWith(12), mockCategories, t)).toBe(
+            'JavaScript · Hard · 12 questions'
         );
     });
 });

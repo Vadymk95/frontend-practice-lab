@@ -1,4 +1,5 @@
 import { useCallback, useDeferredValue, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import type { ManifestEntry } from '@/hooks/data/useCategories';
@@ -14,9 +15,13 @@ type Difficulty = SessionConfig['difficulty'];
 type Mode = SessionConfig['mode'];
 type Order = SessionConfig['order'];
 
+/** Translator shape `generatePresetName` needs — the home namespace's `t`. */
+type PresetTranslator = (key: string, options?: { count: number }) => string;
+
 export function generatePresetName(
     config: SessionConfig,
     categories: ManifestEntry[],
+    t: PresetTranslator,
     resolveName: (slug: string, fallback?: string) => string = (_slug, fallback) =>
         fallback ?? _slug
 ): string {
@@ -24,7 +29,9 @@ export function generatePresetName(
         .filter((c) => config.categories.includes(c.slug))
         .map((c) => resolveName(c.slug, c.displayName));
     const catPart = catLabels.slice(0, 2).join('+') + (catLabels.length > 2 ? '+…' : '');
-    return `${catPart} · ${config.difficulty} · ${config.questionCount}q`;
+    const difficulty = t(`configurator.difficulty.${config.difficulty}`);
+    const count = t('preset.questionCount', { count: config.questionCount });
+    return `${catPart} · ${difficulty} · ${count}`;
 }
 
 const MODE_KEY = {
@@ -68,6 +75,7 @@ export function computeAvailableCount(
 
 export function useSessionConfigurator(initialConfig?: SessionConfig) {
     const { data: categories = [], isLoading } = useCategories();
+    const { t } = useTranslation('home');
     const navigate = useNavigate();
     const setConfig = useSessionStore.use.setConfig();
     const savePreset = usePresetStore.use.savePreset();
@@ -201,7 +209,7 @@ export function useSessionConfigurator(initialConfig?: SessionConfig) {
             order,
             timerEnabled
         };
-        const name = generatePresetName(config, categories, getCategoryName);
+        const name = generatePresetName(config, categories, t, getCategoryName);
         savePreset(config, name);
     }, [
         isStartEnabled,
@@ -214,7 +222,8 @@ export function useSessionConfigurator(initialConfig?: SessionConfig) {
         timerEnabled,
         categories,
         savePreset,
-        getCategoryName
+        getCategoryName,
+        t
     ]);
 
     return {
