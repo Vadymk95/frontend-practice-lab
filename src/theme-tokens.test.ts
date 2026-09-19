@@ -53,3 +53,20 @@ describe('muted text tokens', () => {
         expect(ratio).toBeGreaterThanOrEqual(AA_NORMAL_TEXT);
     });
 });
+
+describe('code scroll affordance', () => {
+    const block = css.slice(
+        css.indexOf('.code-scroll {'),
+        css.indexOf('}', css.indexOf('.code-scroll {'))
+    );
+
+    it('is declared as an always-visible thin scrollbar', () => {
+        expect(css).toContain('.code-scroll {');
+        expect(block).toContain('scrollbar-width: thin');
+        expect(block).toContain('scrollbar-color');
+    });
+
+    it('pins the edge shadows to the element and the covers to the content', () => {
+        expect(block).toContain('background-attachment: local, local, scroll, scroll');
+    });
+});

@@ -165,3 +165,36 @@ html:not(.dark) {
 .scrollbar-themed::-webkit-scrollbar-corner {
     background: transparent;
 }
+
+/* Horizontal- and vertical-overflow affordance for code. macOS and iOS overlay scrollbars
+   are invisible at rest, so a clipped snippet looks complete — on a bug-finding question the
+   hidden part can be the bug. Two edge shadows are pinned to the element (`scroll`) and two
+   background-coloured covers travel with the content (`local`), so a shadow disappears exactly
+   when that edge is reached. The thin scrollbar is declared too: setting `scrollbar-color`
+   opts the element out of overlay scrollbars. */
+.code-scroll {
+    --code-scroll-bg: #ffffff;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-brd) transparent;
+    background-image:
+        linear-gradient(to right, var(--code-scroll-bg), transparent),
+        linear-gradient(to left, var(--code-scroll-bg), transparent),
+        linear-gradient(to right, rgba(0, 0, 0, 0.28), transparent),
+        linear-gradient(to left, rgba(0, 0, 0, 0.28), transparent);
+    background-position:
+        left center,
+        right center,
+        left center,
+        right center;
+    background-repeat: no-repeat;
+    background-size:
+        28px 100%,
+        28px 100%,
+        14px 100%,
+        14px 100%;
+    background-attachment: local, local, scroll, scroll;
+}
+
+:where(.dark) .code-scroll {
+    --code-scroll-bg: #0d1117;
+}
