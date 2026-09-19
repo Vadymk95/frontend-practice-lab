@@ -2,6 +2,7 @@
 
 ## Navigation
 
+Gate law, lanes, must-not-touch list: `AGENTS.md` (read first).
 Always read `.cursor/brain/PROJECT_CONTEXT.md` before any task.
 Architecture map: `.cursor/brain/MAP.md`
 Danger zones: `.cursor/brain/SKELETONS.md`
@@ -27,16 +28,9 @@ Dark mode via `.dark` class. Animations via `tw-animate-css`.
 
 ## Post-Edit Commands
 
-After every batch of edits, run in order:
-
-```bash
-npm run format        # auto-fix formatting — run BEFORE lint
-npm run lint
-npx tsc --noEmit
-npm run test
-```
-
-**Rule:** Always run `npm run format` (not just `format:check`) after editing files. Do not leave formatting errors for the user to fix manually.
+After every change: `npm run verify:iter` (types + changed tests, seconds), and `npm run format`
+before staging. The full chain runs once, at push (`verify:ci`) — the moments and what each one
+runs are owned by `AGENTS.md` § The gate; this file does not restate them.
 
 ## Commit Format
 

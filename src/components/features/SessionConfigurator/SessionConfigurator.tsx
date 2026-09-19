@@ -16,6 +16,8 @@ type Difficulty = SessionConfig['difficulty'];
 type Mode = SessionConfig['mode'];
 type Order = SessionConfig['order'];
 
+const HINT_ID = 'configurator-hint';
+
 interface SessionConfiguratorProps {
     initialConfig?: SessionConfig;
 }
@@ -57,6 +59,13 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
         );
     }
 
+    const hint =
+        selectedCategories.length === 0
+            ? t('configurator.hint.selectCategory')
+            : availableCount === 0
+              ? t('configurator.emptyState.message')
+              : null;
+
     const difficultyOptions: Difficulty[] = ['all', 'easy', 'medium', 'hard'];
     const modeOptions: Mode[] = ['quiz', 'bug-finding', 'code-completion', 'all'];
     const orderOptions: Order[] = ['random', 'sequential'];
@@ -83,7 +92,7 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
                     <div
                         role="group"
                         aria-label={t('configurator.categories.ariaLabel')}
-                        aria-describedby="configurator-hint"
+                        aria-describedby={hint ? HINT_ID : undefined}
                         className="grid grid-cols-2 gap-2 sm:grid-cols-3"
                     >
                         {categories.map((cat) => {
@@ -106,7 +115,7 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
                                                 count === 0 && 'opacity-50'
                                             )}
                                         >
-                                            <span className="min-w-0 flex-1 break-words leading-tight">
+                                            <span className="min-w-0 flex-1 hyphens-manual wrap-normal leading-tight">
                                                 {getCategoryName(cat.slug, cat.displayName)}
                                             </span>
                                             <span className="flex items-center gap-1 shrink-0">
@@ -264,48 +273,44 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
                 </div>
             </section>
 
-            {/* State messages: only shown when something requires user attention */}
-            {(selectedCategories.length === 0 || availableCount === 0) && (
-                <div
-                    id="configurator-hint"
-                    aria-live="polite"
-                    aria-atomic="true"
-                    className="text-sm text-muted-foreground"
-                >
-                    {selectedCategories.length === 0
-                        ? t('configurator.hint.selectCategory')
-                        : t('configurator.emptyState.message')}
-                </div>
-            )}
-
-            {/* Sticky Start Button (mobile) — icon-only Save preset keeps Start dominant */}
-            <div className="fixed bottom-0 left-0 right-0 border-t border-border bg-surface px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] flex items-center gap-2 lg:hidden">
-                {isStartEnabled && (
-                    <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={handleSavePreset}
-                        aria-label={t('configurator.savePreset')}
-                        title={t('configurator.savePreset')}
+            {/* One start bar for both layouts: fixed above the fold on a phone, inline on
+                desktop. The hint lives in it so a disabled Start and its reason are always
+                on screen together — and so the group describes an element that exists. */}
+            <div className="fixed bottom-0 left-0 right-0 flex flex-col gap-2 border-t border-border bg-surface px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] lg:static lg:flex-row lg:items-center lg:justify-end lg:gap-3 lg:border-0 lg:bg-transparent lg:p-0">
+                {hint && (
+                    <p
+                        id={HINT_ID}
+                        aria-live="polite"
+                        aria-atomic="true"
+                        className="text-sm text-muted-foreground lg:flex-1"
                     >
-                        <Bookmark size={18} aria-hidden="true" />
-                    </Button>
+                        {hint}
+                    </p>
                 )}
-                <Button className="flex-1" disabled={!isStartEnabled} onClick={handleStart}>
-                    {t('configurator.start')}
-                </Button>
-            </div>
-
-            {/* Inline Start Button (desktop) */}
-            <div className="hidden lg:flex lg:justify-end lg:gap-2">
-                {isStartEnabled && (
-                    <Button variant="outline" onClick={handleSavePreset}>
-                        {t('configurator.savePreset')}
+                <div className="flex items-center gap-2">
+                    {isStartEnabled && (
+                        <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={handleSavePreset}
+                            aria-label={t('configurator.savePreset')}
+                            title={t('configurator.savePreset')}
+                            className="lg:w-auto lg:px-4"
+                        >
+                            <Bookmark size={18} aria-hidden="true" />
+                            <span className="sr-only lg:not-sr-only">
+                                {t('configurator.savePreset')}
+                            </span>
+                        </Button>
+                    )}
+                    <Button
+                        className="flex-1 lg:flex-none"
+                        disabled={!isStartEnabled}
+                        onClick={handleStart}
+                    >
+                        {t('configurator.start')}
                     </Button>
-                )}
-                <Button disabled={!isStartEnabled} onClick={handleStart}>
-                    {t('configurator.start')}
-                </Button>
+                </div>
             </div>
         </div>
     );

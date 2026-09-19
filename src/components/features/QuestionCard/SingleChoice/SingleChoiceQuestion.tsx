@@ -18,7 +18,7 @@ export const SingleChoiceQuestion: FC<Props> = ({
     isSkipped = false,
     onSelectOptionRegister
 }) => {
-    const { selectedIndex, isAnswered, onSelect } = useSingleChoiceQuestion(
+    const { selectedIndex, isAnswered, onSelect, displayOrder } = useSingleChoiceQuestion(
         question,
         isSkipped,
         onSelectOptionRegister
@@ -28,16 +28,17 @@ export const SingleChoiceQuestion: FC<Props> = ({
     return (
         <div className="flex flex-col gap-2">
             <div role="radiogroup" aria-label="Answer options">
-                {question.options.map((option, index) => (
+                {displayOrder.map((originalIndex, displayIndex) => (
                     <AnswerOption
-                        key={index}
-                        index={index}
-                        text={pick(option)}
-                        isSelected={selectedIndex === index}
+                        key={originalIndex}
+                        index={displayIndex}
+                        text={pick(question.options[originalIndex]!)}
+                        isSelected={selectedIndex === originalIndex}
                         isAnswered={isAnswered}
-                        isCorrect={question.correct === index}
-                        isDisabled={isAnswered && selectedIndex !== index}
-                        onSelect={() => onSelect(index)}
+                        isCorrect={question.correct === originalIndex}
+                        isDisabled={isAnswered && selectedIndex !== originalIndex}
+                        isSkippedReveal={isSkipped}
+                        onSelect={() => onSelect(displayIndex)}
                     />
                 ))}
             </div>

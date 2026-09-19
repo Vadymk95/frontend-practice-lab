@@ -15,23 +15,23 @@
         },
         "options": [
             {
-                "en": "A function that is called immediately after it is defined",
-                "ru": "Функция, которая вызывается сразу после своего определения"
-            },
-            {
                 "en": "A function that retains access to its lexical scope even when executed outside that scope",
                 "ru": "Функция, которая сохраняет доступ к своей лексической области видимости даже при выполнении вне этой области"
             },
             {
-                "en": "A function with no return value",
-                "ru": "Функция без возвращаемого значения"
-            },
-            {
                 "en": "A built-in JavaScript method for closing browser tabs",
                 "ru": "Встроенный метод JavaScript для закрытия вкладок браузера"
+            },
+            {
+                "en": "A function that is called immediately after it is defined",
+                "ru": "Функция, которая вызывается сразу после своего определения"
+            },
+            {
+                "en": "A function with no return value",
+                "ru": "Функция без возвращаемого значения"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "js-hoisting-001",
@@ -49,8 +49,8 @@
         },
         "options": [
             {
-                "en": "5",
-                "ru": "5"
+                "en": "null",
+                "ru": "null"
             },
             {
                 "en": "undefined",
@@ -61,8 +61,8 @@
                 "ru": "ReferenceError"
             },
             {
-                "en": "null",
-                "ru": "null"
+                "en": "5",
+                "ru": "5"
             }
         ],
         "correct": 1
@@ -83,23 +83,23 @@
         },
         "options": [
             {
-                "en": "Using `.catch()` at the end of the chain",
-                "ru": "Использование `.catch()` в конце цепочки"
+                "en": "Using try/catch inside an async function",
+                "ru": "Использование try/catch внутри async-функции"
             },
             {
                 "en": "Using the second argument of `.then(onFulfilled, onRejected)`",
                 "ru": "Использование второго аргумента `.then(onFulfilled, onRejected)`"
             },
             {
-                "en": "Using try/catch inside an async function",
-                "ru": "Использование try/catch внутри async-функции"
-            },
-            {
                 "en": "Using `.finally()` to handle rejections",
                 "ru": "Использование `.finally()` для обработки отклонений"
+            },
+            {
+                "en": "Using `.catch()` at the end of the chain",
+                "ru": "Использование `.catch()` в конце цепочки"
             }
         ],
-        "correct": [0, 1, 2]
+        "correct": [0, 1, 3]
     },
     {
         "id": "js-event-loop-001",
@@ -117,6 +117,10 @@
         },
         "options": [
             {
+                "en": "queueMicrotask() callbacks",
+                "ru": "Коллбэки queueMicrotask()"
+            },
+            {
                 "en": "Promise callbacks (.then/.catch)",
                 "ru": "Коллбэки Promise (.then/.catch)"
             },
@@ -125,15 +129,11 @@
                 "ru": "Коллбэки setTimeout"
             },
             {
-                "en": "queueMicrotask() callbacks",
-                "ru": "Коллбэки queueMicrotask()"
-            },
-            {
                 "en": "setInterval callbacks",
                 "ru": "Коллбэки setInterval"
             }
         ],
-        "correct": [0, 2]
+        "correct": [0, 1]
     },
     {
         "id": "js-bug-typeof-001",
@@ -151,7 +151,8 @@
         },
         "code": "function isObject(value) {\n  return typeof value === 'object';\n}",
         "correct": "null passes the check because typeof null === 'object'",
-        "referenceAnswer": "The function returns true for null because typeof null === 'object' is a well-known JavaScript bug. Fix: return value !== null && typeof value === 'object';"
+        "referenceAnswer": "The function returns true for null because typeof null === 'object' is a well-known JavaScript bug. Fix: return value !== null && typeof value === 'object';",
+        "lang": "javascript"
     },
     {
         "id": "js-template-001",
@@ -160,16 +161,17 @@
         "difficulty": "easy",
         "tags": ["template-literals", "strings"],
         "question": {
-            "en": "Complete the tagged template literal to return the string in uppercase:",
-            "ru": "Дополните tagged template literal так, чтобы он возвращал строку в верхнем регистре:"
+            "en": "Complete the tagged template literal so interpolated values are upper-cased with the locale-independent method:",
+            "ru": "Дополните tagged template literal так, чтобы интерполируемые значения приводились к верхнему регистру locale-independent методом:"
         },
         "explanation": {
-            "en": "Tagged template literals receive the string parts and interpolated values separately. Calling .toUpperCase() on each value produces the uppercase output.",
-            "ru": "Tagged template literals получают строковые фрагменты и интерполируемые значения отдельно. Вызов .toUpperCase() на каждом значении приводит их к верхнему регистру."
+            "en": "Tagged template literals receive the string parts and the interpolated values separately. Calling `.toUpperCase()` on each value produces the uppercase output; its locale-aware sibling `.toLocaleUpperCase()` can differ, for example in Turkish.",
+            "ru": "Tagged template literals получают строковые фрагменты и интерполируемые значения отдельно. Вызов `.toUpperCase()` на каждом значении приводит их к верхнему регистру; его locale-aware вариант `.toLocaleUpperCase()` может дать другой результат, например для турецкого языка."
         },
         "code": "function upper(strings, ...values) {\n  return strings.reduce((acc, str, i) => {\n    return acc + (values[i - 1] ? values[i - 1].__BLANK__ : '') + str;\n  });\n}\nconst name = 'world';\nconsole.log(upper`hello ${name}`); // 'hello WORLD'",
         "blanks": ["toUpperCase()"],
-        "referenceAnswer": "values[i - 1].toUpperCase() converts each interpolated value to uppercase before concatenating."
+        "referenceAnswer": "values[i - 1].toUpperCase() converts each interpolated value to uppercase before concatenating. toLocaleUpperCase() gives the same output here but applies locale-specific mappings (Turkish 'i' becomes 'İ'), so only toUpperCase() is graded.",
+        "lang": "javascript"
     },
     {
         "id": "js-scope-001",
@@ -195,12 +197,12 @@
                 "ru": "`var` имеет функциональную область видимости, `let` — блочную"
             },
             {
-                "en": "Both are block-scoped",
-                "ru": "Оба имеют блочную область видимости"
-            },
-            {
                 "en": "Both are function-scoped",
                 "ru": "Оба имеют функциональную область видимости"
+            },
+            {
+                "en": "Both are block-scoped",
+                "ru": "Оба имеют блочную область видимости"
             }
         ],
         "correct": 1
@@ -221,6 +223,10 @@
         },
         "options": [
             {
+                "en": "Returns the value from the outer scope",
+                "ru": "Вернётся значение из внешней области видимости"
+            },
+            {
                 "en": "Returns `undefined`",
                 "ru": "Вернётся `undefined`"
             },
@@ -231,13 +237,9 @@
             {
                 "en": "Throws a ReferenceError (Temporal Dead Zone)",
                 "ru": "Будет выброшен ReferenceError (Temporal Dead Zone)"
-            },
-            {
-                "en": "Returns the value from the outer scope",
-                "ru": "Вернётся значение из внешней области видимости"
             }
         ],
-        "correct": 2
+        "correct": 3
     },
     {
         "id": "js-coercion-001",
@@ -255,23 +257,23 @@
         },
         "options": [
             {
-                "en": "3",
-                "ru": "3"
+                "en": "TypeError",
+                "ru": "TypeError"
             },
             {
-                "en": "'12'",
-                "ru": "'12'"
+                "en": "3",
+                "ru": "3"
             },
             {
                 "en": "NaN",
                 "ru": "NaN"
             },
             {
-                "en": "TypeError",
-                "ru": "TypeError"
+                "en": "'12'",
+                "ru": "'12'"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "js-equality-001",
@@ -293,19 +295,19 @@
                 "ru": "false"
             },
             {
+                "en": "ReferenceError",
+                "ru": "ReferenceError"
+            },
+            {
                 "en": "true",
                 "ru": "true"
             },
             {
                 "en": "TypeError",
                 "ru": "TypeError"
-            },
-            {
-                "en": "ReferenceError",
-                "ru": "ReferenceError"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "js-array-001",
@@ -323,23 +325,23 @@
         },
         "options": [
             {
-                "en": "`map()`",
-                "ru": "`map()`"
-            },
-            {
-                "en": "`reduce()`",
-                "ru": "`reduce()`"
-            },
-            {
                 "en": "`filter()`",
                 "ru": "`filter()`"
             },
             {
                 "en": "`find()`",
                 "ru": "`find()`"
+            },
+            {
+                "en": "`reduce()`",
+                "ru": "`reduce()`"
+            },
+            {
+                "en": "`map()`",
+                "ru": "`map()`"
             }
         ],
-        "correct": 2
+        "correct": 0
     },
     {
         "id": "js-destructuring-001",
@@ -357,8 +359,8 @@
         },
         "options": [
             {
-                "en": "undefined",
-                "ru": "undefined"
+                "en": "ReferenceError",
+                "ru": "ReferenceError"
             },
             {
                 "en": "null",
@@ -369,8 +371,8 @@
                 "ru": "10"
             },
             {
-                "en": "ReferenceError",
-                "ru": "ReferenceError"
+                "en": "undefined",
+                "ru": "undefined"
             }
         ],
         "correct": 2
@@ -391,23 +393,23 @@
         },
         "options": [
             {
-                "en": "'{\"a\":undefined,\"b\":1}'",
-                "ru": "'{\"a\":undefined,\"b\":1}'"
-            },
-            {
-                "en": "'{\"b\":1}'",
-                "ru": "'{\"b\":1}'"
-            },
-            {
                 "en": "'{}'",
                 "ru": "'{}'"
             },
             {
+                "en": "'{\"a\":undefined,\"b\":1}'",
+                "ru": "'{\"a\":undefined,\"b\":1}'"
+            },
+            {
                 "en": "TypeError",
                 "ru": "TypeError"
+            },
+            {
+                "en": "'{\"b\":1}'",
+                "ru": "'{\"b\":1}'"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "js-typeof-001",
@@ -429,19 +431,19 @@
                 "ru": "'object'"
             },
             {
-                "en": "'function'",
-                "ru": "'function'"
-            },
-            {
                 "en": "'callable'",
                 "ru": "'callable'"
+            },
+            {
+                "en": "'function'",
+                "ru": "'function'"
             },
             {
                 "en": "'undefined'",
                 "ru": "'undefined'"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "js-prototype-001",
@@ -459,12 +461,12 @@
         },
         "options": [
             {
-                "en": "Creates a deep copy of `proto`",
-                "ru": "Создаёт глубокую копию `proto`"
-            },
-            {
                 "en": "Creates a new object whose prototype is `proto`",
                 "ru": "Создаёт новый объект, прототипом которого является `proto`"
+            },
+            {
+                "en": "Creates a deep copy of `proto`",
+                "ru": "Создаёт глубокую копию `proto`"
             },
             {
                 "en": "Freezes `proto` to prevent mutations",
@@ -475,7 +477,7 @@
                 "ru": "Копирует все собственные свойства `proto` в новый объект"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "js-this-001",
@@ -493,23 +495,23 @@
         },
         "options": [
             {
-                "en": "The global object (window/globalThis)",
-                "ru": "Глобальному объекту (window/globalThis)"
+                "en": "The value of `this` from the enclosing lexical scope",
+                "ru": "Значению `this` из охватывающей лексической области видимости"
             },
             {
                 "en": "The object that calls the function",
                 "ru": "Объекту, который вызывает функцию"
             },
             {
-                "en": "The value of `this` from the enclosing lexical scope",
-                "ru": "Значению `this` из охватывающей лексической области видимости"
-            },
-            {
                 "en": "undefined",
                 "ru": "undefined"
+            },
+            {
+                "en": "The global object (window/globalThis)",
+                "ru": "Глобальному объекту (window/globalThis)"
             }
         ],
-        "correct": 2
+        "correct": 0
     },
     {
         "id": "js-date-001",
@@ -527,23 +529,23 @@
         },
         "options": [
             {
-                "en": "A Date object representing the current time",
-                "ru": "Объект Date, представляющий текущее время"
+                "en": "Seconds since the Unix epoch (1970-01-01 UTC), as an integer",
+                "ru": "Секунды, прошедшие с начала Unix epoch (1 января 1970 UTC)"
             },
             {
-                "en": "A string in ISO 8601 format",
-                "ru": "Строку в формате ISO 8601"
+                "en": "Milliseconds since the Unix epoch (1970-01-01 UTC)",
+                "ru": "Миллисекунды с начала Unix epoch (1 января 1970 UTC)"
             },
             {
-                "en": "The number of milliseconds elapsed since January 1, 1970 00:00:00 UTC",
-                "ru": "Количество миллисекунд, прошедших с 1 января 1970 года 00:00:00 UTC"
+                "en": "A Date object representing the current moment in time",
+                "ru": "Объект Date, представляющий текущий момент времени"
             },
             {
-                "en": "The current Unix timestamp in seconds",
-                "ru": "Текущий Unix-таймстамп в секундах"
+                "en": "The current time as a string in ISO 8601 format",
+                "ru": "Строку с текущим временем в формате ISO 8601"
             }
         ],
-        "correct": 2
+        "correct": 1
     },
     {
         "id": "js-hoisting-002",
@@ -552,8 +554,8 @@
         "difficulty": "medium",
         "tags": ["hoisting", "functions"],
         "question": {
-            "en": "What is the output of:\n```\nconsole.log(foo());\nfunction foo() { return 42; }\n```",
-            "ru": "Какой вывод у кода:\n```\nconsole.log(foo());\nfunction foo() { return 42; }\n```"
+            "en": "What is the output of this code?",
+            "ru": "Какой вывод у этого кода?"
         },
         "explanation": {
             "en": "Function declarations are fully hoisted — both the declaration and the body. This means `foo` is available and callable before its source position in the file.",
@@ -561,23 +563,25 @@
         },
         "options": [
             {
-                "en": "undefined",
-                "ru": "undefined"
-            },
-            {
                 "en": "ReferenceError",
                 "ru": "ReferenceError"
+            },
+            {
+                "en": "TypeError",
+                "ru": "TypeError"
             },
             {
                 "en": "42",
                 "ru": "42"
             },
             {
-                "en": "TypeError",
-                "ru": "TypeError"
+                "en": "undefined",
+                "ru": "undefined"
             }
         ],
-        "correct": 2
+        "correct": 2,
+        "code": "console.log(foo());\nfunction foo() { return 42; }",
+        "lang": "javascript"
     },
     {
         "id": "js-closure-002",
@@ -586,8 +590,8 @@
         "difficulty": "medium",
         "tags": ["closures", "loops", "var"],
         "question": {
-            "en": "What does this code log?\n```\nfor (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 0);\n}\n```",
-            "ru": "Что выведет этот код?\n```\nfor (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 0);\n}\n```"
+            "en": "What does this code log?",
+            "ru": "Что выведет этот код?"
         },
         "explanation": {
             "en": "Because `var` is function-scoped, all three closures share the same `i`. By the time the setTimeout callbacks execute, the loop has finished and `i` is 3. Using `let` instead would print 0, 1, 2.",
@@ -595,23 +599,25 @@
         },
         "options": [
             {
-                "en": "0, 1, 2",
-                "ru": "0, 1, 2"
-            },
-            {
-                "en": "0, 0, 0",
-                "ru": "0, 0, 0"
-            },
-            {
                 "en": "3, 3, 3",
                 "ru": "3, 3, 3"
             },
             {
                 "en": "undefined, undefined, undefined",
                 "ru": "undefined, undefined, undefined"
+            },
+            {
+                "en": "0, 1, 2",
+                "ru": "0, 1, 2"
+            },
+            {
+                "en": "0, 0, 0",
+                "ru": "0, 0, 0"
             }
         ],
-        "correct": 2
+        "correct": 0,
+        "code": "for (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 0);\n}",
+        "lang": "javascript"
     },
     {
         "id": "js-coercion-002",
@@ -629,23 +635,23 @@
         },
         "options": [
             {
-                "en": "false",
-                "ru": "false"
-            },
-            {
-                "en": "true",
-                "ru": "true"
+                "en": "ReferenceError",
+                "ru": "ReferenceError"
             },
             {
                 "en": "TypeError",
                 "ru": "TypeError"
             },
             {
-                "en": "ReferenceError",
-                "ru": "ReferenceError"
+                "en": "true",
+                "ru": "true"
+            },
+            {
+                "en": "false",
+                "ru": "false"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "js-async-001",
@@ -663,23 +669,23 @@
         },
         "options": [
             {
-                "en": "The raw value returned by the function body",
-                "ru": "Исходное значение, возвращённое телом функции"
-            },
-            {
-                "en": "A Promise, regardless of what the function body returns",
-                "ru": "Promise, независимо от того, что возвращает тело функции"
-            },
-            {
                 "en": "A Promise only if the function body uses `await`",
                 "ru": "Promise только если тело функции использует `await`"
             },
             {
                 "en": "undefined",
                 "ru": "undefined"
+            },
+            {
+                "en": "A Promise, regardless of what the function body returns",
+                "ru": "Promise, независимо от того, что возвращает тело функции"
+            },
+            {
+                "en": "The raw value returned by the function body",
+                "ru": "Исходное значение, возвращённое телом функции"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "js-this-002",
@@ -701,19 +707,19 @@
                 "ru": "`.call()` передаёт аргументы массивом, `.apply()` — по отдельности"
             },
             {
-                "en": "`.call()` passes arguments individually, `.apply()` passes them as an array",
-                "ru": "`.call()` передаёт аргументы по отдельности, `.apply()` — массивом"
-            },
-            {
                 "en": "They are identical — both accept an array",
                 "ru": "Они идентичны — оба принимают массив"
+            },
+            {
+                "en": "`.call()` passes arguments individually, `.apply()` passes them as an array",
+                "ru": "`.call()` передаёт аргументы по отдельности, `.apply()` — массивом"
             },
             {
                 "en": "`.call()` creates a bound copy, `.apply()` invokes immediately",
                 "ru": "`.call()` создаёт привязанную копию, `.apply()` вызывает немедленно"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "js-modules-001",
@@ -731,6 +737,10 @@
         },
         "options": [
             {
+                "en": "ESM imports are statically analyzed and produce live bindings",
+                "ru": "Импорты ESM статически анализируются и создают live bindings"
+            },
+            {
                 "en": "ESM uses `require()` and `module.exports`",
                 "ru": "ESM использует `require()` и `module.exports`"
             },
@@ -739,15 +749,11 @@
                 "ru": "Импорты ESM по умолчанию динамические"
             },
             {
-                "en": "ESM imports are statically analyzed and produce live bindings",
-                "ru": "Импорты ESM статически анализируются и создают live bindings"
-            },
-            {
                 "en": "CJS supports top-level `await`",
                 "ru": "CJS поддерживает top-level `await`"
             }
         ],
-        "correct": 2
+        "correct": 0
     },
     {
         "id": "js-generator-001",
@@ -769,19 +775,19 @@
                 "ru": "Возвращаемое значение функции"
             },
             {
-                "en": "An object `{ value, done }` where `value` is the yielded value",
-                "ru": "Объект `{ value, done }`, где `value` — это значение, переданное через yield"
+                "en": "The generator function itself",
+                "ru": "Саму функцию-генератор"
             },
             {
                 "en": "A Promise that resolves to the yielded value",
                 "ru": "Promise, который резолвится в yielded-значение"
             },
             {
-                "en": "The generator function itself",
-                "ru": "Саму функцию-генератор"
+                "en": "An object `{ value, done }` where `value` is the yielded value",
+                "ru": "Объект `{ value, done }`, где `value` — это значение, переданное через yield"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "js-array-002",
@@ -807,12 +813,12 @@
                 "ru": "6"
             },
             {
-                "en": "undefined",
-                "ru": "undefined"
-            },
-            {
                 "en": "NaN",
                 "ru": "NaN"
+            },
+            {
+                "en": "undefined",
+                "ru": "undefined"
             }
         ],
         "correct": 1
@@ -833,6 +839,10 @@
         },
         "options": [
             {
+                "en": "`Number.isNaN(value)`",
+                "ru": "`Number.isNaN(value)`"
+            },
+            {
                 "en": "`value === NaN`",
                 "ru": "`value === NaN`"
             },
@@ -841,15 +851,11 @@
                 "ru": "`value == NaN`"
             },
             {
-                "en": "`Number.isNaN(value)`",
-                "ru": "`Number.isNaN(value)`"
-            },
-            {
                 "en": "`typeof value === 'NaN'`",
                 "ru": "`typeof value === 'NaN'`"
             }
         ],
-        "correct": 2
+        "correct": 0
     },
     {
         "id": "js-prototype-002",
@@ -901,23 +907,23 @@
         },
         "options": [
             {
-                "en": "To bypass the Proxy and access the property directly",
-                "ru": "Чтобы обойти Proxy и обратиться к свойству напрямую"
+                "en": "To forward the get to the target with the correct `receiver`",
+                "ru": "Чтобы пробросить get в target с правильным `receiver`"
             },
             {
-                "en": "To properly forward the get operation respecting the original `this` binding and prototype chain",
-                "ru": "Чтобы корректно пробросить операцию get, сохранив исходную привязку `this` и цепочку прототипов"
+                "en": "To check whether the property exists on the target object",
+                "ru": "Чтобы проверить, есть ли такое свойство у самого target"
             },
             {
-                "en": "To check if a property exists on the target",
-                "ru": "Чтобы проверить, существует ли свойство у target"
+                "en": "To read the property from the target, skipping its prototype chain",
+                "ru": "Чтобы прочитать свойство у target в обход цепочки прототипов"
             },
             {
-                "en": "To create a new Proxy on the accessed property",
-                "ru": "Чтобы создать новый Proxy на запрашиваемом свойстве"
+                "en": "To wrap the value of the accessed property in a new Proxy",
+                "ru": "Чтобы обернуть значение запрошенного свойства в новый Proxy"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "js-scope-003",
@@ -935,6 +941,10 @@
         },
         "options": [
             {
+                "en": "`const` variables are hoisted with `undefined`",
+                "ru": "Переменные `const` всплывают со значением `undefined`"
+            },
+            {
                 "en": "`const` variables cannot be reassigned",
                 "ru": "Переменные `const` нельзя переприсваивать"
             },
@@ -945,13 +955,9 @@
             {
                 "en": "`const` is block-scoped",
                 "ru": "`const` имеет блочную область видимости"
-            },
-            {
-                "en": "`const` variables are hoisted with `undefined`",
-                "ru": "Переменные `const` всплывают со значением `undefined`"
             }
         ],
-        "correct": [0, 2]
+        "correct": [1, 3]
     },
     {
         "id": "js-coercion-003",
@@ -977,15 +983,15 @@
                 "ru": "`''` (пустая строка)"
             },
             {
-                "en": "`[]` (empty array)",
-                "ru": "`[]` (пустой массив)"
-            },
-            {
                 "en": "`null`",
                 "ru": "`null`"
+            },
+            {
+                "en": "`[]` (empty array)",
+                "ru": "`[]` (пустой массив)"
             }
         ],
-        "correct": [0, 1, 3]
+        "correct": [0, 1, 2]
     },
     {
         "id": "js-array-003",
@@ -1003,23 +1009,23 @@
         },
         "options": [
             {
-                "en": "`.map()`",
-                "ru": "`.map()`"
+                "en": "`.splice()`",
+                "ru": "`.splice()`"
             },
             {
-                "en": "`.sort()`",
-                "ru": "`.sort()`"
+                "en": "`.map()`",
+                "ru": "`.map()`"
             },
             {
                 "en": "`.filter()`",
                 "ru": "`.filter()`"
             },
             {
-                "en": "`.splice()`",
-                "ru": "`.splice()`"
+                "en": "`.sort()`",
+                "ru": "`.sort()`"
             }
         ],
-        "correct": [0, 2]
+        "correct": [1, 2]
     },
     {
         "id": "js-promise-002",
@@ -1037,16 +1043,16 @@
         },
         "options": [
             {
-                "en": "It rejects immediately if any input Promise rejects",
-                "ru": "Он немедленно отклоняется, если отклоняется любой из входных Promise"
+                "en": "It resolves with an array of fulfilled values when all Promises fulfil",
+                "ru": "Он резолвится массивом fulfilled-значений, когда все Promise успешно выполнены"
             },
             {
                 "en": "It waits for all Promises to settle (fulfil or reject)",
                 "ru": "Он ждёт, пока все Promise перейдут в settled-состояние (fulfilled или rejected)"
             },
             {
-                "en": "It resolves with an array of fulfilled values when all Promises fulfil",
-                "ru": "Он резолвится массивом fulfilled-значений, когда все Promise успешно выполнены"
+                "en": "It rejects immediately if any input Promise rejects",
+                "ru": "Он немедленно отклоняется, если отклоняется любой из входных Promise"
             },
             {
                 "en": "It resolves with the first fulfilled value",
@@ -1071,12 +1077,12 @@
         },
         "options": [
             {
-                "en": "It performs a shallow copy of own enumerable properties",
-                "ru": "Он выполняет поверхностное копирование собственных перечисляемых свойств"
-            },
-            {
                 "en": "It performs a deep clone of nested objects",
                 "ru": "Он выполняет глубокое клонирование вложенных объектов"
+            },
+            {
+                "en": "It performs a shallow copy of own enumerable properties",
+                "ru": "Он выполняет поверхностное копирование собственных перечисляемых свойств"
             },
             {
                 "en": "Properties from `b` overwrite same-named properties from `a`",
@@ -1087,7 +1093,7 @@
                 "ru": "Он модифицирует объект `a` на месте"
             }
         ],
-        "correct": [0, 2]
+        "correct": [1, 2]
     },
     {
         "id": "js-modules-003",
@@ -1100,8 +1106,8 @@
             "ru": "Какие из перечисленных пунктов являются различиями между ES Modules и CommonJS?"
         },
         "explanation": {
-            "en": "ESM supports top-level await; CJS does not. CJS `require()` blocks the thread synchronously, while ESM loading is asynchronous. ESM exports are live bindings; CJS copies the value at require time. CJS files cannot use `import` syntax natively.",
-            "ru": "ESM поддерживает top-level await, CJS — нет. `require()` в CJS блокирует поток синхронно, а загрузка ESM асинхронна. Экспорты ESM — это live bindings, CJS копирует значение в момент require. CJS-файлы не могут использовать синтаксис `import` нативно."
+            "en": "ESM supports top-level await; CJS does not. CJS `require()` blocks the thread synchronously, while ESM loading and resolution are asynchronous — the module body itself is still evaluated synchronously unless the module or one of its dependencies uses top-level await. ESM exports are live bindings; CJS copies the value at require time. CJS files cannot use `import` syntax natively.",
+            "ru": "ESM поддерживает top-level await, CJS — нет. `require()` в CJS блокирует поток синхронно, а загрузка и резолв модулей в ESM асинхронны — при этом тело модуля всё равно выполняется синхронно, если в нём или в его зависимостях не используется top-level await. Экспорты ESM — это live bindings, CJS копирует значение в момент require. CJS-файлы не могут использовать синтаксис `import` нативно."
         },
         "options": [
             {
@@ -1109,19 +1115,19 @@
                 "ru": "ESM поддерживает top-level `await`, CJS — нет"
             },
             {
-                "en": "CJS `require()` is synchronous, ESM `import` evaluation is asynchronous",
-                "ru": "`require()` в CJS синхронный, а вычисление `import` в ESM — асинхронное"
+                "en": "CJS files can use `import` syntax without transformation",
+                "ru": "CJS-файлы могут использовать синтаксис `import` без преобразования"
             },
             {
                 "en": "ESM exports are live bindings, CJS exports are copied values",
                 "ru": "Экспорты ESM — это live bindings, экспорты CJS — копии значений"
             },
             {
-                "en": "CJS files can use `import` syntax without transformation",
-                "ru": "CJS-файлы могут использовать синтаксис `import` без преобразования"
+                "en": "CJS `require()` is synchronous, ESM module loading is asynchronous",
+                "ru": "`require()` в CJS синхронный, а загрузка модулей в ESM — асинхронная"
             }
         ],
-        "correct": [0, 1, 2]
+        "correct": [0, 2, 3]
     },
     {
         "id": "js-weakref-001",
@@ -1139,23 +1145,23 @@
         },
         "options": [
             {
-                "en": "They hold weak references to their object entries",
-                "ru": "Они хранят слабые ссылки на свои записи-объекты"
-            },
-            {
-                "en": "They are iterable (support for...of)",
-                "ru": "Они итерируемы (поддерживают for...of)"
-            },
-            {
                 "en": "They have no `.size` property",
                 "ru": "У них нет свойства `.size`"
             },
             {
                 "en": "Their entries can be garbage-collected when no other strong references exist",
                 "ru": "Их записи могут быть собраны garbage collector'ом, когда других сильных ссылок не остаётся"
+            },
+            {
+                "en": "They are iterable (support for...of)",
+                "ru": "Они итерируемы (поддерживают for...of)"
+            },
+            {
+                "en": "They hold weak references to their object entries",
+                "ru": "Они хранят слабые ссылки на свои записи-объекты"
             }
         ],
-        "correct": [0, 2, 3]
+        "correct": [0, 1, 3]
     },
     {
         "id": "js-error-002",
@@ -1173,8 +1179,8 @@
         },
         "options": [
             {
-                "en": "`finally` always runs, even if `try` has a `return` statement",
-                "ru": "`finally` выполняется всегда, даже если в `try` есть `return`"
+                "en": "`finally` can suppress a thrown error by returning a value",
+                "ru": "`finally` может подавить выброшенную ошибку, вернув значение"
             },
             {
                 "en": "A `return` in `finally` overrides a `return` in `try`",
@@ -1185,8 +1191,8 @@
                 "ru": "`finally` выполняется только при выбросе исключения"
             },
             {
-                "en": "`finally` can suppress a thrown error by returning a value",
-                "ru": "`finally` может подавить выброшенную ошибку, вернув значение"
+                "en": "`finally` always runs, even if `try` has a `return` statement",
+                "ru": "`finally` выполняется всегда, даже если в `try` есть `return`"
             }
         ],
         "correct": [0, 1, 3]
@@ -1207,10 +1213,6 @@
         },
         "options": [
             {
-                "en": "Generator functions are declared with `function*` syntax",
-                "ru": "Функции-генераторы объявляются синтаксисом `function*`"
-            },
-            {
                 "en": "A generator can `yield` multiple times, pausing execution each time",
                 "ru": "Генератор может выполнять `yield` многократно, приостанавливая выполнение каждый раз"
             },
@@ -1219,11 +1221,15 @@
                 "ru": "Вызов функции-генератора сразу выполняет её тело"
             },
             {
+                "en": "Generator functions are declared with `function*` syntax",
+                "ru": "Функции-генераторы объявляются синтаксисом `function*`"
+            },
+            {
                 "en": "Generators implement the iterator protocol",
                 "ru": "Генераторы реализуют iterator protocol"
             }
         ],
-        "correct": [0, 1, 3]
+        "correct": [0, 2, 3]
     },
     {
         "id": "js-async-002",
@@ -1241,23 +1247,23 @@
         },
         "options": [
             {
-                "en": "Wrapping the `await` expression in try/catch",
-                "ru": "Обёртывание выражения `await` в try/catch"
-            },
-            {
                 "en": "Chaining `.catch()` on the returned Promise from the async function",
                 "ru": "Добавление `.catch()` к Promise, возвращённому async-функцией"
             },
             {
-                "en": "Using `.finally()` on the returned Promise to handle errors",
-                "ru": "Использование `.finally()` на возвращённом Promise для обработки ошибок"
-            },
-            {
                 "en": "Adding a second argument to the `await` expression",
                 "ru": "Добавление второго аргумента к выражению `await`"
+            },
+            {
+                "en": "Wrapping the `await` expression in try/catch",
+                "ru": "Обёртывание выражения `await` в try/catch"
+            },
+            {
+                "en": "Using `.finally()` on the returned Promise to handle errors",
+                "ru": "Использование `.finally()` на возвращённом Promise для обработки ошибок"
             }
         ],
-        "correct": [0, 1]
+        "correct": [0, 2]
     },
     {
         "id": "js-event-loop-003",
@@ -1279,19 +1285,19 @@
                 "ru": "Коллбэки `setTimeout`"
             },
             {
+                "en": "DOM event handler callbacks (click, etc.)",
+                "ru": "Коллбэки обработчиков DOM-событий (click и др.)"
+            },
+            {
                 "en": "Promise `.then()` callbacks",
                 "ru": "Коллбэки `.then()` у Promise"
             },
             {
                 "en": "`setInterval` callbacks",
                 "ru": "Коллбэки `setInterval`"
-            },
-            {
-                "en": "DOM event handler callbacks (click, etc.)",
-                "ru": "Коллбэки обработчиков DOM-событий (click и др.)"
             }
         ],
-        "correct": [0, 2, 3]
+        "correct": [0, 1, 3]
     },
     {
         "id": "js-proxy-002",
@@ -1309,23 +1315,23 @@
         },
         "options": [
             {
-                "en": "`get`",
-                "ru": "`get`"
-            },
-            {
-                "en": "`set`",
-                "ru": "`set`"
-            },
-            {
                 "en": "`delete`",
                 "ru": "`delete`"
             },
             {
                 "en": "`deleteProperty`",
                 "ru": "`deleteProperty`"
+            },
+            {
+                "en": "`set`",
+                "ru": "`set`"
+            },
+            {
+                "en": "`get`",
+                "ru": "`get`"
             }
         ],
-        "correct": [0, 1, 3]
+        "correct": [1, 2, 3]
     },
     {
         "id": "js-bug-closure-001",
@@ -1343,7 +1349,8 @@
         },
         "code": "const adders = [];\nfor (var i = 0; i < 3; i++) {\n  adders.push(function(x) { return x + i; });\n}\nconsole.log(adders[0](10)); // Expected: 10, Actual: 13",
         "correct": "`var i` is shared across all closures — by the time any adder is called, `i` is 3",
-        "referenceAnswer": "Replace `var i` with `let i`. Block-scoped `let` creates a new binding per iteration, so each closure captures a distinct value (0, 1, 2)."
+        "referenceAnswer": "Replace `var i` with `let i`. Block-scoped `let` creates a new binding per iteration, so each closure captures a distinct value (0, 1, 2).",
+        "lang": "javascript"
     },
     {
         "id": "js-bug-async-001",
@@ -1361,7 +1368,8 @@
         },
         "code": "async function fetchAllUsers(ids) {\n  const results = [];\n  for (const id of ids) {\n    const user = await fetchUser(id);\n    results.push(user);\n  }\n  return results;\n}",
         "correct": "Requests are sequential, not parallel — each `await` waits before starting the next fetch",
-        "referenceAnswer": "const results = await Promise.all(ids.map(id => fetchUser(id)));"
+        "referenceAnswer": "const results = await Promise.all(ids.map(id => fetchUser(id)));",
+        "lang": "javascript"
     },
     {
         "id": "js-bug-this-001",
@@ -1379,7 +1387,8 @@
         },
         "code": "class Counter {\n  constructor() {\n    this.count = 0;\n    document.querySelector('button')\n      .addEventListener('click', function() {\n        this.count++;\n        console.log(this.count);\n      });\n  }\n}",
         "correct": "`this` inside the regular function callback refers to the button element, not the Counter instance",
-        "referenceAnswer": "Replace the regular function with an arrow function: .addEventListener('click', () => { this.count++; })"
+        "referenceAnswer": "Replace the regular function with an arrow function: .addEventListener('click', () => { this.count++; })",
+        "lang": "javascript"
     },
     {
         "id": "js-bug-coercion-001",
@@ -1397,7 +1406,8 @@
         },
         "code": "function isValidNumber(value) {\n  return typeof value === 'number';\n}",
         "correct": "`NaN` passes the check because `typeof NaN === 'number'`",
-        "referenceAnswer": "return typeof value === 'number' && !Number.isNaN(value);"
+        "referenceAnswer": "return typeof value === 'number' && !Number.isNaN(value);",
+        "lang": "javascript"
     },
     {
         "id": "js-bug-prototype-001",
@@ -1415,7 +1425,8 @@
         },
         "code": "function User(name) {\n  this.name = name;\n}\nUser.prototype.roles = [];\n\nconst alice = new User('Alice');\nconst bob = new User('Bob');\nalice.roles.push('admin');\nconsole.log(bob.roles); // Expected: [], Actual: ['admin']",
         "correct": "`roles` is defined on the prototype and shared across all instances — mutating it via one instance affects all",
-        "referenceAnswer": "Move the array initialisation into the constructor: this.roles = []; — each constructor call creates a new array on the instance."
+        "referenceAnswer": "Move the array initialisation into the constructor: this.roles = []; — each constructor call creates a new array on the instance.",
+        "lang": "javascript"
     },
     {
         "id": "js-bug-promise-001",
@@ -1428,12 +1439,13 @@
             "ru": "Найдите баг в этой цепочке промисов:"
         },
         "explanation": {
-            "en": "`.catch()` returns a fulfilled Promise with its return value. Any `.then()` chained after a `.catch()` runs when the error was handled. To stop the chain on error, re-throw inside `.catch()`.",
-            "ru": "`.catch()` возвращает fulfilled Promise со своим возвращённым значением. Любой `.then()`, добавленный после `.catch()`, выполняется, если ошибка была обработана. Чтобы прервать цепочку при ошибке, перебросьте её внутри `.catch()`."
+            "en": "`.catch()` returns a fulfilled Promise with its return value, so a `.then()` chained after it runs as if nothing went wrong — here `saveToDatabase(null)` is called on every failure. The fix is to move the `.catch()` to the end of the chain. Re-throwing inside a mid-chain `.catch()` also skips the later steps, but leaves the chain rejected, so it still needs a terminal `.catch()` to avoid an unhandled rejection.",
+            "ru": "`.catch()` возвращает fulfilled Promise со своим возвращаемым значением, поэтому `.then()` после него выполняется так, будто ошибки не было — здесь `saveToDatabase(null)` вызывается при любом сбое. Правильное решение — перенести `.catch()` в конец цепочки. Переброс ошибки внутри промежуточного `.catch()` тоже пропустит последующие шаги, но оставит цепочку отклонённой, поэтому в конце всё равно нужен терминальный `.catch()`, иначе получится unhandled rejection."
         },
         "code": "fetch('/api/data')\n  .then(res => {\n    if (!res.ok) throw new Error('HTTP error');\n    return res.json();\n  })\n  .then(data => processData(data))\n  .catch(err => {\n    console.error(err);\n    return null;\n  })\n  .then(result => saveToDatabase(result));",
         "correct": "`saveToDatabase(null)` is called even on errors because `.catch()` returns a fulfilled Promise",
-        "referenceAnswer": "Re-throw inside .catch(): .catch(err => { console.error(err); throw err; }) — this keeps the chain rejected and prevents saveToDatabase from running."
+        "referenceAnswer": "Move the `.catch()` to the end of the chain so failures skip every later step:\n\n```javascript\nfetch('/api/data')\n  .then(res => {\n    if (!res.ok) throw new Error('HTTP error');\n    return res.json();\n  })\n  .then(data => processData(data))\n  .then(result => saveToDatabase(result))\n  .catch(err => console.error(err));\n```\n\nRe-throwing from a mid-chain `.catch()` also skips saveToDatabase, but only when a terminal `.catch()` still follows — otherwise the chain ends rejected and the rejection is unhandled.",
+        "lang": "javascript"
     },
     {
         "id": "js-bug-scope-001",
@@ -1451,7 +1463,8 @@
         },
         "code": "function getMultiplier(type) {\n  if (type === 'a') {\n    var result = 1;\n  } else if (type === 'b') {\n    var result = 2;\n  } else if (type === 'c') {\n    var result = 3;\n  }\n  return result;\n}",
         "correct": "For unknown types, `result` is never assigned and `var` hoisting causes it to silently return `undefined`",
-        "referenceAnswer": "Add an else clause: else { throw new Error('Unknown type: ' + type); }"
+        "referenceAnswer": "Add an else clause: else { throw new Error('Unknown type: ' + type); }",
+        "lang": "javascript"
     },
     {
         "id": "js-bug-equality-001",
@@ -1469,7 +1482,8 @@
         },
         "code": "function isZero(value) {\n  return !value;\n}",
         "correct": "`!value` returns true for all falsy values (null, undefined, '', false, NaN), not just 0",
-        "referenceAnswer": "return value === 0; — strict equality checks both value and type, accepting only the number zero."
+        "referenceAnswer": "return value === 0; — strict equality checks both value and type, accepting only the number zero.",
+        "lang": "javascript"
     },
     {
         "id": "js-completion-destructuring-001",
@@ -1487,7 +1501,8 @@
         },
         "code": "let a = 1;\nlet b = 2;\n[__BLANK__, __BLANK__] = [b, a];\nconsole.log(a, b); // 2 1",
         "blanks": ["a", "b"],
-        "referenceAnswer": "[a, b] = [b, a]; — Creates a temporary array [2, 1] on the right, then destructures it into a and b."
+        "referenceAnswer": "[a, b] = [b, a]; — Creates a temporary array [2, 1] on the right, then destructures it into a and b.",
+        "lang": "javascript"
     },
     {
         "id": "js-completion-closure-001",
@@ -1501,11 +1516,12 @@
         },
         "explanation": {
             "en": "The closure over `cache` persists between calls. Using `key in cache` (rather than `cache[key]`) correctly handles cached falsy values like `0` or `false`. JSON.stringify is a simple but imperfect key — it fails for non-serialisable arguments.",
-            "ru": "Замыкание над `cache` сохраняется между вызовами. Использование `key in cache` (вместо `cache[key]`) корректно обрабатывает закэшированные falsy-значения вроде `0` или `false`. JSON.stringify — простой, но несовершенный ключ: он не работает для неcериализуемых аргументов."
+            "ru": "Замыкание над `cache` сохраняется между вызовами. Использование `key in cache` (вместо `cache[key]`) корректно обрабатывает закэшированные falsy-значения вроде `0` или `false`. JSON.stringify — простой, но несовершенный ключ: он не работает для несериализуемых аргументов."
         },
-        "code": "function memoize(fn) {\n  const cache = __BLANK__;\n  return function(...args) {\n    const key = JSON.stringify(args);\n    if (__BLANK__ cache[key]) {\n      return cache[key];\n    }\n    cache[key] = fn(...args);\n    return cache[key];\n  };\n}",
+        "code": "function memoize(fn) {\n  const cache = __BLANK__;\n  return function(...args) {\n    const key = JSON.stringify(args);\n    if (__BLANK__ cache) {\n      return cache[key];\n    }\n    cache[key] = fn(...args);\n    return cache[key];\n  };\n}",
         "blanks": ["{}", "key in"],
-        "referenceAnswer": "const cache = {}; and `key in cache` — the `in` operator correctly handles cached falsy values like 0 or false."
+        "referenceAnswer": "const cache = {}; and `key in cache` — the `in` operator tests the key against the cache object itself and correctly handles cached falsy values like 0 or false. `key in cache[key]` would throw a TypeError, because `in` requires an object on its right side.",
+        "lang": "javascript"
     },
     {
         "id": "js-completion-promise-001",
@@ -1523,7 +1539,8 @@
         },
         "code": "async function fetchAll(urls) {\n  const promises = urls.map(url => fetch(url).then(r => r.json()));\n  const results = await __BLANK__;\n  return results;\n}",
         "blanks": ["Promise.all(promises)"],
-        "referenceAnswer": "await Promise.all(promises) — fires all fetches in parallel and waits for all to resolve, returning an array of results in input order."
+        "referenceAnswer": "await Promise.all(promises) — fires all fetches in parallel and waits for all to resolve, returning an array of results in input order.",
+        "lang": "javascript"
     },
     {
         "id": "js-completion-error-001",
@@ -1541,13 +1558,14 @@
         },
         "code": "class NetworkError extends __BLANK__ {\n  constructor(message, statusCode) {\n    __BLANK__(message);\n    this.name = 'NetworkError';\n    this.statusCode = statusCode;\n  }\n}\n\nconst err = new NetworkError('Not Found', 404);\nconsole.log(err instanceof Error); // true",
         "blanks": ["Error", "super"],
-        "referenceAnswer": "Extending Error and calling super(message) sets up the prototype chain correctly and sets the message property."
+        "referenceAnswer": "Extending Error and calling super(message) sets up the prototype chain correctly and sets the message property.",
+        "lang": "javascript"
     },
     {
         "id": "js-completion-generator-001",
         "type": "code-completion",
         "category": "javascript",
-        "difficulty": "hard",
+        "difficulty": "easy",
         "tags": ["generators", "iterators"],
         "question": {
             "en": "Complete the infinite counter generator:",
@@ -1559,7 +1577,8 @@
         },
         "code": "function* __BLANK__(start = 0) {\n  let i = start;\n  while (true) {\n    __BLANK__ i++;\n  }\n}\nconst gen = counter(5);\nconsole.log(gen.next().value); // 5\nconsole.log(gen.next().value); // 6",
         "blanks": ["counter", "yield"],
-        "referenceAnswer": "function* counter(start = 0) { let i = start; while(true) { yield i++; } }"
+        "referenceAnswer": "function* counter(start = 0) { let i = start; while(true) { yield i++; } }",
+        "lang": "javascript"
     },
     {
         "id": "js-completion-proxy-001",
@@ -1577,7 +1596,8 @@
         },
         "code": "const numericObject = new Proxy({}, {\n  __BLANK__(target, prop, value, receiver) {\n    if (typeof value !== 'number') {\n      throw new TypeError(`${prop} must be a number`);\n    }\n    return __BLANK__(target, prop, value, receiver);\n  }\n});",
         "blanks": ["set", "Reflect.set"],
-        "referenceAnswer": "The 'set' trap intercepts property assignments. Reflect.set() forwards the assignment to the target object and returns a boolean indicating success."
+        "referenceAnswer": "The 'set' trap intercepts property assignments. Reflect.set() forwards the assignment to the target object and returns a boolean indicating success.",
+        "lang": "javascript"
     },
     {
         "id": "js-completion-iterator-001",
@@ -1595,7 +1615,8 @@
         },
         "code": "const range = {\n  from: 1,\n  to: 5,\n  [__BLANK__]() {\n    let current = this.from;\n    const last = this.to;\n    return {\n      next() {\n        if (current <= last) {\n          return { value: current++, done: false };\n        }\n        return { value: undefined, done: __BLANK__ };\n      }\n    };\n  }\n};",
         "blanks": ["Symbol.iterator", "true"],
-        "referenceAnswer": "Symbol.iterator is the well-known symbol that marks an object as iterable. The iterator returns { done: true } to signal completion."
+        "referenceAnswer": "Symbol.iterator is the well-known symbol that marks an object as iterable. The iterator returns { done: true } to signal completion.",
+        "lang": "javascript"
     },
     {
         "id": "js-completion-weakmap-001",
@@ -1604,15 +1625,766 @@
         "difficulty": "hard",
         "tags": ["WeakMap", "private-data", "encapsulation"],
         "question": {
-            "en": "Complete the private data pattern using WeakMap:",
-            "ru": "Дополните паттерн приватных данных с использованием WeakMap:"
+            "en": "Complete the private-data pattern so the stored data is garbage collected together with the instance:",
+            "ru": "Дополните паттерн приватных данных так, чтобы сохранённые данные собирались сборщиком мусора вместе с экземпляром:"
         },
         "explanation": {
-            "en": "WeakMap is ideal for storing private instance data — keys are instances, values are private objects. When an instance is garbage collected, its WeakMap entry disappears automatically with no memory leak.",
-            "ru": "WeakMap идеально подходит для хранения приватных данных экземпляров — ключами являются экземпляры, значениями — приватные объекты. Когда экземпляр собирается garbage collector'ом, его запись в WeakMap автоматически исчезает без утечек памяти."
+            "en": "A WeakMap holds its keys weakly: keying private data by the instance means the entry disappears when the instance is garbage collected, with no memory leak — a plain `Map` would keep every instance alive. Today native `#private` class fields are the default answer for encapsulation; WeakMap is the right tool when you must attach data to instances of a class you do not control, or need that data collectable independently.",
+            "ru": "WeakMap держит ключи слабо: если ключом служит сам экземпляр, его приватные данные исчезают вместе с ним при сборке мусора и утечки памяти нет — обычный `Map` удерживал бы каждый экземпляр живым. Сегодня дефолтный способ инкапсуляции — нативные приватные поля `#private`; WeakMap нужен тогда, когда надо привязать данные к экземплярам чужого класса или когда они должны собираться независимо."
         },
-        "code": "const _private = new __BLANK__();\n\nclass Person {\n  constructor(name, age) {\n    __BLANK__.set(this, { name, age });\n  }\n  greet() {\n    const { name } = _private.get(this);\n    return `Hello, I'm ${name}`;\n  }\n}",
-        "blanks": ["WeakMap", "_private"],
-        "referenceAnswer": "new WeakMap() creates the private store. _private.set(this, data) associates instance data with the instance."
+        "code": "const _private = new __BLANK__();\n\nclass Person {\n  constructor(name, age) {\n    _private.set(__BLANK__, { name, age });\n  }\n  greet() {\n    const { name } = _private.get(this);\n    return `Hello, I'm ${name}`;\n  }\n}",
+        "blanks": ["WeakMap", "this"],
+        "referenceAnswer": "new WeakMap() creates a store that holds its keys weakly; _private.set(this, { name, age }) keys the entry by the instance, so the entry is collected with it. A plain Map would keep every instance alive forever.",
+        "lang": "javascript"
+    },
+    {
+        "id": "js-throttle-001",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["throttle", "utility-functions", "timers"],
+        "question": {
+            "en": "A handler is wrapped in `throttle(fn, 1000)` configured with **both** a leading and a trailing call. The wrapped handler is invoked at t=0ms, t=200ms and t=900ms. How many times does `fn` run, and with which arguments?",
+            "ru": "Обработчик обёрнут в `throttle(fn, 1000)` с **обоими** режимами — leading и trailing. Обёртку вызвали в t=0ms, t=200ms и t=900ms. Сколько раз выполнится `fn` и с какими аргументами?"
+        },
+        "options": [
+            {
+                "en": "Twice: immediately with the t=0 arguments, then at t=1000ms with the t=900ms arguments",
+                "ru": "Дважды: сразу с аргументами t=0, затем в t=1000ms с аргументами t=900ms"
+            },
+            {
+                "en": "Three times: once per invocation, each one delayed by 1000ms from the previous run",
+                "ru": "Трижды: по разу на каждый вызов, каждый следующий — через 1000ms после предыдущего"
+            },
+            {
+                "en": "Twice: immediately with the t=0 arguments, then at t=1000ms with the t=200ms arguments, because the first call queued during the cooldown wins",
+                "ru": "Дважды: сразу с аргументами t=0, затем в t=1000ms с аргументами t=200ms, потому что побеждает первый вызов, попавший в окно ожидания"
+            },
+            {
+                "en": "Once, at t=1000ms, with the t=900ms arguments — the leading call is skipped while a window is open",
+                "ru": "Один раз, в t=1000ms, с аргументами t=900ms — leading-вызов пропускается, пока окно открыто"
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "Leading edge means the first call in a quiet period runs synchronously. Every call inside the cooldown window is collapsed into one trailing call that must carry the **latest** arguments, not the first — otherwise the UI renders a stale value after the burst. A single call at t=1000ms with no leading run describes a trailing-only debounce, which is a different contract.",
+            "ru": "Leading-режим означает, что первый вызов после паузы выполняется синхронно. Все вызовы внутри окна схлопываются в один trailing-вызов, и он обязан нести **последние** аргументы, а не первые — иначе после серии событий UI отрисует устаревшее значение. Вариант с единственным вызовом в конце описывает trailing-only debounce, а это другой контракт."
+        }
+    },
+    {
+        "id": "js-structured-clone-001",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["deep-clone", "structuredClone", "utility-functions"],
+        "question": {
+            "en": "A hand-rolled `deepClone` helper is replaced with the built-in `structuredClone()`. Which change in behaviour should you expect?",
+            "ru": "Самописный `deepClone` заменяют на встроенный `structuredClone()`. Какое изменение поведения следует ожидать?"
+        },
+        "options": [
+            {
+                "en": "Circular references now throw a `DataCloneError`, so any graph with a parent back-pointer has to be flattened before cloning",
+                "ru": "Циклические ссылки теперь бросают `DataCloneError`, поэтому любой граф с обратной ссылкой на родителя придётся распрямлять перед клонированием"
+            },
+            {
+                "en": "`Date`, `Map` and `Set` survive as real instances, but a method on the object throws `DataCloneError` and the prototype chain is not copied",
+                "ru": "`Date`, `Map` и `Set` переживают клонирование настоящими инстансами, но метод на объекте бросит `DataCloneError`, а цепочка прототипов не копируется"
+            },
+            {
+                "en": "Getters are invoked and re-installed as accessors, so the clone keeps its property descriptors exactly as the source had them",
+                "ru": "Геттеры вызываются и переустанавливаются как аксессоры, поэтому клон сохраняет дескрипторы свойств ровно такими, как у оригинала"
+            },
+            {
+                "en": "The clone is produced on a worker thread, so a large object no longer blocks the main thread while it is being copied",
+                "ru": "Клон создаётся в воркер-потоке, поэтому большой объект больше не блокирует главный поток во время копирования"
+            }
+        ],
+        "correct": 1,
+        "explanation": {
+            "en": "The structured clone algorithm supports cycles, `Date`, `Map`, `Set`, `RegExp`, typed arrays and `Error`, which is exactly what a naive recursive clone gets wrong. What it refuses is function objects and DOM nodes (`DataCloneError`), and MDN is explicit that property descriptors, getters/setters and the prototype chain are not duplicated — so a class instance comes back as a plain object. It is also fully synchronous on the calling thread.",
+            "ru": "Алгоритм structured clone поддерживает циклы, `Date`, `Map`, `Set`, `RegExp`, типизированные массивы и `Error` — ровно то, на чём обычно спотыкается наивный рекурсивный клон. Чего он не умеет: функции и DOM-узлы (`DataCloneError`), а MDN прямо пишет, что дескрипторы свойств, геттеры/сеттеры и цепочка прототипов не дублируются — то есть инстанс класса вернётся обычным объектом. Работает он при этом синхронно, в вызывающем потоке."
+        }
+    },
+    {
+        "id": "js-curry-001",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["curry", "utility-functions", "function-length"],
+        "question": {
+            "en": "A `curry(fn)` implementation decides it has collected enough arguments by comparing `args.length >= fn.length`. Which of these functions silently breaks under that rule?",
+            "ru": "Реализация `curry(fn)` считает, что аргументов достаточно, по условию `args.length >= fn.length`. Какая из этих функций тихо сломается по такому правилу?"
+        },
+        "options": [
+            {
+                "en": "`function add(a, b, c) {}` — three plain named parameters",
+                "ru": "`function add(a, b, c) {}` — три обычных именованных параметра"
+            },
+            {
+                "en": "`const add = (a, b, c) => a + b + c` — an arrow function with three named parameters",
+                "ru": "`const add = (a, b, c) => a + b + c` — стрелочная функция с тремя именованными параметрами"
+            },
+            {
+                "en": "`function add(a, b, c = 0) {}` — two plain parameters and one with a default value",
+                "ru": "`function add(a, b, c = 0) {}` — два обычных параметра и один со значением по умолчанию"
+            },
+            {
+                "en": "`function add({ a, b }, c) {}` — a destructuring pattern followed by one parameter",
+                "ru": "`function add({ a, b }, c) {}` — деструктурирующий паттерн и ещё один параметр"
+            }
+        ],
+        "correct": 2,
+        "explanation": {
+            "en": "`fn.length` counts only the parameters **before** the first one with a default value, and excludes a rest parameter entirely; a destructuring pattern counts as one. So `(a, b, c = 0)` reports `2` and the curried function invokes after two arguments, quietly dropping the third. This is why a production `curry` takes the arity explicitly (`curry(fn, 3)`) instead of trusting `fn.length`.",
+            "ru": "`fn.length` считает только параметры **до** первого со значением по умолчанию и полностью игнорирует rest-параметр; деструктурирующий паттерн считается за один. Поэтому `(a, b, c = 0)` даёт `2`, и каррированная функция вызовется уже после двух аргументов, молча потеряв третий. Именно поэтому боевой `curry` принимает арность явно (`curry(fn, 3)`), а не доверяет `fn.length`."
+        }
+    },
+    {
+        "id": "js-flatten-001",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "easy",
+        "tags": ["flatten", "arrays", "sparse-arrays"],
+        "question": {
+            "en": "What does `[1, [2, [3, [4]]], , 5].flat()` return? Note the empty slot before `5`.",
+            "ru": "Что вернёт `[1, [2, [3, [4]]], , 5].flat()`? Обратите внимание на пустой слот перед `5`."
+        },
+        "options": [
+            {
+                "en": "`[1, 2, 3, 4, 5]`",
+                "ru": "`[1, 2, 3, 4, 5]`"
+            },
+            {
+                "en": "`[1, 2, [3, [4]], undefined, 5]`",
+                "ru": "`[1, 2, [3, [4]], undefined, 5]`"
+            },
+            {
+                "en": "`[1, [2, [3, [4]]], 5]`",
+                "ru": "`[1, [2, [3, [4]]], 5]`"
+            },
+            {
+                "en": "`[1, 2, [3, [4]], 5]`",
+                "ru": "`[1, 2, [3, [4]], 5]`"
+            }
+        ],
+        "correct": 3,
+        "explanation": {
+            "en": "`flat()` defaults to a depth of **1**, so only the outermost nesting level is unwrapped — `[3, [4]]` stays nested. It also removes empty slots from the levels it flattens, so the hole disappears instead of becoming `undefined`. Use `flat(Infinity)` when you genuinely want a full flatten, and remember that a hand-written recursive flatten normally turns holes into `undefined` unless you guard for them.",
+            "ru": "У `flat()` глубина по умолчанию — **1**, поэтому разворачивается только верхний уровень вложенности, а `[3, [4]]` остаётся вложенным. Ещё он выбрасывает пустые слоты на тех уровнях, которые разворачивает, — дырка исчезает, а не превращается в `undefined`. Для полного разворачивания нужен `flat(Infinity)`; и помните, что самописный рекурсивный flatten обычно превращает дырки в `undefined`, если это специально не обработать."
+        }
+    },
+    {
+        "id": "js-allsettled-001",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "easy",
+        "tags": ["promises", "Promise.allSettled", "error-handling"],
+        "question": {
+            "en": "Three uploads run through `await Promise.allSettled([a, b, c])` and the second one rejects. What does the `await` produce?",
+            "ru": "Три загрузки идут через `await Promise.allSettled([a, b, c])`, и вторая отклоняется. Что вернёт `await`?"
+        },
+        "options": [
+            {
+                "en": "An array of three objects; the failed one is `{ status: 'rejected', reason }`",
+                "ru": "Массив из трёх объектов; у упавшего — `{ status: 'rejected', reason }`"
+            },
+            {
+                "en": "A rejected promise carrying the first rejection reason, exactly like `Promise.all` does",
+                "ru": "Отклонённый промис с причиной первого отказа — ровно так же, как это делает `Promise.all`"
+            },
+            {
+                "en": "An array of the two fulfilled values, with the rejected entry filtered out of the result",
+                "ru": "Массив из двух успешных значений, отклонённая запись отфильтрована из результата"
+            },
+            {
+                "en": "An array of three objects, each with a `value` property that is `undefined` for the failure",
+                "ru": "Массив из трёх объектов, у каждого есть `value`, и для упавшего он равен `undefined`"
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "`Promise.allSettled` never rejects: it fulfills once every input settles, with one outcome object per input in input order. A fulfilled entry is `{ status: 'fulfilled', value }` and a rejected one is `{ status: 'rejected', reason }` — `value` and `reason` are mutually exclusive, so code that reads `.value` blindly gets `undefined` rather than an error. This is the combinator for a batch where partial success is a valid outcome.",
+            "ru": "`Promise.allSettled` никогда не отклоняется: он резолвится, когда все входные промисы осели, и отдаёт по одному объекту-результату на каждый вход в порядке входа. Успешная запись — `{ status: 'fulfilled', value }`, упавшая — `{ status: 'rejected', reason }`; поля взаимоисключающие, поэтому код, который читает `.value` вслепую, получит `undefined`, а не ошибку. Это комбинатор для пачки, где частичный успех — нормальный исход."
+        }
+    },
+    {
+        "id": "js-promise-pool-001",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "hard",
+        "tags": ["concurrency", "promise-pool", "async"],
+        "question": {
+            "en": "To cap concurrency at 5, a colleague splits 200 requests into chunks of 5 and `await`s `Promise.all(chunk)` for each chunk in turn. Compared with a real worker pool of 5, what does this cost?",
+            "ru": "Чтобы ограничить конкурентность пятью, коллега разбивает 200 запросов на чанки по 5 и по очереди делает `await Promise.all(chunk)`. Чем это хуже настоящего пула из 5 воркеров?"
+        },
+        "options": [
+            {
+                "en": "Nothing — chunking and a worker pool issue the same requests at the same moments in time",
+                "ru": "Ничем — чанки и пул воркеров отправляют те же запросы в те же моменты времени"
+            },
+            {
+                "en": "Every chunk waits for its own slowest request, so effective concurrency falls below 5 for most of the run",
+                "ru": "Каждый чанк ждёт свой самый медленный запрос, поэтому бо́льшую часть времени фактическая конкурентность ниже 5"
+            },
+            {
+                "en": "Chunking blows past the limit, because `Promise.all` eagerly starts all 200 requests on the first call",
+                "ru": "Чанки пробивают лимит, потому что `Promise.all` на первом же вызове жадно стартует все 200 запросов"
+            },
+            {
+                "en": "Chunking loses the result order, while a worker pool always preserves the order of the input array",
+                "ru": "Чанки теряют порядок результатов, а пул воркеров всегда сохраняет порядок входного массива"
+            }
+        ],
+        "correct": 1,
+        "explanation": {
+            "en": "Chunking is a barrier: the four fast requests in a chunk finish and their slots stay idle until the fifth one returns. With a long tail — and network latency always has one — the average in-flight count drops well under the limit and the wall-clock time approaches the sum of the per-chunk maxima. A pool keeps a worker busy by pulling the next task the moment one finishes, so a slot is only idle when the queue is empty. Result order is an orthogonal concern: both shapes preserve it if you write into a pre-sized array by index.",
+            "ru": "Чанк — это барьер: четыре быстрых запроса завершились, и их слоты простаивают, пока не вернётся пятый. При длинном хвосте — а у сетевой задержки он есть всегда — среднее число запросов «в полёте» проседает заметно ниже лимита, а общее время стремится к сумме максимумов по чанкам. Пул же занимает воркер сразу, как только тот освободился, и слот простаивает только при пустой очереди. Порядок результатов тут ни при чём: обе схемы его сохраняют, если писать в заранее размеченный массив по индексу."
+        }
+    },
+    {
+        "id": "js-memoize-001",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["memoize", "caching", "JSON"],
+        "question": {
+            "en": "A `memoize(fn)` builds its cache key with `JSON.stringify(args)`. Which pair of calls is wrongly served from the **same** cache entry?",
+            "ru": "`memoize(fn)` строит ключ кэша как `JSON.stringify(args)`. Какая пара вызовов ошибочно получит **один и тот же** элемент кэша?"
+        },
+        "options": [
+            {
+                "en": "`f(1, 2)` and `f(2, 1)` — the same two numbers in a different order",
+                "ru": "`f(1, 2)` и `f(2, 1)` — те же два числа в другом порядке"
+            },
+            {
+                "en": "`f({ a: 1 })` and `f({ a: 1, b: 2 })` — one object is a subset of the other",
+                "ru": "`f({ a: 1 })` и `f({ a: 1, b: 2 })` — один объект является подмножеством другого"
+            },
+            {
+                "en": "`f(undefined)` and `f(null)` — two different absent-value markers",
+                "ru": "`f(undefined)` и `f(null)` — два разных маркера отсутствующего значения"
+            },
+            {
+                "en": "`f('1')` and `f(1)` — a string and a number with the same digits",
+                "ru": "`f('1')` и `f(1)` — строка и число с одинаковыми цифрами"
+            }
+        ],
+        "correct": 2,
+        "explanation": {
+            "en": "`JSON.stringify` serialises `undefined` inside an array as `null`, so `[undefined]` and `[null]` both produce the string `\"[null]\"` — one cache entry for two different calls. The other pairs all serialise differently. Two more traps in the same family: object key order changes the key (`{a:1,b:2}` and `{b:2,a:1}` miss each other), and any argument carrying a function, a `Symbol` or a `Date` either vanishes or is flattened to a string. Prefer an explicit key function, or a `Map` keyed by the first argument when that argument is an object identity.",
+            "ru": "`JSON.stringify` сериализует `undefined` внутри массива как `null`, поэтому `[undefined]` и `[null]` дают одну и ту же строку `\"[null]\"` — один элемент кэша на два разных вызова. Остальные пары сериализуются по-разному. Ещё две ловушки того же класса: порядок ключей объекта меняет ключ (`{a:1,b:2}` и `{b:2,a:1}` промахиваются мимо друг друга), а аргумент с функцией, `Symbol` или `Date` либо исчезает, либо схлопывается в строку. Лучше задавать функцию ключа явно или использовать `Map` по идентичности первого аргумента, если он объект."
+        }
+    },
+    {
+        "id": "js-retry-001",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["retry", "backoff", "resilience"],
+        "question": {
+            "en": "A retry wrapper computes `delay = base * 2 ** attempt`. A 30-second outage fails requests for several thousand clients at once. What does adding random jitter to that delay buy you?",
+            "ru": "Обёртка ретраев считает задержку как `delay = base * 2 ** attempt`. 30-секундный сбой роняет запросы у нескольких тысяч клиентов одновременно. Что даёт добавление случайного джиттера к этой задержке?"
+        },
+        "options": [
+            {
+                "en": "It shortens the time to recovery for each individual client, because the average delay drops",
+                "ru": "Сокращает время восстановления для каждого отдельного клиента, потому что средняя задержка падает"
+            },
+            {
+                "en": "It stops the exponential term from overflowing once `attempt` grows past a few dozen retries",
+                "ru": "Не даёт экспоненте переполниться, когда `attempt` перевалит за пару десятков попыток"
+            },
+            {
+                "en": "It makes the retried request idempotent, so a duplicate write cannot be applied twice on the server",
+                "ru": "Делает повторяемый запрос идемпотентным, так что дублирующая запись не применится на сервере дважды"
+            },
+            {
+                "en": "It spreads the retries apart, so the clients stop hitting the recovering server in synchronised waves",
+                "ru": "Разносит ретраи во времени, и клиенты перестают бить по восстанавливающемуся серверу синхронными волнами"
+            }
+        ],
+        "correct": 3,
+        "explanation": {
+            "en": "Pure exponential backoff is deterministic: every client that failed at the same moment retries at the same moment, so the server is hit by a synchronised wave at `base`, `2·base`, `4·base` and never gets the quiet window it needs to come back. Jitter (full jitter — a random value in `[0, delay]` — is the common choice) decorrelates the clients. It does not make a request safe to repeat: that still needs an idempotency key, and retrying a non-idempotent write without one is a correctness bug, not a tuning problem.",
+            "ru": "Чистый экспоненциальный backoff детерминирован: все клиенты, упавшие в один момент, повторяют попытку в один момент, и сервер получает синхронную волну в `base`, `2·base`, `4·base` — тихого окна на восстановление он так и не получает. Джиттер (обычно full jitter — случайное значение из `[0, delay]`) раскорреллирует клиентов. Безопасным для повтора запрос он не делает: для этого нужен ключ идемпотентности, а ретрай неидемпотентной записи без него — это баг корректности, а не вопрос тюнинга."
+        }
+    },
+    {
+        "id": "js-complexity-001",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "easy",
+        "tags": ["big-o", "Set", "arrays", "algorithms"],
+        "question": {
+            "en": "`ids.filter(id => blockedIds.includes(id))` runs over 50 000 ids against a 50 000-item `blockedIds` array and takes seconds. What is its complexity, and which single change makes it linear?",
+            "ru": "`ids.filter(id => blockedIds.includes(id))` прогоняет 50 000 id по массиву `blockedIds` из 50 000 элементов и работает секундами. Какова его сложность и какое одно изменение делает его линейным?"
+        },
+        "options": [
+            {
+                "en": "O(n log n) — sort `blockedIds` once up front and binary-search it inside the filter",
+                "ru": "O(n log n) — один раз отсортировать `blockedIds` и искать в нём бинарным поиском внутри filter"
+            },
+            {
+                "en": "O(n·m) — build a `Set` from `blockedIds` once, then call `.has()` inside the filter",
+                "ru": "O(n·m) — один раз построить `Set` из `blockedIds` и вызывать `.has()` внутри filter"
+            },
+            {
+                "en": "O(n·m) — replace `.includes()` with `.indexOf(id) !== -1`, which short-circuits on the first match",
+                "ru": "O(n·m) — заменить `.includes()` на `.indexOf(id) !== -1`, который прерывается на первом совпадении"
+            },
+            {
+                "en": "O(n) — it is already linear, since `.filter()` visits every id exactly once and nothing is nested",
+                "ru": "O(n) — уже линейно, ведь `.filter()` обходит каждый id ровно один раз и вложенности нет"
+            }
+        ],
+        "correct": 1,
+        "explanation": {
+            "en": "`.includes()` is a linear scan, and it runs once per id, so the loop is O(n·m) — 2.5 billion comparisons here. Hoisting a `Set` out of the callback costs one O(m) pass and turns each lookup into `Set.prototype.has`, giving O(n + m). `.indexOf()` has identical cost — both already stop at the first match, so swapping them changes nothing. Binary search would be a real improvement but lands at O(n log m), not linear, and pays for a sort first.",
+            "ru": "`.includes()` — это линейный проход, и он выполняется на каждый id, поэтому цикл получается O(n·m): здесь 2,5 млрд сравнений. Вынос `Set` наружу из колбэка стоит одного прохода O(m) и превращает каждую проверку в `Set.prototype.has`, давая O(n + m). У `.indexOf()` та же стоимость — оба и так останавливаются на первом совпадении, замена ничего не меняет. Бинарный поиск действительно ускорит, но даст O(n log m), а не линейность, и потребует сортировки."
+        }
+    },
+    {
+        "id": "js-sort-001",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "easy",
+        "tags": ["sort", "arrays", "mutation"],
+        "question": {
+            "en": "What does `[10, 9, 100, 1].sort()` return, and what happens to the original array?",
+            "ru": "Что вернёт `[10, 9, 100, 1].sort()` и что произойдёт с исходным массивом?"
+        },
+        "options": [
+            {
+                "en": "`[1, 9, 10, 100]` — a new sorted array is returned and the original stays untouched",
+                "ru": "`[1, 9, 10, 100]` — возвращается новый отсортированный массив, исходный не трогается"
+            },
+            {
+                "en": "`[1, 9, 10, 100]` — the original array itself is sorted in place and returned",
+                "ru": "`[1, 9, 10, 100]` — исходный массив сортируется на месте и возвращается"
+            },
+            {
+                "en": "`[1, 10, 100, 9]` — the original array itself is sorted in place and returned",
+                "ru": "`[1, 10, 100, 9]` — исходный массив сортируется на месте и возвращается"
+            },
+            {
+                "en": "`[1, 10, 100, 9]` — a new array is returned, because `sort()` never mutates its receiver",
+                "ru": "`[1, 10, 100, 9]` — возвращается новый массив, потому что `sort()` никогда не мутирует получателя"
+            }
+        ],
+        "correct": 2,
+        "explanation": {
+            "en": "Without a comparator, `sort()` converts every element to a string and compares UTF-16 code units, so `100` sorts before `9`. It also sorts **in place** and returns a reference to the same array — sorting a prop or a store slice directly is a mutation bug that React will not re-render for. Use `[...arr].sort((a, b) => a - b)`, or `arr.toSorted()` where the non-mutating copy is available. Since ES2019 the sort is also guaranteed stable, so equal keys keep their input order.",
+            "ru": "Без компаратора `sort()` приводит каждый элемент к строке и сравнивает UTF-16 code units, поэтому `100` встаёт раньше `9`. Ещё он сортирует **на месте** и возвращает ссылку на тот же массив — сортировка пропса или среза стора напрямую это мутация, на которую React не перерисуется. Пишите `[...arr].sort((a, b) => a - b)` или `arr.toSorted()`, где доступна неизменяющая копия. С ES2019 сортировка гарантированно стабильна, так что равные ключи сохраняют исходный порядок."
+        }
+    },
+    {
+        "id": "js-recursion-001",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "hard",
+        "tags": ["recursion", "call-stack", "tree-traversal", "algorithms"],
+        "question": {
+            "en": "A recursive depth-first tree walk throws `RangeError: Maximum call stack size exceeded` on a 50 000-node chain. Which fix removes the depth limit while keeping the traversal synchronous and in the same visit order?",
+            "ru": "Рекурсивный обход дерева в глубину падает с `RangeError: Maximum call stack size exceeded` на цепочке из 50 000 узлов. Какое исправление снимает ограничение глубины, оставляя обход синхронным и в том же порядке посещения?"
+        },
+        "options": [
+            {
+                "en": "Rewrite it iteratively with an explicit stack array, pushing each node's children in reverse order",
+                "ru": "Переписать итеративно с явным массивом-стеком, кладя детей каждого узла в обратном порядке"
+            },
+            {
+                "en": "Move the recursive call into tail position so the engine can reuse the current stack frame",
+                "ru": "Перенести рекурсивный вызов в хвостовую позицию, чтобы движок переиспользовал текущий кадр стека"
+            },
+            {
+                "en": "Wrap each recursive call in `setTimeout(..., 0)` so that the stack unwinds between nodes",
+                "ru": "Обернуть каждый рекурсивный вызов в `setTimeout(..., 0)`, чтобы стек разматывался между узлами"
+            },
+            {
+                "en": "Raise the limit by setting `Error.stackTraceLimit = Infinity` before starting the traversal",
+                "ru": "Поднять лимит, выставив `Error.stackTraceLimit = Infinity` перед началом обхода"
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "Moving the recursion onto a heap-allocated array is the only fix here that keeps the function synchronous: the array grows with the heap instead of the fixed call stack, and pushing children in reverse reproduces the left-to-right DFS order. Proper tail calls are in the ES2015 spec but the compat table reports JavaScriptCore as the only major engine that implements them, so tail position changes nothing in V8 or SpiderMonkey — and a DFS that visits children after the call is not in tail position anyway. `setTimeout` does drain the stack but makes the walk asynchronous, so the function can no longer return its result. `Error.stackTraceLimit` caps how many frames a stack trace prints; it has no effect on the call stack itself.",
+            "ru": "Перенос рекурсии на массив в куче — единственное здесь исправление, сохраняющее синхронность: массив растёт вместе с кучей, а не упирается в фиксированный стек вызовов, а укладка детей в обратном порядке воспроизводит порядок DFS слева направо. Proper tail calls есть в спецификации ES2015, но таблица совместимости показывает JavaScriptCore единственным крупным движком, где они реализованы, так что в V8 и SpiderMonkey хвостовая позиция ничего не меняет — да и DFS, обходящий детей после вызова, в хвостовой позиции и не находится. `setTimeout` стек действительно разматывает, но делает обход асинхронным, и функция больше не может вернуть результат. `Error.stackTraceLimit` ограничивает число кадров в печатаемом стектрейсе и на сам стек вызовов не влияет."
+        }
+    },
+    {
+        "id": "js-sliding-window-001",
+        "type": "single-choice",
+        "category": "javascript",
+        "difficulty": "hard",
+        "tags": ["sliding-window", "two-pointer", "big-o", "algorithms"],
+        "question": {
+            "en": "`longestUniqueSubstring(s)` is rewritten from a brute-force O(n²) scan into a sliding window that holds the current characters in a `Set` and shrinks from the left on a duplicate. The window version still has a loop inside a loop. Why is it linear?",
+            "ru": "`longestUniqueSubstring(s)` переписали с перебора за O(n²) на скользящее окно: текущие символы лежат в `Set`, при дубликате окно сжимается слева. Во второй версии всё ещё цикл внутри цикла. Почему она линейная?"
+        },
+        "options": [
+            {
+                "en": "Because `Set.prototype.has` is O(1), and a constant-time lookup cancels the cost of the inner loop",
+                "ru": "Потому что `Set.prototype.has` работает за O(1), и константный поиск компенсирует стоимость внутреннего цикла"
+            },
+            {
+                "en": "Because the inner loop can run at most 26 times, once per distinct lowercase letter in the alphabet",
+                "ru": "Потому что внутренний цикл выполнится максимум 26 раз — по разу на каждую букву латинского алфавита"
+            },
+            {
+                "en": "Because the outer loop exits as soon as the first duplicate character is found anywhere in the input",
+                "ru": "Потому что внешний цикл завершается, как только в строке встретился первый повторяющийся символ"
+            },
+            {
+                "en": "Because the left pointer only ever moves forward, so both pointers together take at most 2n steps",
+                "ru": "Потому что левый указатель движется только вперёд, и оба указателя вместе делают не больше 2n шагов"
+            }
+        ],
+        "correct": 3,
+        "explanation": {
+            "en": "This is an amortised argument, and it is the one interviewers are listening for: the inner loop is not bounded per iteration, but the left pointer never moves backwards, so across the whole run it advances at most n times. Right advances n times, left advances at most n times, total O(n). The `Set` matters for the constant factor, not the class — and note the spec only requires `Set` access to be *sublinear*, not O(1). The 26-letter bound is a different technique (a fixed-size frequency array) and does not hold for arbitrary Unicode input.",
+            "ru": "Это амортизационный аргумент, и именно его ждут на интервью: внутренний цикл не ограничен на одной итерации, но левый указатель никогда не идёт назад, поэтому за весь прогон он сдвинется не более n раз. Правый делает n шагов, левый — максимум n, итого O(n). `Set` влияет на константу, а не на класс сложности — и заметьте, спецификация требует от `Set` лишь *сублинейного* доступа, а не O(1). Оценка в 26 букв — это другая техника (массив частот фиксированного размера), и для произвольного Unicode она не работает."
+        }
+    },
+    {
+        "id": "js-map-vs-object-001",
+        "type": "multi-choice",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["Map", "objects", "lookup", "big-o"],
+        "question": {
+            "en": "You are choosing between a `Map` and a plain object for a hot lookup table. Which statements are correct? (Select all that apply)",
+            "ru": "Вы выбираете между `Map` и обычным объектом для горячей таблицы поиска. Какие утверждения верны? (Выберите все подходящие)"
+        },
+        "options": [
+            {
+                "en": "A `Map` accepts any value as a key, including an object reference and `NaN`; an object coerces every key to a string or a symbol",
+                "ru": "`Map` принимает ключом любое значение, включая ссылку на объект и `NaN`; объект приводит любой ключ к строке или символу"
+            },
+            {
+                "en": "`map.size` is a direct read, while counting an object's own keys means materialising the `Object.keys()` array first",
+                "ru": "`map.size` — это прямое чтение, а подсчёт собственных ключей объекта требует сначала материализовать массив `Object.keys()`"
+            },
+            {
+                "en": "Integer-like keys iterate in ascending numeric order on a plain object, whereas a `Map` iterates strictly in insertion order",
+                "ru": "Целочисленные ключи у обычного объекта обходятся по возрастанию числа, а `Map` обходится строго в порядке вставки"
+            },
+            {
+                "en": "The specification guarantees `map.get()` is O(1) on every engine, while a property read on a plain object is only O(log n)",
+                "ru": "Спецификация гарантирует O(1) для `map.get()` на любом движке, а чтение свойства обычного объекта — только O(log n)"
+            },
+            {
+                "en": "A `Map` is JSON-serialisable out of the box, so `JSON.stringify(map)` round-trips its entries without any conversion step",
+                "ru": "`Map` сериализуется в JSON из коробки, поэтому `JSON.stringify(map)` переносит его записи без какого-либо преобразования"
+            }
+        ],
+        "correct": [0, 1, 2],
+        "explanation": {
+            "en": "The first three are the real decision criteria: arbitrary keys, O(1) `size`, and ordering — `{ 100: 'a', 2: 'b', 7: 'c' }` enumerates as `['2', '7', '100']`, which silently reorders an id-keyed table. The spec does **not** promise O(1): it requires access times that are, on average, *sublinear* in the collection size, which permits a hash table or a search tree. And `JSON.stringify(new Map([['a', 1]]))` returns `{}` — a `Map` needs `[...map]` before it can cross a wire.",
+            "ru": "Первые три пункта — это и есть реальные критерии выбора: произвольные ключи, `size` за O(1) и порядок обхода: `{ 100: 'a', 2: 'b', 7: 'c' }` перечисляется как `['2', '7', '100']`, что незаметно переупорядочивает таблицу по id. Спецификация **не** обещает O(1): она требует в среднем *сублинейного* времени доступа относительно размера коллекции, что допускает и хеш-таблицу, и дерево поиска. А `JSON.stringify(new Map([['a', 1]]))` вернёт `{}` — перед отправкой по сети `Map` нужно превратить в `[...map]`."
+        }
+    },
+    {
+        "id": "js-array-cost-001",
+        "type": "multi-choice",
+        "category": "javascript",
+        "difficulty": "hard",
+        "tags": ["arrays", "big-o", "performance", "algorithms"],
+        "question": {
+            "en": "Which of these operations are linear in the array's length by the algorithm the specification itself defines? (Select all that apply)",
+            "ru": "Какие из этих операций линейны по длине массива согласно алгоритму, который задаёт сама спецификация? (Выберите все подходящие)"
+        },
+        "options": [
+            {
+                "en": "`arr.push(x)` on a dense array",
+                "ru": "`arr.push(x)` на плотном массиве"
+            },
+            {
+                "en": "`arr.shift()`",
+                "ru": "`arr.shift()`"
+            },
+            {
+                "en": "`arr.unshift(x)`",
+                "ru": "`arr.unshift(x)`"
+            },
+            {
+                "en": "`arr[arr.length - 1]`",
+                "ru": "`arr[arr.length - 1]`"
+            },
+            {
+                "en": "`arr.splice(0, 1)`",
+                "ru": "`arr.splice(0, 1)`"
+            }
+        ],
+        "correct": [1, 2, 4],
+        "explanation": {
+            "en": "`shift`, `unshift` and a `splice` at the front are all specified as loops over the remaining elements, so each one is O(n) — using an array as a FIFO queue in a BFS turns the traversal into O(n²). Keep a read cursor (`let head = 0; const node = queue[head++]`) or use a linked-list queue instead. `push`/`pop` touch only the tail and are amortised O(1), and an indexed read is constant. Engines optimise the fast paths heavily, but the asymptotics are what bite you at 50 000 elements.",
+            "ru": "`shift`, `unshift` и `splice` в начале описаны в спецификации как циклы по оставшимся элементам, то есть каждый из них O(n) — использование массива как FIFO-очереди в BFS превращает обход в O(n²). Держите вместо этого курсор чтения (`let head = 0; const node = queue[head++]`) или очередь на связном списке. `push`/`pop` трогают только хвост и стоят амортизированно O(1), а чтение по индексу — константа. Движки сильно оптимизируют быстрые пути, но на 50 000 элементов бьёт именно асимптотика."
+        }
+    },
+    {
+        "id": "js-toposort-001",
+        "type": "multi-choice",
+        "category": "javascript",
+        "difficulty": "hard",
+        "tags": ["topological-sort", "graphs", "dependency-graph", "algorithms"],
+        "question": {
+            "en": "You need to order a module dependency graph so that every dependency is emitted before its dependents. Which statements about topological sorting are correct? (Select all that apply)",
+            "ru": "Нужно упорядочить граф зависимостей модулей так, чтобы каждая зависимость выводилась раньше зависящих от неё. Какие утверждения о топологической сортировке верны? (Выберите все подходящие)"
+        },
+        "options": [
+            {
+                "en": "The starting points are the nodes with in-degree 0, and emitting a node decrements the in-degree of each of its dependents",
+                "ru": "Стартовые точки — узлы с нулевой входящей степенью, и вывод узла уменьшает входящую степень каждого зависящего от него"
+            },
+            {
+                "en": "The valid order is unique, so any two correct implementations always emit the same sequence for the same graph",
+                "ru": "Корректный порядок единственный, поэтому две любые корректные реализации всегда выдадут одну и ту же последовательность для одного графа"
+            },
+            {
+                "en": "If the queue empties while some nodes are still unemitted, the remaining nodes form at least one cycle",
+                "ru": "Если очередь опустела, а часть узлов ещё не выведена, оставшиеся узлы образуют как минимум один цикл"
+            },
+            {
+                "en": "A depth-first post-order traversal, reversed, also produces a valid order — provided the graph is acyclic",
+                "ru": "Обход в глубину с постпорядком, развёрнутый в обратную сторону, тоже даёт корректный порядок — при условии, что граф ацикличен"
+            },
+            {
+                "en": "It works on any directed graph, cycles included, as long as ties are broken alphabetically",
+                "ru": "Работает на любом ориентированном графе, включая циклы, если разрешать неоднозначность по алфавиту"
+            }
+        ],
+        "correct": [0, 2, 3],
+        "explanation": {
+            "en": "Kahn's algorithm is the queue-based form: seed the queue with in-degree-0 nodes, emit, decrement, enqueue anything that reaches 0. Its stall condition is free cycle detection — a graph with a cycle can never drain, which is exactly how a bundler reports a circular import. A reversed DFS post-order is the other standard form and gives an equally valid order. What is not true is uniqueness: any graph with independent branches has several valid orders, which is why a build's output order can shift without anything being wrong. And a cyclic graph has no topological order at all — tie-breaking rules do not change that.",
+            "ru": "Алгоритм Кана — это вариант на очереди: заполняем очередь узлами с нулевой входящей степенью, выводим, уменьшаем степени, кладём в очередь всё, что дошло до нуля. Его остановка — это бесплатное обнаружение цикла: граф с циклом никогда не опустошится, и именно так бандлер сообщает о circular import. Развёрнутый DFS-постпорядок — вторая стандартная форма, дающая не менее корректный порядок. Неверна единственность: у графа с независимыми ветками корректных порядков несколько, поэтому порядок вывода сборки может меняться, хотя всё в порядке. А у циклического графа топологического порядка не существует вовсе — правила разрешения неоднозначности этого не меняют."
+        }
+    },
+    {
+        "id": "js-promise-combinators-001",
+        "type": "multi-choice",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["promises", "Promise.any", "Promise.race", "concurrency"],
+        "question": {
+            "en": "Which statements about the promise combinators are correct? (Select all that apply)",
+            "ru": "Какие утверждения о промис-комбинаторах верны? (Выберите все подходящие)"
+        },
+        "options": [
+            {
+                "en": "`Promise.race` resolves with the first **fulfilled** value and ignores a rejection that settles earlier",
+                "ru": "`Promise.race` резолвится первым **успешным** значением и игнорирует отказ, который осел раньше"
+            },
+            {
+                "en": "`Promise.any` ignores rejections and rejects only when every input rejects, with an `AggregateError`",
+                "ru": "`Promise.any` игнорирует отказы и отклоняется, только когда отклонились все входы, — с `AggregateError`"
+            },
+            {
+                "en": "`Promise.allSettled` never rejects; each entry is `{ status, value }` or `{ status, reason }`",
+                "ru": "`Promise.allSettled` никогда не отклоняется; каждая запись — это `{ status, value }` или `{ status, reason }`"
+            },
+            {
+                "en": "`Promise.all` cancels the remaining requests the moment one of the inputs rejects",
+                "ru": "`Promise.all` отменяет оставшиеся запросы в тот момент, когда один из входов отклонился"
+            },
+            {
+                "en": "None of them starts or defers any work: the inputs are already-running promises by the time the combinator sees them",
+                "ru": "Ни один из них не запускает и не откладывает работу: к моменту, когда комбинатор их видит, входные промисы уже выполняются"
+            }
+        ],
+        "correct": [1, 2, 4],
+        "explanation": {
+            "en": "`race` settles with the first **settled** input, rejection included — that is what makes it the right primitive for a timeout and the wrong one for a fastest-mirror fetch, where `any` is what you want. `all` short-circuits its own result but has no cancellation channel: the other requests keep running and their rejections become unhandled unless you attach a handler, which is why a real cancel needs an `AbortController`. And because a promise is eager, every combinator is just a subscription over work that has already started.",
+            "ru": "`race` оседает по первому **осевшему** входу, включая отказ, — поэтому он правильный примитив для таймаута и неправильный для «взять самое быстрое зеркало», где нужен `any`. `all` коротко замыкает собственный результат, но канала отмены у него нет: остальные запросы продолжают выполняться, а их отказы становятся unhandled, если не повесить обработчик — настоящая отмена требует `AbortController`. И поскольку промис жадный, любой комбинатор — это просто подписка на уже начатую работу."
+        }
+    },
+    {
+        "id": "js-throttle-002",
+        "type": "multi-choice",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["throttle", "debounce", "event-handlers", "utility-functions"],
+        "question": {
+            "en": "Which statements about `throttle` and `debounce` in production code are correct? (Select all that apply)",
+            "ru": "Какие утверждения о `throttle` и `debounce` в боевом коде верны? (Выберите все подходящие)"
+        },
+        "options": [
+            {
+                "en": "Throttle guarantees a call at a steady rate during a burst; debounce guarantees nothing until the burst stops",
+                "ru": "Throttle гарантирует вызовы с постоянной частотой во время серии событий; debounce не гарантирует ничего, пока серия не закончится"
+            },
+            {
+                "en": "Debounce is the right wrapper for a `scroll` handler that has to keep a sticky header positioned while the user scrolls",
+                "ru": "Debounce — подходящая обёртка для обработчика `scroll`, который должен держать sticky-шапку на месте, пока пользователь скроллит"
+            },
+            {
+                "en": "A leading-edge debounce fires on the first call of a burst and then swallows the rest of it",
+                "ru": "Debounce с leading-режимом срабатывает на первом вызове серии и затем проглатывает остальные"
+            },
+            {
+                "en": "Creating the wrapper inside the event handler is equivalent to creating it once, because the timer is keyed by the wrapped function's identity",
+                "ru": "Создавать обёртку внутри обработчика события — то же самое, что создать её один раз, потому что таймер привязан к идентичности оборачиваемой функции"
+            },
+            {
+                "en": "Either wrapper needs a `cancel` (or `flush`) method if the owner can be torn down with a call still pending",
+                "ru": "Обеим обёрткам нужен метод `cancel` (или `flush`), если владелец может быть уничтожен, пока вызов ещё в ожидании"
+            }
+        ],
+        "correct": [0, 2, 4],
+        "explanation": {
+            "en": "That rate guarantee is the whole distinction: under a continuous burst, throttle keeps firing every `wait` ms while debounce fires exactly zero times — which is why a sticky header driven by debounce freezes mid-scroll and only snaps into place when the user stops. Leading-edge debounce is the inverse of the default trailing one. The timer lives in the closure, so a wrapper recreated per call resets its own state and never throttles anything. And a pending timer holds a reference to the handler: without `cancel` on teardown you get a callback firing into a dead component, a stale request, or a leak.",
+            "ru": "Гарантия частоты — это и есть главное отличие: при непрерывной серии throttle продолжает срабатывать каждые `wait` мс, а debounce не срабатывает ни разу — поэтому sticky-шапка на debounce замирает посреди скролла и встаёт на место, только когда пользователь остановился. Leading-debounce — это зеркало дефолтного trailing-варианта. Таймер живёт в замыкании, поэтому обёртка, пересоздаваемая на каждый вызов, сбрасывает собственное состояние и ничего не троттлит. А висящий таймер держит ссылку на обработчик: без `cancel` при размонтировании вы получите колбэк, стреляющий в мёртвый компонент, устаревший запрос или утечку."
+        }
+    },
+    {
+        "id": "js-bug-event-emitter-001",
+        "type": "bug-finding",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["EventEmitter", "observer", "iteration", "bugs"],
+        "question": {
+            "en": "A `once(event, fn)` helper is built on this emitter by registering a wrapper that unsubscribes itself as its first statement. Three listeners are registered on the same event and the **second** of them is the `once` wrapper; the third listener is never called. Find the bug.",
+            "ru": "Поверх этого эмиттера сделан хелпер `once(event, fn)`: он регистрирует обёртку, которая первой же строкой отписывает саму себя. На одно событие подписаны три слушателя, и **второй** из них — эта самая обёртка `once`; третий слушатель не вызывается никогда. Найдите баг."
+        },
+        "code": "class EventEmitter {\n  #listeners = new Map();\n\n  on(event, fn) {\n    if (!this.#listeners.has(event)) this.#listeners.set(event, []);\n    this.#listeners.get(event).push(fn);\n    return () => this.off(event, fn);\n  }\n\n  off(event, fn) {\n    const list = this.#listeners.get(event);\n    if (!list) return;\n    const index = list.indexOf(fn);\n    if (index !== -1) list.splice(index, 1);\n  }\n\n  emit(event, ...args) {\n    const list = this.#listeners.get(event);\n    if (!list) return;\n    list.forEach((fn) => fn(...args));\n  }\n}",
+        "lang": "javascript",
+        "correct": "`emit` iterates the live listener array, so a listener that unsubscribes during the loop splices the array and makes `forEach` skip the next listener",
+        "referenceAnswer": "`emit` iterates the same array that `off` mutates. The `once` wrapper sits at index 1; when it removes itself, `splice` shifts every later listener down one index, so the third listener moves from index 2 to index 1 — a slot `forEach` has already visited. The cursor then advances to index 2, which no longer exists, the loop ends, and the third listener is never called.\n\nIterate over a snapshot so removals during dispatch take effect on the next emit, not this one:\n\n```javascript\nemit(event, ...args) {\n  const list = this.#listeners.get(event);\n  if (!list) return;\n  for (const fn of [...list]) fn(...args);\n}\n```\n\nThe copy is also what makes a listener added during dispatch wait for the next emit — the other half of the same contract. Node's own EventEmitter does exactly this.",
+        "explanation": {
+            "en": "Mutating a collection while iterating it is the classic emitter bug, and `once` triggers it on every single dispatch because unsubscribing during the callback is its entire mechanism. `forEach` reads the array by index on each step, so a `splice` at or before the cursor shifts an element past it unseen. Dispatching over a shallow copy fixes both the skip and the reentrancy question of a listener registered mid-dispatch.",
+            "ru": "Мутация коллекции во время её обхода — классический баг эмиттера, и `once` вызывает его при каждой отправке события, потому что отписка прямо из колбэка — это весь его механизм. `forEach` на каждом шаге читает массив по индексу, поэтому `splice` на позиции курсора или раньше сдвигает элемент мимо него незамеченным. Обход по поверхностной копии чинит и пропуск, и вопрос реентерабельности для подписчика, добавленного посреди отправки."
+        }
+    },
+    {
+        "id": "js-bug-lru-001",
+        "type": "bug-finding",
+        "category": "javascript",
+        "difficulty": "hard",
+        "tags": ["LRU", "Map", "caching", "bugs"],
+        "question": {
+            "en": "This LRU cache relies on `Map` iteration order to find the oldest entry. Reads refresh recency correctly, but a key that is **written** on every request is still evicted as if it were the oldest. Find the bug.",
+            "ru": "Этот LRU-кэш опирается на порядок обхода `Map`, чтобы найти самую старую запись. Чтения корректно обновляют свежесть, но ключ, который **перезаписывают** на каждом запросе, всё равно вытесняется как самый старый. Найдите баг."
+        },
+        "code": "class LRUCache {\n  constructor(limit) {\n    this.limit = limit;\n    this.map = new Map();\n  }\n\n  get(key) {\n    if (!this.map.has(key)) return undefined;\n    const value = this.map.get(key);\n    this.map.delete(key);\n    this.map.set(key, value); // move to the most-recent end\n    return value;\n  }\n\n  set(key, value) {\n    this.map.set(key, value);\n    if (this.map.size > this.limit) {\n      const oldest = this.map.keys().next().value;\n      this.map.delete(oldest);\n    }\n  }\n}",
+        "lang": "javascript",
+        "correct": "`set` on an existing key overwrites the value but leaves the key in its original position, because `Map` only records insertion order for a key that was not already present",
+        "referenceAnswer": "`Map` iterates in the order in which each key was **first** inserted. `map.set(existingKey, value)` updates the value and does not move the key to the end, so an entry that is written over and over keeps the position it had when it was created and eventually becomes `keys().next().value` — the eviction victim.\n\nDelete before re-inserting, exactly as `get` already does:\n\n```javascript\nset(key, value) {\n  if (this.map.has(key)) this.map.delete(key);\n  this.map.set(key, value);\n  if (this.map.size > this.limit) {\n    const oldest = this.map.keys().next().value;\n    this.map.delete(oldest);\n  }\n}\n```\n\nAlso note that `this.map.size > this.limit` must be checked after the insert, not before, or the cache tops out at `limit - 1` entries when the key is new.",
+        "explanation": {
+            "en": "The whole `Map`-based LRU trick rests on one property: iteration follows the order in which keys were first inserted, and re-setting an existing key does **not** re-order it. That makes `delete` + `set` the only way to promote an entry, which is why the pattern always appears in both `get` and `set`. The failure mode is nasty in production — the hottest key in the cache is the one that gets evicted, so the hit rate collapses under exactly the traffic the cache was added for.",
+            "ru": "Весь трюк LRU на `Map` держится на одном свойстве: обход идёт в порядке первой вставки ключа, а повторный `set` существующего ключа его **не** переставляет. Поэтому единственный способ поднять запись наверх — `delete` + `set`, и именно поэтому этот паттерн всегда встречается и в `get`, и в `set`. В проде отказ неприятный: вытесняется самый горячий ключ кэша, и hit rate обваливается ровно под тем трафиком, ради которого кэш и добавляли."
+        }
+    },
+    {
+        "id": "js-bug-binary-search-001",
+        "type": "bug-finding",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["binary-search", "algorithms", "off-by-one", "bugs"],
+        "question": {
+            "en": "This binary search returns the right index for most inputs, but `indexOfSorted([1, 3, 5, 7], 6)` hangs the tab. Find the bug.",
+            "ru": "Этот бинарный поиск возвращает верный индекс на большинстве входов, но `indexOfSorted([1, 3, 5, 7], 6)` вешает вкладку. Найдите баг."
+        },
+        "code": "function indexOfSorted(arr, target) {\n  let lo = 0;\n  let hi = arr.length - 1;\n\n  while (lo <= hi) {\n    const mid = Math.floor((lo + hi) / 2);\n    if (arr[mid] === target) return mid;\n    if (arr[mid] < target) lo = mid;\n    else hi = mid - 1;\n  }\n\n  return -1;\n}",
+        "lang": "javascript",
+        "correct": "`lo = mid` does not shrink the range when `mid === lo`, so the loop repeats the same `lo`/`hi` pair forever instead of terminating",
+        "referenceAnswer": "`Math.floor((lo + hi) / 2)` rounds down, so when `hi === lo + 1` the midpoint **is** `lo`. Taking the `arr[mid] < target` branch then assigns `lo = mid`, leaving `lo` and `hi` unchanged and the condition `lo <= hi` still true — an infinite loop. With `[1, 3, 5, 7]` and target `6` the search reaches `lo = 2, hi = 3`, computes `mid = 2`, sees `5 < 6`, and spins.\n\nEvery iteration must strictly shrink the range:\n\n```javascript\nif (arr[mid] < target) lo = mid + 1;\nelse hi = mid - 1;\n```\n\n`mid` has already been tested against `target`, so excluding it is always safe. The mirrored invariant is the `while (lo < hi)` form, where `hi = mid` is correct and `lo = mid + 1` is mandatory — mixing the two conventions is how this bug is usually introduced.",
+        "explanation": {
+            "en": "The invariant a binary search must preserve is that the candidate range gets strictly smaller every iteration; `lo = mid` breaks it at the two-element boundary, which is why small or unlucky inputs hang while everything else looks fine. The reliable habit is to pick one convention and keep it: inclusive bounds (`lo <= hi`) pair with `mid + 1` / `mid - 1`, half-open bounds (`lo < hi`, `hi = arr.length`) pair with `mid + 1` / `mid`. On the browser's main thread this bug is not a slow search — it is a frozen tab with no error in the console.",
+            "ru": "Инвариант бинарного поиска — диапазон кандидатов обязан строго уменьшаться на каждой итерации; `lo = mid` ломает его на границе из двух элементов, поэтому маленькие или неудачные входы зависают, а всё остальное выглядит нормально. Надёжная привычка — выбрать одну конвенцию и держаться её: включающие границы (`lo <= hi`) идут с `mid + 1` / `mid - 1`, полуоткрытые (`lo < hi`, `hi = arr.length`) — с `mid + 1` / `mid`. В главном потоке браузера этот баг — не медленный поиск, а замороженная вкладка без единой ошибки в консоли."
+        }
+    },
+    {
+        "id": "js-bug-promise-pool-001",
+        "type": "bug-finding",
+        "category": "javascript",
+        "difficulty": "hard",
+        "tags": ["concurrency", "promise-pool", "async", "bugs"],
+        "question": {
+            "en": "`promisePool(tasks, limit)` must run at most `limit` tasks at a time and resolve with the results **in input order**. Concurrency is capped correctly, but `results[i]` does not always belong to `tasks[i]`. Find the bug.",
+            "ru": "`promisePool(tasks, limit)` должен выполнять не больше `limit` задач одновременно и резолвиться результатами **в порядке входа**. Конкурентность ограничена верно, но `results[i]` не всегда соответствует `tasks[i]`. Найдите баг."
+        },
+        "code": "async function promisePool(tasks, limit) {\n  const results = [];\n  const queue = [...tasks];\n\n  const worker = async () => {\n    while (queue.length > 0) {\n      const task = queue.shift();\n      results.push(await task());\n    }\n  };\n\n  await Promise.all(Array.from({ length: limit }, worker));\n  return results;\n}",
+        "lang": "javascript",
+        "correct": "`results.push` appends in completion order, so a slow early task lands after a fast later one and the result indices no longer line up with the task indices",
+        "referenceAnswer": "The workers dequeue in input order but `push` in completion order. With `limit = 2` and a first task that takes 500 ms while the second takes 10 ms, `results[0]` is the second task's value. The position has to be captured when the task is taken, not when it settles:\n\n```javascript\nasync function promisePool(tasks, limit) {\n  const results = new Array(tasks.length);\n  let next = 0;\n\n  const worker = async () => {\n    while (next < tasks.length) {\n      const i = next++;\n      results[i] = await tasks[i]();\n    }\n  };\n\n  await Promise.all(Array.from({ length: Math.min(limit, tasks.length) }, worker));\n  return results;\n}\n```\n\n`next++` is safe without a lock because the read-increment pair runs synchronously between two `await` points, and JavaScript is single-threaded. Clamping the worker count with `Math.min` avoids spawning idle workers when `tasks.length < limit`. Note also that a single rejecting task rejects the whole pool while the other workers keep draining the queue — wrap `tasks[i]()` in a try/catch and store an outcome object if you want `allSettled` semantics.",
+        "explanation": {
+            "en": "Any pool has two independent orders — the order tasks are started and the order they finish — and `push` records the wrong one. Writing into a pre-sized array at an index claimed at dequeue time decouples them, which is also exactly how a `Promise.all` polyfill preserves order. The bug hides well: it only shows up when the task durations differ, so a test with mocked instant resolvers passes every time.",
+            "ru": "У любого пула есть два независимых порядка — порядок запуска задач и порядок их завершения, — и `push` фиксирует не тот. Запись в заранее размеченный массив по индексу, занятому в момент взятия задачи, их развязывает; ровно так же сохраняет порядок и полифилл `Promise.all`. Баг хорошо прячется: он проявляется, только когда длительности задач различаются, поэтому тест с замоканными мгновенными резолверами проходит всегда."
+        }
+    },
+    {
+        "id": "js-completion-throttle-001",
+        "type": "code-completion",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["throttle", "utility-functions", "closures"],
+        "question": {
+            "en": "Complete this `throttle` so that the trailing call fires with the **most recent** arguments seen during the cooldown window:",
+            "ru": "Дополните `throttle` так, чтобы завершающий вызов сработал с **последними** аргументами, полученными за время окна ожидания:"
+        },
+        "code": "function throttle(fn, wait) {\n  let timer = null;\n  let lastArgs = null;\n\n  return function (...args) {\n    const self = this;\n\n    if (timer) {\n      // a call inside the cooldown window is remembered, not dropped\n      lastArgs = __BLANK__;\n      return;\n    }\n\n    fn.apply(self, args);\n\n    timer = setTimeout(function tick() {\n      if (lastArgs) {\n        fn.apply(self, __BLANK__);\n        lastArgs = null;\n        timer = setTimeout(tick, wait);\n      } else {\n        timer = null;\n      }\n    }, wait);\n  };\n}",
+        "blanks": ["args", "lastArgs"],
+        "lang": "javascript",
+        "referenceAnswer": "`lastArgs = args` overwrites the pending arguments on every suppressed call, so only the newest survive; `fn.apply(self, lastArgs)` then replays them on the trailing edge. Overwriting rather than queueing is the point — a throttle that queued every call would degrade into a backlog under a continuous burst.\n\nTwo details around the blanks are what make this a rate limiter rather than a leaky one. The timeout reschedules itself (`timer = setTimeout(tick, wait)`) after a trailing replay instead of clearing `timer`: without that, the replay fires and immediately reopens the gate, so the next call of the burst runs as a fresh leading edge milliseconds later and `fn` executes twice inside one window. And `this` is captured into `self` at call time, which keeps `handler.call(element, event)` semantics intact for the leading and the trailing invocation alike.",
+        "explanation": {
+            "en": "A leading-plus-trailing throttle has to answer one question: which of the suppressed calls wins. Keeping only the latest arguments is what makes the trailing call reflect the final state of a drag, a resize or a search input, instead of replaying a value the user already moved past. Rescheduling the timer after a replay is what holds `fn` to one call per `wait` for as long as the burst lasts, and clearing `lastArgs` is what lets the window finally close once the burst ends.",
+            "ru": "У throttle с leading и trailing есть один принципиальный вопрос: какой из подавленных вызовов побеждает. Хранение только последних аргументов и делает завершающий вызов отражением финального состояния перетаскивания, ресайза или поля поиска, а не повтором значения, мимо которого пользователь уже прошёл. Перезапуск таймера после повтора удерживает `fn` на одном вызове за `wait` на всю длину серии, а сброс `lastArgs` позволяет окну наконец закрыться, когда серия закончилась."
+        }
+    },
+    {
+        "id": "js-completion-deep-clone-001",
+        "type": "code-completion",
+        "category": "javascript",
+        "difficulty": "hard",
+        "tags": ["deep-clone", "WeakMap", "recursion", "utility-functions"],
+        "question": {
+            "en": "Complete this `deepClone` so that a circular reference resolves to the already-created copy instead of recursing forever. The `seen` `WeakMap` maps each source object to its clone.",
+            "ru": "Дополните `deepClone` так, чтобы циклическая ссылка разрешалась в уже созданную копию, а не уходила в бесконечную рекурсию. `WeakMap` `seen` сопоставляет каждому исходному объекту его клон."
+        },
+        "code": "function deepClone(value, seen = new WeakMap()) {\n  if (value === null || typeof value !== 'object') return value;\n  if (value instanceof Date) return new Date(value.getTime());\n\n  if (seen.has(value)) return seen.get(value);\n\n  const copy = Array.isArray(value) ? [] : {};\n  __BLANK__;\n\n  for (const key of Object.keys(value)) {\n    copy[key] = __BLANK__;\n  }\n\n  return copy;\n}",
+        "blanks": ["seen.set(value, copy)", "deepClone(value[key], seen)"],
+        "lang": "javascript",
+        "referenceAnswer": "`seen.set(value, copy)` registers the clone **before** the recursive descent — that order is the whole trick. Register after the loop and a child holding a back-reference to its parent recurses into a fresh copy and overflows the stack; register before it, and the `seen.get(value)` guard three lines up short-circuits the back-edge onto the copy still under construction.\n\nThe second blank is where most hand-written clones quietly break: `deepClone(value[key], seen)` has to pass `seen` down. Omit it and every recursive call starts a new empty map, so the guard protects only the top level — a one-level cycle still recurses until `RangeError: Maximum call stack size exceeded`.\n\nA `WeakMap` is the right container because its keys are held weakly: once the source graph is unreachable the bookkeeping is collectible, and it also accepts object keys directly, which a plain `Map` would too but an object could not. The cycle guard doubles as structure preservation — two properties pointing at the same object end up pointing at the same clone rather than at two copies.\n\nThis version still drops `Map`, `Set`, `RegExp`, class prototypes and getters; `structuredClone()` handles the first three natively and is the better default when you do not need functions.",
+        "explanation": {
+            "en": "A naive recursive clone dies on the first cycle — and cycles are ordinary in real data: a parent back-pointer in a tree, a DOM-shaped structure, a store slice that references its own root. Memoising source-to-clone in a `WeakMap` turns the recursion into a graph walk, and registering the copy before descending is what makes the back-edge terminate. It also preserves shared references, which a cycle-free deep clone would silently duplicate.",
+            "ru": "Наивный рекурсивный клон умирает на первом же цикле — а циклы в реальных данных обычны: обратная ссылка на родителя в дереве, структура в форме DOM, срез стора со ссылкой на собственный корень. Мемоизация «источник → клон» в `WeakMap` превращает рекурсию в обход графа, а регистрация копии до спуска вниз и есть то, что обрывает обратное ребро. Заодно сохраняются разделяемые ссылки, которые клон без учёта циклов молча продублировал бы."
+        }
+    },
+    {
+        "id": "js-completion-promise-all-001",
+        "type": "code-completion",
+        "category": "javascript",
+        "difficulty": "hard",
+        "tags": ["promises", "Promise.all", "polyfill", "concurrency"],
+        "question": {
+            "en": "Complete this `Promise.all` polyfill so it resolves with the results **in input order** and only once every input has fulfilled:",
+            "ru": "Дополните полифилл `Promise.all` так, чтобы он резолвился результатами **в порядке входа** и только после того, как выполнились все входные промисы:"
+        },
+        "code": "function promiseAll(items) {\n  return new Promise((resolve, reject) => {\n    const results = [];\n    let settled = 0;\n\n    if (items.length === 0) {\n      resolve(results);\n      return;\n    }\n\n    items.forEach((item, index) => {\n      Promise.resolve(item).then((value) => {\n        results[__BLANK__] = value;\n        settled += 1;\n        if (settled === __BLANK__) resolve(results);\n      }, reject);\n    });\n  });\n}",
+        "blanks": ["index", "items.length"],
+        "lang": "javascript",
+        "referenceAnswer": "Writing at `results[index]` — the position captured when the promise was subscribed — is what decouples result order from completion order; `results.push(value)` would record whichever promise happened to finish first.\n\nThe completion test has to count against `items.length`, not `results.length`. `results` starts empty and its `length` only tracks the highest index written so far, so the first promise to settle makes `settled` and `results.length` both `1` and the polyfill resolves after a single input. Instant mocks hide that — `resolve` hands over the same array object and the remaining microtasks fill it in before anyone inspects it — but with real latency the caller gets a one-element array.\n\nTwo more details the real combinator gets right: `Promise.resolve(item)` wraps non-promise values so the polyfill accepts a mixed array, and passing `reject` as the second `then` argument makes the aggregate reject on the first rejection while the other promises keep running — `Promise.all` has no cancellation channel.",
+        "explanation": {
+            "en": "This polyfill is a favourite interview task because it forces two separate insights: the index has to be captured at subscription time, and completion has to be counted rather than inferred from the array. Inferring it from `results.length` is the bug that survives most test suites — mocked promises that resolve instantly settle in order, so the race never shows up until real latency does.",
+            "ru": "Этот полифилл — любимая задача на интервью, потому что он требует двух отдельных инсайтов: индекс нужно зафиксировать в момент подписки, а завершение — считать счётчиком, а не выводить из массива. Вывод из `results.length` — как раз тот баг, который переживает большинство тестов: замоканные промисы резолвятся мгновенно и по порядку, поэтому гонка не проявляется, пока не появится реальная задержка."
+        }
+    },
+    {
+        "id": "js-completion-bfs-001",
+        "type": "code-completion",
+        "category": "javascript",
+        "difficulty": "medium",
+        "tags": ["BFS", "DOM", "tree-traversal", "algorithms"],
+        "question": {
+            "en": "Complete this breadth-first traversal so it returns every descendant of `root` grouped by depth — index 0 holds the direct children, index 1 their children, and so on:",
+            "ru": "Дополните обход в ширину так, чтобы он возвращал всех потомков `root`, сгруппированных по глубине: в индексе 0 — прямые дети, в индексе 1 — их дети, и так далее:"
+        },
+        "code": "function descendantsByLevel(root) {\n  const levels = [];\n  let current = [...root.children];\n\n  while (current.length > 0) {\n    levels.__BLANK__(current);\n\n    const next = [];\n    for (const node of current) {\n      next.push(...__BLANK__);\n    }\n\n    current = next;\n  }\n\n  return levels;\n}",
+        "blanks": ["push", "node.children"],
+        "lang": "javascript",
+        "referenceAnswer": "`levels.push(current)` records the whole frontier as one level, and `next.push(...node.children)` builds the next frontier by expanding every node of the current one — that expansion is the step that makes the walk breadth-first instead of depth-first. Appending is also the only correct verb here: `unshift` would invert the depth order and `concat` returns a new array without touching `levels`.\n\n`root.children` is an `HTMLCollection` of element children — iterable, so the spread on line 3 copies it into a real array. Spreading matters twice over: an `HTMLCollection` is **live**, and iterating one while the loop inserts or removes elements is a classic infinite-loop bug. Use `childNodes` instead only when text and comment nodes are part of what you are collecting.\n\nSwapping `current = next` at the end of each pass is what makes the level boundary explicit — the alternative, a single FIFO queue, needs a per-level counter to know where one depth ends. It is also faster than the textbook queue: `queue.shift()` is O(n) in the queue's length, so a single-array BFS over a large tree degrades to O(n²) unless you keep a read cursor instead.\n\nFor a read-only sweep with no depth grouping, `root.querySelectorAll('*')` does the same walk natively and returns nodes in document order.",
+        "explanation": {
+            "en": "Level-by-level is the shape BFS is actually asked for on the frontend — find the shallowest match, measure a subtree's depth, render a tree one tier at a time — and swapping whole frontiers keeps the depth boundary for free. BFS is also the right choice over DFS when the answer is expected near the root, since it never descends past the level that contains it, and it cannot blow the call stack the way a deep recursive walk can.",
+            "ru": "Обход по уровням — это именно та форма BFS, которая нужна на фронтенде: найти ближайшее к корню совпадение, измерить глубину поддерева, отрисовать дерево по ярусам, — и подмена целого фронта бесплатно сохраняет границу уровня. BFS также предпочтительнее DFS, когда ответ ожидается близко к корню: он не спускается глубже уровня, на котором ответ есть, и не может переполнить стек вызовов, в отличие от глубокого рекурсивного обхода."
+        }
     }
 ]

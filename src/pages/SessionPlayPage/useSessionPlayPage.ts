@@ -110,7 +110,9 @@ export function useSessionPlayPage(): SessionPlayPageState {
         // flash is preserved.
         endSession();
         const flash: FlashState = { flash: 'sessionEnded' };
-        navigate(RoutesPath.Root, { state: flash });
+        // replace, not push: the session behind this route no longer exists, so a
+        // Back onto /session/play would land on a page with nothing to show.
+        navigate(RoutesPath.Root, { replace: true, state: flash });
     }, [navigate, endSession]);
 
     // Fire session_abandoned when navigating away mid-session without completing
@@ -138,7 +140,10 @@ export function useSessionPlayPage(): SessionPlayPageState {
             config &&
             useSessionStore.getState().questionList.length === 0
         ) {
-            navigate(RoutesPath.Root, { replace: true });
+            // Say why: an empty pool after filtering is indistinguishable from a
+            // crash unless the home screen explains the bounce.
+            const flash: FlashState = { flash: 'noQuestionsMatch' };
+            navigate(RoutesPath.Root, { replace: true, state: flash });
         }
     }, [isSetupLoading, isSetupError, config, navigate]);
 
@@ -197,13 +202,15 @@ export function useSessionPlayPage(): SessionPlayPageState {
         selectFnRef.current?.(idx);
     }, []);
 
+    // Reset the per-question flags when the question changes. The registration refs
+    // are deliberately NOT cleared here: child effects commit before the parent's, so
+    // clearing would wipe the registration the new question's card just made and leave
+    // the number-key shortcuts calling nothing. Each card re-registers per question,
+    // and every ref is only ever invoked for the matching question type.
     useEffect(() => {
         setMultiHasSelection(false);
-        checkFnRef.current = null;
         setCodeCompletionAllFilled(false);
         setBugFindingCanSubmit(false);
-        submitFnRef.current = null;
-        selectFnRef.current = null;
     }, [currentQuestion?.id]);
 
     const isMultiChoice = currentQuestion?.type === 'multi-choice';
@@ -237,7 +244,8 @@ export function useSessionPlayPage(): SessionPlayPageState {
         optionCount,
         onSelectOption: handleSelectOption,
         onSubmit: handleKeyboardSubmit,
-        isAnswered
+        isAnswered,
+        enabled: !isEndDialogOpen
     });
 
     return {

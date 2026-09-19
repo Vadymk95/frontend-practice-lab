@@ -2,12 +2,17 @@ import type { FC } from 'react';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+const DEFAULT_SNIPPET_LANG = 'javascript';
+
 const noop = () => {};
 const noopSelfAssess = (_: (result: 'gotIt' | 'missedIt') => void) => {};
 const noopAllFilled = (_: boolean) => {};
 
+import { CodeBlock } from '@/components/common/CodeBlock';
+import { InlineMarkdown } from '@/components/common/InlineMarkdown';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { useCategoryDisplay } from '@/hooks/data/useCategoryDisplay';
 import { useLocalized } from '@/lib/i18n/localized';
 
 import { BugFindingQuestion } from './BugFinding';
@@ -37,6 +42,7 @@ export const QuestionCard: FC<QuestionCardProps> = ({
 }) => {
     const { t } = useTranslation('question');
     const pick = useLocalized();
+    const getCategoryName = useCategoryDisplay();
     const { question, currentIndex, questionCount, isAnswered, handleBack, isSkipped, handleSkip } =
         useQuestionCard();
     const [resetKey, setResetKey] = useState(0);
@@ -76,10 +82,21 @@ export const QuestionCard: FC<QuestionCardProps> = ({
                 </div>
             </div>
             <div className="flex gap-2 flex-wrap">
-                <Badge variant="outline">{question.category}</Badge>
+                <Badge variant="outline">{getCategoryName(question.category)}</Badge>
                 <Badge variant="outline">{t(`difficulty.${question.difficulty}`)}</Badge>
+                {isSkipped && (
+                    <Badge variant="outline" className="border-warning text-warning">
+                        {t('skippedBadge')}
+                    </Badge>
+                )}
             </div>
-            <h2 className="text-base font-medium">{pick(question.question)}</h2>
+            <h2 className="text-base font-medium">
+                <InlineMarkdown text={pick(question.question)} />
+            </h2>
+            {question.code &&
+                (question.type === 'single-choice' || question.type === 'multi-choice') && (
+                    <CodeBlock code={question.code} lang={question.lang ?? DEFAULT_SNIPPET_LANG} />
+                )}
             {question.type === 'single-choice' && (
                 <SingleChoiceQuestion
                     key={resetKey}

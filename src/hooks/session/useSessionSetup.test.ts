@@ -345,7 +345,38 @@ describe('useSessionSetup', () => {
             expect(mockSampleWeighted).toHaveBeenCalledWith(
                 expect.any(Array),
                 weights,
-                expect.any(Number)
+                expect.any(Number),
+                expect.any(Object)
+            );
+        });
+    });
+
+    it('passes progressStore errorRates to sampleWeighted as the category prior', async () => {
+        const q = makeQuestion('q1', 'easy');
+        const errorRates = { javascript: 0.7 };
+
+        useSessionStore.setState({ config: defaultConfig });
+
+        const { useProgressStore } = await import('@/store/progress');
+        useProgressStore.setState({ weights: {}, errorRates });
+
+        mockUseCategoryQuestions.mockReturnValue({
+            data: [q],
+            isLoading: false,
+            isError: false,
+            refetch: mockRefetch
+        });
+
+        mockSampleWeighted.mockReturnValue([q]);
+
+        renderHook(() => useSessionSetup(), { wrapper: makeWrapper() });
+
+        await waitFor(() => {
+            expect(mockSampleWeighted).toHaveBeenCalledWith(
+                expect.any(Array),
+                expect.any(Object),
+                expect.any(Number),
+                errorRates
             );
         });
     });
@@ -384,7 +415,8 @@ describe('useSessionSetup', () => {
             expect(mockSampleWeighted).toHaveBeenCalledWith(
                 expect.any(Array),
                 {}, // empty weights → DEFAULT_WEIGHT fallback applies inside algorithm
-                expect.any(Number)
+                expect.any(Number),
+                expect.any(Object)
             );
         });
     });
@@ -410,7 +442,7 @@ describe('sampleWithCategoryGuarantee', () => {
 
         const result = sampleWithCategoryGuarantee(questions, {}, 5, ['javascript']);
 
-        expect(mockSampleWeighted).toHaveBeenCalledWith(questions, {}, 5);
+        expect(mockSampleWeighted).toHaveBeenCalledWith(questions, {}, 5, {});
         expect(result).toEqual(questions);
     });
 
@@ -450,7 +482,7 @@ describe('sampleWithCategoryGuarantee', () => {
         sampleWithCategoryGuarantee([q1, q2, q3], {}, 3, ['javascript']);
 
         expect(mockSampleWeighted).toHaveBeenCalledTimes(1);
-        expect(mockSampleWeighted).toHaveBeenCalledWith([q1, q2, q3], {}, 3);
+        expect(mockSampleWeighted).toHaveBeenCalledWith([q1, q2, q3], {}, 3, {});
     });
 
     it('skips categories with no questions in pool', () => {
@@ -487,5 +519,38 @@ describe('sampleWithCategoryGuarantee', () => {
 
         // 3 high-weight questions (w=10) vs 7 low-weight (w=1): expected share > 50%
         expect(highWeightTotal / totalSamples).toBeGreaterThan(0.5);
+    });
+});
+
+describe('useSessionSetup — end-session marker is one-shot', () => {
+    afterEach(() => {
+        useSessionStore.setState({ endedAt: null });
+    });
+
+    it('skips the redirect on the visit that consumes endedAt and redirects on the next one', async () => {
+        useSessionStore.setState({ config: null, endedAt: 1_700_000_000_000 });
+        mockUseCategoryQuestions.mockReturnValue({
+            data: [],
+            isLoading: false,
+            isError: false,
+            refetch: mockRefetch
+        });
+
+        const first = renderHook(() => useSessionSetup(), { wrapper: makeWrapper() });
+
+        await waitFor(() => {
+            expect(useSessionStore.getState().endedAt).toBeNull();
+        });
+        expect(navigateMock).not.toHaveBeenCalled();
+        first.unmount();
+
+        renderHook(() => useSessionSetup(), { wrapper: makeWrapper() });
+
+        await waitFor(() => {
+            expect(navigateMock).toHaveBeenCalledWith('/', {
+                replace: true,
+                state: { flash: 'noActiveSession' }
+            });
+        });
     });
 });

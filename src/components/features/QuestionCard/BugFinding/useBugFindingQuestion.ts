@@ -111,6 +111,10 @@ export function useBugFindingQuestion({
         setTextAnswer('');
         setIsSubmitted(false);
         setSelfAssessment(null);
+        // The parent keeps its own canSubmit flag keyed on the question id, so a remount
+        // after Back would otherwise leave Submit enabled with no answer behind it.
+        onCanSubmitChange?.(false);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [question.id]);
 
     return {

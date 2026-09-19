@@ -2,12 +2,14 @@ import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/ui/button';
+import { useCategoryDisplay } from '@/hooks/data/useCategoryDisplay';
 import { formatTimer } from '@/lib/utils/formatTimer';
 
 import { useSummaryPage } from './useSummaryPage';
 
 export const SummaryPage: FC = () => {
     const { t } = useTranslation('summary');
+    const getCategoryName = useCategoryDisplay();
     const {
         correctCount,
         totalCount,
@@ -34,6 +36,7 @@ export const SummaryPage: FC = () => {
 
     return (
         <div className="flex flex-col gap-6 max-w-md mx-auto py-8 px-4">
+            <h1 className="text-center text-lg font-medium">{t('title')}</h1>
             {/* Score */}
             <div className="text-center">
                 <p className="text-sm text-muted-foreground mb-1">{t('score.label')}</p>
@@ -90,7 +93,7 @@ export const SummaryPage: FC = () => {
                                     key={topic}
                                     className="px-3 py-1 rounded-full text-xs border border-border bg-muted text-muted-foreground"
                                 >
-                                    {topic}
+                                    {getCategoryName(topic)}
                                 </li>
                             ))}
                         </ul>

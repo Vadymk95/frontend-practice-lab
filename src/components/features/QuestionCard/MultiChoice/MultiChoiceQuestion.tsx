@@ -22,7 +22,7 @@ export const MultiChoiceQuestion: FC<Props> = ({
     onCheckRegister,
     onSelectOptionRegister
 }) => {
-    const { selectedIndices, isChecked, onToggle } = useMultiChoiceQuestion(
+    const { selectedIndices, isChecked, onToggle, displayOrder } = useMultiChoiceQuestion(
         question,
         isSkipped,
         onSelectionChange,
@@ -34,23 +34,24 @@ export const MultiChoiceQuestion: FC<Props> = ({
     return (
         <div className="flex flex-col gap-2">
             <div role="group" aria-label="Answer options">
-                {question.options.map((option, index) => {
-                    const isSelected = selectedIndices.includes(index);
-                    const isCorrectOption = question.correct.includes(index);
+                {displayOrder.map((originalIndex, displayIndex) => {
+                    const isSelected = selectedIndices.includes(originalIndex);
+                    const isCorrectOption = question.correct.includes(originalIndex);
                     const isMissed = isChecked && isCorrectOption && !isSelected;
 
                     return (
                         <AnswerOption
-                            key={`${question.id}-${index}`}
-                            index={index}
-                            text={pick(option)}
+                            key={`${question.id}-${originalIndex}`}
+                            index={displayIndex}
+                            text={pick(question.options[originalIndex]!)}
                             variant="checkbox"
                             isSelected={isSelected}
                             isAnswered={isChecked}
                             isCorrect={isCorrectOption}
                             isMissed={isMissed}
                             isDisabled={false}
-                            onSelect={() => onToggle(index)}
+                            isSkippedReveal={isSkipped}
+                            onSelect={() => onToggle(displayIndex)}
                         />
                     );
                 })}

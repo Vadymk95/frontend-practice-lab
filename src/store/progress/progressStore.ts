@@ -1,9 +1,9 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import { calculateWeight, updateErrorRate } from '@/lib/algorithm';
+import { nextQuestionWeight, updateErrorRate } from '@/lib/algorithm';
 import { ALGORITHM_CONFIG } from '@/lib/algorithm/config';
-import { isYesterday } from '@/lib/date';
+import { isYesterday, toLocalDayKey } from '@/lib/date';
 import { storageService } from '@/lib/storage';
 import type { StreakData } from '@/lib/storage/types';
 import { createSelectors } from '@/store/utils/createSelectors';
@@ -58,7 +58,7 @@ const useProgressStoreBase = create<ProgressState>()(
             },
             updateStreak: () => {
                 const { streak } = get();
-                const today = new Date().toISOString().slice(0, 10);
+                const today = toLocalDayKey(new Date());
 
                 if (streak.lastActivityDate === today) return;
 
@@ -77,7 +77,7 @@ const useProgressStoreBase = create<ProgressState>()(
                 const newRates = { ...errorRates, [category]: newErrorRate };
 
                 const prevWeight = weights[questionId] ?? ALGORITHM_CONFIG.DEFAULT_WEIGHT;
-                const newWeight = calculateWeight(newErrorRate, prevWeight);
+                const newWeight = nextQuestionWeight(prevWeight, correct);
                 const newWeights = { ...weights, [questionId]: newWeight };
 
                 storageService.setErrorRates(newRates);

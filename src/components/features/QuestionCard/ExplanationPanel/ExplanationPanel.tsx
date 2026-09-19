@@ -1,6 +1,8 @@
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { InlineMarkdown } from '@/components/common/InlineMarkdown';
+
 interface ExplanationPanelProps {
     explanation: string;
 }
@@ -16,7 +18,9 @@ export const ExplanationPanel: FC<ExplanationPanelProps> = ({ explanation }) => 
             <p className="text-xs font-medium text-muted-foreground mb-1">
                 {t('explanation.label')}
             </p>
-            <p className="text-sm">{explanation}</p>
+            <p className="text-sm">
+                <InlineMarkdown text={explanation} />
+            </p>
         </div>
     );
 };

@@ -130,6 +130,42 @@ describe('useQuestionKeyboard', () => {
         expect(onSubmit).not.toHaveBeenCalled();
     });
 
+    it('does not fire while the shortcuts are disabled', () => {
+        renderHook(() =>
+            useQuestionKeyboard({
+                optionCount: 4,
+                onSelectOption,
+                onSubmit,
+                isAnswered: false,
+                enabled: false
+            })
+        );
+
+        fireEvent.keyDown(document, { key: '1' });
+        fireEvent.keyDown(document, { key: 'Enter' });
+
+        expect(onSelectOption).not.toHaveBeenCalled();
+        expect(onSubmit).not.toHaveBeenCalled();
+    });
+
+    it('ignores keys pressed inside an open dialog', () => {
+        renderHook(() =>
+            useQuestionKeyboard({ optionCount: 4, onSelectOption, onSubmit, isAnswered: false })
+        );
+
+        const dialog = document.createElement('div');
+        dialog.setAttribute('role', 'dialog');
+        const cancel = document.createElement('button');
+        dialog.appendChild(cancel);
+        document.body.appendChild(dialog);
+        fireEvent.keyDown(cancel, { key: 'Enter' });
+        fireEvent.keyDown(cancel, { key: '1' });
+        document.body.removeChild(dialog);
+
+        expect(onSubmit).not.toHaveBeenCalled();
+        expect(onSelectOption).not.toHaveBeenCalled();
+    });
+
     it('works correctly with 2 options', () => {
         renderHook(() =>
             useQuestionKeyboard({ optionCount: 2, onSelectOption, onSubmit, isAnswered: false })

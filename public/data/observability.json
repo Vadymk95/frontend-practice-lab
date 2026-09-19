@@ -1,0 +1,307 @@
+[
+    {
+        "id": "obs-rum-001",
+        "type": "single-choice",
+        "category": "observability",
+        "difficulty": "easy",
+        "tags": ["rum", "core-web-vitals", "field-data", "lab-data"],
+        "question": {
+            "en": "A page scores 98 in Lighthouse on every CI run, but the 75th percentile **INP** reported by real users is 380 ms. What best explains the gap?",
+            "ru": "Страница стабильно набирает 98 в Lighthouse на каждом прогоне CI, но 75-й перцентиль **INP** по реальным пользователям — 380 мс. Чем лучше всего объясняется расхождение?"
+        },
+        "options": [
+            {
+                "en": "Lab runs load one device profile once and never interact; field data covers real devices, networks and clicks",
+                "ru": "Лабораторный прогон грузит один профиль устройства один раз и ни с чем не взаимодействует; полевые данные охватывают реальные устройства, сети и клики"
+            },
+            {
+                "en": "Lighthouse measures INP directly during its run, so a 98 score means the field collector is misconfigured somewhere",
+                "ru": "Lighthouse измеряет INP напрямую во время прогона, поэтому оценка 98 означает, что где-то неверно настроен сборщик полевых данных"
+            },
+            {
+                "en": "INP can only be measured in a lab environment, so the field number is an estimate derived from Total Blocking Time",
+                "ru": "INP можно измерить только в лабораторной среде, поэтому полевое значение — это оценка, выведенная из Total Blocking Time"
+            },
+            {
+                "en": "The field value is a mean over all sessions, so a handful of very slow sessions is enough to pull it up",
+                "ru": "Полевое значение — это среднее по всем сессиям, поэтому достаточно нескольких очень медленных сессий, чтобы его поднять"
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "Lab tools synthesise one load on a fixed CPU and network profile and fire no user interactions. INP can be measured in a lab, but only if the run actually performs interactions — a default Lighthouse CI navigation does not, which is why Total Blocking Time stands in as the load-time proxy. The 75th percentile is a percentile, not a mean: it says a quarter of real sessions were worse than 380 ms, and those sessions come from real devices, networks and clicks that the lab run never made.",
+            "ru": "Лабораторные инструменты синтезируют одну загрузку на фиксированном профиле CPU и сети и не выполняют пользовательских взаимодействий. INP можно измерить и в лаборатории, но только если прогон реально совершает интеракции — обычная навигация Lighthouse в CI их не делает, поэтому вместо INP там подставляют Total Blocking Time как прокси для времени загрузки. 75-й перцентиль — это перцентиль, а не среднее: он говорит, что четверти реальных сессий было хуже 380 мс, и эти сессии приходят с реальных устройств, сетей и кликов, которых лабораторный прогон не совершал."
+        }
+    },
+    {
+        "id": "obs-inp-attribution-001",
+        "type": "single-choice",
+        "category": "observability",
+        "difficulty": "medium",
+        "tags": ["inp", "web-vitals", "attribution", "rum"],
+        "code": "import { onINP } from 'web-vitals/attribution';\n\nonINP(({ value, attribution }) => {\n  // value                          520\n  // attribution.inputDelay          40\n  // attribution.processingDuration  60\n  // attribution.presentationDelay  420\n  // attribution.interactionTarget   'button#apply-filters'\n  send(value, attribution);\n});",
+        "lang": "javascript",
+        "question": {
+            "en": "The attribution build reports this INP sample from production. Where is the time actually going, and what should you look at first?",
+            "ru": "Attribution-сборка прислала такой сэмпл INP из продакшена. Куда на самом деле уходит время и что смотреть в первую очередь?"
+        },
+        "options": [
+            {
+                "en": "Into the event handler itself — profile the click handler and memoise the work it does on each call",
+                "ru": "В сам обработчик события — профилировать обработчик клика и мемоизировать работу, которую он делает на каждом вызове"
+            },
+            {
+                "en": "Into waiting for the event to be dispatched — break up whatever long task was blocking the main thread at that moment",
+                "ru": "В ожидание доставки события — разбить длинную задачу, которая блокировала главный поток в этот момент"
+            },
+            {
+                "en": "Into everything after the handlers finish — the re-render, style, layout and paint needed to present the next frame",
+                "ru": "Во всё, что происходит после завершения обработчиков, — ре-рендер, стили, layout и paint, нужные для отрисовки следующего кадра"
+            },
+            {
+                "en": "Into the network request the click starts — INP keeps counting until the response arrives and the data is on screen",
+                "ru": "В сетевой запрос, который запускает клик, — INP продолжает считать, пока не придёт ответ и данные не окажутся на экране"
+            }
+        ],
+        "correct": 2,
+        "explanation": {
+            "en": "INP splits into three subparts: `inputDelay` (waiting for the main thread before the handler runs), `processingDuration` (the handlers themselves) and `presentationDelay` (from the end of the handlers to the next painted frame). Here 420 of 520 ms is presentation delay, so the handler is fine and the expensive part is the render the state update triggers — a large list re-render, a forced synchronous layout, or a heavy paint. INP stops at the next paint, so a pending network request is never counted.",
+            "ru": "INP делится на три части: `inputDelay` (ожидание главного потока до запуска обработчика), `processingDuration` (сами обработчики) и `presentationDelay` (от конца обработчиков до отрисовки следующего кадра). Здесь 420 из 520 мс — это presentation delay, то есть обработчик в порядке, а дорого обходится рендер, который вызывает обновление состояния: ре-рендер большого списка, форсированный синхронный layout или тяжёлый paint. INP останавливается на следующем кадре, поэтому незавершённый сетевой запрос в него не попадает."
+        }
+    },
+    {
+        "id": "obs-sourcemaps-001",
+        "type": "single-choice",
+        "category": "observability",
+        "difficulty": "easy",
+        "tags": ["source-maps", "error-tracking", "release", "build"],
+        "question": {
+            "en": "Production stack traces read `a.b is not a function` at `main.4f2a.js:1:88213`. Which build-and-deploy arrangement restores readable frames **without** handing your original source to anyone who opens DevTools?",
+            "ru": "В проде стектрейсы выглядят как `a.b is not a function` в `main.4f2a.js:1:88213`. Какая схема сборки и деплоя вернёт читаемые фреймы и **не** отдаст ваш исходник любому, кто откроет DevTools?"
+        },
+        "options": [
+            {
+                "en": "Deploy the `.map` files to the CDN next to the bundles so the error tracker can fetch them on demand",
+                "ru": "Выкладывать `.map` рядом с бандлами на CDN, чтобы трекер ошибок мог скачивать их по запросу"
+            },
+            {
+                "en": "Generate maps in the production build, upload them to the error tracker at deploy time, then delete them from the artifact",
+                "ru": "Генерировать карты в продакшен-сборке, загружать их в трекер ошибок на деплое, а из артефакта удалять"
+            },
+            {
+                "en": "Turn minification off for production so the shipped bundle already carries the original identifiers and line numbers",
+                "ru": "Отключить минификацию в проде, чтобы поставляемый бандл сразу содержал исходные идентификаторы и номера строк"
+            },
+            {
+                "en": "Inline the original sources into the bundle with `sourcesContent` so no separate map file has to be served at all",
+                "ru": "Встроить исходники в бандл через `sourcesContent`, чтобы отдельный файл карты вообще не пришлось раздавать"
+            }
+        ],
+        "correct": 1,
+        "explanation": {
+            "en": "Symbolication happens on the tracker's side, so the maps only have to reach the tracker — not the browser. Building with source maps, uploading them as a deploy step and then removing them from the published artifact gives readable frames while the CDN serves only minified code. Each upload must be tagged with the same release identifier (or debug id) the runtime reports, otherwise the tracker matches a stack trace against the wrong build. Shipping the maps or disabling minification both publish your source; inlining `sourcesContent` publishes it too.",
+            "ru": "Символикация происходит на стороне трекера, поэтому карты должны попасть только в трекер, а не в браузер. Собирать с source maps, загружать их отдельным шагом деплоя и затем удалять из публикуемого артефакта — так фреймы читаемы, а с CDN отдаётся только минифицированный код. Каждую загрузку нужно помечать тем же идентификатором релиза (или debug id), который сообщает рантайм, иначе трекер сопоставит стектрейс с чужой сборкой. Выкладывание карт и отключение минификации одинаково публикуют исходник; `sourcesContent` — тоже."
+        }
+    },
+    {
+        "id": "obs-traceparent-001",
+        "type": "code-completion",
+        "category": "observability",
+        "difficulty": "medium",
+        "tags": ["tracing", "trace-context", "correlation-id", "bff"],
+        "code": "const hex = (bytes) =>\n  Array.from(crypto.getRandomValues(new Uint8Array(bytes)))\n    .map((b) => b.toString(16).padStart(2, '0'))\n    .join('');\n\nconst traceId = hex(16); // 32 hex chars\nconst spanId = hex(8); // 16 hex chars\n\nconst res = await fetch('/bff/quotes', {\n  headers: {\n    // W3C Trace Context: <version>-<trace-id>-<parent-id>-<trace-flags>\n    // Version is 00 and the sampled bit of trace-flags is set.\n    '__BLANK__': `00-${traceId}-${spanId}-__BLANK__`\n  }\n});\n\nlogger.info({ message: 'quotes requested', traceId, status: res.status });",
+        "blanks": ["traceparent", "01"],
+        "lang": "javascript",
+        "question": {
+            "en": "Complete the browser instrumentation so a fetch from the SPA joins the backend's distributed trace: fill in the W3C Trace Context header name and the `trace-flags` value that marks the trace as sampled.",
+            "ru": "Дополните инструментацию в браузере так, чтобы fetch из SPA попал в распределённую трассу бэкенда: впишите имя заголовка W3C Trace Context и значение `trace-flags`, помечающее трассу как сэмплированную."
+        },
+        "referenceAnswer": "headers: { traceparent: `00-${traceId}-${spanId}-01` }\n\nW3C Trace Context defines `traceparent` as version-traceId-parentId-traceFlags, all lowercase hex: 2 / 32 / 16 / 2 digits. `01` sets the sampled bit (`00` means the caller did not record). `tracestate` is the optional companion header for vendor-specific key/value data and must be forwarded unchanged if present. Logging the same `traceId` in the client log line is what makes browser logs, backend logs and the trace joinable by one id.",
+        "explanation": {
+            "en": "`traceparent` is the standard header every OpenTelemetry-compatible backend reads, which is why the browser can join a trace without agreeing on a vendor. Its four dash-separated fields are version (`00`), a 32-hex-digit trace id, a 16-hex-digit parent span id and trace flags, where the least significant bit is `sampled`. Emitting the same trace id into your structured client log is what gives you one correlation id across browser, BFF and downstream services.",
+            "ru": "`traceparent` — стандартный заголовок, который читает любой OpenTelemetry-совместимый бэкенд, поэтому браузер может присоединиться к трассе без договорённости о вендоре. Четыре поля через дефис: версия (`00`), trace id из 32 hex-символов, parent span id из 16 и trace-flags, младший бит которых — `sampled`. Если тот же trace id писать в структурированный клиентский лог, получается один correlation id, сшивающий браузер, BFF и нижестоящие сервисы."
+        }
+    },
+    {
+        "id": "obs-trace-cors-001",
+        "type": "single-choice",
+        "category": "observability",
+        "difficulty": "hard",
+        "tags": ["tracing", "cors", "trace-context", "failure-mode"],
+        "question": {
+            "en": "You start attaching `traceparent` to every outgoing fetch. Same-origin calls to your BFF keep working, but calls to `https://api.partner.com` immediately start failing in the browser. What happened?",
+            "ru": "Вы начали добавлять `traceparent` ко всем исходящим fetch. Same-origin запросы к вашему BFF работают, а запросы к `https://api.partner.com` сразу начали падать в браузере. Что произошло?"
+        },
+        "options": [
+            {
+                "en": "`traceparent` is a forbidden header name, so the browser silently strips it and the API rejects the now-unidentified request",
+                "ru": "`traceparent` — запрещённое имя заголовка, браузер молча его вырезает, и API отклоняет ставший неопознанным запрос"
+            },
+            {
+                "en": "The generated trace id exceeds the per-header size limit that browsers enforce, so the whole request is dropped before it is ever sent",
+                "ru": "Сгенерированный trace id превышает лимит размера заголовка, который применяют браузеры, поэтому запрос целиком отбрасывается ещё до отправки"
+            },
+            {
+                "en": "The spec requires cross-origin propagation to move into `tracestate`, and partners reject `traceparent` arriving from another origin",
+                "ru": "Спецификация требует переносить кросс-доменное распространение в `tracestate`, и партнёры отклоняют `traceparent`, пришедший с другого origin"
+            },
+            {
+                "en": "The header is not CORS-safelisted, so the browser sends a preflight and the partner's `Access-Control-Allow-Headers` omits it",
+                "ru": "Заголовок не входит в CORS-safelist, поэтому браузер шлёт preflight, а в `Access-Control-Allow-Headers` партнёра его нет"
+            }
+        ],
+        "correct": 3,
+        "explanation": {
+            "en": "`traceparent` is not on the CORS safelist, so adding it turns a simple cross-origin request into one that needs an `OPTIONS` preflight; if the third party does not echo `traceparent` in `Access-Control-Allow-Headers`, the browser blocks the real request and nothing reaches the server. CORS is enforced by the browser, so the same call from a server or from curl is unaffected. The Trace Context spec explicitly warns about this, and the practical rule is to propagate trace headers only to origins you control or have agreed with — an allowlist in the fetch wrapper, not a blanket interceptor.",
+            "ru": "`traceparent` не входит в CORS-safelist, поэтому его добавление превращает простой кросс-доменный запрос в такой, которому нужен preflight `OPTIONS`; если сторонний сервис не перечисляет `traceparent` в `Access-Control-Allow-Headers`, браузер блокирует сам запрос, и до сервера ничего не доходит. CORS применяет браузер, поэтому тот же вызов с сервера или из curl проходит. Спецификация Trace Context прямо предупреждает об этом, а практическое правило такое: пробрасывать трассировочные заголовки только на origin-ы, которые вы контролируете или согласовали, — через allowlist в fetch-обёртке, а не сплошным перехватчиком."
+        }
+    },
+    {
+        "id": "obs-sampling-001",
+        "type": "bug-finding",
+        "category": "observability",
+        "difficulty": "hard",
+        "tags": ["sampling", "error-tracking", "tracing", "cost"],
+        "code": "const SAMPLE_RATE = 0.1;\n\n// One trace sampling decision per session, taken once and reused.\nconst stored = sessionStorage.getItem('trace-sampled');\nconst sampled = stored !== null ? stored === 'true' : Math.random() < SAMPLE_RATE;\nsessionStorage.setItem('trace-sampled', String(sampled));\n\nexport function reportSpan(span) {\n  if (sampled) beacon('/v1/traces', span);\n}\n\nexport function reportError(error) {\n  if (sampled) beacon('/v1/errors', error);\n}",
+        "lang": "javascript",
+        "question": {
+            "en": "A team samples 10% of telemetry to control cost. Find the defect in this bootstrap.",
+            "ru": "Команда сэмплирует 10% телеметрии, чтобы контролировать стоимость. Найдите дефект в этом бутстрапе."
+        },
+        "correct": "Errors are gated by the trace sampling decision, so 90% of production errors are never reported at all",
+        "referenceAnswer": "Traces and errors have opposite economics and must not share a sampling gate. Traces are high-volume and statistically redundant — 10% of them still describes latency distributions accurately. Errors are rare, individually meaningful signals: at a 10% gate a bug hitting 30 users shows up as 3, a bug hitting 3 users can show up as 0, and every rate-based alert and release-health number is silently scaled by an unknown factor.\n\nFix: capture errors at 100% and sample only traces.\n\n```js\nexport function reportError(error) {\n  beacon('/v1/errors', error, { traceId, sampled });\n}\n```\n\nControl error cost with deduplication by fingerprint, a per-session cap on repeated identical errors, and dropping known third-party noise — not with a probability gate. Keep attaching the trace id so a sampled session's error still links to its trace, and reflect the same decision in the `traceparent` sampled bit.",
+        "explanation": {
+            "en": "Sampling is a cost control for high-volume, redundant data; errors are neither. Reusing the trace decision for errors throws away nine of every ten production errors, which corrupts error rate, release health and every alert built on them, and makes a rare-but-severe bug statistically invisible. Sample traces, capture all errors, and control error volume with deduplication and per-session caps instead.",
+            "ru": "Сэмплирование — это контроль стоимости для объёмных избыточных данных; ошибки к ним не относятся. Переиспользование решения для трасс на ошибках выбрасывает девять ошибок из десяти, что ломает error rate, release health и все построенные на них алерты, а редкий, но серьёзный баг делает статистически невидимым. Сэмплируйте трассы, ошибки собирайте полностью, а их объём ограничивайте дедупликацией и лимитом на сессию."
+        }
+    },
+    {
+        "id": "obs-pii-scrubbing-001",
+        "type": "bug-finding",
+        "category": "observability",
+        "difficulty": "medium",
+        "tags": ["pii", "privacy", "error-tracking", "before-send"],
+        "code": "function scrub(event) {\n  return {\n    ...event,\n    user: { id: event.user?.id },\n    request: { ...event.request, headers: undefined }\n  };\n}\n\ntelemetry.beforeSend = (event) => {\n  scrub(event);\n  return event;\n};",
+        "lang": "javascript",
+        "question": {
+            "en": "This hook is supposed to strip personal data from every event before it leaves the browser. Find the bug.",
+            "ru": "Этот хук должен вырезать персональные данные из каждого события до того, как оно уйдёт из браузера. Найдите ошибку."
+        },
+        "correct": "scrub() returns a scrubbed copy but the hook discards it and returns the original event, so the email and headers are still sent",
+        "referenceAnswer": "`scrub` is pure — it builds and returns a new object and mutates nothing — but its return value is thrown away, so `beforeSend` hands the untouched `event` to the transport. Every payload still carries the user's email and the request headers, including the auth token.\n\nFix:\n\n```js\ntelemetry.beforeSend = (event) => scrub(event);\n```\n\nTwo things make this class of bug expensive rather than annoying. Scrubbing has to happen in the browser, before transport: once the raw payload has left the device, a server-side or vendor-dashboard rule is a deletion, not a prevention, and the data was in transit and at rest in the meantime. And it needs a test that asserts the *serialised* output contains no email, token or free-text field — reverting the fix must turn that test red.",
+        "explanation": {
+            "en": "The scrubber is correct and the wiring is not: a pure function's result that is never returned changes nothing, so the original event goes out intact. PII scrubbing belongs on the client side of the transport because anything sent is already disclosed — a vendor-side rule only deletes it afterwards. Guard it with a test over the serialised payload, so removing the scrub call fails the suite rather than a later audit.",
+            "ru": "Скраббер написан правильно, а проводка — нет: результат чистой функции, который никуда не возвращается, ничего не меняет, и исходное событие уходит нетронутым. Вырезать PII нужно на клиенте, до отправки: всё отправленное уже раскрыто, а правило на стороне вендора лишь удаляет данные постфактум. Закрывайте это тестом на сериализованный payload, чтобы удаление вызова скраббера ронял тест, а не всплывало на аудите."
+        }
+    },
+    {
+        "id": "obs-release-health-001",
+        "type": "single-choice",
+        "category": "observability",
+        "difficulty": "medium",
+        "tags": ["alerting", "release-health", "error-rate", "on-call"],
+        "question": {
+            "en": "The alert *more than 500 JS errors in 5 minutes* pages the on-call every evening when traffic peaks, yet a release that broke checkout for 3% of users never fired it. Which alert definition fixes **both** problems?",
+            "ru": "Алерт *больше 500 JS-ошибок за 5 минут* будит дежурного каждый вечер на пике трафика, но релиз, сломавший checkout для 3% пользователей, его так и не вызвал. Какое определение алерта чинит **обе** проблемы?"
+        },
+        "options": [
+            {
+                "en": "Alert on the share of sessions that hit an error, per release, compared with the previous release",
+                "ru": "Алертить на долю сессий с ошибкой в разрезе релиза, сравнивая с предыдущим релизом"
+            },
+            {
+                "en": "Raise the threshold to 2000 errors in 5 minutes so normal evening traffic stops crossing it",
+                "ru": "Поднять порог до 2000 ошибок за 5 минут, чтобы обычный вечерний трафик перестал его пересекать"
+            },
+            {
+                "en": "Keep the absolute count but suppress the alert outside business hours, when nobody is going to act on it",
+                "ru": "Оставить абсолютный счётчик, но глушить алерт вне рабочих часов, когда на него всё равно никто не среагирует"
+            },
+            {
+                "en": "Page on every error fingerprint never seen in production before, whatever number of users it affects",
+                "ru": "Будить дежурного на каждый отпечаток ошибки, ранее не встречавшийся в проде, независимо от числа затронутых пользователей"
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "An absolute error count is a function of traffic, so it fires on popularity and stays quiet when a small but broken cohort generates few events. A rate — errored sessions over total sessions, attributed to a release — is traffic-invariant and is exactly the shape of a 3% regression. Comparing against the previous release is what makes a bad deploy visible within minutes instead of after the weekend. Raising the threshold or muting at night trades one failure for the other; new-fingerprint alerts are a useful triage feed, not a paging condition.",
+            "ru": "Абсолютное число ошибок — функция от трафика: оно срабатывает на популярности и молчит, когда небольшая, но сломанная когорта генерирует мало событий. Доля — сессии с ошибкой к общему числу сессий, привязанная к релизу — от трафика не зависит и точно описывает регрессию на 3%. Сравнение с предыдущим релизом и делает плохой деплой видимым за минуты, а не после выходных. Поднять порог или заглушить ночью — значит обменять один провал на другой; алерты на новые отпечатки полезны как лента для триажа, но не как повод будить дежурного."
+        }
+    },
+    {
+        "id": "obs-alerting-001",
+        "type": "multi-choice",
+        "category": "observability",
+        "difficulty": "hard",
+        "tags": ["alerting", "dashboards", "slo", "on-call"],
+        "question": {
+            "en": "Which of these belong on a condition that **pages** the on-call, rather than on a dashboard or a triage queue?",
+            "ru": "Что из перечисленного должно быть условием, **поднимающим** дежурного, а не графиком на дашборде или задачей в очереди триажа?"
+        },
+        "options": [
+            {
+                "en": "Successful checkout submissions fall to zero while traffic to the checkout route stays at its usual level",
+                "ru": "Число успешных сабмитов checkout падает до нуля, при этом трафик на роут checkout остаётся обычным"
+            },
+            {
+                "en": "A breakdown of INP subparts by route and device class, aggregated over the past thirty days for review",
+                "ru": "Разбивка составляющих INP по роутам и классам устройств, агрегированная за последние тридцать дней"
+            },
+            {
+                "en": "The RUM endpoint receives no beacons at all from the web app for fifteen minutes during peak hours",
+                "ru": "RUM-эндпоинт пятнадцать минут в час пик вообще не получает биконов от веб-приложения"
+            },
+            {
+                "en": "The p75 of LCP on the marketing landing route has regressed by about 120 ms since the previous week",
+                "ru": "p75 LCP на маркетинговом лендинге ухудшился примерно на 120 мс по сравнению с прошлой неделей"
+            },
+            {
+                "en": "Checkout's monthly error budget is burning at roughly fourteen times the sustainable rate",
+                "ru": "Месячный error budget checkout-а прогорает примерно в четырнадцать раз быстрее допустимого"
+            }
+        ],
+        "correct": [0, 2, 4],
+        "explanation": {
+            "en": "A paging condition needs three properties: it is urgent, it is actionable right now, and a human doing nothing makes it worse. A core journey that stops completing under normal traffic, a fast error-budget burn and telemetry going silent all qualify — the last one because the absence of data hides every other alert, which is why you monitor the monitoring. A thirty-day INP breakdown and a week-over-week LCP shift are planning artefacts: they describe a trend nobody can act on at three in the morning, and paging on them is how an on-call rotation learns to ignore the pager.",
+            "ru": "У условия для пейджера три свойства: срочность, возможность что-то сделать прямо сейчас и ухудшение ситуации, если человек ничего не сделает. Ключевой сценарий, который при обычном трафике перестал завершаться, быстрое прогорание error budget и замолчавшая телеметрия подходят под все три — последнее потому, что отсутствие данных прячет все остальные алерты, поэтому мониторят и сам мониторинг. Разбивка INP за тридцать дней и сдвиг LCP неделя к неделе — артефакты для планирования: это тренд, с которым в три часа ночи ничего не сделать, а если будить на такое, дежурные быстро научатся игнорировать пейджер."
+        }
+    },
+    {
+        "id": "obs-session-replay-001",
+        "type": "multi-choice",
+        "category": "observability",
+        "difficulty": "medium",
+        "tags": ["session-replay", "privacy", "pii", "gdpr"],
+        "question": {
+            "en": "You are enabling session replay on a product that handles payment details and personal data. Which measures reduce the personal data captured within each recorded session?",
+            "ru": "Вы включаете session replay в продукте, который работает с платёжными реквизитами и персональными данными. Какие меры уменьшают объём персональных данных, попадающих в каждую записанную сессию?"
+        },
+        "options": [
+            {
+                "en": "Verify masking is default-deny for text and inputs, then opt individual elements in by selector",
+                "ru": "Проверить, что маскирование текста и инпутов работает по принципу default-deny, и открывать отдельные элементы точечно по селектору"
+            },
+            {
+                "en": "Keep same-origin `srcdoc` iframes blocked, because masking cannot run inside their frame content",
+                "ru": "Оставить same-origin `srcdoc` iframe заблокированными: внутри их содержимого маскирование не работает"
+            },
+            {
+                "en": "Scrub the network request and response bodies captured alongside the replay, not only the DOM",
+                "ru": "Чистить тела сетевых запросов и ответов, которые пишутся вместе с реплеем, а не только DOM"
+            },
+            {
+                "en": "Rely on the vendor's default masking and ship new fields without re-checking what they expose",
+                "ru": "Положиться на дефолтное маскирование вендора и выкатывать новые поля, не перепроверяя, что они раскрывают"
+            },
+            {
+                "en": "Lower the replay sample rate to 5% of sessions instead of recording every session that starts",
+                "ru": "Снизить sample rate реплея до 5% сессий вместо записи каждой начавшейся сессии"
+            }
+        ],
+        "correct": [0, 1, 2],
+        "explanation": {
+            "en": "Replay privacy has to be default-deny: mask everything and reveal named elements, because a masking allowlist fails closed when a new field ships and a blocklist fails open. Default masking differs per SDK — Sentry sets `maskAllText` and `maskAllInputs` to true, while raw rrweb leaves `maskAllInputs` off — so the control you own is verifying the default in your own SDK and re-verifying it whenever a new field ships, not assuming it. A truly cross-origin frame such as a hosted card field is already outside the recorder unless the SDK is injected into it; an ordinary same-origin frame is recorded as part of the DOM with your masking config applied to it, and the documented gap is `srcdoc` — Sentry blocks `iframe[srcdoc]:not([src])` by default precisely because masking cannot run inside that content. The network bodies the SDK records next to the DOM are the part teams routinely forget — a masked screen with a full JSON response attached leaks anyway. A lower sample rate changes how many people are recorded, not what is recorded about them.",
+            "ru": "Приватность реплея строится по принципу default-deny: маскируем всё и точечно открываем именованные элементы, потому что allowlist при появлении нового поля падает в безопасную сторону, а blocklist — в опасную. Дефолты маскирования различаются у SDK: Sentry выставляет `maskAllText` и `maskAllInputs` в true, а у голого rrweb `maskAllInputs` выключен — поэтому ваш реальный рычаг в том, чтобы проверить дефолт своего SDK и перепроверять его при каждом новом поле, а не полагаться на него вслепую. По-настоящему кросс-доменный фрейм вроде хостед-поля карты и так не попадает в запись, если SDK не внедрён внутрь него; обычный same-origin фрейм пишется как часть DOM, и ваша конфигурация маскирования к нему применяется, а задокументированная дыра — это `srcdoc`: Sentry по умолчанию блокирует `iframe[srcdoc]:not([src])` именно потому, что внутри такого содержимого маскирование не отрабатывает. Тела сетевых запросов, которые SDK пишет рядом с DOM, — то, о чём команды регулярно забывают: замаскированный экран с приложенным полным JSON-ответом всё равно течёт. Пониженный sample rate меняет, сколько людей записано, а не что именно о них записано."
+        }
+    }
+]

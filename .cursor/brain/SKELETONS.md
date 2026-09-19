@@ -69,12 +69,19 @@ self-assess and every bug-finding answer would score wrong.
 ## End-session contract — `endedAt` guards the setup redirect
 
 `confirmEndSession` (in `useSessionPlayPage`) calls `sessionStore.endSession()`
-which stamps `endedAt` and wipes session data, then navigates to `/` with a
-`sessionEnded` flash. Without the `endedAt` marker, `useSessionSetup`'s
-`!config` redirect would fire on the same render cycle and overwrite the
-flash with `noActiveSession`. Keep the `endedAt !== null` early-return in
-`useSessionSetup` and the `endedAt` reset inside `setConfig`'s spread —
-otherwise the End Session UX silently regresses.
+which stamps `endedAt` and wipes session data, then navigates to `/` with
+`{ replace: true }` and a `sessionEnded` flash. Without the `endedAt` marker,
+`useSessionSetup`'s `!config` redirect would fire on the same render cycle and
+overwrite the flash with `noActiveSession`. Keep the `endedAt !== null`
+early-return in `useSessionSetup` and the `endedAt` reset inside `setConfig`'s
+spread — otherwise the End Session UX silently regresses.
+
+**The marker is one-shot.** `useSessionSetup` calls `consumeEndedAt()` the first
+time it reads it, guarded by a mount-scoped ref so StrictMode's second effect
+pass does not steal the flash. Without the consume, a Back onto `/session/play`
+found `endedAt` still set, skipped the redirect forever and left the page on
+"Loading…" with no exit. Do not make the guard a plain read again, and do not
+drop the `replace` on the end-session navigate.
 
 ## Bilingual question schema — `{ en, ru }` required
 
@@ -84,3 +91,77 @@ User-visible question fields are `LocalizedString = { en: string; ru: string }` 
 - Language-agnostic fields stay plain strings: `id`, `category`, `tags`, `code`, `blanks[]`, `referenceAnswer`, and `correct` (when number or code-string for bug-finding)
 - Render via `useLocalized(field)` from `src/lib/i18n/localized.ts` — reactive to language toggle
 - See `docs/content-guide.md` for examples and the AI-agent contribution prompt
+
+## Streak days are LOCAL days — never `toISOString().slice(0, 10)`
+
+Every place that turns a `Date` into a streak day key goes through `toLocalDayKey` in
+`src/lib/date.ts` (`progressStore.updateStreak`, `useSummaryPage`'s `isStreakReset`, `isYesterday`).
+A UTC key double-increments the streak inside one local day east of UTC (02:00 and 22:00 are two
+different UTC days) and breaks across the DST fall-back in both directions. `isYesterday` also
+rebuilds "yesterday" from local midnight — parsing the key with `new Date(str)` gives a UTC instant
+and `setDate(-1)` on it is off by a day at the boundary. Tests that pin the clock at 12:00Z cannot
+catch either failure; use a local-constructed `new Date(y, m, d, h, …)` and set `process.env.TZ`.
+
+## PWA toasts — guarded storage, and no update prompt mid-session
+
+Two invariants live in `usePwaUpdateToast` / `usePwaInstallToast`:
+
+- Every `sessionStorage` touch goes through `readSessionFlag` / `writeSessionFlag`
+  (`src/lib/storage/sessionFlag.ts`). Bare `sessionStorage.getItem(...)` in a `useState` initializer
+  THROWS where site data is blocked, and both toasts render unconditionally from `App.tsx`, so the
+  throw reaches the ErrorBoundary and replaces the entire app with the error screen.
+- The update toast is hidden while `sessionStore.questionList` is non-empty on `/session/play`.
+  Accepting it calls `updateServiceWorker(true)`, which reloads the document; the session store has
+  no persist middleware, so answers, timer and score are gone and the reloaded `/session/play`
+  redirects home. Do not drop the route + questionList guard without persisting the session first.
+
+## Manifest `matrix` — the only exact source for difficulty x mode counts
+
+`public/data/manifest.json` carries per-axis `counts` AND a `matrix`
+(`easy | medium | hard` x `quiz | bugFinding | codeCompletion`) written by
+`npm run build:manifest`. The axes are not independent: a category can hold easy
+questions and bug-finding questions and zero easy bug-finding questions.
+
+- `getFilteredCategoryCount` MUST read `matrix` for a difficulty+mode pair. The
+  old `round(diffCount * modeTotal / total)` estimate was wrong for 122 of 216
+  combinations and enabled Start over 10 empty pools.
+- `counts` stays for the single-axis cases and for compatibility — do not delete it.
+- Any new question type or difficulty has to be added to the generator's matrix,
+  to `ManifestEntry` in `src/hooks/data/useCategories.ts` and to `MODE_KEY`.
+
+## Active language comes from i18next, never from the ui store
+
+`useLanguage` (`src/hooks/ui/useLanguage.ts`) is the only reader: it derives the
+label from `i18n.language` and writes through `i18n.changeLanguage` plus the ui
+store. The store's `language` (persisted under `ios_language`) is a write-only
+copy — i18next persists its own choice under `i18nextLng` and is what actually
+renders. Reading the store for display made the header show "RU" while the app
+rendered English on a fresh English-locale browser. Do not reintroduce a second
+source, and do not push the store value into i18next on mount — that kills
+browser detection.
+
+## Preset launch is revalidated against the manifest
+
+A preset lives in localStorage indefinitely, so its category slugs outlive
+content changes. `resolvePresetConfig`
+(`src/components/features/PresetList/resolvePresetConfig.ts`) drops unknown
+slugs, clamps `questionCount` to the exact pool and returns null when nothing
+startable is left; both preset launchers must call it and show the
+`presetOutdated` flash on null. Without it a removed slug fetched
+`/data/<slug>.json`, got index.html back through the SPA rewrite and parked the
+user on an error screen whose Retry could never succeed.
+
+## Answer options are shuffled at render — the store keeps ORIGINAL indices
+
+`useSingleChoiceQuestion` / `useMultiChoiceQuestion` draw a per-question permutation
+(`createOptionOrder`, `src/lib/utils/optionOrder.ts`) that maps DISPLAY position to the
+option's index in the bank. The A-E labels follow display order, but everything that
+leaves the component — `sessionStore.answers[id]` (number for single, number[] for multi),
+the analytics `correct` flag, the summary's comparison against `question.correct` — uses
+the ORIGINAL bank index.
+
+- `onSelect` / `onToggle` take a DISPLAY index (the keyboard path in `useSessionPlayPage`
+  passes display positions too) and map it through `displayOrder` themselves.
+- Never store a display index and never re-sort the options into bank order for rendering:
+  the bank has the correct answer at the same index in ~74% of questions, which is what the
+  draw exists to break.

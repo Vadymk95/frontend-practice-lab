@@ -212,3 +212,122 @@ describe('progressStore — initial load from storageService', () => {
         expect(errorRates['react']).toBeCloseTo(0.48);
     });
 });
+
+describe('progressStore — recordAnswer weighs the question by its own outcome', () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
+        useProgressStoreBase.setState({
+            weights: {},
+            errorRates: {},
+            streak: { current: 0, lastActivityDate: '' },
+            records: {},
+            lastSessionResults: {}
+        });
+    });
+
+    it('lowers the question weight on a correct answer inside a weak category', () => {
+        useProgressStoreBase.setState({ weights: { q1: 2 }, errorRates: { react: 0.9 } });
+
+        useProgressStoreBase.getState().recordAnswer('q1', 'react', true);
+
+        expect(useProgressStoreBase.getState().weights['q1']).toBeCloseTo(1.0);
+    });
+
+    it('raises the question weight on a wrong answer inside a strong category', () => {
+        useProgressStoreBase.setState({ weights: { q1: 1 }, errorRates: { react: 0 } });
+
+        useProgressStoreBase.getState().recordAnswer('q1', 'react', false);
+
+        expect(useProgressStoreBase.getState().weights['q1']).toBeCloseTo(2.0);
+    });
+
+    it('leaves the other questions of the category untouched', () => {
+        useProgressStoreBase.setState({ weights: { q1: 1, q2: 1 }, errorRates: { react: 0.9 } });
+
+        useProgressStoreBase.getState().recordAnswer('q1', 'react', false);
+
+        expect(useProgressStoreBase.getState().weights['q2']).toBeCloseTo(1.0);
+    });
+
+    it('still moves the category error rate — it feeds the home widget and focus areas', () => {
+        useProgressStoreBase.setState({ weights: {}, errorRates: { react: 0.5 } });
+
+        useProgressStoreBase.getState().recordAnswer('q1', 'react', false);
+
+        expect(useProgressStoreBase.getState().errorRates['react']).toBeCloseTo(0.6);
+    });
+});
+
+describe('progressStore — updateStreak counts the local calendar day', () => {
+    const ORIGINAL_TZ = process.env.TZ;
+
+    function resetProgress() {
+        useProgressStoreBase.setState({
+            weights: {},
+            errorRates: {},
+            streak: { current: 0, lastActivityDate: '' },
+            records: {},
+            lastSessionResults: {}
+        });
+    }
+
+    beforeEach(() => {
+        vi.clearAllMocks();
+        vi.useFakeTimers();
+        resetProgress();
+    });
+
+    afterEach(() => {
+        vi.useRealTimers();
+        if (ORIGINAL_TZ === undefined) delete process.env.TZ;
+        else process.env.TZ = ORIGINAL_TZ;
+    });
+
+    it('increments once for two sessions on the same local day east of UTC', () => {
+        process.env.TZ = 'Europe/Kyiv';
+
+        vi.setSystemTime(new Date(2026, 9, 6, 2, 0, 0));
+        useProgressStoreBase.getState().updateStreak();
+        vi.setSystemTime(new Date(2026, 9, 6, 22, 0, 0));
+        useProgressStoreBase.getState().updateStreak();
+
+        const { streak } = useProgressStoreBase.getState();
+        expect(streak.current).toBe(1);
+        expect(streak.lastActivityDate).toBe('2026-10-06');
+    });
+
+    it('increments once for two sessions on the same local day west of UTC', () => {
+        process.env.TZ = 'America/New_York';
+
+        vi.setSystemTime(new Date(2026, 9, 6, 2, 0, 0));
+        useProgressStoreBase.getState().updateStreak();
+        vi.setSystemTime(new Date(2026, 9, 6, 22, 0, 0));
+        useProgressStoreBase.getState().updateStreak();
+
+        const { streak } = useProgressStoreBase.getState();
+        expect(streak.current).toBe(1);
+        expect(streak.lastActivityDate).toBe('2026-10-06');
+    });
+
+    it('treats the DST fall-back day and the day after as consecutive', () => {
+        process.env.TZ = 'Europe/Kyiv';
+        useProgressStoreBase.setState({ streak: { current: 4, lastActivityDate: '2026-10-25' } });
+
+        vi.setSystemTime(new Date(2026, 9, 26, 12, 0, 0));
+        useProgressStoreBase.getState().updateStreak();
+
+        const { streak } = useProgressStoreBase.getState();
+        expect(streak.current).toBe(5);
+        expect(streak.lastActivityDate).toBe('2026-10-26');
+    });
+
+    it('resets when a local day was skipped around the DST fall-back', () => {
+        process.env.TZ = 'Europe/Kyiv';
+        useProgressStoreBase.setState({ streak: { current: 4, lastActivityDate: '2026-10-24' } });
+
+        vi.setSystemTime(new Date(2026, 9, 26, 12, 0, 0));
+        useProgressStoreBase.getState().updateStreak();
+
+        expect(useProgressStoreBase.getState().streak.current).toBe(1);
+    });
+});

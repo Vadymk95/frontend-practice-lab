@@ -1,5 +1,5 @@
 import { act, renderHook } from '@testing-library/react';
-import { describe, expect, it, vi, beforeEach } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { usePwaInstallToast } from './usePwaInstallToast';
 
@@ -91,5 +91,33 @@ describe('usePwaInstallToast', () => {
         rerender();
 
         expect(result.current.isVisible).toBe(false);
+    });
+});
+
+describe('usePwaInstallToast — blocked storage', () => {
+    afterEach(() => {
+        vi.restoreAllMocks();
+        sessionStorage.clear();
+    });
+
+    it('renders instead of throwing when reading sessionStorage throws', () => {
+        vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+            throw new DOMException('The operation is insecure.', 'SecurityError');
+        });
+
+        const { result } = renderHook(() => usePwaInstallToast());
+
+        expect(result.current.isVisible).toBe(false);
+        expect(result.current.isAvailable).toBe(false);
+    });
+
+    it('does not throw when writing the dismissal throws', () => {
+        vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+            throw new DOMException('The operation is insecure.', 'SecurityError');
+        });
+
+        const { result } = renderHook(() => usePwaInstallToast());
+
+        expect(() => act(() => result.current.dismiss())).not.toThrow();
     });
 });

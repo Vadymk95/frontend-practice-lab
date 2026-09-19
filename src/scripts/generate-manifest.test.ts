@@ -37,6 +37,26 @@ const HARD_QUESTION = {
     referenceAnswer: 'It is off-by-one'
 };
 
+const MEDIUM_COMPLETION_QUESTION = {
+    id: 'q3',
+    type: 'code-completion' as const,
+    category: 'test',
+    difficulty: 'medium' as const,
+    tags: ['syntax'],
+    question: { en: 'Fill the blank.', ru: 'Fill the blank.' },
+    explanation: { en: 'It is a const.', ru: 'It is a const.' },
+    code: '__BLANK__ x = 1',
+    blanks: ['const'],
+    referenceAnswer: 'const'
+};
+
+const EASY_MULTI_QUESTION = {
+    ...EASY_QUESTION,
+    id: 'q4',
+    type: 'multi-choice' as const,
+    correct: [0, 1]
+};
+
 let tmpDir: string;
 let manifestPath: string;
 
@@ -99,6 +119,35 @@ describe('generate-manifest main()', () => {
             quiz: 1,
             bugFinding: 1,
             codeCompletion: 0
+        });
+    });
+
+    it('writes an exact difficulty x mode matrix, including the empty combinations', () => {
+        fs.writeFileSync(
+            path.join(tmpDir, 'alpha.json'),
+            JSON.stringify([
+                EASY_QUESTION,
+                EASY_MULTI_QUESTION,
+                MEDIUM_COMPLETION_QUESTION,
+                HARD_QUESTION
+            ])
+        );
+
+        vi.spyOn(console, 'log').mockImplementation(() => undefined);
+
+        main(tmpDir, manifestPath);
+
+        type ModeCounts = { quiz: number; bugFinding: number; codeCompletion: number };
+        type Entry = { slug: string; matrix: Record<'easy' | 'medium' | 'hard', ModeCounts> };
+
+        const written = JSON.parse(fs.readFileSync(manifestPath, 'utf-8')) as Entry[];
+        const alpha = written.find((e) => e.slug === 'alpha');
+
+        expect(alpha?.matrix).toEqual({
+            // two quiz questions, and — the bug the estimate hid — zero easy bug-finding
+            easy: { quiz: 2, bugFinding: 0, codeCompletion: 0 },
+            medium: { quiz: 0, bugFinding: 0, codeCompletion: 1 },
+            hard: { quiz: 0, bugFinding: 1, codeCompletion: 0 }
         });
     });
 

@@ -10,7 +10,10 @@ describe('sessionStore', () => {
             answers: {},
             skipList: [],
             config: null,
-            timerMs: 0
+            timerMs: 0,
+            endedAt: null,
+            scoredAt: null,
+            isRepeat: false
         });
     });
 
@@ -33,5 +36,117 @@ describe('sessionStore', () => {
             useSessionStore.getState().removeAnswer('q-1');
             expect(useSessionStore.getState().answers).toEqual({});
         });
+    });
+
+    describe('consumeEndedAt', () => {
+        it('clears the end-session marker so only the first reader sees it', () => {
+            useSessionStore.setState({ endedAt: 1_700_000_000_000 });
+
+            useSessionStore.getState().consumeEndedAt();
+
+            expect(useSessionStore.getState().endedAt).toBeNull();
+        });
+
+        it('leaves the rest of the session state untouched', () => {
+            useSessionStore.setState({
+                endedAt: 1_700_000_000_000,
+                answers: { 'q-1': 2 },
+                currentIndex: 3
+            });
+
+            useSessionStore.getState().consumeEndedAt();
+
+            expect(useSessionStore.getState().answers).toEqual({ 'q-1': 2 });
+            expect(useSessionStore.getState().currentIndex).toBe(3);
+        });
+    });
+});
+
+describe('sessionStore — scoredAt', () => {
+    const config = {
+        categories: ['javascript'],
+        difficulty: 'all',
+        mode: 'all',
+        questionCount: 5,
+        order: 'random',
+        timerEnabled: false
+    } as never;
+
+    it('starts null so the summary scores the session once', () => {
+        expect(useSessionStore.getState().scoredAt).toBeNull();
+    });
+
+    it('markScored stamps a timestamp', () => {
+        useSessionStore.getState().markScored();
+        expect(useSessionStore.getState().scoredAt).toBeTypeOf('number');
+    });
+
+    it('markScored keeps the first stamp when called twice', () => {
+        useSessionStore.getState().markScored();
+        const first = useSessionStore.getState().scoredAt;
+        useSessionStore.getState().markScored();
+        expect(useSessionStore.getState().scoredAt).toBe(first);
+    });
+
+    it('setConfig clears it so the next session scores again', () => {
+        useSessionStore.getState().markScored();
+        useSessionStore.getState().setConfig(config);
+        expect(useSessionStore.getState().scoredAt).toBeNull();
+    });
+
+    it('setRepeatMistakes clears it so a repeat session scores again', () => {
+        useSessionStore.getState().markScored();
+        useSessionStore.getState().setRepeatMistakes([]);
+        expect(useSessionStore.getState().scoredAt).toBeNull();
+    });
+
+    it('resetSession clears it', () => {
+        useSessionStore.getState().markScored();
+        useSessionStore.getState().resetSession();
+        expect(useSessionStore.getState().scoredAt).toBeNull();
+    });
+
+    it('endSession clears it', () => {
+        useSessionStore.getState().markScored();
+        useSessionStore.getState().endSession();
+        expect(useSessionStore.getState().scoredAt).toBeNull();
+    });
+});
+
+describe('sessionStore — isRepeat', () => {
+    const config = {
+        categories: ['javascript'],
+        difficulty: 'all',
+        mode: 'all',
+        questionCount: 5,
+        order: 'random',
+        timerEnabled: true
+    } as never;
+
+    it('starts false for a freshly configured session', () => {
+        expect(useSessionStore.getState().isRepeat).toBe(false);
+    });
+
+    it('setRepeatMistakes marks the session as a repeat', () => {
+        useSessionStore.getState().setRepeatMistakes([]);
+        expect(useSessionStore.getState().isRepeat).toBe(true);
+    });
+
+    it('setConfig clears the repeat mark', () => {
+        useSessionStore.getState().setRepeatMistakes([]);
+        useSessionStore.getState().setConfig(config);
+        expect(useSessionStore.getState().isRepeat).toBe(false);
+    });
+
+    it('resetSession clears the repeat mark', () => {
+        useSessionStore.getState().setRepeatMistakes([]);
+        useSessionStore.getState().resetSession();
+        expect(useSessionStore.getState().isRepeat).toBe(false);
+    });
+
+    it('endSession clears the repeat mark', () => {
+        useSessionStore.getState().setRepeatMistakes([]);
+        useSessionStore.getState().endSession();
+        expect(useSessionStore.getState().isRepeat).toBe(false);
     });
 });

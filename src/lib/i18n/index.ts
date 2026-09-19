@@ -36,7 +36,8 @@ const i18nInitPromise = i18next
         fallbackLng: DEFAULT_LANGUAGE,
         defaultNS: DEFAULT_NAMESPACE,
         ns: DEFAULT_NAMESPACES,
-        initImmediate: false,
+        // `initImmediate` was removed in i18next 26; init is asynchronous regardless and main.tsx
+        // already gates rendering on the returned promise (the isI18nReady gate in SKELETONS).
         detection: {
             order: ['localStorage', 'navigator'],
             lookupLocalStorage: I18N_STORAGE_KEY,

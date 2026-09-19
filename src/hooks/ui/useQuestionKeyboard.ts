@@ -9,20 +9,29 @@ interface UseQuestionKeyboardProps {
     onSelectOption: (idx: number) => void;
     onSubmit: () => void;
     isAnswered: boolean;
+    /** Caller-owned off switch — false while a modal owns the keyboard. Defaults to true. */
+    enabled?: boolean;
 }
 
 export const useQuestionKeyboard = ({
     optionCount,
     onSelectOption,
     onSubmit,
-    isAnswered
+    isAnswered,
+    enabled = true
 }: UseQuestionKeyboardProps): void => {
     const lastEnterAtRef = useRef(0);
 
     useEffect(() => {
+        if (!enabled) return;
+
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement)
                 return;
+            // Dialogs are portaled out of the page subtree, so Enter on their Cancel
+            // button would otherwise reach this document-level listener first and
+            // advance the question underneath before the button click closes them.
+            if (e.target instanceof Element && e.target.closest('[role="dialog"]')) return;
 
             const num = parseInt(e.key, 10);
             if (num >= 1 && num <= optionCount && !isAnswered) {
@@ -40,5 +49,5 @@ export const useQuestionKeyboard = ({
 
         document.addEventListener('keydown', handleKeyDown);
         return () => document.removeEventListener('keydown', handleKeyDown);
-    }, [optionCount, onSelectOption, onSubmit, isAnswered]);
+    }, [optionCount, onSelectOption, onSubmit, isAnswered, enabled]);
 };

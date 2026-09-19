@@ -17,8 +17,8 @@ priority: 92
 console.error(error);
 catch (e: unknown) { throw e; }
 
-// Good — always include [module] operation: reason via logger
-logger.error('[UserStore] setUser: failed to update user state', error, { userId });
+// Good — always include [module] operation: reason as context
+console.error('[UserStore] setUser: failed to update user state', error, { userId });
 ```
 
 - **Silent catch**: FORBIDDEN. Every `catch` must either log with context or rethrow.

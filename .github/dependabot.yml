@@ -4,6 +4,47 @@ updates:
       directory: '/'
       schedule:
           interval: weekly
-      open-pull-requests-limit: 8
+      open-pull-requests-limit: 5
       labels:
           - dependencies
+      commit-message:
+          prefix: chore(deps)
+      # Let fresh releases soak before a PR opens (the 2025-2026 registry worm waves were
+      # remediated within days). Mirrors min-release-age in .npmrc, in days.
+      cooldown:
+          default-days: 7
+          semver-major-days: 14
+      # One PR per group instead of one per package: eight open singleton PRs sat unmerged
+      # for five months before the 2026-09-16 pass.
+      groups:
+          production-dependencies:
+              dependency-type: production
+          development-dependencies:
+              dependency-type: development
+      # Every entry mirrors a version hold recorded in .cursor/brain/DECISIONS.md. An ignore
+      # that outlives its reason silently withholds security patches — check the reason first.
+      #
+      # typescript: typescript-eslint 8.x peers `>=4.8.4 <6.1.0`; a bump to 7.x makes npm
+      # install itself fail with ERESOLVE (legacy-peer-deps would hide that until lint runs).
+      # eslint / @eslint/js: on 10.x; the floor keeps 10.x patches flowing and stops a major
+      # that would outrun the import and jsx-a11y plugin peers again.
+      # @types/node: aligned with engines.node >=24, not the newest type defs.
+      ignore:
+          - dependency-name: typescript
+            versions: ['>=6.1']
+          - dependency-name: eslint
+            versions: ['>=11']
+          - dependency-name: '@eslint/js'
+            versions: ['>=11']
+          - dependency-name: '@types/node'
+            versions: ['>=25']
+
+    - package-ecosystem: github-actions
+      directory: '/'
+      schedule:
+          interval: weekly
+      commit-message:
+          prefix: ci(deps)
+      groups:
+          actions:
+              patterns: ['*']

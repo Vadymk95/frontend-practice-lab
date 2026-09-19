@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { renderHook } from '@testing-library/react';
+import { act, fireEvent, renderHook, screen, waitFor } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { createElement } from 'react';
 import { MemoryRouter } from 'react-router-dom';
@@ -8,12 +8,21 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Question } from '@/lib/data/schema';
 import type { SessionConfig } from '@/lib/storage/types';
 import { useSessionStore } from '@/store/session';
+import { renderWithProviders } from '@/test/test-utils';
 
+import { SessionPlayPage } from './SessionPlayPage';
 import { useSessionPlayPage } from './useSessionPlayPage';
 
 vi.mock('@/hooks/session/useSessionSetup', () => ({
     useSessionSetup: () => ({ isLoading: false, isError: false, refetch: vi.fn() })
 }));
+
+const navigateMock = vi.hoisted(() => vi.fn());
+
+vi.mock('react-router-dom', async (importOriginal) => {
+    const mod = await importOriginal<typeof import('react-router-dom')>();
+    return { ...mod, useNavigate: () => navigateMock };
+});
 
 const config: SessionConfig = {
     categories: ['javascript'],
@@ -46,13 +55,15 @@ function wrapper({ children }: { children: ReactNode }) {
 }
 
 beforeEach(() => {
+    navigateMock.mockReset();
     useSessionStore.setState({
         config,
         questionList: [bugFindingQuestion],
         currentIndex: 0,
         answers: {},
         skipList: [],
-        timerMs: 0
+        timerMs: 0,
+        endedAt: null
     });
 });
 
@@ -96,5 +107,108 @@ describe('useSessionPlayPage — bug-finding pending-self-assess gate', () => {
         const { result } = renderHook(() => useSessionPlayPage(), { wrapper });
         expect(result.current.isBugFindingPendingSelfAssess).toBe(false);
         expect(result.current.isAnswered).toBe(true);
+    });
+});
+
+describe('useSessionPlayPage — leaving the session', () => {
+    it('replaces the play route when ending a session so Back cannot return to it', () => {
+        const { result } = renderHook(() => useSessionPlayPage(), { wrapper });
+
+        act(() => {
+            result.current.confirmEndSession();
+        });
+
+        expect(navigateMock).toHaveBeenCalledWith('/', {
+            replace: true,
+            state: { flash: 'sessionEnded' }
+        });
+    });
+
+    it('explains the bounce home when the configured filters match no questions', async () => {
+        useSessionStore.setState({ questionList: [] });
+
+        renderHook(() => useSessionPlayPage(), { wrapper });
+
+        await waitFor(() => {
+            expect(navigateMock).toHaveBeenCalledWith('/', {
+                replace: true,
+                state: { flash: 'noQuestionsMatch' }
+            });
+        });
+    });
+});
+
+const singleChoiceQuestion = {
+    id: 'sc-1',
+    type: 'single-choice',
+    category: 'javascript',
+    difficulty: 'easy',
+    tags: [],
+    question: { en: 'Pick one', ru: 'Pick one' },
+    explanation: { en: 'e', ru: 'e' },
+    options: [
+        { en: 'Alpha', ru: 'Alpha' },
+        { en: 'Beta', ru: 'Beta' },
+        { en: 'Gamma', ru: 'Gamma' }
+    ],
+    correct: 0
+} as unknown as Question;
+
+/** Original bank index of the option rendered at `displayIndex` (options are shuffled at render). */
+function originalIndexOfDisplayed(question: Question, displayIndex: number): number {
+    if (question.type !== 'single-choice') throw new Error('single-choice fixture expected');
+    const radios = screen.getAllByRole('radio');
+    const label = radios[displayIndex]?.textContent ?? '';
+    return question.options.findIndex((o) => label.includes(o.en));
+}
+
+describe('SessionPlayPage — keyboard shortcuts reach the rendered question', () => {
+    it('selects the second option when the "2" key is pressed', async () => {
+        useSessionStore.setState({ questionList: [singleChoiceQuestion], answers: {} });
+
+        renderWithProviders(createElement(SessionPlayPage));
+        expect(await screen.findByText('Beta')).toBeInTheDocument();
+
+        // Options are shuffled at render; the key selects the SECOND DISPLAYED option and the
+        // store must receive that option's ORIGINAL index.
+        const expected = originalIndexOfDisplayed(singleChoiceQuestion, 1);
+        fireEvent.keyDown(document, { key: '2' });
+
+        await waitFor(() => {
+            expect(useSessionStore.getState().answers['sc-1']).toBe(expected);
+        });
+    });
+
+    it('still selects on the question after a Next, when the refs are re-registered', async () => {
+        const second = { ...singleChoiceQuestion, id: 'sc-2' } as Question;
+        useSessionStore.setState({
+            questionList: [singleChoiceQuestion, second],
+            currentIndex: 1,
+            answers: {}
+        });
+
+        renderWithProviders(createElement(SessionPlayPage));
+        expect(await screen.findByText('Gamma')).toBeInTheDocument();
+
+        const expected = originalIndexOfDisplayed(second, 2);
+        fireEvent.keyDown(document, { key: '3' });
+
+        await waitFor(() => {
+            expect(useSessionStore.getState().answers['sc-2']).toBe(expected);
+        });
+    });
+});
+
+describe('useSessionPlayPage — dialog suspends the shortcuts', () => {
+    it('does not advance the question when Enter is pressed with the end dialog open', () => {
+        useSessionStore.setState({ answers: { 'bf-1': 'gotIt' } });
+        const { result } = renderHook(() => useSessionPlayPage(), { wrapper });
+
+        act(() => {
+            result.current.openEndDialog();
+        });
+        fireEvent.keyDown(document, { key: 'Enter' });
+
+        expect(navigateMock).not.toHaveBeenCalled();
     });
 });

@@ -1,16 +1,19 @@
 import { useCallback, useMemo, useState } from 'react';
 import type { FC } from 'react';
 
+import { ErrorState } from '@/components/common/ErrorState';
 import { FlashBanner } from '@/components/common/FlashBanner';
 import { AlgorithmWidget } from '@/components/features/AlgorithmWidget';
 import { PresetRow } from '@/components/features/PresetList/PresetRow';
 import { PrimaryPresetCard } from '@/components/features/PresetList/PrimaryPresetCard';
 import { SessionConfigurator } from '@/components/features/SessionConfigurator';
+import { useCategories } from '@/hooks/data/useCategories';
 import type { SessionConfig } from '@/lib/storage/types';
 import { usePresetStore } from '@/store/presets';
 
 export const HomePage: FC = () => {
     const presets = usePresetStore.use.presets();
+    const { isError: isCategoriesError, refetch: refetchCategories } = useCategories();
     const [modifyConfig, setModifyConfig] = useState<SessionConfig | undefined>(undefined);
     const [modifyKey, setModifyKey] = useState(0);
 
@@ -27,6 +30,10 @@ export const HomePage: FC = () => {
         setModifyKey((k) => k + 1);
     }, []);
 
+    const handleRetryCategories = useCallback(() => {
+        void refetchCategories();
+    }, [refetchCategories]);
+
     const handleAlgorithmCategorySelect = useCallback((slug: string) => {
         setModifyConfig({
             categories: [slug],
@@ -41,15 +48,23 @@ export const HomePage: FC = () => {
     return (
         <div className="container mx-auto max-w-2xl px-4 py-6 flex flex-col gap-6">
             <FlashBanner />
-            <AlgorithmWidget onCategorySelect={handleAlgorithmCategorySelect} />
-            {mruPreset && <PrimaryPresetCard preset={mruPreset} onModify={handleModify} />}
-            <SessionConfigurator key={modifyKey} initialConfig={modifyConfig} />
-            {secondaryPresets.length > 0 && (
-                <div className="flex flex-col gap-2">
-                    {secondaryPresets.map((p) => (
-                        <PresetRow key={p.id} preset={p} />
-                    ))}
-                </div>
+            {/* Without the manifest there is nothing to configure — say so and offer a
+                retry instead of rendering an empty category grid with a "pick one" hint. */}
+            {isCategoriesError ? (
+                <ErrorState onRetry={handleRetryCategories} />
+            ) : (
+                <>
+                    <AlgorithmWidget onCategorySelect={handleAlgorithmCategorySelect} />
+                    {mruPreset && <PrimaryPresetCard preset={mruPreset} onModify={handleModify} />}
+                    <SessionConfigurator key={modifyKey} initialConfig={modifyConfig} />
+                    {secondaryPresets.length > 0 && (
+                        <div className="flex flex-col gap-2">
+                            {secondaryPresets.map((p) => (
+                                <PresetRow key={p.id} preset={p} />
+                            ))}
+                        </div>
+                    )}
+                </>
             )}
         </div>
     );

@@ -47,17 +47,31 @@ If you add a question manually, both `en` and `ru` must be non-empty. The valida
 
 Every question — regardless of type — must include these fields:
 
-| Field         | Type                                                                            | Required | Description                                                                            |
-| ------------- | ------------------------------------------------------------------------------- | -------- | -------------------------------------------------------------------------------------- |
-| `id`          | `string`                                                                        | ✅       | Stable unique identifier. See [naming conventions](#6-question-id-naming-conventions). |
-| `type`        | `"single-choice"` \| `"multi-choice"` \| `"bug-finding"` \| `"code-completion"` | ✅       | Determines the question variant and required extra fields.                             |
-| `category`    | `string`                                                                        | ✅       | Matches the JSON filename slug, e.g. `"javascript"` for `javascript.json`.             |
-| `difficulty`  | `"easy"` \| `"medium"` \| `"hard"`                                              | ✅       | Used by the adaptive algorithm to weight questions.                                    |
-| `tags`        | `string[]`                                                                      | ✅       | Descriptive topic tags. Can be an empty array `[]`, but prefer meaningful tags.        |
-| `question`    | `{ en: string; ru: string }`                                                    | ✅       | Question text (bilingual). Markdown is supported inside each locale.                   |
-| `explanation` | `{ en: string; ru: string }`                                                    | ✅       | Explanation shown after the user reveals the answer (bilingual). Markdown supported.   |
+| Field         | Type                                                                            | Required | Description                                                                                                                                                                                   |
+| ------------- | ------------------------------------------------------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`          | `string`                                                                        | ✅       | Stable unique identifier. See [naming conventions](#6-question-id-naming-conventions).                                                                                                        |
+| `type`        | `"single-choice"` \| `"multi-choice"` \| `"bug-finding"` \| `"code-completion"` | ✅       | Determines the question variant and required extra fields.                                                                                                                                    |
+| `category`    | `string`                                                                        | ✅       | Matches the JSON filename slug, e.g. `"javascript"` for `javascript.json`.                                                                                                                    |
+| `difficulty`  | `"easy"` \| `"medium"` \| `"hard"`                                              | ✅       | Used by the adaptive algorithm to weight questions.                                                                                                                                           |
+| `tags`        | `string[]`                                                                      | ✅       | Descriptive topic tags. Can be an empty array `[]`, but prefer meaningful tags.                                                                                                               |
+| `question`    | `{ en: string; ru: string }`                                                    | ✅       | Question text (bilingual). Inline markdown only — see [What renders](#what-renders).                                                                                                          |
+| `explanation` | `{ en: string; ru: string }`                                                    | ✅       | Explanation shown after the answer is revealed (bilingual). Inline markdown only.                                                                                                             |
+| `code`        | `string`                                                                        | ❌       | Optional snippet shown under the question text (any type). Not translated.                                                                                                                    |
+| `lang`        | `string`                                                                        | ❌       | Shiki language id for `code` (`javascript`, `typescript`, `jsx`, `tsx`, `css`, `html`, `json`, `yaml`, `bash`, `markdown`). Required by the data gate on `bug-finding` and `code-completion`. |
 
 The source of truth for all schemas is [`src/lib/data/schema.ts`](../src/lib/data/schema.ts).
+
+### What renders
+
+The question card renders **inline** markdown only: `` `code` `` spans, `**bold**` and line breaks. Everything else is shown literally. A fenced block (` ``` `) in `question`, `explanation` or an option is a data-gate error — put the snippet in the `code` field with a `lang`, and the card shows it as a highlighted block under the stem. `referenceAnswer` may contain fenced blocks; they are rendered as code blocks.
+
+### Options are shuffled
+
+Single- and multi-choice options are shuffled every time a question is shown, so an option must never refer to a position ("all of the above", "both A and B"). Write self-contained distractors of similar length to the correct answer — the data gate fails a file whose correct answers cluster on one index and warns when the correct answer is systematically the longest.
+
+### Translation rule
+
+Natural-language text must be translated into natural developer Russian. Identifiers, HTTP headers, status lines, command names and code may stay as they are in `ru`. The data gate flags an `ru` string with four or more Latin words and an English function word (`the`, `of`, `with`, …) and no Cyrillic.
 
 ---
 
@@ -178,6 +192,7 @@ The user reads a code snippet and identifies the bug.
 | Field             | Type                           | Required | Description                                                                                                                   |
 | ----------------- | ------------------------------ | -------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | `code`            | `string`                       | ✅       | Code snippet containing the bug. Use `\n` for newlines. Language-agnostic (not translated).                                   |
+| `lang`            | `string`                       | ✅       | Highlighting language (see base fields). The data gate requires it.                                                           |
 | `correct`         | `number \| string`             | ✅       | Index of the correct option when `options` is present; otherwise a short free-text bug description.                           |
 | `referenceAnswer` | `string`                       | ✅       | Full explanation of the fix. Kept English-only by convention (technical post-mortem).                                         |
 | `options`         | `{ en: string; ru: string }[]` | ❌       | Optional multiple-choice options (bilingual per entry). If omitted, the user types a free answer. Minimum 1 item if provided. |
@@ -218,7 +233,7 @@ The user fills in the blanks (`__BLANK__`) in a code template.
 | `code`            | `string`   | ✅       | Code template with `__BLANK__` marking each blank. Language-agnostic (not translated).                            |
 | `blanks`          | `string[]` | ✅       | Expected fill-in values for each blank, in order of appearance. Identifiers/expressions — not translated.         |
 | `referenceAnswer` | `string`   | ✅       | Complete code or rationale shown after the user answers. Kept English-only by convention (technical post-mortem). |
-| `lang`            | `string`   | ❌       | Language for syntax highlighting (default: `"javascript"`).                                                       |
+| `lang`            | `string`   | ✅       | Language for syntax highlighting. The data gate requires it.                                                      |
 
 > **Blank marker:** the only valid placeholder is the literal string `__BLANK__`. Triple underscores (`___`) and any other variant are NOT recognised — the schema rejects code where the `__BLANK__` marker count does not equal `blanks.length`.
 
@@ -246,7 +261,7 @@ The user fills in the blanks (`__BLANK__`) in a code template.
 }
 ```
 
-The number of `__BLANK__` occurrences in `code` must match the length of `blanks`. CI's `validate:data` step rejects any mismatch.
+The number of `__BLANK__` occurrences in `code` must match the length of `blanks`. CI's `validate:data` step rejects any mismatch. An expected blank must never be empty (the data gate rejects it). Grading normalises both sides: trim, lowercase, collapsed whitespace, smart quotes → straight quotes, one trailing `;` ignored — so `'use client'` and `"use client"` both pass, but `[a, b]` and `[b, a]` do not; prefer blanks with one canonical spelling.
 
 ---
 
@@ -303,7 +318,8 @@ Open the relevant file and append your new question(s) to the JSON array. Ensure
 ### Step 2 — Validate
 
 ```bash
-npm run validate:data
+npm run validate:data   # schema
+npm run data:check      # content quality
 ```
 
 The script reads every `public/data/*.json` file (excluding `manifest.json`), validates each question against the Zod schema in `src/lib/data/schema.ts`, and reports:
@@ -313,13 +329,17 @@ The script reads every `public/data/*.json` file (excluding `manifest.json`), va
 
 Exit code 0 means all files are valid. Exit code 1 means at least one violation was found — fix the errors before committing.
 
+`data:check` (`src/scripts/check-data-quality.ts`) fails on: duplicate ids or stems, a `category` that does not match the file, an empty expected blank, a multi-choice question where every option is correct, a fenced block in text, an untranslated `ru` string, a missing `lang` on code questions, and a file whose correct answers sit on one index in more than 60% of single-choice questions. It warns when the correct answer is the longest option in more than 60% of a file. Both checks also run in the pre-commit hook whenever `public/data/*.json` is staged.
+
 ### Step 3 — Commit
 
 Use the project commit format:
 
 ```
-content(javascript): add 3 closure questions
+feat(data): add 3 closure questions to javascript
 ```
+
+(commitlint allows `feat` `fix` `chore` `docs` `style` `refactor` `perf` `test` `revert`; use `feat(data)` for new questions and `fix(data)` for corrections.)
 
 ---
 
@@ -333,6 +353,8 @@ Copy and fill in this template when asking an AI agent to generate questions:
 Generate 5 questions for category "javascript", difficulty "medium", type "single-choice".
 Follow docs/content-guide.md schema exactly — ALL user-facing text fields (`question`, `explanation`, each `options[]` entry) MUST be `{ en: "...", ru: "..." }` bilingual objects. Both locales required, both non-empty, RU must be natural Russian (not transliteration).
 Language-agnostic fields (`code`, `blanks`, `referenceAnswer`) stay plain strings and are NOT translated.
+Text fields use inline markdown only (`code` spans, **bold**); a snippet goes in the `code` field with a `lang`, never in a fence inside the text.
+Options are shuffled at render: never reference a position ("all of the above"); keep the correct option and the distractors of similar length; make every distractor a real misconception.
 ID format: js-{topic}-NNN (use the next available sequence number based on existing IDs).
 Output: raw JSON array only, no markdown fences, no commentary.
 ```
@@ -343,7 +365,7 @@ Adjust `category`, `difficulty`, `type`, and ID format prefix as needed.
 
 1. **Generate** — run the prompt against the AI model of your choice.
 2. **Copy** the raw JSON output into the appropriate `public/data/*.json` file (append to the array).
-3. **Validate** — run `npm run validate:data`. If any violation is reported, fix the JSON and repeat.
+3. **Validate** — run `npm run validate:data` and `npm run data:check`. If any violation is reported, fix the JSON and repeat.
 4. **Read** — skim each generated question for factual accuracy and difficulty calibration.
 5. **Commit** — use the standard commit format (see Manual path Step 3).
 
@@ -388,7 +410,7 @@ InterviewOS uses **automatic manifest generation** — there is no hardcoded lis
 4. Commit both the new data file and the updated manifest:
     ```bash
     git add public/data/{category-slug}.json public/data/manifest.json
-    git commit -m "content({category-slug}): add initial questions"
+    git commit -m "feat(data): add the {category-slug} category"
     ```
 
 ### Category slug rules

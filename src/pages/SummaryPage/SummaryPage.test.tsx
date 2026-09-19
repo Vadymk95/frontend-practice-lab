@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react';
+import { renderHook, act, screen } from '@testing-library/react';
 import { createElement } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -6,7 +6,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Question } from '@/lib/data/schema';
 import { useProgressStoreBase } from '@/store/progress/progressStore';
 import { useSessionStoreBase } from '@/store/session/sessionStore';
+import { renderWithProviders } from '@/test/test-utils';
 
+import { SummaryPage } from './SummaryPage';
 import { useSummaryPage } from './useSummaryPage';
 
 const navigateMock = vi.hoisted(() => vi.fn());
@@ -110,7 +112,10 @@ function resetStores(overrides?: {
         currentIndex: 0,
         config: null,
         skipList: overrides?.skipList ?? [],
-        timerMs: 0
+        timerMs: 0,
+        endedAt: null,
+        scoredAt: null,
+        isRepeat: false
     });
     useProgressStoreBase.setState({
         weights: {},
@@ -140,7 +145,10 @@ afterEach(() => {
         currentIndex: 0,
         config: null,
         skipList: [],
-        timerMs: 0
+        timerMs: 0,
+        endedAt: null,
+        scoredAt: null,
+        isRepeat: false
     });
 });
 
@@ -275,6 +283,90 @@ describe('useSummaryPage', () => {
         expect(mockRecordAnswer).toHaveBeenCalledWith('q-001', 'JavaScript', true);
     });
 
+    describe('scoring runs once per session', () => {
+        it('records every answer once when the summary is remounted', () => {
+            resetStores({
+                questionList: [mockQuestion, mockQuestion2],
+                answers: { 'q-001': 1, 'q-002': 1 }
+            });
+
+            const first = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+            first.unmount();
+            renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+            expect(mockRecordAnswer).toHaveBeenCalledTimes(2);
+            expect(mockSaveSessionResults).toHaveBeenCalledOnce();
+            expect(mockUpdateStreak).toHaveBeenCalledOnce();
+        });
+
+        it('stamps scoredAt on the session store', () => {
+            resetStores({ questionList: [mockQuestion], answers: { 'q-001': 1 } });
+
+            renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+            expect(useSessionStoreBase.getState().scoredAt).toBeTypeOf('number');
+        });
+
+        it('scores a repeat-mistakes session again once the marker is cleared', () => {
+            resetStores({ questionList: [mockQuestion], answers: { 'q-001': 1 } });
+
+            const first = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+            first.unmount();
+
+            act(() => {
+                useSessionStoreBase.getState().setRepeatMistakes([mockQuestion2]);
+            });
+            useSessionStoreBase.setState({
+                answers: { 'q-002': 1 } as Record<string, number | number[] | string | string[]>
+            });
+
+            renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+            expect(mockRecordAnswer).toHaveBeenCalledWith('q-002', 'JavaScript', true);
+        });
+    });
+
+    describe('skipped questions', () => {
+        it('does not feed a skipped question to the adaptive algorithm', () => {
+            resetStores({
+                questionList: [mockQuestion, mockQuestion2],
+                answers: { 'q-001': 1, 'q-002': 'skipped' },
+                skipList: ['q-002']
+            });
+
+            renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+            expect(mockRecordAnswer).toHaveBeenCalledOnce();
+            expect(mockRecordAnswer).toHaveBeenCalledWith('q-001', 'JavaScript', true);
+        });
+
+        it('still counts a skipped question as not correct in the displayed score', () => {
+            resetStores({
+                questionList: [mockQuestion, mockQuestion2],
+                answers: { 'q-001': 1, 'q-002': 'skipped' },
+                skipList: ['q-002']
+            });
+
+            const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+            expect(result.current.correctCount).toBe(1);
+            expect(result.current.totalCount).toBe(2);
+            expect(result.current.skippedCount).toBe(1);
+        });
+
+        it('still saves the skipped question in the session results', () => {
+            resetStores({
+                questionList: [mockQuestion, mockQuestion2],
+                answers: { 'q-001': 1, 'q-002': 'skipped' },
+                skipList: ['q-002']
+            });
+
+            renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+            expect(mockSaveSessionResults).toHaveBeenCalledWith({ 'q-001': true, 'q-002': false });
+        });
+    });
+
     describe('review subsets', () => {
         it('pureWrongCount excludes skipped questions', () => {
             // q-001 wrong (not skipped), q-002 skipped
@@ -316,6 +408,58 @@ describe('useSummaryPage', () => {
             const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
 
             expect(result.current.skippedCount).toBe(2);
+        });
+    });
+
+    describe('personal record', () => {
+        const timedConfig = {
+            categories: ['JavaScript'],
+            questionCount: 20,
+            difficulty: 'all',
+            mode: 'all',
+            order: 'random',
+            timerEnabled: true
+        } as const;
+
+        it('stores a record for a normal timed session', () => {
+            resetStores({ questionList: [mockQuestion], answers: { 'q-001': 1 } });
+            useSessionStoreBase.setState({ config: timedConfig, timerMs: 300_000 });
+
+            const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+            expect(result.current.isNewRecord).toBe(true);
+            expect(mockSetRecord).toHaveBeenCalledOnce();
+        });
+
+        it('never overwrites the record from a repeat-mistakes session', () => {
+            // A 3-question repeat shares the record key of the 20-question run it came from, and
+            // setRepeatMistakes zeroes the timer — so it would always look like a personal best.
+            mockRecordsData = { 'JavaScript|all|all|20': 300_000 };
+            resetStores({ questionList: [mockQuestion], answers: { 'q-001': 1 } });
+            useSessionStoreBase.setState({
+                config: timedConfig,
+                timerMs: 40_000,
+                isRepeat: true
+            });
+
+            const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+            expect(result.current.isNewRecord).toBe(false);
+            expect(mockSetRecord).not.toHaveBeenCalled();
+        });
+
+        it('still reports the prior record on a repeat session', () => {
+            mockRecordsData = { 'JavaScript|all|all|20': 300_000 };
+            resetStores({ questionList: [mockQuestion], answers: { 'q-001': 1 } });
+            useSessionStoreBase.setState({
+                config: timedConfig,
+                timerMs: 40_000,
+                isRepeat: true
+            });
+
+            const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+            expect(result.current.priorRecordMs).toBe(300_000);
         });
     });
 
@@ -489,6 +633,23 @@ describe('useSummaryPage', () => {
             expect(result.current.streak.current).toBe(7);
         });
 
+        it('is false when the last session was earlier on the same local day', () => {
+            // 02:00 in Kyiv is still the previous day in UTC — a UTC day key reports a broken
+            // streak to a user who practised a few hours ago.
+            const originalTz = process.env.TZ;
+            process.env.TZ = 'Europe/Kyiv';
+            vi.setSystemTime(new Date(2026, 9, 6, 2, 0, 0));
+            mockStreakData = { current: 4, lastActivityDate: '2026-10-06' };
+            resetStores();
+
+            const { result } = renderHook(() => useSummaryPage(), { wrapper: makeWrapper() });
+
+            expect(result.current.isStreakReset).toBe(false);
+
+            if (originalTz === undefined) delete process.env.TZ;
+            else process.env.TZ = originalTz;
+        });
+
         it('calls updateStreak on mount', () => {
             resetStores();
 
@@ -496,5 +657,39 @@ describe('useSummaryPage', () => {
 
             expect(mockUpdateStreak).toHaveBeenCalledOnce();
         });
+    });
+});
+
+describe('SummaryPage — page chrome', () => {
+    const weakTopicQuestion = {
+        id: 'q-ai',
+        type: 'single-choice' as const,
+        category: 'ai-llm',
+        difficulty: 'easy' as const,
+        tags: [],
+        question: { en: 'Which model?', ru: 'Which model?' },
+        explanation: { en: 'Because.', ru: 'Because.' },
+        options: [
+            { en: 'A', ru: 'A' },
+            { en: 'B', ru: 'B' }
+        ],
+        correct: 0
+    } as unknown as Question;
+
+    it('announces the page with a heading', () => {
+        resetStores();
+
+        renderWithProviders(<SummaryPage />);
+
+        expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Session Complete');
+    });
+
+    it('names weak topics by display name, not by slug', () => {
+        resetStores({ questionList: [weakTopicQuestion], answers: { 'q-ai': 1 } });
+
+        renderWithProviders(<SummaryPage />);
+
+        expect(screen.getByText('AI / LLM')).toBeInTheDocument();
+        expect(screen.queryByText('ai-llm')).not.toBeInTheDocument();
     });
 });

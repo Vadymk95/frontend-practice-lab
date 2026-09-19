@@ -1,14 +1,14 @@
 import { describe, expect, it } from 'vitest';
 
 import { ALGORITHM_CONFIG } from './config';
-import { calculateWeight, sampleWeighted, updateErrorRate } from './index';
+import { calculateWeight, nextQuestionWeight, sampleWeighted, updateErrorRate } from './index';
 import type { Question } from '../data/schema';
 
-function makeQuestion(id: string): Question {
+function makeQuestion(id: string, category = 'javascript'): Question {
     return {
         id,
         type: 'single-choice',
-        category: 'javascript',
+        category,
         difficulty: 'easy',
         tags: [],
         question: `Question ${id}`,
@@ -213,5 +213,103 @@ describe('updateErrorRate', () => {
 
     it('NaN previous with correct=false: returns 1', () => {
         expect(updateErrorRate(NaN, false)).toBe(1);
+    });
+});
+
+describe('sampleWeighted — full pool', () => {
+    it('keeps the order weight-biased when count covers the whole pool', () => {
+        // The configurator defaults to "all available", so count >= pool.length is the DEFAULT
+        // flow: if that path shuffles, the adaptive weights never reach the user.
+        const weights: Record<string, number> = { q0: ALGORITHM_CONFIG.MAX_WEIGHT };
+        const TRIALS = 1000;
+        let firstIsQ0 = 0;
+
+        for (let i = 0; i < TRIALS; i++) {
+            const result = sampleWeighted(pool, weights, POOL_SIZE);
+            expect(result).toHaveLength(POOL_SIZE);
+            if (result[0]!.id === 'q0') firstIsQ0++;
+        }
+
+        // weight 10 against 9 x weight 1 → ~52% of draws; a uniform shuffle gives ~10%
+        expect(firstIsQ0).toBeGreaterThan(400);
+    });
+
+    it('still returns every question exactly once when count exceeds the pool', () => {
+        const weights: Record<string, number> = { q0: ALGORITHM_CONFIG.MAX_WEIGHT };
+        const result = sampleWeighted(pool, weights, POOL_SIZE + 5);
+
+        expect(result).toHaveLength(POOL_SIZE);
+        expect(new Set(result.map((q) => q.id)).size).toBe(POOL_SIZE);
+    });
+});
+
+describe('sampleWeighted — category error rate as prior', () => {
+    const weakQuestion = makeQuestion('weak-1', 'weak-category');
+    const strongQuestion = makeQuestion('strong-1', 'strong-category');
+    const priorPool = [weakQuestion, strongQuestion];
+
+    it('samples an unseen question from a weak category more often than from a strong one', () => {
+        const errorRates = { 'weak-category': 0.8, 'strong-category': 0.05 };
+        const counts = { weak: 0, strong: 0 };
+
+        for (let i = 0; i < 1000; i++) {
+            const picked = sampleWeighted(priorPool, {}, 1, errorRates)[0]!;
+            if (picked.id === weakQuestion.id) counts.weak++;
+            else counts.strong++;
+        }
+
+        // prior 2.0 vs 0.5 → ~80/20; without a prior both sit at DEFAULT_WEIGHT → ~50/50
+        expect(counts.weak).toBeGreaterThan(counts.strong * 2);
+    });
+
+    it('prefers the stored question weight over the category prior', () => {
+        const errorRates = { 'weak-category': 0.8, 'strong-category': 0.05 };
+        const weights = { 'strong-1': ALGORITHM_CONFIG.MAX_WEIGHT };
+        const counts = { weak: 0, strong: 0 };
+
+        for (let i = 0; i < 1000; i++) {
+            const picked = sampleWeighted(priorPool, weights, 1, errorRates)[0]!;
+            if (picked.id === weakQuestion.id) counts.weak++;
+            else counts.strong++;
+        }
+
+        expect(counts.strong).toBeGreaterThan(counts.weak * 2);
+    });
+
+    it('treats a category with no recorded error rate as DEFAULT_WEIGHT', () => {
+        const counts: Record<string, number> = { 'weak-1': 0, 'strong-1': 0 };
+
+        for (let i = 0; i < 1000; i++) {
+            counts[sampleWeighted(priorPool, {}, 1, {})[0]!.id]++;
+        }
+
+        expect(counts['weak-1']).toBeGreaterThan(350);
+        expect(counts['strong-1']).toBeGreaterThan(350);
+    });
+});
+
+describe('nextQuestionWeight', () => {
+    it('raises the weight on a wrong answer', () => {
+        expect(nextQuestionWeight(1.0, false)).toBe(2.0);
+    });
+
+    it('caps the raised weight at MAX_WEIGHT', () => {
+        expect(nextQuestionWeight(8.0, false)).toBe(ALGORITHM_CONFIG.MAX_WEIGHT);
+    });
+
+    it('lowers the weight on a correct answer', () => {
+        expect(nextQuestionWeight(2.0, true)).toBe(1.0);
+    });
+
+    it('floors the lowered weight at MIN_WEIGHT', () => {
+        expect(nextQuestionWeight(0.6, true)).toBe(ALGORITHM_CONFIG.MIN_WEIGHT);
+    });
+
+    it('falls back to DEFAULT_WEIGHT for a non-finite current weight', () => {
+        expect(nextQuestionWeight(NaN, false)).toBe(ALGORITHM_CONFIG.DEFAULT_WEIGHT);
+    });
+
+    it('falls back to DEFAULT_WEIGHT for a negative current weight', () => {
+        expect(nextQuestionWeight(-1, true)).toBe(ALGORITHM_CONFIG.DEFAULT_WEIGHT);
     });
 });

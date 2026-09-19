@@ -9,11 +9,13 @@ priority: 90
 
 ## The Approval Law
 
-| Task Size                              | Protocol                                     |
-| -------------------------------------- | -------------------------------------------- |
-| < 10 lines, single file                | Proceed with brief notification              |
-| > 10 lines OR touches store/API/router | Present plan → wait for approval → implement |
-| New architecture pattern               | Always present plan                          |
+Gate by **risk, not LOC**:
+
+| Risk surface                                                              | Protocol                                     |
+| ------------------------------------------------------------------------- | -------------------------------------------- |
+| Trivial leaf edit (no SKELETONS, no store/API/router/contract change)     | Proceed with brief notification              |
+| SKELETONS danger-zone, store/API/router change, or type-contract change   | Present plan → wait for approval → implement |
+| New architecture pattern                                                  | Always present plan                          |
 
 **FORBIDDEN**: Starting implementation of a non-trivial task before approval.
 
@@ -30,9 +32,9 @@ A plan must include:
 
 1. **Discover** — Brain scan + scope declaration (Phase 1 of agent-pipeline).
 2. **Simulate** — `sequential-thinking` for tasks > 3 steps. Architectural critique.
-3. **Approve** — Get approval if > 10 lines or store/API touched.
+3. **Approve** — Gate by risk: SKELETONS danger-zone, store/API/router, or type-contract change needs approval; trivial leaf edits proceed.
 4. **Execute** — TDD for logic. Max 1–2 files per iteration.
-5. **Verify** — Full loop: `npm run lint && npm run format:check && npx tsc -b --noEmit && npm test`.
+5. **Verify** — `npm run verify:iter` per change; the full chain runs at push (`AGENTS.md` § The gate).
 6. **Brain Sync** — Update MAP/DECISIONS/SKELETONS/DICTIONARY as needed.
 7. **Confidence** — Declare HIGH | MEDIUM | LOW.
 
@@ -45,14 +47,8 @@ A plan must include:
 
 ## Post-Edit Verification
 
-Always run after code changes:
-
-```bash
-npm run lint          # ESLint (exit 0 required)
-npm run format:check  # Prettier check
-npx tsc -b --noEmit   # TypeScript solution (project references)
-npm test              # All tests green
-```
+After code changes: `npm run verify:iter` (types + changed tests) and `npm run format`. The full
+chain (`verify:ci`) runs once at push and on CI — owned by `AGENTS.md` § The gate, not restated here.
 
 ## Git Commits
 
@@ -69,9 +65,7 @@ type(scope): description
 
 ### Before Committing
 
-- [ ] `npm run lint` — clean
-- [ ] `npx tsc -b --noEmit` — no errors
-- [ ] `npm test` — all green
+- [ ] `npm run verify:iter` — green (the push runs the full chain)
 - [ ] `git diff` reviewed — no unintended changes
 - [ ] No `console.log` left in production code
 

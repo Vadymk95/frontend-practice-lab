@@ -6,19 +6,31 @@ on:
     push:
         branches: [master]
 
+permissions:
+    contents: read
+
+# Cancel in-progress runs on the same branch when a new commit is pushed; master pushes
+# always finish.
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
+
 jobs:
     validate:
         runs-on: ubuntu-latest
+        timeout-minutes: 20
+        env:
+            HUSKY: '0'
 
         strategy:
             matrix:
                 node-version: [24.x]
 
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v7
 
             - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v4
+              uses: actions/setup-node@v7
               with:
                   node-version: ${{ matrix.node-version }}
                   cache: 'npm'
@@ -26,33 +38,24 @@ jobs:
             - name: Install dependencies
               run: npm ci
 
-            - name: Audit dependencies
-              run: npm audit --audit-level=moderate
-
-            - name: Run Linter
-              run: npm run lint
-
-            - name: Check Formatting
-              run: npm run format:check
-
-            - name: Type Check
-              run: npx tsc --noEmit
-
-            - name: Validate Data
-              run: npm run validate:data
-
-            - name: Run Tests
-              run: npm run test
+            # ONE chain, the same script the pre-push hook runs: audit gate → hooks check (skipped
+            # on CI) → format → lint → types → data schema → data quality → unit tests.
+            # A new check goes into `verify` in package.json, never only into this file.
+            - name: Verify (gate chain)
+              run: npm run verify:ci
 
     e2e:
         runs-on: ubuntu-latest
+        timeout-minutes: 20
         needs: validate
+        env:
+            HUSKY: '0'
 
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v7
 
             - name: Use Node.js 24.x
-              uses: actions/setup-node@v4
+              uses: actions/setup-node@v7
               with:
                   node-version: 24.x
                   cache: 'npm'
@@ -60,6 +63,8 @@ jobs:
             - name: Install dependencies
               run: npm ci
 
+            # Both Playwright projects run on Chromium: desktop, and the iPhone 14 descriptor with
+            # browserName overridden — so the mobile layout is tested on CI without WebKit.
             - name: Install Playwright browsers
               run: npx playwright install --with-deps chromium
 

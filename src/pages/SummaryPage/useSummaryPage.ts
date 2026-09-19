@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import type { FlashState } from '@/components/common/FlashBanner';
 import { track } from '@/lib/analytics';
 import type { Question } from '@/lib/data/schema';
-import { isYesterday } from '@/lib/date';
+import { isYesterday, toLocalDayKey } from '@/lib/date';
 import { generateRecordKey } from '@/lib/utils/generateRecordKey';
 import { RoutesPath } from '@/router/routes';
 import { useProgressStore } from '@/store/progress';
@@ -31,6 +31,63 @@ function isCorrectAnswer(question: Question, answer: unknown): boolean {
     return false;
 }
 
+interface ScoredAnswer {
+    questionId: string;
+    category: string;
+    correct: boolean;
+}
+
+interface SessionScore {
+    correctCount: number;
+    wrongQuestions: Question[];
+    sessionResults: Record<string, boolean>;
+    weakTopics: string[];
+    scoredAnswers: ScoredAnswer[];
+}
+
+/**
+ * Pure scoring pass over a finished session. A skipped question counts as not-correct in the
+ * displayed score and in the saved session results, but is left out of `scoredAnswers` — the
+ * adaptive algorithm must not read "I have not studied this yet" as "I got this wrong".
+ */
+function scoreSession(
+    questionList: Question[],
+    answers: Record<string, unknown>,
+    skipList: string[]
+): SessionScore {
+    let correctCount = 0;
+    const wrongQuestions: Question[] = [];
+    const sessionResults: Record<string, boolean> = {};
+    const scoredAnswers: ScoredAnswer[] = [];
+    const categoryMap: Record<string, { total: number; wrong: number }> = {};
+
+    for (const question of questionList) {
+        const correct = isCorrectAnswer(question, answers[question.id]);
+        sessionResults[question.id] = correct;
+
+        const cat = question.category;
+        if (!categoryMap[cat]) categoryMap[cat] = { total: 0, wrong: 0 };
+        categoryMap[cat].total++;
+
+        if (correct) {
+            correctCount++;
+        } else {
+            wrongQuestions.push(question);
+            categoryMap[cat].wrong++;
+        }
+
+        if (!skipList.includes(question.id)) {
+            scoredAnswers.push({ questionId: question.id, category: cat, correct });
+        }
+    }
+
+    const weakTopics = Object.entries(categoryMap)
+        .filter(([, { total, wrong }]) => wrong / total > WEAK_TOPIC_THRESHOLD)
+        .map(([category]) => category);
+
+    return { correctCount, wrongQuestions, sessionResults, weakTopics, scoredAnswers };
+}
+
 export function useSummaryPage() {
     const navigate = useNavigate();
     const questionList = useSessionStore.use.questionList();
@@ -38,6 +95,7 @@ export function useSummaryPage() {
     const skipList = useSessionStore.use.skipList();
     const config = useSessionStore.use.config();
     const timerMs = useSessionStore.use.timerMs();
+    const isRepeat = useSessionStore.use.isRepeat();
     const setRepeatMistakes = useSessionStore.use.setRepeatMistakes();
     const saveSessionResults = useProgressStore.use.saveSessionResults();
     const recordAnswer = useProgressStore.use.recordAnswer();
@@ -49,8 +107,13 @@ export function useSummaryPage() {
     const timerEnabled = config?.timerEnabled ?? false;
     const recordKey = timerEnabled && config ? generateRecordKey(config) : null;
     const priorRecord = recordKey ? records[recordKey] : undefined;
+    // A repeat/restart replays a subset under the original config's record key with a reset timer:
+    // its duration is not comparable, so it never becomes a personal best.
     const isNewRecord =
-        timerEnabled && recordKey !== null && (priorRecord === undefined || timerMs < priorRecord);
+        timerEnabled &&
+        !isRepeat &&
+        recordKey !== null &&
+        (priorRecord === undefined || timerMs < priorRecord);
 
     // Guard: if no session data, redirect home with a flash so the user understands why
     useEffect(() => {
@@ -60,90 +123,45 @@ export function useSummaryPage() {
         }
     }, [questionList.length, navigate]);
 
-    // Single-pass: score + wrong questions + session results + weak topics — stable deps [questionList, answers]
-    const { correctCount, wrongQuestions, sessionResults, weakTopics } = useMemo(() => {
-        let correctCount = 0;
-        const wrongQuestions: Question[] = [];
-        const sessionResults: Record<string, boolean> = {};
-        const categoryMap: Record<string, { total: number; wrong: number }> = {};
-
-        for (const question of questionList) {
-            const answer = answers[question.id];
-            const correct = isCorrectAnswer(question, answer);
-            sessionResults[question.id] = correct;
-
-            const cat = question.category;
-            if (!categoryMap[cat]) categoryMap[cat] = { total: 0, wrong: 0 };
-            categoryMap[cat].total++;
-
-            if (correct) {
-                correctCount++;
-            } else {
-                wrongQuestions.push(question);
-                categoryMap[cat].wrong++;
-            }
-        }
-
-        const weakTopics = Object.entries(categoryMap)
-            .filter(([, { total, wrong }]) => wrong / total > WEAK_TOPIC_THRESHOLD)
-            .map(([category]) => category);
-
-        return { correctCount, wrongQuestions, sessionResults, weakTopics };
-    }, [questionList, answers]);
-
-    // Ref captures latest sessionResults — avoids stale closure without adding sessionResults to save-effect deps
-    const sessionResultsRef = useRef(sessionResults);
-    sessionResultsRef.current = sessionResults;
-
-    const weakTopicsRef = useRef(weakTopics);
-    weakTopicsRef.current = weakTopics;
-
-    // Refs for timer record save — captured at render time to use in mount-only effect
-    const isNewRecordRef = useRef(isNewRecord);
-    isNewRecordRef.current = isNewRecord;
-    const recordKeyRef = useRef(recordKey);
-    recordKeyRef.current = recordKey;
-    const timerMsRef = useRef(timerMs);
-    timerMsRef.current = timerMs;
-
-    // Build category map once per render — stable ref for mount effect
-    const questionCategoryMapRef = useRef<Record<string, string>>({});
-    questionCategoryMapRef.current = Object.fromEntries(
-        questionList.map((q) => [q.id, q.category])
+    const { correctCount, wrongQuestions, weakTopics } = useMemo(
+        () => scoreSession(questionList, answers, skipList),
+        [questionList, answers, skipList]
     );
 
-    // Computed once on first render (before updateStreak fires and triggers a re-render).
-    // Using null sentinel so subsequent re-renders don't overwrite the pre-update value.
-    const isStreakResetRef = useRef<boolean | null>(null);
-    if (isStreakResetRef.current === null) {
-        const today = new Date().toISOString().slice(0, 10);
+    // Read before the persistence effect calls updateStreak, and frozen for the life of the mount:
+    // the lazy initializer runs once, so the post-update streak cannot overwrite the answer.
+    const [isStreakReset] = useState(() => {
+        const today = toLocalDayKey(new Date());
         const last = streak.lastActivityDate;
-        isStreakResetRef.current = last !== '' && last !== today && !isYesterday(last, today);
-    }
+        return last !== '' && last !== today && !isYesterday(last, today);
+    });
 
-    // Persist session results once on mount and record answers for adaptive algorithm
+    // Apply the finished session to progress exactly once. Everything comes from the live store,
+    // so a Back/Forward remount hits the scoredAt guard instead of re-applying weights, error
+    // rates, the streak, the record and the analytics event a second time.
     useEffect(() => {
-        const results = sessionResultsRef.current;
-        if (Object.keys(results).length === 0) return;
-        saveSessionResults(results);
-        const catMap = questionCategoryMapRef.current;
-        for (const [questionId, correct] of Object.entries(results)) {
-            const category = catMap[questionId];
-            if (category) recordAnswer(questionId, category, correct);
+        const session = useSessionStore.getState();
+        if (session.scoredAt !== null) return;
+        if (session.questionList.length === 0) return;
+
+        const score = scoreSession(session.questionList, session.answers, session.skipList);
+        session.markScored();
+
+        saveSessionResults(score.sessionResults);
+        for (const answer of score.scoredAnswers) {
+            recordAnswer(answer.questionId, answer.category, answer.correct);
         }
         updateStreak();
-        if (isNewRecordRef.current && recordKeyRef.current) {
-            setRecord(recordKeyRef.current, timerMsRef.current);
+        if (isNewRecord && recordKey) {
+            setRecord(recordKey, session.timerMs);
         }
-        const score = Object.values(results).filter(Boolean).length;
         track('session_complete', {
-            score,
-            total: Object.keys(results).length,
-            durationMs: timerMsRef.current,
-            weakCategories: weakTopicsRef.current
+            score: Object.values(score.sessionResults).filter(Boolean).length,
+            total: Object.keys(score.sessionResults).length,
+            durationMs: session.timerMs,
+            weakCategories: score.weakTopics
         });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []); // intentional — mount only
+    }, [saveSessionResults, recordAnswer, updateStreak, setRecord, isNewRecord, recordKey]);
 
     const skippedQuestions = useMemo(
         () => questionList.filter((q) => skipList.includes(q.id)),
@@ -196,7 +214,7 @@ export function useSummaryPage() {
         weakTopics,
         isPerfectScore,
         streak,
-        isStreakReset: isStreakResetRef.current,
+        isStreakReset,
         timerEnabled,
         sessionDurationMs: timerMs,
         isNewRecord,

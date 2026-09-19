@@ -351,3 +351,137 @@ describe('BugFindingQuestion', () => {
         expect(screen.getAllByRole('radio')[1]).toHaveAttribute('aria-checked', 'false');
     });
 });
+
+describe('BugFindingQuestion — reference answer and snippet language', () => {
+    const textOnlyQuestion = (overrides: Partial<BugFindingQuestion> = {}) =>
+        makeBugFindingQuestion({ options: undefined, correct: 'stale closure', ...overrides });
+
+    it('highlights the snippet with the question language, not a hardcoded one', () => {
+        renderWithProviders(
+            <BugFindingQuestionComponent
+                question={makeBugFindingQuestion({ lang: 'typescript' })}
+                {...defaultCallbacks}
+            />
+        );
+        expect(screen.getByText('typescript')).toBeInTheDocument();
+        expect(screen.queryByText('javascript')).not.toBeInTheDocument();
+    });
+
+    it('renders reference-answer prose as text and only the fence as code', async () => {
+        let submitFn: (() => void) | null = null;
+        const { container } = renderWithProviders(
+            <BugFindingQuestionComponent
+                question={textOnlyQuestion({
+                    referenceAnswer: 'Add the directive:\n```ts\nexport async function a() {}\n```'
+                })}
+                onSubmitRegister={(fn) => {
+                    submitFn = fn;
+                }}
+                onSelfAssessRegister={vi.fn()}
+            />
+        );
+
+        fireEvent.change(screen.getByRole('textbox', { name: 'Your answer' }), {
+            target: { value: 'missing directive' }
+        });
+        await waitFor(() => expect(submitFn).not.toBeNull());
+        act(() => submitFn?.());
+
+        expect(container.textContent).toContain('Add the directive:');
+        expect(screen.getByText('ts')).toBeInTheDocument();
+        // The prose must not be swallowed into the code block.
+        expect(container.querySelector('.shiki')?.textContent).not.toContain('Add the directive');
+    });
+
+    it('renders backticks inside reference-answer prose as code', async () => {
+        let submitFn: (() => void) | null = null;
+        const { container } = renderWithProviders(
+            <BugFindingQuestionComponent
+                question={textOnlyQuestion({ referenceAnswer: 'Use `useCallback` instead.' })}
+                onSubmitRegister={(fn) => {
+                    submitFn = fn;
+                }}
+                onSelfAssessRegister={vi.fn()}
+            />
+        );
+
+        fireEvent.change(screen.getByRole('textbox', { name: 'Your answer' }), {
+            target: { value: 'stale closure' }
+        });
+        await waitFor(() => expect(submitFn).not.toBeNull());
+        act(() => submitFn?.());
+
+        expect(container.textContent).toContain('Use');
+        const codeSpans = [...container.querySelectorAll('code')].map((el) => el.textContent);
+        expect(codeSpans).toContain('useCallback');
+        // Only the question snippet is highlighted — the prose is not a code block.
+        expect(container.querySelectorAll('.shiki')).toHaveLength(1);
+    });
+});
+
+describe('BugFindingQuestion — free-text field and submit gating', () => {
+    const textOnly = (overrides: Partial<BugFindingQuestion> = {}) =>
+        makeBugFindingQuestion({ options: undefined, correct: 'stale closure', ...overrides });
+
+    it('asks for prose in a multi-line field, not a one-line input', () => {
+        renderWithProviders(
+            <BugFindingQuestionComponent question={textOnly()} {...defaultCallbacks} />
+        );
+        const field = screen.getByRole('textbox', { name: 'Your answer' });
+        expect(field.tagName).toBe('TEXTAREA');
+        expect(field).toHaveAttribute('rows', '3');
+        expect(field.className).toContain('field-sizing-content');
+    });
+
+    it('reports canSubmit=false on mount so a remount cannot leave Submit live', () => {
+        const onCanSubmitChange = vi.fn();
+        renderWithProviders(
+            <BugFindingQuestionComponent
+                question={textOnly()}
+                {...defaultCallbacks}
+                onCanSubmitChange={onCanSubmitChange}
+            />
+        );
+        expect(onCanSubmitChange).toHaveBeenCalledWith(false);
+    });
+
+    it('reports canSubmit=false again when the question changes', () => {
+        const onCanSubmitChange = vi.fn();
+        const { rerender } = renderWithProviders(
+            <BugFindingQuestionComponent
+                question={textOnly({ id: 'bf-a' })}
+                {...defaultCallbacks}
+                onCanSubmitChange={onCanSubmitChange}
+            />
+        );
+        fireEvent.change(screen.getByRole('textbox', { name: 'Your answer' }), {
+            target: { value: 'something' }
+        });
+        expect(onCanSubmitChange).toHaveBeenLastCalledWith(true);
+
+        rerender(
+            <BugFindingQuestionComponent
+                question={textOnly({ id: 'bf-b' })}
+                {...defaultCallbacks}
+                onCanSubmitChange={onCanSubmitChange}
+            />
+        );
+
+        expect(onCanSubmitChange).toHaveBeenLastCalledWith(false);
+    });
+
+    it('still enables submit once the user types', () => {
+        const onCanSubmitChange = vi.fn();
+        renderWithProviders(
+            <BugFindingQuestionComponent
+                question={textOnly()}
+                {...defaultCallbacks}
+                onCanSubmitChange={onCanSubmitChange}
+            />
+        );
+        fireEvent.change(screen.getByRole('textbox', { name: 'Your answer' }), {
+            target: { value: 'the callback captures a stale value' }
+        });
+        expect(onCanSubmitChange).toHaveBeenLastCalledWith(true);
+    });
+});

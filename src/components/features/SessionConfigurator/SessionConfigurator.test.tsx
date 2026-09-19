@@ -1,18 +1,24 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { renderHook, act } from '@testing-library/react';
+import { renderHook, act, screen, within } from '@testing-library/react';
+import { createInstance } from 'i18next';
 import type { ReactNode } from 'react';
+import { initReactI18next } from 'react-i18next';
 import { MemoryRouter } from 'react-router-dom';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { ManifestEntry } from '@/hooks/data/useCategories';
 import { useCategories } from '@/hooks/data/useCategories';
 import { useSessionStore } from '@/store/session';
+import { renderWithProviders } from '@/test/test-utils';
 
+import { SessionConfigurator } from './SessionConfigurator';
 import {
     computeAvailableCount,
     getFilteredCategoryCount,
     useSessionConfigurator
 } from './useSessionConfigurator';
+import enHome from '../../../../public/locales/en/home.json';
+import ruHome from '../../../../public/locales/ru/home.json';
 
 vi.mock('@/hooks/data/useCategories', () => ({
     useCategories: vi.fn()
@@ -22,14 +28,46 @@ const mockCategories: ManifestEntry[] = [
     {
         slug: 'javascript',
         displayName: 'JavaScript',
-        counts: { easy: 3, medium: 2, hard: 1, total: 6, quiz: 4, bugFinding: 1, codeCompletion: 1 }
+        counts: {
+            easy: 3,
+            medium: 2,
+            hard: 1,
+            total: 6,
+            quiz: 4,
+            bugFinding: 1,
+            codeCompletion: 1
+        },
+        matrix: {
+            easy: { quiz: 2, bugFinding: 0, codeCompletion: 1 },
+            medium: { quiz: 1, bugFinding: 1, codeCompletion: 0 },
+            hard: { quiz: 1, bugFinding: 0, codeCompletion: 0 }
+        }
     },
     {
         slug: 'typescript',
         displayName: 'TypeScript',
-        counts: { easy: 2, medium: 2, hard: 2, total: 6, quiz: 3, bugFinding: 2, codeCompletion: 1 }
+        counts: {
+            easy: 2,
+            medium: 2,
+            hard: 2,
+            total: 6,
+            quiz: 3,
+            bugFinding: 2,
+            codeCompletion: 1
+        },
+        matrix: {
+            easy: { quiz: 1, bugFinding: 1, codeCompletion: 0 },
+            medium: { quiz: 1, bugFinding: 1, codeCompletion: 0 },
+            hard: { quiz: 1, bugFinding: 0, codeCompletion: 1 }
+        }
     }
 ];
+
+const EMPTY_MATRIX = {
+    easy: { quiz: 0, bugFinding: 0, codeCompletion: 0 },
+    medium: { quiz: 0, bugFinding: 0, codeCompletion: 0 },
+    hard: { quiz: 0, bugFinding: 0, codeCompletion: 0 }
+};
 
 function createWrapper() {
     const queryClient = new QueryClient({ defaultOptions: { queries: { retry: 0 } } });
@@ -53,9 +91,27 @@ describe('getFilteredCategoryCount', () => {
         expect(getFilteredCategoryCount(js, 'hard', 'all')).toBe(1);
     });
 
-    it('applies proportional mode filter', () => {
-        // quiz=4, total=6, easy=3 → round(3 * 4/6) = round(2) = 2
+    it('returns the mode column total for mode-only filters', () => {
+        expect(getFilteredCategoryCount(js, 'all', 'quiz')).toBe(4);
+        expect(getFilteredCategoryCount(js, 'all', 'bug-finding')).toBe(1);
+        expect(getFilteredCategoryCount(js, 'all', 'code-completion')).toBe(1);
+    });
+
+    it('reports 0 for a difficulty+mode pool that holds no questions', () => {
+        // The pool is empty; the old proportional estimate advertised round(3 * 1/6) = 1
+        // and let the user start a session that immediately bounced back home.
+        expect(getFilteredCategoryCount(js, 'easy', 'bug-finding')).toBe(0);
+    });
+
+    it('does not under-report a difficulty+mode pool that does hold questions', () => {
+        // The old estimate produced round(2 * 1/6) = 0 and hid the one question that exists.
+        expect(getFilteredCategoryCount(mockCategories[1], 'hard', 'code-completion')).toBe(1);
+    });
+
+    it('returns the exact matrix cell for every other difficulty+mode pair', () => {
         expect(getFilteredCategoryCount(js, 'easy', 'quiz')).toBe(2);
+        expect(getFilteredCategoryCount(js, 'medium', 'bug-finding')).toBe(1);
+        expect(getFilteredCategoryCount(js, 'easy', 'code-completion')).toBe(1);
     });
 
     it('returns 0 when total is 0', () => {
@@ -70,7 +126,8 @@ describe('getFilteredCategoryCount', () => {
                 quiz: 0,
                 bugFinding: 0,
                 codeCompletion: 0
-            }
+            },
+            matrix: EMPTY_MATRIX
         };
         expect(getFilteredCategoryCount(empty, 'all', 'quiz')).toBe(0);
     });
@@ -95,10 +152,21 @@ describe('computeAvailableCount', () => {
         ).toBe(12);
     });
 
-    it('applies mode filter using proportional estimate', () => {
-        // javascript: quiz=4, total=6 → fraction=4/6, diffCount(easy)=3 → round(3*4/6)=round(2)=2
-        const result = computeAvailableCount(mockCategories, ['javascript'], 'easy', 'quiz');
-        expect(result).toBe(2);
+    it('sums exact matrix cells across categories for a difficulty+mode filter', () => {
+        // javascript easy/quiz = 2, typescript easy/quiz = 1
+        const result = computeAvailableCount(
+            mockCategories,
+            ['javascript', 'typescript'],
+            'easy',
+            'quiz'
+        );
+        expect(result).toBe(3);
+    });
+
+    it('returns 0 when the selected categories hold nothing for that difficulty+mode', () => {
+        expect(computeAvailableCount(mockCategories, ['javascript'], 'easy', 'bug-finding')).toBe(
+            0
+        );
     });
 });
 
@@ -165,7 +233,8 @@ describe('useSessionConfigurator', () => {
                         quiz: 0,
                         bugFinding: 0,
                         codeCompletion: 0
-                    }
+                    },
+                    matrix: EMPTY_MATRIX
                 }
             ],
             isLoading: false,
@@ -230,9 +299,26 @@ describe('useSessionConfigurator', () => {
         act(() => {
             result.current.handleModeChange('quiz');
         });
-        // javascript: round(6 * 4/6) = 4, typescript: round(6 * 3/6) = 3
+        // javascript quiz column = 4, typescript quiz column = 3
         expect(result.current.categoryCountMap['javascript']).toBe(4);
         expect(result.current.categoryCountMap['typescript']).toBe(3);
+    });
+
+    it('keeps Start disabled when the difficulty+mode pool of the selection is empty', () => {
+        const { result } = renderHook(() => useSessionConfigurator(), {
+            wrapper: createWrapper()
+        });
+        act(() => {
+            result.current.handleCategoryToggle('javascript');
+        });
+        act(() => {
+            result.current.handleDifficultyChange('easy');
+        });
+        act(() => {
+            result.current.handleModeChange('bug-finding');
+        });
+        expect(result.current.maxCount).toBe(0);
+        expect(result.current.isStartEnabled).toBe(false);
     });
 
     it('handleQuestionCountChange clamps value between 1 and maxCount', () => {
@@ -250,5 +336,96 @@ describe('useSessionConfigurator', () => {
             result.current.handleQuestionCountChange(999);
         });
         expect(result.current.questionCount).toBeLessThanOrEqual(result.current.maxCount);
+    });
+});
+
+describe('configurator.count.available plural forms', () => {
+    const translatorFor = async (lng: 'en' | 'ru') => {
+        const instance = createInstance();
+        await instance.use(initReactI18next).init({
+            lng,
+            fallbackLng: lng,
+            ns: ['home'],
+            defaultNS: 'home',
+            resources: { en: { home: enHome }, ru: { home: ruHome } },
+            interpolation: { escapeValue: false }
+        });
+        return (count: number) => instance.t('configurator.count.available', { count });
+    };
+
+    it('uses the Russian singular for a count of one', async () => {
+        const t = await translatorFor('ru');
+        expect(t(1)).toBe('1 вопрос доступен');
+    });
+
+    it('uses the Russian few form for two to four', async () => {
+        const t = await translatorFor('ru');
+        expect(t(2)).toBe('2 вопроса доступно');
+        expect(t(3)).toBe('3 вопроса доступно');
+    });
+
+    it('uses the Russian many form for five and up, and for the teens', async () => {
+        const t = await translatorFor('ru');
+        expect(t(5)).toBe('5 вопросов доступно');
+        expect(t(11)).toBe('11 вопросов доступно');
+        expect(t(955)).toBe('955 вопросов доступно');
+    });
+
+    it('uses the Russian singular again for twenty-one', async () => {
+        const t = await translatorFor('ru');
+        expect(t(21)).toBe('21 вопрос доступен');
+    });
+
+    it('switches between singular and plural in English', async () => {
+        const t = await translatorFor('en');
+        expect(t(1)).toBe('1 question available');
+        expect(t(5)).toBe('5 questions available');
+    });
+});
+
+describe('SessionConfigurator — start affordance', () => {
+    beforeEach(() => {
+        vi.mocked(useCategories).mockReturnValue({
+            data: mockCategories,
+            isLoading: false,
+            isError: false
+        } as unknown as ReturnType<typeof useCategories>);
+    });
+
+    it('keeps the hint inside the sticky bar that holds the Start button', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        const stickyBar = screen
+            .getAllByRole('button', { name: 'Start Session' })[0]!
+            .closest('.fixed');
+        expect(stickyBar).not.toBeNull();
+        expect(
+            within(stickyBar as HTMLElement).getByText('Select at least one category to begin')
+        ).toBeInTheDocument();
+    });
+
+    it('does not point the category group at a hint that is no longer rendered', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        act(() => {
+            screen.getByRole('checkbox', { name: /JavaScript/ }).click();
+        });
+
+        const group = screen.getByRole('group', { name: 'Select question categories' });
+        expect(screen.queryByText('Select at least one category to begin')).not.toBeInTheDocument();
+        const describedBy = group.getAttribute('aria-describedby');
+        if (describedBy !== null) {
+            describedBy
+                .split(' ')
+                .forEach((id) => expect(document.getElementById(id)).not.toBeNull());
+        }
+    });
+
+    it('keeps long category names whole instead of breaking them mid-word', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        const label = screen.getByText('JavaScript');
+        expect(label.className).not.toContain('break-words');
+        expect(label.className).toContain('hyphens-manual');
     });
 });

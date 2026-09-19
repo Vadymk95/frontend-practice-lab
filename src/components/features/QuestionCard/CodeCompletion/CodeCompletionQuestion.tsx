@@ -9,6 +9,10 @@ import { cn } from '@/lib/utils';
 import { ExplanationPanel } from '../ExplanationPanel';
 import { useCodeCompletionQuestion } from './useCodeCompletionQuestion';
 
+const ENTER_KEY = 'Enter';
+/** Wide enough to stay a 44px-class tap target on a phone. */
+const MIN_BLANK_WIDTH_CH = 6;
+
 interface Props {
     question: CodeCompletionQuestionData;
     isSkipped?: boolean;
@@ -24,18 +28,18 @@ export const CodeCompletionQuestion: FC<Props> = ({
 }) => {
     const { t } = useTranslation('question');
     const pick = useLocalized();
-    const { segments, blanksInput, isSubmitted, blankResults, onBlankChange } =
+    const { segments, blanksInput, isSubmitted, blankResults, onBlankChange, onSubmit } =
         useCodeCompletionQuestion({ question, isSkipped, onSubmitRegister, onAllBlanksFilled });
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="relative rounded-none border border-border bg-[#0d1117] font-mono text-sm">
+            <div className="relative rounded-none border border-border bg-white font-mono text-sm dark:bg-[#0d1117]">
                 <div className="flex items-center border-b border-border px-3 py-1">
                     <span className="text-xs text-muted-foreground">
                         {question.lang ?? 'javascript'}
                     </span>
                 </div>
-                <pre className="m-0 overflow-x-auto whitespace-pre bg-[#0d1117] p-4">
+                <pre className="m-0 overflow-x-auto bg-white p-4 whitespace-pre-wrap dark:bg-[#0d1117]">
                     {segments.map((segment, i) => (
                         <Fragment key={i}>
                             <span className="text-muted-foreground">{segment}</span>
@@ -43,20 +47,36 @@ export const CodeCompletionQuestion: FC<Props> = ({
                                 <input
                                     value={blanksInput[i]}
                                     onChange={(e) => onBlankChange(i, e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === ENTER_KEY) {
+                                            e.preventDefault();
+                                            onSubmit();
+                                        }
+                                    }}
                                     disabled={isSubmitted}
                                     aria-label={t('codeCompletion.inputLabel', { index: i + 1 })}
+                                    // Phone keyboards substitute smart quotes and autocorrect
+                                    // identifiers, both of which change the typed answer.
+                                    autoCapitalize="off"
+                                    autoCorrect="off"
+                                    autoComplete="off"
+                                    spellCheck={false}
+                                    enterKeyHint="done"
                                     className={cn(
-                                        'inline bg-transparent font-mono text-sm border-b-2 border-muted-foreground',
-                                        'text-foreground outline-none min-w-[4ch] focus-visible:border-foreground',
+                                        'inline bg-transparent font-mono text-base border-b-2 border-muted-foreground',
+                                        'text-foreground outline-none min-h-11 min-w-[6ch] px-1 focus-visible:border-foreground',
                                         isSubmitted &&
+                                            !isSkipped &&
                                             blankResults[i] === 'correct' &&
                                             'border-accent text-accent',
                                         isSubmitted &&
+                                            !isSkipped &&
                                             blankResults[i] === 'incorrect' &&
-                                            'border-error text-error'
+                                            'border-error text-error',
+                                        isSkipped && 'border-warning border-dashed'
                                     )}
                                     style={{
-                                        width: `${Math.max(4, (blanksInput[i]?.length ?? 0) + 2)}ch`
+                                        width: `${Math.max(MIN_BLANK_WIDTH_CH, (blanksInput[i]?.length ?? 0) + 2)}ch`
                                     }}
                                 />
                             )}

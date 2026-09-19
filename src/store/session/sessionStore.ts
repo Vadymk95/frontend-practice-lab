@@ -18,6 +18,13 @@ interface SessionState {
     // can distinguish "user clicked End" (show sessionEnded flash) from "no config set"
     // (show noActiveSession flash). Cleared by setConfig on the next session start.
     endedAt: number | null;
+    // Stamped by the summary once it has applied the session to progress (weights, error rates,
+    // streak, record, analytics). Browser Back/Forward remounts the summary with the session store
+    // intact, so without this marker every return re-applied the whole session.
+    scoredAt: number | null;
+    // A repeat or restart keeps the original config but replays a subset with a fresh timer, so its
+    // duration must never be written to the personal record of the full session it came from.
+    isRepeat: boolean;
     // Actions
     setConfig: (config: SessionConfig) => void;
     setQuestionList: (questions: Question[]) => void;
@@ -29,6 +36,8 @@ interface SessionState {
     resetSession: () => void;
     endSession: () => void;
     setRepeatMistakes: (questions: Question[]) => void;
+    markScored: () => void;
+    consumeEndedAt: () => void;
 }
 
 const initialState = {
@@ -38,7 +47,9 @@ const initialState = {
     skipList: [] as string[],
     config: null as SessionConfig | null,
     timerMs: 0,
-    endedAt: null as number | null
+    endedAt: null as number | null,
+    scoredAt: null as number | null,
+    isRepeat: false
 };
 
 const useSessionStoreBase = create<SessionState>()(
@@ -98,12 +109,34 @@ const useSessionStoreBase = create<SessionState>()(
             },
             setRepeatMistakes: (questionList: Question[]) => {
                 set(
-                    { questionList, currentIndex: 0, answers: {}, skipList: [], timerMs: 0 },
+                    {
+                        questionList,
+                        currentIndex: 0,
+                        answers: {},
+                        skipList: [],
+                        timerMs: 0,
+                        scoredAt: null,
+                        isRepeat: true
+                    },
                     false,
                     {
                         type: 'session-store/setRepeatMistakes'
                     }
                 );
+            },
+            markScored: () => {
+                set(
+                    (state) => (state.scoredAt === null ? { scoredAt: Date.now() } : state),
+                    false,
+                    { type: 'session-store/markScored' }
+                );
+            },
+            // The end-session marker is read exactly once, by the setup guard on
+            // /session/play. Clearing it there is what lets a later visit to that
+            // route (browser Back, Forward, a restored tab) redirect home instead
+            // of waiting for a session that no longer exists.
+            consumeEndedAt: () => {
+                set({ endedAt: null }, false, { type: 'session-store/consumeEndedAt' });
             }
         }),
         { name: 'session-store' }

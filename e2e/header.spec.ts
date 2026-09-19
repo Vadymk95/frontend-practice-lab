@@ -44,12 +44,13 @@ test.describe('Header controls', () => {
 
         // Default is Russian — button shows RU (the current language)
         await expect(langBtn).toContainText(/EN|RU/);
-        const initialText = await langBtn.textContent();
+        const initialText = (await langBtn.textContent())?.trim() ?? '';
 
         await langBtn.click();
 
-        const newText = await langBtn.textContent();
-        expect(newText).not.toBe(initialText);
+        // The label follows i18next's languageChanged event, which fires after the new bundle
+        // has loaded — a web-first assertion waits for it instead of reading the DOM at once.
+        await expect(langBtn).not.toHaveText(initialText);
     });
 
     test('language toggle persists on reload', async ({ page }) => {

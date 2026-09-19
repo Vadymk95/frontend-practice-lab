@@ -19,19 +19,19 @@
                 "ru": "Только текущее значение state"
             },
             {
-                "en": "A getter and a setter function as separate return values",
-                "ru": "Геттер и сеттер как два отдельных возвращаемых значения"
-            },
-            {
                 "en": "An array containing the current state value and a function to update it",
                 "ru": "Массив из текущего значения state и функции для его обновления"
             },
             {
                 "en": "An object with `value` and `setValue` properties",
                 "ru": "Объект со свойствами `value` и `setValue`"
+            },
+            {
+                "en": "A getter and a setter function as separate return values",
+                "ru": "Геттер и сеттер как два отдельных возвращаемых значения"
             }
         ],
-        "correct": 2
+        "correct": 1
     },
     {
         "id": "react-hooks-002",
@@ -78,13 +78,17 @@
             "ru": "Какой вызов хука ближе всего к аналогу `componentDidMount` в функциональных компонентах?"
         },
         "explanation": {
-            "en": "`useEffect` with an empty `[]` runs exactly once after the initial paint, mirroring `componentDidMount`. Omitting the array causes the effect to run after every render, which is closer to `componentDidUpdate`.",
-            "ru": "`useEffect` с пустым `[]` выполняется ровно один раз после первой отрисовки — это и есть аналог `componentDidMount`. Если массив не указывать, эффект будет вызываться после каждого рендера, что ближе к `componentDidUpdate`."
+            "en": "`useEffect` with an empty `[]` is the usual stand-in for `componentDidMount`: it runs after the first render and never re-runs, because the dependency list never changes. The timing is not identical — `useEffect` generally runs after the browser paints, while `componentDidMount` and `useLayoutEffect` run before paint. Omitting the array makes the effect run after every render, which is closer to `componentDidUpdate`. In StrictMode development builds React also runs the effect and its cleanup one extra time.",
+            "ru": "`useEffect` с пустым `[]` — обычная замена `componentDidMount`: он выполняется после первого рендера и больше не повторяется, потому что список зависимостей не меняется. Тайминг при этом не тот же: `useEffect` обычно выполняется после отрисовки браузером, а `componentDidMount` и `useLayoutEffect` — до неё. Если массив не указать, эффект будет вызываться после каждого рендера, что ближе к `componentDidUpdate`. В dev-сборке со StrictMode React дополнительно прогоняет эффект и его cleanup ещё раз."
         },
         "options": [
             {
                 "en": "useEffect(() => { ... }) — no dependency array",
                 "ru": "useEffect(() => { ... }) — без массива зависимостей"
+            },
+            {
+                "en": "useRef(() => { ... })",
+                "ru": "useRef(() => { ... })"
             },
             {
                 "en": "useEffect(() => { ... }, []) — empty dependency array",
@@ -93,13 +97,9 @@
             {
                 "en": "useLayoutEffect(() => { ... }) — no dependency array",
                 "ru": "useLayoutEffect(() => { ... }) — без массива зависимостей"
-            },
-            {
-                "en": "useRef(() => { ... })",
-                "ru": "useRef(() => { ... })"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "react-refs-001",
@@ -117,10 +117,6 @@
         },
         "options": [
             {
-                "en": "A mutable value that triggers a re-render when changed",
-                "ru": "Изменяемое значение, которое триггерит ре-рендер при изменении"
-            },
-            {
                 "en": "A plain mutable object `{ current: initialValue }` that persists for the component's lifetime",
                 "ru": "Обычный изменяемый объект `{ current: initialValue }`, который живёт столько же, сколько и компонент"
             },
@@ -131,9 +127,13 @@
             {
                 "en": "A callback that React calls with the DOM node once it is mounted",
                 "ru": "Колбэк, который React вызывает с DOM-узлом после его маунта"
+            },
+            {
+                "en": "A mutable value that triggers a re-render when changed",
+                "ru": "Изменяемое значение, которое триггерит ре-рендер при изменении"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "react-context-001",
@@ -151,6 +151,10 @@
         },
         "options": [
             {
+                "en": "Always the default value passed to `createContext()`",
+                "ru": "Всегда дефолтное значение, переданное в `createContext()`"
+            },
+            {
                 "en": "The Context object itself (same as `MyContext`)",
                 "ru": "Сам объект Context (то же самое, что и `MyContext`)"
             },
@@ -161,13 +165,9 @@
             {
                 "en": "A function to update the context value",
                 "ru": "Функцию для обновления значения контекста"
-            },
-            {
-                "en": "Always the default value passed to `createContext()`",
-                "ru": "Всегда дефолтное значение, переданное в `createContext()`"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "react-hooks-003",
@@ -185,23 +185,23 @@
         },
         "options": [
             {
-                "en": "To memoize the return value of an expensive computation",
-                "ru": "Мемоизировать результат дорогого вычисления"
-            },
-            {
                 "en": "To memoize a function reference so it is not re-created on every render",
                 "ru": "Мемоизировать ссылку на функцию, чтобы она не пересоздавалась на каждом рендере"
+            },
+            {
+                "en": "To cache API responses between renders",
+                "ru": "Кэшировать ответы API между рендерами"
             },
             {
                 "en": "To prevent a component from re-rendering",
                 "ru": "Предотвратить ре-рендер компонента"
             },
             {
-                "en": "To cache API responses between renders",
-                "ru": "Кэшировать ответы API между рендерами"
+                "en": "To memoize the return value of an expensive computation",
+                "ru": "Мемоизировать результат дорогого вычисления"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "react-reconciliation-001",
@@ -219,20 +219,20 @@
         },
         "options": [
             {
-                "en": "React ignores numeric keys and expects string keys",
-                "ru": "React игнорирует числовые ключи и ожидает строковые"
-            },
-            {
-                "en": "Indices shift when items are added, removed, or reordered, so React incorrectly reuses existing component instances and their state",
-                "ru": "Индексы сдвигаются при добавлении, удалении или перестановке элементов, из-за чего React некорректно переиспользует инстансы компонентов и их state"
-            },
-            {
-                "en": "Using indices disables the reconciliation algorithm entirely",
-                "ru": "Использование индексов полностью отключает алгоритм сверки (reconciliation)"
-            },
-            {
                 "en": "Array indices are not valid key values — React throws a warning",
                 "ru": "Индексы массива — невалидные значения для key, React выбросит предупреждение"
+            },
+            {
+                "en": "Indices shift on insert or reorder, so React reuses the wrong component instance and its state",
+                "ru": "Индексы сдвигаются при вставке или перестановке, поэтому React переиспользует не тот инстанс компонента вместе с его state"
+            },
+            {
+                "en": "Index keys force React to re-create every list item from scratch on each render",
+                "ru": "Индексные ключи заставляют React пересоздавать каждый элемент списка с нуля на каждом рендере"
+            },
+            {
+                "en": "React ignores numeric keys and expects string keys",
+                "ru": "React игнорирует числовые ключи и ожидает строковые"
             }
         ],
         "correct": 1
@@ -257,19 +257,19 @@
                 "ru": "Ре-рендер родительского компонента (когда ребёнок не обёрнут в `React.memo`)"
             },
             {
-                "en": "Mutating a `useRef` value directly via `.current`",
-                "ru": "Мутация значения `useRef` напрямую через `.current`"
-            },
-            {
                 "en": "The `useContext` value changing in the nearest Provider",
                 "ru": "Изменение значения `useContext` в ближайшем Provider"
             },
             {
                 "en": "Calling a `useState` setter with the identical primitive value (e.g. `setCount(0)` when count is already `0`)",
                 "ru": "Вызов сеттера `useState` с тем же примитивным значением (например, `setCount(0)`, когда count уже `0`)"
+            },
+            {
+                "en": "Mutating a `useRef` value directly via `.current`",
+                "ru": "Мутация значения `useRef` напрямую через `.current`"
             }
         ],
-        "correct": [0, 2]
+        "correct": [0, 1]
     },
     {
         "id": "react-hooks-004",
@@ -287,6 +287,10 @@
         },
         "options": [
             {
+                "en": "A boolean indicating whether the computation ran in the current render",
+                "ru": "Булево значение, указывающее, выполнялось ли вычисление в текущем рендере"
+            },
+            {
                 "en": "A memoized callback function",
                 "ru": "Мемоизированную колбэк-функцию"
             },
@@ -297,13 +301,9 @@
             {
                 "en": "A ref to a cached value",
                 "ru": "Ref на закэшированное значение"
-            },
-            {
-                "en": "A boolean indicating whether the computation ran in the current render",
-                "ru": "Булево значение, указывающее, выполнялось ли вычисление в текущем рендере"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "react-bug-stale-001",
@@ -321,7 +321,8 @@
         },
         "code": "function Counter() {\n  const [count, setCount] = useState(0);\n\n  useEffect(() => {\n    const id = setInterval(() => {\n      setCount(count + 1);\n    }, 1000);\n    return () => clearInterval(id);\n  }, []);\n\n  return <div>{count}</div>;\n}",
         "correct": "Stale closure: `count` is captured as 0 on mount and never updates, so the counter never advances past 1",
-        "referenceAnswer": "The effect runs once and closes over `count = 0`. Every tick calls `setCount(0 + 1)`, setting state to 1 indefinitely. Fix: use the functional updater form — `setCount(c => c + 1)` — which always receives the latest state value and requires no dependency on `count`."
+        "referenceAnswer": "The effect runs once and closes over `count = 0`. Every tick calls `setCount(0 + 1)`, setting state to 1 indefinitely. Fix: use the functional updater form — `setCount(c => c + 1)` — which always receives the latest state value and requires no dependency on `count`.",
+        "lang": "jsx"
     },
     {
         "id": "react-bug-fetch-001",
@@ -339,7 +340,8 @@
         },
         "code": "function UserProfile({ userId }) {\n  const [user, setUser] = useState(null);\n\n  useEffect(() => {\n    fetch(`/api/users/${userId}`)\n      .then(res => res.json())\n      .then(data => setUser(data));\n  }, [userId]);\n\n  return <div>{user?.name}</div>;\n}",
         "correct": "Race condition: if `userId` changes while a fetch is in-flight, the stale response may resolve after the newer one and overwrite it",
-        "referenceAnswer": "Add an `ignore` flag in the effect and check it before calling `setUser`:\n\n```js\nuseEffect(() => {\n  let ignore = false;\n  fetch(`/api/users/${userId}`)\n    .then(res => res.json())\n    .then(data => { if (!ignore) setUser(data); });\n  return () => { ignore = true; };\n}, [userId]);\n```\n\nAlternatively, use an `AbortController` to cancel the in-flight request on cleanup."
+        "referenceAnswer": "Add an `ignore` flag in the effect and check it before calling `setUser`:\n\n```js\nuseEffect(() => {\n  let ignore = false;\n  fetch(`/api/users/${userId}`)\n    .then(res => res.json())\n    .then(data => { if (!ignore) setUser(data); });\n  return () => { ignore = true; };\n}, [userId]);\n```\n\nAlternatively, use an `AbortController` to cancel the in-flight request on cleanup.",
+        "lang": "jsx"
     },
     {
         "id": "react-completion-usecallback-001",
@@ -355,8 +357,8 @@
             "en": "`useCallback(fn, deps)` returns a stable function reference that only changes when one of its dependencies changes. Here both `onSearch` (a prop that may change between renders) and `query` (state used inside the callback) must be listed as dependencies to keep the memoized function consistent with the latest values.",
             "ru": "`useCallback(fn, deps)` возвращает стабильную ссылку на функцию, которая меняется только при изменении одной из зависимостей. Здесь и `onSearch` (пропс, который может меняться между рендерами), и `query` (state, используемый внутри колбэка) должны быть указаны в зависимостях, чтобы мемоизированная функция всегда работала с актуальными значениями."
         },
-        "code": "function SearchBox({ onSearch }) {\n  const [query, setQuery] = useState('');\n\n  const handleSubmit = __BLANK__(  \n    () => {\n      onSearch(query);\n    },\n    __BLANK__\n  );\n\n  return (\n    <input\n      value={query}\n      onChange={e => setQuery(e.target.value)}\n      onKeyDown={e => e.key === 'Enter' && handleSubmit()}\n    />\n  );\n}",
-        "blanks": ["useCallback", "[onSearch, query]"],
+        "code": "function SearchBox({ onSearch }) {\n  const [query, setQuery] = useState('');\n\n  const handleSubmit = __BLANK__(\n    () => {\n      onSearch(query);\n    },\n    [__BLANK__, query]\n  );\n\n  return (\n    <input\n      value={query}\n      onChange={e => setQuery(e.target.value)}\n      onKeyDown={e => e.key === 'Enter' && handleSubmit()}\n    />\n  );\n}",
+        "blanks": ["useCallback", "onSearch"],
         "lang": "jsx",
         "referenceAnswer": "function SearchBox({ onSearch }) {\n  const [query, setQuery] = useState('');\n\n  const handleSubmit = useCallback(\n    () => {\n      onSearch(query);\n    },\n    [onSearch, query]\n  );\n\n  return (\n    <input\n      value={query}\n      onChange={e => setQuery(e.target.value)}\n      onKeyDown={e => e.key === 'Enter' && handleSubmit()}\n    />\n  );\n}"
     },
@@ -364,7 +366,7 @@
         "id": "react-error-boundary-001",
         "type": "multi-choice",
         "category": "react",
-        "difficulty": "hard",
+        "difficulty": "medium",
         "tags": ["error-boundary", "lifecycle", "class-components"],
         "question": {
             "en": "Which of the following can React Error Boundaries catch? (Select all that apply)",
@@ -376,23 +378,23 @@
         },
         "options": [
             {
-                "en": "Errors thrown during rendering in a child component tree",
-                "ru": "Ошибки, выброшенные при рендеринге дочернего поддерева компонентов"
-            },
-            {
-                "en": "Errors thrown inside `onClick` or other event handler functions",
-                "ru": "Ошибки, выброшенные внутри `onClick` или других обработчиков событий"
+                "en": "Errors thrown inside `setTimeout` or `requestAnimationFrame` callbacks",
+                "ru": "Ошибки, выброшенные в колбэках `setTimeout` или `requestAnimationFrame`"
             },
             {
                 "en": "Errors thrown in lifecycle methods of child class components",
                 "ru": "Ошибки, выброшенные в методах жизненного цикла дочерних классовых компонентов"
             },
             {
-                "en": "Errors thrown inside `setTimeout` or `requestAnimationFrame` callbacks",
-                "ru": "Ошибки, выброшенные в колбэках `setTimeout` или `requestAnimationFrame`"
+                "en": "Errors thrown inside `onClick` or other event handler functions",
+                "ru": "Ошибки, выброшенные внутри `onClick` или других обработчиков событий"
+            },
+            {
+                "en": "Errors thrown during rendering in a child component tree",
+                "ru": "Ошибки, выброшенные при рендеринге дочернего поддерева компонентов"
             }
         ],
-        "correct": [0, 2]
+        "correct": [1, 3]
     },
     {
         "id": "react-suspense-001",
@@ -405,8 +407,8 @@
             "ru": "Какие из утверждений о `React.Suspense` верны? (Выберите все подходящие варианты)"
         },
         "explanation": {
-            "en": "Suspense operates on the 'throw a Promise' protocol: when a child component throws a Promise (indicating pending async work), React walks up the tree to the nearest `<Suspense>` boundary and displays its `fallback`. This works natively with `React.lazy` and data libraries like Relay or SWR in Suspense mode. Suspense does **not** catch synchronous errors — that is Error Boundary territory — and has no effect on unmounting.",
-            "ru": "Suspense работает по протоколу «throw a Promise»: когда дочерний компонент выбрасывает Promise (сигнализируя о незавершённой асинхронной работе), React поднимается по дереву до ближайшей границы `<Suspense>` и показывает её `fallback`. Это нативно работает с `React.lazy` и data-библиотеками вроде Relay или SWR в Suspense-режиме. Suspense **не** ловит синхронные ошибки — это зона ответственности Error Boundary — и никак не влияет на анмаунт."
+            "en": "A Suspense boundary shows its `fallback` while the content inside it is not ready. React documents what activates it: code loaded with `React.lazy`, a pending Promise read with `use()` (which is how Suspense-enabled frameworks and libraries such as Relay or React Query work — they cache the Promise and call `use()`), a stylesheet with a `precedence` prop, and HTML still streaming from the server. Suspense does **not** catch synchronous errors — that is Error Boundary territory — and has no effect on unmounting.",
+            "ru": "Граница Suspense показывает свой `fallback`, пока содержимое внутри не готово. React документирует, что её активирует: код, загружаемый через `React.lazy`; незавершённый Promise, прочитанный через `use()` (именно так работают Suspense-совместимые фреймворки и библиотеки вроде Relay или React Query — они кэшируют Promise и вызывают `use()`); стили с пропсом `precedence`; HTML, который ещё стримится с сервера. Синхронные ошибки Suspense **не** ловит — это зона Error Boundary — и на анмаунт он не влияет."
         },
         "options": [
             {
@@ -414,19 +416,19 @@
                 "ru": "Suspense показывает свой `fallback`, пока загружаются lazy-компоненты (через `React.lazy`)"
             },
             {
-                "en": "Suspense catches JavaScript runtime errors thrown during rendering",
-                "ru": "Suspense ловит runtime-ошибки JavaScript, выброшенные во время рендеринга"
+                "en": "When a child reads a pending Promise with `use()`, React renders the nearest Suspense `fallback` instead",
+                "ru": "Когда дочерний компонент читает незавершённый Promise через `use()`, React вместо него рендерит `fallback` ближайшего Suspense"
             },
             {
-                "en": "When a child component throws a Promise (suspends), React renders the nearest Suspense `fallback` instead",
-                "ru": "Когда дочерний компонент выбрасывает Promise (саспендится), React вместо него рендерит `fallback` ближайшего Suspense"
+                "en": "Suspense catches JavaScript runtime errors thrown during rendering",
+                "ru": "Suspense ловит runtime-ошибки JavaScript, выброшенные во время рендеринга"
             },
             {
                 "en": "Wrapping a component in Suspense prevents it from ever unmounting",
                 "ru": "Оборачивание компонента в Suspense не даёт ему анмаунтиться"
             }
         ],
-        "correct": [0, 2]
+        "correct": [0, 1]
     },
     {
         "id": "react-completion-portal-001",
@@ -439,13 +441,13 @@
             "ru": "Заполните пропуски, чтобы отрендерить содержимое модалки в DOM-узел вне React-рута, используя Portal:"
         },
         "explanation": {
-            "en": "`ReactDOM.createPortal(children, domNode)` renders React children into a different DOM node than the component's parent, while keeping the component in the normal React tree for event bubbling and context propagation. This is the standard pattern for modals, tooltips, and drawers that must break out of `overflow: hidden` or `z-index` stacking contexts. The target `#modal-root` element must exist in `index.html`.",
-            "ru": "`ReactDOM.createPortal(children, domNode)` рендерит React-детей в DOM-узел, отличный от родительского, при этом компонент остаётся в обычном React-дереве — всплытие событий и проброс контекста работают как обычно. Это стандартный паттерн для модалок, тултипов и drawer-ов, которым нужно вырваться из `overflow: hidden` или stacking-контекста `z-index`. Целевой элемент `#modal-root` должен существовать в `index.html`."
+            "en": "`createPortal(children, domNode)` renders React children into a different DOM node than the component's parent, while keeping the component in the normal React tree — event bubbling and context propagation still follow the React hierarchy. This is the standard pattern for modals, tooltips and drawers that must break out of `overflow: hidden` or a `z-index` stacking context. The target `#modal-root` element must already exist in the HTML.",
+            "ru": "`createPortal(children, domNode)` рендерит React-детей в DOM-узел, отличный от родительского, но компонент остаётся в обычном React-дереве — всплытие событий и проброс контекста идут по React-иерархии. Это стандартный паттерн для модалок, тултипов и drawer-ов, которым нужно вырваться из `overflow: hidden` или stacking-контекста `z-index`. Целевой элемент `#modal-root` должен уже существовать в HTML."
         },
-        "code": "import ReactDOM from 'react-dom';\n\nfunction Modal({ children, isOpen }) {\n  if (!isOpen) return null;\n\n  return __BLANK__(  \n    <div className=\"modal-overlay\">\n      <div className=\"modal-content\">{children}</div>\n    </div>,\n    __BLANK__('modal-root')\n  );\n}",
-        "blanks": ["ReactDOM.createPortal", "document.getElementById"],
+        "code": "import { createPortal } from 'react-dom';\n\nfunction Modal({ children, isOpen }) {\n  if (!isOpen) return null;\n\n  return __BLANK__(\n    <div className=\"modal-overlay\">\n      <div className=\"modal-content\">{children}</div>\n    </div>,\n    __BLANK__('modal-root')\n  );\n}",
+        "blanks": ["createPortal", "document.getElementById"],
         "lang": "jsx",
-        "referenceAnswer": "import ReactDOM from 'react-dom';\n\nfunction Modal({ children, isOpen }) {\n  if (!isOpen) return null;\n\n  return ReactDOM.createPortal(\n    <div className=\"modal-overlay\">\n      <div className=\"modal-content\">{children}</div>\n    </div>,\n    document.getElementById('modal-root')\n  );\n}"
+        "referenceAnswer": "import { createPortal } from 'react-dom';\n\nfunction Modal({ children, isOpen }) {\n  if (!isOpen) return null;\n\n  return createPortal(\n    <div className=\"modal-overlay\">\n      <div className=\"modal-content\">{children}</div>\n    </div>,\n    document.getElementById('modal-root')\n  );\n}"
     },
     {
         "id": "react-forwardref-001",
@@ -458,10 +460,14 @@
             "ru": "Для чего нужен `React.forwardRef`?"
         },
         "explanation": {
-            "en": "By default, refs do not pass through function components. `React.forwardRef((props, ref) => ...)` lets you explicitly forward the ref received by a component to an inner DOM element or another component, enabling parents to imperatively access child internals.",
-            "ru": "По умолчанию refs не пробрасываются через функциональные компоненты. `React.forwardRef((props, ref) => ...)` позволяет явно передать полученный компонентом ref во внутренний DOM-элемент или в другой компонент — так родитель получает императивный доступ к внутренностям ребёнка."
+            "en": "Before React 19, refs did not pass through function components, so `React.forwardRef((props, ref) => ...)` was needed to hand the ref down to an inner DOM node or another component and give the parent imperative access. In React 19 `ref` is an ordinary prop you can destructure directly, and `forwardRef` is on the deprecation path.",
+            "ru": "До React 19 refs не проходили сквозь функциональные компоненты, поэтому `React.forwardRef((props, ref) => ...)` был нужен, чтобы передать ref во внутренний DOM-узел или другой компонент и дать родителю императивный доступ. В React 19 `ref` — обычный проп, его можно просто достать из пропсов, а `forwardRef` идёт в депрекейт."
         },
         "options": [
+            {
+                "en": "To share a single ref object between multiple components",
+                "ru": "Расшарить один ref-объект между несколькими компонентами"
+            },
             {
                 "en": "To create a ref that updates on every render",
                 "ru": "Создать ref, который обновляется на каждом рендере"
@@ -473,13 +479,9 @@
             {
                 "en": "To forward props to a nested component automatically",
                 "ru": "Автоматически пробрасывать props до вложенного компонента"
-            },
-            {
-                "en": "To share a single ref object between multiple components",
-                "ru": "Расшарить один ref-объект между несколькими компонентами"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "react-useimperativehandle-001",
@@ -497,8 +499,8 @@
         },
         "options": [
             {
-                "en": "Imperatively update a component's state from outside React",
-                "ru": "Императивно обновлять state компонента снаружи React"
+                "en": "Create a ref that is shared across sibling components",
+                "ru": "Создавать ref, общий для соседних компонентов"
             },
             {
                 "en": "Customize the value exposed to a parent via a forwarded ref",
@@ -509,8 +511,8 @@
                 "ru": "Обходить алгоритм reconciliation для конкретных DOM-узлов"
             },
             {
-                "en": "Create a ref that is shared across sibling components",
-                "ru": "Создавать ref, общий для соседних компонентов"
+                "en": "Imperatively update a component's state from outside React",
+                "ru": "Императивно обновлять state компонента снаружи React"
             }
         ],
         "correct": 1
@@ -565,23 +567,23 @@
         },
         "options": [
             {
+                "en": "It generates an ID that matches between the server render and client hydration",
+                "ru": "Генерирует ID, который совпадает между серверным рендером и гидрацией на клиенте"
+            },
+            {
                 "en": "It generates a unique component key for lists",
                 "ru": "Генерирует уникальный key для компонентов в списках"
             },
             {
-                "en": "It generates a stable, unique ID that is consistent between server and client renders, safe for use in HTML attributes like `id` and `aria-*`",
-                "ru": "Генерирует стабильный уникальный ID, согласованный между серверным и клиентским рендером, безопасный для использования в HTML-атрибутах вроде `id` и `aria-*`"
-            },
-            {
-                "en": "It replaces UUID libraries for generating random IDs",
-                "ru": "Заменяет UUID-библиотеки для генерации случайных ID"
-            },
-            {
                 "en": "It tracks which component instance rendered last",
                 "ru": "Отслеживает, какой инстанс компонента рендерился последним"
+            },
+            {
+                "en": "It generates a globally unique random ID per render for database keys",
+                "ru": "Генерирует глобально уникальный случайный ID на каждый рендер для ключей в базе данных"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "react-usetransition-001",
@@ -603,16 +605,16 @@
                 "ru": "Булево значение и функцию; используется для пометки обновления state как несрочного, чтобы UI оставался отзывчивым"
             },
             {
+                "en": "A cleanup function; used to cancel in-flight effects",
+                "ru": "Функцию очистки; используется для отмены выполняющихся эффектов"
+            },
+            {
                 "en": "A promise and a resolver; used to defer async operations",
                 "ru": "Promise и resolver; используется для отложенного выполнения асинхронных операций"
             },
             {
                 "en": "An animation controller; used to animate component mount/unmount",
                 "ru": "Контроллер анимации; используется для анимации маунта/анмаунта компонента"
-            },
-            {
-                "en": "A cleanup function; used to cancel in-flight effects",
-                "ru": "Функцию очистки; используется для отмены выполняющихся эффектов"
             }
         ],
         "correct": 0
@@ -633,8 +635,8 @@
         },
         "options": [
             {
-                "en": "They are identical — both defer state updates",
-                "ru": "Они идентичны — оба откладывают обновления state"
+                "en": "`useTransition` requires a Suspense boundary; `useDeferredValue` does not",
+                "ru": "`useTransition` требует границы Suspense, `useDeferredValue` — нет"
             },
             {
                 "en": "`useDeferredValue` defers a derived value you receive (e.g. a prop), while `useTransition` wraps the state update you control",
@@ -645,8 +647,8 @@
                 "ru": "`useDeferredValue` работает только со строками, а `useTransition` — с любым значением"
             },
             {
-                "en": "`useTransition` requires a Suspense boundary; `useDeferredValue` does not",
-                "ru": "`useTransition` требует границы Suspense, `useDeferredValue` — нет"
+                "en": "They are identical — both defer state updates",
+                "ru": "Они идентичны — оба откладывают обновления state"
             }
         ],
         "correct": 1
@@ -667,23 +669,23 @@
         },
         "options": [
             {
-                "en": "It makes the component asynchronous",
-                "ru": "Делает компонент асинхронным"
-            },
-            {
                 "en": "It prevents the component from ever re-rendering",
                 "ru": "Полностью запрещает ре-рендер компонента"
             },
             {
-                "en": "It skips re-rendering if props have not changed (shallow comparison by default)",
-                "ru": "Пропускает ре-рендер, если props не изменились (по умолчанию — поверхностное сравнение)"
+                "en": "It makes the component asynchronous",
+                "ru": "Делает компонент асинхронным"
             },
             {
                 "en": "It memoizes the component's return value for the entire session",
                 "ru": "Мемоизирует возвращаемое значение компонента на всю сессию"
+            },
+            {
+                "en": "It skips re-rendering if props have not changed (shallow comparison by default)",
+                "ru": "Пропускает ре-рендер, если props не изменились (по умолчанию — поверхностное сравнение)"
             }
         ],
-        "correct": 2
+        "correct": 3
     },
     {
         "id": "react-lazy-suspense-001",
@@ -705,16 +707,16 @@
                 "ru": "React.StrictMode"
             },
             {
-                "en": "React.Fragment",
-                "ru": "React.Fragment"
+                "en": "React.ErrorBoundary",
+                "ru": "React.ErrorBoundary"
             },
             {
                 "en": "React.Suspense with a `fallback` prop",
                 "ru": "React.Suspense с пропсом `fallback`"
             },
             {
-                "en": "React.ErrorBoundary",
-                "ru": "React.ErrorBoundary"
+                "en": "React.Fragment",
+                "ru": "React.Fragment"
             }
         ],
         "correct": 2
@@ -730,28 +732,28 @@
             "ru": "Что возвращает `ReactDOMServer.renderToString()`?"
         },
         "explanation": {
-            "en": "`renderToString` synchronously generates an HTML string that includes React's internal `data-reactroot` and checksum attributes. The client then calls `hydrateRoot` (React 18) or `ReactDOM.hydrate` to attach event handlers without re-rendering from scratch. For streaming, use `renderToPipeableStream` instead.",
-            "ru": "`renderToString` синхронно генерирует HTML-строку, включающую внутренние React-атрибуты `data-reactroot` и контрольные суммы. Далее клиент вызывает `hydrateRoot` (React 18) или `ReactDOM.hydrate`, чтобы навесить обработчики событий без ре-рендера с нуля. Для стриминга используйте `renderToPipeableStream`."
+            "en": "`renderToString` synchronously produces an HTML string for the tree. React 18+ adds no `data-reactroot` or checksum attributes — the only markers it emits are HTML comments such as `<!--$-->` around Suspense boundaries. On the client you call `hydrateRoot` to attach event handlers to that markup instead of re-rendering from scratch (`ReactDOM.hydrate` was removed in React 19). `renderToString` cannot stream and does not wait for suspended content — use `renderToPipeableStream` or `renderToReadableStream` for that.",
+            "ru": "`renderToString` синхронно отдаёт HTML-строку для дерева. React 18+ не добавляет ни `data-reactroot`, ни контрольных сумм — единственные маркеры, которые он пишет, это HTML-комментарии вроде `<!--$-->` вокруг границ Suspense. На клиенте вызывается `hydrateRoot`, чтобы навесить обработчики на эту разметку, а не рендерить с нуля (`ReactDOM.hydrate` убрали в React 19). Стримить `renderToString` не умеет и не ждёт саспендящийся контент — для этого есть `renderToPipeableStream` или `renderToReadableStream`."
         },
         "options": [
+            {
+                "en": "A fully static HTML string that `hydrateRoot` cannot attach to",
+                "ru": "Полностью статическую HTML-строку, к которой `hydrateRoot` не может подключиться"
+            },
             {
                 "en": "A React element tree that can be passed to `ReactDOM.render`",
                 "ru": "Дерево React-элементов, которое можно передать в `ReactDOM.render`"
             },
             {
-                "en": "An HTML string with React data attributes that can be hydrated on the client",
-                "ru": "HTML-строку с React data-атрибутами, которую можно гидрировать на клиенте"
-            },
-            {
-                "en": "A static HTML string with no hydration metadata",
-                "ru": "Статическую HTML-строку без метаданных для гидрации"
-            },
-            {
                 "en": "A stream of HTML chunks for progressive rendering",
                 "ru": "Стрим HTML-чанков для прогрессивного рендеринга"
+            },
+            {
+                "en": "An HTML string that the client can hydrate with `hydrateRoot`",
+                "ru": "HTML-строку, которую клиент может гидрировать через `hydrateRoot`"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "react-controlled-001",
@@ -769,16 +771,16 @@
         },
         "options": [
             {
-                "en": "A component that cannot accept user input",
-                "ru": "Компонент, который не принимает ввод пользователя"
+                "en": "A component wrapped in `React.memo`",
+                "ru": "Компонент, обёрнутый в `React.memo`"
             },
             {
                 "en": "A component whose form element value is driven by React state and updated via an `onChange` handler",
                 "ru": "Компонент, чьё значение form-элемента управляется React state и обновляется через обработчик `onChange`"
             },
             {
-                "en": "A component wrapped in `React.memo`",
-                "ru": "Компонент, обёрнутый в `React.memo`"
+                "en": "A component that cannot accept user input",
+                "ru": "Компонент, который не принимает ввод пользователя"
             },
             {
                 "en": "A component that controls its children's props via cloneElement",
@@ -803,23 +805,23 @@
         },
         "options": [
             {
-                "en": "Store the state in localStorage and sync via useEffect",
-                "ru": "Хранить state в localStorage и синхронизировать через useEffect"
-            },
-            {
-                "en": "Lift the state up to their closest common ancestor and pass it down as props",
-                "ru": "Поднять state до ближайшего общего предка и прокинуть его вниз через props"
+                "en": "Use a global Redux store for any shared state",
+                "ru": "Использовать глобальный Redux-стор для любого общего state"
             },
             {
                 "en": "Duplicate the state in both components and keep them in sync manually",
                 "ru": "Продублировать state в обоих компонентах и синхронизировать их вручную"
             },
             {
-                "en": "Use a global Redux store for any shared state",
-                "ru": "Использовать глобальный Redux-стор для любого общего state"
+                "en": "Lift the state up to their closest common ancestor and pass it down as props",
+                "ru": "Поднять state до ближайшего общего предка и прокинуть его вниз через props"
+            },
+            {
+                "en": "Store the state in localStorage and sync via useEffect",
+                "ru": "Хранить state в localStorage и синхронизировать через useEffect"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "react-composition-001",
@@ -841,19 +843,19 @@
                 "ru": "Наследование `React.Component` в дочернем классе"
             },
             {
-                "en": "Using the `children` prop to pass JSX subtrees into a component",
-                "ru": "Использование пропса `children` для передачи JSX-поддеревьев внутрь компонента"
+                "en": "Using `static defaultProps` on a class component",
+                "ru": "Использование `static defaultProps` на классовом компоненте"
             },
             {
                 "en": "Calling `super(props)` in a constructor",
                 "ru": "Вызов `super(props)` в конструкторе"
             },
             {
-                "en": "Using `static defaultProps` on a class component",
-                "ru": "Использование `static defaultProps` на классовом компоненте"
+                "en": "Using the `children` prop to pass JSX subtrees into a component",
+                "ru": "Использование пропса `children` для передачи JSX-поддеревьев внутрь компонента"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "react-synthetic-events-001",
@@ -871,23 +873,23 @@
         },
         "options": [
             {
-                "en": "Custom events dispatched with `document.dispatchEvent`",
-                "ru": "Кастомные события, диспатчатся через `document.dispatchEvent`"
-            },
-            {
-                "en": "React's cross-browser wrapper around native DOM events that normalises inconsistencies",
-                "ru": "Кроссбраузерная обёртка React поверх нативных DOM-событий, сглаживающая расхождения"
-            },
-            {
                 "en": "Events that fire only inside React portals",
                 "ru": "События, срабатывающие только внутри React-порталов"
             },
             {
                 "en": "Artificial events injected during testing",
                 "ru": "Искусственные события, внедряемые во время тестирования"
+            },
+            {
+                "en": "React's cross-browser wrapper around native DOM events that normalises inconsistencies",
+                "ru": "Кроссбраузерная обёртка React поверх нативных DOM-событий, сглаживающая расхождения"
+            },
+            {
+                "en": "Custom events dispatched with `document.dispatchEvent`",
+                "ru": "Кастомные события, отправленные через `document.dispatchEvent`"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "react-batching-001",
@@ -909,19 +911,19 @@
                 "ru": "React 18 полностью убрал батчинг ради простоты"
             },
             {
-                "en": "React 18 extended automatic batching to updates inside `setTimeout`, `Promise`, and native event handlers — not just React event handlers",
-                "ru": "React 18 распространил автоматический батчинг на обновления внутри `setTimeout`, `Promise` и нативных обработчиков событий — а не только внутри React-обработчиков"
+                "en": "Batching in React 18 is opt-in via a new `useBatch` hook",
+                "ru": "В React 18 батчинг подключается через новый хук `useBatch`"
             },
             {
                 "en": "React 18 batches updates only when `useTransition` is used",
                 "ru": "React 18 батчит обновления только при использовании `useTransition`"
             },
             {
-                "en": "Batching in React 18 is opt-in via a new `useBatch` hook",
-                "ru": "В React 18 батчинг подключается через новый хук `useBatch`"
+                "en": "React 18 extended automatic batching to updates inside `setTimeout`, `Promise`, and native event handlers — not just React event handlers",
+                "ru": "React 18 распространил автоматический батчинг на обновления внутри `setTimeout`, `Promise` и нативных обработчиков событий — а не только внутри React-обработчиков"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "react-strictmode-001",
@@ -930,14 +932,22 @@
         "difficulty": "medium",
         "tags": ["StrictMode", "development", "effects"],
         "question": {
-            "en": "In React 18 development mode, `React.StrictMode` intentionally mounts components **twice**. What does this reveal?",
-            "ru": "В dev-режиме React 18 `React.StrictMode` намеренно маунтит компоненты **дважды**. Что это помогает выявить?"
+            "en": "In development, `React.StrictMode` re-runs every Effect an extra time (setup → cleanup → setup). What does that specifically reveal?",
+            "ru": "В dev-режиме `React.StrictMode` прогоняет каждый эффект лишний раз (setup → cleanup → setup). Что именно это помогает выявить?"
         },
         "explanation": {
-            "en": "React 18 StrictMode simulates fast-refresh / state restoration by mounting, unmounting, and remounting each component. Effects fire twice (mount → cleanup → mount) in development only. This surfaces missing cleanup functions — e.g. uncleared intervals, unremoved event listeners, or subscriptions — that would otherwise cause subtle bugs in production.",
-            "ru": "StrictMode в React 18 имитирует fast-refresh / восстановление state, маунтя, анмаунтя и снова маунтя каждый компонент. Эффекты срабатывают дважды (mount → cleanup → mount), но только в dev. Это помогает обнаружить отсутствующие функции очистки — например, несброшенные интервалы, неудалённые слушатели событий или подписки, — которые иначе породили бы тонкие баги в продакшне."
+            "en": "StrictMode runs one extra setup+cleanup cycle for every Effect, in development only. That surfaces missing cleanup — uncleared intervals, un-removed event listeners, unclosed subscriptions — which would otherwise turn into subtle production bugs. StrictMode also re-renders components an extra time to catch impure rendering and checks for deprecated APIs, but those are separate checks, not what the extra Effect run exposes.",
+            "ru": "StrictMode выполняет один дополнительный цикл setup+cleanup для каждого эффекта, и только в dev. Это вскрывает отсутствующую очистку — несброшенные интервалы, неудалённые слушатели событий, незакрытые подписки, — которая иначе превратилась бы в тонкие баги в продакшене. StrictMode также лишний раз ре-рендерит компоненты, чтобы поймать нечистый рендер, и проверяет использование устаревших API, но это отдельные проверки, а не то, что показывает лишний прогон эффекта."
         },
         "options": [
+            {
+                "en": "Memory leaks caused by context subscriptions",
+                "ru": "Утечки памяти из-за подписок на контекст"
+            },
+            {
+                "en": "Components whose server-rendered HTML will mismatch during hydration",
+                "ru": "Компоненты, чей серверный HTML разойдётся с клиентским при гидрации"
+            },
             {
                 "en": "Components that are too slow to render",
                 "ru": "Компоненты, которые рендерятся слишком медленно"
@@ -945,17 +955,9 @@
             {
                 "en": "Side effects that are not properly cleaned up, because effects run → cleanup → run again",
                 "ru": "Сайд-эффекты, у которых не сделана корректная очистка: эффекты отрабатывают → cleanup → запускаются снова"
-            },
-            {
-                "en": "Components using deprecated lifecycle methods",
-                "ru": "Компоненты, использующие устаревшие lifecycle-методы"
-            },
-            {
-                "en": "Memory leaks caused by context subscriptions",
-                "ru": "Утечки памяти из-за подписок на контекст"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "react-custom-hooks-001",
@@ -968,13 +970,13 @@
             "ru": "Какое соглашение по именованию кастомных хуков и почему это важно?"
         },
         "explanation": {
-            "en": "The `use` prefix is the signal that a function is a hook and must obey the Rules of Hooks (called at the top level, only inside components or other hooks). The `eslint-plugin-react-hooks` relies on this convention to statically enforce the rules. Functions named differently can call hooks but won't be linted as hooks.",
-            "ru": "Префикс `use` — это маркер, что функция является хуком и должна подчиняться Rules of Hooks (вызываться только на верхнем уровне, только внутри компонентов или других хуков). `eslint-plugin-react-hooks` опирается на это соглашение, чтобы проверять правила статически. Функции с другим именем могут вызывать хуки, но линтер не будет считать их хуками."
+            "en": "The `use` prefix is the signal that a function is a hook and must obey the Rules of Hooks (called at the top level, only inside components or other hooks). `eslint-plugin-react-hooks` relies on this convention to enforce the rules statically. Calling a hook from a function that is neither a component nor a `use`-prefixed hook is itself a Rules-of-Hooks violation, and the lint rule reports it as an error.",
+            "ru": "Префикс `use` — маркер того, что функция является хуком и обязана подчиняться Rules of Hooks (вызов только на верхнем уровне и только внутри компонентов или других хуков). `eslint-plugin-react-hooks` опирается на это соглашение, чтобы проверять правила статически. Вызов хука из функции, которая не является ни компонентом, ни хуком с префиксом `use`, сам по себе нарушает Rules of Hooks, и линтер сообщает об этом как об ошибке."
         },
         "options": [
             {
-                "en": "They must start with `use`; otherwise the React linter cannot enforce the Rules of Hooks for that function",
-                "ru": "Они должны начинаться с `use`, иначе React-линтер не сможет применять к такой функции Rules of Hooks"
+                "en": "They must be exported; React tree-shakes unexported hooks",
+                "ru": "Они должны быть экспортированы; React выкидывает неэкспортированные хуки при tree-shaking"
             },
             {
                 "en": "They must end with `Hook`; React checks for this suffix at runtime",
@@ -985,11 +987,11 @@
                 "ru": "Они должны быть определены внутри компонента, иначе теряют доступ к fiber"
             },
             {
-                "en": "They must be exported; React tree-shakes unexported hooks",
-                "ru": "Они должны быть экспортированы; React выкидывает неэкспортированные хуки при tree-shaking"
+                "en": "They must start with `use`; otherwise the React linter cannot enforce the Rules of Hooks for that function",
+                "ru": "Они должны начинаться с `use`, иначе React-линтер не сможет применять к такой функции Rules of Hooks"
             }
         ],
-        "correct": 0
+        "correct": 3
     },
     {
         "id": "react-bug-missing-key-001",
@@ -1007,7 +1009,8 @@
         },
         "code": "function TodoList({ todos }) {\n  return (\n    <ul>\n      {todos.map((todo) => (\n        <li>{todo.text}</li>\n      ))}\n    </ul>\n  );\n}",
         "correct": "Missing `key` prop on the `<li>` element inside the map",
-        "referenceAnswer": "Each `<li>` needs a unique, stable `key` prop. Fix: `<li key={todo.id}>{todo.text}</li>`. React uses keys to efficiently reconcile list updates."
+        "referenceAnswer": "Each `<li>` needs a unique, stable `key` prop. Fix: `<li key={todo.id}>{todo.text}</li>`. React uses keys to efficiently reconcile list updates.",
+        "lang": "jsx"
     },
     {
         "id": "react-bug-usememo-001",
@@ -1025,7 +1028,8 @@
         },
         "code": "function Parent() {\n  const [count, setCount] = useState(0);\n\n  const config = useMemo(() => ({ threshold: 10 }), [count]);\n\n  return (\n    <>\n      <button onClick={() => setCount(c => c + 1)}>Increment</button>\n      <Child config={config} />\n    </>\n  );\n}\n\nconst Child = React.memo(({ config }) => {\n  return <div>{config.threshold}</div>;\n});",
         "correct": "`config` is memoized, but it re-creates a new object on every `count` change because `count` is in the dependency array, while `count` is not used inside the factory",
-        "referenceAnswer": "Remove `count` from the `useMemo` dependency array since the factory does not use it: `useMemo(() => ({ threshold: 10 }), [])`. With `[count]` as the dep, every increment creates a new object reference, causing `React.memo` to see a prop change and re-render `Child`."
+        "referenceAnswer": "Remove `count` from the `useMemo` dependency array since the factory does not use it: `useMemo(() => ({ threshold: 10 }), [])`. With `[count]` as the dep, every increment creates a new object reference, causing `React.memo` to see a prop change and re-render `Child`.",
+        "lang": "jsx"
     },
     {
         "id": "react-bug-forwardref-001",
@@ -1038,12 +1042,13 @@
             "ru": "Почему `inputRef.current` остаётся `null` после маунта?"
         },
         "explanation": {
-            "en": "Passing a `ref` prop to a plain function component does nothing — React drops it silently (and logs a warning). `React.forwardRef` is required to accept a ref argument and attach it to an inner DOM node or expose an imperative handle.",
-            "ru": "Передача пропса `ref` обычному функциональному компоненту ничего не даёт — React молча его игнорирует (и пишет warning). Чтобы компонент принял аргумент ref и навесил его на внутренний DOM-узел или отдал императивный handle, нужен `React.forwardRef`."
+            "en": "In React 19 `ref` is an ordinary prop on function components — React neither drops it nor warns. The bug is that `FancyInput` never reads that prop and never puts it on the `<input>`, so `inputRef.current` is still `null` when the effect runs and `inputRef.current.focus()` throws. Destructure `ref` and attach it to the DOM node; before React 19 the same thing required wrapping the component in `React.forwardRef`.",
+            "ru": "В React 19 `ref` — обычный проп функционального компонента: React его не выбрасывает и не пишет warning. Баг в том, что `FancyInput` этот проп не читает и не вешает на `<input>`, поэтому к моменту эффекта `inputRef.current` всё ещё `null`, и `inputRef.current.focus()` падает. Нужно достать `ref` из пропсов и навесить на DOM-узел; до React 19 для этого требовалась обёртка `React.forwardRef`."
         },
         "code": "function FancyInput({ placeholder }) {\n  return <input placeholder={placeholder} />;\n}\n\nfunction Form() {\n  const inputRef = useRef(null);\n\n  useEffect(() => {\n    inputRef.current.focus();\n  }, []);\n\n  return <FancyInput ref={inputRef} placeholder=\"Name\" />;\n}",
-        "correct": "`FancyInput` is a function component that does not forward the ref — refs cannot be attached to function components by default",
-        "referenceAnswer": "Wrap `FancyInput` with `React.forwardRef`:\n```jsx\nconst FancyInput = React.forwardRef(({ placeholder }, ref) => (\n  <input ref={ref} placeholder={placeholder} />\n));\n```\nNow the ref is forwarded to the actual DOM `<input>` element."
+        "correct": "`FancyInput` never attaches the `ref` prop it receives to its `<input>`, so the ref object is never populated",
+        "referenceAnswer": "In React 19 `ref` is a regular prop — read it and attach it to the DOM node:\n```jsx\nfunction FancyInput({ placeholder, ref }) {\n  return <input ref={ref} placeholder={placeholder} />;\n}\n```\nNow `inputRef.current` points at the real `<input>` and the effect's `focus()` call works. Before React 19 the same component had to be wrapped in `React.forwardRef`, which React has scheduled for deprecation and removal.",
+        "lang": "jsx"
     },
     {
         "id": "react-completion-usereducer-001",
@@ -1075,13 +1080,13 @@
             "ru": "Заполните пропуски, чтобы наружу через ref у `CustomInput` был доступен только метод `focus()`:"
         },
         "explanation": {
-            "en": "`React.forwardRef` passes the parent-provided ref as the second argument. `useImperativeHandle` replaces the ref's exposed value with the returned object, so the parent only sees `{ focus }` instead of the raw DOM node. This encapsulates internal implementation details.",
-            "ru": "`React.forwardRef` передаёт родительский ref вторым аргументом. `useImperativeHandle` подменяет значение ref на возвращаемый объект, так что родитель видит только `{ focus }` вместо сырого DOM-узла. Это инкапсулирует внутренние детали реализации."
+            "en": "In React 19 `ref` is an ordinary prop, so a function component destructures it directly — no `forwardRef` wrapper. `useImperativeHandle(ref, createHandle, deps)` replaces the value the parent sees with the returned object, so the parent gets `{ focus }` instead of the raw DOM node, which keeps the internals encapsulated. Before React 19 the same component had to be wrapped in `React.forwardRef`.",
+            "ru": "В React 19 `ref` — обычный проп, поэтому функциональный компонент достаёт его прямо из пропсов, без обёртки `forwardRef`. `useImperativeHandle(ref, createHandle, deps)` подменяет значение, которое видит родитель, на возвращаемый объект: родителю достаётся только `{ focus }`, а не сырой DOM-узел — внутренности остаются инкапсулированы. До React 19 такой компонент приходилось оборачивать в `React.forwardRef`."
         },
-        "code": "const CustomInput = __BLANK__(function CustomInput(props, ref) {\n  const inputRef = useRef(null);\n\n  __BLANK__(ref, () => ({\n    focus: () => inputRef.current.focus()\n  }), []);\n\n  return <input ref={inputRef} {...props} />;\n});",
-        "blanks": ["React.forwardRef", "useImperativeHandle"],
+        "code": "function CustomInput({ __BLANK__, ...props }) {\n  const inputRef = useRef(null);\n\n  __BLANK__(ref, () => ({\n    focus: () => inputRef.current.focus()\n  }), []);\n\n  return <input ref={inputRef} {...props} />;\n}",
+        "blanks": ["ref", "useImperativeHandle"],
         "lang": "jsx",
-        "referenceAnswer": "const CustomInput = React.forwardRef(function CustomInput(props, ref) {\n  const inputRef = useRef(null);\n\n  useImperativeHandle(ref, () => ({\n    focus: () => inputRef.current.focus()\n  }), []);\n\n  return <input ref={inputRef} {...props} />;\n});"
+        "referenceAnswer": "function CustomInput({ ref, ...props }) {\n  const inputRef = useRef(null);\n\n  useImperativeHandle(ref, () => ({\n    focus: () => inputRef.current.focus()\n  }), []);\n\n  return <input ref={inputRef} {...props} />;\n}"
     },
     {
         "id": "react-usetransition-002",
@@ -1099,8 +1104,8 @@
         },
         "options": [
             {
-                "en": "Updates inside `startTransition` can be interrupted by higher-priority updates",
-                "ru": "Обновления внутри `startTransition` могут быть прерваны более приоритетными апдейтами"
+                "en": "You can `await` a `startTransition` call to know when the transition is committed",
+                "ru": "Вызов `startTransition` можно `await`-ить, чтобы узнать, когда transition закоммитился"
             },
             {
                 "en": "`startTransition` makes a network request non-blocking",
@@ -1111,11 +1116,11 @@
                 "ru": "Пока переход (transition) в процессе, UI остаётся интерактивным — ввод и клики не блокируются"
             },
             {
-                "en": "You can `await` a `startTransition` call to know when the transition is committed",
-                "ru": "Вызов `startTransition` можно `await`-ить, чтобы узнать, когда transition закоммитился"
+                "en": "Updates inside `startTransition` can be interrupted by higher-priority updates",
+                "ru": "Обновления внутри `startTransition` могут быть прерваны более приоритетными апдейтами"
             }
         ],
-        "correct": [0, 2]
+        "correct": [2, 3]
     },
     {
         "id": "react-rtl-001",
@@ -1141,15 +1146,15 @@
                 "ru": "Явно оборачивать каждое изменение state в `act()`, чтобы избежать warning-ов"
             },
             {
-                "en": "Test component behaviour from the user's perspective rather than testing implementation details",
-                "ru": "Тестировать поведение компонента с точки зрения пользователя, а не детали реализации"
-            },
-            {
                 "en": "Always mock all child components to isolate the component under test",
                 "ru": "Всегда мокать все дочерние компоненты, чтобы изолировать тестируемый компонент"
+            },
+            {
+                "en": "Test component behaviour from the user's perspective rather than testing implementation details",
+                "ru": "Тестировать поведение компонента с точки зрения пользователя, а не детали реализации"
             }
         ],
-        "correct": [0, 2]
+        "correct": [0, 3]
     },
     {
         "id": "react-batching-002",
@@ -1162,25 +1167,25 @@
             "ru": "Что из перечисленного верно про `ReactDOM.flushSync`? (Выберите все подходящие варианты)"
         },
         "explanation": {
-            "en": "`flushSync(() => setState(...))` forces React to process all state updates inside the callback synchronously and flush them to the DOM before the call returns. This is useful in rare cases like reading DOM layout after an update or integrating with third-party libraries. It should be used sparingly as it opts out of React's performance optimisations. Calling it inside a render or another `flushSync` throws.",
-            "ru": "`flushSync(() => setState(...))` заставляет React синхронно обработать все обновления state внутри колбэка и применить их к DOM до возврата из вызова. Это полезно в редких случаях — например, для чтения layout DOM после апдейта или интеграции со сторонними библиотеками. Пользоваться им стоит осторожно, так как он отключает оптимизации React. Вызов внутри рендера или другого `flushSync` бросает ошибку."
+            "en": "`flushSync(() => setState(...))` forces React to process the state updates inside the callback synchronously and flush them to the DOM before the call returns. It is useful in rare cases like reading DOM layout right after an update or integrating with a third-party library, and should be used sparingly: it opts out of batching, can force pending Suspense boundaries to show their fallback, and may run pending Effects. Calling it during render or from a lifecycle method warns and is ignored — React cannot flush while it is already rendering.",
+            "ru": "`flushSync(() => setState(...))` заставляет React синхронно обработать обновления state внутри колбэка и применить их к DOM до возврата из вызова. Это полезно в редких случаях — прочитать layout DOM сразу после апдейта или интегрироваться со сторонней библиотекой — и применять его стоит осторожно: он отключает батчинг, может заставить незавершённые границы Suspense показать fallback и может выполнить отложенные эффекты. Вызов во время рендера или из lifecycle-метода даёт warning и игнорируется — React не может сделать flush, пока уже рендерит."
         },
         "options": [
-            {
-                "en": "It forces React to flush all pending state updates synchronously before returning",
-                "ru": "Заставляет React синхронно применить все отложенные обновления state до возврата"
-            },
             {
                 "en": "It is useful when you need to read an updated DOM measurement immediately after a state change",
                 "ru": "Полезен, когда нужно сразу после изменения state прочитать обновлённые размеры DOM"
             },
             {
-                "en": "It can be called inside a React event handler without any side effects",
-                "ru": "Его можно вызвать внутри React-обработчика событий без каких-либо побочных эффектов"
+                "en": "It forces React to flush all pending state updates synchronously before returning",
+                "ru": "Заставляет React синхронно применить все отложенные обновления state до возврата"
             },
             {
                 "en": "It cancels any ongoing concurrent transitions",
                 "ru": "Он отменяет все выполняющиеся concurrent-переходы"
+            },
+            {
+                "en": "Calling it inside a React event handler is free — it does not change how updates are batched",
+                "ru": "Вызов внутри React-обработчика событий бесплатен — он никак не меняет батчинг обновлений"
             }
         ],
         "correct": [0, 1]
@@ -1201,6 +1206,10 @@
         },
         "options": [
             {
+                "en": "Use `React.memo` on consumers to skip re-renders when context changes",
+                "ru": "Оборачивать потребителей в `React.memo`, чтобы пропускать ре-рендеры при изменении контекста"
+            },
+            {
                 "en": "Split one large Context into multiple smaller, focused Contexts",
                 "ru": "Разбить один большой Context на несколько более мелких и сфокусированных"
             },
@@ -1211,13 +1220,9 @@
             {
                 "en": "Always store context values in a ref instead of state",
                 "ru": "Всегда хранить значения контекста в ref вместо state"
-            },
-            {
-                "en": "Use `React.memo` on consumers to skip re-renders when context changes",
-                "ru": "Оборачивать потребителей в `React.memo`, чтобы пропускать ре-рендеры при изменении контекста"
             }
         ],
-        "correct": [0, 1]
+        "correct": [1, 2]
     },
     {
         "id": "react-compound-001",
@@ -1235,12 +1240,12 @@
         },
         "options": [
             {
-                "en": "Child components share implicit state via a private Context provided by the parent",
-                "ru": "Дочерние компоненты неявно разделяют state через приватный Context, предоставленный родителем"
-            },
-            {
                 "en": "Consumers get a declarative, composable API without needing to wire up explicit props between siblings",
                 "ru": "Потребитель получает декларативный, композируемый API без необходимости явно прокидывать props между соседями"
+            },
+            {
+                "en": "Child components share implicit state via a private Context provided by the parent",
+                "ru": "Дочерние компоненты неявно разделяют state через приватный Context, предоставленный родителем"
             },
             {
                 "en": "All child components must be defined in the same file as the parent",
@@ -1260,16 +1265,17 @@
         "difficulty": "medium",
         "tags": ["context", "performance", "bugs"],
         "question": {
-            "en": "Why do all consumers of this Context re-render on every parent render, even when `count` and `setCount` haven't changed?",
-            "ru": "Почему все потребители этого Context ре-рендерятся на каждый рендер родителя, даже когда `count` и `setCount` не меняются?"
+            "en": "Why do all consumers of this Context re-render on every render of `AppProvider`?",
+            "ru": "Почему все потребители этого Context ре-рендерятся на каждый рендер `AppProvider`?"
         },
         "explanation": {
             "en": "React compares context values using `Object.is`. An inline `{ count, setCount }` literal creates a new object reference on every render of `AppProvider`, so React always sees a changed context and re-renders every consumer. Wrapping the value in `useMemo` stabilises the reference.",
             "ru": "React сравнивает значения контекста через `Object.is`. Инлайновый литерал `{ count, setCount }` создаёт новую ссылку на каждом рендере `AppProvider`, поэтому React всегда видит изменившийся контекст и ре-рендерит каждого потребителя. Оборачивание значения в `useMemo` стабилизирует ссылку."
         },
-        "code": "function AppProvider({ children }) {\n  const [count, setCount] = useState(0);\n\n  return (\n    <AppContext.Provider value={{ count, setCount }}>\n      {children}\n    </AppContext.Provider>\n  );\n}",
+        "code": "import { createContext, useState } from 'react';\n\nconst AppContext = createContext(null);\n\nfunction AppProvider({ children }) {\n  const [count, setCount] = useState(0);\n\n  return (\n    <AppContext value={{ count, setCount }}>\n      {children}\n    </AppContext>\n  );\n}",
         "correct": "The `value` prop is a new object literal `{ count, setCount }` created on every render, so React sees a new reference and re-renders all consumers",
-        "referenceAnswer": "Memoize the context value:\n```jsx\nconst value = useMemo(() => ({ count, setCount }), [count, setCount]);\nreturn <AppContext.Provider value={value}>{children}</AppContext.Provider>;\n```\nNow a new object is only created when `count` or `setCount` actually changes."
+        "referenceAnswer": "Memoize the context value so its reference is stable:\n```jsx\nconst value = useMemo(() => ({ count, setCount }), [count, setCount]);\nreturn <AppContext value={value}>{children}</AppContext>;\n```\nNow a new object is created only when `count` actually changes (`setCount` from `useState` is already stable).",
+        "lang": "jsx"
     },
     {
         "id": "react-bug-useeffect-deps-001",
@@ -1287,7 +1293,8 @@
         },
         "code": "function Timer({ onTick }) {\n  useEffect(() => {\n    const id = setInterval(onTick, 1000);\n    return () => clearInterval(id);\n  }, []);\n\n  return <div>Timer running</div>;\n}",
         "correct": "`onTick` is used inside the effect but omitted from the dependency array, causing the effect to always call the initial version of `onTick` (stale closure)",
-        "referenceAnswer": "Either add `onTick` to the dependency array (effect re-registers when `onTick` changes) or use a ref to hold the latest version:\n```jsx\nconst onTickRef = useRef(onTick);\nuseEffect(() => { onTickRef.current = onTick; });\nuseEffect(() => {\n  const id = setInterval(() => onTickRef.current(), 1000);\n  return () => clearInterval(id);\n}, []);\n```"
+        "referenceAnswer": "Either add `onTick` to the dependency array (effect re-registers when `onTick` changes) or use a ref to hold the latest version:\n```jsx\nconst onTickRef = useRef(onTick);\nuseEffect(() => { onTickRef.current = onTick; });\nuseEffect(() => {\n  const id = setInterval(() => onTickRef.current(), 1000);\n  return () => clearInterval(id);\n}, []);\n```",
+        "lang": "jsx"
     },
     {
         "id": "react-completion-context-001",
@@ -1300,13 +1307,13 @@
             "ru": "Заполните пропуски, чтобы создать theme context и потреблять его в дочернем компоненте:"
         },
         "explanation": {
-            "en": "`React.createContext(defaultValue)` creates a Context object with a `.Provider` component. The `value` prop on `<Context.Provider>` sets the current context value for all descendants. `useContext(Context)` reads the nearest Provider's value. The default value (here `null`) is used only when no Provider is present in the tree.",
-            "ru": "`React.createContext(defaultValue)` создаёт объект Context с компонентом `.Provider`. Пропс `value` у `<Context.Provider>` задаёт текущее значение контекста для всех потомков. `useContext(Context)` читает значение ближайшего Provider. Дефолтное значение (здесь `null`) используется, только если Provider в дереве отсутствует."
+            "en": "`createContext(defaultValue)` creates a Context object. In React 19 you render the context itself as the provider — `<ThemeContext value={...}>` — instead of `<ThemeContext.Provider value={...}>`, which React has scheduled for deprecation. `useContext(ThemeContext)` reads the value of the nearest provider above; the default value (here `null`) is used only when there is no provider in the tree.",
+            "ru": "`createContext(defaultValue)` создаёт объект Context. В React 19 провайдером рендерится сам контекст — `<ThemeContext value={...}>`, а не `<ThemeContext.Provider value={...}>`, который React собирается депрекейтить. `useContext(ThemeContext)` читает значение ближайшего провайдера выше по дереву; дефолтное значение (здесь `null`) используется, только если провайдера в дереве нет."
         },
-        "code": "const ThemeContext = __BLANK__(null);\n\nfunction ThemeProvider({ children }) {\n  const [theme, setTheme] = useState('light');\n  return (\n    <ThemeContext.__BLANK__ value={{ theme, setTheme }}>\n      {children}\n    </ThemeContext.__BLANK__>\n  );\n}\n\nfunction ThemedButton() {\n  const { theme } = __BLANK__(ThemeContext);\n  return <button className={theme}>Click</button>;\n}",
-        "blanks": ["React.createContext", "Provider", "Provider", "useContext"],
+        "code": "import { createContext, useContext, useState } from 'react';\n\nconst ThemeContext = __BLANK__(null);\n\nfunction ThemeProvider({ children }) {\n  const [theme, setTheme] = useState('light');\n  return (\n    <__BLANK__ value={{ theme, setTheme }}>\n      {children}\n    </ThemeContext>\n  );\n}\n\nfunction ThemedButton() {\n  const { theme } = __BLANK__(ThemeContext);\n  return <button className={theme}>Click</button>;\n}",
+        "blanks": ["createContext", "ThemeContext", "useContext"],
         "lang": "jsx",
-        "referenceAnswer": "const ThemeContext = React.createContext(null);\n\nfunction ThemeProvider({ children }) {\n  const [theme, setTheme] = useState('light');\n  return (\n    <ThemeContext.Provider value={{ theme, setTheme }}>\n      {children}\n    </ThemeContext.Provider>\n  );\n}\n\nfunction ThemedButton() {\n  const { theme } = useContext(ThemeContext);\n  return <button className={theme}>Click</button>;\n}"
+        "referenceAnswer": "import { createContext, useContext, useState } from 'react';\n\nconst ThemeContext = createContext(null);\n\nfunction ThemeProvider({ children }) {\n  const [theme, setTheme] = useState('light');\n  return (\n    <ThemeContext value={{ theme, setTheme }}>\n      {children}\n    </ThemeContext>\n  );\n}\n\nfunction ThemedButton() {\n  const { theme } = useContext(ThemeContext);\n  return <button className={theme}>Click</button>;\n}"
     },
     {
         "id": "react-completion-custombhook-001",
@@ -1322,7 +1329,7 @@
             "en": "Custom hooks encapsulate stateful logic: here `useState` tracks the current width and `useEffect` subscribes to the `resize` event on mount. The cleanup function (returned from the effect) removes the listener on unmount, preventing memory leaks. The hook returns the current width, which any component can consume.",
             "ru": "Кастомные хуки инкапсулируют stateful-логику: здесь `useState` хранит текущую ширину, а `useEffect` подписывается на событие `resize` при маунте. Функция очистки (возвращаемая из эффекта) снимает слушатель при анмаунте, предотвращая утечки памяти. Хук возвращает текущую ширину, которой может пользоваться любой компонент."
         },
-        "code": "function useWindowWidth() {\n  const [width, __BLANK__] = useState(window.innerWidth);\n\n  __BLANK__((() => {\n    const handler = () => setWidth(window.innerWidth);\n    window.addEventListener('resize', handler);\n    return () => window.removeEventListener('resize', __BLANK__);\n  }), []);\n\n  return width;\n}",
+        "code": "function useWindowWidth() {\n  const [width, __BLANK__] = useState(window.innerWidth);\n\n  __BLANK__(() => {\n    const handler = () => setWidth(window.innerWidth);\n    window.addEventListener('resize', handler);\n    return () => window.removeEventListener('resize', __BLANK__);\n  }, []);\n\n  return width;\n}",
         "blanks": ["setWidth", "useEffect", "handler"],
         "lang": "jsx",
         "referenceAnswer": "function useWindowWidth() {\n  const [width, setWidth] = useState(window.innerWidth);\n\n  useEffect(() => {\n    const handler = () => setWidth(window.innerWidth);\n    window.addEventListener('resize', handler);\n    return () => window.removeEventListener('resize', handler);\n  }, []);\n\n  return width;\n}"
@@ -1368,32 +1375,32 @@
         "difficulty": "hard",
         "tags": ["lazy", "Suspense", "data-fetching"],
         "question": {
-            "en": "To enable a component to suspend while fetching data (using the Suspense protocol), the data fetching library must:",
-            "ru": "Чтобы компонент мог саспендиться во время загрузки данных (по протоколу Suspense), библиотека для работы с данными должна:"
+            "en": "Which mechanism does React document for making a component suspend while its data is still loading?",
+            "ru": "Какой механизм React документирует для того, чтобы компонент саспендился, пока его данные ещё грузятся?"
         },
         "explanation": {
-            "en": "The Suspense data-fetching protocol requires that during render, if data is not yet available, the component (or its cache layer) throws a Promise. React catches it, renders the nearest `<Suspense>` fallback, and re-renders the component once the Promise resolves. Libraries like Relay, SWR (experimental), and React Query implement this protocol.",
-            "ru": "Протокол Suspense для загрузки данных требует, чтобы во время рендера, если данные ещё не готовы, компонент (или его слой кэша) выбросил Promise. React его ловит, рендерит fallback ближайшего `<Suspense>` и повторно рендерит компонент после резолва Promise. Этот протокол реализуют Relay, SWR (экспериментально), React Query и т. п."
+            "en": "React documents one way for a component to suspend on data: read a cached Promise during render with `use()`. React then shows the nearest `<Suspense>` fallback until that Promise settles and re-renders afterwards. Suspense-enabled frameworks and libraries (Relay, React Query's `useSuspenseQuery`, SWR with `suspense: true`) keep a Promise cache and call `use()` under the hood. Throwing a Promise from render is the old internal mechanism `use()` replaced — it was never a public API. Fetching in `useEffect` never suspends: Suspense does not see it.",
+            "ru": "React документирует один способ саспендиться на данных: прочитать закэшированный Promise в рендере через `use()`. Пока Promise не зарезолвится, React показывает fallback ближайшего `<Suspense>`, а потом ре-рендерит компонент. Suspense-совместимые фреймворки и библиотеки (Relay, `useSuspenseQuery` из React Query, SWR с `suspense: true`) держат кэш промисов и под капотом вызывают `use()`. Выброс Promise из рендера — старый внутренний механизм, который `use()` и заменил; публичным API он никогда не был. Загрузка в `useEffect` не саспендит вообще: Suspense её не видит."
         },
         "options": [
             {
-                "en": "Use `useEffect` and set a loading state",
-                "ru": "Использовать `useEffect` и выставлять loading-state"
+                "en": "Cache the request as a Promise and read it during render with `use()`",
+                "ru": "Кэшировать запрос как Promise и читать его в рендере через `use()`"
             },
             {
-                "en": "Throw a Promise while data is pending; re-render when the Promise resolves",
-                "ru": "Выбрасывать Promise, пока данные не готовы, и ре-рендерить после его резолва"
-            },
-            {
-                "en": "Return `undefined` from the component until data is available",
-                "ru": "Возвращать из компонента `undefined`, пока данные недоступны"
+                "en": "Throw the pending Promise from render and let React retry when it resolves",
+                "ru": "Выбрасывать незавершённый Promise из рендера, чтобы React повторил рендер после его резолва"
             },
             {
                 "en": "Call `ReactDOM.flushSync` to force a synchronous fetch",
                 "ru": "Вызывать `ReactDOM.flushSync`, чтобы сделать fetch синхронным"
+            },
+            {
+                "en": "Use `useEffect` and set a loading state",
+                "ru": "Использовать `useEffect` и выставлять loading-state"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "react-multi-choice-memo-patterns-001",
@@ -1406,17 +1413,17 @@
             "ru": "Что из перечисленного — валидные причины использовать `React.memo` на компоненте? (Выберите все подходящие варианты)"
         },
         "explanation": {
-            "en": "`React.memo` is worthwhile when: the component is expensive to render AND receives unchanged props during parent re-renders. If the component is a cheap leaf node, the shallow-comparison overhead outweighs the savings. `React.memo` has no effect on mounting/unmounting — it only skips re-renders.",
-            "ru": "`React.memo` оправдан, когда компонент дорого рендерится И получает неизменные props при ре-рендерах родителя. Если компонент — дешёвый листовой узел, накладные расходы на поверхностное сравнение перевешивают выигрыш. На маунт/анмаунт `React.memo` не влияет — он только пропускает ре-рендеры."
+            "en": "`React.memo` is worth it when a component re-renders often with the same props AND its render is expensive — typically because the parent re-renders frequently for reasons unrelated to that component. Being a pure, props-only component is not by itself a reason: if the render is cheap, the shallow prop comparison costs more than it saves. `React.memo` has no effect on mounting/unmounting — it only skips re-renders.",
+            "ru": "`React.memo` оправдан, когда компонент часто ре-рендерится с теми же props И его рендер дорогой — обычно потому, что родитель часто ре-рендерится по не связанным с ним причинам. Сам по себе факт, что компонент чистый и зависит только от props, причиной не является: если рендер дешёвый, поверхностное сравнение props стоит дороже, чем экономит. На маунт/анмаунт `React.memo` не влияет — он только пропускает ре-рендеры."
         },
         "options": [
             {
-                "en": "The component receives the same props frequently and its render is computationally expensive",
-                "ru": "Компонент часто получает одни и те же props, и его рендер вычислительно дорогой"
-            },
-            {
                 "en": "The component is a pure display component that relies only on its props",
                 "ru": "Компонент — чистый display-компонент, зависящий только от своих props"
+            },
+            {
+                "en": "The component receives the same props frequently and its render is computationally expensive",
+                "ru": "Компонент часто получает одни и те же props, и его рендер вычислительно дорогой"
             },
             {
                 "en": "The parent re-renders often for reasons unrelated to the memoized component's props",
@@ -1427,7 +1434,7 @@
                 "ru": "Вы хотите запретить компоненту анмаунтиться"
             }
         ],
-        "correct": [0, 1, 2]
+        "correct": [1, 2]
     },
     {
         "id": "react-bug-controlled-uncontrolled-001",
@@ -1445,7 +1452,8 @@
         },
         "code": "function Form() {\n  const [value, setValue] = useState(undefined);\n\n  return (\n    <input\n      value={value}\n      onChange={e => setValue(e.target.value)}\n    />\n  );\n}",
         "correct": "React warns about switching from an uncontrolled to a controlled input because the initial `value` is `undefined` (treated as uncontrolled), then changes to a string (controlled)",
-        "referenceAnswer": "Initialise state with an empty string instead of `undefined`:\n```jsx\nconst [value, setValue] = useState('');\n```\nWhen `value` is `undefined`, React treats the input as uncontrolled. When it becomes a string, React switches it to controlled — this transition is not allowed and triggers a warning."
+        "referenceAnswer": "Initialise state with an empty string instead of `undefined`:\n```jsx\nconst [value, setValue] = useState('');\n```\nWhen `value` is `undefined`, React treats the input as uncontrolled. When it becomes a string, React switches it to controlled — this transition is not allowed and triggers a warning.",
+        "lang": "jsx"
     },
     {
         "id": "react-completion-usetransition-001",
@@ -1458,12 +1466,921 @@
             "ru": "Заполните пропуски, чтобы пометить обновление state поиска как несрочный transition:"
         },
         "explanation": {
-            "en": "`useTransition()` returns `[isPending, startTransition]`. The urgent `setQuery` update (keeping the input responsive) runs immediately. The expensive `setSearchResults` update is wrapped in `startTransition`, making it interruptible. If the user types again before it finishes, React discards the in-progress search render and starts fresh. `isPending` drives the loading indicator.",
-            "ru": "`useTransition()` возвращает `[isPending, startTransition]`. Срочный апдейт `setQuery` (инпут остаётся отзывчивым) выполняется немедленно. Дорогой апдейт `setSearchResults` оборачивается в `startTransition` и становится прерываемым. Если пользователь снова напечатает что-то до его завершения, React отбрасывает незаконченный рендер поиска и начинает заново. `isPending` управляет индикатором загрузки."
+            "en": "`useTransition()` returns `[isPending, startTransition]`. The urgent `setQuery` update runs immediately so the input stays responsive. The expensive `setResults` update is wrapped in `startTransition`, which marks it non-urgent and interruptible: if the user types again before it finishes, React throws away the in-progress render and starts over. `isPending` is true while that transition runs and drives the loading indicator.",
+            "ru": "`useTransition()` возвращает `[isPending, startTransition]`. Срочный апдейт `setQuery` выполняется сразу — инпут остаётся отзывчивым. Дорогой апдейт `setResults` оборачивается в `startTransition`: он помечается несрочным и становится прерываемым, и если пользователь напечатает что-то ещё до его завершения, React отбрасывает незаконченный рендер и начинает заново. Пока transition идёт, `isPending` равен `true` и управляет индикатором загрузки."
         },
-        "code": "function SearchPage() {\n  const [query, setQuery] = useState('');\n  const [__BLANK__, startTransition] = __BLANK__();\n\n  function handleChange(e) {\n    setQuery(e.target.value);\n    __BLANK__((() => {\n      setSearchResults(performSearch(e.target.value));\n    }));\n  }\n\n  return (\n    <>\n      {isPending && <Spinner />}\n      <input value={query} onChange={handleChange} />\n    </>\n  );\n}",
-        "blanks": ["isPending", "useTransition", "startTransition"],
+        "code": "function SearchPage() {\n  const [query, setQuery] = useState('');\n  const [results, setResults] = useState([]);\n  const [isPending, startTransition] = __BLANK__();\n\n  function handleChange(e) {\n    setQuery(e.target.value);\n    __BLANK__(() => {\n      setResults(performSearch(e.target.value));\n    });\n  }\n\n  return (\n    <>\n      {isPending && <Spinner />}\n      <input value={query} onChange={handleChange} />\n      <ResultList items={results} />\n    </>\n  );\n}",
+        "blanks": ["useTransition", "startTransition"],
         "lang": "jsx",
-        "referenceAnswer": "function SearchPage() {\n  const [query, setQuery] = useState('');\n  const [isPending, startTransition] = useTransition();\n\n  function handleChange(e) {\n    setQuery(e.target.value);\n    startTransition(() => {\n      setSearchResults(performSearch(e.target.value));\n    });\n  }\n\n  return (\n    <>\n      {isPending && <Spinner />}\n      <input value={query} onChange={handleChange} />\n    </>\n  );\n}"
+        "referenceAnswer": "function SearchPage() {\n  const [query, setQuery] = useState('');\n  const [results, setResults] = useState([]);\n  const [isPending, startTransition] = useTransition();\n\n  function handleChange(e) {\n    setQuery(e.target.value);\n    startTransition(() => {\n      setResults(performSearch(e.target.value));\n    });\n  }\n\n  return (\n    <>\n      {isPending && <Spinner />}\n      <input value={query} onChange={handleChange} />\n      <ResultList items={results} />\n    </>\n  );\n}"
+    },
+    {
+        "id": "react-useactionstate-001",
+        "type": "single-choice",
+        "category": "react",
+        "difficulty": "medium",
+        "tags": ["react-19", "useActionState", "actions", "forms"],
+        "question": {
+            "en": "A form renders `<form action={formAction}>` where `formAction` came from `useActionState(handleSave, null)`. What does React pass to `handleSave` on submit?",
+            "ru": "Форма рендерит `<form action={formAction}>`, где `formAction` получен из `useActionState(handleSave, null)`. Что React передаст в `handleSave` при сабмите?"
+        },
+        "options": [
+            {
+                "en": "The previous state first, then the submitted `FormData`",
+                "ru": "Сначала предыдущий state, затем отправленную `FormData`"
+            },
+            {
+                "en": "The submit event only, exactly as `onSubmit` receives it",
+                "ru": "Только событие сабмита, ровно так же, как его получает `onSubmit`"
+            },
+            {
+                "en": "The `FormData` only, as with a bare `<form action={fn}>`",
+                "ru": "Только `FormData`, как у обычного `<form action={fn}>`"
+            },
+            {
+                "en": "The initial state and the submit event, in that order",
+                "ru": "Начальный state и событие сабмита, именно в таком порядке"
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "`useActionState(fn, initialState)` returns `[state, formAction, isPending]`. React calls `fn` with the previous state as the first argument and the action payload as the second — that payload is the `FormData` when the returned function is wired to `<form action>`. Whatever `fn` returns becomes the next `state`, which is why it is the natural place to hold server-side field errors. A bare `<form action={fn}>` without `useActionState` passes only `FormData`.",
+            "ru": "`useActionState(fn, initialState)` возвращает `[state, formAction, isPending]`. React вызывает `fn`, передавая предыдущий state первым аргументом, а payload экшена — вторым; этот payload и есть `FormData`, когда возвращённая функция подключена к `<form action>`. То, что вернёт `fn`, становится следующим `state` — поэтому именно там удобно держать серверные ошибки по полям. Обычный `<form action={fn}>` без `useActionState` передаёт только `FormData`."
+        }
+    },
+    {
+        "id": "react-useformstatus-001",
+        "type": "single-choice",
+        "category": "react",
+        "difficulty": "medium",
+        "tags": ["react-19", "useFormStatus", "actions", "forms"],
+        "question": {
+            "en": "While a `<form>` Action is in flight, what does the `data` field returned by `useFormStatus()` hold?",
+            "ru": "Пока Action формы выполняется, что содержит поле `data`, возвращаемое `useFormStatus()`?"
+        },
+        "options": [
+            {
+                "en": "The value the action function resolved to, once it settles",
+                "ru": "Значение, которым зарезолвилась функция экшена, после её завершения"
+            },
+            {
+                "en": "A `FormData` object with the fields the parent form is submitting",
+                "ru": "Объект `FormData` с полями, которые отправляет родительская форма"
+            },
+            {
+                "en": "A plain object of the form's current controlled input values",
+                "ru": "Обычный объект с текущими значениями контролируемых полей формы"
+            },
+            {
+                "en": "The previous state passed into `useActionState`, until it updates",
+                "ru": "Предыдущее состояние, переданное в `useActionState`, до его обновления"
+            }
+        ],
+        "correct": 1,
+        "explanation": {
+            "en": "`useFormStatus()` returns `{ pending, data, method, action }` describing the parent `<form>`. During a submission `data` is the `FormData` being sent, which lets a child render what is on its way — the requested username next to the spinner, for example. Outside a submission the whole result is idle: `pending` is `false` and `data`, `method` and `action` are all `null`. `method` is `'get'` unless the form sets `method=\"post\"`, and `action` is the function passed to the form's `action` prop, or `null` when that prop is a URL string.",
+            "ru": "`useFormStatus()` возвращает `{ pending, data, method, action }` — состояние родительской `<form>`. Во время отправки `data` — это отправляемый `FormData`, поэтому дочерний компонент может показать, что именно уходит на сервер: например, введённый логин рядом со спиннером. Вне отправки результат полностью «пустой»: `pending` равен `false`, а `data`, `method` и `action` — `null`. `method` равен `'get'`, пока форма не задаст `method=\"post\"`, а `action` — это функция из пропа `action` формы или `null`, если там указан URL-строкой."
+        }
+    },
+    {
+        "id": "react-use-api-001",
+        "type": "single-choice",
+        "category": "react",
+        "difficulty": "medium",
+        "tags": ["react-19", "use", "rules-of-hooks", "suspense"],
+        "question": {
+            "en": "`use()` may be called inside an `if` block, while `useState` may not. What makes that safe?",
+            "ru": "`use()` можно вызывать внутри `if`, а `useState` — нельзя. Почему это безопасно?"
+        },
+        "options": [
+            {
+                "en": "It is not a hook — the React Compiler removes it before render",
+                "ru": "Это не хук: React Compiler убирает его ещё до рендера"
+            },
+            {
+                "en": "React restarts the component from the top when a conditional `use()` is skipped",
+                "ru": "React перезапускает компонент сверху, если условный `use()` был пропущен"
+            },
+            {
+                "en": "It does not depend on a stable hook call order across renders",
+                "ru": "Он не опирается на стабильный порядок вызова хуков между рендерами"
+            },
+            {
+                "en": "It caches its result on the promise object, so no fiber slot is needed",
+                "ru": "Он кеширует результат на самом промисе, поэтому слот в fiber не нужен"
+            }
+        ],
+        "correct": 2,
+        "explanation": {
+            "en": "Hooks like `useState` map to fixed positions in the component's hook list, so a conditional call would shift every later slot. `use()` reads a resource handed to it and either returns the value or suspends, so it claims no slot of its own — which is why the docs explicitly allow it in conditions and loops. It still has to be called for the promise: reading `promise.status` to skip `use()` breaks React's tracking. It also cannot sit inside try/catch — a rejection goes to an Error Boundary.",
+            "ru": "Хуки вроде `useState` привязаны к фиксированным позициям в списке хуков компонента, поэтому условный вызов сдвинул бы все последующие слоты. `use()` читает переданный ему ресурс и либо возвращает значение, либо суспендится, так что собственный слот ему не нужен — поэтому в доках его явно разрешают в условиях и циклах. Но вызывать его для промиса всё равно обязательно: попытка прочитать `promise.status` и пропустить `use()` ломает трекинг React. И его нельзя обернуть в try/catch — реджект уходит в Error Boundary."
+        }
+    },
+    {
+        "id": "react-use-api-002",
+        "type": "single-choice",
+        "category": "react",
+        "difficulty": "hard",
+        "tags": ["react-19", "use", "suspense", "data-fetching"],
+        "question": {
+            "en": "A Client Component renders `const albums = use(fetch('/api/albums'));` in its body. The Suspense fallback flashes forever. What is going on?",
+            "ru": "Клиентский компонент в теле рендера делает `const albums = use(fetch('/api/albums'));`. Fallback у Suspense мигает бесконечно. Что происходит?"
+        },
+        "options": [
+            {
+                "en": "`use()` rejects a `fetch` promise — it accepts only promises made by a Server Component",
+                "ru": "`use()` не принимает промис от `fetch` — только промисы, созданные Server Component"
+            },
+            {
+                "en": "The fallback is stuck because `use()` must be wrapped in `startTransition` to commit",
+                "ru": "Fallback залипает, потому что `use()` нужно обернуть в `startTransition`, чтобы он закоммитился"
+            },
+            {
+                "en": "`fetch` resolves to a `Response`, so `use()` re-suspends until `.json()` is awaited too",
+                "ru": "`fetch` резолвится в `Response`, поэтому `use()` суспендится снова, пока не заавейчен `.json()`"
+            },
+            {
+                "en": "Each render creates a new promise, so React suspends again as soon as it resumes",
+                "ru": "Каждый рендер создаёт новый промис, поэтому React суспендится снова, едва возобновившись"
+            }
+        ],
+        "correct": 3,
+        "explanation": {
+            "en": "Promises passed to `use()` must be cached. A promise created in the render body is a different object on every attempt, so when React retries the render after the first one settles it finds an unsettled promise again and shows the fallback — forever. Get the promise from a module-level cache keyed by the request, from a Suspense-enabled framework's data layer, or from a Server Component that starts the fetch and passes the promise down as a prop.",
+            "ru": "Промисы, передаваемые в `use()`, должны быть закешированы. Промис, созданный в теле рендера, на каждой попытке — новый объект, поэтому когда React повторяет рендер после резолва первого, он снова видит незавершённый промис и снова показывает fallback, и так бесконечно. Берите промис из модульного кеша по ключу запроса, из data-слоя фреймворка с поддержкой Suspense или из Server Component, который стартует запрос и передаёт промис пропом."
+        }
+    },
+    {
+        "id": "react-ref-prop-001",
+        "type": "single-choice",
+        "category": "react",
+        "difficulty": "easy",
+        "tags": ["react-19", "refs", "forwardRef"],
+        "question": {
+            "en": "In React 19, what changed for a function component that needs to expose a DOM node to its parent?",
+            "ru": "Что изменилось в React 19 для функционального компонента, которому нужно отдать DOM-узел родителю?"
+        },
+        "options": [
+            {
+                "en": "`ref` arrives as an ordinary prop, so `forwardRef` is no longer needed",
+                "ru": "`ref` приходит обычным пропом, поэтому `forwardRef` больше не нужен"
+            },
+            {
+                "en": "`ref` must be renamed to `innerRef`, because `ref` is now a reserved word",
+                "ru": "`ref` нужно переименовать в `innerRef`, потому что `ref` стал зарезервированным"
+            },
+            {
+                "en": "`useImperativeHandle` became mandatory for any component that takes a ref",
+                "ru": "`useImperativeHandle` стал обязательным для любого компонента, принимающего ref"
+            },
+            {
+                "en": "`forwardRef` now takes the rendered component as its second argument",
+                "ru": "`forwardRef` теперь принимает рендерящийся компонент вторым аргументом"
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "React 19 passes `ref` to function components as a normal prop, so `function Input({ placeholder, ref })` works directly. `forwardRef` still runs and a codemod exists to migrate, but the team has said it will be deprecated and removed later. Class components are unaffected — their `ref` still points at the instance.",
+            "ru": "React 19 передаёт `ref` в функциональные компоненты обычным пропом, поэтому `function Input({ placeholder, ref })` работает напрямую. `forwardRef` пока работает, и для миграции есть codemod, но команда объявила, что позже его задепрекейтят и уберут. Классовых компонентов это не касается — их `ref` по-прежнему указывает на инстанс."
+        }
+    },
+    {
+        "id": "react-ref-cleanup-001",
+        "type": "single-choice",
+        "category": "react",
+        "difficulty": "medium",
+        "tags": ["react-19", "refs", "cleanup", "typescript"],
+        "question": {
+            "en": "React 19 lets a ref callback return a cleanup function. What does that mean for `<div ref={el => (node = el)} />`?",
+            "ru": "React 19 разрешил ref-колбэку возвращать функцию очистки. Что это значит для `<div ref={el => (node = el)} />`?"
+        },
+        "options": [
+            {
+                "en": "Nothing — assignment expressions are exempt from the new cleanup contract",
+                "ru": "Ничего — выражения присваивания не подпадают под новый контракт очистки"
+            },
+            {
+                "en": "The returned element is read as a cleanup function, so TypeScript rejects it",
+                "ru": "Возвращённый элемент трактуется как функция очистки, поэтому TypeScript его отвергает"
+            },
+            {
+                "en": "React now invokes the callback twice on mount to obtain the cleanup",
+                "ru": "React теперь вызывает колбэк дважды при монтировании, чтобы получить очистку"
+            },
+            {
+                "en": "The ref is set but never cleared, because returning a value opts out of the `null` reset",
+                "ru": "Ref проставится, но не сбросится: возврат значения отключает сброс в `null`"
+            }
+        ],
+        "correct": 1,
+        "explanation": {
+            "en": "A ref callback may now return a cleanup function, which React runs on unmount instead of calling the callback a second time with `null`. An arrow with an implicit return therefore hands React the assigned element as if it were that cleanup. TypeScript now rejects the pattern; the fix is a block body — `ref={el => { node = el; }}` — and the `no-implicit-ref-callback-return` codemod applies it mechanically.",
+            "ru": "Ref-колбэк теперь может вернуть функцию очистки, и React вызовет её при размонтировании вместо повторного вызова колбэка с `null`. Стрелка с неявным возвратом из-за этого отдаёт React присвоенный элемент так, будто это и есть очистка. TypeScript такой паттерн больше не пропускает; чинится блочным телом — `ref={el => { node = el; }}`, а codemod `no-implicit-ref-callback-return` делает это автоматически."
+        }
+    },
+    {
+        "id": "react-context-provider-001",
+        "type": "single-choice",
+        "category": "react",
+        "difficulty": "easy",
+        "tags": ["react-19", "context", "provider"],
+        "question": {
+            "en": "React 19 allows rendering `<ThemeContext value=\"dark\">` directly. What is the status of `<ThemeContext.Provider>`?",
+            "ru": "React 19 разрешил рендерить `<ThemeContext value=\"dark\">` напрямую. Каков статус `<ThemeContext.Provider>`?"
+        },
+        "options": [
+            {
+                "en": "It was removed in 19, so code still using it throws at render time",
+                "ru": "В 19 его удалили, и код, который его использует, падает на рендере"
+            },
+            {
+                "en": "It is the only form that works on the server; the short form is client-only",
+                "ru": "Это единственная форма, работающая на сервере; короткая — только для клиента"
+            },
+            {
+                "en": "It still works, but is slated for deprecation with a codemod to migrate",
+                "ru": "Он ещё работает, но помечен на будущий deprecation, и для миграции есть codemod"
+            },
+            {
+                "en": "It stays canonical, and the short form is only a TypeScript convenience",
+                "ru": "Он остаётся каноничным, а короткая форма — просто удобство для TypeScript"
+            }
+        ],
+        "correct": 2,
+        "explanation": {
+            "en": "React 19 lets the context object itself act as the provider, so `<ThemeContext value={theme}>` replaces `<ThemeContext.Provider value={theme}>`. The old form keeps working today and React published a codemod, but the team stated `<Context.Provider>` will be deprecated in a future version. Nothing else about context changed — the value identity still drives re-renders of every consumer.",
+            "ru": "React 19 позволяет самому объекту контекста быть провайдером, так что `<ThemeContext value={theme}>` заменяет `<ThemeContext.Provider value={theme}>`. Старая форма пока работает, и React выпустил codemod, но команда заявила, что `<Context.Provider>` задепрекейтят в будущих версиях. Больше в контексте ничего не поменялось — ре-рендеры всех потребителей по-прежнему определяются идентичностью value."
+        }
+    },
+    {
+        "id": "react-preload-001",
+        "type": "single-choice",
+        "category": "react",
+        "difficulty": "medium",
+        "tags": ["react-19", "react-dom", "preload", "preinit", "performance"],
+        "question": {
+            "en": "A component knows the next screen will need a web font and a third-party analytics script. Which `react-dom` calls fit?",
+            "ru": "Компонент знает, что следующему экрану понадобятся веб-шрифт и сторонний скрипт аналитики. Какие вызовы `react-dom` тут уместны?"
+        },
+        "options": [
+            {
+                "en": "`preconnect` for both — it covers any resource served from a known origin",
+                "ru": "`preconnect` для обоих — он покрывает любой ресурс с известного origin"
+            },
+            {
+                "en": "`preload` for both; `preinit` is valid only inside `<head>` during server render",
+                "ru": "`preload` для обоих; `preinit` допустим только внутри `<head>` при серверном рендере"
+            },
+            {
+                "en": "`prefetchDNS` for the font and `preload` for the script, which must not execute early",
+                "ru": "`prefetchDNS` для шрифта и `preload` для скрипта, который не должен исполниться раньше времени"
+            },
+            {
+                "en": "`preload` for the font, `preinit` for the script so it is fetched and executed",
+                "ru": "`preload` для шрифта и `preinit` для скрипта, чтобы он был и загружен, и исполнен"
+            }
+        ],
+        "correct": 3,
+        "explanation": {
+            "en": "The four `react-dom` resource APIs form a ladder: `prefetchDNS(href)` resolves DNS, `preconnect(href)` opens the connection, `preload(href, { as })` downloads the bytes without evaluating them, and `preinit(href, { as })` downloads and evaluates — executing a script or inserting a stylesheet. A font is only ever fetched, so `preload`; an analytics script you want running is `preinit`. React deduplicates the calls and hoists the tags, so calling them from render is intended.",
+            "ru": "Четыре ресурсных API `react-dom` выстроены лесенкой: `prefetchDNS(href)` резолвит DNS, `preconnect(href)` открывает соединение, `preload(href, { as })` качает байты, не исполняя их, а `preinit(href, { as })` качает и исполняет — запускает скрипт или вставляет стиль. Шрифт только качается, значит `preload`; скрипт аналитики, который должен заработать, — `preinit`. React дедуплицирует вызовы и поднимает теги наверх, так что вызывать их из рендера — штатный сценарий."
+        }
+    },
+    {
+        "id": "react-compiler-001",
+        "type": "single-choice",
+        "category": "react",
+        "difficulty": "hard",
+        "tags": ["react-compiler", "memoization", "code-review", "performance"],
+        "question": {
+            "en": "A teammate enables React Compiler and opens a PR deleting every `useMemo` and `useCallback` in the codebase. What is the defensible review position?",
+            "ru": "Коллега включил React Compiler и открыл PR, удаляющий все `useMemo` и `useCallback` в кодовой базе. Какая позиция на ревью защитима?"
+        },
+        "options": [
+            {
+                "en": "Leave it in place — removing it changes the compiled output and needs measuring",
+                "ru": "Оставить как есть: удаление меняет скомпилированный вывод и требует замеров"
+            },
+            {
+                "en": "Approve it: the Compiler is a strict superset, so the hooks are now dead code",
+                "ru": "Апрувить: Compiler — строгое надмножество, так что эти хуки теперь мёртвый код"
+            },
+            {
+                "en": "Reject it and switch the Compiler off, since two memoization layers conflict",
+                "ru": "Отклонить и выключить Compiler, потому что два слоя мемоизации конфликтуют"
+            },
+            {
+                "en": "Approve only the `useCallback` deletions; `useMemo` is still required for expensive work",
+                "ru": "Апрувить только удаление `useCallback`; `useMemo` всё ещё обязателен для дорогих вычислений"
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "React's own guidance is to rely on the Compiler for new code but to leave existing memoization alone, or remove it only with careful testing, because removing it can change the compiled output. `useMemo` and `useCallback` remain sanctioned escape hatches for precise control. The review problem with a codebase-wide deletion is not ideology — it is that a diff of that size carries no measurement, so any regression it introduces is invisible until production.",
+            "ru": "Рекомендация самого React — для нового кода полагаться на Compiler, а существующую мемоизацию либо не трогать, либо снимать только с аккуратным тестированием, потому что её удаление меняет скомпилированный вывод. `useMemo` и `useCallback` остаются санкционированными escape hatch для точечного контроля. Проблема такого PR не в идеологии: диффа такого размера не сопровождают замеры, поэтому любая регрессия всплывёт только в проде."
+        }
+    },
+    {
+        "id": "react-compiler-002",
+        "type": "single-choice",
+        "category": "react",
+        "difficulty": "medium",
+        "tags": ["react-compiler", "memoization", "performance"],
+        "question": {
+            "en": "Which of these does React Compiler leave uncached?",
+            "ru": "Что из перечисленного React Compiler не закеширует?"
+        },
+        "options": [
+            {
+                "en": "An object literal built in a component body and passed down as a prop",
+                "ru": "Объектный литерал, созданный в теле компонента и переданный пропом вниз"
+            },
+            {
+                "en": "A helper exported from a `utils` module and called during render",
+                "ru": "Хелпер, экспортированный из модуля `utils` и вызванный во время рендера"
+            },
+            {
+                "en": "A derived array computed from props inside a component",
+                "ru": "Производный массив, вычисленный из пропов внутри компонента"
+            },
+            {
+                "en": "A value computed inside a custom hook",
+                "ru": "Значение, вычисленное внутри кастомного хука"
+            }
+        ],
+        "correct": 1,
+        "explanation": {
+            "en": "The Compiler rewrites components and hooks — inside those, derived values and callbacks get stable identity and are recomputed only when their inputs change. A plain module function is neither a component nor a hook, so its work runs on every call. The memoization is also per component or hook, not shared between them, so the same expensive pure utility called from two components is computed twice. Expensive module-level work still needs its own cache.",
+            "ru": "Compiler переписывает компоненты и хуки: внутри них производные значения и колбэки получают стабильную идентичность и пересчитываются только при смене входов. Обычная модульная функция — ни компонент, ни хук, поэтому её работа выполняется на каждом вызове. Мемоизация к тому же локальна для компонента или хука и не переиспользуется между ними, так что одна и та же дорогая чистая утилита, вызванная из двух компонентов, посчитается дважды. Дорогой модульной логике всё ещё нужен собственный кеш."
+        }
+    },
+    {
+        "id": "react-rsc-boundary-001",
+        "type": "single-choice",
+        "category": "react",
+        "difficulty": "medium",
+        "tags": ["rsc", "server-components", "boundary", "architecture"],
+        "question": {
+            "en": "A Server Component must render a Client Component, and that Client Component must render a Server Component. What actually works?",
+            "ru": "Server Component должен отрендерить Client Component, а тот — Server Component. Что реально работает?"
+        },
+        "options": [
+            {
+                "en": "Both directions work — the bundler splits the module graph automatically",
+                "ru": "Работают оба направления — бандлер сам разделит граф модулей"
+            },
+            {
+                "en": "Neither: a boundary crossing always needs a route segment between the two",
+                "ru": "Ни одно: между ними всегда нужен отдельный сегмент роута"
+            },
+            {
+                "en": "Import the client one; pass the server one down as `children`",
+                "ru": "Клиентский импортировать, а серверный передать вниз через `children`"
+            },
+            {
+                "en": "Import in both directions, but mark the inner file `'use server'`",
+                "ru": "Импортировать в обе стороны, но пометить внутренний файл `'use server'`"
+            }
+        ],
+        "correct": 2,
+        "explanation": {
+            "en": "Importing a Client Component from a Server Component is the boundary: everything reachable through that import becomes client code. The reverse import would drag server-only modules — database clients, secrets, heavy parsers — into the browser bundle, so it is not allowed. Instead the Server Component renders the server-side element and hands it to the Client Component as `children` or any other prop; React elements are serializable and are rendered before they cross, so the client only ever receives output.",
+            "ru": "Импорт Client Component из Server Component и есть граница: всё, до чего дотягивается этот импорт, становится клиентским кодом. Обратный импорт затащил бы в браузерный бандл серверные модули — клиенты БД, секреты, тяжёлые парсеры, — поэтому он запрещён. Вместо этого Server Component рендерит серверный элемент и отдаёт его в Client Component через `children` или любой другой проп: React-элементы сериализуемы и рендерятся до пересечения границы, так что клиент получает только результат."
+        }
+    },
+    {
+        "id": "react-rsc-payload-001",
+        "type": "single-choice",
+        "category": "react",
+        "difficulty": "hard",
+        "tags": ["rsc", "server-components", "payload", "ssr", "performance"],
+        "question": {
+            "en": "On a client-side navigation in an RSC app, what does the browser receive for the new route's Server Components?",
+            "ru": "При клиентской навигации в RSC-приложении что браузер получает для Server Components нового роута?"
+        },
+        "options": [
+            {
+                "en": "A fresh HTML document, which React diffs against the current DOM",
+                "ru": "Свежий HTML-документ, который React диффает с текущим DOM"
+            },
+            {
+                "en": "Nothing — Server Components are rendered once at build time and cached",
+                "ru": "Ничего — Server Components рендерятся один раз на билде и кешируются"
+            },
+            {
+                "en": "A JSON blob of props that the client re-renders the same components with",
+                "ru": "JSON с пропами, которыми клиент заново рендерит те же компоненты"
+            },
+            {
+                "en": "An RSC payload — a serialized element tree plus client-bundle refs",
+                "ru": "RSC payload — сериализованное дерево элементов плюс ссылки на клиентские бандлы"
+            }
+        ],
+        "correct": 3,
+        "explanation": {
+            "en": "Server Component code never ships. On a navigation the server streams the RSC payload: a compact serialized description of the already-rendered tree, with holes marking Client Components and their serialized props. React merges it into the live tree, so state inside surviving Client Components is preserved — a full HTML response could not do that. The initial page load also gets HTML so content is visible before hydration, but subsequent navigations trade HTML for the payload.",
+            "ru": "Код Server Components на клиент не уезжает. При навигации сервер стримит RSC payload — компактное сериализованное описание уже отрендеренного дерева с «дырками» под Client Components и их сериализованные пропы. React вмерживает его в живое дерево, поэтому state в уцелевших клиентских компонентах сохраняется, чего полноценный HTML-ответ обеспечить не может. При первой загрузке HTML тоже приходит, чтобы контент был виден до гидратации, но дальнейшие навигации идут payload-ом вместо HTML."
+        }
+    },
+    {
+        "id": "react-usesyncexternalstore-001",
+        "type": "single-choice",
+        "category": "react",
+        "difficulty": "hard",
+        "tags": ["useSyncExternalStore", "external-store", "tearing", "concurrent"],
+        "question": {
+            "en": "A store adapter's `getSnapshot` is `() => ({ items: store.items })`. The app renders in an infinite loop. Why?",
+            "ru": "В адаптере стора `getSnapshot` выглядит как `() => ({ items: store.items })`, и приложение уходит в бесконечный рендер. Почему?"
+        },
+        "options": [
+            {
+                "en": "A new object each call fails the `Object.is` check, so React re-renders forever",
+                "ru": "Новый объект на каждом вызове не проходит проверку `Object.is`, и React ре-рендерит бесконечно"
+            },
+            {
+                "en": "The `subscribe` callback fires synchronously and re-enters the render phase",
+                "ru": "Колбэк `subscribe` срабатывает синхронно и снова входит в фазу рендера"
+            },
+            {
+                "en": "`getSnapshot` runs before `subscribe`, so React never receives an unsubscribe function",
+                "ru": "`getSnapshot` выполняется раньше `subscribe`, поэтому React не получает функцию отписки"
+            },
+            {
+                "en": "The snapshot object is frozen, and React's mutation check restarts the render",
+                "ru": "Объект снапшота заморожен, и проверка мутаций в React перезапускает рендер"
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "React calls `getSnapshot` on every render and after every store notification, comparing the result with `Object.is`. A freshly built object never compares equal, so React concludes the store changed, re-renders, and builds another object. Return the store's own immutable value (`store.items`), or cache the derived snapshot and return the previous reference while the source is unchanged. Filtering or mapping belongs outside the snapshot, or behind that cache.",
+            "ru": "React вызывает `getSnapshot` на каждом рендере и после каждого уведомления стора, сравнивая результат через `Object.is`. Свежесозданный объект никогда не равен предыдущему, поэтому React решает, что стор изменился, ре-рендерит и создаёт следующий объект. Возвращайте собственное иммутабельное значение стора (`store.items`) или кешируйте производный снапшот и отдавайте прежнюю ссылку, пока источник не менялся. Фильтрацию и маппинг выносите наружу или прячьте за этот кеш."
+        }
+    },
+    {
+        "id": "react-useeffectevent-001",
+        "type": "single-choice",
+        "category": "react",
+        "difficulty": "medium",
+        "tags": ["react-19-2", "useEffectEvent", "useEffect", "dependencies"],
+        "question": {
+            "en": "An Effect reconnects to a chat room whenever `theme` changes, because its connect handler shows a themed toast. You move the toast into `useEffectEvent`. Why must the Effect Event stay out of the dependency array?",
+            "ru": "Эффект переподключается к чат-комнате при каждой смене `theme`, потому что его обработчик подключения показывает тост в теме. Вы выносите тост в `useEffectEvent`. Почему сам Effect Event нельзя класть в массив зависимостей?"
+        },
+        "options": [
+            {
+                "en": "Its identity changes each render, so listing it would re-run the Effect constantly",
+                "ru": "Его идентичность меняется каждый рендер, и указание его в deps гоняло бы эффект постоянно"
+            },
+            {
+                "en": "It is non-reactive by design and always reads the latest props and state",
+                "ru": "Он по определению нереактивен и всегда читает свежие props и state"
+            },
+            {
+                "en": "React freezes the array on mount, so entries added later are ignored anyway",
+                "ru": "React фиксирует массив при монтировании, так что добавленное позже всё равно игнорируется"
+            },
+            {
+                "en": "Dependencies must be values, and an Effect Event is a function reference",
+                "ru": "В зависимостях должны быть значения, а Effect Event — это ссылка на функцию"
+            }
+        ],
+        "correct": 1,
+        "explanation": {
+            "en": "An Effect Event is a stable, non-reactive function that always sees current props and state. Its entire purpose is to keep `theme` out of the Effect's reactive surface so the Effect re-runs only when `roomId` changes. Declaring it as a dependency would reintroduce a dependency that means nothing, and `eslint-plugin-react-hooks` flags it. Effect Events can only be declared in the same component or Hook as the Effect that calls them, and must not be passed to other components.",
+            "ru": "Effect Event — стабильная нереактивная функция, которая всегда видит актуальные props и state. Весь её смысл в том, чтобы убрать `theme` из реактивной поверхности эффекта, и эффект перезапускался только при смене `roomId`. Указание её в зависимостях вернуло бы туда бессмысленную запись, и `eslint-plugin-react-hooks` это подсветит. Объявлять Effect Event можно только в том же компоненте или хуке, где находится использующий его эффект, и передавать его в другие компоненты нельзя."
+        }
+    },
+    {
+        "id": "react-activity-001",
+        "type": "single-choice",
+        "category": "react",
+        "difficulty": "medium",
+        "tags": ["react-19-2", "Activity", "performance", "state-preservation"],
+        "question": {
+            "en": "What does `<Activity mode=\"hidden\">` do to its subtree that `display: none` on a wrapper does not?",
+            "ru": "Что `<Activity mode=\"hidden\">` делает с поддеревом такого, чего не делает `display: none` на обёртке?"
+        },
+        "options": [
+            {
+                "en": "It keeps effects mounted so subscriptions stay live while the subtree is off-screen",
+                "ru": "Оставляет эффекты смонтированными, чтобы подписки жили, пока поддерево вне экрана"
+            },
+            {
+                "en": "It unmounts the subtree entirely, so its state is discarded and rebuilt on return",
+                "ru": "Полностью размонтирует поддерево, так что state теряется и собирается заново при возврате"
+            },
+            {
+                "en": "It unmounts effects and defers updates, while keeping the subtree's state",
+                "ru": "Размонтирует эффекты и откладывает обновления, сохраняя при этом state поддерева"
+            },
+            {
+                "en": "It pauses the subtree's event handlers but leaves its effects and timers running",
+                "ru": "Ставит на паузу обработчики событий, но оставляет эффекты и таймеры работающими"
+            }
+        ],
+        "correct": 2,
+        "explanation": {
+            "en": "`display: none` leaves the React tree fully mounted — effects keep running, subscriptions keep firing, and every update still costs render work. `<Activity mode=\"hidden\">` hides the children, unmounts their effects, and defers their updates until React has nothing more urgent to do, while preserving their state. That combination is what makes it usable for pre-rendering a likely next screen or keeping a background tab's scroll position and form draft alive without paying for it.",
+            "ru": "`display: none` оставляет дерево React полностью смонтированным: эффекты работают, подписки срабатывают, и каждое обновление по-прежнему стоит рендера. `<Activity mode=\"hidden\">` прячет детей, размонтирует их эффекты и откладывает их обновления, пока у React есть дела поважнее, но сохраняет их state. Именно эта комбинация позволяет пред-рендерить вероятный следующий экран или держать скролл и черновик формы в фоновой вкладке, не платя за это."
+        }
+    },
+    {
+        "id": "react-multi-use-api-001",
+        "type": "multi-choice",
+        "category": "react",
+        "difficulty": "medium",
+        "tags": ["react-19", "use", "suspense", "context"],
+        "question": {
+            "en": "Which statements about the `use()` API are correct? (Select all that apply)",
+            "ru": "Какие утверждения про API `use()` верны? (Выберите все подходящие варианты)"
+        },
+        "options": [
+            {
+                "en": "It can read a context, which lets a context be consumed conditionally",
+                "ru": "Он умеет читать контекст, что позволяет получать контекст условно"
+            },
+            {
+                "en": "It can be called inside a loop or an `if` block",
+                "ru": "Его можно вызывать внутри цикла или блока `if`"
+            },
+            {
+                "en": "It can be wrapped in try/catch to handle a rejected promise locally",
+                "ru": "Его можно обернуть в try/catch, чтобы обработать реджект промиса на месте"
+            },
+            {
+                "en": "The promise it receives must be cached rather than created during render",
+                "ru": "Передаваемый в него промис должен быть закеширован, а не создан во время рендера"
+            },
+            {
+                "en": "It works only inside Server Components",
+                "ru": "Он работает только внутри Server Components"
+            }
+        ],
+        "correct": [0, 1, 3],
+        "explanation": {
+            "en": "`use()` reads a promise or a context, and unlike every hook it may sit in a condition or a loop because it claims no fixed slot. It cannot be wrapped in try/catch — a rejected promise must reach an Error Boundary — and the promise must come from a cache, a framework data layer or a Server Component, since one created in render is new on every attempt. It is available in Client Components too; that is the whole point of the Server-starts-the-promise, client-reads-it pattern.",
+            "ru": "`use()` читает промис или контекст и, в отличие от любого хука, может стоять в условии или цикле, потому что не занимает фиксированный слот. Обернуть его в try/catch нельзя — реджект должен дойти до Error Boundary, — а сам промис обязан приходить из кеша, data-слоя фреймворка или Server Component, потому что созданный в рендере промис на каждой попытке новый. В клиентских компонентах он тоже доступен: на этом и построен паттерн «сервер стартует промис, клиент его читает»."
+        }
+    },
+    {
+        "id": "react-multi-rsc-props-001",
+        "type": "multi-choice",
+        "category": "react",
+        "difficulty": "hard",
+        "tags": ["rsc", "server-components", "serialization", "boundary"],
+        "question": {
+            "en": "Which of these can a Server Component pass as a prop to a Client Component? (Select all that apply)",
+            "ru": "Что из этого Server Component может передать пропом в Client Component? (Выберите все подходящие варианты)"
+        },
+        "options": [
+            {
+                "en": "A plain object of strings, numbers and arrays",
+                "ru": "Обычный объект из строк, чисел и массивов"
+            },
+            {
+                "en": "A React element rendered by another Server Component",
+                "ru": "React-элемент, отрендеренный другим Server Component"
+            },
+            {
+                "en": "An arbitrary callback closed over server-side variables",
+                "ru": "Произвольный колбэк, замкнутый на серверные переменные"
+            },
+            {
+                "en": "A pending promise the Client Component reads with `use()`",
+                "ru": "Ещё не зарезолвленный промис, который клиент прочитает через `use()`"
+            },
+            {
+                "en": "An instance of a class whose methods the client will call",
+                "ru": "Инстанс класса, чьи методы будет вызывать клиент"
+            }
+        ],
+        "correct": [0, 1, 3],
+        "explanation": {
+            "en": "Props cross the boundary as serialized data in the RSC payload, so the test is always \"can this be written down and read back\". Plain data, React elements and promises all survive; a promise is streamed and resolves on the client, which is what makes the `use()` pattern work. The other two do not degrade — they throw at serialization time. A function crosses only when it is marked `'use server'`, in which case it travels as a reference the client can call back with; an arbitrary closure raises \"Functions cannot be passed directly to Client Components\". A class instance is not serializable at all — React throws \"Only plain objects, and a few built-ins, can be passed to Client Components from Server Components\" rather than stripping the prototype.",
+            "ru": "Пропы пересекают границу как сериализованные данные в RSC payload, поэтому критерий всегда один: можно ли это записать и прочитать обратно. Обычные данные, React-элементы и промисы переживают переход; промис стримится и резолвится на клиенте — на этом и держится паттерн с `use()`. Два оставшихся варианта не «деградируют», а бросают исключение на сериализации. Функция пересекает границу, только если помечена `'use server'`, и тогда едет ссылкой для обратного вызова; произвольное замыкание даёт ошибку «Functions cannot be passed directly to Client Components». Инстанс класса не сериализуется вовсе — React бросает «Only plain objects, and a few built-ins, can be passed to Client Components from Server Components», а не срезает прототип."
+        }
+    },
+    {
+        "id": "react-multi-hydration-001",
+        "type": "multi-choice",
+        "category": "react",
+        "difficulty": "medium",
+        "tags": ["hydration", "ssr", "debugging"],
+        "question": {
+            "en": "Which of these are genuine causes of a hydration mismatch? (Select all that apply)",
+            "ru": "Что из этого реально вызывает hydration mismatch? (Выберите все подходящие варианты)"
+        },
+        "options": [
+            {
+                "en": "Branching on `typeof window !== 'undefined'` inside the render body",
+                "ru": "Ветвление по `typeof window !== 'undefined'` прямо в теле рендера"
+            },
+            {
+                "en": "Rendering `new Date().toLocaleTimeString()` directly in JSX",
+                "ru": "Рендер `new Date().toLocaleTimeString()` прямо в JSX"
+            },
+            {
+                "en": "Reading `localStorage` inside a `useEffect` and then setting state",
+                "ru": "Чтение `localStorage` внутри `useEffect` с последующей установкой state"
+            },
+            {
+                "en": "A browser extension injecting markup into the server-rendered HTML",
+                "ru": "Расширение браузера, вставляющее разметку в серверный HTML"
+            },
+            {
+                "en": "Giving every item in a mapped list a stable `key`",
+                "ru": "Проставление стабильного `key` каждому элементу в списке"
+            }
+        ],
+        "correct": [0, 1, 3],
+        "explanation": {
+            "en": "Hydration compares the server-rendered markup with what the client's first render produces, so anything that differs between the two environments at render time breaks it: environment checks, non-deterministic values such as a clock or `Math.random()`, locale- and timezone-dependent formatting, and third-party DOM injected before React runs. An effect is safe by construction because effects run after hydration — that is the standard fix, paid for with one extra client render. `suppressHydrationWarning` silences a single element one level deep and does not patch the text.",
+            "ru": "Гидратация сравнивает серверную разметку с результатом первого клиентского рендера, поэтому ломает её всё, что различается между двумя средами в момент рендера: проверки окружения, недетерминированные значения вроде часов или `Math.random()`, форматирование, зависящее от локали и таймзоны, и сторонний DOM, вставленный до запуска React. Эффект безопасен по построению, потому что выполняется после гидратации — это и есть стандартное лечение ценой одного лишнего клиентского рендера. `suppressHydrationWarning` глушит один элемент на один уровень вглубь и текст не чинит."
+        }
+    },
+    {
+        "id": "react-multi-compiler-001",
+        "type": "multi-choice",
+        "category": "react",
+        "difficulty": "hard",
+        "tags": ["react-compiler", "re-renders", "rules-of-react", "performance"],
+        "question": {
+            "en": "React Compiler is enabled on the project. Which of these still cost a real re-render or a real bug? (Select all that apply)",
+            "ru": "На проекте включён React Compiler. Что из этого всё ещё стоит реального ре-рендера или реального бага? (Выберите все подходящие варианты)"
+        },
+        "options": [
+            {
+                "en": "A missing `key` on a mapped list",
+                "ru": "Отсутствующий `key` в отрендеренном списке"
+            },
+            {
+                "en": "An inline arrow passed as a prop to a child component",
+                "ru": "Инлайновая стрелка, переданная пропом в дочерний компонент"
+            },
+            {
+                "en": "A component that mutates props or module state during render",
+                "ru": "Компонент, мутирующий props или модульный state во время рендера"
+            },
+            {
+                "en": "An object literal built in the render body and passed down",
+                "ru": "Объектный литерал, созданный в теле рендера и переданный вниз"
+            },
+            {
+                "en": "A derived array recomputed from props on every render",
+                "ru": "Производный массив, пересчитываемый из пропов на каждом рендере"
+            }
+        ],
+        "correct": [0, 2],
+        "explanation": {
+            "en": "The Compiler's job is identity and recomputation inside components and hooks, so inline callbacks, object literals and derived values are exactly what it stabilises — those three stop being review findings. Reconciliation is untouched: a missing key still remounts rows and throws away their state. And the Compiler assumes the Rules of React hold; a component that mutates during render can be compiled into something that behaves differently from the source, which is why adopting the Compiler comes with the lint plugin rather than instead of it.",
+            "ru": "Задача Compiler — идентичность и пересчёт внутри компонентов и хуков, поэтому инлайновые колбэки, объектные литералы и производные значения он как раз и стабилизирует: эти три пункта перестают быть замечаниями на ревью. Реконсиляции он не касается — без `key` строки по-прежнему перемонтируются и теряют свой state. И Compiler исходит из того, что Rules of React соблюдены: компонент, мутирующий что-то во время рендера, может скомпилироваться в код с другим поведением, поэтому внедрение Compiler идёт вместе с lint-плагином, а не вместо него."
+        }
+    },
+    {
+        "id": "react-multi-rhf-zod-001",
+        "type": "multi-choice",
+        "category": "react",
+        "difficulty": "hard",
+        "tags": ["forms", "react-hook-form", "zod", "validation", "server-actions"],
+        "question": {
+            "en": "You share one zod schema between a react-hook-form resolver and the Server Action that persists the form. Which statements hold? (Select all that apply)",
+            "ru": "Вы переиспользуете одну zod-схему в резолвере react-hook-form и в Server Action, который сохраняет форму. Какие утверждения верны? (Выберите все подходящие варианты)"
+        },
+        "options": [
+            {
+                "en": "The client-side check is a UX affordance; the server must validate again",
+                "ru": "Клиентская проверка — это UX, сервер обязан провалидировать заново"
+            },
+            {
+                "en": "`z.infer` gives the form's TypeScript type, so the two stay in step",
+                "ru": "`z.infer` даёт TypeScript-тип формы, поэтому обе стороны не расходятся"
+            },
+            {
+                "en": "Identical schemas on both sides make the server check redundant",
+                "ru": "Одинаковые схемы с обеих сторон делают серверную проверку избыточной"
+            },
+            {
+                "en": "A refinement that queries the database can only run on the server",
+                "ru": "Уточнение, ходящее в базу, может выполняться только на сервере"
+            },
+            {
+                "en": "The resolver guarantees the action receives only valid `FormData`",
+                "ru": "Резолвер гарантирует, что в экшен придёт только валидная `FormData`"
+            }
+        ],
+        "correct": [0, 1, 3],
+        "explanation": {
+            "en": "A Server Action is a public endpoint: the form can be submitted before JavaScript loads, from a replayed request, or from a client with the resolver stripped, so the server re-parses the same schema and returns field errors through `useActionState`. Sharing the schema buys type parity via `z.infer` and one place to change a rule — not the right to skip the server pass. Async or IO-bound refinements such as uniqueness only exist server-side, so in practice the shared schema is a base the server extends.",
+            "ru": "Server Action — публичный эндпоинт: форму можно отправить до загрузки JavaScript, повторно проиграв запрос или с клиента, где резолвер вырезан, поэтому сервер заново парсит ту же схему и возвращает ошибки по полям через `useActionState`. Общая схема даёт паритет типов через `z.infer` и одно место для изменения правила, но не право пропустить серверную проверку. Асинхронные и ходящие в IO уточнения вроде проверки уникальности существуют только на сервере, поэтому на практике общая схема — база, которую сервер расширяет."
+        }
+    },
+    {
+        "id": "react-multi-actions-001",
+        "type": "multi-choice",
+        "category": "react",
+        "difficulty": "easy",
+        "tags": ["react-19", "actions", "forms", "transitions"],
+        "question": {
+            "en": "What does React do when you pass a function to `<form action={fn}>`? (Select all that apply)",
+            "ru": "Что делает React, когда вы передаёте функцию в `<form action={fn}>`? (Выберите все подходящие варианты)"
+        },
+        "options": [
+            {
+                "en": "It calls `fn` with the form's `FormData` and skips the default navigation",
+                "ru": "Вызывает `fn` с `FormData` формы и отменяет штатную навигацию"
+            },
+            {
+                "en": "It honours the `method` prop, so `method=\"get\"` still produces a GET",
+                "ru": "Уважает проп `method`, поэтому при `method=\"get\"` всё равно будет GET"
+            },
+            {
+                "en": "It runs `fn` inside a Transition, so `useFormStatus` can report pending",
+                "ru": "Выполняет `fn` внутри Transition, поэтому `useFormStatus` может отдать pending"
+            },
+            {
+                "en": "It resets uncontrolled fields once the action resolves successfully",
+                "ru": "Сбрасывает неконтролируемые поля после успешного завершения экшена"
+            },
+            {
+                "en": "It requires `event.preventDefault()` inside `fn` to stop the submit",
+                "ru": "Требует `event.preventDefault()` внутри `fn`, чтобы остановить сабмит"
+            }
+        ],
+        "correct": [0, 2, 3],
+        "explanation": {
+            "en": "An action function receives the `FormData` and runs inside a Transition, which is what makes `useFormStatus`, `useActionState` and `useOptimistic` work at all; there is no event to `preventDefault`. When a function is given, the request method is POST regardless of the `method` prop. On success React resets the form's uncontrolled fields, which surprises teams who keep a draft in uncontrolled inputs and expect it to survive a failed downstream step.",
+            "ru": "Функция-экшен получает `FormData` и выполняется внутри Transition — именно поэтому вообще работают `useFormStatus`, `useActionState` и `useOptimistic`; события, у которого можно вызвать `preventDefault`, здесь нет. Если передана функция, метод запроса будет POST независимо от пропа `method`. После успеха React сбрасывает неконтролируемые поля формы, что удивляет команды, которые держат черновик в неконтролируемых инпутах и рассчитывают, что он переживёт следующий шаг."
+        }
+    },
+    {
+        "id": "react-bug-useoptimistic-001",
+        "type": "bug-finding",
+        "category": "react",
+        "difficulty": "hard",
+        "tags": ["react-19", "useOptimistic", "mutation", "bugs"],
+        "question": {
+            "en": "This list is meant to show a new todo immediately and drop it if the server rejects. Find the bug.",
+            "ru": "Этот список должен сразу показывать новую задачу и убирать её, если сервер отказал. Найдите ошибку."
+        },
+        "code": "'use client';\nimport { useOptimistic } from 'react';\n\nexport function TodoList({ todos, addTodo }) {\n  const [optimisticTodos, addOptimisticTodo] = useOptimistic(\n    todos,\n    (current, newTodo) => {\n      current.push(newTodo);\n      return current;\n    }\n  );\n\n  async function formAction(formData) {\n    const text = formData.get('text');\n    addOptimisticTodo({ id: 'pending', text });\n    await addTodo(text);\n  }\n\n  return (\n    <form action={formAction}>\n      <input name=\"text\" />\n      <ul>\n        {optimisticTodos.map((t) => (\n          <li key={t.id}>{t.text}</li>\n        ))}\n      </ul>\n    </form>\n  );\n}",
+        "lang": "jsx",
+        "correct": "The optimistic reducer mutates `current` in place and returns the same array, so it writes the temporary item into the real `todos` data instead of producing a separate optimistic copy.",
+        "referenceAnswer": "Return a new array instead of mutating the current one:\n\n```jsx\nconst [optimisticTodos, addOptimisticTodo] = useOptimistic(\n  todos,\n  (current, newTodo) => [...current, newTodo]\n);\n```\n\n`useOptimistic` calls the reducer with the current base value — here the `todos` array owned by the caller — and expects a fresh optimistic value back. Pushing into it has two consequences. The temporary item is now part of the real data, so when the Action fails and React reverts to `todos` the item is still there and never disappears. And because the array reference is unchanged, memoized children comparing props see nothing new, so the optimistic update may not even paint. The reducer must be pure, exactly like a `useReducer` reducer.",
+        "explanation": {
+            "en": "`useOptimistic` shows a temporary value only while an Action is in flight, then falls back to the base value it was given. That contract only holds if the reducer is pure: it must derive a new value from the current one and leave the original untouched. Mutating the base array turns a reversible preview into a permanent write, which is precisely the failure mode optimistic UI is supposed to protect against.",
+            "ru": "`useOptimistic` показывает временное значение только пока выполняется Action, а затем откатывается к переданному базовому значению. Этот контракт работает лишь при чистом редьюсере: он обязан вывести новое значение из текущего, не трогая исходное. Мутация базового массива превращает обратимый предпросмотр в необратимую запись — ровно тот сценарий, от которого оптимистичный UI и должен защищать."
+        }
+    },
+    {
+        "id": "react-bug-useformstatus-001",
+        "type": "bug-finding",
+        "category": "react",
+        "difficulty": "medium",
+        "tags": ["react-19", "useFormStatus", "actions", "bugs"],
+        "question": {
+            "en": "The submit button never shows a pending state, even though the action takes two seconds. Find the bug.",
+            "ru": "Кнопка сабмита никогда не показывает pending, хотя экшен выполняется две секунды. Найдите ошибку."
+        },
+        "code": "'use client';\nimport { useFormStatus } from 'react-dom';\n\nexport function SubscribeForm({ subscribe }) {\n  const { pending } = useFormStatus();\n\n  return (\n    <form action={subscribe}>\n      <input name=\"email\" type=\"email\" required />\n      <button type=\"submit\" disabled={pending}>\n        {pending ? 'Subscribing…' : 'Subscribe'}\n      </button>\n    </form>\n  );\n}",
+        "lang": "jsx",
+        "correct": "`useFormStatus` is called in the component that renders the `<form>`, so it looks for a parent form, finds none, and `pending` stays `false`.",
+        "referenceAnswer": "Move the hook into a child component rendered inside the form:\n\n```jsx\nfunction SubmitButton() {\n  const { pending } = useFormStatus();\n  return (\n    <button type=\"submit\" disabled={pending}>\n      {pending ? 'Subscribing…' : 'Subscribe'}\n    </button>\n  );\n}\n\nexport function SubscribeForm({ subscribe }) {\n  return (\n    <form action={subscribe}>\n      <input name=\"email\" type=\"email\" required />\n      <SubmitButton />\n    </form>\n  );\n}\n```\n\nThe documented caveat is explicit: `useFormStatus` returns status for a parent `<form>` only, never for one rendered in the same component or below it. If the pending flag is genuinely needed in the component that owns the form, use `useActionState`, whose third tuple member is `isPending`.",
+        "explanation": {
+            "en": "`useFormStatus` is designed so that submission state reaches one small subtree instead of re-rendering the whole form on every status change, so it deliberately reads only a parent `<form>`. Calling it beside the form silently returns the idle status — no warning, just a button that never changes. The alternatives are a child component for the button, or `useActionState` when the flag is needed at form level.",
+            "ru": "`useFormStatus` спроектирован так, чтобы состояние отправки доходило до небольшого поддерева, а не ре-рендерило всю форму на каждое изменение статуса, поэтому он сознательно читает только родительскую `<form>`. Вызов рядом с формой молча возвращает idle-статус — ни предупреждения, ни изменения кнопки. Варианты: вынести кнопку в дочерний компонент или взять `useActionState`, если флаг нужен на уровне формы."
+        }
+    },
+    {
+        "id": "react-bug-hydration-001",
+        "type": "bug-finding",
+        "category": "react",
+        "difficulty": "medium",
+        "tags": ["hydration", "ssr", "intl", "bugs"],
+        "question": {
+            "en": "This server-rendered component throws a hydration mismatch in production but looks fine locally. Find the bug.",
+            "ru": "Этот серверно отрендеренный компонент даёт hydration mismatch в проде, хотя локально выглядит нормально. Найдите ошибку."
+        },
+        "code": "export function Receipt({ order }) {\n  return (\n    <section>\n      <h2>{order.reference}</h2>\n      <p>Paid at {new Date(order.paidAt).toLocaleTimeString()}</p>\n    </section>\n  );\n}",
+        "lang": "jsx",
+        "correct": "`toLocaleTimeString()` formats using the runtime's own locale and time zone, so the Node server and the visitor's browser produce different text and hydration fails.",
+        "referenceAnswer": "Make the formatting deterministic across both runtimes, or move it off the server render.\n\n```jsx\nconst formatter = new Intl.DateTimeFormat('en-GB', {\n  timeStyle: 'short',\n  timeZone: 'Europe/London'\n});\n\nexport function Receipt({ order }) {\n  return (\n    <section>\n      <h2>{order.reference}</h2>\n      <p>Paid at {formatter.format(new Date(order.paidAt))}</p>\n    </section>\n  );\n}\n```\n\nPinning both the locale and the time zone makes the server and the client agree. If the timestamp must follow the visitor's own locale, render a stable placeholder and format inside an effect — correct, at the price of one extra client render — or keep the server output and add `suppressHydrationWarning` to that element, remembering it silences exactly one element one level deep and does not patch the text. It looks fine locally because the dev machine and the dev server share a locale and a time zone; production does not.",
+        "explanation": {
+            "en": "Hydration requires the client's first render to produce the same output the server already sent. `Intl`-backed formatting reads the ambient locale and time zone, which differ between a container running in UTC and a browser in the user's region, so the rendered text differs and React reports a mismatch. The senior instinct is to notice that the bug is environmental, not logical — which is also why it survives local testing.",
+            "ru": "Гидратация требует, чтобы первый клиентский рендер дал тот же вывод, что уже отправил сервер. Форматирование через `Intl` читает окружающие локаль и таймзону, а они различаются у контейнера в UTC и браузера в регионе пользователя, поэтому текст расходится и React сообщает о mismatch. Сеньорский рефлекс здесь — увидеть, что баг средовой, а не логический; поэтому он и переживает локальное тестирование."
+        }
+    },
+    {
+        "id": "react-bug-usesyncexternalstore-001",
+        "type": "bug-finding",
+        "category": "react",
+        "difficulty": "hard",
+        "tags": ["useSyncExternalStore", "external-store", "subscriptions", "bugs"],
+        "question": {
+            "en": "This adapter reads a cart count from a non-React store. It works, but the store logs a subscribe/unsubscribe pair after every render. Find the bug.",
+            "ru": "Этот адаптер читает количество товаров из не-React стора. Он работает, но стор логирует пару subscribe/unsubscribe после каждого рендера. Найдите ошибку."
+        },
+        "code": "import { useSyncExternalStore } from 'react';\nimport { cartStore } from './cartStore';\n\nexport function useCartCount() {\n  const subscribe = (onStoreChange) => {\n    cartStore.listeners.add(onStoreChange);\n    return () => cartStore.listeners.delete(onStoreChange);\n  };\n\n  return useSyncExternalStore(\n    subscribe,\n    () => cartStore.count,\n    () => 0\n  );\n}",
+        "lang": "jsx",
+        "correct": "`subscribe` is re-created on every render, and React re-subscribes whenever that function's identity changes.",
+        "referenceAnswer": "Hoist `subscribe` to module scope so its identity is stable:\n\n```jsx\nfunction subscribe(onStoreChange) {\n  cartStore.listeners.add(onStoreChange);\n  return () => cartStore.listeners.delete(onStoreChange);\n}\n\nconst getSnapshot = () => cartStore.count;\nconst getServerSnapshot = () => 0;\n\nexport function useCartCount() {\n  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);\n}\n```\n\nWhen `subscribe` depends on something from the component, wrap it in `useCallback` with exactly that dependency instead. React tears down and re-creates the subscription every time the function changes, so an inline definition turns each render into listener churn — cheap with a `Set`, expensive with a store that replays, debounces or opens a socket on subscribe. `getSnapshot` is fine here because it returns a number; returning a freshly built object instead would fail the `Object.is` check and loop forever.",
+        "explanation": {
+            "en": "`useSyncExternalStore` treats `subscribe` as an identity-keyed dependency: a new function means a new subscription. Defining it inside the hook body guarantees a new function per render, so the store is churned even though the value never changed. The senior read is that this is a cost bug, not a correctness bug — until the store does real work on subscribe, at which point it becomes both.",
+            "ru": "`useSyncExternalStore` считает `subscribe` зависимостью по идентичности: новая функция — новая подписка. Определение внутри тела хука гарантирует новую функцию на каждый рендер, поэтому стор дёргается даже без изменения значения. Сеньорское прочтение: это баг про стоимость, а не про корректность, — ровно до момента, когда подписка делает реальную работу, и тогда он становится и тем и другим."
+        }
+    },
+    {
+        "id": "react-bug-rhf-watch-001",
+        "type": "bug-finding",
+        "category": "react",
+        "difficulty": "medium",
+        "tags": ["forms", "react-hook-form", "re-renders", "bugs"],
+        "question": {
+            "en": "This checkout form has about forty registered fields and re-renders all of them on every keystroke. Find the cause.",
+            "ru": "В этой форме оформления примерно сорок зарегистрированных полей, и все они ре-рендерятся на каждое нажатие клавиши. Найдите причину."
+        },
+        "code": "function CheckoutForm() {\n  const { register, watch, handleSubmit } = useForm<Checkout>();\n  const values = watch();\n\n  return (\n    <form onSubmit={handleSubmit(save)}>\n      <input {...register('email')} />\n      <input {...register('addressLine1')} />\n      <input {...register('postcode')} />\n      {/* … thirty-odd more registered inputs … */}\n      <select {...register('country')}>{/* options */}</select>\n      {values.country === 'GB' && <input {...register('vatNumber')} />}\n    </form>\n  );\n}",
+        "lang": "tsx",
+        "correct": "A bare `watch()` subscribes the form component to every value change, so each keystroke anywhere re-renders the whole form.",
+        "referenceAnswer": "Move the subscription into the only subtree that depends on it, using `useWatch`:\n\n```tsx\nfunction VatField({ control, register }: VatFieldProps) {\n  const country = useWatch({ control, name: 'country' });\n  return country === 'GB' ? <input {...register('vatNumber')} /> : null;\n}\n\nfunction CheckoutForm() {\n  const { register, control, handleSubmit } = useForm<Checkout>();\n  return (\n    <form onSubmit={handleSubmit(save)}>\n      {/* … registered inputs … */}\n      <select {...register('country')}>{/* options */}</select>\n      <VatField control={control} register={register} />\n    </form>\n  );\n}\n```\n\nreact-hook-form keeps inputs uncontrolled precisely so typing does not go through React state. Calling `watch()` with no argument gives that benefit straight back: it sets the internal watch-all flag, so every field change notifies the form root and re-renders the component that owns all forty inputs. Scope is the real lesson, and the name of the API is not enough to tell you the cost: `watch('country')` flags only changes to `country`, so it re-renders the form root when the select changes but not on a keystroke in `email`, while `useWatch({ control, name: 'country' })` narrows the re-render to the component that calls it. The same discipline applies to validation state: read `formState.errors` in a small `<FieldError>` child rather than in the form root.",
+        "explanation": {
+            "en": "The value of an uncontrolled form library is that keystrokes stay in the DOM instead of becoming React state. `watch()` with no argument subscribes its calling component to every value change, so calling it at the root re-introduces exactly the render cost the library was chosen to avoid — and at forty fields it is visible as input lag. The fix is scope: subscribe to the one value you need, in the smallest component that needs it.",
+            "ru": "Смысл библиотеки неконтролируемых форм в том, что нажатия остаются в DOM и не становятся React-состоянием. `watch()` без аргумента подписывает вызывающий компонент на любое изменение значений, поэтому вызов в корне возвращает ровно ту стоимость рендера, ради ухода от которой библиотеку и выбрали, — и на сорока полях это уже заметный лаг ввода. Лечение — область видимости: подписываться на одно нужное значение и в самом маленьком компоненте, которому оно требуется."
+        }
+    },
+    {
+        "id": "react-completion-useactionstate-001",
+        "type": "code-completion",
+        "category": "react",
+        "difficulty": "easy",
+        "tags": ["react-19", "useActionState", "useFormStatus", "forms"],
+        "question": {
+            "en": "Fill in the two React 19 hooks so the button disables itself while the action runs and the form keeps the returned error. One comes from `react`, the other from `react-dom`.",
+            "ru": "Подставьте два хука React 19: кнопка должна сама блокироваться на время экшена, а форма — хранить возвращённую ошибку. Один хук из `react`, другой из `react-dom`."
+        },
+        "code": "'use client';\nimport { useActionState } from 'react';\nimport { useFormStatus } from 'react-dom';\n\nfunction SubmitButton() {\n  const { pending } = __BLANK__();\n  return (\n    <button type=\"submit\" disabled={pending}>\n      Save\n    </button>\n  );\n}\n\nexport function ProfileForm({ saveProfile }) {\n  const [error, formAction] = __BLANK__(saveProfile, null);\n\n  return (\n    <form action={formAction}>\n      <input name=\"name\" />\n      {error && <p role=\"alert\">{error}</p>}\n      <SubmitButton />\n    </form>\n  );\n}",
+        "blanks": ["useFormStatus", "useActionState"],
+        "lang": "jsx",
+        "referenceAnswer": "`SubmitButton` calls `useFormStatus()` and `ProfileForm` calls `useActionState(saveProfile, null)`.\n\n`useActionState(fn, initialState)` returns `[state, formAction, isPending]`. `formAction` goes on `<form action>`; `state` is whatever `fn` returned last, which is why returning an error message from the action is enough to render it. `useFormStatus` has to live in `SubmitButton` rather than in `ProfileForm`, because it only reports on a parent `<form>` — calling it next to the form would leave `pending` false forever. The third member of the `useActionState` tuple would work in `ProfileForm` itself if you preferred to skip the child component.",
+        "explanation": {
+            "en": "These two hooks split the same submission along a re-render boundary. `useActionState` owns the durable result — the value the action returned, typically validation errors — and lives with the form. `useFormStatus` owns the transient status and lives in a child, so a pending flag flipping twice per submit re-renders one button rather than forty fields. Reaching for `useState` plus a manual `try/finally` here is the pattern React 19 replaced.",
+            "ru": "Эти два хука делят одну отправку по границе ре-рендера. `useActionState` держит долгоживущий результат — то, что вернул экшен, обычно ошибки валидации, — и живёт вместе с формой. `useFormStatus` держит временный статус и живёт в дочернем компоненте, поэтому флаг pending, переключающийся дважды за сабмит, ре-рендерит одну кнопку, а не сорок полей. Связка `useState` плюс ручной `try/finally` — это как раз тот паттерн, который React 19 заменил."
+        }
+    },
+    {
+        "id": "react-completion-useoptimistic-001",
+        "type": "code-completion",
+        "category": "react",
+        "difficulty": "medium",
+        "tags": ["react-19", "useOptimistic", "actions", "optimistic-ui"],
+        "question": {
+            "en": "Complete this optimistic message list: the value React falls back to once the Action settles, and the call that must run before the awaited send.",
+            "ru": "Дополните оптимистичный список сообщений: значение, к которому React откатывается после завершения Action, и вызов, который должен произойти до ожидаемой отправки."
+        },
+        "code": "'use client';\nimport { useOptimistic } from 'react';\n\nexport function MessageList({ messages, sendMessage }) {\n  const [optimisticMessages, addOptimisticMessage] = useOptimistic(\n    __BLANK__,\n    (current, text) => [...current, { id: 'pending', text, sending: true }]\n  );\n\n  async function formAction(formData) {\n    const text = formData.get('text');\n    __BLANK__(text);\n    await sendMessage(text);\n  }\n\n  return (\n    <form action={formAction}>\n      <ul>\n        {optimisticMessages.map((m) => (\n          <li key={m.id} style={{ opacity: m.sending ? 0.5 : 1 }}>\n            {m.text}\n          </li>\n        ))}\n      </ul>\n      <input name=\"text\" />\n    </form>\n  );\n}",
+        "blanks": ["messages", "addOptimisticMessage"],
+        "lang": "jsx",
+        "referenceAnswer": "`useOptimistic(messages, reducer)` returns `[optimisticMessages, addOptimisticMessage]`, and the action calls `addOptimisticMessage(text)` before awaiting the real send.\n\nThree details make this work. The setter must be called inside an Action or a Transition — a `<form action>` function already is one, so no explicit `startTransition` is needed here. The reducer must be pure and return a new array; mutating `current` would write the pending item into the real `messages` data. And once the Action settles, React drops the optimistic value and renders `messages` again, so a failed send needs no rollback code — the item simply disappears, which is why marking it visually (`sending: true`) matters for the user.",
+        "explanation": {
+            "en": "`useOptimistic` renders a temporary value for the lifetime of an Action and then falls back to the real state, so the rollback path is React's problem rather than yours. The reducer form is what keeps it correct when the base state changes mid-flight: React re-applies the pending update on top of the new `messages`, instead of leaving a stale snapshot on screen. Hand-rolled optimistic state with `useState` gets this wrong under concurrent updates.",
+            "ru": "`useOptimistic` показывает временное значение на время жизни Action, а затем откатывается к реальному state — то есть за откат отвечает React, а не вы. Форма с редьюсером как раз и обеспечивает корректность, когда базовый state меняется по ходу: React переприменяет отложенное обновление поверх новых `messages`, а не оставляет на экране устаревший снимок. Самописное оптимистичное состояние на `useState` при конкурентных обновлениях именно здесь и ошибается."
+        }
+    },
+    {
+        "id": "react-completion-use-suspense-001",
+        "type": "code-completion",
+        "category": "react",
+        "difficulty": "medium",
+        "tags": ["react-19", "use", "suspense", "rsc", "data-fetching"],
+        "question": {
+            "en": "The Server Component starts the query without awaiting it and streams the promise down. Complete the second file: the directive body that makes it a Client Component, and the React API that reads the promise.",
+            "ru": "Server Component стартует запрос, не дожидаясь его, и стримит промис вниз. Дополните второй файл: текст директивы, делающей его клиентским, и React-API, читающее промис."
+        },
+        "code": "// NotePage.jsx — Server Component\nexport default function NotePage({ params }) {\n  const commentsPromise = db.comments.get(params.id); // deliberately not awaited\n  return (\n    <Suspense fallback={<CommentsSkeleton />}>\n      <Comments commentsPromise={commentsPromise} />\n    </Suspense>\n  );\n}\n\n// Comments.jsx — Client Component\n'__BLANK__';\nimport { use } from 'react';\n\nexport function Comments({ commentsPromise }) {\n  const comments = __BLANK__(commentsPromise);\n  return (\n    <ul>\n      {comments.map((c) => (\n        <li key={c.id}>{c.text}</li>\n      ))}\n    </ul>\n  );\n}",
+        "blanks": ["use client", "use"],
+        "lang": "jsx",
+        "referenceAnswer": "`'use client';` at the top of Comments.jsx, and `const comments = use(commentsPromise);` inside it.\n\nThe pattern matters more than the syntax. The Server Component starts the query and returns immediately, so the shell streams without waiting for the database; the promise crosses the boundary as a serializable prop, and the Client Component suspends on it inside the `<Suspense>` boundary the server already placed. Awaiting in the Server Component instead would block that part of the tree until the query finished. The promise is safe to pass to `use` precisely because the client never creates it — a promise created in a Client Component's render body is new on every attempt and suspends forever.",
+        "explanation": {
+            "en": "This is the data-fetching shape React 19 settled on: the server decides what to fetch and when to start, the client decides where the loading state appears. The Suspense boundary sits above the component that calls `use()`, so only that subtree is replaced by the fallback while everything else streams and hydrates. The older throw-a-promise protocol that data libraries hand-rolled is what `use()` standardised.",
+            "ru": "Это та схема загрузки данных, к которой React 19 пришёл: сервер решает, что и когда запрашивать, клиент решает, где показывается состояние загрузки. Граница Suspense стоит выше компонента, вызывающего `use()`, поэтому fallback заменяет только это поддерево, а всё остальное стримится и гидратируется. Старый протокол «бросить промис», который data-библиотеки писали руками, `use()` как раз и стандартизировал."
+        }
+    },
+    {
+        "id": "react-completion-useeffectevent-001",
+        "type": "code-completion",
+        "category": "react",
+        "difficulty": "hard",
+        "tags": ["react-19-2", "useEffectEvent", "useEffect", "dependencies"],
+        "question": {
+            "en": "Switching the theme must not drop the chat connection, and the dependency array must stay honest rather than trimmed. Fill in the React 19.2 API that makes the notification non-reactive, and complete the array.",
+            "ru": "Смена темы не должна разрывать соединение чата, а массив зависимостей должен остаться честным, а не подрезанным. Подставьте API из React 19.2, делающее уведомление нереактивным, и заполните массив."
+        },
+        "code": "import * as React from 'react';\n\nfunction ChatRoom({ roomId, theme }) {\n  const onConnected = React.__BLANK__(() => {\n    showNotification('Connected!', theme);\n  });\n\n  React.useEffect(() => {\n    const connection = createConnection(roomId);\n    connection.on('connected', () => {\n      onConnected();\n    });\n    connection.connect();\n    return () => connection.disconnect();\n  }, [__BLANK__]);\n\n  return <ChatWindow roomId={roomId} />;\n}",
+        "blanks": ["useEffectEvent", "roomId"],
+        "lang": "jsx",
+        "referenceAnswer": "`const onConnected = React.useEffectEvent(() => { showNotification('Connected!', theme); });` and `}, [roomId]);`.\n\n`useEffectEvent` splits the Effect into a reactive part (the connection, which genuinely depends on `roomId`) and a non-reactive part (the notification, which merely needs the current `theme`). The Effect Event always sees the latest props and state, so `theme` never has to appear in the dependency array and switching themes no longer drops the socket. It must not be listed as a dependency, must be declared in the same component or Hook as the Effect that calls it, and must not be passed to another component — `eslint-plugin-react-hooks` enforces all three.",
+        "explanation": {
+            "en": "The dependency array is not a cache key, it is a declaration of what the Effect reacts to, so the honest fix for an over-firing Effect is to move the non-reactive code out rather than to trim the array or hide the value in a ref. `useEffectEvent`, stable in React 19.2, is the sanctioned way to do that: the reactive dependency stays listed and lint-checked, while the latest-value read happens inside the Effect Event.",
+            "ru": "Массив зависимостей — не ключ кеша, а декларация того, на что эффект реагирует, поэтому честное лечение слишком часто срабатывающего эффекта — вынести нереактивный код, а не подрезать массив и не прятать значение в ref. `useEffectEvent`, стабильный с React 19.2, — санкционированный способ это сделать: реактивная зависимость остаётся в списке и под линтером, а чтение свежего значения происходит внутри Effect Event."
+        }
     }
 ]

@@ -15,23 +15,23 @@
         },
         "options": [
             {
-                "en": "PUT",
-                "ru": "PUT"
+                "en": "PATCH",
+                "ru": "PATCH"
             },
             {
                 "en": "POST",
                 "ru": "POST"
             },
             {
-                "en": "PATCH",
-                "ru": "PATCH"
+                "en": "PUT",
+                "ru": "PUT"
             },
             {
                 "en": "DELETE",
                 "ru": "DELETE"
             }
         ],
-        "correct": 2
+        "correct": 0
     },
     {
         "id": "api-rest-002",
@@ -49,23 +49,23 @@
         },
         "options": [
             {
-                "en": "200 OK",
-                "ru": "200 OK"
-            },
-            {
-                "en": "201 Created",
-                "ru": "201 Created"
+                "en": "202 Accepted",
+                "ru": "202 Accepted"
             },
             {
                 "en": "204 No Content",
                 "ru": "204 No Content"
             },
             {
-                "en": "202 Accepted",
-                "ru": "202 Accepted"
+                "en": "201 Created",
+                "ru": "201 Created"
+            },
+            {
+                "en": "200 OK",
+                "ru": "200 OK"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "api-rest-003",
@@ -74,32 +74,32 @@
         "difficulty": "easy",
         "tags": ["rest", "idempotency"],
         "question": {
-            "en": "Which HTTP methods are idempotent according to the HTTP specification?",
-            "ru": "Какие HTTP-методы являются идемпотентными согласно спецификации HTTP?"
+            "en": "Which HTTP methods are idempotent according to RFC 9110?",
+            "ru": "Какие HTTP-методы идемпотентны согласно RFC 9110?"
         },
         "explanation": {
-            "en": "GET, PUT, DELETE, HEAD, and OPTIONS are idempotent — calling them multiple times produces the same server state. POST and PATCH are not idempotent by spec; multiple calls can create multiple resources or result in different states.",
-            "ru": "GET, PUT, DELETE, HEAD и OPTIONS идемпотентны — многократный вызов приводит к одному и тому же состоянию сервера. POST и PATCH по спецификации не идемпотентны: повторные вызовы могут создать несколько ресурсов или привести к разным состояниям."
+            "en": "RFC 9110 §9.2.2: PUT, DELETE and the safe methods are idempotent. The safe methods (§9.2.1) are GET, HEAD, OPTIONS and TRACE, so the full set is GET, HEAD, OPTIONS, TRACE, PUT and DELETE. POST and PATCH are not idempotent by spec — repeating them can create several resources or apply a delta twice.",
+            "ru": "RFC 9110 §9.2.2: идемпотентны PUT, DELETE и безопасные методы. Безопасные методы (§9.2.1) — это GET, HEAD, OPTIONS и TRACE, то есть полный набор: GET, HEAD, OPTIONS, TRACE, PUT и DELETE. POST и PATCH по спецификации не идемпотентны — повтор может создать несколько ресурсов или применить дельту дважды."
         },
         "options": [
             {
-                "en": "POST and PATCH",
-                "ru": "POST и PATCH"
+                "en": "GET, HEAD, OPTIONS, TRACE, PUT and DELETE",
+                "ru": "GET, HEAD, OPTIONS, TRACE, PUT и DELETE"
             },
             {
-                "en": "GET, PUT, DELETE, and HEAD",
-                "ru": "GET, PUT, DELETE и HEAD"
+                "en": "GET, HEAD and OPTIONS — a method with a request body is never idempotent",
+                "ru": "GET, HEAD и OPTIONS — метод с телом запроса никогда не идемпотентен"
             },
             {
-                "en": "GET and POST",
-                "ru": "GET и POST"
+                "en": "GET, POST, PUT and DELETE — the four methods a CRUD API uses",
+                "ru": "GET, POST, PUT и DELETE — четыре метода, которые использует CRUD API"
             },
             {
-                "en": "Only GET",
-                "ru": "Только GET"
+                "en": "PUT, DELETE and PATCH — the writing methods are idempotent by design",
+                "ru": "PUT, DELETE и PATCH — пишущие методы идемпотентны по определению"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "api-fetch-001",
@@ -125,15 +125,15 @@
                 "ru": "Объект XMLHttpRequest"
             },
             {
-                "en": "A Promise that resolves to a Response object",
-                "ru": "Promise, который резолвится объектом Response"
-            },
-            {
                 "en": "An Observable stream",
                 "ru": "Observable-поток"
+            },
+            {
+                "en": "A Promise that resolves to a Response object",
+                "ru": "Promise, который резолвится объектом Response"
             }
         ],
-        "correct": 2
+        "correct": 3
     },
     {
         "id": "api-fetch-002",
@@ -151,23 +151,23 @@
         },
         "options": [
             {
-                "en": "Call fetch.cancel()",
-                "ru": "Вызвать fetch.cancel()"
+                "en": "Call response.cancel()",
+                "ru": "Вызвать response.cancel()"
             },
             {
-                "en": "Use an AbortController and pass its signal to fetch",
-                "ru": "Использовать AbortController и передать его signal в fetch"
+                "en": "Call fetch.cancel()",
+                "ru": "Вызвать fetch.cancel()"
             },
             {
                 "en": "Set a timeout on the Promise",
                 "ru": "Поставить таймаут на Promise"
             },
             {
-                "en": "Call response.cancel()",
-                "ru": "Вызвать response.cancel()"
+                "en": "Use an AbortController and pass its signal to fetch",
+                "ru": "Использовать AbortController и передать его signal в fetch"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "api-headers-001",
@@ -189,19 +189,19 @@
                 "ru": "text/plain"
             },
             {
+                "en": "multipart/form-data",
+                "ru": "multipart/form-data"
+            },
+            {
                 "en": "application/x-www-form-urlencoded",
                 "ru": "application/x-www-form-urlencoded"
             },
             {
                 "en": "application/json",
                 "ru": "application/json"
-            },
-            {
-                "en": "multipart/form-data",
-                "ru": "multipart/form-data"
             }
         ],
-        "correct": 2
+        "correct": 3
     },
     {
         "id": "api-graphql-001",
@@ -219,6 +219,10 @@
         },
         "options": [
             {
+                "en": "There is no functional difference",
+                "ru": "Функциональной разницы нет"
+            },
+            {
                 "en": "Queries return arrays; mutations return objects",
                 "ru": "Queries возвращают массивы, mutations — объекты"
             },
@@ -229,13 +233,9 @@
             {
                 "en": "Mutations run in real time; queries are cached",
                 "ru": "Mutations выполняются в реальном времени, queries кэшируются"
-            },
-            {
-                "en": "There is no functional difference",
-                "ru": "Функциональной разницы нет"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "api-status-001",
@@ -257,19 +257,19 @@
                 "ru": "500 Internal Server Error"
             },
             {
-                "en": "404 Not Found",
-                "ru": "404 Not Found"
-            },
-            {
                 "en": "400 Bad Request",
                 "ru": "400 Bad Request"
+            },
+            {
+                "en": "404 Not Found",
+                "ru": "404 Not Found"
             },
             {
                 "en": "401 Unauthorized",
                 "ru": "401 Unauthorized"
             }
         ],
-        "correct": 2
+        "correct": 1
     },
     {
         "id": "api-tanstack-001",
@@ -287,23 +287,23 @@
         },
         "options": [
             {
-                "en": "How long the data is kept in cache before being garbage collected",
-                "ru": "Как долго данные хранятся в кэше до сборки мусора"
-            },
-            {
-                "en": "How long fetched data is considered fresh before a background refetch is triggered",
-                "ru": "Как долго полученные данные считаются свежими до запуска фонового рефетча"
-            },
-            {
                 "en": "The delay before the loading state is shown",
                 "ru": "Задержку перед показом состояния загрузки"
             },
             {
                 "en": "The interval for automatic polling",
                 "ru": "Интервал автоматического поллинга"
+            },
+            {
+                "en": "How long the data is kept in cache before being garbage collected",
+                "ru": "Как долго данные хранятся в кэше до сборки мусора"
+            },
+            {
+                "en": "How long fetched data is considered fresh before a background refetch is triggered",
+                "ru": "Как долго полученные данные считаются свежими до запуска фонового рефетча"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "api-pagination-001",
@@ -325,19 +325,19 @@
                 "ru": "Её проще реализовать"
             },
             {
-                "en": "It supports random access to any page",
-                "ru": "Она поддерживает произвольный доступ к любой странице"
-            },
-            {
                 "en": "It avoids duplicates and skips when items are inserted or deleted between page requests",
                 "ru": "Она исключает дубликаты и пропуски при вставке или удалении элементов между запросами страниц"
             },
             {
                 "en": "It requires fewer database indexes",
                 "ru": "Она требует меньше индексов в БД"
+            },
+            {
+                "en": "It supports random access to any page",
+                "ru": "Она поддерживает произвольный доступ к любой странице"
             }
         ],
-        "correct": 2
+        "correct": 1
     },
     {
         "id": "api-bff-pattern-001",
@@ -355,16 +355,16 @@
         },
         "options": [
             {
-                "en": "It replaces microservices with a monolith",
-                "ru": "Заменяет микросервисы на монолит"
+                "en": "It serves static assets faster via a CDN",
+                "ru": "Ускоряет отдачу статики через CDN"
             },
             {
                 "en": "It provides a dedicated server layer tailored to the needs of a specific client, aggregating and shaping data from multiple services",
                 "ru": "Предоставляет выделенный серверный слой под нужды конкретного клиента, агрегирующий и формирующий данные из нескольких сервисов"
             },
             {
-                "en": "It serves static assets faster via a CDN",
-                "ru": "Ускоряет отдачу статики через CDN"
+                "en": "It replaces microservices with a monolith",
+                "ru": "Заменяет микросервисы на монолит"
             },
             {
                 "en": "It eliminates the need for authentication",
@@ -393,19 +393,19 @@
                 "ru": "Как query-параметр: ?token=<value>"
             },
             {
+                "en": "In a custom X-Auth-Token header",
+                "ru": "В кастомном заголовке X-Auth-Token"
+            },
+            {
                 "en": "In the Authorization header: 'Bearer <token>'",
                 "ru": "В заголовке Authorization: 'Bearer <token>'"
             },
             {
                 "en": "In the request body as JSON",
                 "ru": "В теле запроса как JSON"
-            },
-            {
-                "en": "In a custom X-Auth-Token header",
-                "ru": "В кастомном заголовке X-Auth-Token"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "api-rest-004",
@@ -423,23 +423,23 @@
         },
         "options": [
             {
-                "en": "401 means not authenticated (no valid credentials); 403 means authenticated but not permitted",
-                "ru": "401 — не аутентифицирован (нет валидных учётных данных); 403 — аутентифицирован, но нет прав"
+                "en": "They are interchangeable",
+                "ru": "Они взаимозаменяемы"
             },
             {
                 "en": "401 means the resource does not exist; 403 means it was deleted",
                 "ru": "401 — ресурса не существует; 403 — ресурс был удалён"
             },
             {
-                "en": "They are interchangeable",
-                "ru": "Они взаимозаменяемы"
-            },
-            {
                 "en": "401 means rate limited; 403 means IP banned",
                 "ru": "401 — превышен лимит запросов; 403 — IP забанен"
+            },
+            {
+                "en": "401 means not authenticated (no valid credentials); 403 means authenticated but not permitted",
+                "ru": "401 — не аутентифицирован (нет валидных учётных данных); 403 — аутентифицирован, но нет прав"
             }
         ],
-        "correct": 0
+        "correct": 3
     },
     {
         "id": "api-rest-005",
@@ -457,23 +457,23 @@
         },
         "options": [
             {
-                "en": "200 OK",
-                "ru": "200 OK"
-            },
-            {
-                "en": "201 Created",
-                "ru": "201 Created"
+                "en": "202 Accepted",
+                "ru": "202 Accepted"
             },
             {
                 "en": "204 No Content",
                 "ru": "204 No Content"
             },
             {
-                "en": "202 Accepted",
-                "ru": "202 Accepted"
+                "en": "201 Created",
+                "ru": "201 Created"
+            },
+            {
+                "en": "200 OK",
+                "ru": "200 OK"
             }
         ],
-        "correct": 2
+        "correct": 1
     },
     {
         "id": "api-retry-001",
@@ -491,20 +491,20 @@
         },
         "options": [
             {
-                "en": "Retrying immediately until success",
-                "ru": "Повторять запросы без задержки до успеха"
+                "en": "Switching to a different API endpoint on each retry",
+                "ru": "Переключаться на другой endpoint при каждом ретрае"
             },
             {
                 "en": "Increasing the wait time between retries exponentially (e.g., 1s, 2s, 4s, 8s)",
                 "ru": "Экспоненциально увеличивать паузу между ретраями (например, 1с, 2с, 4с, 8с)"
             },
             {
-                "en": "Reducing request payload size on each retry",
-                "ru": "Уменьшать размер payload при каждом ретрае"
+                "en": "Retrying immediately until success",
+                "ru": "Повторять запросы без задержки до успеха"
             },
             {
-                "en": "Switching to a different API endpoint on each retry",
-                "ru": "Переключаться на другой endpoint при каждом ретрае"
+                "en": "Reducing request payload size on each retry",
+                "ru": "Уменьшать размер payload при каждом ретрае"
             }
         ],
         "correct": 1
@@ -525,20 +525,20 @@
         },
         "options": [
             {
-                "en": "A query requests N fields and each requires N database calls",
-                "ru": "Запрос запрашивает N полей, и каждое требует N обращений к БД"
+                "en": "A fragment is used more than N times",
+                "ru": "Fragment используется более N раз"
             },
             {
                 "en": "A resolver fetches a list of N items, then makes a separate database query for each item's related data",
                 "ru": "Resolver получает список из N элементов, а затем делает отдельный запрос к БД для связанных данных каждого элемента"
             },
             {
-                "en": "A subscription sends N+1 events per second",
-                "ru": "Subscription отправляет N+1 событий в секунду"
+                "en": "A query requests N fields and each requires N database calls",
+                "ru": "Запрос запрашивает N полей, и каждое требует N обращений к БД"
             },
             {
-                "en": "A fragment is used more than N times",
-                "ru": "Fragment используется более N раз"
+                "en": "A subscription sends N+1 events per second",
+                "ru": "Subscription отправляет N+1 событий в секунду"
             }
         ],
         "correct": 1
@@ -563,19 +563,19 @@
                 "ru": "Перезагрузить всю страницу"
             },
             {
+                "en": "Call queryClient.resetQueries",
+                "ru": "Вызвать queryClient.resetQueries"
+            },
+            {
                 "en": "Call queryClient.invalidateQueries with the relevant query key",
                 "ru": "Вызвать queryClient.invalidateQueries с соответствующим query key"
             },
             {
                 "en": "Set staleTime to 0 globally",
                 "ru": "Выставить staleTime в 0 глобально"
-            },
-            {
-                "en": "Call queryClient.resetQueries",
-                "ru": "Вызвать queryClient.resetQueries"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "api-versioning-001",
@@ -593,10 +593,6 @@
         },
         "options": [
             {
-                "en": "Header versioning",
-                "ru": "Header versioning"
-            },
-            {
                 "en": "Query parameter versioning",
                 "ru": "Query parameter versioning"
             },
@@ -607,43 +603,47 @@
             {
                 "en": "Media type versioning",
                 "ru": "Media type versioning"
+            },
+            {
+                "en": "Header versioning",
+                "ru": "Header versioning"
             }
         ],
-        "correct": 2
+        "correct": 1
     },
     {
         "id": "api-error-format-001",
         "type": "single-choice",
         "category": "api-bff",
         "difficulty": "medium",
-        "tags": ["error-handling", "rfc-7807"],
+        "tags": ["error-handling", "rfc-9457"],
         "question": {
-            "en": "RFC 7807 (Problem Details) defines a standard error response format. Which field is mandatory?",
-            "ru": "RFC 7807 (Problem Details) задаёт стандартный формат ответа с ошибкой. Какое поле является обязательным?"
+            "en": "Which statement about the RFC 9457 (formerly RFC 7807) Problem Details members is correct?",
+            "ru": "Какое утверждение о полях Problem Details из RFC 9457 (ранее RFC 7807) верно?"
         },
         "explanation": {
-            "en": "RFC 7807 requires the 'type' field (a URI reference that identifies the problem type). All other fields (title, status, detail, instance) are optional but strongly recommended for machine-readable and human-readable error responses.",
-            "ru": "RFC 7807 требует поле 'type' (URI-ссылка, идентифицирующая тип проблемы). Все остальные поля (title, status, detail, instance) опциональны, но настоятельно рекомендуются для машиночитаемых и читаемых человеком ответов с ошибками."
+            "en": "RFC 9457 §3.1 says a problem details object can have the members `type`, `title`, `status`, `detail` and `instance` — none of them is required. When `type` is absent, its value is assumed to be `about:blank`, meaning the problem has no semantics beyond the HTTP status code. Extension members are allowed, and clients must ignore the ones they do not recognise.",
+            "ru": "RFC 9457 §3.1 говорит, что объект problem details может содержать поля `type`, `title`, `status`, `detail` и `instance` — ни одно из них не обязательно. Если `type` отсутствует, его значение считается равным `about:blank`, то есть у проблемы нет семантики сверх HTTP-статуса. Расширенные поля разрешены, а клиент обязан игнорировать те, которых не знает."
         },
         "options": [
             {
-                "en": "title",
-                "ru": "title"
+                "en": "All members are optional; an absent `type` is treated as `about:blank`",
+                "ru": "Все поля опциональны; отсутствующий `type` трактуется как `about:blank`"
             },
             {
-                "en": "detail",
-                "ru": "detail"
+                "en": "`type` is the only required member, the other four are optional",
+                "ru": "`type` — единственное обязательное поле, остальные четыре опциональны"
             },
             {
-                "en": "type",
-                "ru": "type"
+                "en": "`type`, `title` and `status` are required, `detail` and `instance` are optional",
+                "ru": "`type`, `title` и `status` обязательны, `detail` и `instance` опциональны"
             },
             {
-                "en": "status",
-                "ru": "status"
+                "en": "`status` is required and must repeat the HTTP response status code",
+                "ru": "`status` обязателен и должен дублировать HTTP-статус ответа"
             }
         ],
-        "correct": 2
+        "correct": 0
     },
     {
         "id": "api-websocket-001",
@@ -661,23 +661,23 @@
         },
         "options": [
             {
-                "en": "SSE is bidirectional; WebSocket is unidirectional",
-                "ru": "SSE двунаправлен, WebSocket однонаправлен"
-            },
-            {
-                "en": "WebSocket is bidirectional (full-duplex); SSE is unidirectional (server to client only)",
-                "ru": "WebSocket двунаправлен (full-duplex), SSE однонаправлен (только от сервера к клиенту)"
+                "en": "They are identical protocols",
+                "ru": "Это идентичные протоколы"
             },
             {
                 "en": "WebSocket works only over HTTP/2; SSE works over HTTP/1.1",
                 "ru": "WebSocket работает только поверх HTTP/2, SSE — поверх HTTP/1.1"
             },
             {
-                "en": "They are identical protocols",
-                "ru": "Это идентичные протоколы"
+                "en": "WebSocket is bidirectional (full-duplex); SSE is unidirectional (server to client only)",
+                "ru": "WebSocket двунаправлен (full-duplex), SSE однонаправлен (только от сервера к клиенту)"
+            },
+            {
+                "en": "SSE is bidirectional; WebSocket is unidirectional",
+                "ru": "SSE двунаправлен, WebSocket однонаправлен"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "api-tanstack-003",
@@ -699,19 +699,19 @@
                 "ru": "Немедленного вызова queryClient.refetchQueries"
             },
             {
-                "en": "Cancelling outgoing queries, reading current cache, updating cache optimistically, and returning the snapshot to onError",
-                "ru": "Отмены исходящих запросов, чтения текущего кэша, оптимистичного обновления кэша и возврата снэпшота в onError"
-            },
-            {
                 "en": "Setting isPending to false manually",
                 "ru": "Ручной установки isPending в false"
+            },
+            {
+                "en": "Cancelling outgoing queries, reading current cache, updating cache optimistically, and returning the snapshot to onError",
+                "ru": "Отмены исходящих запросов, чтения текущего кэша, оптимистичного обновления кэша и возврата снэпшота в onError"
             },
             {
                 "en": "Calling the mutation twice",
                 "ru": "Двойного вызова mutation"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "api-graphql-003",
@@ -729,16 +729,16 @@
         },
         "options": [
             {
-                "en": "Split a query across multiple HTTP requests",
-                "ru": "Разделения запроса на несколько HTTP-запросов"
+                "en": "Cache specific parts of the response",
+                "ru": "Кэширования отдельных частей ответа"
             },
             {
                 "en": "Define reusable selections of fields on a type, reducing duplication across queries",
                 "ru": "Определения переиспользуемых наборов полей конкретного типа, уменьшающих дублирование между запросами"
             },
             {
-                "en": "Cache specific parts of the response",
-                "ru": "Кэширования отдельных частей ответа"
+                "en": "Split a query across multiple HTTP requests",
+                "ru": "Разделения запроса на несколько HTTP-запросов"
             },
             {
                 "en": "Enable partial query execution",
@@ -763,23 +763,23 @@
         },
         "options": [
             {
-                "en": "Wrap fetch in a try/catch block",
-                "ru": "Обернуть fetch в try/catch"
-            },
-            {
-                "en": "Check response.ok or response.status and throw manually",
-                "ru": "Проверить response.ok или response.status и бросить ошибку вручную"
-            },
-            {
                 "en": "Use response.error() method",
                 "ru": "Использовать метод response.error()"
             },
             {
                 "en": "Set errorMode: 'throw' in fetch options",
                 "ru": "Указать errorMode: 'throw' в опциях fetch"
+            },
+            {
+                "en": "Wrap fetch in a try/catch block",
+                "ru": "Обернуть fetch в try/catch"
+            },
+            {
+                "en": "Check response.ok or response.status and throw manually",
+                "ru": "Проверить response.ok или response.status и бросить ошибку вручную"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "api-openapi-001",
@@ -797,23 +797,23 @@
         },
         "options": [
             {
-                "en": "To deploy the API automatically",
-                "ru": "Автоматически деплоить API"
-            },
-            {
                 "en": "To provide a machine-readable description of a REST API's endpoints, request/response schemas, and authentication",
                 "ru": "Предоставлять машиночитаемое описание эндпоинтов REST API, схем request/response и аутентификации"
             },
             {
-                "en": "To generate database migrations",
-                "ru": "Генерировать миграции БД"
+                "en": "To deploy the API automatically",
+                "ru": "Автоматически деплоить API"
             },
             {
                 "en": "To configure CORS on the server",
                 "ru": "Конфигурировать CORS на сервере"
+            },
+            {
+                "en": "To generate database migrations",
+                "ru": "Генерировать миграции БД"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "api-sse-001",
@@ -835,29 +835,29 @@
                 "ru": "WebSocket"
             },
             {
-                "en": "EventSource",
-                "ru": "EventSource"
-            },
-            {
                 "en": "BroadcastChannel",
                 "ru": "BroadcastChannel"
             },
             {
                 "en": "ReadableStream",
                 "ru": "ReadableStream"
+            },
+            {
+                "en": "EventSource",
+                "ru": "EventSource"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "api-rest-006",
         "type": "single-choice",
         "category": "api-bff",
-        "difficulty": "hard",
+        "difficulty": "medium",
         "tags": ["rest", "hateoas"],
         "question": {
-            "en": "HATEOAS (Hypermedia As The Engine Of Application State) requires that API responses:",
-            "ru": "HATEOAS (Hypermedia As The Engine Of Application State) требует, чтобы ответы API:"
+            "en": "The HATEOAS constraint requires that REST API responses:",
+            "ru": "Ограничение HATEOAS требует, чтобы ответы REST API:"
         },
         "explanation": {
             "en": "HATEOAS is a REST constraint where responses include hypermedia links describing available actions. Clients navigate the API by following links rather than hardcoding URLs, making the API self-describing and decoupled from client assumptions.",
@@ -869,19 +869,19 @@
                 "ru": "Всегда возвращали HTML вместо JSON"
             },
             {
-                "en": "Include links to related actions and resources, allowing clients to navigate the API dynamically",
-                "ru": "Содержали ссылки на связанные действия и ресурсы, позволяя клиентам динамически навигировать по API"
+                "en": "Use GraphQL under the hood",
+                "ru": "Использовали GraphQL под капотом"
             },
             {
                 "en": "Cache all responses on the client",
                 "ru": "Кэшировали все ответы на клиенте"
             },
             {
-                "en": "Use GraphQL under the hood",
-                "ru": "Использовали GraphQL под капотом"
+                "en": "Include links to related actions and resources, allowing clients to navigate the API dynamically",
+                "ru": "Содержали ссылки на связанные действия и ресурсы, позволяя клиентам динамически навигировать по API"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "api-bff-pattern-002",
@@ -899,23 +899,23 @@
         },
         "options": [
             {
-                "en": "It increases deployment complexity",
-                "ru": "Это усложняет деплой"
+                "en": "It accumulates conflicting client requirements and becomes a bottleneck",
+                "ru": "Он накапливает противоречивые требования клиентов и становится узким местом"
             },
             {
-                "en": "It becomes a bottleneck and accumulates conflicting requirements from different clients, defeating the purpose of client-tailored APIs",
-                "ru": "Он становится узким местом и накапливает противоречивые требования от разных клиентов, обнуляя смысл API, заточенного под клиента"
+                "en": "It forces every downstream service onto the same release cadence as the BFF",
+                "ru": "Он заставляет все нижележащие сервисы жить в одном релизном цикле с BFF"
             },
             {
-                "en": "It cannot handle authentication",
-                "ru": "Он не может обрабатывать аутентификацию"
+                "en": "It makes per-client rate limiting impossible to implement",
+                "ru": "Он делает невозможным rate limiting отдельно по каждому клиенту"
             },
             {
-                "en": "It prevents horizontal scaling",
-                "ru": "Он мешает горизонтальному масштабированию"
+                "en": "It rules out horizontal scaling because BFF instances must share state",
+                "ru": "Он исключает горизонтальное масштабирование: инстансы BFF обязаны делить состояние"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "api-graphql-004",
@@ -933,6 +933,10 @@
         },
         "options": [
             {
+                "en": "Periodic polling via GraphQL queries",
+                "ru": "Периодический поллинг через GraphQL queries"
+            },
+            {
                 "en": "Long-polling HTTP requests",
                 "ru": "Long-polling HTTP-запросы"
             },
@@ -941,21 +945,17 @@
                 "ru": "WebSocket или Server-Sent Events для push-уведомлений клиенту"
             },
             {
-                "en": "Periodic polling via GraphQL queries",
-                "ru": "Периодический поллинг через GraphQL queries"
-            },
-            {
                 "en": "REST webhooks",
                 "ru": "REST-вебхуки"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "api-tanstack-004",
         "type": "single-choice",
         "category": "api-bff",
-        "difficulty": "hard",
+        "difficulty": "medium",
         "tags": ["tanstack-query", "gctime"],
         "question": {
             "en": "In TanStack Query v5, what does gcTime (formerly cacheTime) control?",
@@ -967,23 +967,23 @@
         },
         "options": [
             {
-                "en": "How long data is considered fresh before refetching",
-                "ru": "Как долго данные считаются свежими до рефетча"
-            },
-            {
-                "en": "How long inactive query data stays in memory before being garbage collected",
-                "ru": "Как долго данные неактивного запроса остаются в памяти до сборки мусора"
+                "en": "The timeout for individual fetch requests",
+                "ru": "Таймаут отдельных fetch-запросов"
             },
             {
                 "en": "The maximum age of a cached response from the server",
                 "ru": "Максимальный возраст закэшированного ответа от сервера"
             },
             {
-                "en": "The timeout for individual fetch requests",
-                "ru": "Таймаут отдельных fetch-запросов"
+                "en": "How long inactive query data stays in memory before being garbage collected",
+                "ru": "Как долго данные неактивного запроса остаются в памяти до сборки мусора"
+            },
+            {
+                "en": "How long data is considered fresh before refetching",
+                "ru": "Как долго данные считаются свежими до рефетча"
             }
         ],
-        "correct": 1
+        "correct": 2
     },
     {
         "id": "api-pagination-002",
@@ -992,32 +992,32 @@
         "difficulty": "hard",
         "tags": ["pagination", "keyset"],
         "question": {
-            "en": "Keyset pagination (also called seek pagination) differs from cursor pagination in that:",
-            "ru": "Keyset-пагинация (также называемая seek-пагинацией) отличается от курсорной тем, что:"
+            "en": "Keyset (seek) pagination is usually described as differing from an opaque-cursor API in that:",
+            "ru": "Keyset-пагинацию (seek) обычно описывают как отличающуюся от API с непрозрачным курсором тем, что:"
         },
         "explanation": {
-            "en": "Keyset pagination uses a WHERE clause like WHERE (created_at, id) < (:last_created_at, :last_id) ORDER BY created_at DESC, id DESC. It leverages composite indexes for constant-time seeks regardless of page depth, unlike offset which degrades linearly.",
-            "ru": "Keyset-пагинация использует WHERE вида WHERE (created_at, id) < (:last_created_at, :last_id) ORDER BY created_at DESC, id DESC. Она опирается на составные индексы и обеспечивает постоянное время поиска независимо от глубины страницы, в отличие от offset, который деградирует линейно."
+            "en": "Most sources treat keyset/seek and cursor pagination as the same technique — an opaque cursor is usually just an encoded keyset — so the difference is in the API surface: keyset exposes the ordering columns, e.g. `WHERE (created_at, id) < (:last_created_at, :last_id) ORDER BY created_at DESC, id DESC`. Its win over OFFSET is not constant time (an index descent is O(log n)); it is that each page costs one index seek instead of scanning and discarding OFFSET rows, so the cost stops growing with page depth. Neither variant can jump to an arbitrary page number.",
+            "ru": "Большинство источников считают keyset/seek и курсорную пагинацию одной и той же техникой — непрозрачный курсор обычно и есть закодированный keyset, — поэтому разница в API-поверхности: keyset показывает колонки сортировки, например `WHERE (created_at, id) < (:last_created_at, :last_id) ORDER BY created_at DESC, id DESC`. Выигрыш перед OFFSET не в постоянном времени (спуск по индексу — O(log n)), а в том, что страница стоит один index seek вместо сканирования и отбрасывания OFFSET строк, то есть цена не растёт с глубиной. Прыгнуть на произвольную страницу не умеет ни один из вариантов."
         },
         "options": [
+            {
+                "en": "It lets a client jump straight to page 50 without reading the earlier pages",
+                "ru": "Позволяет клиенту прыгнуть сразу на 50-ю страницу, не читая предыдущие"
+            },
             {
                 "en": "It uses an opaque cursor token instead of raw column values",
                 "ru": "Использует непрозрачный cursor-токен вместо сырых значений колонок"
             },
             {
-                "en": "It uses the actual indexed column values (e.g., created_at + id) directly in the WHERE clause for O(1) seeks",
-                "ru": "Использует реальные значения проиндексированных колонок (например, created_at + id) напрямую в WHERE для O(1)-поиска"
-            },
-            {
-                "en": "It supports bidirectional navigation",
-                "ru": "Поддерживает двунаправленную навигацию"
-            },
-            {
                 "en": "It only works with MongoDB",
                 "ru": "Работает только с MongoDB"
+            },
+            {
+                "en": "The cursor is the raw indexed column values, not an opaque token",
+                "ru": "Курсор — это сырые значения проиндексированных колонок, а не непрозрачный токен"
             }
         ],
-        "correct": 1
+        "correct": 3
     },
     {
         "id": "api-rest-007",
@@ -1035,12 +1035,12 @@
         },
         "options": [
             {
-                "en": "Cache-Control: no-cache",
-                "ru": "Cache-Control: no-cache"
-            },
-            {
                 "en": "Cache-Control: max-age=3600, must-revalidate",
                 "ru": "Cache-Control: max-age=3600, must-revalidate"
+            },
+            {
+                "en": "Cache-Control: no-cache",
+                "ru": "Cache-Control: no-cache"
             },
             {
                 "en": "Expires: <timestamp>",
@@ -1051,7 +1051,7 @@
                 "ru": "Cache-Control: no-store"
             }
         ],
-        "correct": 1
+        "correct": 0
     },
     {
         "id": "api-rest-008",
@@ -1069,27 +1069,27 @@
         },
         "options": [
             {
-                "en": "GET",
-                "ru": "GET"
+                "en": "DELETE",
+                "ru": "DELETE"
             },
             {
                 "en": "POST",
                 "ru": "POST"
             },
             {
-                "en": "HEAD",
-                "ru": "HEAD"
-            },
-            {
                 "en": "OPTIONS",
                 "ru": "OPTIONS"
             },
             {
-                "en": "DELETE",
-                "ru": "DELETE"
+                "en": "HEAD",
+                "ru": "HEAD"
+            },
+            {
+                "en": "GET",
+                "ru": "GET"
             }
         ],
-        "correct": [0, 2, 3]
+        "correct": [2, 3, 4]
     },
     {
         "id": "api-fetch-003",
@@ -1102,32 +1102,32 @@
             "ru": "Какие из следующих утверждений — различия между fetch и axios? (выберите все подходящие)"
         },
         "explanation": {
-            "en": "fetch resolves for any HTTP status; axios rejects for 4xx/5xx. axios auto-parses JSON. axios has built-in upload progress via XMLHttpRequest. Both work in Node.js (fetch natively in Node 18+; axios via XMLHttpRequest polyfill). fetch does NOT have native interceptors — you must wrap it.",
-            "ru": "fetch резолвится на любом HTTP-статусе, axios реджектится на 4xx/5xx. axios автоматически парсит JSON. axios имеет встроенный прогресс загрузки через XMLHttpRequest. Оба работают в Node.js (fetch нативно в Node 18+, axios через полифилл XMLHttpRequest). У fetch НЕТ нативных интерсепторов — его нужно оборачивать."
+            "en": "fetch resolves for any HTTP status; axios rejects for 4xx/5xx. axios auto-parses JSON. axios exposes upload progress through its browser `xhr` adapter. Both work in Node.js — fetch natively since Node 18, axios through its `http` adapter (the `xhr` adapter is browser-only). fetch does NOT have native interceptors — you must wrap it.",
+            "ru": "fetch резолвится на любом HTTP-статусе, axios реджектится на 4xx/5xx. axios автоматически парсит JSON. axios отдаёт прогресс загрузки через браузерный адаптер `xhr`. Оба работают в Node.js: fetch нативно с Node 18, axios — через адаптер `http` (адаптер `xhr` только браузерный). У fetch НЕТ нативных интерсепторов — его нужно оборачивать."
         },
         "options": [
-            {
-                "en": "fetch does not throw for HTTP error status codes; axios does",
-                "ru": "fetch не бросает ошибку на HTTP-статусах ошибок, axios — бросает"
-            },
             {
                 "en": "axios automatically parses JSON responses; fetch requires response.json()",
                 "ru": "axios автоматически парсит JSON-ответы, fetch требует response.json()"
             },
             {
-                "en": "fetch supports request interceptors natively; axios does not",
-                "ru": "fetch поддерживает интерсепторы запросов нативно, axios — нет"
+                "en": "fetch is only available in browsers; axios works in Node.js too",
+                "ru": "fetch доступен только в браузерах, axios работает и в Node.js"
             },
             {
                 "en": "axios supports upload progress events; fetch does not",
                 "ru": "axios поддерживает события прогресса загрузки, fetch — нет"
             },
             {
-                "en": "fetch is only available in browsers; axios works in Node.js too",
-                "ru": "fetch доступен только в браузерах, axios работает и в Node.js"
+                "en": "fetch does not throw for HTTP error status codes; axios does",
+                "ru": "fetch не бросает ошибку на HTTP-статусах ошибок, axios — бросает"
+            },
+            {
+                "en": "fetch supports request interceptors natively; axios does not",
+                "ru": "fetch поддерживает интерсепторы запросов нативно, axios — нет"
             }
         ],
-        "correct": [0, 1, 3]
+        "correct": [0, 2, 3]
     },
     {
         "id": "api-graphql-005",
@@ -1149,12 +1149,12 @@
                 "ru": "Over-fetching (получение большего объёма данных, чем нужно)"
             },
             {
-                "en": "Under-fetching / N+1 requests (needing multiple round-trips for related data)",
-                "ru": "Under-fetching / N+1 запросы (необходимость нескольких round-trip для связанных данных)"
-            },
-            {
                 "en": "Automatic caching at the HTTP layer",
                 "ru": "Автоматическое кэширование на уровне HTTP"
+            },
+            {
+                "en": "Under-fetching / N+1 requests (needing multiple round-trips for related data)",
+                "ru": "Under-fetching / N+1 запросы (необходимость нескольких round-trip для связанных данных)"
             },
             {
                 "en": "Strongly-typed schema and automatic documentation",
@@ -1165,7 +1165,7 @@
                 "ru": "Встроенная поддержка загрузки файлов"
             }
         ],
-        "correct": [0, 1, 3]
+        "correct": [0, 2, 3]
     },
     {
         "id": "api-tanstack-005",
@@ -1183,46 +1183,50 @@
         },
         "options": [
             {
-                "en": "The component immediately receives the stale cached data",
-                "ru": "Компонент немедленно получает stale-данные из кэша"
-            },
-            {
-                "en": "A background refetch is triggered",
-                "ru": "Запускается фоновый рефетч"
+                "en": "isFetching is true during the background refetch",
+                "ru": "isFetching равен true во время фонового рефетча"
             },
             {
                 "en": "The component shows a loading spinner",
                 "ru": "Компонент показывает спиннер загрузки"
             },
             {
+                "en": "A background refetch is triggered",
+                "ru": "Запускается фоновый рефетч"
+            },
+            {
                 "en": "The cache is cleared before the refetch",
                 "ru": "Кэш очищается перед рефетчем"
             },
             {
-                "en": "isFetching is true during the background refetch",
-                "ru": "isFetching равен true во время фонового рефетча"
+                "en": "The component immediately receives the stale cached data",
+                "ru": "Компонент немедленно получает stale-данные из кэша"
             }
         ],
-        "correct": [0, 1, 4]
+        "correct": [0, 2, 4]
     },
     {
         "id": "api-error-format-002",
         "type": "multi-choice",
         "category": "api-bff",
         "difficulty": "hard",
-        "tags": ["error-handling", "rfc-7807"],
+        "tags": ["error-handling", "rfc-9457"],
         "question": {
-            "en": "Which fields are defined in the RFC 7807 Problem Details object? (select all that apply)",
-            "ru": "Какие поля определены в объекте RFC 7807 Problem Details? (выберите все подходящие)"
+            "en": "Which fields are defined in the RFC 9457 (formerly RFC 7807) Problem Details object? (select all that apply)",
+            "ru": "Какие поля определены в объекте Problem Details из RFC 9457 (ранее RFC 7807)? (выберите все подходящие)"
         },
         "explanation": {
-            "en": "RFC 7807 defines five standard members: type (URI identifying the problem), title (short human-readable summary), status (HTTP status code), detail (human-readable explanation), and instance (URI reference to the specific occurrence). All are optional except type.",
-            "ru": "RFC 7807 определяет пять стандартных полей: type (URI, идентифицирующий проблему), title (краткое человекочитаемое описание), status (HTTP-код статуса), detail (человекочитаемое объяснение) и instance (URI-ссылка на конкретное вхождение). Все поля, кроме type, опциональны."
+            "en": "RFC 9457 defines five members: `type`, `title`, `status`, `detail` and `instance` — all of them optional. `code` and `errors` are not standard members; they are common extensions borrowed from other error formats (extension members are allowed, and clients must ignore the ones they do not recognise).",
+            "ru": "RFC 9457 определяет пять полей: `type`, `title`, `status`, `detail` и `instance` — все опциональные. `code` и `errors` не стандартные поля, это частые расширения из других форматов ошибок (расширения разрешены, а клиент обязан игнорировать незнакомые)."
         },
         "options": [
             {
                 "en": "type",
                 "ru": "type"
+            },
+            {
+                "en": "code",
+                "ru": "code"
             },
             {
                 "en": "title",
@@ -1233,15 +1237,11 @@
                 "ru": "status"
             },
             {
-                "en": "detail",
-                "ru": "detail"
-            },
-            {
-                "en": "instance",
-                "ru": "instance"
+                "en": "errors",
+                "ru": "errors"
             }
         ],
-        "correct": [0, 1, 2, 3, 4]
+        "correct": [0, 2, 3]
     },
     {
         "id": "api-pagination-003",
@@ -1259,33 +1259,33 @@
         },
         "options": [
             {
+                "en": "It performs consistently at any page depth",
+                "ru": "Стабильно работает на любой глубине страницы"
+            },
+            {
                 "en": "It supports random access to any page number",
                 "ru": "Поддерживает произвольный доступ к любому номеру страницы"
+            },
+            {
+                "en": "It degrades in performance at high offsets in many SQL databases",
+                "ru": "Во многих SQL-БД деградирует по производительности на больших offset"
             },
             {
                 "en": "It can produce duplicates when items are added before the current page",
                 "ru": "Может выдавать дубликаты, когда элементы добавляются до текущей страницы"
             },
             {
-                "en": "It performs consistently at any page depth",
-                "ru": "Стабильно работает на любой глубине страницы"
-            },
-            {
                 "en": "It is simple to implement and understand",
                 "ru": "Проста в реализации и понимании"
-            },
-            {
-                "en": "It degrades in performance at high offsets in many SQL databases",
-                "ru": "Во многих SQL-БД деградирует по производительности на больших offset"
             }
         ],
-        "correct": [0, 1, 3, 4]
+        "correct": [1, 2, 3, 4]
     },
     {
         "id": "api-rest-009",
         "type": "multi-choice",
         "category": "api-bff",
-        "difficulty": "hard",
+        "difficulty": "easy",
         "tags": ["rest", "design"],
         "question": {
             "en": "Which practices align with RESTful API design principles? (select all that apply)",
@@ -1301,23 +1301,23 @@
                 "ru": "Использование существительных в URL ресурсов (/users/123), а не глаголов (/getUser)"
             },
             {
-                "en": "Using GET /users/123/delete to delete a resource",
-                "ru": "Использование GET /users/123/delete для удаления ресурса"
-            },
-            {
-                "en": "Returning appropriate HTTP status codes",
-                "ru": "Возврат соответствующих HTTP-кодов статусов"
+                "en": "Using nested resources for relationships: /users/123/orders",
+                "ru": "Использование вложенных ресурсов для связей: /users/123/orders"
             },
             {
                 "en": "Stateless server — no session stored on the server",
                 "ru": "Stateless-сервер — сессия не хранится на сервере"
             },
             {
-                "en": "Using nested resources for relationships: /users/123/orders",
-                "ru": "Использование вложенных ресурсов для связей: /users/123/orders"
+                "en": "Returning appropriate HTTP status codes",
+                "ru": "Возврат соответствующих HTTP-кодов статусов"
+            },
+            {
+                "en": "Using GET /users/123/delete to delete a resource",
+                "ru": "Использование GET /users/123/delete для удаления ресурса"
             }
         ],
-        "correct": [0, 2, 3, 4]
+        "correct": [0, 1, 2, 3]
     },
     {
         "id": "api-auth-002",
@@ -1330,13 +1330,13 @@
             "ru": "Какие подходы годятся для аутентификации API-запросов из SPA? (выберите все подходящие)"
         },
         "explanation": {
-            "en": "JWTs in headers, HttpOnly session cookies via a BFF, and OAuth 2.0 PKCE are proper approaches. API keys in query params are logged in URLs and not suited for browser clients. Basic Auth sends credentials on every request and should only be used internally over mTLS.",
-            "ru": "JWT в заголовках, HttpOnly-куки с сессией через BFF и OAuth 2.0 PKCE — корректные подходы. API key в query-параметрах попадает в логи URL и не подходит для браузерных клиентов. Basic Auth отправляет учётные данные в каждом запросе и уместен только во внутренних контурах поверх mTLS."
+            "en": "JWTs in headers, HttpOnly session cookies via a BFF, and OAuth 2.0 PKCE are proper approaches. API keys in query params end up in URL logs and are not suited for browser clients. Basic Auth would require the SPA to hold the raw username and password and resend them on every request — acceptable for server-to-server calls over TLS, not for a browser client.",
+            "ru": "JWT в заголовках, HttpOnly-куки с сессией через BFF и OAuth 2.0 PKCE — корректные подходы. API key в query-параметрах попадает в логи URL и не подходит для браузерных клиентов. Basic Auth потребует от SPA хранить логин и пароль в открытом виде и слать их с каждым запросом — приемлемо для server-to-server поверх TLS, но не для браузерного клиента."
         },
         "options": [
             {
-                "en": "JWT in Authorization header (Bearer scheme)",
-                "ru": "JWT в заголовке Authorization (схема Bearer)"
+                "en": "OAuth 2.0 Authorization Code with PKCE",
+                "ru": "OAuth 2.0 Authorization Code с PKCE"
             },
             {
                 "en": "HttpOnly cookie with session ID managed by the BFF",
@@ -1347,15 +1347,15 @@
                 "ru": "API key в query-параметрах"
             },
             {
-                "en": "OAuth 2.0 Authorization Code with PKCE",
-                "ru": "OAuth 2.0 Authorization Code с PKCE"
-            },
-            {
                 "en": "Basic Auth in every request",
                 "ru": "Basic Auth в каждом запросе"
+            },
+            {
+                "en": "JWT in Authorization header (Bearer scheme)",
+                "ru": "JWT в заголовке Authorization (схема Bearer)"
             }
         ],
-        "correct": [0, 1, 3]
+        "correct": [0, 1, 4]
     },
     {
         "id": "api-bug-fetch-001",
@@ -1373,7 +1373,8 @@
         },
         "code": "async function getUser(id) {\n  try {\n    const response = await fetch(`/api/users/${id}`);\n    return await response.json();\n  } catch (error) {\n    console.error('Request failed', error);\n    return null;\n  }\n}",
         "correct": "HTTP error responses (4xx/5xx) are not detected — only network errors are caught",
-        "referenceAnswer": "fetch only rejects for network failures, not HTTP errors. Add a check after await fetch: if (!response.ok) throw new Error(`HTTP ${response.status}`); before calling response.json()."
+        "referenceAnswer": "fetch only rejects for network failures, not HTTP errors. Add a check after await fetch: if (!response.ok) throw new Error(`HTTP ${response.status}`); before calling response.json().",
+        "lang": "javascript"
     },
     {
         "id": "api-bug-abort-001",
@@ -1391,7 +1392,8 @@
         },
         "code": "function useUser(id) {\n  const [data, setData] = useState(null);\n\n  useEffect(() => {\n    fetch(`/api/users/${id}`)\n      .then(r => r.json())\n      .then(setData);\n  }, [id]);\n\n  return data;\n}",
         "correct": "No cleanup: if id changes or the component unmounts, a previous in-flight request can call setData on an unmounted component or overwrite newer data",
-        "referenceAnswer": "Add an AbortController and return a cleanup function: const controller = new AbortController(); fetch(url, { signal: controller.signal }); return () => controller.abort(); This cancels the previous request when id changes."
+        "referenceAnswer": "Add an AbortController and return a cleanup function: const controller = new AbortController(); fetch(url, { signal: controller.signal }); return () => controller.abort(); This cancels the previous request when id changes.",
+        "lang": "javascript"
     },
     {
         "id": "api-bug-tanstack-001",
@@ -1409,7 +1411,8 @@
         },
         "code": "const mutation = useMutation({\n  mutationFn: updateTodo,\n  onMutate: async (updatedTodo) => {\n    queryClient.setQueryData(['todos'], (old) =>\n      old.map(t => t.id === updatedTodo.id ? updatedTodo : t)\n    );\n  },\n  onError: () => {\n    queryClient.invalidateQueries({ queryKey: ['todos'] });\n  },\n});",
         "correct": "Missing cancelQueries before optimistic update — an in-flight refetch can overwrite the optimistic state; also missing snapshot return and rollback in onError",
-        "referenceAnswer": "In onMutate: (1) await queryClient.cancelQueries({queryKey:['todos']}), (2) const snapshot = queryClient.getQueryData(['todos']), (3) apply optimistic update, (4) return { snapshot }. In onError: queryClient.setQueryData(['todos'], context.snapshot)."
+        "referenceAnswer": "In onMutate: (1) await queryClient.cancelQueries({queryKey:['todos']}), (2) const snapshot = queryClient.getQueryData(['todos']), (3) apply optimistic update, (4) return { snapshot }. In onError: queryClient.setQueryData(['todos'], context.snapshot).",
+        "lang": "javascript"
     },
     {
         "id": "api-bug-graphql-001",
@@ -1427,7 +1430,8 @@
         },
         "code": "const resolvers = {\n  Query: {\n    posts: () => db.posts.findAll(),\n  },\n  Post: {\n    author: (post) => db.users.findById(post.authorId),\n  },\n};",
         "correct": "The author resolver fires a separate DB query for every post, causing N additional queries for N posts",
-        "referenceAnswer": "Use DataLoader to batch author lookups: const userLoader = new DataLoader(ids => db.users.findByIds(ids)); author: (post) => userLoader.load(post.authorId). DataLoader batches all IDs within a single event-loop tick into one query."
+        "referenceAnswer": "Use DataLoader to batch author lookups: const userLoader = new DataLoader(ids => db.users.findByIds(ids)); author: (post) => userLoader.load(post.authorId). DataLoader batches all IDs within a single event-loop tick into one query.",
+        "lang": "javascript"
     },
     {
         "id": "api-bug-retry-001",
@@ -1436,16 +1440,17 @@
         "difficulty": "medium",
         "tags": ["retry", "backoff"],
         "question": {
-            "en": "Find the issue in this retry implementation:",
-            "ru": "Найдите проблему в этой реализации ретраев:"
+            "en": "This retry helper never retries an endpoint that returns 500. Find the bug:",
+            "ru": "Этот хелпер ретраев никогда не повторяет запрос к эндпоинту, который отвечает 500. Найдите баг:"
         },
         "explanation": {
-            "en": "Constant-delay retries from many clients hit a recovering server simultaneously. Exponential backoff with jitter spreads retry storms. Retrying 400 or 404 wastes resources since the error is permanent.",
-            "ru": "Ретраи с фиксированной задержкой от множества клиентов одновременно бьют по восстанавливающемуся серверу. Exponential backoff с jitter размазывает шторм ретраев. Ретраи 400 или 404 — пустая трата ресурсов, ошибка постоянна."
+            "en": "fetch() only rejects on a network error; any HTTP status — 500 included — resolves. Without a `response.ok` check, a retry loop built around try/catch treats a failed request as a success and never retries. A correct helper inspects the status, retries 5xx and network errors only, and spreads the attempts with exponential backoff plus jitter so a recovering server is not hit by a thundering herd.",
+            "ru": "fetch() реджектится только на сетевой ошибке; любой HTTP-статус, включая 500, резолвится. Без проверки `response.ok` цикл ретраев на try/catch считает упавший запрос успешным и никогда его не повторяет. Правильный хелпер смотрит на статус, ретраит только 5xx и сетевые ошибки и разносит попытки во времени через exponential backoff с jitter, чтобы не добивать восстанавливающийся сервер."
         },
         "code": "async function fetchWithRetry(url, retries = 3) {\n  for (let i = 0; i < retries; i++) {\n    try {\n      return await fetch(url);\n    } catch {\n      if (i === retries - 1) throw new Error('Max retries exceeded');\n      await new Promise(r => setTimeout(r, 1000));\n    }\n  }\n}",
-        "correct": "Fixed 1-second delay causes thundering-herd problems; also retries on all errors including 4xx (client errors that will never succeed)",
-        "referenceAnswer": "Use exponential backoff with jitter: 1000 * 2**i + Math.random() * 1000. Also check response.ok and do NOT retry 4xx status codes — only retry on 5xx and network errors."
+        "correct": "There is no response.ok check — fetch resolves for 5xx, so the failed response is returned as a success and the catch block, which only sees network errors, never runs",
+        "referenceAnswer": "fetch() rejects only on a network failure, so a 500 response resolves and `return await fetch(url)` hands it back as a success — the loop exits on the first attempt. Fix: check `response.ok`, throw and retry on 5xx, return immediately on 4xx because a client error will not succeed on a retry, and replace the fixed 1000 ms delay with full jitter, e.g. `Math.random() * Math.min(1000 * 2 ** i, 30000)`.",
+        "lang": "javascript"
     },
     {
         "id": "api-bug-cors-001",
@@ -1458,12 +1463,13 @@
             "ru": "Найдите баг в этом вызове fetch, который должен отправлять куки:"
         },
         "explanation": {
-            "en": "By default fetch uses credentials: 'same-origin'. For cross-origin requests to send cookies or Authorization headers, credentials: 'include' must be explicitly set.",
-            "ru": "По умолчанию fetch использует credentials: 'same-origin'. Чтобы cross-origin-запросы отправляли куки или заголовок Authorization, нужно явно указать credentials: 'include'."
+            "en": "By default fetch uses credentials: 'same-origin'. To send cookies on a cross-origin request, credentials: 'include' must be set explicitly.",
+            "ru": "По умолчанию fetch использует credentials: 'same-origin'. Чтобы cross-origin-запрос отправлял куки, нужно явно указать credentials: 'include'."
         },
         "code": "const response = await fetch('https://api.example.com/profile', {\n  method: 'GET',\n  headers: {\n    'Content-Type': 'application/json',\n  },\n});",
         "correct": "credentials: 'include' is missing — cookies are not sent in cross-origin requests by default",
-        "referenceAnswer": "Add credentials: 'include' to the fetch options. The server must also respond with Access-Control-Allow-Credentials: true and Access-Control-Allow-Origin set to the specific origin (not wildcard)."
+        "referenceAnswer": "Add credentials: 'include' to the fetch options. The server must also respond with Access-Control-Allow-Credentials: true and Access-Control-Allow-Origin set to the specific origin (not a wildcard). Note the scope of the option: credentials are cookies, TLS client certificates and browser-managed username/password entries. A hand-written Authorization: Bearer header is an ordinary request header — it is sent cross-origin regardless of the credentials mode and only needs Access-Control-Allow-Headers on the preflight.",
+        "lang": "javascript"
     },
     {
         "id": "api-bug-json-001",
@@ -1481,7 +1487,8 @@
         },
         "code": "async function createPost(data) {\n  const response = await fetch('/api/posts', {\n    method: 'POST',\n    headers: { 'Content-Type': 'application/json' },\n    body: JSON.stringify(data),\n  });\n  const json = await response.json();\n  return json;\n}",
         "correct": "204 No Content or other responses without a body will cause response.json() to throw a JSON parse error",
-        "referenceAnswer": "Check the response status and Content-Type before parsing: if (response.status === 204 || response.headers.get('content-length') === '0') return null; Also guard with response.ok check before parsing."
+        "referenceAnswer": "Check the response status and Content-Type before parsing: if (response.status === 204 || response.headers.get('content-length') === '0') return null; Also guard with response.ok check before parsing.",
+        "lang": "javascript"
     },
     {
         "id": "api-cc-fetch-001",
@@ -1535,8 +1542,8 @@
             "en": "The queryKey must include all variables the queryFn depends on. staleTime avoids refetching data that is still fresh. enabled prevents queries with invalid parameters.",
             "ru": "queryKey должен включать все переменные, от которых зависит queryFn. staleTime избавляет от ненужных рефетчей, пока данные свежие. enabled защищает от запросов с невалидными параметрами."
         },
-        "code": "export function useUser(id: string) {\n  return useQuery({\n    queryKey: ['user', __BLANK__],\n    queryFn: () => fetchUser(id),\n    __BLANK__: 5 * 60 * 1000,\n    enabled: __BLANK__,\n  });\n}",
-        "blanks": ["id", "staleTime", "!!id"],
+        "code": "export function useUser(id: string) {\n  return useQuery({\n    queryKey: ['user', __BLANK__],\n    queryFn: () => fetchUser(id),\n    __BLANK__: 5 * 60 * 1000,\n    enabled: !!__BLANK__,\n  });\n}",
+        "blanks": ["id", "staleTime", "id"],
         "lang": "typescript",
         "referenceAnswer": "Include id in the queryKey so different users have separate cache entries. staleTime prevents unnecessary refetches. enabled: !!id skips the query when id is undefined/empty."
     },
@@ -1551,32 +1558,32 @@
             "ru": "Дополните этот калькулятор задержки exponential-backoff-with-jitter:"
         },
         "explanation": {
-            "en": "Full jitter (random between 0 and the exponential value) is one of AWS's recommended backoff strategies. The cap prevents delays from growing indefinitely.",
-            "ru": "Full jitter (случайное значение между 0 и экспоненциальным) — одна из рекомендованных AWS стратегий backoff. Ограничение сверху не даёт задержкам расти бесконечно."
+            "en": "This is AWS's Full Jitter: sleep = random(0, min(cap, base * 2 ** attempt)). The whole interval is randomised rather than a small additive term, which is what actually spreads a retry storm; the cap keeps the delay from growing indefinitely.",
+            "ru": "Это Full Jitter из рекомендаций AWS: sleep = random(0, min(cap, base * 2 ** attempt)). Рандомизируется весь интервал, а не небольшая добавка — именно это размазывает шторм ретраев; ограничение сверху не даёт задержке расти бесконечно."
         },
-        "code": "function getRetryDelay(attempt: number, baseMs = 1000, maxMs = 30000): number {\n  const exponential = baseMs * __BLANK__(2, attempt);\n  const jitter = Math.random() * baseMs;\n  return __BLANK__(exponential + jitter, __BLANK__);\n}",
-        "blanks": ["Math.pow", "Math.min", "maxMs"],
+        "code": "function getRetryDelay(attempt: number, baseMs = 1000, maxMs = 30000): number {\n  const exponential = baseMs * __BLANK__(2, attempt);\n  const capped = __BLANK__(exponential, maxMs);\n  return Math.random() * __BLANK__;\n}",
+        "blanks": ["Math.pow", "Math.min", "capped"],
         "lang": "typescript",
-        "referenceAnswer": "Math.pow(2, attempt) computes the exponential growth. Math.random() * baseMs adds jitter to spread retry storms. Math.min caps the delay at maxMs to prevent unreasonably long waits."
+        "referenceAnswer": "Math.pow(2, attempt) grows the interval exponentially, Math.min caps it at maxMs, and multiplying the capped value by Math.random() picks a uniform delay in [0, cap) — AWS's Full Jitter. Additive jitter (exponential + Math.random() * baseMs) is a weaker variant: the deterministic term keeps all clients roughly in sync."
     },
     {
         "id": "api-cc-openapi-001",
         "type": "code-completion",
         "category": "api-bff",
         "difficulty": "medium",
-        "tags": ["openapi", "rfc-7807"],
+        "tags": ["openapi", "rfc-9457"],
         "question": {
-            "en": "Complete this RFC 7807 Problem Details error response builder:",
-            "ru": "Дополните этот билдер ответа ошибки в формате RFC 7807 Problem Details:"
+            "en": "Complete this RFC 9457 Problem Details error response builder:",
+            "ru": "Дополните этот билдер ответа с ошибкой в формате RFC 9457 Problem Details:"
         },
         "explanation": {
-            "en": "RFC 7807 standardises error responses so clients can parse them generically. Using httpstatuses.com as the type URI is a common shortcut when you don't have custom problem type URIs.",
-            "ru": "RFC 7807 стандартизирует ответы ошибок, чтобы клиенты могли парсить их единообразно. Использование httpstatuses.com в качестве type URI — распространённое сокращение, когда нет собственных URI для типов проблем."
+            "en": "RFC 9457 (formerly RFC 7807) standardises error responses so clients can parse them generically. The `type` URI should be one you own and can document — when there is no custom problem type the correct default is `about:blank`, not a third-party status-code page. Formally every member is optional, but `title` and `status` are what make the response useful.",
+            "ru": "RFC 9457 (ранее RFC 7807) стандартизирует ответы с ошибками, чтобы клиенты парсили их единообразно. URI в `type` должен быть вашим собственным и документируемым — если своего типа проблемы нет, корректное значение по умолчанию `about:blank`, а не страница стороннего сервиса со статусами. Формально все поля опциональны, но полезным ответ делают именно `title` и `status`."
         },
-        "code": "interface ProblemDetails {\n  type: string;\n  title: string;\n  status: number;\n  detail?: string;\n}\n\nfunction problemDetails(status: number, title: string, detail?: string): ProblemDetails {\n  return {\n    type: `https://httpstatuses.com/${__BLANK__}`,\n    __BLANK__,\n    __BLANK__,\n    detail,\n  };\n}",
+        "code": "interface ProblemDetails {\n  type: string;\n  title: string;\n  status: number;\n  detail?: string;\n}\n\nfunction problemDetails(status: number, title: string, detail?: string): ProblemDetails {\n  return {\n    type: `https://api.example.com/problems/${__BLANK__}`,\n    title: __BLANK__,\n    status: __BLANK__,\n    detail,\n  };\n}",
         "blanks": ["status", "title", "status"],
         "lang": "typescript",
-        "referenceAnswer": "The type URI should identify the problem type (using the status code is a simple default). title and status are required recommended fields. detail is optional."
+        "referenceAnswer": "The type URI identifies the problem type and should live on a domain you control (about:blank when you have no custom type). title is the short human-readable summary, status repeats the HTTP status code, and detail is optional."
     },
     {
         "id": "api-cc-graphql-001",
@@ -1589,13 +1596,13 @@
             "ru": "Дополните эту настройку DataLoader для батчинга запросов пользователей по ID:"
         },
         "explanation": {
-            "en": "DataLoader batches all .load() calls within one event-loop tick. The batch function must return an array where each element corresponds to the input ID at the same index, or null if not found.",
-            "ru": "DataLoader батчит все вызовы .load() в пределах одного тика event loop. Batch-функция должна вернуть массив, в котором каждый элемент соответствует входному ID с тем же индексом, либо null, если не найдено."
+            "en": "DataLoader batches every `.load()` call made within one event-loop tick into a single batch-function call. The batch function receives a readonly array and must return an array of the same length, aligned with the input IDs by index — mapping over `ids` guarantees that alignment, while returning the raw DB rows does not, because the database may reorder or omit them.",
+            "ru": "DataLoader собирает все вызовы `.load()` в пределах одного тика event loop в один вызов batch-функции. Batch-функция получает readonly-массив и обязана вернуть массив той же длины, элементы которого соответствуют входным ID по индексу — `map` по `ids` это гарантирует, а возврат сырых строк из БД нет: база может вернуть их в другом порядке или не вернуть вовсе."
         },
-        "code": "import DataLoader from 'dataloader';\n\nconst userLoader = new __BLANK__(async (ids: readonly string[]) => {\n  const users = await db.users.findByIds(__BLANK__(ids));\n  return ids.__BLANK__(id => users.find(u => u.id === id) ?? null);\n});\n\nexport { userLoader };",
-        "blanks": ["DataLoader", "Array.from", "map"],
+        "code": "import DataLoader from 'dataloader';\n\nconst userLoader = new DataLoader(async (ids: readonly string[]) => {\n  const users = await db.users.findByIds([...__BLANK__]);\n  return ids.__BLANK__(id => users.find(u => u.id === id) ?? null);\n});\n\nexport async function getAuthor(post: { authorId: string }) {\n  return userLoader.__BLANK__(post.authorId);\n}",
+        "blanks": ["ids", "map", "load"],
         "lang": "typescript",
-        "referenceAnswer": "DataLoader expects a batch function receiving a readonly array. Array.from converts it to a mutable array for DB queries. The return value must be an array aligned with the input IDs order — map ensures this."
+        "referenceAnswer": "The batch function receives a readonly array, so spread it into a mutable one for the DB call. Map over ids — not over the DB rows — so the result is aligned with the input order and a missing user becomes null. userLoader.load(id) queues a single id for the next batch; loadMany takes an array."
     },
     {
         "id": "api-cc-pagination-001",
@@ -1604,17 +1611,17 @@
         "difficulty": "hard",
         "tags": ["pagination", "cursor"],
         "question": {
-            "en": "Complete this TanStack Query infinite-scroll hook using cursor-based pagination:",
-            "ru": "Дополните этот хук TanStack Query для бесконечной прокрутки с курсорной пагинацией:"
+            "en": "Complete this TanStack Query infinite-scroll hook. `fetchPosts` resolves to `{ items, nextCursor }`, where `nextCursor` is `null` on the last page:",
+            "ru": "Дополните этот хук TanStack Query для бесконечной прокрутки. `fetchPosts` возвращает `{ items, nextCursor }`, где на последней странице `nextCursor` равен `null`:"
         },
         "explanation": {
-            "en": "useInfiniteQuery manages paginated data automatically. getNextPageParam returning undefined signals no more pages. The cursor is passed as pageParam to each queryFn call.",
-            "ru": "useInfiniteQuery автоматически управляет постраничными данными. Возврат undefined из getNextPageParam сигнализирует, что страниц больше нет. Курсор передаётся в каждый вызов queryFn как pageParam."
+            "en": "useInfiniteQuery passes the current cursor into queryFn as `pageParam` and starts from `initialPageParam`. When `getNextPageParam` returns `null` or `undefined`, `hasNextPage` becomes false and the infinite scroll stops.",
+            "ru": "useInfiniteQuery передаёт текущий курсор в queryFn как `pageParam` и стартует со значения `initialPageParam`. Когда `getNextPageParam` возвращает `null` или `undefined`, `hasNextPage` становится false и бесконечная прокрутка останавливается."
         },
-        "code": "export function useInfinitePosts() {\n  return useInfiniteQuery({\n    queryKey: ['posts'],\n    queryFn: ({ __BLANK__ }) => fetchPosts({ cursor: pageParam }),\n    initialPageParam: __BLANK__,\n    getNextPageParam: (lastPage) => lastPage.__BLANK__,\n  });\n}",
-        "blanks": ["pageParam", "null", "nextCursor"],
+        "code": "export function useInfinitePosts() {\n  return useInfiniteQuery({\n    queryKey: ['posts'],\n    queryFn: ({ __BLANK__ }) => fetchPosts({ cursor: pageParam }),\n    initialPageParam: null as string | null,\n    getNextPageParam: (lastPage) => lastPage.__BLANK__,\n  });\n}",
+        "blanks": ["pageParam", "nextCursor"],
         "lang": "typescript",
-        "referenceAnswer": "pageParam holds the cursor for the current page. initialPageParam: null starts from the beginning. getNextPageParam extracts the nextCursor from the last page response — if null/undefined, infinite scroll stops."
+        "referenceAnswer": "pageParam holds the cursor of the current page and is destructured from the queryFn context. initialPageParam pins the first request (null here, typed as string | null). getNextPageParam reads nextCursor from the last page — returning null or undefined stops the infinite scroll."
     },
     {
         "id": "api-cc-sse-001",
@@ -1634,5 +1641,429 @@
         "blanks": ["EventSource", "message", "close"],
         "lang": "typescript",
         "referenceAnswer": "new EventSource(url) opens the SSE connection. The 'message' event fires for unnamed server events. es.close() terminates the connection on cleanup to prevent memory leaks."
+    },
+    {
+        "id": "api-cache-001",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "easy",
+        "tags": ["caching", "etag", "revalidation"],
+        "question": {
+            "en": "A cached response carries `ETag: \"v7\"` and `Cache-Control: max-age=0`. The entry is already stale and the resource has not changed since. What does the second request look like end to end?",
+            "ru": "Закэшированный ответ содержит `ETag: \"v7\"` и `Cache-Control: max-age=0`. Запись уже stale, а ресурс с тех пор не менялся. Как целиком выглядит второй запрос?"
+        },
+        "options": [
+            {
+                "en": "The browser sends `If-None-Match: \"v7\"`; the server answers `304 Not Modified` without a body and the browser serves its stored copy",
+                "ru": "Браузер отправляет `If-None-Match: \"v7\"`; сервер отвечает `304 Not Modified` без тела, и браузер отдаёт свою сохранённую копию"
+            },
+            {
+                "en": "The browser sends `If-Match: \"v7\"`; the server answers `200 OK` and resends the full body, which replaces the stored copy",
+                "ru": "Браузер отправляет `If-Match: \"v7\"`; сервер отвечает `200 OK` и заново присылает тело, которое заменяет сохранённую копию"
+            },
+            {
+                "en": "The browser sends `If-None-Match: \"v7\"`; the server answers `304 Not Modified` and attaches the body again so the cache can compare it",
+                "ru": "Браузер отправляет `If-None-Match: \"v7\"`; сервер отвечает `304 Not Modified` и снова прикладывает тело, чтобы кэш мог его сравнить"
+            },
+            {
+                "en": "The browser sends `If-Modified-Since` carrying the ETag value; the server answers `204 No Content` and the stale entry is dropped",
+                "ru": "Браузер отправляет `If-Modified-Since` со значением ETag; сервер отвечает `204 No Content`, и устаревшая запись удаляется"
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "`max-age=0` makes the entry stale immediately but does not delete it — the validator is still usable. The browser revalidates with `If-None-Match`, and an unchanged resource comes back as `304 Not Modified`, which by definition carries no body; the cache refreshes the stored response's headers (`Cache-Control`, `ETag`, `Vary`) and serves the stored body. That round trip is what makes ETags cheap: a header exchange instead of a payload.",
+            "ru": "`max-age=0` делает запись stale сразу, но не удаляет её — валидатор остаётся пригодным. Браузер ревалидирует через `If-None-Match`, и для неизменённого ресурса приходит `304 Not Modified`, который по определению идёт без тела; кэш обновляет заголовки сохранённого ответа (`Cache-Control`, `ETag`, `Vary`) и отдаёт сохранённое тело. Именно этот round trip делает ETag дешёвым: обмен заголовками вместо payload."
+        }
+    },
+    {
+        "id": "api-realtime-001",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "medium",
+        "tags": ["realtime", "websocket", "heartbeat"],
+        "question": {
+            "en": "A WebSocket runs through a NAT that silently drops idle mappings. Packets stop arriving, yet `readyState` stays `OPEN`, `onclose` never fires and no error is raised. What detects this half-open connection on the client?",
+            "ru": "WebSocket идёт через NAT, который молча выбрасывает простаивающие маппинги. Пакеты перестают приходить, но `readyState` остаётся `OPEN`, `onclose` не срабатывает и ошибки нет. Что на клиенте обнаружит такое half-open соединение?"
+        },
+        "options": [
+            {
+                "en": "Calling `socket.ping()` on an interval and listening for the `pong` event that the browser fires when the frame comes back",
+                "ru": "Вызывать `socket.ping()` по таймеру и слушать событие `pong`, которое браузер эмитит, когда фрейм возвращается"
+            },
+            {
+                "en": "Polling `socket.readyState` on an interval and reconnecting as soon as it stops being `OPEN`",
+                "ru": "Опрашивать `socket.readyState` по таймеру и переподключаться, как только он перестаёт быть `OPEN`"
+            },
+            {
+                "en": "Watching `socket.bufferedAmount`: once the peer is gone it keeps growing, so a non-zero value means a dead link",
+                "ru": "Следить за `socket.bufferedAmount`: после пропажи пира он растёт, поэтому ненулевое значение означает мёртвый канал"
+            },
+            {
+                "en": "An application-level heartbeat: send a ping message on a timer and close the socket when no reply arrives in time",
+                "ru": "Heartbeat на уровне приложения: слать ping-сообщение по таймеру и закрывать сокет, если ответ не пришёл вовремя"
+            }
+        ],
+        "correct": 3,
+        "explanation": {
+            "en": "A half-open TCP connection looks alive to both the socket and the browser: nothing was closed, so `readyState` stays `OPEN` and no event fires — the only signal is silence, which you can only notice against a deadline. RFC 6455 does define Ping/Pong control frames, but the browser `WebSocket` API exposes no way to send them from JavaScript, so liveness has to be an application-level message. `bufferedAmount` will not save you either: the local send buffer drains into the kernel long after the peer became unreachable.",
+            "ru": "Half-open TCP-соединение выглядит живым и для сокета, и для браузера: никто ничего не закрывал, поэтому `readyState` остаётся `OPEN` и ни одно событие не срабатывает — единственный сигнал это тишина, которую можно заметить только по дедлайну. В RFC 6455 контрольные фреймы Ping/Pong есть, но браузерный `WebSocket` API не даёт способа отправить их из JavaScript, поэтому liveness приходится делать сообщением уровня приложения. `bufferedAmount` тоже не спасёт: локальный буфер отправки уходит в ядро ещё долго после того, как пир стал недоступен."
+        }
+    },
+    {
+        "id": "api-websocket-002",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "hard",
+        "tags": ["realtime", "sse", "transport-choice"],
+        "question": {
+            "en": "A live-ops dashboard needs server→client updates only. It must survive a corporate proxy that closes any connection idle for 60 s, and it is delivered through an HTTP/1.1 CDN. Which transport and mitigations fit?",
+            "ru": "Live-ops дашборду нужны обновления только в сторону server→client. Он должен переживать корпоративный прокси, который закрывает любое соединение, простоявшее 60 с, и отдаётся через HTTP/1.1 CDN. Какой транспорт и какие меры подходят?"
+        },
+        "options": [
+            {
+                "en": "WebSocket, relying on the protocol's Ping/Pong keep-alive driven from the client and on the reconnection the API performs automatically",
+                "ru": "WebSocket, полагаясь на keep-alive через Ping/Pong протокола, инициируемый с клиента, и на переподключение, которое API делает автоматически"
+            },
+            {
+                "en": "SSE, with a comment line every 20 s so the stream is never idle and an `id:` per event so the client resumes via `Last-Event-ID`",
+                "ru": "SSE, с comment-строкой раз в 20 с, чтобы поток не простаивал, и с `id:` у каждого события, чтобы клиент возобновлялся через `Last-Event-ID`"
+            },
+            {
+                "en": "Long-polling with a 5-minute server-side hold, so one open request covers many updates and the proxy sees far fewer connections",
+                "ru": "Long-polling с удержанием запроса на сервере 5 минут: один открытый запрос покрывает много обновлений, и прокси видит заметно меньше соединений"
+            },
+            {
+                "en": "WebSocket through the CDN with `Upgrade` disabled, falling back to a one-second polling loop whenever the handshake fails",
+                "ru": "WebSocket через CDN с отключённым `Upgrade` и откатом на polling раз в секунду, если handshake не проходит"
+            }
+        ],
+        "correct": 1,
+        "explanation": {
+            "en": "The traffic is one-directional, so SSE costs less than a WebSocket and keeps working through intermediaries that only understand HTTP responses. It needs two things here: anti-idle traffic (a comment line the client ignores, well inside the proxy's 60 s window) and resumability — `id:` on each event, which the browser replays as `Last-Event-ID` on its automatic reconnect. Both WebSocket options fail on the same fact: JavaScript cannot send Ping/Pong frames and `WebSocket` does not reconnect for you. State the cost out loud too — on HTTP/1.1 each stream holds one of the six connections per origin.",
+            "ru": "Трафик односторонний, поэтому SSE дешевле WebSocket и продолжает работать через посредников, понимающих только HTTP-ответы. Здесь ему нужны две вещи: трафик против простоя (comment-строка, которую клиент игнорирует, с запасом внутри 60-секундного окна прокси) и возобновляемость — `id:` у каждого события, которое браузер при авто-реконнекте присылает как `Last-Event-ID`. Оба варианта с WebSocket падают на одном факте: JavaScript не может слать Ping/Pong, а `WebSocket` не переподключается сам. Цену тоже стоит проговорить: на HTTP/1.1 каждый поток занимает одно из шести соединений на origin."
+        }
+    },
+    {
+        "id": "api-cache-002",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "medium",
+        "tags": ["caching", "cdn", "vary"],
+        "question": {
+            "en": "A BFF endpoint returns per-user data and currently answers with `Cache-Control: public, max-age=300`. A shared CDN sits in front of it. Which change guarantees that no shared cache can hand one user's payload to another?",
+            "ru": "Эндпоинт BFF отдаёт данные конкретного пользователя и сейчас отвечает с `Cache-Control: public, max-age=300`. Перед ним стоит общий CDN. Какое изменение гарантирует, что ни один общий кэш не отдаст данные одного пользователя другому?"
+        },
+        "options": [
+            {
+                "en": "Keep `public` and add `Vary: Cookie`, so the CDN keys every user's response separately by their session cookie",
+                "ru": "Оставить `public` и добавить `Vary: Cookie`, чтобы CDN ключевал ответ каждого пользователя отдельно по его сессионной куке"
+            },
+            {
+                "en": "Keep `public` and add an `ETag`, so the CDN revalidates against the origin before it serves anything from its store",
+                "ru": "Оставить `public` и добавить `ETag`, чтобы CDN ревалидировал у origin, прежде чем отдать что-то из своего хранилища"
+            },
+            {
+                "en": "Switch to `Cache-Control: private, max-age=300` — a shared cache must not store it, the browser still may",
+                "ru": "Перейти на `Cache-Control: private, max-age=300` — общий кэш хранить не должен, браузер по-прежнему может"
+            },
+            {
+                "en": "Keep `public` and add `s-maxage=0`, so the shared cache treats the entry as stale while the browser keeps `max-age=300`",
+                "ru": "Оставить `public` и добавить `s-maxage=0`, чтобы общий кэш считал запись устаревшей, а браузер сохранял `max-age=300`"
+            }
+        ],
+        "correct": 2,
+        "explanation": {
+            "en": "`public` is an instruction aimed at shared caches, and a CDN honouring it will hand one user's payload to the next request for the same URL. `private` states exactly what is true: browser yes, shared cache no — storage itself is forbidden, so there is nothing left to hand out. `Vary: Cookie` is the tempting answer, but it only keys the entry: the per-user body still sits in a shared store, so the guarantee now rests on every intermediary in the chain implementing `Vary` correctly, and on `Cookie` being a faithful identity key — it also carries analytics and consent values, so the same user churns through entries while the cache fragments to one per session. `s-maxage=0` does not forbid storage either, it only forces revalidation, which is a different guarantee.",
+            "ru": "`public` — это инструкция общим кэшам, и CDN, который её соблюдает, отдаст payload одного пользователя следующему запросу на тот же URL. `private` говорит ровно то, что есть: браузеру можно, общему кэшу нельзя — запрещено само хранение, значит и отдавать нечего. `Vary: Cookie` — соблазнительный вариант, но он лишь задаёт ключ: персональное тело ответа всё равно лежит в общем хранилище, и гарантия теперь держится на том, что каждый посредник в цепочке реализует `Vary` правильно, и на том, что `Cookie` — честный ключ идентичности: туда же попадают аналитика и consent-значения, так что один и тот же пользователь перебирает записи, а кэш фрагментируется до записи на сессию. `s-maxage=0` хранение тоже не запрещает, он лишь заставляет ревалидировать — это другая гарантия."
+        }
+    },
+    {
+        "id": "api-race-001",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "medium",
+        "tags": ["race-condition", "data-fetching", "abort"],
+        "question": {
+            "en": "An autocomplete debounces input by 300 ms and still renders results for an older query every few searches. Which fix removes the race instead of hiding it?",
+            "ru": "Автокомплит дебаунсит ввод на 300 мс и всё равно раз в несколько поисков рисует результаты старого запроса. Какое исправление убирает гонку, а не прячет её?"
+        },
+        "options": [
+            {
+                "en": "Tie each response to its request — abort the previous one, or ignore any response that is not from the newest request",
+                "ru": "Связать каждый ответ с его запросом — отменять предыдущий или игнорировать ответ, пришедший не от самого свежего запроса"
+            },
+            {
+                "en": "Raise the debounce to 800 ms, which gives a slow request enough time to finish before the next one is issued",
+                "ru": "Поднять дебаунс до 800 мс, чтобы медленный запрос успевал завершиться до отправки следующего"
+            },
+            {
+                "en": "Switch from debounce to a 300 ms throttle, so requests leave at a fixed rate and come back in the same order",
+                "ru": "Заменить дебаунс на троттлинг в 300 мс, чтобы запросы уходили с постоянной частотой и возвращались в том же порядке"
+            },
+            {
+                "en": "Cache responses by query string, so a repeated query resolves from memory instead of racing the request still in flight",
+                "ru": "Кэшировать ответы по строке запроса, чтобы повторный запрос резолвился из памяти, а не соревновался с ещё летящим запросом"
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "Debounce lowers how often the race is possible; it cannot order responses, because the network decides that. Nothing stops a request issued at t=0 from resolving after one issued at t=400 — a slow shard, a retransmitted segment, a cold cache. The only correctness fix is to make a response's provenance checkable: `AbortController` on the previous request, or a monotonically increasing request id compared before the state update. Throttling and caching change the timing distribution, not the invariant.",
+            "ru": "Дебаунс снижает частоту, с которой гонка возможна, но упорядочить ответы не может — порядок решает сеть. Ничто не мешает запросу из t=0 вернуться позже запроса из t=400: медленный шард, переотправленный сегмент, холодный кэш. Единственное корректное исправление — сделать происхождение ответа проверяемым: `AbortController` на предыдущий запрос или монотонно растущий id запроса, сверяемый перед обновлением состояния. Троттлинг и кэш меняют распределение таймингов, а не инвариант."
+        }
+    },
+    {
+        "id": "api-fetch-004",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "hard",
+        "tags": ["abort", "fetch", "cancellation"],
+        "question": {
+            "en": "A request must be cancelled when the user navigates away **or** after 5 s, whichever comes first, and the `catch` has to tell the two apart. Which wiring is correct?",
+            "ru": "Запрос нужно отменять при уходе пользователя со страницы **или** через 5 с — что наступит раньше, и `catch` должен различать эти случаи. Какая связка корректна?"
+        },
+        "options": [
+            {
+                "en": "Pass both at once: `fetch(url, { signal: nav.signal, timeout: 5000 })`, since `fetch` accepts a timeout next to the signal",
+                "ru": "Передать оба сразу: `fetch(url, { signal: nav.signal, timeout: 5000 })`, раз `fetch` принимает таймаут рядом с сигналом"
+            },
+            {
+                "en": "Pass an array of signals: `fetch(url, { signal: [nav.signal, AbortSignal.timeout(5000)] })`, and both are honoured",
+                "ru": "Передать массив сигналов: `fetch(url, { signal: [nav.signal, AbortSignal.timeout(5000)] })` — оба будут учтены"
+            },
+            {
+                "en": "Pass `AbortSignal.timeout(5000)` as the signal and call `nav.abort()` on navigation to cover the other case",
+                "ru": "Передать `AbortSignal.timeout(5000)` как сигнал, а при навигации вызвать `nav.abort()`, чтобы закрыть второй случай"
+            },
+            {
+                "en": "Pass `AbortSignal.any([nav.signal, AbortSignal.timeout(5000)])` and branch on `err.name` in the rejection handler",
+                "ru": "Передать `AbortSignal.any([nav.signal, AbortSignal.timeout(5000)])` и ветвиться по `err.name` в обработчике ошибки"
+            }
+        ],
+        "correct": 3,
+        "explanation": {
+            "en": "`AbortSignal.any()` composes signals: the returned signal aborts as soon as any input aborts, and its reason is the reason of the first one that did — an `AbortError` from `controller.abort()` or a `TimeoutError` from `AbortSignal.timeout()`, which is exactly what makes the two cases distinguishable. `fetch` takes one `signal` and has no `timeout` option, and an array is not accepted. The third option is the instructive one: it runs fine and simply ignores the navigation controller, so the request outlives the unmount until the timer fires.",
+            "ru": "`AbortSignal.any()` композирует сигналы: возвращённый сигнал аборится, как только аборится любой из входных, а его reason — это reason первого сработавшего: `AbortError` от `controller.abort()` или `TimeoutError` от `AbortSignal.timeout()`, что и позволяет различить случаи. `fetch` принимает один `signal`, опции `timeout` у него нет, а массив не поддерживается. Третий вариант поучительнее всех: он спокойно работает и просто игнорирует контроллер навигации, поэтому запрос переживает размонтирование вплоть до срабатывания таймера."
+        }
+    },
+    {
+        "id": "api-idempotency-001",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "medium",
+        "tags": ["retry", "idempotency", "reliability"],
+        "question": {
+            "en": "A client times out waiting for `POST /payments` and retries. What actually makes that retry safe?",
+            "ru": "У клиента истёк таймаут ожидания `POST /payments`, и он повторяет запрос. Что на самом деле делает этот повтор безопасным?"
+        },
+        "options": [
+            {
+                "en": "Retrying only after a network timeout, because a timeout means the server never got to process the request",
+                "ru": "Повторять только после сетевого таймаута, потому что таймаут означает, что сервер не успел обработать запрос"
+            },
+            {
+                "en": "Sending the same `Idempotency-Key` on every attempt, so the server replays the first result instead of charging twice",
+                "ru": "Слать один и тот же `Idempotency-Key` на каждой попытке, чтобы сервер вернул первый результат, а не списал дважды"
+            },
+            {
+                "en": "Changing the method to `PUT`, which HTTP defines as idempotent, so a duplicate request has no additional effect",
+                "ru": "Заменить метод на `PUT`, который HTTP определяет как идемпотентный, поэтому дубль не даст дополнительного эффекта"
+            },
+            {
+                "en": "Adding `Cache-Control: no-store` so that no proxy on the path is able to replay the original request later",
+                "ru": "Добавить `Cache-Control: no-store`, чтобы ни один прокси на пути не смог позже переиграть исходный запрос"
+            }
+        ],
+        "correct": 1,
+        "explanation": {
+            "en": "A timeout is the one failure that tells you nothing: the request may have been processed in full and only the response lost, so a blind retry is a second charge. Idempotency has to be implemented on the server — it stores the outcome keyed by the client-supplied `Idempotency-Key` and returns it on a repeat. Choosing `PUT` changes nothing by itself: a method's definition is a promise about the handler, not a property the framework grants you. `Idempotency-Key` is a de-facto convention (the IETF draft `draft-ietf-httpapi-idempotency-key-header` has not become an RFC), so the exact semantics come from the API's own documentation.",
+            "ru": "Таймаут — единственный отказ, который не сообщает ничего: запрос мог быть обработан полностью, и потерялся только ответ, так что слепой повтор это второе списание. Идемпотентность обязан реализовать сервер: он сохраняет результат по присланному клиентом `Idempotency-Key` и возвращает его на повторе. Замена метода на `PUT` сама по себе не меняет ничего: определение метода — это обещание про обработчик, а не свойство, которое выдаёт фреймворк. `Idempotency-Key` — де-факто соглашение (IETF-драфт `draft-ietf-httpapi-idempotency-key-header` так и не стал RFC), поэтому точная семантика берётся из документации конкретного API."
+        }
+    },
+    {
+        "id": "api-token-handler-001",
+        "type": "single-choice",
+        "category": "api-bff",
+        "difficulty": "hard",
+        "tags": ["bff", "auth", "token-handler"],
+        "question": {
+            "en": "A SPA adopts the BFF token-handler pattern. After login, what does the browser actually hold, and what does a call to a downstream API carry?",
+            "ru": "SPA переходит на BFF-паттерн token handler. Что после логина реально хранится в браузере и что несёт вызов нижележащего API?"
+        },
+        "options": [
+            {
+                "en": "The access token in memory and the refresh token in an `HttpOnly` cookie; the SPA still attaches `Authorization` itself",
+                "ru": "Access-токен в памяти и refresh-токен в `HttpOnly`-куке; заголовок `Authorization` SPA по-прежнему проставляет сама"
+            },
+            {
+                "en": "Both tokens in `sessionStorage` so closing the tab clears them; the BFF only forwards the requests onward unchanged",
+                "ru": "Оба токена в `sessionStorage`, чтобы закрытие вкладки их очищало; BFF лишь пересылает запросы дальше без изменений"
+            },
+            {
+                "en": "Only a same-site `HttpOnly` cookie; the BFF swaps it for the access token and calls the API with `Authorization`",
+                "ru": "Только same-site `HttpOnly`-кука; BFF меняет её на access-токен и вызывает API с заголовком `Authorization`"
+            },
+            {
+                "en": "An encrypted access token in `localStorage` that the BFF decrypts on every call, which stops XSS from reading anything useful",
+                "ru": "Зашифрованный access-токен в `localStorage`, который BFF расшифровывает на каждом вызове, из-за чего XSS не прочитает ничего полезного"
+            }
+        ],
+        "correct": 2,
+        "explanation": {
+            "en": "The point of the pattern is that no token reaches JavaScript at all: an OAuth agent in the backend runs the code flow as a confidential client and issues a first-party `HttpOnly`, `Secure`, `SameSite` cookie, and a proxy in front of the API turns that cookie back into a bearer token. What it buys is that XSS can no longer exfiltrate a token — it can still send requests as the user, because the cookie rides along, so CSRF defences and a short cookie lifetime stay mandatory. An encrypted token in `localStorage` buys nothing: whatever the page can read, injected script can read.",
+            "ru": "Смысл паттерна в том, что до JavaScript не доходит ни один токен: OAuth-агент в бэкенде выполняет code flow как confidential client и выдаёт first-party куку с `HttpOnly`, `Secure`, `SameSite`, а прокси перед API превращает эту куку обратно в bearer-токен. Выигрыш в том, что XSS больше не может выкрасть токен, — но слать запросы от имени пользователя он всё ещё может, потому что кука прикладывается сама, поэтому защита от CSRF и короткое время жизни куки обязательны. Зашифрованный токен в `localStorage` не даёт ничего: что может прочитать страница, прочитает и внедрённый скрипт."
+        }
+    },
+    {
+        "id": "api-cache-003",
+        "type": "multi-choice",
+        "category": "api-bff",
+        "difficulty": "medium",
+        "tags": ["caching", "stale-while-revalidate"],
+        "question": {
+            "en": "A response carries `Cache-Control: max-age=0, stale-while-revalidate=60`. Which statements are correct? (select all that apply)",
+            "ru": "Ответ содержит `Cache-Control: max-age=0, stale-while-revalidate=60`. Какие утверждения верны? (выберите все подходящие)"
+        },
+        "options": [
+            {
+                "en": "The response is stale the moment it is stored, because `max-age=0` gives it no freshness lifetime",
+                "ru": "Ответ становится stale в момент сохранения, потому что `max-age=0` не даёт ему никакого времени свежести"
+            },
+            {
+                "en": "Inside the 60 s window a cache may serve the stored copy immediately and revalidate in the background",
+                "ru": "Внутри 60-секундного окна кэш может сразу отдать сохранённую копию и ревалидировать её в фоне"
+            },
+            {
+                "en": "The cache revalidates on a 60 s timer whether or not any request arrives for the resource",
+                "ru": "Кэш ревалидирует по таймеру раз в 60 с независимо от того, приходят ли запросы к ресурсу"
+            },
+            {
+                "en": "A request arriving after the 60 s window has passed must wait for the revalidation round trip",
+                "ru": "Запрос, пришедший после истечения 60-секундного окна, обязан дождаться round trip ревалидации"
+            },
+            {
+                "en": "Inside the window the stale copy is also served when the origin answers with `500`",
+                "ru": "Внутри окна устаревшая копия отдаётся и в случае, когда origin отвечает `500`"
+            }
+        ],
+        "correct": [0, 1, 3],
+        "explanation": {
+            "en": "`stale-while-revalidate` buys a window in which staleness is invisible: the cache answers from its store and refreshes asynchronously, so one user pays no latency and the next one sees fresh data. It is request-driven — nothing happens in a cache nobody asks, and once the window passes without traffic the next request is an ordinary blocking revalidation. Serving a stale copy because the origin is broken is a different directive, `stale-if-error`.",
+            "ru": "`stale-while-revalidate` покупает окно, в котором устаревание незаметно: кэш отвечает из хранилища и обновляется асинхронно, поэтому один пользователь не платит латентностью, а следующий видит свежие данные. Механизм управляется запросами — в кэше, к которому никто не обращается, ничего не происходит, и если окно прошло без трафика, следующий запрос это обычная блокирующая ревалидация. Отдача устаревшей копии из-за сломанного origin — это другая директива, `stale-if-error`."
+        }
+    },
+    {
+        "id": "api-graphql-006",
+        "type": "multi-choice",
+        "category": "api-bff",
+        "difficulty": "medium",
+        "tags": ["graphql", "apollo", "normalized-cache"],
+        "question": {
+            "en": "A `createComment` mutation succeeds, but the list rendered from Apollo's normalized cache still shows the old comments. Which of these actually fix it? (select all that apply)",
+            "ru": "Мутация `createComment` проходит успешно, но список, отрисованный из нормализованного кэша Apollo, по-прежнему показывает старые комментарии. Что из этого действительно исправит ситуацию? (выберите все подходящие)"
+        },
+        "options": [
+            {
+                "en": "An `update` callback that appends the new reference to the list field with `cache.modify`",
+                "ru": "Колбэк `update`, который через `cache.modify` добавляет новую ссылку в поле-список"
+            },
+            {
+                "en": "Returning the created comment with its `id` — the cache normalizes it and inserts it into the list",
+                "ru": "Возврат созданного комментария с его `id` — кэш нормализует его и сам вставит в список"
+            },
+            {
+                "en": "`refetchQueries` naming the query that owns the list, at the price of an extra round trip",
+                "ru": "`refetchQueries` с указанием запроса, которому принадлежит список, ценой лишнего round trip"
+            },
+            {
+                "en": "Reading the list in `update` with `cache.readQuery`, appending, and writing it back with `cache.writeQuery`",
+                "ru": "Чтение списка в `update` через `cache.readQuery`, добавление элемента и запись обратно через `cache.writeQuery`"
+            },
+            {
+                "en": "Setting `keyFields: false` for `Comment` so the cache stops normalizing that type",
+                "ru": "Установить `keyFields: false` для `Comment`, чтобы кэш перестал нормализовать этот тип"
+            }
+        ],
+        "correct": [0, 2, 3],
+        "explanation": {
+            "en": "Normalization only guarantees that an entity's fields stay consistent everywhere it is referenced: returning the mutated object with its id updates that object, but the cache cannot know which lists it now belongs to or at which position. List membership is a cache write you have to perform — `cache.modify` on the list field, or a read-modify-write with `readQuery`/`writeQuery` — unless you accept the round trip and refetch. Turning normalization off is strictly worse: the type loses its identity and every copy of it drifts independently.",
+            "ru": "Нормализация гарантирует лишь консистентность полей сущности везде, где на неё есть ссылка: возврат изменённого объекта с его id обновит сам объект, но кэш не может знать, в какие списки он теперь входит и на какой позиции. Членство в списке — это запись в кэш, которую нужно сделать самому: `cache.modify` по полю-списку или read-modify-write через `readQuery`/`writeQuery`, — либо согласиться на лишний round trip и сделать refetch. Отключение нормализации строго хуже: тип теряет идентичность, и каждая его копия начинает жить отдельно."
+        }
+    },
+    {
+        "id": "api-bug-ratelimit-001",
+        "type": "bug-finding",
+        "category": "api-bff",
+        "difficulty": "medium",
+        "tags": ["rate-limiting", "retry", "backoff"],
+        "question": {
+            "en": "This wrapper retries a rate-limited endpoint and makes the rate limit worse. Find the bug:",
+            "ru": "Этот враппер ретраит эндпоинт с rate limit и делает ситуацию только хуже. Найдите баг:"
+        },
+        "code": "async function request(url, options, attempt = 0) {\n  const res = await fetch(url, options);\n\n  if (res.status === 429 && attempt < 5) {\n    await new Promise((r) => setTimeout(r, 1000));\n    return request(url, options, attempt + 1);\n  }\n\n  return res;\n}",
+        "lang": "javascript",
+        "correct": "It ignores the Retry-After header that came with the 429 and retries on a fixed 1s timer, so it keeps hitting the endpoint inside the penalty window and every throttled client retries in lockstep",
+        "referenceAnswer": "A 429 is not a transient failure to back off from blindly — it arrives with `Retry-After`, either as delay-seconds or as an HTTP-date, and that value is the server stating exactly when the bucket refills. Retrying every second until the fifth attempt spends the whole retry budget inside the penalty window, and because the delay is constant, every client throttled at the same moment retries at the same moment. Read the header, fall back to exponential backoff when it is absent, and randomise:\n\n```js\nconst header = res.headers.get('Retry-After');\nconst asNumber = Number(header);\nconst hintedMs = header\n  ? (Number.isNaN(asNumber) ? Date.parse(header) - Date.now() : asNumber * 1000)\n  : 0;\nconst base = hintedMs > 0 ? hintedMs : Math.min(1000 * 2 ** attempt, 30000);\nawait new Promise((r) => setTimeout(r, base + Math.random() * 1000));\n```",
+        "explanation": {
+            "en": "`Retry-After` accompanies 429 and 503 and is the only honest input for the delay: anything shorter is a request the server has already promised to reject. The header has two forms — a count of seconds or an HTTP-date — so a parser must handle both. The second half of the failure is the constant interval: clients cut off by the same limit are already synchronised, and a fixed delay keeps them that way, which is exactly what jitter exists to break.",
+            "ru": "`Retry-After` приходит с 429 и 503 и является единственным честным входом для задержки: всё, что короче, — это запрос, который сервер уже пообещал отклонить. У заголовка две формы — число секунд или HTTP-date, — поэтому парсер должен уметь обе. Вторая половина проблемы это постоянный интервал: клиенты, подрезанные одним и тем же лимитом, уже синхронизированы, а фиксированная задержка их такими и оставляет — именно для того, чтобы эту синхронность сломать, и нужен jitter."
+        }
+    },
+    {
+        "id": "api-bug-socket-001",
+        "type": "bug-finding",
+        "category": "api-bff",
+        "difficulty": "hard",
+        "tags": ["realtime", "websocket", "reconnect"],
+        "question": {
+            "en": "Messages sent while this client is reconnecting are silently lost. Find the bug:",
+            "ru": "Сообщения, отправленные, пока этот клиент переподключается, молча теряются. Найдите баг:"
+        },
+        "code": "function createClient(url: string) {\n  let socket: WebSocket;\n  let intentional = false;\n\n  const connect = () => {\n    socket = new WebSocket(url);\n    socket.onclose = () => {\n      if (!intentional) setTimeout(connect, 1000);\n    };\n  };\n\n  connect();\n\n  return {\n    send: (msg: unknown) => socket.send(JSON.stringify(msg)),\n    close: () => {\n      intentional = true;\n      socket.close();\n    }\n  };\n}",
+        "lang": "typescript",
+        "correct": "send() writes straight to the current socket without checking readyState and there is no outbound queue, so anything sent between the close and the next open is discarded (or throws while the replacement socket is still CONNECTING)",
+        "referenceAnswer": "The browser `WebSocket` buffers nothing across a reconnect: `send()` throws `InvalidStateError` while `readyState` is `CONNECTING`, and silently discards the data while it is `CLOSING` or `CLOSED`. The client has to own an outbox and flush it on `open`:\n\n```ts\nconst outbox: string[] = [];\n\nconst flush = () => {\n  while (socket.readyState === WebSocket.OPEN && outbox.length > 0) {\n    socket.send(outbox.shift()!);\n  }\n};\n\nconst connect = () => {\n  socket = new WebSocket(url);\n  socket.onopen = flush;\n  socket.onclose = () => {\n    if (!intentional) setTimeout(connect, 1000);\n  };\n};\n\nconst send = (msg: unknown) => {\n  outbox.push(JSON.stringify(msg));\n  flush();\n};\n```\n\nThe queue then forces two decisions the original code never had to make: a bound on its size, because a long outage otherwise turns into unbounded memory, and whether replayed messages need an idempotency key, since a message sent just before the close may or may not have reached the server.",
+        "explanation": {
+            "en": "A reconnecting client has two queues to reason about and this one has neither: the inbound gap (solved by a resume token or sequence number) and the outbound messages produced while the link is down. Because `send()` fails differently depending on `readyState` — throwing when CONNECTING, discarding silently when CLOSING or CLOSED — the loss looks intermittent and is easy to miss when testing on a good network. The fix is an outbox flushed on `open`, with a size bound and an explicit answer about duplicates on replay. Out of scope here, but worth naming: the fixed 1000 ms reconnect delay is not what loses the messages — it makes every client dropped by the same outage reconnect in lockstep, which is what backoff with jitter exists to break.",
+            "ru": "У переподключающегося клиента есть две очереди, о которых надо думать, и здесь нет ни одной: разрыв во входящем потоке (решается resume-токеном или sequence number) и исходящие сообщения, созданные, пока канала нет. Так как `send()` падает по-разному в зависимости от `readyState` — бросает исключение при CONNECTING и молча выбрасывает данные при CLOSING или CLOSED, — потеря выглядит плавающей и легко не замечается при тестировании на хорошей сети. Исправление — outbox, сбрасываемый по `open`, с ограничением размера и явным ответом про дубли при переотправке. За рамками вопроса, но стоит назвать: фиксированная задержка переподключения в 1000 мс сообщения не теряет, но заставляет всех клиентов, упавших от одного сбоя, переподключаться синхронно — именно эту синхронность разбивает backoff с jitter."
+        }
+    },
+    {
+        "id": "api-cc-sse-002",
+        "type": "code-completion",
+        "category": "api-bff",
+        "difficulty": "easy",
+        "tags": ["sse", "realtime", "resume"],
+        "question": {
+            "en": "Complete this SSE endpoint so a reconnecting client resumes from the last event it received:",
+            "ru": "Дополните этот SSE-эндпоинт так, чтобы переподключающийся клиент возобновлял поток с последнего полученного события:"
+        },
+        "code": "app.get('/stream', (req, res) => {\n  res.setHeader('Content-Type', 'text/event-stream');\n  res.setHeader('Cache-Control', 'no-store');\n\n  // EventSource replays the last id it saw in this request header\n  const lastId = req.headers['__BLANK__'];\n\n  for (const event of eventsAfter(lastId)) {\n    // the stream field that sets the client's last event id\n    res.write(`__BLANK__: ${event.id}\\n`);\n    res.write(`data: ${JSON.stringify(event.payload)}\\n\\n`);\n  }\n});",
+        "blanks": ["last-event-id", "id"],
+        "lang": "javascript",
+        "referenceAnswer": "`EventSource` reconnects on its own and, whenever the stream has sent an `id:` field, replays the most recent value in the `Last-Event-ID` request header (lower-cased in Node's `req.headers`). The server uses it as a cursor and sends only what came after, which turns a reconnect from 'lose the gap' into 'resume'. Two neighbouring fields matter operationally: `retry:` sets the client's reconnection delay in milliseconds, and a comment line (`:keep-alive\\n\\n`) keeps a proxy from closing an idle stream.",
+        "explanation": {
+            "en": "Resumability in SSE is two lines of protocol: the server tags every event with `id:`, and the browser hands the last one back as `Last-Event-ID` when it reconnects. Without the id the client still reconnects automatically, but the server has no cursor, so events produced during the gap are simply gone — which is how a 'reliable' dashboard quietly drops updates on every mobile network change.",
+            "ru": "Возобновляемость в SSE — это две строки протокола: сервер помечает каждое событие через `id:`, а браузер при переподключении возвращает последний из них в `Last-Event-ID`. Без id клиент всё равно переподключится сам, но у сервера не будет курсора, и события, возникшие в момент разрыва, просто пропадут — именно так «надёжный» дашборд тихо теряет обновления при каждой смене мобильной сети."
+        }
+    },
+    {
+        "id": "api-cc-dedup-001",
+        "type": "code-completion",
+        "category": "api-bff",
+        "difficulty": "hard",
+        "tags": ["data-fetching", "dedup", "promises"],
+        "question": {
+            "en": "Complete this in-flight request deduplicator: concurrent callers for the same URL share one network request, and the entry disappears once that request settles either way.",
+            "ru": "Дополните этот дедупликатор запросов в полёте: одновременные вызовы для одного URL разделяют один сетевой запрос, а запись исчезает, как только он завершился любым исходом."
+        },
+        "code": "const inFlight = new Map<string, Promise<Response>>();\n\nexport function dedupedFetch(url: string): Promise<Response> {\n  const existing = inFlight.get(url);\n  if (existing) return existing;\n\n  const request = fetch(url).__BLANK__(() => {\n    inFlight.delete(url);\n  });\n\n  inFlight.__BLANK__(url, request);\n  return request;\n}",
+        "blanks": ["finally", "set"],
+        "lang": "typescript",
+        "referenceAnswer": "`.finally()` is the only settlement hook that runs on both branches, so the entry is dropped on rejection too — `.then()` here would memoise a rejected promise and make one failure stick for the lifetime of the page. `Map#set` registers the new request, `Map#get` finds one already in flight, and `Map#delete` inside the callback removes the entry once the promise settles. One more detail this shape gets right: the promise stored is the `.finally()` result, so every sharer observes the same settlement. What it deliberately does not do is cache successes: dedup is about concurrency, a cache is about time, and conflating the two is how stale data ends up shared.",
+        "explanation": {
+            "en": "Deduplication collapses the N callers that ask for the same thing in the same tick into a single request — the classic case being several components mounting at once, each with its own effect. The subtlety is the lifetime of the map entry: keep it after the promise settles and you have accidentally built a cache with no invalidation; drop it only on success and one failure is memoised forever. `.finally()` is the single hook that fires on both paths.",
+            "ru": "Дедупликация схлопывает N вызывающих, которые просят одно и то же в одном тике, в один запрос — классический случай, когда несколько компонентов монтируются разом, каждый со своим эффектом. Тонкость — время жизни записи в Map: оставите её после завершения промиса, и вы случайно построили кэш без инвалидации; удалите только при успехе — и одна ошибка запомнится навсегда. `.finally()` — единственный хук, срабатывающий на обеих ветках."
+        }
     }
 ]

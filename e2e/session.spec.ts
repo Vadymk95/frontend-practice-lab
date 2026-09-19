@@ -20,12 +20,13 @@ async function startMinSession(page: import('@playwright/test').Page) {
     await page.waitForURL('**/session/play');
 }
 
-/** Wait for question to fully render (progress text + answer options) */
+/** Wait for question to fully render (progress text + answer options).
+ *  The play page is lazy-loaded: with six parallel workers against one Vite dev server the first
+ *  transform of that chunk can take well over 8 s, which made 3 of 80 runs flake locally. */
 async function waitForQuestion(page: import('@playwright/test').Page) {
-    // Wait for the question heading inside the question card article
-    await page.waitForSelector('article h2', { timeout: 8000 });
+    await page.waitForSelector('article h2', { timeout: 20000 });
     // Wait for radio options — guaranteed by startMinSession using easy+quiz mode
-    await page.locator('[role="radiogroup"]').waitFor({ timeout: 5000 });
+    await page.locator('[role="radiogroup"]').waitFor({ timeout: 10000 });
 }
 
 /** Answer the current single-choice question and return after clicking Next */
