@@ -22,17 +22,18 @@ export const AlgorithmWidget: FC<AlgorithmWidgetProps> = ({ onCategorySelect }) 
             <div className="flex flex-wrap gap-2">
                 {topWeakCategories.map((cat) => {
                     const name = getCategoryName(cat.slug, cat.displayName);
+                    const percent = Math.round(cat.errorRate * 100);
                     return (
                         <button
                             key={cat.slug}
                             type="button"
                             onClick={() => onCategorySelect(cat.slug)}
                             className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border bg-background text-sm hover:bg-muted transition-colors max-w-full"
-                            aria-label={`${name} ${Math.round(cat.errorRate * 100)}%`}
+                            aria-label={`${name}. ${t('errorRate.ariaLabel', { percent })}`}
                         >
                             <span className="min-w-0 wrap-break-words leading-tight">{name}</span>
-                            <span className="text-[11px] text-destructive font-medium shrink-0">
-                                {Math.round(cat.errorRate * 100)}%
+                            <span className="text-xs text-destructive font-medium shrink-0">
+                                {t('errorRate.badge', { percent })}
                             </span>
                         </button>
                     );

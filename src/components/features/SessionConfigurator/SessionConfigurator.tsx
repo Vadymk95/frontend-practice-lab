@@ -19,6 +19,9 @@ type Order = SessionConfig['order'];
 
 const HINT_ID = 'configurator-hint';
 
+// Above this share of wrong answers a category is worth flagging on its tile.
+const ERROR_RATE_BADGE_THRESHOLD = 0.3;
+
 const DIFFICULTY_OPTIONS: Difficulty[] = ['all', 'easy', 'medium', 'hard'];
 const MODE_OPTIONS: Mode[] = ['all', 'quiz', 'bug-finding', 'code-completion'];
 const ORDER_OPTIONS: Order[] = ['random', 'sequential'];
@@ -107,7 +110,8 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
                         {categories.map((cat) => {
                             const count = categoryCountMap[cat.slug] ?? 0;
                             const errorRate = errorRates[cat.slug] ?? 0;
-                            const showBadge = errorRate > 0.3;
+                            const showBadge = errorRate > ERROR_RATE_BADGE_THRESHOLD;
+                            const errorPercent = Math.round(errorRate * 100);
                             return (
                                 <Tooltip key={cat.slug}>
                                     <TooltipTrigger asChild>
@@ -129,11 +133,27 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
                                             </span>
                                             <span className="flex items-center gap-1 shrink-0">
                                                 {showBadge && (
-                                                    <span className="bg-destructive/20 text-destructive text-[10px] px-1 rounded">
-                                                        {Math.round(errorRate * 100)}%
+                                                    <span
+                                                        aria-label={t('errorRate.ariaLabel', {
+                                                            percent: errorPercent
+                                                        })}
+                                                        title={t('errorRate.ariaLabel', {
+                                                            percent: errorPercent
+                                                        })}
+                                                        className="bg-destructive/20 text-destructive text-xs px-1 rounded"
+                                                    >
+                                                        {t('errorRate.badge', {
+                                                            percent: errorPercent
+                                                        })}
                                                     </span>
                                                 )}
-                                                <span className="text-xs text-muted-foreground">
+                                                <span
+                                                    aria-label={t(
+                                                        'configurator.categories.countLabel',
+                                                        { count }
+                                                    )}
+                                                    className="text-xs text-muted-foreground"
+                                                >
                                                     {count}
                                                 </span>
                                             </span>

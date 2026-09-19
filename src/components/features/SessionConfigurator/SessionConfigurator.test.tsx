@@ -4,11 +4,12 @@ import { createInstance } from 'i18next';
 import type { ReactNode } from 'react';
 import { initReactI18next } from 'react-i18next';
 import { MemoryRouter } from 'react-router-dom';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { ManifestEntry } from '@/hooks/data/useCategories';
 import type { SessionConfig } from '@/lib/storage/types';
 import { useCategories } from '@/hooks/data/useCategories';
+import { useProgressStoreBase } from '@/store/progress/progressStore';
 import { useSessionStore } from '@/store/session';
 import { renderWithProviders } from '@/test/test-utils';
 
@@ -636,5 +637,35 @@ describe('generatePresetName', () => {
         expect(generatePresetName(configWith(12), mockCategories, t)).toBe(
             'JavaScript · Hard · 12 questions'
         );
+    });
+});
+
+describe('SessionConfigurator — error rate badge', () => {
+    beforeEach(() => {
+        vi.mocked(useCategories).mockReturnValue({
+            data: mockCategories,
+            isLoading: false,
+            isError: false
+        } as unknown as ReturnType<typeof useCategories>);
+        useProgressStoreBase.setState({ errorRates: { javascript: 0.46 } });
+    });
+
+    afterEach(() => {
+        useProgressStoreBase.setState({ errorRates: {} });
+    });
+
+    it('says what the red percentage on a category tile measures', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        expect(screen.getByText('46% wrong')).toBeInTheDocument();
+        expect(screen.getByTitle('Error rate: 46%')).toBeInTheDocument();
+    });
+
+    it('does not announce the tile as a name followed by two bare numbers', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        const tile = screen.getByRole('checkbox', { name: /JavaScript/ });
+        expect(tile).toHaveAccessibleName(/Error rate: 46%/);
+        expect(tile).toHaveAccessibleName(/Questions: 6/);
     });
 });
