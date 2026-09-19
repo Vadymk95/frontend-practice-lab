@@ -1501,5 +1501,183 @@
         "blanks": ["picture", "srcset", "type", "picture"],
         "lang": "html",
         "referenceAnswer": "The <picture> element enables format negotiation. Browsers pick the first <source> whose type they support. srcset provides resolution variants (1x/2x). The fallback <img> ensures compatibility. fetchpriority='high' on the LCP image speeds up discovery."
+    },
+    {
+        "id": "perf-inp-002",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "hard",
+        "tags": ["inp", "core-web-vitals", "rendering", "diagnosis"],
+        "question": {
+            "en": "An interaction breaks down as **20 ms input delay**, **30 ms processing duration** and **250 ms presentation delay**. Which fix targets the subpart that is actually costing you the INP?",
+            "ru": "Взаимодействие раскладывается так: **20 ms input delay**, **30 ms processing duration** и **250 ms presentation delay**. Какое исправление бьёт именно по той части, которая и съедает INP?"
+        },
+        "options": [
+            {
+                "en": "Debounce the handler so it runs once per burst of events instead of on every event",
+                "ru": "Задебаунсить обработчик, чтобы он выполнялся один раз на серию событий, а не на каждое"
+            },
+            {
+                "en": "Split the handler into chunks and yield between them with `await scheduler.yield()`",
+                "ru": "Разбить обработчик на порции и отдавать управление между ними через `await scheduler.yield()`"
+            },
+            {
+                "en": "Cut the rendering work the update causes: a smaller updated subtree and `content-visibility: auto` for off-screen parts",
+                "ru": "Сократить работу рендеринга, которую вызывает обновление: меньше узлов в обновляемом поддереве и `content-visibility: auto` для того, что вне экрана"
+            },
+            {
+                "en": "Move the computation the handler performs into a Web Worker and post the result back to the main thread when it resolves",
+                "ru": "Вынести вычисления, которые делает обработчик, в Web Worker и отправить результат обратно в main thread, когда он готов"
+            }
+        ],
+        "correct": 2,
+        "explanation": {
+            "en": "INP splits into input delay (the wait before callbacks start), processing duration (the callbacks themselves) and presentation delay (style, layout and paint of the next frame). Processing here is only 30 ms, so debouncing, yielding and workers all attack a part that is already cheap — a classic misdiagnosis. A 250 ms presentation delay means the browser is spending the time rendering the result, and the levers are the size of the DOM being updated, `content-visibility` for off-screen content, and not injecting large amounts of HTML synchronously in the handler.",
+            "ru": "INP раскладывается на input delay (ожидание до старта колбэков), processing duration (сами колбэки) и presentation delay (style, layout и paint следующего кадра). Processing тут всего 30 ms, поэтому debounce, yielding и воркеры бьют по части, которая и так дешёвая, — классическая ошибка диагноза. Presentation delay в 250 ms означает, что время уходит на отрисовку результата, а рычаги здесь — размер обновляемого DOM, `content-visibility` для контента вне экрана и отказ от синхронной вставки больших кусков HTML прямо в обработчике."
+        }
+    },
+    {
+        "id": "perf-lcp-002",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "medium",
+        "tags": ["lcp", "core-web-vitals", "resource-loading", "diagnosis"],
+        "question": {
+            "en": "An LCP of 3.8 s breaks down as TTFB 0.4 s, **resource load delay 2.1 s**, resource load duration 0.5 s, element render delay 0.8 s. What does the dominant subpart tell you?",
+            "ru": "LCP в 3.8 s раскладывается так: TTFB 0.4 s, **resource load delay 2.1 s**, resource load duration 0.5 s, element render delay 0.8 s. О чём говорит доминирующая часть?"
+        },
+        "options": [
+            {
+                "en": "The LCP image is too heavy and needs a modern format or stronger compression to shrink the transfer",
+                "ru": "LCP-картинка слишком тяжёлая, нужен современный формат или более сильное сжатие, чтобы уменьшить передачу"
+            },
+            {
+                "en": "The browser started fetching the LCP resource late — it is undiscoverable in the initial HTML, or deprioritized",
+                "ru": "Браузер начал грузить LCP-ресурс поздно — его не видно в первом HTML-ответе либо ему занижен приоритет"
+            },
+            {
+                "en": "The server responds slowly, so the fix belongs to the backend or the CDN rather than the page",
+                "ru": "Сервер отвечает медленно, и чинить надо бэкенд или CDN, а не страницу"
+            },
+            {
+                "en": "The resource arrives on time but painting is blocked by a render-blocking stylesheet or by a webfont that has not loaded yet",
+                "ru": "Ресурс приходит вовремя, но отрисовку блокирует render-blocking стиль или веб-шрифт, который ещё не загрузился"
+            }
+        ],
+        "correct": 1,
+        "explanation": {
+            "en": "Resource load delay is the gap between TTFB and the moment the browser *starts* fetching the LCP resource, and as a guideline it should stay under about 10% of LCP while TTFB and load duration take roughly 40% each. Two seconds of pure delay means the fetch started late, not that the bytes were slow, and there are two causes. Either the resource is not discoverable by the preload scanner — injected by JavaScript, set as a CSS `background-image`, marked `loading=\"lazy\"`, or referenced only after a stylesheet parses — or it is discoverable but deprioritized, since browsers start in-viewport images at Low priority until layout proves they are visible. The fix follows the cause: a plain `<img>` in the server HTML or a `<link rel=\"preload\">` for discovery, `fetchpriority=\"high\"` for priority. Compressing the image attacks load duration, which is not the dominant subpart here.",
+            "ru": "Resource load delay — это промежуток между TTFB и моментом, когда браузер *начинает* грузить LCP-ресурс; по гайдлайну он должен укладываться примерно в 10% от LCP, тогда как на TTFB и load duration приходится около 40% каждому. Две секунды чистой задержки означают, что запрос стартовал поздно, а не что байты шли медленно, и причин здесь две. Либо ресурс не виден preload scanner — его вставляет джаваскрипт, он задан как CSS `background-image`, помечен `loading=\"lazy\"` или упоминается только после разбора стилей, — либо он виден, но ему занижен приоритет: картинки во вьюпорте стартуют на Low, пока layout не докажет, что они видны. Фикс следует за причиной: обычный `<img>` в серверном HTML или `<link rel=\"preload\">` — для обнаружения, `fetchpriority=\"high\"` — для приоритета. Дополнительное сжатие бьёт по load duration, а это здесь не доминирующая часть."
+        }
+    },
+    {
+        "id": "perf-virtuallist-002",
+        "type": "single-choice",
+        "category": "performance",
+        "difficulty": "hard",
+        "tags": ["virtualization", "dynamic-heights", "scroll-anchoring", "resize-observer"],
+        "question": {
+            "en": "A virtualized feed renders rows whose height is unknown until they are rendered. Which approach keeps the scroll position stable as the real heights arrive?",
+            "ru": "Виртуализированная лента рендерит строки, высота которых неизвестна до рендера. Какой подход удержит позицию скролла стабильной, пока приходят реальные высоты?"
+        },
+        "options": [
+            {
+                "en": "Render the whole collection once off-screen to measure every row, then virtualize using the exact heights that were captured up front",
+                "ru": "Один раз отрендерить всю коллекцию за экраном, чтобы измерить каждую строку, и дальше виртуализировать по заранее снятым точным высотам"
+            },
+            {
+                "en": "Pin every row to a single fixed height in CSS so the estimated offsets are always exact",
+                "ru": "Зафиксировать всем строкам одну высоту в CSS, чтобы расчётные смещения всегда были точными"
+            },
+            {
+                "en": "Leave it to the browser's built-in scroll anchoring, which already compensates for content resizing above the viewport",
+                "ru": "Положиться на встроенный scroll anchoring браузера — он и так компенсирует изменение размеров контента выше вьюпорта"
+            },
+            {
+                "en": "Estimate unmeasured rows, measure them with `ResizeObserver`, and correct `scrollTop` when a correction lands above the viewport",
+                "ru": "Оценивать неизмеренные строки, измерять их через `ResizeObserver` и править `scrollTop`, когда коррекция приходится выше вьюпорта"
+            }
+        ],
+        "correct": 3,
+        "explanation": {
+            "en": "Measuring the whole collection defeats virtualization, and forcing one height changes the design and clips content, so the workable answer is estimate → measure → reconcile: an estimated size per unmeasured row, a `ResizeObserver` that reports the real one after mount, and a `scrollTop` adjustment whenever a corrected row sits above the current viewport. Scroll anchoring does not rescue you here, for two reasons the spec itself names: the list rewrites the `transform` of rows above the viewport, and a change to `transform` anywhere on the path from the anchor node to the scroller is an explicit suppression trigger that cancels the compensation; and the anchor node is unmounted the moment its row is recycled out of the window. The correction therefore has to be applied by the list, which is what `measureElement` (together with `shouldAdjustScrollPositionOnItemSizeChange`) in TanStack Virtual and `useDynamicRowHeight` in react-window v2 exist to do.",
+            "ru": "Измерять всю коллекцию — значит убить смысл виртуализации, а насильно задать одну высоту — сломать вёрстку и обрезать контент, поэтому рабочий ответ такой: оценка → измерение → сверка. То есть estimate-размер для неизмеренной строки, `ResizeObserver`, который сообщает реальный после монтирования, и правка `scrollTop`, когда исправленная строка оказалась выше текущего вьюпорта. Scroll anchoring тут не спасает по двум причинам из самой спецификации: список переписывает `transform` у строк выше вьюпорта, а изменение `transform` на любом узле пути от якоря до скролл-контейнера — явный suppression trigger, который отменяет компенсацию; и сам узел-якорь размонтируется, как только его строка выезжает из окна. Коррекцию поэтому обязан применять сам список — ровно для этого существуют `measureElement` (вместе с `shouldAdjustScrollPositionOnItemSizeChange`) в TanStack Virtual и `useDynamicRowHeight` в react-window v2."
+        }
+    },
+    {
+        "id": "perf-multiheap-001",
+        "type": "multi-choice",
+        "category": "performance",
+        "difficulty": "medium",
+        "tags": ["memory", "heap-snapshot", "detached-dom", "devtools", "profiling"],
+        "question": {
+            "en": "Memory grows on every open/close cycle of a modal. Which DevTools observations actually support the conclusion that the modal's DOM is being retained? (Select all that apply)",
+            "ru": "Память растёт на каждом цикле открытия/закрытия модалки. Какие наблюдения в DevTools действительно подтверждают, что DOM модалки удерживается? (Выберите все подходящие)"
+        },
+        "options": [
+            {
+                "en": "After a forced garbage collection, the Memory panel's Summary view filtered to `Detached` still lists the modal's nodes",
+                "ru": "После принудительной сборки мусора Summary во вкладке Memory с фильтром `Detached` всё ещё показывает узлы модалки"
+            },
+            {
+                "en": "Two heap snapshots differ in total size — any positive delta in the Comparison view proves something is retained",
+                "ru": "Два heap snapshot отличаются по суммарному размеру — любая положительная дельта в Comparison доказывает, что что-то удерживается"
+            },
+            {
+                "en": "The Retainers pane for a detached node shows the reference chain holding it, e.g. a listener kept in a module-level array",
+                "ru": "Панель Retainers для detached-узла показывает цепочку ссылок, которая его держит, — например, листенер, сохранённый в массиве на уровне модуля"
+            },
+            {
+                "en": "The detached nodes report a large shallow size, which is the memory that releasing them would free",
+                "ru": "У detached-узлов большой shallow size — именно столько памяти освободится, если их отпустить"
+            },
+            {
+                "en": "The JS heap line in a Performance recording climbs across repeated identical cycles and never returns to its earlier baseline",
+                "ru": "Линия JS heap в записи Performance растёт от цикла к циклу при одинаковых действиях и не возвращается к прежнему базовому уровню"
+            }
+        ],
+        "correct": [0, 2, 4],
+        "explanation": {
+            "en": "A node is `Detached` when it is out of the document yet still reachable from JavaScript, which is exactly the leak signature — and the Retainers pane names the chain that holds it, so you fix the cause instead of guessing. A rising sawtooth that never returns to baseline across identical cycles is the second piece of independent evidence. The two wrong options are the common traps: a single positive snapshot delta proves nothing because caches, JIT data and uncollected garbage all move between snapshots, and shallow size is only the object's own memory — retained size is what a release would actually free.",
+            "ru": "Узел помечается `Detached`, когда он уже вне документа, но всё ещё достижим из JavaScript, — это и есть сигнатура утечки, а панель Retainers называет цепочку, которая его держит, так что причина находится, а не угадывается. Растущая пила, которая при одинаковых циклах не возвращается к базовому уровню, — второе независимое доказательство. Два неверных варианта — типовые ловушки: одна положительная дельта между снапшотами не доказывает ничего, потому что между снимками двигаются кэши, данные JIT и ещё не собранный мусор, а shallow size — это память только самого объекта, тогда как освободится retained size."
+        }
+    },
+    {
+        "id": "perf-bug-virtuallist-002",
+        "type": "bug-finding",
+        "category": "performance",
+        "difficulty": "medium",
+        "tags": ["virtualization", "accessibility", "aria", "infinite-feed"],
+        "question": {
+            "en": "This virtualized feed holds 5000 rows but renders about 20 at a time. Screen-reader users are told the list has 20 items. Find the bug:",
+            "ru": "В этой виртуализированной ленте 5000 строк, но одновременно рендерится около 20. Пользователям скринридера сообщается, что в списке 20 элементов. Найдите баг:"
+        },
+        "code": "function Feed({ rows, virtualItems, totalSize }) {\n  return (\n    <ul role=\"list\" style={{ height: totalSize, position: 'relative' }}>\n      {virtualItems.map((v) => (\n        <li\n          key={rows[v.index].id}\n          role=\"listitem\"\n          style={{\n            position: 'absolute',\n            top: 0,\n            left: 0,\n            width: '100%',\n            transform: `translateY(${v.start}px)`\n          }}\n        >\n          <Row data={rows[v.index]} />\n        </li>\n      ))}\n    </ul>\n  );\n}",
+        "lang": "jsx",
+        "correct": "Only the windowed rows exist in the DOM and nothing declares the real collection, so the accessibility tree computes the set size from the 20 rendered `<li>` elements instead of 5000",
+        "referenceAnswer": "The explicit `role=\"list\"` and `role=\"listitem\"` are deliberate, not the defect: Safari/VoiceOver drops list semantics from a list whose bullets are removed in CSS, and the roles restore them. The real bug is elsewhere. The accessibility tree is built from the DOM, so a windowed list reports the size of the window, not the collection. Declare the real set explicitly on every rendered row — ARIA overrides the computed values:\n\n```jsx\n<li\n  key={rows[v.index].id}\n  role=\"listitem\"\n  aria-setsize={rows.length}\n  aria-posinset={v.index + 1}\n  style={{ position: 'absolute', top: 0, left: 0, width: '100%', transform: `translateY(${v.start}px)` }}\n>\n```\n\nFor a feed that appends pages as the user scrolls, `role=\"feed\"` on the container with `aria-busy` toggled while a page is loading is the better container role, and each article inside it still carries `aria-setsize` / `aria-posinset`. None of this fixes reachability: rows outside the window are not in the DOM at all, so find-in-page, type-ahead and Ctrl+End cannot reach them — keep a non-virtualized path (a 'load more' button alongside the scroll sentinel, or an un-virtualized print/expanded view) for that.",
+        "explanation": {
+            "en": "Virtualization is a trade: rows that are not in the DOM are not in the accessibility tree either, so the implicit set size collapses to the size of the window. `aria-setsize` and `aria-posinset` on each rendered row restore the real count and position without re-rendering anything. The same missing-DOM root cause is why find-in-page and type-ahead stop working on a virtualized list, which is why a keyboard-reachable path to off-window content still has to exist.",
+            "ru": "Виртуализация — это размен: строки, которых нет в DOM, отсутствуют и в accessibility tree, поэтому неявный размер множества схлопывается до размера окна. `aria-setsize` и `aria-posinset` на каждой отрендеренной строке возвращают настоящие количество и позицию, ничего при этом не перерендеривая. Та же причина — отсутствие узлов в DOM — ломает поиск по странице и type-ahead в виртуализированном списке, поэтому доступный с клавиатуры путь к контенту вне окна всё равно нужен."
+        }
+    },
+    {
+        "id": "perf-cc-infinitefeed-001",
+        "type": "code-completion",
+        "category": "performance",
+        "difficulty": "easy",
+        "tags": ["intersection-observer", "infinite-feed", "sentinel", "prefetch"],
+        "question": {
+            "en": "Complete the IntersectionObserver sentinel that drives an infinite feed inside a scrolling container:",
+            "ru": "Дополните sentinel на IntersectionObserver, который двигает бесконечную ленту внутри скроллящегося контейнера:"
+        },
+        "code": "const feed = document.querySelector('#feed');         // the scrolling container\nconst sentinel = document.querySelector('#sentinel'); // empty div after the last row\n\nconst io = new IntersectionObserver(\n  ([entry]) => {\n    // the observer also fires once on observe() and again when the sentinel leaves\n    if (!entry.__BLANK__) return;\n    loadNextPage();\n  },\n  {\n    // measure against the scrolling container, not the viewport\n    __BLANK__: feed,\n    // start fetching 400px before the sentinel becomes visible\n    __BLANK__: '400px'\n  }\n);\n\nio.observe(sentinel);",
+        "blanks": ["isIntersecting", "root", "rootMargin"],
+        "lang": "javascript",
+        "referenceAnswer": "`entry.isIntersecting` is the guard: the observer delivers an initial entry as soon as `observe()` is called and another one when the sentinel scrolls back out, so without it `loadNextPage()` fires on mount and again on every exit. `root: feed` measures the intersection against the scrolling element, which is what makes the margin expand the container's box — with the default `root: null` the 400px prefetch margin applies to the viewport instead and no longer means what you intended. `rootMargin: '400px'` grows that box so the fetch starts before the user reaches the bottom; the value accepts px and % only, not `em`. Remember to `io.disconnect()` when the last page has been loaded or the component unmounts.",
+        "explanation": {
+            "en": "`IntersectionObserver` delivers an entry when observation starts and again when the target stops intersecting, so a sentinel handler without an `isIntersecting` guard triggers a page load on mount and another on every scroll-past. `root` decides what the target is measured against and `rootMargin` inflates that root's box, which is how the fetch starts before the user actually reaches the end. A sentinel also keeps the work off the scroll path: the callback is delivered from the observer's own task rather than running on every scroll event, so it never becomes the reason the scroll is janky.",
+            "ru": "`IntersectionObserver` отдаёт запись при старте наблюдения и ещё раз, когда цель перестаёт пересекаться, поэтому обработчик sentinel без проверки `isIntersecting` грузит страницу при монтировании и ещё раз на каждом уходе за границу. `root` определяет, относительно чего меряется пересечение, а `rootMargin` раздувает бокс этого root — так загрузка стартует раньше, чем пользователь реально доедет до конца. Sentinel к тому же убирает работу со scroll-пути: колбэк приходит из собственной задачи обсервера, а не выполняется на каждое событие скролла, и потому сам никогда не становится причиной рывков."
+        }
     }
 ]

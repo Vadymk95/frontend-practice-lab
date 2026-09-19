@@ -1458,5 +1458,308 @@
         "blanks": ["type", "parameters", "'auto'"],
         "lang": "typescript",
         "referenceAnswer": "type: 'function' — OpenAI tool type must be 'function'. parameters — OpenAI uses 'parameters' (not 'input_schema' like Anthropic). tool_choice: 'auto' — let the model decide when to call the tool (vs 'required' to force a call or 'none' to disable)."
+    },
+    {
+        "id": "ai-assisted-review-001",
+        "type": "single-choice",
+        "category": "ai-llm",
+        "difficulty": "medium",
+        "tags": ["ai-assisted-engineering", "code-review", "process"],
+        "question": {
+            "en": "A team ships roughly 99% AI-written code with a light read-through before merge, and the escaped-defect rate climbs quarter over quarter. Which change addresses the **cause** rather than the symptom?",
+            "ru": "Команда выкатывает примерно 99% кода, написанного AI, с беглым просмотром перед мержем, и доля дефектов, доехавших до прода, растёт квартал к кварталу. Какое изменение бьёт по **причине**, а не по симптому?"
+        },
+        "options": [
+            {
+                "en": "Allocate more reviewer hours per pull request so the whole diff gets read carefully",
+                "ru": "Выделить больше времени ревьюера на PR, чтобы весь диф читался внимательно"
+            },
+            {
+                "en": "Cap every pull request at a fixed line count so each diff stays readable in one sitting",
+                "ru": "Ограничить каждый PR фиксированным числом строк, чтобы диф читался за один присест"
+            },
+            {
+                "en": "Stop using the agent on the affected modules and go back to hand-written code there",
+                "ru": "Перестать использовать агента в проблемных модулях и вернуться там к ручному коду"
+            },
+            {
+                "en": "Require a regression test from the ticket, reviewed apart from the agent's diff",
+                "ru": "Требовать регрессионный тест по тикету, который ревьюится отдельно от дифа агента"
+            }
+        ],
+        "correct": 3,
+        "explanation": {
+            "en": "The generator and the validator are the same party: a reviewer judges whether the diff looks reasonable, and looking reasonable is exactly what the agent optimises for. More hours and smaller diffs scale review effort linearly against a generator that scales faster, and dropping the tool gives up the leverage without adding a check. What is missing is an independent oracle — a test written from the requirement and red before the change is evidence the diff cannot fake.",
+            "ru": "Писатель и проверяющий здесь — одна сторона: ревьюер оценивает, выглядит ли диф разумно, а «выглядеть разумно» — ровно то, подо что агент и оптимизируется. Больше часов и меньшие дифы масштабируют усилие ревью линейно против генератора, который масштабируется быстрее, а отказ от инструмента убирает рычаг, не добавляя проверки. Не хватает независимого оракула: тест, написанный по требованию и красный до изменения, — это свидетельство, которое диф не может подделать."
+        }
+    },
+    {
+        "id": "ai-assisted-context-001",
+        "type": "single-choice",
+        "category": "ai-llm",
+        "difficulty": "medium",
+        "tags": ["ai-assisted-engineering", "context", "spec"],
+        "question": {
+            "en": "You are handing a coding agent a ticket in a mature codebase. Which input most reduces plausible-but-wrong output?",
+            "ru": "Вы отдаёте кодовому агенту тикет в зрелой кодовой базе. Какой вход сильнее всего снижает долю правдоподобного, но неверного результата?"
+        },
+        "options": [
+            {
+                "en": "A longer prompt that restates the ticket in more detail and more formal wording",
+                "ru": "Более длинный промпт, который пересказывает тикет подробнее и более формальным языком"
+            },
+            {
+                "en": "The acceptance criteria plus the call sites the change has to keep working",
+                "ru": "Критерии приёмки плюс места вызова, которые изменение обязано не сломать"
+            },
+            {
+                "en": "An explicit instruction not to invent APIs and to double-check everything it writes",
+                "ru": "Явная инструкция не выдумывать API и перепроверять всё, что модель пишет"
+            },
+            {
+                "en": "A lower temperature so that repeated runs produce the same answer every time",
+                "ru": "Более низкая temperature, чтобы повторные запуски давали один и тот же ответ"
+            }
+        ],
+        "correct": 1,
+        "explanation": {
+            "en": "Plausible-but-wrong output is a grounding failure, not a wording or a sampling failure: where your repository's real contracts are missing from the context, the model fills the hole with the statistically average shape of such code. Restating the ticket adds words but no facts, and an instruction not to hallucinate is something the model has no way to check itself against. Temperature 0 makes the same wrong answer reproducible, not correct, while real call sites and acceptance criteria are constraints the output can be measured against.",
+            "ru": "Правдоподобный, но неверный результат — это провал заземления (grounding), а не формулировки или сэмплинга: там, где реальных контрактов вашего репозитория нет в контексте, модель подставляет статистически среднюю форму такого кода. Пересказ тикета добавляет слов, но не фактов, а «не галлюцинируй» — инструкция, которую модель не может к себе применить. Temperature 0 делает тот же неверный ответ воспроизводимым, а не правильным, тогда как реальные места вызова и критерии приёмки — это ограничения, об которые вывод можно проверить."
+        }
+    },
+    {
+        "id": "ai-assisted-failure-001",
+        "type": "single-choice",
+        "category": "ai-llm",
+        "difficulty": "medium",
+        "tags": ["ai-assisted-engineering", "failure-modes", "ci"],
+        "question": {
+            "en": "In a TypeScript repository where typecheck and lint both run in CI, which class of LLM-generated defect are those gates **least** likely to catch?",
+            "ru": "В TypeScript-репозитории, где в CI гоняются typecheck и lint, какой класс дефектов, характерных для LLM, эти гейты поймают **хуже** всего?"
+        },
+        "options": [
+            {
+                "en": "A reference to a symbol that does not exist in the installed version of the library",
+                "ru": "Обращение к символу, которого нет в установленной версии библиотеки"
+            },
+            {
+                "en": "An import of a package that was never added to `package.json`",
+                "ru": "Импорт пакета, который так и не добавили в `package.json`"
+            },
+            {
+                "en": "A real API used with wrong semantics: it type-checks but means something else",
+                "ru": "Реальный API с неверной семантикой: типы сходятся, но смысл другой"
+            },
+            {
+                "en": "Formatting that deviates from the repository's Prettier and ESLint configuration",
+                "ru": "Форматирование, расходящееся с конфигурацией Prettier и ESLint в репозитории"
+            }
+        ],
+        "correct": 2,
+        "explanation": {
+            "en": "A stale symbol fails the typecheck, an import of a package that is not installed fails the same typecheck with TS2307 `Cannot find module`, bad formatting fails lint — those are the cheap failures and the pipeline already owns them. What survives is code that compiles and type-checks while meaning something the ticket never asked for: a caching option whose default flipped in a later major, an equality check on the wrong field, an effect whose dependency list is legal but wrong. Only behaviour evidence separates that from correct code, which is why review of generated work has to be about intent rather than about the surface of the diff.",
+            "ru": "Устаревший символ валит typecheck; импорт неустановленного пакета валит тот же typecheck с TS2307 `Cannot find module`; форматирование валит lint — это дешёвые падения, и пайплайн их уже ловит. Выживает код, который компилируется и проходит типы, но означает не то, что просили в тикете: опция кэширования, у которой в новой мажорке поменялся дефолт, сравнение не того поля, эффект с легальным, но неверным списком зависимостей. Отличить это от корректного кода можно только по поведению — поэтому ревью сгенерированной работы про намерение, а не про внешний вид дифа."
+        }
+    },
+    {
+        "id": "ai-assisted-injection-001",
+        "type": "single-choice",
+        "category": "ai-llm",
+        "difficulty": "hard",
+        "tags": ["ai-assisted-engineering", "prompt-injection", "least-privilege"],
+        "question": {
+            "en": "A coding agent runs in CI with a repository write token and reads issue comments, dependency changelogs and fetched web pages as tool results. Which control most reduces the blast radius of an indirect prompt injection hidden in that content?",
+            "ru": "Кодовый агент работает в CI с токеном на запись в репозиторий и читает комментарии к issue, changelog'и зависимостей и загруженные веб-страницы как результаты инструментов. Какой контроль сильнее всего сокращает blast radius indirect prompt injection, спрятанной в этом контенте?"
+        },
+        "options": [
+            {
+                "en": "Add a system-prompt rule telling the model to ignore any instructions found in tool output",
+                "ru": "Добавить в системный промпт правило игнорировать любые инструкции из вывода инструментов"
+            },
+            {
+                "en": "Scan every tool result for phrases such as `ignore previous instructions` and strip them",
+                "ru": "Сканировать каждый результат инструмента на фразы вроде `ignore previous instructions` и вырезать их"
+            },
+            {
+                "en": "Lower the temperature so the agent follows its original plan more deterministically",
+                "ru": "Понизить temperature, чтобы агент детерминированнее придерживался исходного плана"
+            },
+            {
+                "en": "Drop the write token: let the agent propose a pull request a human reviews and merges",
+                "ru": "Убрать токен на запись: пусть агент предлагает PR, который смотрит и мержит человек"
+            }
+        ],
+        "correct": 3,
+        "explanation": {
+            "en": "OWASP treats prompt injection as a risk to be contained rather than prevented: instruction-only defences and keyword filters are defeated by rephrasing, and sampling temperature has nothing to do with whose instructions win. The controls that hold are least privilege and a human gate on the privileged operation — if the agent cannot write to the protected branch, a successful injection produces a reviewable proposal instead of a merged commit. Segregating untrusted content and marking it as data is worth doing, but it is a layer on top of the privilege limit, not a substitute for it.",
+            "ru": "OWASP рассматривает prompt injection как риск, который сдерживают, а не устраняют: защита одними инструкциями и фильтры по ключевым фразам обходятся перефразированием, а temperature вообще не про то, чьи инструкции победят. Работают least privilege и человеческий гейт на привилегированной операции: если агент не может писать в защищённую ветку, успешная инъекция даёт предложение на ревью, а не смерженный коммит. Отделять недоверенный контент и помечать его как данные полезно, но это слой поверх ограничения прав, а не замена ему."
+        }
+    },
+    {
+        "id": "ai-assisted-secrets-001",
+        "type": "single-choice",
+        "category": "ai-llm",
+        "difficulty": "easy",
+        "tags": ["ai-assisted-engineering", "secrets", "agent-permissions"],
+        "question": {
+            "en": "Your agent has to run `npm ci` and a deploy script, and both read credentials from `.env` and `~/.npmrc`. What keeps those values out of the model's context without breaking the commands?",
+            "ru": "Агенту нужно запускать `npm ci` и деплой-скрипт, а они оба читают креды из `.env` и `~/.npmrc`. Что убережёт эти значения от попадания в контекст модели, не сломав сами команды?"
+        },
+        "options": [
+            {
+                "en": "Deny the agent's file-reading tools on those paths; the commands it runs still read them",
+                "ru": "Запретить файловым инструментам агента эти пути — запускаемые им команды читают файлы сами"
+            },
+            {
+                "en": "Paste the values into the prompt once so the agent does not have to look them up later",
+                "ru": "Один раз вставить значения в промпт, чтобы агенту не пришлось искать их потом"
+            },
+            {
+                "en": "Commit the real values to `.env.example` so only one file has to be protected",
+                "ru": "Закоммитить реальные значения в `.env.example`, чтобы защищать пришлось один файл"
+            },
+            {
+                "en": "Rely on the provider's safety training to stop the model from repeating a secret it has read",
+                "ru": "Положиться на safety-тюнинг провайдера: модель не станет повторять прочитанный секрет"
+            }
+        ],
+        "correct": 0,
+        "explanation": {
+            "en": "The risk is the secret entering the transcript, not the process using it. A deny rule on the reading tools blocks the agent from printing the file, while `npm` and the deploy script keep reading it through the OS, so the flow is unaffected and nothing has to be worked around. Pasting a value into the prompt or committing it to an example file moves it somewhere with worse retention than the file it came from, and model behaviour is a preference rather than an access control.",
+            "ru": "Риск в том, что секрет попадёт в транскрипт, а не в том, что его использует процесс. Deny-правило на читающие инструменты не даёт агенту распечатать файл, тогда как `npm` и деплой-скрипт продолжают читать его через ОС — поток не ломается и обходить ничего не нужно. Вставка значения в промпт или коммит в example-файл переносит его туда, где хранение хуже, чем в исходном файле, а поведение модели — это предпочтение, а не контроль доступа."
+        }
+    },
+    {
+        "id": "ai-assisted-tests-001",
+        "type": "multi-choice",
+        "category": "ai-llm",
+        "difficulty": "hard",
+        "tags": ["ai-assisted-engineering", "test-strength", "code-review"],
+        "question": {
+            "en": "An agent produced a React component together with the test suite that covers it, and the suite is green. Which of these are reasons to treat the tests as weak evidence? (select all that apply)",
+            "ru": "Агент выдал React-компонент вместе с покрывающим его набором тестов, и набор зелёный. Что из перечисленного — причины считать эти тесты слабым свидетельством? (выберите все подходящие)"
+        },
+        "options": [
+            {
+                "en": "They were derived from the implementation, so they encode what it does, not what was asked",
+                "ru": "Они выведены из реализации, поэтому фиксируют то, что код делает, а не то, о чём просили"
+            },
+            {
+                "en": "Reverting the change would leave the suite green — nothing in it is sensitive to the fix",
+                "ru": "Откат изменения оставит набор зелёным — ничто в нём не чувствительно к правке"
+            },
+            {
+                "en": "The same misreading of the requirement produced both the code and its assertions",
+                "ru": "Одно и то же неверное прочтение требования породило и код, и его проверки"
+            },
+            {
+                "en": "A green suite written by the implementer still proves the feature matches the specification",
+                "ru": "Зелёный набор от автора реализации всё равно доказывает соответствие фичи спецификации"
+            },
+            {
+                "en": "The tests run in CI rather than on the developer's own machine",
+                "ru": "Тесты гоняются в CI, а не на машине самого разработчика"
+            }
+        ],
+        "correct": [0, 1, 2],
+        "explanation": {
+            "en": "A test is evidence only if it can fail for the right reason. When one party writes the code and its assertions in a single pass, a misread requirement is baked into both halves and the error cancels out instead of surfacing. The cheap check at review time is mutation-style: mentally revert the change and ask whether any assertion moves — if the suite stays green it proves nothing and should be rejected. Where the tests execute is a logistics detail that says nothing about their strength.",
+            "ru": "Тест является свидетельством, только если способен упасть по правильной причине. Когда одна сторона за один проход пишет и код, и проверки, неверно прочитанное требование зашивается в обе половины, и ошибка взаимно сокращается вместо того, чтобы всплыть. Дешёвая проверка на ревью — мутационная: мысленно откатите правку и спросите, сдвинется ли хоть одна проверка; если набор остаётся зелёным, он ничего не доказывает и его надо отклонять. Где именно тесты выполняются — деталь логистики, к их силе отношения не имеющая."
+        }
+    },
+    {
+        "id": "ai-assisted-policy-001",
+        "type": "multi-choice",
+        "category": "ai-llm",
+        "difficulty": "hard",
+        "tags": ["ai-assisted-engineering", "policy", "disclosure"],
+        "question": {
+            "en": "Your company is drafting its AI-assisted development policy. Which clauses belong in it as written? (select all that apply)",
+            "ru": "В компании пишут политику AI-assisted разработки. Какие пункты в таком виде в неё уместны? (выберите все подходящие)"
+        },
+        "options": [
+            {
+                "en": "Company code may only reach approved tools and accounts covered by a data-processing agreement",
+                "ru": "Код компании попадает только в одобренные инструменты и аккаунты, покрытые соглашением об обработке данных"
+            },
+            {
+                "en": "The author of a pull request answers for the whole diff regardless of how much was generated",
+                "ru": "Автор PR отвечает за весь диф независимо от того, какая его часть сгенерирована"
+            },
+            {
+                "en": "An unattended autonomous run against company code needs a named owner and written sign-off",
+                "ru": "Автономный запуск без присмотра по коду компании требует named owner и письменного согласования"
+            },
+            {
+                "en": "Generated code is exempt from the normal review and regression-test requirements",
+                "ru": "Сгенерированный код освобождается от обычных требований к ревью и регрессионным тестам"
+            },
+            {
+                "en": "Assistant use must be concealed from reviewers so the code is judged purely on its merits",
+                "ru": "Использование ассистента скрывается от ревьюеров, чтобы код оценивали исключительно по существу"
+            }
+        ],
+        "correct": [0, 1, 2],
+        "explanation": {
+            "en": "A policy can only enforce two things reliably: where company code is allowed to travel, and who answers for what lands in the repository. Keeping accountability with the author is what stops **the model wrote it** from becoming an excuse, and an unattended run with no named owner has nobody to answer for its commits. The two rejected clauses invert the intent — an exemption removes exactly the control that the increased volume makes more necessary, and concealment defeats the disclosure such policies normally require, which is a labelling duty rather than a verdict on the tool.",
+            "ru": "Политика надёжно обеспечивает только две вещи: куда коду компании разрешено уезжать и кто отвечает за то, что попало в репозиторий. Ответственность автора — то, что не даёт «это модель написала» стать отговоркой, а у автономного запуска без named owner просто нет человека, отвечающего за его коммиты. Два отклонённых пункта переворачивают смысл: освобождение снимает ровно тот контроль, который возросший объём делает более нужным, а сокрытие ломает disclosure, которого такие политики обычно требуют, — а это обязанность маркировки, а не приговор инструменту."
+        }
+    },
+    {
+        "id": "ai-assisted-bug-001",
+        "type": "bug-finding",
+        "category": "ai-llm",
+        "difficulty": "medium",
+        "tags": ["ai-assisted-engineering", "secrets", "logging"],
+        "question": {
+            "en": "An agent was asked to **add request logging to the API client** and produced this. Find the defect a reviewer must not let through:",
+            "ru": "Агента попросили **добавить логирование запросов в API-клиент**, и он выдал вот это. Найдите дефект, который ревьюер не имеет права пропустить:"
+        },
+        "code": "export async function apiFetch(\n  url: string,\n  init: Omit<RequestInit, 'headers'> & { headers?: Record<string, string> } = {}\n) {\n  const start = Date.now();\n  const headers = {\n    ...init.headers,\n    Authorization: `Bearer ${process.env.API_TOKEN}`\n  };\n\n  const res = await fetch(url, { ...init, headers });\n\n  logger.info('api request', {\n    url,\n    headers,\n    status: res.status,\n    durationMs: Date.now() - start\n  });\n\n  return res;\n}",
+        "lang": "typescript",
+        "correct": "The whole headers object is passed to the logger, so the Authorization bearer token is written to the log sink on every request.",
+        "referenceAnswer": "The log record passes `headers`, which contains `Authorization: Bearer <token>`. Every request therefore copies a live credential into the log sink, where retention is longer and access is wider than for the file the token came from, and log shipping usually forwards it to a third party as well. Fix: log an explicit safe projection and never the raw header bag.\n\n```ts\nlogger.info('api request', {\n  url,\n  method: init.method ?? 'GET',\n  headerNames: Object.keys(headers),\n  status: res.status,\n  durationMs: Date.now() - start\n});\n```\n\nNote the shape of the mistake: the ticket said log the request, the model logged the request, and the diff reads as reasonable because nothing in it is syntactically or type-wise wrong. Only the data classification is.",
+        "explanation": {
+            "en": "Credentials must never reach a log sink: logs are retained longer, read by more people and often shipped to an external aggregator, so a token in a log line is a wider exposure than the file it was loaded from. Log an explicit allowlist of fields — url, method, status, duration, header **names** if you need them — instead of spreading a header object whose contents can change later. This is a characteristic generated-code defect: valid code, plausible intent, and only a reviewer thinking about what the data *is* catches it.",
+            "ru": "Креды не должны попадать в логи: логи хранятся дольше, доступны большему числу людей и часто уезжают во внешний агрегатор, так что токен в строке лога — экспозиция шире, чем сам файл, из которого он загружен. Логируйте явный список полей — url, method, status, длительность, при необходимости **имена** заголовков, — а не разворачивайте объект заголовков, состав которого ещё и может поменяться. Это характерный дефект сгенерированного кода: код валиден, намерение правдоподобно, и ловит это только ревьюер, который думает о том, чем являются данные."
+        }
+    },
+    {
+        "id": "ai-assisted-bug-002",
+        "type": "bug-finding",
+        "category": "ai-llm",
+        "difficulty": "hard",
+        "tags": ["ai-assisted-engineering", "test-strength", "vitest"],
+        "question": {
+            "en": "An agent fixed a rounding bug in `formatPrice` and generated this regression test alongside the fix. The suite is green. Find the bug in the test:",
+            "ru": "Агент починил баг округления в `formatPrice` и вместе с правкой сгенерировал этот регрессионный тест. Набор зелёный. Найдите дефект в тесте:"
+        },
+        "code": "import { describe, it, expect, vi } from 'vitest';\nimport { render, screen } from '@testing-library/react';\nimport { PriceTag } from './PriceTag';\nimport { formatPrice } from './formatPrice';\n\nvi.mock('./formatPrice', () => ({\n  formatPrice: vi.fn(() => '£1.01')\n}));\n\ndescribe('PriceTag', () => {\n  it('rounds a half-penny amount up', () => {\n    render(<PriceTag amount={1.005} currency=\"GBP\" />);\n\n    expect(screen.getByText('£1.01')).toBeInTheDocument();\n    expect(formatPrice).toHaveBeenCalledWith(1.005, 'GBP');\n  });\n});",
+        "lang": "tsx",
+        "correct": "The test mocks formatPrice, the very unit whose rounding was fixed, so it asserts on the stub's hard-coded return value and stays green even if the fix is reverted.",
+        "referenceAnswer": "The regression lives in `formatPrice`, and `vi.mock('./formatPrice')` replaces exactly that module. The rendered text comes from the stub, so reverting the fix leaves the suite green: the test has zero mutation sensitivity and is evidence of nothing. The `toHaveBeenCalledWith` assertion is not a rescue either — it proves the component forwards its props, which was never the broken behaviour. Fix: assert against the real function for the boundary input, and keep a separate render test for the wiring only.\n\n```ts\n// formatPrice.test.ts - no mock, this is the unit under test\nexpect(formatPrice(1.005, 'GBP')).toBe('£1.01');\n\n// PriceTag.test.tsx - wiring only, real formatPrice\nrender(<PriceTag amount={1.005} currency=\"GBP\" />);\nexpect(screen.getByText('£1.01')).toBeInTheDocument();\n```",
+        "explanation": {
+            "en": "Mocking the unit under test is the most common way an agent-written suite ends up green by construction. Apply the mutation check during review: revert the fix in your head and ask whether any assertion changes — here the stub returns the expected string unconditionally, so nothing does. Mock the collaborators of the thing you are testing, never the thing itself, and keep one test that exercises the real boundary input the ticket named.",
+            "ru": "Замокать сам тестируемый юнит — самый частый способ, которым набор от агента оказывается зелёным by construction. Применяйте на ревью мутационную проверку: мысленно откатите правку и спросите, изменится ли хоть одна проверка — здесь стаб безусловно возвращает ожидаемую строку, так что не изменится ничего. Мокать нужно соседей тестируемого модуля, а не его самого, и держать один тест, который прогоняет реальное граничное значение из тикета."
+        }
+    },
+    {
+        "id": "ai-assisted-completion-001",
+        "type": "code-completion",
+        "category": "ai-llm",
+        "difficulty": "medium",
+        "tags": ["ai-assisted-engineering", "code-review", "react-effects"],
+        "question": {
+            "en": "Review fix: the agent generated this hook with no cleanup and with `[{ id }]` as the dependency array, so it refetched on every render and a late response for the previous `id` could overwrite the current one. Complete the corrected version:",
+            "ru": "Правка после ревью: агент сгенерировал этот хук без cleanup и с `[{ id }]` в массиве зависимостей, из-за чего запрос повторялся на каждый рендер, а поздний ответ по предыдущему `id` мог перезаписать текущий. Дополните исправленную версию:"
+        },
+        "code": "function useUser(id: string) {\n  const [user, setUser] = useState<User | null>(null);\n\n  useEffect(() => {\n    const controller = new AbortController();\n    fetchUser(id, { signal: controller.signal })\n      .then(setUser)\n      .catch((e) => {\n        if (e.name !== 'AbortError') throw e;\n      });\n\n    // cancel the in-flight request when id changes or the component unmounts\n    return () => controller.__BLANK__();\n    // depend on the primitive, not on an object rebuilt on every render\n  }, [__BLANK__]);\n\n  return user;\n}",
+        "blanks": ["abort", "id"],
+        "lang": "tsx",
+        "referenceAnswer": "controller.abort() in the cleanup, and [id] as the dependency array. The generated version had [{ id }]: an object literal is a new reference on every render, so the effect re-ran every render and fired an unbounded stream of requests. With [id] the effect re-runs only when the value actually changes.\n\nWhat abort() buys and what it does not: it cancels the request that is still in flight, and that cancellation rejects the fetch promise with an AbortError DOMException — which is why the chain already carries a .catch that swallows exactly that name and rethrows everything else. Without it every id change and every unmount raises an unhandled rejection. abort() is a no-op once the response has already resolved, so for the ordering race on its own React's documentation uses a different tool: a `let ignore = false` flag flipped to true in the cleanup and checked before setUser.",
+        "explanation": {
+            "en": "Two defects in one generated effect, and they are the pair to look for whenever you review a fetch effect. A non-primitive dependency is a new reference on every render, which turns the effect into a render loop; an effect that starts a request without returning a cleanup leaves the previous request racing the new one. `AbortController` cancels the request while it is still in flight — and the cancelled promise rejects with `AbortError`, so the chain has to handle that name or the fix trades a race for an unhandled rejection. For the ordering race alone React's docs reach for an `ignore` flag instead, because aborting after the response has resolved changes nothing.",
+            "ru": "Два дефекта в одном сгенерированном эффекте — и это ровно та пара, которую стоит искать при ревью любого fetch-эффекта. Непримитивная зависимость — новая ссылка на каждый рендер, и эффект превращается в цикл; эффект, который стартует запрос и не возвращает cleanup, оставляет предыдущий запрос гонкой с новым. `AbortController` отменяет запрос, пока тот ещё летит, — и отменённый промис отклоняется с `AbortError`, так что цепочка обязана обработать это имя, иначе правка меняет гонку на необработанный reject. Для самой гонки порядка документация React берёт другой инструмент — флаг `ignore`, потому что abort после уже пришедшего ответа не меняет ничего."
+        }
     }
 ]
