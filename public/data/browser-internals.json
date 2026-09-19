@@ -1700,5 +1700,132 @@
         "blanks": ["requestAnimationFrame", "rafId"],
         "lang": "javascript",
         "referenceAnswer": "requestAnimationFrame schedules updatePosition to run before the next paint. The `if (!rafId)` guard prevents scheduling multiple rAF callbacks per frame. Setting rafId to null after execution allows the next scroll event to schedule a new rAF."
+    },
+    {
+        "id": "browser-sw-update-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "hard",
+        "tags": ["service-workers", "pwa", "sw-lifecycle", "deployment"],
+        "question": {
+            "en": "Users report your PWA is stuck on a bundle from three deploys ago. `sw.js` is rebuilt and redeployed every time, and DevTools shows a service worker sitting in the **waiting** state. What is actually happening?",
+            "ru": "Пользователи жалуются, что PWA застряло на бандле трёх деплоев назад. `sw.js` пересобирается и выкладывается при каждом деплое, а в DevTools виден service worker в состоянии **waiting**. Что происходит на самом деле?"
+        },
+        "options": [
+            {
+                "en": "The browser stopped fetching the new `sw.js` because it is served with a long `max-age`, so every update check hits the HTTP cache instead",
+                "ru": "Браузер перестал забирать новый `sw.js`, потому что он отдаётся с длинным `max-age`, и любая проверка обновления попадает в HTTP-кэш"
+            },
+            {
+                "en": "The precached responses expired, so the worker keeps replaying the last successful response until `caches.delete()` is called by hand",
+                "ru": "Прекэшированные ответы протухли, и воркер продолжает отдавать последний успешный ответ, пока вручную не вызовут `caches.delete()`"
+            },
+            {
+                "en": "The new worker installed but cannot activate while the old one still controls a client, and a reload does not release it",
+                "ru": "Новый воркер установился, но не может активироваться, пока старый контролирует клиент, и перезагрузка его не освобождает"
+            },
+            {
+                "en": "Browsers never look for a new worker on their own, so an update only lands if the page keeps calling `registration.update()` on an interval",
+                "ru": "Браузеры сами никогда не ищут новый воркер, поэтому обновление случится, только если страница периодически вызывает `registration.update()`"
+            }
+        ],
+        "correct": 2,
+        "explanation": {
+            "en": "A byte-different `sw.js` installs fine, but the new worker stays in `waiting` until the old one controls zero clients — and a plain reload never reaches zero, because the old document still controls the tab while the new one loads. Only closing every tab for the origin, or calling `self.skipWaiting()`, promotes it. `skipWaiting()` is not free either: the new worker then controls pages loaded by the previous version, so a lazily imported chunk can be answered from a cache the running code does not expect. The HTTP cache is not the culprit — the worker script bypasses it by default, and a `max-age` above 24 hours is capped anyway.",
+            "ru": "Побайтово изменившийся `sw.js` устанавливается нормально, но новый воркер висит в `waiting`, пока у старого есть хотя бы один клиент, — а обычная перезагрузка до нуля не доводит: старый документ всё ещё контролирует вкладку, пока грузится новый. Освобождает его только закрытие всех вкладок origin либо вызов `self.skipWaiting()`. Но и `skipWaiting()` не бесплатен: новый воркер начинает контролировать страницы, загруженные предыдущей версией, и лениво подгружаемый чанк может прийти из кэша, которого работающий код не ожидает. HTTP-кэш тут ни при чём — скрипт воркера по умолчанию его обходит, а `max-age` больше 24 часов всё равно обрезается."
+        }
+    },
+    {
+        "id": "browser-speculation-001",
+        "type": "single-choice",
+        "category": "browser-internals",
+        "difficulty": "medium",
+        "tags": ["speculation-rules", "prerender", "navigation", "performance"],
+        "question": {
+            "en": "A marketing site ships a Speculation Rules **list** rule that prerenders its three top-nav destinations and sets no `eagerness`. Which consequence must the team plan for?",
+            "ru": "Маркетинговый сайт добавляет **list**-правило Speculation Rules, которое prerender-ит три адреса из основной навигации, и не задаёт `eagerness`. Какое следствие команде нужно заложить в план?"
+        },
+        "code": "<script type=\"speculationrules\">\n{\n  \"prerender\": [\n    { \"urls\": [\"/pricing\", \"/docs\", \"/contact\"] }\n  ]\n}\n</script>",
+        "lang": "html",
+        "options": [
+            {
+                "en": "Nothing is fetched until the user presses the mouse button on a link, because a list rule without `eagerness` defaults to `conservative`",
+                "ru": "Ничего не загрузится, пока пользователь не нажмёт кнопку мыши на ссылке: list-правило без `eagerness` по умолчанию `conservative`"
+            },
+            {
+                "en": "Only the HTML of each destination is downloaded and no scripts run, so the whole risk is the extra bandwidth on a slow connection",
+                "ru": "Скачается только HTML каждого адреса, скрипты не выполнятся, поэтому весь риск — лишний трафик на медленном соединении"
+            },
+            {
+                "en": "Each prerender is held back until the destination answers with the `Supports-Loading-Mode: credentialed-prerender` header, so same-origin pages need it too",
+                "ru": "Каждый prerender откладывается, пока адрес не ответит заголовком `Supports-Loading-Mode: credentialed-prerender`, так что он нужен и для same-origin страниц"
+            },
+            {
+                "en": "All three render up front — a list rule defaults to `immediate` — so their JS runs before any click and page-view analytics fire early",
+                "ru": "Все три отрисуются сразу — у list-правила по умолчанию `immediate`, — их JS выполнится до клика, и page-view уйдёт в аналитику заранее"
+            }
+        ],
+        "correct": 3,
+        "explanation": {
+            "en": "A list rule (`urls`) defaults to `immediate` eagerness; only document rules (`where`) default to `conservative`. Prerender is not a download hint: the page is fully rendered in a hidden tab with its subresources and JavaScript, so anything that fires on load — page views, A/B bucketing, `localStorage` writes — happens for visits that may never occur. Gate those side effects behind `document.prerendering` and re-run them on the `prerenderingchange` event, and budget roughly one full page load per speculation.",
+            "ru": "У list-правила (`urls`) по умолчанию `eagerness: immediate`; `conservative` по умолчанию только у document-правил (`where`). Prerender — это не подсказка на загрузку: страница полностью отрисовывается в скрытой вкладке вместе с сабресурсами и JavaScript, поэтому всё, что срабатывает на загрузке (page-view, распределение по A/B-группам, запись в `localStorage`), происходит для визитов, которых может и не быть. Такие сайд-эффекты нужно закрывать проверкой `document.prerendering` и повторять по событию `prerenderingchange`, а в бюджет закладывать примерно одну полную загрузку страницы на каждую спекуляцию."
+        }
+    },
+    {
+        "id": "browser-multibfcache-001",
+        "type": "multi-choice",
+        "category": "browser-internals",
+        "difficulty": "hard",
+        "tags": ["bfcache", "navigation", "pageshow", "lifecycle"],
+        "question": {
+            "en": "You are auditing an SPA for bfcache restores — the page comes back with its JS heap, DOM and module state intact. Which statements are correct?",
+            "ru": "Вы проверяете SPA на восстановление из bfcache — страница возвращается с живыми JS heap, DOM и состоянием модулей. Какие утверждения верны?"
+        },
+        "options": [
+            {
+                "en": "On a restore `pageshow` fires with `event.persisted === true`, while `load` and the module top-level code do not run again",
+                "ru": "При восстановлении срабатывает `pageshow` с `event.persisted === true`, а `load` и код верхнего уровня модулей повторно не выполняются"
+            },
+            {
+                "en": "Registering an `unload` listener keeps the page out of bfcache in desktop Firefox even when the handler body is empty",
+                "ru": "Регистрация обработчика `unload` не пускает страницу в bfcache в десктопном Firefox, даже если тело обработчика пустое"
+            },
+            {
+                "en": "A `beforeunload` listener makes the page ineligible for bfcache in modern browsers, so unsaved-changes prompts have to be dropped",
+                "ru": "Обработчик `beforeunload` делает страницу непригодной для bfcache в современных браузерах, поэтому от предупреждений о несохранённых данных приходится отказаться"
+            },
+            {
+                "en": "`Cache-Control: no-store` on the document no longer blocks bfcache in Chrome — the entry is capped at 3 minutes and evicted on a cookie change",
+                "ru": "`Cache-Control: no-store` на документе больше не блокирует bfcache в Chrome — запись живёт максимум 3 минуты и вытесняется при смене cookie"
+            },
+            {
+                "en": "On a restore the browser replays the document request, so data shown after a back navigation is always fresh",
+                "ru": "При восстановлении браузер заново выполняет запрос документа, поэтому данные после навигации «назад» всегда свежие"
+            }
+        ],
+        "correct": [0, 1, 3],
+        "explanation": {
+            "en": "`pageshow` is the only signal you get on a restore — `load` already fired in a previous life of the page, so anything you initialise at module scope will not re-run, and stale data must be refreshed inside `pageshow` when `persisted` is true. The eligibility trap is that merely registering an `unload` listener disqualifies the page in desktop Firefox; `pagehide` is the drop-in replacement and fires in every case `unload` does. Chrome is a moving target here: its unload deprecation reaches 100% of page loads on 22 Sep 2026, after which `unload` no longer fires — and therefore no longer blocks bfcache — unless the site opts back in through the `unload` Permissions-Policy. `beforeunload` is explicitly fine, so keep the unsaved-changes guard — just add it only while the form is dirty. `Cache-Control: no-store` used to be the other classic blocker, but Chrome finished rolling bfcache out for those documents in March–April 2025: the entry is capped at 3 minutes instead of 10 and is evicted when cookies or other authorization state change, while pages holding a WebSocket, WebTransport or WebRTC connection stay ineligible. Other engines may still refuse bfcache on `no-store`.",
+            "ru": "`pageshow` — единственный сигнал при восстановлении: `load` уже сработал в прошлой жизни страницы, поэтому код на уровне модуля повторно не выполнится, а протухшие данные нужно обновлять внутри `pageshow`, когда `persisted === true`. Ловушка с eligibility в том, что дисквалифицирует страницу сам факт регистрации обработчика `unload` (десктопный Firefox); замена — `pagehide`, который срабатывает во всех случаях, где срабатывал `unload`. Chrome здесь движущаяся цель: его deprecation события `unload` доходит до 100% загрузок 22 сентября 2026, после чего `unload` больше не срабатывает — а значит, и не блокирует bfcache, — если сайт не вернул его через Permissions-Policy `unload`. `beforeunload` явно разрешён, так что защиту от потери несохранённых данных можно оставить — просто вешать её только на «грязную» форму. `Cache-Control: no-store` раньше был вторым классическим блокером, но Chrome завершил выкатку bfcache для таких документов в марте—апреле 2025: запись живёт 3 минуты вместо 10 и вытесняется при смене cookie или другого состояния авторизации, а страницы с открытым WebSocket, WebTransport или WebRTC по-прежнему непригодны. Другие движки всё ещё могут запрещать bfcache при `no-store`."
+        }
+    },
+    {
+        "id": "browser-cc-navigation-001",
+        "type": "code-completion",
+        "category": "browser-internals",
+        "difficulty": "medium",
+        "tags": ["navigation-api", "routing", "history", "spa"],
+        "question": {
+            "en": "Complete the Navigation API router so it takes over same-document navigations instead of patching `history.pushState`. The first blank is the event exposed on the `navigation` object; the second is the method that hands the navigation to your handler.",
+            "ru": "Дополните роутер на Navigation API так, чтобы он перехватывал same-document навигации вместо патчинга `history.pushState`. Первый пропуск — событие объекта `navigation`, второй — метод, который передаёт навигацию вашему обработчику."
+        },
+        "code": "navigation.addEventListener('__BLANK__', (event) => {\n  const url = new URL(event.destination.url);\n\n  if (url.origin !== location.origin || event.hashChange || event.downloadRequest !== null) {\n    return;\n  }\n\n  event.__BLANK__({\n    async handler() {\n      renderPlaceholder();\n      const view = await loadView(url.pathname);\n      render(view);\n    }\n  });\n});",
+        "blanks": ["navigate", "intercept"],
+        "lang": "javascript",
+        "referenceAnswer": "navigation.addEventListener('navigate', ...) fires for every navigation the current document could handle, including link clicks, form submissions, and back/forward traversals — one entry point instead of a click handler plus a popstate listener plus a wrapped history.pushState. Calling event.intercept({ handler }) commits the URL change immediately and lets the browser own the rest: it keeps the navigation in a 'navigating' state until the handler's promise settles, restores scroll position, and reports failures through navigateerror. The guards matter: the origin comparison mirrors event.canIntercept, which the browser sets to false for cross-origin destinations and for anything else the document cannot take over, hashChange should be left to the browser, and downloadRequest is a download rather than a navigation.",
+        "explanation": {
+            "en": "The Navigation API replaces the old SPA routing stack — a click handler, a `popstate` listener and a monkey-patched `history.pushState` — with one `navigate` event that also covers form submissions and back/forward traversals. `event.intercept({ handler })` tells the browser the current document will produce the new view, so it updates the URL, keeps the navigation pending until your promise settles, and restores scroll position itself. The guards are not optional: a cross-origin destination cannot be taken over — `event.canIntercept` is `false` for it, and calling `intercept()` anyway throws — while hash changes and downloads should stay with the browser.",
+            "ru": "Navigation API заменяет старый набор для SPA-роутинга — обработчик клика, слушатель `popstate` и пропатченный `history.pushState` — одним событием `navigate`, которое покрывает ещё и отправку форм, и переходы вперёд/назад. Вызов `event.intercept({ handler })` сообщает браузеру, что новый вид отрисует текущий документ: браузер меняет URL, держит навигацию незавершённой, пока не зарезолвится промис, и сам восстанавливает позицию скролла. Проверки в начале обязательны: cross-origin адрес перехватить нельзя — для него `event.canIntercept` равен `false`, и вызов `intercept()` выбросит исключение, — а hash-переходы и скачивания лучше оставить браузеру."
+        }
     }
 ]
