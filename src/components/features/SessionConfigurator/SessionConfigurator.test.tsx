@@ -321,6 +321,58 @@ describe('useSessionConfigurator', () => {
         expect(result.current.isStartEnabled).toBe(false);
     });
 
+    it('keeps a question count the user typed when a later selection raises the maximum', () => {
+        const { result } = renderHook(() => useSessionConfigurator(), {
+            wrapper: createWrapper()
+        });
+        act(() => {
+            result.current.handleCategoryToggle('javascript');
+        });
+        act(() => {
+            result.current.handleQuestionCountChange(3);
+        });
+        act(() => {
+            result.current.handleCategoryToggle('typescript');
+        });
+        expect(result.current.maxCount).toBe(12);
+        expect(result.current.questionCount).toBe(3);
+    });
+
+    it('lowers a question count the user typed to the maximum when the pool shrinks', () => {
+        const { result } = renderHook(() => useSessionConfigurator(), {
+            wrapper: createWrapper()
+        });
+        act(() => {
+            result.current.handleCategoryToggle('javascript');
+        });
+        act(() => {
+            result.current.handleCategoryToggle('typescript');
+        });
+        act(() => {
+            result.current.handleQuestionCountChange(10);
+        });
+        act(() => {
+            result.current.handleDifficultyChange('hard');
+        });
+        // javascript hard = 1, typescript hard = 2
+        expect(result.current.maxCount).toBe(3);
+        expect(result.current.questionCount).toBe(3);
+    });
+
+    it('offers the whole available pool while the count field is still untouched', () => {
+        const { result } = renderHook(() => useSessionConfigurator(), {
+            wrapper: createWrapper()
+        });
+        act(() => {
+            result.current.handleCategoryToggle('javascript');
+        });
+        expect(result.current.questionCount).toBe(6);
+        act(() => {
+            result.current.handleCategoryToggle('typescript');
+        });
+        expect(result.current.questionCount).toBe(12);
+    });
+
     it('handleQuestionCountChange clamps value between 1 and maxCount', () => {
         const { result } = renderHook(() => useSessionConfigurator(), {
             wrapper: createWrapper()
