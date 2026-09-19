@@ -2,7 +2,11 @@ import { expect, test } from '@playwright/test';
 
 /** Click the language toggle in the header */
 async function toggleLanguage(page: import('@playwright/test').Page) {
-    await page.getByRole('button', { name: /Toggle language|Переключить язык/i }).click();
+    await page
+        .getByRole('button', {
+            name: /Switch to (English|Russian)|Переключить на (английский|русский)/i
+        })
+        .click();
 }
 
 test.describe('i18n — UI chrome switches between RU and EN', () => {
@@ -58,7 +62,9 @@ test.describe('i18n — question content switches between RU and EN', () => {
         await page.waitForSelector('[role="checkbox"]', { timeout: 10000 });
 
         // Ensure we're in RU (default, but be explicit — earlier specs may have left state)
-        const langBtn = page.getByRole('button', { name: /Toggle language|Переключить язык/i });
+        const langBtn = page.getByRole('button', {
+            name: /Switch to (English|Russian)|Переключить на (английский|русский)/i
+        });
         const langLabel = await langBtn.textContent();
         // Button shows the CURRENT language (RU when in RU, EN when in EN)
         if (!langLabel?.toUpperCase().includes('RU')) {

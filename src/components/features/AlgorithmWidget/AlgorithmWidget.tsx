@@ -39,7 +39,7 @@ export const AlgorithmWidget: FC<AlgorithmWidgetProps> = ({ onCategorySelect }) 
                     );
                 })}
             </div>
-            <p className="text-xs text-muted-foreground mt-2">{t('algorithmWidget.tapToSelect')}</p>
+            <p className="text-xs text-muted-foreground mt-2">{t('algorithmWidget.selectHint')}</p>
         </div>
     );
 };

@@ -37,7 +37,9 @@ describe('AppHeader', () => {
 
     it('renders a language toggle button', () => {
         renderWithProviders(<AppHeader />);
-        expect(screen.getByRole('button', { name: /toggle language/i })).toBeInTheDocument();
+        expect(
+            screen.getByRole('button', { name: /switch to (english|russian)/i })
+        ).toBeInTheDocument();
     });
 
     it('renders a theme toggle button', () => {
@@ -45,6 +47,33 @@ describe('AppHeader', () => {
         expect(
             screen.getByRole('button', { name: /switch to (light|dark) mode/i })
         ).toBeInTheDocument();
+    });
+
+    it('shows the theme the button switches to, not the one already on', () => {
+        renderWithProviders(<AppHeader />);
+
+        const button = screen.getByRole('button', { name: /switch to (light|dark) mode/i });
+        const label = button.getAttribute('aria-label') ?? '';
+        const icon = button.querySelector('svg')?.getAttribute('class') ?? '';
+
+        expect(icon).toContain(label.includes('dark') ? 'moon' : 'sun');
+    });
+
+    it('names the language the toggle switches to instead of just "toggle"', () => {
+        renderWithProviders(<AppHeader />);
+
+        expect(screen.getByRole('button', { name: 'Switch to English' })).toBeInTheDocument();
+    });
+
+    it('keeps every header control at the 44px touch minimum', () => {
+        renderWithProviders(<AppHeader />);
+
+        const controls = screen.getAllByRole('button');
+        expect(controls.length).toBeGreaterThan(0);
+        controls.forEach((control) => {
+            expect(control.className).toContain('min-h-11');
+            expect(control.className).toContain('min-w-11');
+        });
     });
 
     it('renders as a header landmark', () => {
