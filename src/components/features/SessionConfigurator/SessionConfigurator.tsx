@@ -115,7 +115,7 @@ export const SessionConfigurator: FC<SessionConfiguratorProps> = ({ initialConfi
                                                 count === 0 && 'opacity-50'
                                             )}
                                         >
-                                            <span className="min-w-0 flex-1 hyphens-manual wrap-normal leading-tight">
+                                            <span className="min-w-0 flex-1 hyphens-manual wrap-anywhere leading-tight">
                                                 {getCategoryName(cat.slug, cat.displayName)}
                                             </span>
                                             <span className="flex items-center gap-1 shrink-0">

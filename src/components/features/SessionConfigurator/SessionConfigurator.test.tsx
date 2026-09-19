@@ -473,6 +473,16 @@ describe('SessionConfigurator — start affordance', () => {
         }
     });
 
+    it('lets a category name too long for its tile wrap instead of painting over the count', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        // A single unbreakable word ("Производительность" in Russian) has no break
+        // opportunity, so with overflow-wrap:normal it runs over the count badge.
+        const label = screen.getByText('JavaScript');
+        expect(label.className).toContain('wrap-anywhere');
+        expect(label.className).not.toContain('wrap-normal');
+    });
+
     it('keeps long category names whole instead of breaking them mid-word', () => {
         renderWithProviders(<SessionConfigurator />);
 
