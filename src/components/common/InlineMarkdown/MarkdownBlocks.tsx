@@ -27,7 +27,7 @@ export const MarkdownBlocks: FC<MarkdownBlocksProps> = ({
             block.type === 'code' ? (
                 <CodeBlock key={index} code={block.value} lang={block.lang ?? lang} />
             ) : (
-                <p key={index} className="text-sm">
+                <p key={index} className="text-base">
                     <InlineMarkdown text={block.value} />
                 </p>
             )

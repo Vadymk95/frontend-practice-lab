@@ -85,8 +85,10 @@ export const BugFindingQuestion: FC<Props> = ({
                     placeholder={t('bugFinding.placeholder')}
                     aria-label={t('bugFinding.inputLabel')}
                     className={cn(
-                        'w-full resize-y border border-border bg-transparent px-3 py-2 text-sm',
-                        'field-sizing-content outline-none focus-visible:border-foreground',
+                        // 16px keeps iOS Safari from zooming the page on focus, and the min
+                        // height honours rows={3} that field-sizing would otherwise collapse.
+                        'w-full resize-y border border-border bg-transparent px-3 py-2 text-base',
+                        'min-h-[5.5rem] field-sizing-content outline-none focus-visible:border-foreground',
                         'disabled:cursor-not-allowed disabled:opacity-60'
                     )}
                 />

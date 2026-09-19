@@ -38,3 +38,10 @@ describe('MarkdownBlocks', () => {
         expect(container.querySelector('code')).toHaveTextContent('useCallback');
     });
 });
+
+describe('MarkdownBlocks — reading size', () => {
+    it('sets prose paragraphs at the phone reading size', () => {
+        const { container } = render(<MarkdownBlocks text="The queue is never bounded." />);
+        expect(container.querySelector('p')?.className).toContain('text-base');
+    });
+});

@@ -594,3 +594,29 @@ describe('BugFindingQuestion — self-assessment step', () => {
         Reflect.deleteProperty(window, 'matchMedia');
     });
 });
+
+describe('BugFindingQuestion — answer box', () => {
+    it('is at least 16px so focusing it does not zoom the page on iOS', () => {
+        renderWithProviders(
+            <BugFindingQuestionComponent
+                question={makeBugFindingQuestion({ options: undefined, correct: 'stale closure' })}
+                {...defaultCallbacks}
+            />
+        );
+        const textarea = screen.getByRole('textbox', { name: 'Your answer' });
+        expect(textarea.className).toContain('text-base');
+        expect(textarea.className).not.toContain('text-sm');
+    });
+
+    it('rests at the height its row count promises', () => {
+        renderWithProviders(
+            <BugFindingQuestionComponent
+                question={makeBugFindingQuestion({ options: undefined, correct: 'stale closure' })}
+                {...defaultCallbacks}
+            />
+        );
+        expect(screen.getByRole('textbox', { name: 'Your answer' }).className).toContain(
+            'min-h-[5.5rem]'
+        );
+    });
+});
