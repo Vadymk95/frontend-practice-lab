@@ -1347,7 +1347,10 @@
         },
         "code": "import { fetchData } from './api';\n\nvi.mock('./api');\n\ndescribe('Component', () => {\n  it('shows data', async () => {\n    fetchData.mockResolvedValueOnce({ name: 'Alice' });\n    // ... render and assert\n  });\n\n  it('shows error', async () => {\n    fetchData.mockRejectedValueOnce(new Error('fail'));\n    // ... render and assert\n  });\n});",
         "correct": "No mock cleanup between tests — if test order changes, leftover mock implementations can bleed into subsequent tests",
-        "referenceAnswer": "Add afterEach(() => vi.resetAllMocks()) or set mockReset: true in vitest.config.ts. clearAllMocks/mockClear only resets the call log and leaves queued 'once' implementations in place; resetAllMocks/mockReset resets the implementation too, which is what drains the values queued by mockResolvedValueOnce and mockRejectedValueOnce. Use restoreAllMocks instead when the mocks are vi.spyOn spies that must be returned to their original implementation.",
+        "referenceAnswer": {
+            "en": "Add afterEach(() => vi.resetAllMocks()) or set mockReset: true in vitest.config.ts. clearAllMocks/mockClear only resets the call log and leaves queued 'once' implementations in place; resetAllMocks/mockReset resets the implementation too, which is what drains the values queued by mockResolvedValueOnce and mockRejectedValueOnce. Use restoreAllMocks instead when the mocks are vi.spyOn spies that must be returned to their original implementation.",
+            "ru": "Добавьте afterEach(() => vi.resetAllMocks()) или задайте mockReset: true в vitest.config.ts. clearAllMocks/mockClear сбрасывает только журнал вызовов и оставляет на месте реализации, поставленные в очередь через 'once'; resetAllMocks/mockReset сбрасывает ещё и саму реализацию, а это и есть то, что вычищает значения, поставленные в очередь через mockResolvedValueOnce и mockRejectedValueOnce. Вместо этого используйте restoreAllMocks, если моки созданы через vi.spyOn и им нужно вернуть исходную реализацию."
+        },
         "lang": "javascript"
     },
     {
@@ -1366,7 +1369,10 @@
         },
         "code": "it('shows user name after load', async () => {\n  render(<UserCard id=\"1\" />);\n  expect(screen.getByText('Alice')).toBeInTheDocument();\n});",
         "correct": "The assertion runs synchronously before the async data fetch completes, so getByText throws because 'Alice' is not yet rendered",
-        "referenceAnswer": "Use findByText which returns a Promise: expect(await screen.findByText('Alice')).toBeInTheDocument(); Or wrap in waitFor: await waitFor(() => expect(screen.getByText('Alice')).toBeInTheDocument());",
+        "referenceAnswer": {
+            "en": "Use findByText which returns a Promise: expect(await screen.findByText('Alice')).toBeInTheDocument(); Or wrap in waitFor: await waitFor(() => expect(screen.getByText('Alice')).toBeInTheDocument());",
+            "ru": "Используйте findByText, который возвращает Promise: expect(await screen.findByText('Alice')).toBeInTheDocument(); либо оберните в waitFor: await waitFor(() => expect(screen.getByText('Alice')).toBeInTheDocument());"
+        },
         "lang": "jsx"
     },
     {
@@ -1385,7 +1391,10 @@
         },
         "code": "import { render } from '@testing-library/react';\nimport { MyComponent } from './MyComponent';\n\nconst mockFn = vi.fn();\n\nvi.mock('./service', () => ({\n  fetchData: mockFn,\n}));\n\nit('calls fetchData', () => {\n  render(<MyComponent />);\n  expect(mockFn).toHaveBeenCalled();\n});",
         "correct": "vi.mock() is hoisted above the imports, so its factory runs before the module-scope const mockFn is initialised — a factory cannot use variables defined outside it, and the file fails with a 'Cannot access ... before initialization' error",
-        "referenceAnswer": "Use vi.hoisted(): const mockFn = vi.hoisted(() => vi.fn()); vi.mock('./service', () => ({ fetchData: mockFn })); vi.hoisted() runs its callback before the hoisted vi.mock factory, so the binding is already initialised when the factory evaluates. Declaring the mock inside the factory is not an alternative here — the test body would lose its reference and would have to reach for it via vi.mocked(await import('./service')).fetchData.",
+        "referenceAnswer": {
+            "en": "Use vi.hoisted(): const mockFn = vi.hoisted(() => vi.fn()); vi.mock('./service', () => ({ fetchData: mockFn })); vi.hoisted() runs its callback before the hoisted vi.mock factory, so the binding is already initialised when the factory evaluates. Declaring the mock inside the factory is not an alternative here — the test body would lose its reference and would have to reach for it via vi.mocked(await import('./service')).fetchData.",
+            "ru": "Используйте vi.hoisted(): const mockFn = vi.hoisted(() => vi.fn()); vi.mock('./service', () => ({ fetchData: mockFn })); vi.hoisted() выполняет свой колбэк до поднятой наверх фабрики vi.mock, поэтому к моменту вычисления фабрики привязка уже инициализирована. Объявить мок прямо внутри фабрики здесь не вариант: тело теста потеряло бы ссылку на него и доставать мок пришлось бы через vi.mocked(await import('./service')).fetchData."
+        },
         "lang": "jsx"
     },
     {
@@ -1404,7 +1413,10 @@
         },
         "code": "it('submits the form', async () => {\n  render(<LoginForm />);\n  const input = document.querySelector('input[name=\"email\"]');\n  const button = document.querySelector('button.submit-btn');\n  fireEvent.change(input, { target: { value: 'user@example.com' } });\n  fireEvent.click(button);\n  expect(document.querySelector('.success-message')).toBeTruthy();\n});",
         "correct": "Using document.querySelector and CSS class selectors instead of accessible RTL queries — tests are coupled to implementation details and will break on class name or markup changes",
-        "referenceAnswer": "Use screen.getByRole('textbox', { name: /email/i }) for the input, screen.getByRole('button', { name: /submit/i }) for the button, and screen.getByText(/success/i) or screen.getByRole('alert') for the message. Use userEvent.type and userEvent.click.",
+        "referenceAnswer": {
+            "en": "Use screen.getByRole('textbox', { name: /email/i }) for the input, screen.getByRole('button', { name: /submit/i }) for the button, and screen.getByText(/success/i) or screen.getByRole('alert') for the message. Use userEvent.type and userEvent.click.",
+            "ru": "Используйте screen.getByRole('textbox', { name: /email/i }) для поля ввода, screen.getByRole('button', { name: /submit/i }) для кнопки и screen.getByText(/success/i) или screen.getByRole('alert') для сообщения. Взаимодействуйте через userEvent.type и userEvent.click."
+        },
         "lang": "jsx"
     },
     {
@@ -1423,7 +1435,10 @@
         },
         "code": "it('renders the dashboard', () => {\n  render(<Dashboard data={largeMockDataset} />);\n  expect(document.body).toMatchSnapshot();\n});",
         "correct": "Snapshotting the entire body (including unrelated layout) creates a massive, brittle snapshot that breaks on any unrelated change and is too large to review meaningfully",
-        "referenceAnswer": "Scope the snapshot to the component's container: const { container } = render(<Dashboard data={smallMockDataset} />); expect(container).toMatchSnapshot(); Or use toMatchInlineSnapshot() for small, targeted snapshots of specific elements.",
+        "referenceAnswer": {
+            "en": "Scope the snapshot to the component's container: const { container } = render(<Dashboard data={smallMockDataset} />); expect(container).toMatchSnapshot(); Or use toMatchInlineSnapshot() for small, targeted snapshots of specific elements.",
+            "ru": "Ограничьте снимок контейнером компонента: const { container } = render(<Dashboard data={smallMockDataset} />); expect(container).toMatchSnapshot(); либо используйте toMatchInlineSnapshot() для небольших точечных снимков конкретных элементов."
+        },
         "lang": "jsx"
     },
     {
@@ -1442,7 +1457,10 @@
         },
         "code": "const store = createStore({ count: 0 });\n\ndescribe('Counter', () => {\n  it('increments count', () => {\n    store.increment();\n    expect(store.count).toBe(1);\n  });\n\n  it('starts at 0', () => {\n    expect(store.count).toBe(0);\n  });\n});",
         "correct": "The store is shared between tests — the first test's increment mutation causes the second test to fail when run in order, and to pass when run alone (flaky test)",
-        "referenceAnswer": "Create a fresh store instance inside each test or in beforeEach: beforeEach(() => { store.reset(); }); Or instantiate the store inside each it() block.",
+        "referenceAnswer": {
+            "en": "Create a fresh store instance inside each test or in beforeEach: beforeEach(() => { store.reset(); }); Or instantiate the store inside each it() block.",
+            "ru": "Создавайте свежий экземпляр стора в каждом тесте или в beforeEach: beforeEach(() => { store.reset(); }); либо создавайте стор внутри каждого блока it()."
+        },
         "lang": "javascript"
     },
     {
@@ -1461,7 +1479,10 @@
         },
         "code": "import { setupServer } from 'msw/node';\nimport { http, HttpResponse } from 'msw';\n\nconst server = setupServer(\n  http.get('/api/user', () => HttpResponse.json({ name: 'Alice' }))\n);\n\nbeforeAll(() => server.listen());\n\nit('renders user name', async () => {\n  render(<Profile />);\n  expect(await screen.findByText('Alice')).toBeInTheDocument();\n});",
         "correct": "Missing afterEach(() => server.resetHandlers()) and afterAll(() => server.close()) — handler overrides bleed between tests and the server stays open after the suite ends",
-        "referenceAnswer": "Add: afterEach(() => server.resetHandlers()); afterAll(() => server.close()); This is the standard MSW three-liner setup: listen in beforeAll, resetHandlers in afterEach, close in afterAll.",
+        "referenceAnswer": {
+            "en": "Add: afterEach(() => server.resetHandlers()); afterAll(() => server.close()); This is the standard MSW three-liner setup: listen in beforeAll, resetHandlers in afterEach, close in afterAll.",
+            "ru": "Добавьте: afterEach(() => server.resetHandlers()); afterAll(() => server.close()); Это стандартная настройка MSW из трёх строк: listen в beforeAll, resetHandlers в afterEach, close в afterAll."
+        },
         "lang": "jsx"
     },
     {
@@ -1481,7 +1502,10 @@
         "code": "import { describe, it, expect } from 'vitest';\nimport { add } from './math';\n\n__BLANK__('add', () => {\n  __BLANK__('returns the sum of two numbers', () => {\n    __BLANK__(add(2, 3)).toBe(5);\n  });\n});",
         "blanks": ["describe", "it", "expect"],
         "lang": "typescript",
-        "referenceAnswer": "describe('add', ...) groups the tests for one unit, it('returns the sum of two numbers', ...) defines the case, and expect(add(2, 3)).toBe(5) is the assertion. The suite name is a string here; describe also accepts a function as the name, but the string form is what real suites use."
+        "referenceAnswer": {
+            "en": "describe('add', ...) groups the tests for one unit, it('returns the sum of two numbers', ...) defines the case, and expect(add(2, 3)).toBe(5) is the assertion. The suite name is a string here; describe also accepts a function as the name, but the string form is what real suites use.",
+            "ru": "describe('add', ...) группирует тесты одной единицы кода, it('returns the sum of two numbers', ...) задаёт сам случай, а expect(add(2, 3)).toBe(5) — это проверка. Имя набора здесь — строка; describe принимает в качестве имени и функцию, но в реальных наборах тестов пишут именно строку."
+        }
     },
     {
         "id": "test-cc-mock-001",
@@ -1500,7 +1524,10 @@
         "code": "it('calls onSuccess with the submitted payload', async () => {\n  const onSuccess = vi.__BLANK__();\n  await submitForm({ name: 'Alice' }, { onSuccess });\n  expect(onSuccess).toHaveBeenCalledWith(__BLANK__);\n});",
         "blanks": ["fn", "{ name: 'Alice' }"],
         "lang": "typescript",
-        "referenceAnswer": "vi.fn() creates a mock function. toHaveBeenCalledWith({ name: 'Alice' }) asserts the callback received the submitted payload; the match is a deep equality check, not reference identity."
+        "referenceAnswer": {
+            "en": "vi.fn() creates a mock function. toHaveBeenCalledWith({ name: 'Alice' }) asserts the callback received the submitted payload; the match is a deep equality check, not reference identity.",
+            "ru": "vi.fn() создаёт мок-функцию. toHaveBeenCalledWith({ name: 'Alice' }) проверяет, что колбэк получил отправленные данные; сравнение идёт по глубокому равенству, а не по идентичности ссылок."
+        }
     },
     {
         "id": "test-cc-rtl-001",
@@ -1519,7 +1546,10 @@
         "code": "import { render, screen } from '@testing-library/react';\nimport userEvent from '@testing-library/user-event';\n\nit('searches for items', async () => {\n  const user = userEvent.__BLANK__();\n  render(<SearchForm onSearch={mockSearch} />);\n  await user.type(screen.getByRole('__BLANK__', { name: /search/i }), 'react');\n  await user.click(screen.getByRole('button', { name: /submit/i }));\n  expect(mockSearch).toHaveBeenCalledWith('react');\n});",
         "blanks": ["setup", "textbox"],
         "lang": "typescript",
-        "referenceAnswer": "userEvent.setup() creates a userEvent instance with simulated pointer/keyboard state. getByRole('textbox') matches <input type=\"text\">; an <input type=\"search\"> would need getByRole('searchbox') instead."
+        "referenceAnswer": {
+            "en": "userEvent.setup() creates a userEvent instance with simulated pointer/keyboard state. getByRole('textbox') matches <input type=\"text\">; an <input type=\"search\"> would need getByRole('searchbox') instead.",
+            "ru": "userEvent.setup() создаёт экземпляр userEvent с эмуляцией состояния указателя и клавиатуры. getByRole('textbox') соответствует <input type=\"text\">; для <input type=\"search\"> понадобился бы getByRole('searchbox')."
+        }
     },
     {
         "id": "test-cc-msw-001",
@@ -1538,7 +1568,10 @@
         "code": "import { http, __BLANK__ } from 'msw';\n\nexport const errorHandlers = [\n  http.__BLANK__(  '/api/data',  () => {\n    return new __BLANK__(null, { status: 500 });\n  }),\n];",
         "blanks": ["HttpResponse", "get", "HttpResponse"],
         "lang": "typescript",
-        "referenceAnswer": "Import HttpResponse from msw. http.get() matches GET requests. new HttpResponse(null, { status: 500 }) returns an empty 500 response."
+        "referenceAnswer": {
+            "en": "Import HttpResponse from msw. http.get() matches GET requests. new HttpResponse(null, { status: 500 }) returns an empty 500 response.",
+            "ru": "Импортируйте HttpResponse из msw. http.get() перехватывает GET-запросы. new HttpResponse(null, { status: 500 }) возвращает пустой ответ со статусом 500."
+        }
     },
     {
         "id": "test-cc-hook-001",
@@ -1557,7 +1590,10 @@
         "code": "import { renderHook, __BLANK__ } from '@testing-library/react';\nimport { it, expect } from 'vitest';\nimport { useData } from './useData';\n\nit('fetches and returns data', async () => {\n  const { result } = __BLANK__(useData);\n  await __BLANK__(() => expect(result.current.data).toBeDefined());\n});",
         "blanks": ["waitFor", "renderHook", "waitFor"],
         "lang": "typescript",
-        "referenceAnswer": "renderHook() from @testing-library/react renders the hook in a minimal host component. waitFor() polls until the assertion passes, accommodating async state updates. Both come from @testing-library/react — 'vitest' supplies only it/expect here, since its polling helper is vi.waitFor, not a named waitFor export."
+        "referenceAnswer": {
+            "en": "renderHook() from @testing-library/react renders the hook in a minimal host component. waitFor() polls until the assertion passes, accommodating async state updates. Both come from @testing-library/react — 'vitest' supplies only it/expect here, since its polling helper is vi.waitFor, not a named waitFor export.",
+            "ru": "renderHook() из @testing-library/react рендерит хук в минимальном host-компоненте. waitFor() повторяет проверку, пока она не пройдёт, и за счёт этого переживает асинхронные обновления состояния. Оба импорта приходят из @testing-library/react — 'vitest' даёт здесь только it/expect, поскольку его хелпер опроса — это vi.waitFor, а не отдельный экспорт waitFor."
+        }
     },
     {
         "id": "test-cc-fake-timers-001",
@@ -1576,7 +1612,10 @@
         "code": "it('calls the callback after the delay', () => {\n  vi.__BLANK__();\n  const callback = vi.fn();\n  const debounced = debounce(callback, 300);\n\n  debounced();\n  expect(callback).not.toHaveBeenCalled();\n\n  vi.advanceTimersByTime(__BLANK__);\n  expect(callback).toHaveBeenCalledTimes(__BLANK__);\n\n  vi.useRealTimers();\n});",
         "blanks": ["useFakeTimers", "300", "1"],
         "lang": "typescript",
-        "referenceAnswer": "vi.useFakeTimers() replaces global timers. vi.advanceTimersByTime(300) advances time by exactly 300ms, triggering the debounce callback. Expect it to have been called once."
+        "referenceAnswer": {
+            "en": "vi.useFakeTimers() replaces global timers. vi.advanceTimersByTime(300) advances time by exactly 300ms, triggering the debounce callback. Expect it to have been called once.",
+            "ru": "vi.useFakeTimers() подменяет глобальные таймеры. vi.advanceTimersByTime(300) продвигает время ровно на 300 мс, запуская колбэк дебаунса. Ожидаем, что он был вызван один раз."
+        }
     },
     {
         "id": "test-cc-optimistic-001",
@@ -1595,7 +1634,10 @@
         "code": "let queryClient;\nbeforeEach(() => {\n  queryClient = new QueryClient();\n});\n\nconst QueryClientWrapper = ({ children }) => (\n  <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>\n);\n\nit('shows optimistic update immediately', async () => {\n  server.use(\n    http.post('/api/todos', async () => {\n      await new Promise(r => setTimeout(r, 1000));\n      return HttpResponse.json({ id: 2, text: 'New todo' });\n    })\n  );\n\n  const user = userEvent.setup();\n  render(<TodoList />, { wrapper: __BLANK__ });\n  await user.click(screen.getByRole('button', { name: /add/i }));\n  expect(screen.getByText('New todo')).__BLANK__();\n});",
         "blanks": ["QueryClientWrapper", "toBeInTheDocument"],
         "lang": "typescript",
-        "referenceAnswer": "QueryClientWrapper is the wrapper defined above the test: it feeds the per-test QueryClient into the component tree. toBeInTheDocument() asserts the optimistic item is already visible before the delayed server response resolves."
+        "referenceAnswer": {
+            "en": "QueryClientWrapper is the wrapper defined above the test: it feeds the per-test QueryClient into the component tree. toBeInTheDocument() asserts the optimistic item is already visible before the delayed server response resolves.",
+            "ru": "QueryClientWrapper — это обёртка, объявленная выше по файлу: она передаёт созданный для конкретного теста QueryClient в дерево компонентов. toBeInTheDocument() проверяет, что оптимистично добавленный элемент виден ещё до того, как разрешится задержанный ответ сервера."
+        }
     },
     {
         "id": "test-cc-spy-001",
@@ -1614,7 +1656,10 @@
         "code": "it('renders fallback on error', () => {\n  const spy = vi.__BLANK__(console, '__BLANK__').mockImplementation(() => {});\n  render(\n    <ErrorBoundary fallback={<p>Error occurred</p>}>\n      <ThrowingComponent />\n    </ErrorBoundary>\n  );\n  expect(screen.getByText('Error occurred')).toBeInTheDocument();\n  spy.__BLANK__();\n});",
         "blanks": ["spyOn", "error", "mockRestore"],
         "lang": "typescript",
-        "referenceAnswer": "vi.spyOn(console, 'error') wraps console.error. mockImplementation(() => {}) silences the output. mockRestore() removes the spy and restores the original after the test."
+        "referenceAnswer": {
+            "en": "vi.spyOn(console, 'error') wraps console.error. mockImplementation(() => {}) silences the output. mockRestore() removes the spy and restores the original after the test.",
+            "ru": "vi.spyOn(console, 'error') оборачивает console.error. mockImplementation(() => {}) заглушает вывод. mockRestore() снимает шпион и возвращает оригинал после теста."
+        }
     },
     {
         "id": "test-bdd-001",
@@ -1985,7 +2030,10 @@
         "code": "Feature: User authentication\n\n  Scenario: Successful login redirects to dashboard\n    __BLANK__ a registered user with email \"user@example.com\" and password \"secret\"\n    __BLANK__ the user submits the login form\n    __BLANK__ the user should be redirected to the dashboard\n    __BLANK__ the user should see \"Welcome back\" message",
         "blanks": ["Given", "When", "Then", "And"],
         "lang": "gherkin",
-        "referenceAnswer": "Given sets the precondition (a registered user). When describes the action (submitting the form). Then asserts the primary outcome (the redirect). And continues the Then clause with an additional assertion — a repeated Then parses identically, but And is the convention for a continued clause."
+        "referenceAnswer": {
+            "en": "Given sets the precondition (a registered user). When describes the action (submitting the form). Then asserts the primary outcome (the redirect). And continues the Then clause with an additional assertion — a repeated Then parses identically, but And is the convention for a continued clause.",
+            "ru": "Given задаёт предусловие (зарегистрированный пользователь). When описывает действие (отправку формы). Then проверяет основной результат (редирект). And продолжает блок Then дополнительной проверкой — повторный Then парсится точно так же, но продолжение по соглашению пишут через And."
+        }
     },
     {
         "id": "test-bdd-012",
@@ -2003,7 +2051,10 @@
         },
         "code": "Feature: Add item to cart\n\n  Scenario: User adds a product to their shopping cart\n    Given the React component \"<ProductCard />\" is mounted with props { id: 42, price: 29.99 }\n    When the user triggers a \"click\" event on the DOM element with data-testid=\"add-to-cart-btn\"\n    Then the Redux store action \"ADD_TO_CART\" should be dispatched with payload { productId: 42 }\n    And the component state variable \"cartCount\" should equal 1",
         "correct": "The scenario tests internal implementation details (component names, DOM test IDs, Redux action types, internal state variables) instead of observable user behavior",
-        "referenceAnswer": "Rewrite focusing on behavior: Given the user is on the product page for 'Wireless Headphones' priced at $29.99 / When the user clicks 'Add to cart' / Then the cart icon should show 1 item / And the user should see a confirmation 'Item added to cart'. Gherkin scenarios must be readable by non-technical stakeholders and describe what the user experiences, not how the code works.",
+        "referenceAnswer": {
+            "en": "Rewrite focusing on behavior: Given the user is on the product page for 'Wireless Headphones' priced at $29.99 / When the user clicks 'Add to cart' / Then the cart icon should show 1 item / And the user should see a confirmation 'Item added to cart'. Gherkin scenarios must be readable by non-technical stakeholders and describe what the user experiences, not how the code works.",
+            "ru": "Перепишите с упором на поведение: Given the user is on the product page for 'Wireless Headphones' priced at $29.99 / When the user clicks 'Add to cart' / Then the cart icon should show 1 item / And the user should see a confirmation 'Item added to cart'. Сценарии Gherkin должны быть понятны нетехническим стейкхолдерам и описывать то, что видит пользователь, а не то, как устроен код."
+        },
         "lang": "gherkin"
     },
     {
@@ -2163,7 +2214,10 @@
         "code": "test('saves the profile', async ({ page }) => {\n  await page.goto('/settings/profile');\n  await page.getByLabel('Display name').fill('Ada');\n  await page.getByRole('button', { name: 'Save' }).click();\n\n  await page.waitForTimeout(2000);\n  expect(await page.getByRole('status').textContent()).toBe('Profile saved');\n});",
         "lang": "typescript",
         "correct": "A fixed 2-second sleep guards a non-retrying assertion, so the spec fails whenever the save takes longer than the guess and wastes two seconds whenever it does not",
-        "referenceAnswer": "Drop the sleep and use the auto-retrying web-first assertion, which re-resolves the locator and re-checks the condition until the expect timeout:\n\n```ts\nawait page.getByRole('button', { name: 'Save' }).click();\nawait expect(page.getByRole('status')).toHaveText('Profile saved');\n```\n\n`expect(await locator.textContent())` resolves the text once and then compares a plain string, so it cannot recover from a slow response. `page.waitForTimeout` is discouraged outside debugging for exactly this reason: it hard-codes a guess about latency that a loaded CI runner will eventually violate.",
+        "referenceAnswer": {
+            "en": "Drop the sleep and use the auto-retrying web-first assertion, which re-resolves the locator and re-checks the condition until the expect timeout:\n\n```ts\nawait page.getByRole('button', { name: 'Save' }).click();\nawait expect(page.getByRole('status')).toHaveText('Profile saved');\n```\n\n`expect(await locator.textContent())` resolves the text once and then compares a plain string, so it cannot recover from a slow response. `page.waitForTimeout` is discouraged outside debugging for exactly this reason: it hard-codes a guess about latency that a loaded CI runner will eventually violate.",
+            "ru": "Уберите sleep и используйте web-first-проверку с авторетраями: она заново резолвит локатор и перепроверяет условие, пока не истечёт таймаут expect:\n\n```ts\nawait page.getByRole('button', { name: 'Save' }).click();\nawait expect(page.getByRole('status')).toHaveText('Profile saved');\n```\n\n`expect(await locator.textContent())` получает текст один раз и дальше сравнивает обычную строку, поэтому медленный ответ он уже не переживёт. `page.waitForTimeout` не рекомендуют вне отладки ровно по этой причине: он жёстко зашивает догадку о задержке, которую нагруженный CI-раннер рано или поздно нарушит."
+        },
         "explanation": {
             "en": "The two lines are one bug: the assertion has no retry of its own, so a fixed sleep is doing the waiting for it. That sleep encodes an assumption about CI latency — under load the save takes longer and the spec is red, on a fast run it still burns the full two seconds. A web-first `expect(locator)` matcher removes both halves at once: it polls until the text appears and returns as soon as it does.",
             "ru": "Эти две строки — одна ошибка: у ассершена нет собственных ретраев, поэтому ожиданием занимается фиксированный sleep. Этот sleep зашивает предположение о латенси CI — под нагрузкой сохранение занимает дольше, и спека краснеет, а на быстром прогоне всё равно сжигает полные две секунды. Web-first-матчер `expect(locator)` убирает обе половины сразу: он опрашивает элемент, пока текст не появится, и возвращается ровно в этот момент."
@@ -2182,7 +2236,10 @@
         "code": "import { vi, it, expect } from 'vitest';\n\nvi.mock('@/features/cart/calculateTotal', () => ({\n  calculateTotal: vi.fn(() => 42)\n}));\n\nimport { calculateTotal } from '@/features/cart/calculateTotal';\n\nit('sums the cart line items', () => {\n  const total = calculateTotal([{ price: 20 }, { price: 22 }]);\n  expect(total).toBe(42);\n});",
         "lang": "typescript",
         "correct": "The test mocks the very module it is testing, so it asserts the stub's hard-coded 42 — breaking or deleting the real calculateTotal leaves the suite green",
-        "referenceAnswer": "Mock a unit's dependencies, never the unit itself. Remove the vi.mock and let the real implementation run:\n\n```ts\nimport { it, expect } from 'vitest';\nimport { calculateTotal } from '@/features/cart/calculateTotal';\n\nit('sums the cart line items', () => {\n  expect(calculateTotal([{ price: 20 }, { price: 22 }])).toBe(42);\n});\n```\n\nThe general rule is the mutation check: mentally revert or corrupt the implementation under test and ask whether anything goes red. If the suite still passes, the test is worthless no matter what the tooling reports. Stryker automates exactly this check by injecting the mutations for you.",
+        "referenceAnswer": {
+            "en": "Mock a unit's dependencies, never the unit itself. Remove the vi.mock and let the real implementation run:\n\n```ts\nimport { it, expect } from 'vitest';\nimport { calculateTotal } from '@/features/cart/calculateTotal';\n\nit('sums the cart line items', () => {\n  expect(calculateTotal([{ price: 20 }, { price: 22 }])).toBe(42);\n});\n```\n\nThe general rule is the mutation check: mentally revert or corrupt the implementation under test and ask whether anything goes red. If the suite still passes, the test is worthless no matter what the tooling reports. Stryker automates exactly this check by injecting the mutations for you.",
+            "ru": "Мокайте зависимости проверяемого модуля, но никогда сам модуль. Уберите vi.mock и дайте отработать настоящей реализации:\n\n```ts\nimport { it, expect } from 'vitest';\nimport { calculateTotal } from '@/features/cart/calculateTotal';\n\nit('sums the cart line items', () => {\n  expect(calculateTotal([{ price: 20 }, { price: 22 }])).toBe(42);\n});\n```\n\nОбщее правило — мутационная проверка: мысленно откатите или испортите реализацию, которую тестируете, и спросите себя, покраснеет ли хоть что-нибудь. Если набор тестов по-прежнему зелёный, тест бесполезен, что бы ни показывал инструментарий. Stryker автоматизирует ровно эту проверку, подставляя мутации за вас."
+        },
         "explanation": {
             "en": "Vitest hoists `vi.mock` above the imports, so `calculateTotal` inside the test body is the factory's `vi.fn(() => 42)`, not the real function. When a factory is supplied the original module is never loaded or executed at all, so the assertion proves only that 42 equals 42 and not one line of the implementation is under test. This is the canonical worthless test, and the cheap way to catch it in review is the mutation check — revert the implementation in your head and see whether the suite notices.",
             "ru": "Vitest поднимает `vi.mock` выше импортов, поэтому `calculateTotal` внутри теста — это `vi.fn(() => 42)` из фабрики, а не настоящая функция. Когда фабрика задана, исходный модуль вообще не загружается и не выполняется, так что ассершен доказывает только то, что 42 равно 42, и ни одна строка реализации не проверяется. Это канонический бесполезный тест, и дешёвый способ поймать его на ревью — mutation check: мысленно откатите реализацию и посмотрите, заметит ли это сьют."
@@ -2201,7 +2258,10 @@
         "code": "// playwright.config.ts\nexport default defineConfig({\n  fullyParallel: true,\n  retries: process.env.CI ? 2 : 0,\n  reporter: process.env.CI ? 'blob' : 'html',\n  use: {\n    trace: '__BLANK__'\n  }\n});\n\n// CI, four machines in parallel:\n//   npx playwright test --shard=$SHARD_INDEX/4\n// once every shard has finished:\n//   npx playwright __BLANK__ --reporter html ./all-blob-reports",
         "blanks": ["on-first-retry", "merge-reports"],
         "lang": "typescript",
-        "referenceAnswer": "trace: 'on-first-retry' writes a trace.zip only for tests that were retried — the documented CI default, because tracing every test is expensive and almost all of it is discarded. With reporter: 'blob' each shard emits its own blob report, and `npx playwright merge-reports --reporter html ./all-blob-reports` stitches them into a single HTML report after all four shards finish, so a sharded run still produces one artifact to open.",
+        "referenceAnswer": {
+            "en": "trace: 'on-first-retry' writes a trace.zip only for tests that were retried — the documented CI default, because tracing every test is expensive and almost all of it is discarded. With reporter: 'blob' each shard emits its own blob report, and `npx playwright merge-reports --reporter html ./all-blob-reports` stitches them into a single HTML report after all four shards finish, so a sharded run still produces one artifact to open.",
+            "ru": "trace: 'on-first-retry' пишет trace.zip только для тестов, которые были перезапущены, — задокументированный дефолт для CI, потому что трассировать каждый тест дорого и почти всё потом выбрасывается. С reporter: 'blob' каждый шард выдаёт собственный blob-отчёт, а `npx playwright merge-reports --reporter html ./all-blob-reports` сшивает их в один HTML-отчёт после того, как отработают все четыре шарда, так что и шардированный прогон даёт один артефакт для открытия."
+        },
         "explanation": {
             "en": "Sharding buys wall-clock time but splits the output: each `--shard=i/4` job produces its own report, so CI needs the `blob` reporter plus a merge step to end up with one artifact. Tracing is the other half of the trade — `on-first-retry` keeps the cost near zero on green runs while guaranteeing the one flaky failure you care about arrives with a full trace attached. Note that Playwright discards the worker process and the browser before a retry, so the trace comes from a clean context rather than the polluted state of the failed attempt.",
             "ru": "Шардирование покупает время по часам, но разрезает вывод: каждая джоба `--shard=i/4` даёт свой отчёт, поэтому CI нужен репортер `blob` плюс шаг слияния, чтобы на выходе был один артефакт. Вторая половина сделки — трассировка: `on-first-retry` держит стоимость около нуля на зелёных прогонах и при этом гарантирует, что единственное интересное flaky-падение приедет с полным trace. И учтите, что перед ретраем Playwright выбрасывает воркер вместе с браузером, так что trace снимается с чистого контекста, а не с испорченного состояния упавшей попытки."
@@ -2466,7 +2526,10 @@
         "code": "let orderId: string;\n\ntest('creates an order', async ({ page }) => {\n  await page.goto('/orders/new');\n  await page.getByRole('button', { name: 'Place order' }).click();\n  await expect(page.getByRole('status')).toHaveText('Order placed');\n  orderId = (await page.getByTestId('order-id').textContent()) ?? '';\n});\n\ntest('cancels the order', async ({ page }) => {\n  await page.goto(`/orders/${orderId}`);\n  await page.getByRole('button', { name: 'Cancel order' }).click();\n  await expect(page.getByRole('status')).toHaveText('Order cancelled');\n});",
         "lang": "typescript",
         "correct": "The second test reads `orderId` from a module-level variable written by the first test, so it only works while both run in order inside the same worker process",
-        "referenceAnswer": "Make each test create the data it needs, through a fixture that talks to the API and cleans up afterwards:\n\n```ts\nconst test = base.extend<{ order: { id: string } }>({\n  order: async ({ request }, use) => {\n    const res = await request.post(\"/api/orders\", { data: { sku: \"SKU-1\" } });\n    const order = await res.json();\n    await use(order);\n    await request.delete(`/api/orders/${order.id}`);\n  },\n});\n\ntest(\"cancels an order\", async ({ page, order }) => {\n  await page.goto(`/orders/${order.id}`);\n  await page.getByRole(\"button\", { name: \"Cancel order\" }).click();\n  await expect(page.getByRole(\"status\")).toHaveText(\"Order cancelled\");\n});\n```\n\nThree independent things break the original. With `fullyParallel` the two tests can be picked up by different worker processes, and a module-level variable is per-process. `--shard` can put them on different machines entirely. And a worker is shut down after a failure, so a retry of the second test starts in a fresh process where `orderId` is `undefined` — which is why the retry never recovers. Setup that genuinely must be shared belongs in a setup project or a worker-scoped fixture, never in a module variable.",
+        "referenceAnswer": {
+            "en": "Make each test create the data it needs, through a fixture that talks to the API and cleans up afterwards:\n\n```ts\nconst test = base.extend<{ order: { id: string } }>({\n  order: async ({ request }, use) => {\n    const res = await request.post(\"/api/orders\", { data: { sku: \"SKU-1\" } });\n    const order = await res.json();\n    await use(order);\n    await request.delete(`/api/orders/${order.id}`);\n  },\n});\n\ntest(\"cancels an order\", async ({ page, order }) => {\n  await page.goto(`/orders/${order.id}`);\n  await page.getByRole(\"button\", { name: \"Cancel order\" }).click();\n  await expect(page.getByRole(\"status\")).toHaveText(\"Order cancelled\");\n});\n```\n\nThree independent things break the original. With `fullyParallel` the two tests can be picked up by different worker processes, and a module-level variable is per-process. `--shard` can put them on different machines entirely. And a worker is shut down after a failure, so a retry of the second test starts in a fresh process where `orderId` is `undefined` — which is why the retry never recovers. Setup that genuinely must be shared belongs in a setup project or a worker-scoped fixture, never in a module variable.",
+            "ru": "Пусть каждый тест сам создаёт нужные ему данные — через фикстуру, которая ходит в API и убирает за собой:\n\n```ts\nconst test = base.extend<{ order: { id: string } }>({\n  order: async ({ request }, use) => {\n    const res = await request.post(\"/api/orders\", { data: { sku: \"SKU-1\" } });\n    const order = await res.json();\n    await use(order);\n    await request.delete(`/api/orders/${order.id}`);\n  },\n});\n\ntest(\"cancels an order\", async ({ page, order }) => {\n  await page.goto(`/orders/${order.id}`);\n  await page.getByRole(\"button\", { name: \"Cancel order\" }).click();\n  await expect(page.getByRole(\"status\")).toHaveText(\"Order cancelled\");\n});\n```\n\nИсходный вариант ломают три независимые вещи. При `fullyParallel` два теста могут попасть в разные рабочие процессы, а переменная уровня модуля живёт в пределах одного процесса. `--shard` вообще способен развести их по разным машинам. И рабочий процесс завершается после падения, поэтому ретрай второго теста стартует в свежем процессе, где `orderId` равен `undefined`, — вот почему ретрай никогда не спасает. Подготовке, которую действительно нужно разделять, место в setup-проекте или в фикстуре с worker-скоупом, но никак не в переменной модуля."
+        },
         "explanation": {
             "en": "This is ordering dependency disguised as a variable: the spec file silently assumes the two tests run in sequence in one process, which the local single-worker run happens to satisfy and CI does not. Under `fullyParallel` and `--shard` the tests are distributed across workers and machines, and because a worker is torn down after a failure, the retry restarts with `orderId` undefined and navigates to `/orders/undefined`. The fix is not serial mode — it is making the second test create its own order through a fixture, so it is independent of who ran before it.",
             "ru": "Это зависимость от порядка, замаскированная под переменную: файл молча предполагает, что тесты выполняются подряд в одном процессе, — локальный прогон на одном воркере это случайно обеспечивает, а CI нет. При `fullyParallel` и `--shard` тесты растаскиваются по воркерам и машинам, а так как воркер после падения гасится, ретрай стартует с `orderId` равным `undefined` и уходит на `/orders/undefined`. Лечится это не serial-режимом, а тем, что второй тест создаёт свой заказ через фикстуру и перестаёт зависеть от того, кто отработал до него."
@@ -2485,7 +2548,10 @@
         "code": "// re-check until the rendered table settles on three rows\nawait expect(page.getByRole('row')).__BLANK__(3);\n\n// re-run the request until the background job is finished\nawait expect.__BLANK__(async () => {\n  const res = await request.get('/api/jobs/42');\n  return (await res.json()).status;\n}).toBe('done');",
         "blanks": ["toHaveCount", "poll"],
         "lang": "typescript",
-        "referenceAnswer": "`toHaveCount(3)` is an auto-retrying locator assertion: Playwright re-resolves the locator and re-evaluates the count until it matches or the expect timeout expires, so a row arriving late is fine and an extra row eventually fails the test. `expect.poll(fn).toBe('done')` wraps a non-locator value in the same retry loop — the callback is re-invoked on the polling intervals until the chained matcher passes, and it accepts `timeout`, `intervals` and `message` options. When the block contains its own assertions rather than returning a value, `await expect(async () => { ... }).toPass()` is the equivalent form.",
+        "referenceAnswer": {
+            "en": "`toHaveCount(3)` is an auto-retrying locator assertion: Playwright re-resolves the locator and re-evaluates the count until it matches or the expect timeout expires, so a row arriving late is fine and an extra row eventually fails the test. `expect.poll(fn).toBe('done')` wraps a non-locator value in the same retry loop — the callback is re-invoked on the polling intervals until the chained matcher passes, and it accepts `timeout`, `intervals` and `message` options. When the block contains its own assertions rather than returning a value, `await expect(async () => { ... }).toPass()` is the equivalent form.",
+            "ru": "`toHaveCount(3)` — это проверка локатора с авторетраями: Playwright заново резолвит локатор и пересчитывает количество, пока оно не совпадёт или не истечёт таймаут expect, так что запоздавшая строка не проблема, а лишняя строка в итоге уронит тест. `expect.poll(fn).toBe('done')` заворачивает значение, не связанное с локатором, в тот же цикл ретраев — колбэк вызывается заново на интервалах опроса, пока не пройдёт матчер в цепочке, и принимает опции `timeout`, `intervals` и `message`. Когда внутри блока свои собственные проверки, а не возвращаемое значение, эквивалентная форма — `await expect(async () => { ... }).toPass()`."
+        },
         "explanation": {
             "en": "Both blanks replace a guess about latency with a condition that is re-evaluated until it holds. `toHaveCount` is the web-first assertion for a collection, so it absorbs rows that render one render-pass late instead of racing them. `expect.poll` extends the same retry semantics to anything that is not a locator — an API status, a database row, a queue depth — which is what removes `waitForTimeout` from the places a locator assertion cannot reach.",
             "ru": "Оба бланка заменяют догадку о латенси условием, которое перепроверяется, пока не выполнится. `toHaveCount` — это web-first-ассершен для коллекции: он спокойно переживает строки, которые дорисовались на один проход позже, вместо гонки с ними. `expect.poll` распространяет ту же семантику ретраев на всё, что не является локатором, — статус API, строку в базе, глубину очереди, — и именно это убирает `waitForTimeout` там, куда ассершен по локатору не дотягивается."
@@ -2504,7 +2570,10 @@
         "code": "await expect(page).toHaveScreenshot('dashboard.png', {\n  __BLANK__: [page.getByTestId('last-updated')],\n  animations: '__BLANK__',\n});",
         "blanks": ["mask", "disabled"],
         "lang": "typescript",
-        "referenceAnswer": "`mask` takes locators that Playwright paints over with a solid box (pink `#FF00FF` by default, configurable via `maskColor`) before the comparison, so a region that legitimately changes on every run cannot fail it. `animations: 'disabled'` stops CSS animations, CSS transitions and Web Animations: finite ones are fast-forwarded to their end state and fire `transitionend`, infinite ones are reset to the initial state, so the screenshot is taken at a defined moment rather than a random frame. The remaining variable is the environment — browser rendering depends on OS, fonts and hardware, so baselines must be generated in the same image that runs CI.",
+        "referenceAnswer": {
+            "en": "`mask` takes locators that Playwright paints over with a solid box (pink `#FF00FF` by default, configurable via `maskColor`) before the comparison, so a region that legitimately changes on every run cannot fail it. `animations: 'disabled'` stops CSS animations, CSS transitions and Web Animations: finite ones are fast-forwarded to their end state and fire `transitionend`, infinite ones are reset to the initial state, so the screenshot is taken at a defined moment rather than a random frame. The remaining variable is the environment — browser rendering depends on OS, fonts and hardware, so baselines must be generated in the same image that runs CI.",
+            "ru": "`mask` принимает локаторы, которые Playwright перед сравнением закрашивает сплошным прямоугольником (по умолчанию розовым `#FF00FF`, настраивается через `maskColor`), поэтому область, законно меняющаяся от прогона к прогону, не может уронить тест. `animations: 'disabled'` останавливает CSS-анимации, CSS-переходы и Web Animations: конечные перематываются в финальное состояние и вызывают `transitionend`, бесконечные сбрасываются в начальное, так что скриншот снимается в определённый момент, а не на случайном кадре. Последний источник расхождений — само окружение: рендеринг браузера зависит от ОС, шрифтов и железа, поэтому эталоны нужно генерировать в том же образе, в котором идёт CI."
+        },
         "explanation": {
             "en": "A screenshot assertion fails on any pixel difference, so every source of legitimate variation has to be removed explicitly or it becomes flake. `mask` removes content that is expected to change; `animations: \"disabled\"` removes the timing of the frame being captured. What neither option can fix is a baseline produced on a different OS — that is an environment difference, and it is why baselines belong in the CI image.",
             "ru": "Скриншотный ассершен падает на любом пиксельном различии, поэтому каждый источник законной вариативности нужно убрать явно, иначе он превращается во flake. `mask` убирает контент, который обязан меняться; `animations: \"disabled\"` убирает неопределённость момента съёмки кадра. Чего ни одна из опций не лечит — это бейзлайн, снятый на другой ОС: это различие окружений, и именно поэтому бейзлайны снимаются в том же образе, где идёт CI."

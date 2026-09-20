@@ -1219,7 +1219,10 @@
         },
         "code": "<label>Email</label>\n<input type=\"email\" id=\"email\" name=\"email\">",
         "correct": "The <label> is missing the for attribute pointing to the input's id",
-        "referenceAnswer": "Fix: <label for=\"email\">Email</label>. Without the for/id association, clicking the label does not focus the input and screen readers cannot announce the label when the input receives focus.",
+        "referenceAnswer": {
+            "en": "Fix: <label for=\"email\">Email</label>. Without the for/id association, clicking the label does not focus the input and screen readers cannot announce the label when the input receives focus.",
+            "ru": "Исправление: <label for=\"email\">Email</label>. Без связки for/id клик по подписи не переводит фокус в input, и скринридеры не могут озвучить подпись, когда input получает фокус."
+        },
         "lang": "html"
     },
     {
@@ -1238,7 +1241,10 @@
         },
         "code": "<figure>\n  <img src=\"sunset.jpg\" alt=\"Waves breaking on a rocky shore at dusk\">\n  <div class=\"caption\">\n    <figcaption>Sunset over the Atlantic, November</figcaption>\n  </div>\n</figure>",
         "correct": "The <figcaption> is wrapped in a <div>, so it is not a direct child of <figure> and the figure ends up with no caption",
-        "referenceAnswer": "The figure's caption is its first or last figcaption child; a figcaption nested inside another element is just flow content and no caption is exposed. Drop the wrapper and style the figcaption itself:\n\n```html\n<figure>\n  <img src=\"sunset.jpg\" alt=\"Waves breaking on a rocky shore at dusk\">\n  <figcaption class=\"caption\">Sunset over the Atlantic, November</figcaption>\n</figure>\n```",
+        "referenceAnswer": {
+            "en": "The figure's caption is its first or last figcaption child; a figcaption nested inside another element is just flow content and no caption is exposed. Drop the wrapper and style the figcaption itself:\n\n```html\n<figure>\n  <img src=\"sunset.jpg\" alt=\"Waves breaking on a rocky shore at dusk\">\n  <figcaption class=\"caption\">Sunset over the Atlantic, November</figcaption>\n</figure>\n```",
+            "ru": "Подпись figure — это его первый или последний дочерний figcaption; figcaption, вложенный в другой элемент, остаётся обычным flow-контентом, и подпись не экспонируется. Уберите обёртку и стилизуйте сам figcaption:\n\n```html\n<figure>\n  <img src=\"sunset.jpg\" alt=\"Waves breaking on a rocky shore at dusk\">\n  <figcaption class=\"caption\">Sunset over the Atlantic, November</figcaption>\n</figure>\n```"
+        },
         "lang": "html"
     },
     {
@@ -1257,7 +1263,10 @@
         },
         "code": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <style>\n    /* ~2 KB of critical CSS inlined by the build step */\n    :root { --brand: #0b5; --ink: #111 }\n    body { margin: 0; font: 16px/1.5 system-ui, sans-serif }\n    /* ...about 60 more rules... */\n  </style>\n  <meta charset=\"utf-8\">\n  <title>Каталог — Acme</title>\n</head>",
         "correct": "The inlined critical CSS pushes <meta charset> past the first 1024 bytes of the document, so the encoding prescan never finds the declaration",
-        "referenceAnswer": "The element containing the character encoding declaration must be serialized completely within the first 1024 bytes of the document. Move it to the top of <head>, before the inline <style> (or send Content-Type: text/html; charset=utf-8 from the server):\n\n```html\n<head>\n  <meta charset=\"utf-8\">\n  <style>/* critical CSS */</style>\n  <title>Каталог — Acme</title>\n</head>\n```\nPosition relative to <title> is irrelevant — only the byte limit is normative.",
+        "referenceAnswer": {
+            "en": "The element containing the character encoding declaration must be serialized completely within the first 1024 bytes of the document. Move it to the top of <head>, before the inline <style> (or send Content-Type: text/html; charset=utf-8 from the server):\n\n```html\n<head>\n  <meta charset=\"utf-8\">\n  <style>/* critical CSS */</style>\n  <title>Каталог — Acme</title>\n</head>\n```\nPosition relative to <title> is irrelevant — only the byte limit is normative.",
+            "ru": "Элемент с объявлением кодировки символов должен быть полностью сериализован в пределах первых 1024 байт документа. Перенесите его в начало <head>, перед инлайновым <style> (или отдавайте Content-Type: text/html; charset=utf-8 с сервера):\n\n```html\n<head>\n  <meta charset=\"utf-8\">\n  <style>/* critical CSS */</style>\n  <title>Каталог — Acme</title>\n</head>\n```\nПозиция относительно <title> значения не имеет — нормативно только ограничение по байтам."
+        },
         "lang": "html"
     },
     {
@@ -1276,7 +1285,10 @@
         },
         "code": "<iframe\n  src=\"https://third-party-widget.com/booking\"\n  title=\"Booking widget\"\n  width=\"600\"\n  height=\"400\">\n</iframe>",
         "correct": "The iframe has no sandbox attribute, so the embedded document keeps script execution, form submission and top-level navigation privileges",
-        "referenceAnswer": "Add sandbox and grant only the tokens the widget actually needs, e.g. sandbox=\"allow-scripts allow-forms\". Two caveats from the spec: allow-scripts together with allow-same-origin lets a framed document that is same-origin with the embedder remove its own sandbox attribute, so that pair is not containment; and without allow-same-origin the frame runs in an opaque origin — no cookies, no storage, and powerful features cannot be delegated to it.",
+        "referenceAnswer": {
+            "en": "Add sandbox and grant only the tokens the widget actually needs, e.g. sandbox=\"allow-scripts allow-forms\". Two caveats from the spec: allow-scripts together with allow-same-origin lets a framed document that is same-origin with the embedder remove its own sandbox attribute, so that pair is not containment; and without allow-same-origin the frame runs in an opaque origin — no cookies, no storage, and powerful features cannot be delegated to it.",
+            "ru": "Добавьте sandbox и выдайте только те токены, которые виджету действительно нужны, например sandbox=\"allow-scripts allow-forms\". Две оговорки из спецификации: allow-scripts вместе с allow-same-origin позволяет документу во фрейме, если он same-origin со встраивающей страницей, снять с себя атрибут sandbox, так что такая пара изоляцией не является; а без allow-same-origin фрейм работает в opaque origin: ни cookies, ни storage, и делегировать ему powerful features нельзя."
+        },
         "lang": "html"
     },
     {
@@ -1295,7 +1307,10 @@
         },
         "code": "<table>\n  <tr>\n    <th>Name</th>\n    <th>Age</th>\n  </tr>\n  <tr>\n    <td>Alice</td>\n    <td>30</td>\n    <td>Extra cell</td>\n  </tr>\n</table>",
         "correct": "The second row has 3 cells but the header defines only 2 columns",
-        "referenceAnswer": "Remove <td>Extra cell</td>, or add a matching <th> in the header row. Tables require consistent cell counts per row (or explicit colspan/rowspan).",
+        "referenceAnswer": {
+            "en": "Remove <td>Extra cell</td>, or add a matching <th> in the header row. Tables require consistent cell counts per row (or explicit colspan/rowspan).",
+            "ru": "Удалите <td>Extra cell</td> или добавьте соответствующий <th> в строку заголовка. В таблице число ячеек в каждой строке должно совпадать (либо colspan/rowspan задаются явно)."
+        },
         "lang": "html"
     },
     {
@@ -1314,7 +1329,10 @@
         },
         "code": "<select name=\"country\">\n  <option value=\"\">Choose a country</option>\n  <option value=\"uk\">United Kingdom</option>\n  <option value=\"de\">Germany</option>\n</select>",
         "correct": "The <select> has no required attribute, so the empty placeholder value can be submitted",
-        "referenceAnswer": "Add required to the select and make the placeholder a disabled, pre-selected empty option:\n\n```html\n<select name=\"country\" required>\n  <option value=\"\" disabled selected>Choose a country</option>\n  <option value=\"uk\">United Kingdom</option>\n  <option value=\"de\">Germany</option>\n</select>\n```\nWith required, a first option whose value is the empty string is the placeholder label option and the control is invalid while it is selected. disabled on its own fixes nothing: the UA then selects the first option in tree order that is not disabled, so the placeholder vanishes and United Kingdom is submitted silently.",
+        "referenceAnswer": {
+            "en": "Add required to the select and make the placeholder a disabled, pre-selected empty option:\n\n```html\n<select name=\"country\" required>\n  <option value=\"\" disabled selected>Choose a country</option>\n  <option value=\"uk\">United Kingdom</option>\n  <option value=\"de\">Germany</option>\n</select>\n```\nWith required, a first option whose value is the empty string is the placeholder label option and the control is invalid while it is selected. disabled on its own fixes nothing: the UA then selects the first option in tree order that is not disabled, so the placeholder vanishes and United Kingdom is submitted silently.",
+            "ru": "Добавьте required на select, а плейсхолдер сделайте пустым option с disabled и selected:\n\n```html\n<select name=\"country\" required>\n  <option value=\"\" disabled selected>Choose a country</option>\n  <option value=\"uk\">United Kingdom</option>\n  <option value=\"de\">Germany</option>\n</select>\n```\nПри наличии required первый option с пустой строкой в value считается placeholder label option, и контрол невалиден, пока выбран именно он. Сам по себе disabled ничего не исправляет: UA тогда выбирает первый в порядке дерева option, который не disabled, — плейсхолдер исчезает, и United Kingdom отправляется молча."
+        },
         "lang": "html"
     },
     {
@@ -1333,7 +1351,10 @@
         },
         "code": "<picture>\n  <source srcset=\"hero.avif\" type=\"image/avif\">\n  <source srcset=\"hero.webp\" type=\"image/webp\">\n</picture>",
         "correct": "The <picture> element is missing the mandatory <img> fallback element",
-        "referenceAnswer": "Add <img src=\"hero.jpg\" alt=\"Hero image\"> as the last child of <picture>. Without it, unsupported formats and browsers render nothing.",
+        "referenceAnswer": {
+            "en": "Add <img src=\"hero.jpg\" alt=\"Hero image\"> as the last child of <picture>. Without it, unsupported formats and browsers render nothing.",
+            "ru": "Добавьте <img src=\"hero.jpg\" alt=\"Hero image\"> последним дочерним элементом <picture>. Без него для неподдерживаемых форматов и браузеров не отрисуется ничего."
+        },
         "lang": "html"
     },
     {
@@ -1352,7 +1373,10 @@
         },
         "code": "<div\n  role=\"button\"\n  onclick=\"handleClick()\">\n  Submit\n</div>",
         "correct": "Missing tabindex=\"0\" (not keyboard focusable) and missing keyboard handlers for Enter and Space keys",
-        "referenceAnswer": "Add tabindex=\"0\" and onkeydown handling Enter and Space. Better: replace with a real <button> element which provides all this built-in.",
+        "referenceAnswer": {
+            "en": "Add tabindex=\"0\" and onkeydown handling Enter and Space. Better: replace with a real <button> element which provides all this built-in.",
+            "ru": "Добавьте tabindex=\"0\" и обработчик onkeydown для Enter и Space. Лучше — заменить на настоящий элемент <button>, который даёт всё это из коробки."
+        },
         "lang": "html"
     },
     {
@@ -1372,7 +1396,10 @@
         "code": "<__BLANK__ aria-label=\"Main navigation\">\n  <ul>\n    <li><a href=\"/\">Home</a></li>\n    <li><a href=\"/about\">About</a></li>\n  </ul>\n</__BLANK__>",
         "blanks": ["nav", "nav"],
         "lang": "html",
-        "referenceAnswer": "<nav aria-label=\"Main navigation\"> creates a navigation landmark. aria-label differentiates it from other nav elements on the same page."
+        "referenceAnswer": {
+            "en": "<nav aria-label=\"Main navigation\"> creates a navigation landmark. aria-label differentiates it from other nav elements on the same page.",
+            "ru": "<nav aria-label=\"Main navigation\"> создаёт лендмарк навигации. aria-label отличает его от других элементов nav на той же странице."
+        }
     },
     {
         "id": "html-complete-form-001",
@@ -1391,7 +1418,10 @@
         "code": "<label __BLANK__=\"user-email\">Email address</label>\n<input\n  __BLANK__=\"user-email\"\n  type=\"email\"\n  name=\"email\"\n  __BLANK__\n>",
         "blanks": ["for", "id", "required"],
         "lang": "html",
-        "referenceAnswer": "for=\"user-email\" associates the label. id=\"user-email\" matches the for. required enables browser constraint validation."
+        "referenceAnswer": {
+            "en": "for=\"user-email\" associates the label. id=\"user-email\" matches the for. required enables browser constraint validation.",
+            "ru": "for=\"user-email\" связывает подпись с полем. id=\"user-email\" совпадает со значением for. required включает встроенную браузерную валидацию (constraint validation)."
+        }
     },
     {
         "id": "html-complete-doctype-001",
@@ -1410,7 +1440,10 @@
         "code": "<!__BLANK__ html>\n<html lang=\"en\">\n<__BLANK__>\n  <meta charset=\"UTF-8\">\n  <title>My Page</title>\n</__BLANK__>\n<body>\n  <p>Content</p>\n</body>\n</html>",
         "blanks": ["DOCTYPE", "head", "head"],
         "lang": "html",
-        "referenceAnswer": "<!DOCTYPE html> declares the HTML5 doctype. <head> contains metadata. The closing </head> ends the head section before <body>."
+        "referenceAnswer": {
+            "en": "<!DOCTYPE html> declares the HTML5 doctype. <head> contains metadata. The closing </head> ends the head section before <body>.",
+            "ru": "<!DOCTYPE html> объявляет doctype HTML5. <head> содержит метаданные. Закрывающий </head> завершает секцию head перед <body>."
+        }
     },
     {
         "id": "html-complete-picture-001",
@@ -1429,7 +1462,10 @@
         "code": "<picture>\n  <source __BLANK__=\"hero.avif\" __BLANK__=\"image/avif\">\n  <source srcset=\"hero.webp\" type=\"image/webp\">\n  <img src=\"hero.jpg\" alt=\"Hero\" __BLANK__=\"high\">\n</picture>",
         "blanks": ["srcset", "type", "fetchpriority"],
         "lang": "html",
-        "referenceAnswer": "srcset on <source> carries the candidate URL (src is not allowed there). type=\"image/avif\" drives format negotiation — the browser takes the first <source> whose type it supports. fetchpriority=\"high\" raises the priority of the hero image, which is usually the LCP element; never put loading=\"lazy\" on an image that is in the initial viewport."
+        "referenceAnswer": {
+            "en": "srcset on <source> carries the candidate URL (src is not allowed there). type=\"image/avif\" drives format negotiation — the browser takes the first <source> whose type it supports. fetchpriority=\"high\" raises the priority of the hero image, which is usually the LCP element; never put loading=\"lazy\" on an image that is in the initial viewport.",
+            "ru": "srcset на <source> задаёт URL кандидата (src там не допускается). type=\"image/avif\" управляет согласованием формата — браузер берёт первый <source>, чей type он поддерживает. fetchpriority=\"high\" повышает приоритет hero-изображения, которое обычно и является LCP-элементом; никогда не ставьте loading=\"lazy\" на изображение, попадающее в первый экран."
+        }
     },
     {
         "id": "html-complete-data-001",
@@ -1448,7 +1484,10 @@
         "code": "const btn = document.querySelector('#btn');\n\n// Read data-item-id\nconst id = btn.__BLANK__.__BLANK__;\n\n// Write data-item-count\nbtn.__BLANK__.itemCount = '5';",
         "blanks": ["dataset", "itemId", "dataset"],
         "lang": "javascript",
-        "referenceAnswer": "btn.dataset.itemId reads data-item-id. btn.dataset.itemCount = '5' writes data-item-count. The dataset API converts kebab-case to camelCase."
+        "referenceAnswer": {
+            "en": "btn.dataset.itemId reads data-item-id. btn.dataset.itemCount = '5' writes data-item-count. The dataset API converts kebab-case to camelCase.",
+            "ru": "btn.dataset.itemId читает data-item-id. btn.dataset.itemCount = '5' записывает data-item-count. API dataset преобразует kebab-case в camelCase."
+        }
     },
     {
         "id": "html-complete-aria-001",
@@ -1467,7 +1506,10 @@
         "code": "<button\n  aria-controls=\"__BLANK__\"\n  aria-expanded=\"__BLANK__\"\n  onclick=\"toggle(this)\">\n  Show details\n</button>\n<div id=\"details\" __BLANK__>\n  <p>Extra info.</p>\n</div>",
         "blanks": ["details", "false", "hidden"],
         "lang": "html",
-        "referenceAnswer": "aria-controls=\"details\" links to the controlled element. aria-expanded=\"false\" signals the collapsed state. hidden hides the div from both visual display and screen readers."
+        "referenceAnswer": {
+            "en": "aria-controls=\"details\" links to the controlled element. aria-expanded=\"false\" signals the collapsed state. hidden hides the div from both visual display and screen readers.",
+            "ru": "aria-controls=\"details\" ссылается на управляемый элемент. aria-expanded=\"false\" сообщает о свёрнутом состоянии. hidden убирает div и из визуального отображения, и из вывода скринридеров."
+        }
     },
     {
         "id": "html-complete-table-001",
@@ -1486,7 +1528,10 @@
         "code": "<table>\n  <__BLANK__>Product inventory</__BLANK__>\n  <thead>\n    <tr>\n      <th __BLANK__=\"col\">Product</th>\n      <th scope=\"col\">Stock</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr><td>Widget A</td><td>42</td></tr>\n  </tbody>\n</table>",
         "blanks": ["caption", "caption", "scope"],
         "lang": "html",
-        "referenceAnswer": "<caption> titles the table programmatically. scope=\"col\" on <th> associates it with the column's data cells."
+        "referenceAnswer": {
+            "en": "<caption> titles the table programmatically. scope=\"col\" on <th> associates it with the column's data cells.",
+            "ru": "<caption> программно задаёт заголовок таблицы. scope=\"col\" на <th> связывает его с ячейками данных этого столбца."
+        }
     },
     {
         "id": "html-complete-webcomponent-001",
@@ -1505,7 +1550,10 @@
         "code": "class TooltipEl extends HTMLElement {\n  static get __BLANK__() {\n    return ['data-text', 'disabled'];\n  }\n\n  // runs when the element is inserted into the document\n  __BLANK__() {\n    this.innerHTML = `<span>${this.dataset.text}</span>`;\n  }\n\n  attributeChangedCallback(name, old, val) {\n    if (name === 'data-text') this.querySelector('span').textContent = val;\n  }\n}",
         "blanks": ["observedAttributes", "connectedCallback"],
         "lang": "javascript",
-        "referenceAnswer": "observedAttributes is a static getter listing attributes to monitor for attributeChangedCallback. connectedCallback fires when the element is inserted into the document."
+        "referenceAnswer": {
+            "en": "observedAttributes is a static getter listing attributes to monitor for attributeChangedCallback. connectedCallback fires when the element is inserted into the document.",
+            "ru": "observedAttributes — это статический геттер со списком атрибутов, за которыми нужно следить для attributeChangedCallback. connectedCallback срабатывает, когда элемент вставляется в документ."
+        }
     },
     {
         "id": "html-a11y-dialog-001",
@@ -2084,7 +2132,10 @@
         "code": "<div id=\"toast-root\"></div>\n\n<script>\n  function showToast(message) {\n    const root = document.getElementById('toast-root');\n    root.innerHTML =\n      '<div class=\"toast\" role=\"status\" aria-live=\"polite\">' + message + '</div>';\n  }\n\n  saveButton.addEventListener('click', async () => {\n    await save();\n    showToast('Draft saved');\n  });\n</script>",
         "lang": "html",
         "correct": "The live region node is created together with its text, so it was not a live region at the moment of the mutation and nothing is announced",
-        "referenceAnswer": "Assistive technology observes nodes that are already live regions when a mutation happens. Here the element carrying role=\"status\" / aria-live=\"polite\" is inserted in the same operation as its text, so there is no observed change. Fix: keep the live region in the DOM from first render and only write text into it.\n\n```html\n<div id=\"toast-root\" role=\"status\" aria-live=\"polite\" aria-atomic=\"true\"></div>\n<script>\n  function showToast(message) {\n    document.getElementById('toast-root').textContent = message;\n  }\n</script>\n```\n\nIf consecutive toasts carry the same text, clear the region and set the new text on the next frame so the change is observable.",
+        "referenceAnswer": {
+            "en": "Assistive technology observes nodes that are already live regions when a mutation happens. Here the element carrying role=\"status\" / aria-live=\"polite\" is inserted in the same operation as its text, so there is no observed change. Fix: keep the live region in the DOM from first render and only write text into it.\n\n```html\n<div id=\"toast-root\" role=\"status\" aria-live=\"polite\" aria-atomic=\"true\"></div>\n<script>\n  function showToast(message) {\n    document.getElementById('toast-root').textContent = message;\n  }\n</script>\n```\n\nIf consecutive toasts carry the same text, clear the region and set the new text on the next frame so the change is observable.",
+            "ru": "Вспомогательные технологии наблюдают за узлами, которые на момент мутации уже являются live-регионами. Здесь элемент с role=\"status\" / aria-live=\"polite\" вставляется той же операцией, что и его текст, поэтому наблюдаемого изменения нет. Исправление: держите live-регион в DOM с первого рендера и только записывайте в него текст.\n\n```html\n<div id=\"toast-root\" role=\"status\" aria-live=\"polite\" aria-atomic=\"true\"></div>\n<script>\n  function showToast(message) {\n    document.getElementById('toast-root').textContent = message;\n  }\n</script>\n```\n\nЕсли подряд идущие тосты несут один и тот же текст, очистите регион и задайте новый текст на следующем кадре, чтобы изменение было наблюдаемым."
+        },
         "explanation": {
             "en": "A live region announces changes to a node the screen reader is already watching. Mounting the container and its content in one go gives it nothing to compare against, which is why conditionally rendered toasts and error banners in React are so often silent. Render the empty region unconditionally and update only its text.",
             "ru": "Live region объявляет изменения узла, за которым скринридер уже наблюдает. Монтирование контейнера вместе с содержимым не даёт ему точки сравнения — поэтому условно рендерящиеся тосты и баннеры ошибок в React так часто молчат. Рендерьте пустой регион безусловно и обновляйте только его текст."
@@ -2103,7 +2154,10 @@
         "code": "<label for=\"city\">City</label>\n<input id=\"city\" role=\"combobox\" aria-expanded=\"true\"\n       aria-controls=\"city-list\" aria-autocomplete=\"list\" />\n<ul id=\"city-list\" role=\"listbox\">\n  <li id=\"opt-0\" role=\"option\" tabindex=\"-1\" aria-selected=\"false\">Kyiv</li>\n  <li id=\"opt-1\" role=\"option\" tabindex=\"-1\" aria-selected=\"false\">Lviv</li>\n</ul>\n\n<script>\n  input.addEventListener('keydown', (e) => {\n    if (e.key !== 'ArrowDown') return;\n    e.preventDefault();\n    activeIndex = Math.min(activeIndex + 1, options.length - 1);\n    options[activeIndex].focus();\n  });\n</script>",
         "lang": "html",
         "correct": "ArrowDown moves real DOM focus onto the option, so focus leaves the input; the combobox must keep focus and set aria-activedescendant instead",
-        "referenceAnswer": "The APG combobox pattern requires DOM focus to stay on the input while the assistive-technology cursor is moved with aria-activedescendant. Calling options[activeIndex].focus() blurs the input, so keystrokes no longer reach it, the caret is lost and aria-autocomplete stops meaning anything. Fix:\n\n```js\ninput.addEventListener('keydown', (e) => {\n  if (e.key !== 'ArrowDown') return;\n  e.preventDefault();\n  activeIndex = Math.min(activeIndex + 1, options.length - 1);\n  const active = options[activeIndex];\n  input.setAttribute('aria-activedescendant', active.id);\n  options.forEach((o) => o.classList.toggle('is-active', o === active));\n  active.scrollIntoView({ block: 'nearest' });\n});\n```\n\nBecause DOM focus never moves, the visual highlight and scrollIntoView are now your responsibility; clear aria-activedescendant when the popup closes.",
+        "referenceAnswer": {
+            "en": "The APG combobox pattern requires DOM focus to stay on the input while the assistive-technology cursor is moved with aria-activedescendant. Calling options[activeIndex].focus() blurs the input, so keystrokes no longer reach it, the caret is lost and aria-autocomplete stops meaning anything. Fix:\n\n```js\ninput.addEventListener('keydown', (e) => {\n  if (e.key !== 'ArrowDown') return;\n  e.preventDefault();\n  activeIndex = Math.min(activeIndex + 1, options.length - 1);\n  const active = options[activeIndex];\n  input.setAttribute('aria-activedescendant', active.id);\n  options.forEach((o) => o.classList.toggle('is-active', o === active));\n  active.scrollIntoView({ block: 'nearest' });\n});\n```\n\nBecause DOM focus never moves, the visual highlight and scrollIntoView are now your responsibility; clear aria-activedescendant when the popup closes.",
+            "ru": "Паттерн combobox из APG требует, чтобы DOM-фокус оставался на input, пока курсор вспомогательной технологии перемещается через aria-activedescendant. Вызов options[activeIndex].focus() снимает фокус с input: нажатия клавиш до него больше не доходят, каретка теряется, а aria-autocomplete перестаёт что-либо значить. Исправление:\n\n```js\ninput.addEventListener('keydown', (e) => {\n  if (e.key !== 'ArrowDown') return;\n  e.preventDefault();\n  activeIndex = Math.min(activeIndex + 1, options.length - 1);\n  const active = options[activeIndex];\n  input.setAttribute('aria-activedescendant', active.id);\n  options.forEach((o) => o.classList.toggle('is-active', o === active));\n  active.scrollIntoView({ block: 'nearest' });\n});\n```\n\nПоскольку DOM-фокус никуда не перемещается, визуальная подсветка и scrollIntoView теперь ваша ответственность; при закрытии попапа очищайте aria-activedescendant."
+        },
         "explanation": {
             "en": "This is the failure automated tooling cannot see: every required attribute is present, so axe is satisfied, yet the interaction contract is inverted. In a combobox the input is the single focus owner and `aria-activedescendant` is the only thing that moves, which is also why the visual focus ring and scrolling become your code's job.",
             "ru": "Это тот самый провал, который автоматика не видит: все нужные атрибуты на месте, axe доволен, но контракт взаимодействия вывернут наизнанку. В комбобоксе input — единственный владелец фокуса, и двигается только `aria-activedescendant`; из-за этого визуальная подсветка и прокрутка ложатся на ваш код."
@@ -2122,7 +2176,10 @@
         "code": "<a class=\"skip-link\" href=\"#content\">Skip to main content</a>\n<nav aria-label=\"Main\">\n  <a href=\"/deals\">Deals</a>\n  <a href=\"/reports\">Reports</a>\n</nav>\n<main id=\"content\" tabindex=\"-1\">\n  <h1>Reports</h1>\n</main>\n\n<style>\n  .skip-link { display: none; }\n  .skip-link:focus { display: block; }\n</style>",
         "lang": "html",
         "correct": "display: none removes the link from the sequential focus order, so it can never receive focus and the :focus rule that would reveal it never applies",
-        "referenceAnswer": "An element inside a `display: none` subtree is not rendered and is not focusable, so it is not in the sequential focus navigation order. The `:focus` rule can therefore never match — the style is waiting for a focus the element is unable to receive. `visibility: hidden` and the `hidden` attribute fail the same way. Fix: keep the link rendered and move it off-screen, then bring it back on focus.\n\n```css\n.skip-link {\n  position: absolute;\n  left: -9999px;\n}\n.skip-link:focus {\n  left: 0;\n}\n```\n\nThe clip-rect / `clip-path` visually-hidden class works too. Note what is NOT the bug here: `tabindex=\"-1\"` on `<main>` is not what makes Tab continue from the target. Current engines implement the sequential focus navigation starting point, so activating a fragment link already moves that starting point to the target element even when it is not focusable. The attribute is kept because moving real focus is still the reliable way to bring a screen-reader virtual cursor and a screen magnifier along.",
+        "referenceAnswer": {
+            "en": "An element inside a `display: none` subtree is not rendered and is not focusable, so it is not in the sequential focus navigation order. The `:focus` rule can therefore never match — the style is waiting for a focus the element is unable to receive. `visibility: hidden` and the `hidden` attribute fail the same way. Fix: keep the link rendered and move it off-screen, then bring it back on focus.\n\n```css\n.skip-link {\n  position: absolute;\n  left: -9999px;\n}\n.skip-link:focus {\n  left: 0;\n}\n```\n\nThe clip-rect / `clip-path` visually-hidden class works too. Note what is NOT the bug here: `tabindex=\"-1\"` on `<main>` is not what makes Tab continue from the target. Current engines implement the sequential focus navigation starting point, so activating a fragment link already moves that starting point to the target element even when it is not focusable. The attribute is kept because moving real focus is still the reliable way to bring a screen-reader virtual cursor and a screen magnifier along.",
+            "ru": "Элемент внутри поддерева с `display: none` не отрисовывается и не может получить фокус, поэтому он не входит в последовательный порядок обхода фокуса. Правило `:focus` из-за этого не может сработать никогда — стиль ждёт фокуса, который элемент не в состоянии получить. `visibility: hidden` и атрибут `hidden` дают ровно тот же результат. Исправление: оставьте ссылку отрисованной и уведите её за пределы экрана, возвращая обратно по фокусу.\n\n```css\n.skip-link {\n  position: absolute;\n  left: -9999px;\n}\n.skip-link:focus {\n  left: 0;\n}\n```\n\nВариант visually-hidden через clip-rect / `clip-path` тоже работает. Обратите внимание, что здесь НЕ является багом: `tabindex=\"-1\"` на `<main>` — не он заставляет Tab продолжать обход от цели. Современные движки реализуют sequential focus navigation starting point, поэтому переход по фрагментной ссылке уже переносит эту точку старта на целевой элемент, даже если тот не фокусируемый. Атрибут сохраняют потому, что реальный перенос фокуса остаётся надёжным способом увести за собой виртуальный курсор скринридера и экранную лупу."
+        },
         "explanation": {
             "en": "A skip link has to stay in the tab order while it is invisible, and `display: none` is exactly what forbids that: a non-rendered element cannot be focused, so `:focus` never fires and the link is dead markup. The off-screen patterns — `position: absolute; left: -9999px`, or the clip-rect class — keep the element rendered and focusable while keeping it out of sight.",
             "ru": "Скип-ссылка обязана оставаться в порядке табуляции, пока она невидима, — а `display: none` именно это и запрещает: нерендерящийся элемент нельзя сфокусировать, поэтому `:focus` никогда не срабатывает и ссылка превращается в мёртвую разметку. Офф-скрин-паттерны — `position: absolute; left: -9999px` или класс с clip-rect — оставляют элемент отрисованным и фокусируемым, убирая его из поля зрения."
@@ -2141,7 +2198,10 @@
         "code": "<div id=\"route-announcer\" class=\"visually-hidden\" aria-live=\"__BLANK__\"></div>\n<main>\n  <h1>Reports</h1>\n</main>\n\n<script>\n  // Called by the router after the new view has rendered\n  function announceRoute(pageTitle) {\n    const heading = document.querySelector('main h1');\n    heading.setAttribute('tabindex', '__BLANK__');\n    heading.focus();\n    document.getElementById('route-announcer').textContent = pageTitle;\n  }\n</script>",
         "blanks": ["polite", "-1"],
         "lang": "html",
-        "referenceAnswer": "aria-live=\"polite\" queues the announcement instead of cutting off whatever the user is reading; assertive would interrupt on every navigation. tabindex=\"-1\" makes the heading programmatically focusable without adding it to the sequential tab order, so keyboard users continue from the new view instead of from a link that no longer exists. The announcer element must already be in the DOM before the text is written into it, which is why it is rendered unconditionally outside the routed view.",
+        "referenceAnswer": {
+            "en": "aria-live=\"polite\" queues the announcement instead of cutting off whatever the user is reading; assertive would interrupt on every navigation. tabindex=\"-1\" makes the heading programmatically focusable without adding it to the sequential tab order, so keyboard users continue from the new view instead of from a link that no longer exists. The announcer element must already be in the DOM before the text is written into it, which is why it is rendered unconditionally outside the routed view.",
+            "ru": "aria-live=\"polite\" ставит объявление в очередь, вместо того чтобы обрывать то, что пользователь сейчас читает; assertive прерывал бы его при каждой навигации. tabindex=\"-1\" делает заголовок программно фокусируемым, не добавляя его в последовательный порядок табуляции, поэтому пользователи клавиатуры продолжают с нового экрана, а не со ссылки, которой больше не существует. Элемент-анонсер должен уже находиться в DOM к моменту записи в него текста — поэтому он рендерится безусловно, вне маршрутизируемого представления."
+        },
         "explanation": {
             "en": "A client-side route change fires no page-load event, so neither focus nor the screen reader moves on its own. Focusing an `h1` carrying `tabindex=\"-1\"` restores keyboard context; a persistent polite live region supplies the announcement. Keeping the announcer outside the routed subtree is what guarantees it survives the swap and is observed when its text changes.",
             "ru": "Клиентская смена маршрута не порождает события загрузки страницы, поэтому ни фокус, ни скринридер сами никуда не переезжают. Фокус на `h1` с `tabindex=\"-1\"` восстанавливает контекст клавиатуры, а постоянный polite live region даёт объявление. Именно то, что анонсер живёт вне маршрутизируемого поддерева, гарантирует его выживание при подмене и наблюдаемость изменения текста."
@@ -2160,7 +2220,10 @@
         "code": "<dialog id=\"confirm\" aria-labelledby=\"confirm-title\">\n  <h2 id=\"confirm-title\">Delete this draft?</h2>\n  <form method=\"__BLANK__\">\n    <button value=\"cancel\" autofocus>Cancel</button>\n    <button value=\"delete\">Delete</button>\n  </form>\n</dialog>\n\n<script>\n  document.getElementById('open').addEventListener('click', () => {\n    document.getElementById('confirm').__BLANK__();\n  });\n</script>",
         "blanks": ["dialog", "showModal"],
         "lang": "html",
-        "referenceAnswer": "method=\"dialog\" makes the form close the enclosing dialog on submit and set dialog.returnValue to the activated button's value, with no JavaScript and no navigation. showModal() is the modal opener: it puts the dialog in the top layer, makes everything outside it inert and enables Esc-to-close, whereas show() opens a non-modal dialog that keyboard focus can walk straight out of. The autofocus attribute pins the initial focus on the safe action rather than leaving it to the first-focusable-element fallback.",
+        "referenceAnswer": {
+            "en": "method=\"dialog\" makes the form close the enclosing dialog on submit and set dialog.returnValue to the activated button's value, with no JavaScript and no navigation. showModal() is the modal opener: it puts the dialog in the top layer, makes everything outside it inert and enables Esc-to-close, whereas show() opens a non-modal dialog that keyboard focus can walk straight out of. The autofocus attribute pins the initial focus on the safe action rather than leaving it to the first-focusable-element fallback.",
+            "ru": "method=\"dialog\" заставляет форму при отправке закрыть обрамляющий dialog и записать в dialog.returnValue значение нажатой кнопки — без JavaScript и без навигации. showModal() открывает диалог модально: помещает его в top layer, делает всё за его пределами inert и включает закрытие по Esc, тогда как show() открывает немодальный диалог, из которого фокус клавиатуры спокойно уходит наружу. Атрибут autofocus закрепляет начальный фокус на безопасном действии, вместо того чтобы отдавать его запасному правилу «первый фокусируемый элемент»."
+        },
         "explanation": {
             "en": "`showModal()` is the only entry point that buys inertness and the top layer; `show()` leaves the page behind fully interactive. `method=\"dialog\"` turns the buttons into a declarative close with a return value, which removes a whole class of hand-written close handlers. Explicit `autofocus` matters because the fallback is simply the first focusable element, which is often the wrong one for a destructive dialog.",
             "ru": "`showModal()` — единственная точка входа, дающая инертность и top layer; `show()` оставляет страницу позади полностью интерактивной. `method=\"dialog\"` превращает кнопки в декларативное закрытие с возвращаемым значением и убирает целый класс самописных обработчиков. Явный `autofocus` важен потому, что по умолчанию фокус уходит на первый фокусируемый элемент, а для деструктивного диалога это часто не тот элемент."
@@ -2179,7 +2242,10 @@
         "code": "<label for=\"country\">Country</label>\n<input id=\"country\" role=\"combobox\" aria-controls=\"country-list\"\n       aria-expanded=\"__BLANK__\" aria-autocomplete=\"list\" />\n<ul id=\"country-list\" role=\"listbox\" hidden>\n  <li id=\"c-0\" role=\"option\" aria-selected=\"false\">Ukraine</li>\n  <li id=\"c-1\" role=\"option\" aria-selected=\"false\">Poland</li>\n</ul>\n\n<script>\n  function openPopup() {\n    list.hidden = false;\n    input.setAttribute('aria-expanded', 'true');\n  }\n\n  function setActive(option) {\n    options.forEach((o) => o.setAttribute('aria-__BLANK__', String(o === option)));\n    input.setAttribute('aria-activedescendant', option.id);\n  }\n\n  function closePopup() {\n    list.hidden = true;\n    input.setAttribute('aria-expanded', 'false');\n    input.removeAttribute('aria-__BLANK__');\n  }\n</script>",
         "blanks": ["false", "selected", "activedescendant"],
         "lang": "html",
-        "referenceAnswer": "aria-expanded belongs on the element carrying role=\"combobox\" and starts as \"false\" because the listbox is hidden on first render; it has to be flipped on every open AND every close, not only on open.\n\naria-selected=\"true\" marks the option the user is currently on, and the previously active option must lose it in the same pass — two selected options in a single-select listbox is a contradiction assistive technology reports literally.\n\naria-activedescendant has to be removed when the popup closes. An id reference left behind points at an element that is no longer exposed, and screen readers keep reporting a phantom active option on an input the user is plainly typing into.\n\nDOM focus stays on the input through all three steps; none of these attributes moves it.",
+        "referenceAnswer": {
+            "en": "aria-expanded belongs on the element carrying role=\"combobox\" and starts as \"false\" because the listbox is hidden on first render; it has to be flipped on every open AND every close, not only on open.\n\naria-selected=\"true\" marks the option the user is currently on, and the previously active option must lose it in the same pass — two selected options in a single-select listbox is a contradiction assistive technology reports literally.\n\naria-activedescendant has to be removed when the popup closes. An id reference left behind points at an element that is no longer exposed, and screen readers keep reporting a phantom active option on an input the user is plainly typing into.\n\nDOM focus stays on the input through all three steps; none of these attributes moves it.",
+            "ru": "aria-expanded принадлежит элементу с role=\"combobox\" и стартует со значением \"false\", потому что на первом рендере listbox скрыт; переключать его нужно при каждом открытии И при каждом закрытии, а не только при открытии.\n\naria-selected=\"true\" помечает опцию, на которой пользователь находится сейчас, и предыдущая активная опция должна потерять его в том же проходе: две выбранные опции в listbox с одиночным выбором — это противоречие, о котором вспомогательные технологии сообщают буквально.\n\naria-activedescendant необходимо удалять при закрытии попапа. Оставшаяся ссылка на id указывает на элемент, который больше не экспонируется, и скринридеры продолжают сообщать о фантомной активной опции в поле, в которое пользователь явно печатает.\n\nDOM-фокус на всех трёх шагах остаётся на input; ни один из этих атрибутов его не перемещает."
+        },
         "explanation": {
             "en": "A combobox is mostly a state machine written in attributes. `aria-expanded` answers \"is there a popup right now\", `aria-selected` answers \"which option am I on\", and `aria-activedescendant` is the id reference that ties the two together. The recurring production bug is asymmetry: the attributes are set on open and on every arrow press, and never cleaned up on close.",
             "ru": "Комбобокс — это по большей части конечный автомат, записанный атрибутами. `aria-expanded` отвечает на вопрос «есть ли сейчас попап», `aria-selected` — «на какой опции я нахожусь», а `aria-activedescendant` связывает одно с другим по id. Регулярный продовый баг — асимметрия: атрибуты выставляются при открытии и на каждое нажатие стрелки, но не убираются при закрытии."

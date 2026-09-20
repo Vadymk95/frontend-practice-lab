@@ -763,7 +763,10 @@
         },
         "code": "// app/dashboard/page.tsx\nexport default function DashboardPage() {\n  const [isOpen, setIsOpen] = useState(false);\n\n  return (\n    <div>\n      <button onClick={() => setIsOpen(!isOpen)}>Toggle</button>\n      {isOpen && <Modal />}\n    </div>\n  );\n}",
         "correct": "`useState` and `onClick` cannot be used in a Server Component — the file needs `'use client'` directive",
-        "referenceAnswer": "Add `'use client'` as the very first line of the file. Server Components run only on the server and cannot use browser APIs, event handlers, or stateful hooks like `useState`.",
+        "referenceAnswer": {
+            "en": "Add `'use client'` as the very first line of the file. Server Components run only on the server and cannot use browser APIs, event handlers, or stateful hooks like `useState`.",
+            "ru": "Добавьте `'use client'` самой первой строкой файла. Server Components выполняются только на сервере и не могут использовать браузерные API, обработчики событий или хуки с состоянием вроде `useState`."
+        },
         "lang": "jsx"
     },
     {
@@ -782,7 +785,10 @@
         },
         "code": "'use client';\nimport type { Metadata } from 'next';\n\nexport const metadata: Metadata = {\n  title: 'My Page',\n  description: 'Welcome'\n};\n\nexport default function MyPage() {\n  return <div>Hello</div>;\n}",
         "correct": "The `metadata` export is not supported in Client Components. Metadata can only be exported from Server Components (pages or layouts without `'use client'`)",
-        "referenceAnswer": "Remove the `'use client'` directive. If the page needs interactivity, extract the interactive parts into a separate Client Component and keep the page itself as a Server Component that exports `metadata`.",
+        "referenceAnswer": {
+            "en": "Remove the `'use client'` directive. If the page needs interactivity, extract the interactive parts into a separate Client Component and keep the page itself as a Server Component that exports `metadata`.",
+            "ru": "Уберите директиву `'use client'`. Если странице нужна интерактивность, вынесите интерактивные части в отдельный Client Component, а саму страницу оставьте Server Component, который экспортирует `metadata`."
+        },
         "lang": "jsx"
     },
     {
@@ -801,7 +807,10 @@
         },
         "code": "// app/actions.ts\nexport async function createPost(formData: FormData) {\n  const title = formData.get('title');\n  await db.post.create({ data: { title } });\n}",
         "correct": "The function is missing the `'use server'` directive — without it, Next.js does not mark it as a Server Action and it cannot be safely called from a Client Component",
-        "referenceAnswer": "Add `'use server'` as the first line of the file (for a module-level directive covering all exports) or inside the function body:\n```ts\n'use server';\nexport async function createPost(formData: FormData) {\n  ...\n}\n```",
+        "referenceAnswer": {
+            "en": "Add `'use server'` as the first line of the file (for a module-level directive covering all exports) or inside the function body:\n```ts\n'use server';\nexport async function createPost(formData: FormData) {\n  ...\n}\n```",
+            "ru": "Добавьте `'use server'` первой строкой файла (тогда это директива уровня модуля, покрывающая все экспорты) или внутри тела функции:\n```ts\n'use server';\nexport async function createPost(formData: FormData) {\n  ...\n}\n```"
+        },
         "lang": "javascript"
     },
     {
@@ -820,7 +829,10 @@
         },
         "code": "import Image from 'next/image';\n\nexport default function Avatar() {\n  return (\n    <Image\n      src=\"https://cdn.example.com/avatar.png\"\n      alt=\"User avatar\"\n      width={64}\n      height={64}\n    />\n  );\n}",
         "correct": "Remote image hostnames must be explicitly whitelisted in `next.config.js` under `images.remotePatterns` before `next/image` will serve them",
-        "referenceAnswer": "Add the domain to `next.config.js`:\n```js\nmodule.exports = {\n  images: {\n    remotePatterns: [{ protocol: 'https', hostname: 'cdn.example.com' }]\n  }\n};\n```",
+        "referenceAnswer": {
+            "en": "Add the domain to `next.config.js`:\n```js\nmodule.exports = {\n  images: {\n    remotePatterns: [{ protocol: 'https', hostname: 'cdn.example.com' }]\n  }\n};\n```",
+            "ru": "Добавьте домен в `next.config.js`:\n```js\nmodule.exports = {\n  images: {\n    remotePatterns: [{ protocol: 'https', hostname: 'cdn.example.com' }]\n  }\n};\n```"
+        },
         "lang": "jsx"
     },
     {
@@ -839,7 +851,10 @@
         },
         "code": "// app/api/posts/route.ts\nimport { NextResponse } from 'next/server';\n\nexport async function GET() {\n  const posts = await db.post.findMany();\n  return NextResponse.json(posts);\n}",
         "correct": "The Route Handler only exports a `GET` handler. A `POST` export is missing, so Next.js returns 405 for POST requests",
-        "referenceAnswer": "Add a `POST` export:\n```ts\nexport async function POST(request: Request) {\n  const body = await request.json();\n  const post = await db.post.create({ data: body });\n  return NextResponse.json(post, { status: 201 });\n}\n```",
+        "referenceAnswer": {
+            "en": "Add a `POST` export:\n```ts\nexport async function POST(request: Request) {\n  const body = await request.json();\n  const post = await db.post.create({ data: body });\n  return NextResponse.json(post, { status: 201 });\n}\n```",
+            "ru": "Добавьте экспорт `POST`:\n```ts\nexport async function POST(request: Request) {\n  const body = await request.json();\n  const post = await db.post.create({ data: body });\n  return NextResponse.json(post, { status: 201 });\n}\n```"
+        },
         "lang": "javascript"
     },
     {
@@ -858,7 +873,10 @@
         },
         "code": "export default async function UserDashboard({ params }: { params: Promise<{ id: string }> }) {\n  const { id } = await params;\n  const user = await fetch(`https://api.example.com/users/${id}`, {\n    cache: 'force-cache'\n  }).then(r => r.json());\n  return <div>{user.name}</div>;\n}",
         "correct": "`cache: 'force-cache'` opts this personalised per-user request into the framework's persistent server cache, so the stored response is replayed instead of being fetched again",
-        "referenceAnswer": "Caching is opt-in since Next.js 15, so the fix is to remove the explicit opt-in and let the request use the default `auto no cache`:\n```ts\nconst { id } = await params;\nconst user = await fetch(`https://api.example.com/users/${id}`).then(r => r.json());\n```\nIf a bounded cache is acceptable, tag the request (`next: { tags: ['user-' + id] }`) and invalidate it with `revalidateTag(tag, 'max')`, or set `next: { revalidate: n }`. Reading `cookies()` or `headers()` in the same component also makes the route dynamic.",
+        "referenceAnswer": {
+            "en": "Caching is opt-in since Next.js 15, so the fix is to remove the explicit opt-in and let the request use the default `auto no cache`:\n```ts\nconst { id } = await params;\nconst user = await fetch(`https://api.example.com/users/${id}`).then(r => r.json());\n```\nIf a bounded cache is acceptable, tag the request (`next: { tags: ['user-' + id] }`) and invalidate it with `revalidateTag(tag, 'max')`, or set `next: { revalidate: n }`. Reading `cookies()` or `headers()` in the same component also makes the route dynamic.",
+            "ru": "Кэширование стало opt-in начиная с Next.js 15, поэтому исправление — убрать явное включение кэша и оставить запросу поведение по умолчанию — `auto no cache`:\n```ts\nconst { id } = await params;\nconst user = await fetch(`https://api.example.com/users/${id}`).then(r => r.json());\n```\nЕсли ограниченное кэширование допустимо, повесьте на запрос тег (`next: { tags: ['user-' + id] }`) и инвалидируйте его через `revalidateTag(tag, 'max')` либо задайте `next: { revalidate: n }`. Чтение `cookies()` или `headers()` в том же компоненте тоже делает маршрут динамическим."
+        },
         "lang": "tsx"
     },
     {
@@ -877,7 +895,10 @@
         },
         "code": "// app/dashboard/error.tsx\nimport { useEffect } from 'react';\n\nexport default function DashboardError({\n  error,\n  reset\n}: {\n  error: Error;\n  reset: () => void;\n}) {\n  useEffect(() => {\n    console.error(error);\n  }, [error]);\n\n  return (\n    <div>\n      <h2>Something went wrong</h2>\n      <button onClick={reset}>Try again</button>\n    </div>\n  );\n}",
         "correct": "The `error.tsx` component is missing the `'use client'` directive — error boundaries must be Client Components",
-        "referenceAnswer": "Add `'use client'` as the very first line:\n```tsx\n'use client';\nimport { useEffect } from 'react';\n// ... rest of component\n```",
+        "referenceAnswer": {
+            "en": "Add `'use client'` as the very first line:\n```tsx\n'use client';\nimport { useEffect } from 'react';\n// ... rest of component\n```",
+            "ru": "Добавьте `'use client'` самой первой строкой:\n```tsx\n'use client';\nimport { useEffect } from 'react';\n// ... rest of component\n```"
+        },
         "lang": "jsx"
     },
     {
@@ -896,7 +917,10 @@
         },
         "code": "// proxy.ts\nimport { NextResponse } from 'next/server';\n\nexport function proxy(request) {\n  const token = request.cookies.get('auth-token');\n  if (!token) {\n    return NextResponse.redirect(new URL('/login', request.url));\n  }\n  return NextResponse.next();\n}",
         "correct": "The file exports no `config.matcher`, so the proxy runs on ALL requests — including the `/login` page itself, which puts unauthenticated users in an infinite redirect loop",
-        "referenceAnswer": "Export a matcher config so the proxy only runs on protected routes:\n```ts\nexport const config = {\n  matcher: [\n    '/((?!login|_next/static|_next/image|favicon.ico).*)'\n  ]\n};\n```\nThis excludes the login page, Next.js internals and static assets from the auth check. Note that in Next.js 16 the file convention is `proxy.ts` with an exported `proxy` function; `middleware.ts` is deprecated.",
+        "referenceAnswer": {
+            "en": "Export a matcher config so the proxy only runs on protected routes:\n```ts\nexport const config = {\n  matcher: [\n    '/((?!login|_next/static|_next/image|favicon.ico).*)'\n  ]\n};\n```\nThis excludes the login page, Next.js internals and static assets from the auth check. Note that in Next.js 16 the file convention is `proxy.ts` with an exported `proxy` function; `middleware.ts` is deprecated.",
+            "ru": "Экспортируйте конфиг с matcher, чтобы proxy запускался только на защищённых маршрутах:\n```ts\nexport const config = {\n  matcher: [\n    '/((?!login|_next/static|_next/image|favicon.ico).*)'\n  ]\n};\n```\nЭто исключает страницу логина, внутренние пути Next.js и статические ассеты из проверки авторизации. Учтите, что в Next.js 16 файловая конвенция — это `proxy.ts` с экспортируемой функцией `proxy`; `middleware.ts` объявлен устаревшим."
+        },
         "lang": "javascript"
     },
     {
@@ -1862,7 +1886,10 @@
         "code": "# Dockerfile\nFROM node:20-alpine AS build\nWORKDIR /app\nCOPY . .\nARG NEXT_PUBLIC_API_URL\nENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL\nRUN npm ci && npm run build\n\nFROM node:20-alpine\nWORKDIR /app\nCOPY --from=build /app ./\nCMD [\"npm\", \"run\", \"start\"]\n\n# CI pipeline\n# docker build --build-arg NEXT_PUBLIC_API_URL=https://staging.api.example.com -t shop:1.4.0 .\n# docker run -e NEXT_PUBLIC_API_URL=https://api.example.com shop:1.4.0",
         "lang": "bash",
         "correct": "NEXT_PUBLIC_API_URL is inlined into the client bundle during next build, so the -e value passed when the promoted image starts is ignored",
-        "referenceAnswer": "Every `NEXT_PUBLIC_*` variable is substituted into the JavaScript sent to the browser at `next build` time: `process.env.NEXT_PUBLIC_API_URL` becomes the literal staging URL inside the bundle and is frozen into the image. Passing `-e NEXT_PUBLIC_API_URL=...` at container start changes `process.env` on the server but cannot rewrite code that is already built, so a build-once-promote-everywhere pipeline can never repoint it.\n\nEither build one image per environment (keeping the ARG), or stop shipping the value through the bundle and read a server-only variable at request time:\n\n```tsx\nimport { connection } from 'next/server'\n\nexport default async function Page() {\n  await connection()\n  const apiUrl = process.env.API_URL // evaluated at runtime, never inlined\n  return <SearchWidget apiUrl={apiUrl} />\n}\n```\n\nNote also that indirect lookups such as `process.env[varName]` are never inlined, so they silently become `undefined` in the browser.",
+        "referenceAnswer": {
+            "en": "Every `NEXT_PUBLIC_*` variable is substituted into the JavaScript sent to the browser at `next build` time: `process.env.NEXT_PUBLIC_API_URL` becomes the literal staging URL inside the bundle and is frozen into the image. Passing `-e NEXT_PUBLIC_API_URL=...` at container start changes `process.env` on the server but cannot rewrite code that is already built, so a build-once-promote-everywhere pipeline can never repoint it.\n\nEither build one image per environment (keeping the ARG), or stop shipping the value through the bundle and read a server-only variable at request time:\n\n```tsx\nimport { connection } from 'next/server'\n\nexport default async function Page() {\n  await connection()\n  const apiUrl = process.env.API_URL // evaluated at runtime, never inlined\n  return <SearchWidget apiUrl={apiUrl} />\n}\n```\n\nNote also that indirect lookups such as `process.env[varName]` are never inlined, so they silently become `undefined` in the browser.",
+            "ru": "Каждая переменная `NEXT_PUBLIC_*` подставляется в JavaScript, отправляемый в браузер, на этапе `next build`: `process.env.NEXT_PUBLIC_API_URL` превращается в литеральный staging-URL внутри бандла и замораживается в образе. Передача `-e NEXT_PUBLIC_API_URL=...` при старте контейнера меняет `process.env` на сервере, но не может переписать уже собранный код, поэтому пайплайн build-once-promote-everywhere никогда не сможет его перенаправить.\n\nЛибо собирайте отдельный образ на каждое окружение (оставив ARG), либо перестаньте отдавать значение через бандл и читайте во время запроса переменную, которая существует только на сервере:\n\n```tsx\nimport { connection } from 'next/server'\n\nexport default async function Page() {\n  await connection()\n  const apiUrl = process.env.API_URL // evaluated at runtime, never inlined\n  return <SearchWidget apiUrl={apiUrl} />\n}\n```\n\nУчтите также, что косвенные обращения вида `process.env[varName]` никогда не инлайнятся, поэтому в браузере они молча становятся `undefined`."
+        },
         "explanation": {
             "en": "`NEXT_PUBLIC_` is a build-time inlining mechanism, not a runtime lookup — the value is baked into the client JavaScript and cannot be changed by the environment the container later runs in. This is the classic break of a build-once-promote-everywhere pipeline. Values that must vary per environment stay server-side and are read during dynamic rendering, for example after `await connection()`.",
             "ru": "`NEXT_PUBLIC_` — это механизм подстановки на этапе сборки, а не чтение в рантайме: значение вшивается в клиентский JavaScript, и окружение, в котором потом стартует контейнер, его уже не изменит. Это классическая поломка пайплайна build-once-promote-everywhere. Значения, которые должны отличаться по окружениям, остаются серверными и читаются при динамическом рендеринге, например после `await connection()`."
@@ -1881,7 +1908,10 @@
         "code": "// app/search/page.tsx\nimport { Suspense } from 'react'\n\nexport default function Page(props: PageProps<'/search'>) {\n  return (\n    <Suspense fallback={<p>Loading results...</p>}>\n      <Results searchParams={props.searchParams} />\n    </Suspense>\n  )\n}\n\nasync function Results({ searchParams }: { searchParams: Promise<{ q?: string }> }) {\n  'use cache'\n  const { q } = await searchParams\n  const results = await db.search(q)\n\n  return (\n    <ul>\n      {results.map((r) => (\n        <li key={r.id}>{r.title}</li>\n      ))}\n    </ul>\n  )\n}",
         "lang": "tsx",
         "correct": "The cached component awaits the request-time searchParams promise, so the prerender can never fill the entry and times out",
-        "referenceAnswer": "A `use cache` scope is filled during prerendering, where `searchParams` does not resolve. Awaiting that promise inside the scope makes the fill wait for data that only exists at request time, and Next.js aborts after 50 seconds with `Filling a cache during prerender timed out, likely because request-specific arguments such as params, searchParams, cookies() or uncached data were used inside \"use cache\"`.\n\nResolve the promise outside the cached scope and pass the plain value in as an argument — it then becomes part of the cache key. The `<Suspense>` boundary is already in place, so the shell keeps prerendering while the uncached read streams:\n\n```tsx\nexport default function Page(props: PageProps<'/search'>) {\n  return (\n    <Suspense fallback={<p>Loading results...</p>}>\n      <Results searchParams={props.searchParams} />\n    </Suspense>\n  )\n}\n\nasync function Results({ searchParams }: { searchParams: Promise<{ q?: string }> }) {\n  const { q } = await searchParams\n  return <ul>{(await search(q)).map((r) => <li key={r.id}>{r.title}</li>)}</ul>\n}\n\nasync function search(query: string | undefined) {\n  'use cache'\n  return db.search(query)\n}\n```\n\nWith a prefetched `<Link href=\"/search?q=shoes\">`, the framework resolves `searchParams` from the link URL, so the cached `search` result can be ready before the click.",
+        "referenceAnswer": {
+            "en": "A `use cache` scope is filled during prerendering, where `searchParams` does not resolve. Awaiting that promise inside the scope makes the fill wait for data that only exists at request time, and Next.js aborts after 50 seconds with `Filling a cache during prerender timed out, likely because request-specific arguments such as params, searchParams, cookies() or uncached data were used inside \"use cache\"`.\n\nResolve the promise outside the cached scope and pass the plain value in as an argument — it then becomes part of the cache key. The `<Suspense>` boundary is already in place, so the shell keeps prerendering while the uncached read streams:\n\n```tsx\nexport default function Page(props: PageProps<'/search'>) {\n  return (\n    <Suspense fallback={<p>Loading results...</p>}>\n      <Results searchParams={props.searchParams} />\n    </Suspense>\n  )\n}\n\nasync function Results({ searchParams }: { searchParams: Promise<{ q?: string }> }) {\n  const { q } = await searchParams\n  return <ul>{(await search(q)).map((r) => <li key={r.id}>{r.title}</li>)}</ul>\n}\n\nasync function search(query: string | undefined) {\n  'use cache'\n  return db.search(query)\n}\n```\n\nWith a prefetched `<Link href=\"/search?q=shoes\">`, the framework resolves `searchParams` from the link URL, so the cached `search` result can be ready before the click.",
+            "ru": "Скоуп `use cache` заполняется во время пререндера, где `searchParams` не резолвится. Ожидание этого промиса внутри скоупа заставляет заполнение ждать данные, которые существуют только во время запроса, и Next.js прерывает его через 50 секунд с ошибкой `Filling a cache during prerender timed out, likely because request-specific arguments such as params, searchParams, cookies() or uncached data were used inside \"use cache\"`.\n\nРезолвите промис вне кэшируемого скоупа и передавайте внутрь готовое значение аргументом — так оно становится частью ключа кэша. Граница `<Suspense>` уже на месте, поэтому оболочка продолжает пререндериться, пока некэшированное чтение стримится:\n\n```tsx\nexport default function Page(props: PageProps<'/search'>) {\n  return (\n    <Suspense fallback={<p>Loading results...</p>}>\n      <Results searchParams={props.searchParams} />\n    </Suspense>\n  )\n}\n\nasync function Results({ searchParams }: { searchParams: Promise<{ q?: string }> }) {\n  const { q } = await searchParams\n  return <ul>{(await search(q)).map((r) => <li key={r.id}>{r.title}</li>)}</ul>\n}\n\nasync function search(query: string | undefined) {\n  'use cache'\n  return db.search(query)\n}\n```\n\nПри префетче `<Link href=\"/search?q=shoes\">` фреймворк резолвит `searchParams` из URL ссылки, поэтому закэшированный результат `search` может быть готов ещё до клика."
+        },
         "explanation": {
             "en": "Passing a request-time promise into a cached scope is the quiet version of the `next-request-in-use-cache` error: a direct `cookies()` call fails immediately, but an awaited promise just starves the prerender until it times out. The rule is the same either way — resolve runtime values outside the cached scope and pass serialisable arguments in, which also gives you the cache key you want.",
             "ru": "Передача promise с request-time данными в кэшируемую область — это тихая версия ошибки `next-request-in-use-cache`: прямой вызов `cookies()` падает сразу, а заawait'енный promise просто морит пререндер голодом до таймаута. Правило одно и то же: разрешайте рантайм-значения снаружи кэшируемой области и передавайте внутрь сериализуемые аргументы — заодно получите тот ключ кэша, который вам нужен."
@@ -1900,7 +1930,10 @@
         "code": "import { cacheLife, __BLANK__ } from 'next/cache'\n\nexport async function getPosts() {\n  '__BLANK__'\n  cacheLife('hours')\n  __BLANK__('posts')\n\n  const res = await fetch('https://api.example.com/posts')\n  return res.json()\n}",
         "blanks": ["cacheTag", "use cache", "cacheTag"],
         "lang": "typescript",
-        "referenceAnswer": "`'use cache'` marks the function cacheable; it must be async and `cacheComponents: true` must be set in the Next config. `cacheLife('hours')` gives the entry an explicit lifetime instead of silently inheriting the `default` profile (stale 5 minutes on the client, revalidate 15 minutes on the server, no time-based expiry). `cacheTag('posts')` attaches the tag that `updateTag('posts')` in a Server Action, or `revalidateTag('posts', 'max')` in a Route Handler, later invalidates.",
+        "referenceAnswer": {
+            "en": "`'use cache'` marks the function cacheable; it must be async and `cacheComponents: true` must be set in the Next config. `cacheLife('hours')` gives the entry an explicit lifetime instead of silently inheriting the `default` profile (stale 5 minutes on the client, revalidate 15 minutes on the server, no time-based expiry). `cacheTag('posts')` attaches the tag that `updateTag('posts')` in a Server Action, or `revalidateTag('posts', 'max')` in a Route Handler, later invalidates.",
+            "ru": "`'use cache'` помечает функцию кэшируемой; она должна быть async, а в конфиге Next должно быть выставлено `cacheComponents: true`. `cacheLife('hours')` задаёт записи явное время жизни вместо молчаливого наследования профиля `default` (stale 5 минут на клиенте, ревалидация 15 минут на сервере, без истечения по времени). `cacheTag('posts')` навешивает тег, который потом инвалидируют через `updateTag('posts')` в Server Action или `revalidateTag('posts', 'max')` в Route Handler."
+        },
         "explanation": {
             "en": "Time-based and on-demand revalidation are complementary, not alternatives: `cacheLife` bounds how long an entry may drift on its own, and `cacheTag` gives you a handle to kill it after a mutation. Setting `cacheLife` explicitly in every cached scope keeps the behaviour readable at the call site instead of depending on the implicit `default` profile or the surrounding cache.",
             "ru": "Инвалидация по времени и on-demand дополняют друг друга, а не заменяют: `cacheLife` ограничивает, насколько запись может разъехаться сама по себе, а `cacheTag` даёт ручку, чтобы убить её после мутации. Явный `cacheLife` в каждой кэшируемой области делает поведение читаемым прямо на месте вызова, а не зависящим от неявного профиля `default` или от внешнего кэша."
@@ -1919,7 +1952,10 @@
         "code": "// app/api/takedown/route.ts\nimport { revalidateTag } from 'next/cache'\n\nexport async function POST(request: Request) {\n  const { tag } = await request.json()\n\n  revalidateTag(tag, { __BLANK__: __BLANK__ })\n\n  return Response.json({ purged: true, now: Date.now() })\n}",
         "blanks": ["expire", "0"],
         "lang": "typescript",
-        "referenceAnswer": "`revalidateTag` is the invalidation API that works in a Route Handler — `updateTag` and `refresh` are Server-Action-only. Its second argument says how long stale content may still be served. `{ expire: 0 }` means stale content is never served, so the next request is a blocking revalidate; `'max'` is the opposite, a one-year stale-while-revalidate window. The docs name `{ expire: 0 }` as the form to use when the caller needs the data gone immediately and `updateTag` is not reachable. Any `cacheLife` profile name is accepted there too, and only its `expire` is read.",
+        "referenceAnswer": {
+            "en": "`revalidateTag` is the invalidation API that works in a Route Handler — `updateTag` and `refresh` are Server-Action-only. Its second argument says how long stale content may still be served. `{ expire: 0 }` means stale content is never served, so the next request is a blocking revalidate; `'max'` is the opposite, a one-year stale-while-revalidate window. The docs name `{ expire: 0 }` as the form to use when the caller needs the data gone immediately and `updateTag` is not reachable. Any `cacheLife` profile name is accepted there too, and only its `expire` is read.",
+            "ru": "`revalidateTag` — это API инвалидации, которое работает в Route Handler: `updateTag` и `refresh` доступны только в Server Actions. Его второй аргумент говорит, как долго ещё можно отдавать устаревший контент. `{ expire: 0 }` означает, что устаревший контент не отдаётся никогда, поэтому следующий запрос блокируется на ревалидации; `'max'` — противоположность, окно stale-while-revalidate длиной в год. Документация называет `{ expire: 0 }` той формой, которую стоит использовать, когда вызывающему коду нужно, чтобы данные пропали немедленно, а `updateTag` недоступен. Имя любого профиля `cacheLife` там тоже принимается, и читается только его `expire`."
+        },
         "explanation": {
             "en": "The second argument is where you decide whether latency or correctness wins. `'max'` keeps handing out the cached entry while the refetch runs, which suits a CMS save but is wrong for a takedown — nobody may see the old content again. `{ expire: 0 }` leaves no stale window, so the next request for that tag blocks until fresh data arrives. Inside a Server Action `updateTag` expresses the same intent directly, but it is not callable from a Route Handler.",
             "ru": "Второй аргумент — это как раз место, где вы решаете, что важнее: латентность или корректность. `'max'` продолжает отдавать закэшированную запись, пока идёт перезапрос: для сохранения в CMS это подходит, а для takedown — нет, старый контент больше никто не должен увидеть. `{ expire: 0 }` не оставляет окна для stale, поэтому следующий запрос по этому тегу ждёт свежих данных. Внутри Server Action ту же задачу прямо решает `updateTag`, но из роут-хендлера он недоступен."

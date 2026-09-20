@@ -155,7 +155,10 @@
         },
         "code": "function getLength(value: string | number): number {\n  return (value as string).length;\n}",
         "correct": "When value is a number, (value as string).length returns undefined at runtime",
-        "referenceAnswer": "The as string assertion bypasses TypeScript's type checking. When value is a number, .length returns undefined at runtime. Fix: use narrowing — if (typeof value === 'string') return value.length; return String(value).length;",
+        "referenceAnswer": {
+            "en": "The as string assertion bypasses TypeScript's type checking. When value is a number, .length returns undefined at runtime. Fix: use narrowing — if (typeof value === 'string') return value.length; return String(value).length;",
+            "ru": "Утверждение as string обходит проверку типов TypeScript. Когда value — это число, .length в рантайме возвращает undefined. Исправление: используйте сужение типа — if (typeof value === 'string') return value.length; return String(value).length;"
+        },
         "lang": "typescript"
     },
     {
@@ -174,7 +177,10 @@
         },
         "code": "type EventName<T extends string> = `__BLANK__${Capitalize<T>}`;\n// EventName<'click'> should be 'onClick'\n// EventName<'change'> should be 'onChange'",
         "blanks": ["on"],
-        "referenceAnswer": "Template literal types use backtick syntax with ${} interpolation. Prefixing with 'on' and using Capitalize<T> produces camelCase event handler names.",
+        "referenceAnswer": {
+            "en": "Template literal types use backtick syntax with ${} interpolation. Prefixing with 'on' and using Capitalize<T> produces camelCase event handler names.",
+            "ru": "Template literal types используют синтаксис с обратными кавычками и интерполяцией ${}. Префикс 'on' вместе с Capitalize<T> даёт имена обработчиков событий в camelCase."
+        },
         "lang": "tsx"
     },
     {
@@ -1497,7 +1503,10 @@
         },
         "code": "function greet(name: string | null): string {\n  return 'Hello, ' + name.toUpperCase();\n}",
         "correct": "name can be null, so calling name.toUpperCase() will throw at runtime",
-        "referenceAnswer": "When name is null, accessing .toUpperCase() throws 'Cannot read properties of null'. Fix: add a null check — return 'Hello, ' + (name ?? 'stranger').toUpperCase();",
+        "referenceAnswer": {
+            "en": "When name is null, accessing .toUpperCase() throws 'Cannot read properties of null'. Fix: add a null check — return 'Hello, ' + (name ?? 'stranger').toUpperCase();",
+            "ru": "Когда name равно null, обращение к .toUpperCase() выбрасывает 'Cannot read properties of null'. Исправление: добавьте проверку на null — return 'Hello, ' + (name ?? 'stranger').toUpperCase();"
+        },
         "lang": "typescript"
     },
     {
@@ -1516,7 +1525,10 @@
         },
         "code": "function getFirstElement<T>(arr: T[]): T {\n  return arr[0];\n}",
         "correct": "With noUncheckedIndexedAccess on, arr[0] is T | undefined, which is not assignable to the declared return type T",
-        "referenceAnswer": "Under noUncheckedIndexedAccess an index access widens to `T | undefined`, so `return arr[0];` fails with `error TS2322: Type 'T | undefined' is not assignable to type 'T'.` Fix: widen the signature, or narrow before returning.\n\n```typescript\nfunction getFirstElement<T>(arr: T[]): T | undefined {\n  return arr[0];\n}\n```",
+        "referenceAnswer": {
+            "en": "Under noUncheckedIndexedAccess an index access widens to `T | undefined`, so `return arr[0];` fails with `error TS2322: Type 'T | undefined' is not assignable to type 'T'.` Fix: widen the signature, or narrow before returning.\n\n```typescript\nfunction getFirstElement<T>(arr: T[]): T | undefined {\n  return arr[0];\n}\n```",
+            "ru": "При включённом noUncheckedIndexedAccess доступ по индексу расширяется до `T | undefined`, поэтому `return arr[0];` не проходит проверку типов: `error TS2322: Type 'T | undefined' is not assignable to type 'T'.` Исправление: расширьте сигнатуру или сузьте тип перед возвратом.\n\n```typescript\nfunction getFirstElement<T>(arr: T[]): T | undefined {\n  return arr[0];\n}\n```"
+        },
         "lang": "typescript"
     },
     {
@@ -1535,7 +1547,10 @@
         },
         "code": "// constants.ts\nexport const enum Direction {\n  Up = 'UP',\n  Down = 'DOWN'\n}\n\n// consumer.ts\nimport { Direction } from './constants';\nconsole.log(Direction[Direction.Up]);",
         "correct": "A const enum member can only be accessed with a string literal, so Direction[Direction.Up] is a compile error (TS2476); and string enum members get no reverse mapping anyway",
-        "referenceAnswer": "tsc reports `error TS2476: A const enum member can only be accessed using a string literal.` A const enum is inlined at compile time and emits no runtime object, so there is nothing to index. Converting it to a regular enum does not help: the members are strings, and string enum members never get a reverse mapping (`Direction['UP']` then fails with TS2551). Fix: use a numeric enum, the only kind that emits a reverse mapping, or keep the string enum and add an explicit lookup object.\n\n```typescript\nexport enum Direction {\n  Up = 'UP',\n  Down = 'DOWN'\n}\n\nconst directionName: Record<Direction, string> = {\n  [Direction.Up]: 'Up',\n  [Direction.Down]: 'Down'\n};\n\nconsole.log(directionName[Direction.Up]); // 'Up'\n```",
+        "referenceAnswer": {
+            "en": "tsc reports `error TS2476: A const enum member can only be accessed using a string literal.` A const enum is inlined at compile time and emits no runtime object, so there is nothing to index. Converting it to a regular enum does not help: the members are strings, and string enum members never get a reverse mapping (`Direction['UP']` then fails with TS2551). Fix: use a numeric enum, the only kind that emits a reverse mapping, or keep the string enum and add an explicit lookup object.\n\n```typescript\nexport enum Direction {\n  Up = 'UP',\n  Down = 'DOWN'\n}\n\nconst directionName: Record<Direction, string> = {\n  [Direction.Up]: 'Up',\n  [Direction.Down]: 'Down'\n};\n\nconsole.log(directionName[Direction.Up]); // 'Up'\n```",
+            "ru": "tsc сообщает `error TS2476: A const enum member can only be accessed using a string literal.` const enum инлайнится на этапе компиляции и не создаёт объекта в рантайме, поэтому индексировать нечего. Замена на обычный enum не помогает: члены строковые, а строковые члены enum никогда не получают обратного отображения (`Direction['UP']` тогда падает с TS2551). Исправление: используйте числовой enum — единственный вид, который порождает обратное отображение, — либо оставьте строковый enum и добавьте явный объект-справочник.\n\n```typescript\nexport enum Direction {\n  Up = 'UP',\n  Down = 'DOWN'\n}\n\nconst directionName: Record<Direction, string> = {\n  [Direction.Up]: 'Up',\n  [Direction.Down]: 'Down'\n};\n\nconsole.log(directionName[Direction.Up]); // 'Up'\n```"
+        },
         "lang": "typescript"
     },
     {
@@ -1554,7 +1569,10 @@
         },
         "code": "type IsString<T> = T extends string ? true : false;\ntype Result = IsString<string | number>; // expected: false, got: boolean",
         "correct": "Distributive conditional types distribute over unions, so IsString<string | number> becomes true | false = boolean",
-        "referenceAnswer": "Because T is a bare type parameter, the condition distributes: IsString<string> | IsString<number> = true | false = boolean. To prevent distribution, wrap T in a tuple: type IsString<T> = [T] extends [string] ? true : false.",
+        "referenceAnswer": {
+            "en": "Because T is a bare type parameter, the condition distributes: IsString<string> | IsString<number> = true | false = boolean. To prevent distribution, wrap T in a tuple: type IsString<T> = [T] extends [string] ? true : false.",
+            "ru": "Поскольку T — голый параметр типа, условие распределяется по объединению: IsString<string> | IsString<number> = true | false = boolean. Чтобы отключить дистрибутивность, оберните T в кортеж: type IsString<T> = [T] extends [string] ? true : false."
+        },
         "lang": "tsx"
     },
     {
@@ -1573,7 +1591,10 @@
         },
         "code": "interface User {\n  name: string;\n  age: number;\n}\n\nconst user: User = {\n  name: 'Alice',\n  age: 30,\n  role: 'admin'\n};",
         "correct": "Object literal has extra property 'role' not in User — TypeScript excess property checking rejects this",
-        "referenceAnswer": "TypeScript's excess property checking reports an error when an object literal contains properties not present in the target type. Remove 'role' or add it to the User interface, or assign via an intermediate variable to bypass the check.",
+        "referenceAnswer": {
+            "en": "TypeScript's excess property checking reports an error when an object literal contains properties not present in the target type. Remove 'role' or add it to the User interface, or assign via an intermediate variable to bypass the check.",
+            "ru": "Проверка лишних свойств (excess property checking) в TypeScript выдаёт ошибку, когда объектный литерал содержит свойства, которых нет в целевом типе. Удалите 'role' или добавьте его в интерфейс User, либо присвойте через промежуточную переменную, чтобы обойти проверку."
+        },
         "lang": "typescript"
     },
     {
@@ -1592,7 +1613,10 @@
         },
         "code": "function format(value: string): string;\nfunction format(value: number): string;\nfunction format(value: string | number): string {\n  return String(value);\n}\n\nconst result = format(true);",
         "correct": "Calling format(true) passes a boolean, which matches neither overload signature, causing a compile error",
-        "referenceAnswer": "The overload signatures only accept string or number. Passing true (boolean) does not match any overload, so TypeScript reports 'No overload matches this call'. The implementation signature is not visible to callers.",
+        "referenceAnswer": {
+            "en": "The overload signatures only accept string or number. Passing true (boolean) does not match any overload, so TypeScript reports 'No overload matches this call'. The implementation signature is not visible to callers.",
+            "ru": "Сигнатуры перегрузок принимают только string или number. Передача true (boolean) не подходит ни под одну перегрузку, поэтому TypeScript сообщает 'No overload matches this call'. Сигнатура реализации не видна вызывающему коду."
+        },
         "lang": "typescript"
     },
     {
@@ -1611,7 +1635,10 @@
         },
         "code": "type Getters<T> = {\n  [K in keyof T as `get${K}`]: () => T[K];\n};",
         "correct": "K from keyof T can be a symbol or number, but template literal types only accept string — this causes a type error",
-        "referenceAnswer": "keyof T includes string, number, and symbol keys. Template literal types only accept string | number | bigint | boolean | null | undefined. Symbols are not allowed. Fix: constrain K with 'K extends string': [K in keyof T as K extends string ? `get${Capitalize<K>}` : never]",
+        "referenceAnswer": {
+            "en": "keyof T includes string, number, and symbol keys. Template literal types only accept string | number | bigint | boolean | null | undefined. Symbols are not allowed. Fix: constrain K with 'K extends string': [K in keyof T as K extends string ? `get${Capitalize<K>}` : never]",
+            "ru": "keyof T включает ключи типа string, number и symbol. Template literal types принимают только string | number | bigint | boolean | null | undefined. Символы не допускаются. Исправление: ограничьте K через 'K extends string': [K in keyof T as K extends string ? `get${Capitalize<K>}` : never]"
+        },
         "lang": "tsx"
     },
     {
@@ -1630,7 +1657,10 @@
         },
         "code": "type User = {\n  id: number;\n  email: string;\n  password: string;\n};\n\ntype PublicUser = __BLANK__<User, 'password'>;",
         "blanks": ["Omit"],
-        "referenceAnswer": "Omit<T, K> constructs a type by removing properties K from T. Omit<User, 'password'> yields { id: number; email: string }.",
+        "referenceAnswer": {
+            "en": "Omit<T, K> constructs a type by removing properties K from T. Omit<User, 'password'> yields { id: number; email: string }.",
+            "ru": "Omit<T, K> строит тип, убирая из T свойства K. Omit<User, 'password'> даёт { id: number; email: string }."
+        },
         "lang": "typescript"
     },
     {
@@ -1649,7 +1679,10 @@
         },
         "code": "function isString(value: unknown): value __BLANK__ string {\n  return typeof value === 'string';\n}",
         "blanks": ["is"],
-        "referenceAnswer": "The 'is' keyword in the return type annotation 'value is string' tells TypeScript this is a type predicate. When the function returns true, TypeScript narrows value to string in the calling scope.",
+        "referenceAnswer": {
+            "en": "The 'is' keyword in the return type annotation 'value is string' tells TypeScript this is a type predicate. When the function returns true, TypeScript narrows value to string in the calling scope.",
+            "ru": "Ключевое слово 'is' в аннотации возвращаемого типа 'value is string' говорит TypeScript, что это предикат типа. Когда функция возвращает true, TypeScript сужает value до string в вызывающей области видимости."
+        },
         "lang": "typescript"
     },
     {
@@ -1668,7 +1701,10 @@
         },
         "code": "function getProperty<T, K __BLANK__ keyof T>(obj: T, key: K): T[K] {\n  return obj[key];\n}",
         "blanks": ["extends"],
-        "referenceAnswer": "K extends keyof T constrains K to be one of the valid property keys of T. This ensures that obj[key] is type-safe and returns T[K].",
+        "referenceAnswer": {
+            "en": "K extends keyof T constrains K to be one of the valid property keys of T. This ensures that obj[key] is type-safe and returns T[K].",
+            "ru": "K extends keyof T ограничивает K одним из допустимых ключей свойств T. Это гарантирует, что obj[key] типобезопасен и возвращает T[K]."
+        },
         "lang": "typescript"
     },
     {
@@ -1687,7 +1723,10 @@
         },
         "code": "type MyReturnType<T> = T extends (...args: any[]) => __BLANK__ R ? R : never;",
         "blanks": ["infer"],
-        "referenceAnswer": "The infer keyword captures the return type R from the function type. If T matches a function shape, R is bound to its return type; otherwise the result is never.",
+        "referenceAnswer": {
+            "en": "The infer keyword captures the return type R from the function type. If T matches a function shape, R is bound to its return type; otherwise the result is never.",
+            "ru": "Ключевое слово infer захватывает возвращаемый тип R из типа функции. Если T подходит под форму функции, R связывается с её возвращаемым типом; иначе результат — never."
+        },
         "lang": "tsx"
     },
     {
@@ -1706,7 +1745,10 @@
         },
         "code": "type DeepReadonly<T> = {\n  readonly [K in keyof T]: T[K] extends object ? __BLANK__<T[K]> : T[K];\n};",
         "blanks": ["DeepReadonly"],
-        "referenceAnswer": "Recursive mapped types call themselves on nested object properties. DeepReadonly<T[K]> recursively applies readonly to nested objects until reaching primitives.",
+        "referenceAnswer": {
+            "en": "Recursive mapped types call themselves on nested object properties. DeepReadonly<T[K]> recursively applies readonly to nested objects until reaching primitives.",
+            "ru": "Рекурсивные mapped types вызывают сами себя на вложенных свойствах объекта. DeepReadonly<T[K]> рекурсивно применяет readonly к вложенным объектам, пока не дойдёт до примитивов."
+        },
         "lang": "tsx"
     },
     {
@@ -1725,7 +1767,10 @@
         },
         "code": "type WithGetters<T> = {\n  [K in keyof T as K extends string ? `get${__BLANK__<K>}` : never]: () => T[K];\n};",
         "blanks": ["Capitalize"],
-        "referenceAnswer": "Capitalize<K> transforms the first character of string literal type K to uppercase. Combined with a template literal, this produces getter names like getName, getAge from name, age.",
+        "referenceAnswer": {
+            "en": "Capitalize<K> transforms the first character of string literal type K to uppercase. Combined with a template literal, this produces getter names like getName, getAge from name, age.",
+            "ru": "Capitalize<K> переводит первый символ строкового литерального типа K в верхний регистр. В сочетании с template literal это даёт имена геттеров вроде getName, getAge из name, age."
+        },
         "lang": "tsx"
     },
     {
@@ -1744,7 +1789,10 @@
         },
         "code": "function assertNever(value: __BLANK__): never {\n  throw new Error(`Unexpected value: ${value}`);\n}",
         "blanks": ["never"],
-        "referenceAnswer": "Typing the parameter as never means TypeScript will only allow calling assertNever in branches where the type has been narrowed to never (i.e., all union members have been handled). If a case is missed, TypeScript reports an error.",
+        "referenceAnswer": {
+            "en": "Typing the parameter as never means TypeScript will only allow calling assertNever in branches where the type has been narrowed to never (i.e., all union members have been handled). If a case is missed, TypeScript reports an error.",
+            "ru": "Объявление параметра с типом never означает, что TypeScript разрешит вызвать assertNever только в тех ветках, где тип сужен до never (то есть все члены объединения обработаны). Если какой-то случай пропущен, TypeScript выдаст ошибку."
+        },
         "lang": "typescript"
     },
     {
@@ -1764,7 +1812,10 @@
         "code": "type Head<T extends any[]> = T extends [infer H, ...any[]] ? __BLANK__ : never;\n\ntype A = Head<[string, number]>; // string",
         "blanks": ["H"],
         "lang": "typescript",
-        "referenceAnswer": "`T extends [infer H, ...any[]] ? H : never` — the true branch returns the type bound by `infer H`, the first element of the tuple. The rest element `...any[]` makes the pattern match tuples of any length, and the false branch yields never."
+        "referenceAnswer": {
+            "en": "`T extends [infer H, ...any[]] ? H : never` — the true branch returns the type bound by `infer H`, the first element of the tuple. The rest element `...any[]` makes the pattern match tuples of any length, and the false branch yields never.",
+            "ru": "`T extends [infer H, ...any[]] ? H : never` — ветка true возвращает тип, связанный через `infer H`, то есть первый элемент кортежа. Rest-элемент `...any[]` заставляет шаблон подходить под кортежи любой длины, а ветка false даёт never."
+        }
     },
     {
         "id": "ts-advanced-001",
@@ -2371,7 +2422,10 @@
         "code": "function isDefined(value: string | undefined): boolean {\n  return value !== undefined;\n}\n\nconst raw: (string | undefined)[] = ['a', undefined, 'b'];\nconst names = raw.filter(isDefined);\n\nconsole.log(names[0].toUpperCase());",
         "lang": "typescript",
         "correct": "The explicit `: boolean` return annotation on `isDefined` blocks predicate inference, so `filter` keeps the `(string | undefined)[]` type.",
-        "referenceAnswer": "Inferred type predicates (TypeScript 5.5+) only kick in when the function has NO explicit return type annotation. `isDefined` is annotated `: boolean`, so the compiler takes that at face value, `Array.prototype.filter` resolves to the plain `(value: T) => unknown` overload instead of the `value is S` overload, and `names` stays `(string | undefined)[]`.\n\nFix by removing the annotation and letting inference do its job:\n\n```ts\nfunction isDefined(value: string | undefined) {\n  return value !== undefined; // inferred as `value is string`\n}\n```\n\nOr, if the codebase requires explicit return types (a common lint rule — which is why this bites real projects), write the predicate out:\n\n```ts\nfunction isDefined(value: string | undefined): value is string {\n  return value !== undefined;\n}\n```\n\nEither way `raw.filter(isDefined)` is then typed `string[]`.",
+        "referenceAnswer": {
+            "en": "Inferred type predicates (TypeScript 5.5+) only kick in when the function has NO explicit return type annotation. `isDefined` is annotated `: boolean`, so the compiler takes that at face value, `Array.prototype.filter` resolves to the plain `(value: T) => unknown` overload instead of the `value is S` overload, and `names` stays `(string | undefined)[]`.\n\nFix by removing the annotation and letting inference do its job:\n\n```ts\nfunction isDefined(value: string | undefined) {\n  return value !== undefined; // inferred as `value is string`\n}\n```\n\nOr, if the codebase requires explicit return types (a common lint rule — which is why this bites real projects), write the predicate out:\n\n```ts\nfunction isDefined(value: string | undefined): value is string {\n  return value !== undefined;\n}\n```\n\nEither way `raw.filter(isDefined)` is then typed `string[]`.",
+            "ru": "Выведенные предикаты типа (TypeScript 5.5+) включаются только тогда, когда у функции НЕТ явной аннотации возвращаемого типа. У `isDefined` проставлена аннотация `: boolean`, поэтому компилятор принимает её как есть, `Array.prototype.filter` разрешается в обычную перегрузку `(value: T) => unknown` вместо перегрузки `value is S`, и `names` остаётся `(string | undefined)[]`.\n\nИсправление — убрать аннотацию и дать выводу типов сделать свою работу:\n\n```ts\nfunction isDefined(value: string | undefined) {\n  return value !== undefined; // inferred as `value is string`\n}\n```\n\nИли, если кодовая база требует явных возвращаемых типов (частое правило линтера — именно поэтому проблема бьёт по реальным проектам), выпишите предикат явно:\n\n```ts\nfunction isDefined(value: string | undefined): value is string {\n  return value !== undefined;\n}\n```\n\nВ обоих случаях `raw.filter(isDefined)` получает тип `string[]`."
+        },
         "explanation": {
             "en": "This is the most common way 5.5's inferred predicates fail to show up: an `explicit-function-return-type` lint rule forces `: boolean` on every helper and silently opts the whole codebase out of the feature. The compiler never warns, because `: boolean` is a perfectly valid annotation — the symptom appears far away, at the `filter` call site. If your team enforces explicit return types, teach the predicate form rather than expecting inference.",
             "ru": "Это самый частый способ не получить выведенные предикаты из 5.5: правило линтера `explicit-function-return-type` навязывает `: boolean` каждому хелперу и молча отключает фичу во всём проекте. Компилятор ничего не подскажет, потому что `: boolean` — вполне корректная аннотация, а симптом всплывает далеко в стороне, на вызове `filter`. Если команда требует явные возвращаемые типы, учите писать форму предиката, а не надейтесь на вывод."
@@ -2390,7 +2444,10 @@
         "code": "import type { ReactNode } from 'react';\n\ntype ListProps<T> = {\n  items: readonly T[];\n  keyOf: __BLANK__;\n  renderItem: (item: T) => ReactNode;\n};\n\nfunction List<__BLANK__ T>({ items, keyOf, renderItem }: ListProps<T>) {\n  return (\n    <ul>\n      {items.map((item) => (\n        <li key={String(item[keyOf])}>{renderItem(item)}</li>\n      ))}\n    </ul>\n  );\n}\n\nconst users = [{ id: 1, name: 'Ada' }];\n\n// T is inferred from `items`, so `user` is { id: number; name: string }\nconst list = <List items={users} keyOf=\"id\" renderItem={(user) => user.name.toUpperCase()} />;",
         "blanks": ["keyof T", "const"],
         "lang": "tsx",
-        "referenceAnswer": "`keyOf: keyof T` ties the prop to the keys of whatever `T` inference produced, so `keyOf=\"id\"` is checked and `keyOf=\"missing\"` is an error. Because `items` is the first inference site, `T` resolves to `{ id: number; name: string }` and `renderItem`'s parameter is typed with no annotation at the call site — `user.name.toUpperCase()` type-checks while `user.nmae` does not.\n\n`function List<const T>` marks the type parameter as a const type parameter: an array or object literal written inline at the JSX call site is then inferred with literal types, exactly as if the caller had written `as const`. It changes nothing for the pre-assigned `const users = [...]` above, because `const` only applies to expressions written inside the call itself.\n\nOne `.tsx` parser note: a generic arrow function needs a trailing comma (`const List = <T,>(props: ListProps<T>) => ...`) so the parser does not read `<T>` as JSX; a `function` declaration, as used here, avoids that entirely.",
+        "referenceAnswer": {
+            "en": "`keyOf: keyof T` ties the prop to the keys of whatever `T` inference produced, so `keyOf=\"id\"` is checked and `keyOf=\"missing\"` is an error. Because `items` is the first inference site, `T` resolves to `{ id: number; name: string }` and `renderItem`'s parameter is typed with no annotation at the call site — `user.name.toUpperCase()` type-checks while `user.nmae` does not.\n\n`function List<const T>` marks the type parameter as a const type parameter: an array or object literal written inline at the JSX call site is then inferred with literal types, exactly as if the caller had written `as const`. It changes nothing for the pre-assigned `const users = [...]` above, because `const` only applies to expressions written inside the call itself.\n\nOne `.tsx` parser note: a generic arrow function needs a trailing comma (`const List = <T,>(props: ListProps<T>) => ...`) so the parser does not read `<T>` as JSX; a `function` declaration, as used here, avoids that entirely.",
+            "ru": "`keyOf: keyof T` привязывает проп к ключам того `T`, который вывелся, поэтому `keyOf=\"id\"` проверяется, а `keyOf=\"missing\"` — ошибка. Поскольку `items` — первое место вывода, `T` разрешается в `{ id: number; name: string }`, и параметр `renderItem` типизирован без аннотации на месте вызова: `user.name.toUpperCase()` проходит проверку типов, а `user.nmae` — нет.\n\n`function List<const T>` помечает параметр типа как const type parameter: массив или объектный литерал, написанный прямо в месте вызова JSX, выводится с литеральными типами — ровно так, как если бы вызывающий код написал `as const`. Для заранее объявленного `const users = [...]` выше это ничего не меняет, потому что `const` применяется только к выражениям, написанным внутри самого вызова.\n\nЗамечание про парсер `.tsx`: обобщённой стрелочной функции нужна висячая запятая (`const List = <T,>(props: ListProps<T>) => ...`), чтобы парсер не принял `<T>` за JSX; объявление через `function`, как здесь, снимает эту проблему полностью."
+        },
         "explanation": {
             "en": "A generic component is just a generic function: inference flows from the props object at the JSX call site, so `items` fixes `T` and every other prop is checked against it. Constraining a prop with `keyof T` is the standard way to make a string prop refer to a field of the data, and it is what keeps `renderItem` free of annotations. Adding `const` to the type parameter pushes literal inference onto inline arguments, so callers get `'Ada'` instead of `string` without an `as const`. The failure mode to recognise in review is a component typed with `any[]` or a stray explicit type argument — both silently disable this inference and the callback parameter degrades to `any`.",
             "ru": "Дженерик-компонент — это просто дженерик-функция: вывод типов идёт от объекта пропсов на месте вызова в JSX, поэтому `items` фиксирует `T`, а остальные пропсы проверяются уже против него. Ограничение пропса через `keyof T` — стандартный способ заставить строковый пропс ссылаться на поле данных, и именно оно избавляет `renderItem` от аннотаций. Модификатор `const` у параметра типа включает вывод литеральных типов для аргументов, записанных прямо в вызове, так что вызывающий код получает `'Ada'` вместо `string` без `as const`. На ревью стоит ловить обратный случай: компонент с `any[]` или лишним явным type argument — и то и другое молча ломает вывод, а параметр колбэка деградирует до `any`."
@@ -2409,7 +2466,10 @@
         "code": "class Connection implements Disposable {\n  readonly id: string;\n\n  constructor(id: string) {\n    this.id = id;\n  }\n\n  [__BLANK__]() {\n    console.log(`closing ${this.id}`);\n  }\n}\n\nfunction run(doWork: (c: Connection) => void) {\n  __BLANK__ conn = new Connection('primary');\n  doWork(conn);\n  // conn is closed here, even if doWork() throws\n}",
         "blanks": ["Symbol.dispose", "using"],
         "lang": "typescript",
-        "referenceAnswer": "`[Symbol.dispose]() { ... }` satisfies the global `Disposable` interface, and `using conn = ...` registers the value for disposal when the enclosing block exits — on normal completion, an early `return`, or a thrown exception.\n\nThe async counterpart is `[Symbol.asyncDispose]()` with `await using`, described by `AsyncDisposable`. Resources are disposed in reverse order of declaration (last in, first out). If the body throws AND disposal throws, the runtime raises a `SuppressedError` whose `error` is the disposal failure and whose `suppressed` is the original exception — so a naive `catch (e) { log(e.message) }` loses the real cause.\n\nConfiguration: the feature needs `esnext.disposable` in `lib` (and a runtime polyfill of `Symbol.dispose` if the target engine lacks it).",
+        "referenceAnswer": {
+            "en": "`[Symbol.dispose]() { ... }` satisfies the global `Disposable` interface, and `using conn = ...` registers the value for disposal when the enclosing block exits — on normal completion, an early `return`, or a thrown exception.\n\nThe async counterpart is `[Symbol.asyncDispose]()` with `await using`, described by `AsyncDisposable`. Resources are disposed in reverse order of declaration (last in, first out). If the body throws AND disposal throws, the runtime raises a `SuppressedError` whose `error` is the disposal failure and whose `suppressed` is the original exception — so a naive `catch (e) { log(e.message) }` loses the real cause.\n\nConfiguration: the feature needs `esnext.disposable` in `lib` (and a runtime polyfill of `Symbol.dispose` if the target engine lacks it).",
+            "ru": "`[Symbol.dispose]() { ... }` удовлетворяет глобальному интерфейсу `Disposable`, а `using conn = ...` регистрирует значение для освобождения при выходе из охватывающего блока — при обычном завершении, при раннем `return` или при выброшенном исключении.\n\nАсинхронный аналог — `[Symbol.asyncDispose]()` вместе с `await using`, описанный интерфейсом `AsyncDisposable`. Ресурсы освобождаются в порядке, обратном объявлению (последний объявлен — первым освобождён). Если тело блока бросает исключение И освобождение тоже бросает, рантайм выбрасывает `SuppressedError`, у которого `error` — ошибка освобождения, а `suppressed` — исходное исключение, так что наивный `catch (e) { log(e.message) }` теряет настоящую причину.\n\nКонфигурация: для этой возможности нужен `esnext.disposable` в `lib` (и полифил `Symbol.dispose` в рантайме, если целевой движок его не поддерживает)."
+        },
         "explanation": {
             "en": "`using` is TypeScript's implementation of the TC39 explicit resource management proposal: cleanup is attached to the value at its declaration instead of to a `try/finally` block the caller has to remember to write. That matters most where an early `return` or a throw would otherwise skip the cleanup — file handles, DB connections, locks, test fixtures. Disposal is last-in-first-out, and `await using` with `Symbol.asyncDispose` covers cleanup that itself awaits.",
             "ru": "`using` — это реализация предложения TC39 про explicit resource management: очистка привязывается к самому значению в месте объявления, а не к блоку `try/finally`, который вызывающий код должен не забыть написать. Особенно это важно там, где ранний `return` или исключение иначе пропустили бы очистку: файловые дескрипторы, соединения с БД, локи, тестовые фикстуры. Освобождение идёт в обратном порядке объявления, а для очистки, которая сама асинхронна, есть `await using` с `Symbol.asyncDispose`."
