@@ -875,7 +875,7 @@
         "correct": "`cache: 'force-cache'` opts this personalised per-user request into the framework's persistent server cache, so the stored response is replayed instead of being fetched again",
         "referenceAnswer": {
             "en": "Caching is opt-in since Next.js 15, so the fix is to remove the explicit opt-in and let the request use the default `auto no cache`:\n```ts\nconst { id } = await params;\nconst user = await fetch(`https://api.example.com/users/${id}`).then(r => r.json());\n```\nIf a bounded cache is acceptable, tag the request (`next: { tags: ['user-' + id] }`) and invalidate it with `revalidateTag(tag, 'max')`, or set `next: { revalidate: n }`. Reading `cookies()` or `headers()` in the same component also makes the route dynamic.",
-            "ru": "Кэширование стало opt-in начиная с Next.js 15, поэтому исправление — убрать явное включение кэша и оставить запросу поведение по умолчанию — `auto no cache`:\n```ts\nconst { id } = await params;\nconst user = await fetch(`https://api.example.com/users/${id}`).then(r => r.json());\n```\nЕсли ограниченное кэширование допустимо, повесьте на запрос тег (`next: { tags: ['user-' + id] }`) и инвалидируйте его через `revalidateTag(tag, 'max')` либо задайте `next: { revalidate: n }`. Чтение `cookies()` или `headers()` в том же компоненте тоже делает маршрут динамическим."
+            "ru": "Кэширование стало opt-in начиная с Next.js 15, поэтому исправление — убрать явное включение кэша и оставить запросу поведение по умолчанию `auto no cache`:\n```ts\nconst { id } = await params;\nconst user = await fetch(`https://api.example.com/users/${id}`).then(r => r.json());\n```\nЕсли ограниченное кэширование допустимо, повесьте на запрос тег (`next: { tags: ['user-' + id] }`) и инвалидируйте его через `revalidateTag(tag, 'max')` либо задайте `next: { revalidate: n }`. Чтение `cookies()` или `headers()` в том же компоненте тоже делает маршрут динамическим."
         },
         "lang": "tsx"
     },
@@ -919,7 +919,7 @@
         "correct": "The file exports no `config.matcher`, so the proxy runs on ALL requests — including the `/login` page itself, which puts unauthenticated users in an infinite redirect loop",
         "referenceAnswer": {
             "en": "Export a matcher config so the proxy only runs on protected routes:\n```ts\nexport const config = {\n  matcher: [\n    '/((?!login|_next/static|_next/image|favicon.ico).*)'\n  ]\n};\n```\nThis excludes the login page, Next.js internals and static assets from the auth check. Note that in Next.js 16 the file convention is `proxy.ts` with an exported `proxy` function; `middleware.ts` is deprecated.",
-            "ru": "Экспортируйте конфиг с matcher, чтобы proxy запускался только на защищённых маршрутах:\n```ts\nexport const config = {\n  matcher: [\n    '/((?!login|_next/static|_next/image|favicon.ico).*)'\n  ]\n};\n```\nЭто исключает страницу логина, внутренние пути Next.js и статические ассеты из проверки авторизации. Учтите, что в Next.js 16 файловая конвенция — это `proxy.ts` с экспортируемой функцией `proxy`; `middleware.ts` объявлен устаревшим."
+            "ru": "Экспортируйте конфиг с matcher, чтобы proxy запускался только на защищённых маршрутах:\n```ts\nexport const config = {\n  matcher: [\n    '/((?!login|_next/static|_next/image|favicon.ico).*)'\n  ]\n};\n```\nЭто исключает страницу логина, внутренние пути Next.js и статические ассеты из проверки авторизации. Учтите, что в Next.js 16 файловая конвенция — `proxy.ts` с экспортируемой функцией `proxy`; `middleware.ts` объявлен устаревшим."
         },
         "lang": "javascript"
     },
@@ -940,7 +940,10 @@
         "code": "import { __BLANK__ } from 'next/server';\n\nexport async function POST(request: Request) {\n  const body = await request.__BLANK__();\n  const item = await db.item.create({ data: body });\n  return __BLANK__.json(item, { status: 201 });\n}",
         "blanks": ["NextResponse", "json", "NextResponse"],
         "lang": "typescript",
-        "referenceAnswer": "import { NextResponse } from 'next/server';\n\nexport async function POST(request: Request) {\n  const body = await request.json();\n  const item = await db.item.create({ data: body });\n  return NextResponse.json(item, { status: 201 });\n}"
+        "referenceAnswer": {
+            "en": "import { NextResponse } from 'next/server';\n\nexport async function POST(request: Request) {\n  const body = await request.json();\n  const item = await db.item.create({ data: body });\n  return NextResponse.json(item, { status: 201 });\n}",
+            "ru": "Готовое решение:\n\nimport { NextResponse } from 'next/server';\n\nexport async function POST(request: Request) {\n  const body = await request.json();\n  const item = await db.item.create({ data: body });\n  return NextResponse.json(item, { status: 201 });\n}"
+        }
     },
     {
         "id": "next-completion-metadata-001",
@@ -959,7 +962,10 @@
         "code": "import type { __BLANK__ } from 'next';\n\nexport async function __BLANK__({\n  params\n}: {\n  params: Promise<{ slug: string }>;\n}): Promise<Metadata> {\n  const { slug } = await params;\n  const product = await getProduct(slug);\n  return {\n    title: product.name,\n    description: product.description\n  };\n}",
         "blanks": ["Metadata", "generateMetadata"],
         "lang": "typescript",
-        "referenceAnswer": "import type { Metadata } from 'next';\n\nexport async function generateMetadata({\n  params\n}: {\n  params: Promise<{ slug: string }>;\n}): Promise<Metadata> {\n  const { slug } = await params;\n  const product = await getProduct(slug);\n  return {\n    title: product.name,\n    description: product.description\n  };\n}"
+        "referenceAnswer": {
+            "en": "import type { Metadata } from 'next';\n\nexport async function generateMetadata({\n  params\n}: {\n  params: Promise<{ slug: string }>;\n}): Promise<Metadata> {\n  const { slug } = await params;\n  const product = await getProduct(slug);\n  return {\n    title: product.name,\n    description: product.description\n  };\n}",
+            "ru": "Готовое решение:\n\nimport type { Metadata } from 'next';\n\nexport async function generateMetadata({\n  params\n}: {\n  params: Promise<{ slug: string }>;\n}): Promise<Metadata> {\n  const { slug } = await params;\n  const product = await getProduct(slug);\n  return {\n    title: product.name,\n    description: product.description\n  };\n}"
+        }
     },
     {
         "id": "next-completion-server-action-001",
@@ -978,7 +984,10 @@
         "code": "'use server';\nimport { __BLANK__ } from 'next/cache';\n\nexport async function createPost(formData: FormData) {\n  const title = formData.get('title') as string;\n  await db.post.create({ data: { title } });\n  __BLANK__('/posts');\n}",
         "blanks": ["revalidatePath", "revalidatePath"],
         "lang": "typescript",
-        "referenceAnswer": "'use server';\nimport { revalidatePath } from 'next/cache';\n\nexport async function createPost(formData: FormData) {\n  const title = formData.get('title') as string;\n  await db.post.create({ data: { title } });\n  revalidatePath('/posts');\n}"
+        "referenceAnswer": {
+            "en": "'use server';\nimport { revalidatePath } from 'next/cache';\n\nexport async function createPost(formData: FormData) {\n  const title = formData.get('title') as string;\n  await db.post.create({ data: { title } });\n  revalidatePath('/posts');\n}",
+            "ru": "Готовое решение:\n\n'use server';\nimport { revalidatePath } from 'next/cache';\n\nexport async function createPost(formData: FormData) {\n  const title = formData.get('title') as string;\n  await db.post.create({ data: { title } });\n  revalidatePath('/posts');\n}"
+        }
     },
     {
         "id": "next-completion-middleware-001",
@@ -997,7 +1006,10 @@
         "code": "import { NextResponse } from 'next/server';\nimport type { NextRequest } from 'next/server';\n\nexport function proxy(request: NextRequest) {\n  const token = request.cookies.get('auth-token');\n\n  if (!token) {\n    return NextResponse.__BLANK__(new URL('/login', request.url));\n  }\n\n  return NextResponse.__BLANK__();\n}",
         "blanks": ["redirect", "next"],
         "lang": "typescript",
-        "referenceAnswer": "import { NextResponse } from 'next/server';\nimport type { NextRequest } from 'next/server';\n\nexport function proxy(request: NextRequest) {\n  const token = request.cookies.get('auth-token');\n\n  if (!token) {\n    return NextResponse.redirect(new URL('/login', request.url));\n  }\n\n  return NextResponse.next();\n}"
+        "referenceAnswer": {
+            "en": "import { NextResponse } from 'next/server';\nimport type { NextRequest } from 'next/server';\n\nexport function proxy(request: NextRequest) {\n  const token = request.cookies.get('auth-token');\n\n  if (!token) {\n    return NextResponse.redirect(new URL('/login', request.url));\n  }\n\n  return NextResponse.next();\n}",
+            "ru": "Готовое решение:\n\nimport { NextResponse } from 'next/server';\nimport type { NextRequest } from 'next/server';\n\nexport function proxy(request: NextRequest) {\n  const token = request.cookies.get('auth-token');\n\n  if (!token) {\n    return NextResponse.redirect(new URL('/login', request.url));\n  }\n\n  return NextResponse.next();\n}"
+        }
     },
     {
         "id": "next-completion-generatestaticparams-001",
@@ -1016,7 +1028,10 @@
         "code": "export async function __BLANK__() {\n  const products = await getProducts();\n  return products.map((product) => ({\n    __BLANK__: product.id.toString()\n  }));\n}\n\nexport default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {\n  const { id } = await params;\n  return <div>Product {id}</div>;\n}",
         "blanks": ["generateStaticParams", "id"],
         "lang": "typescript",
-        "referenceAnswer": "export async function generateStaticParams() {\n  const products = await getProducts();\n  return products.map((product) => ({\n    id: product.id.toString()\n  }));\n}\n\nexport default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {\n  const { id } = await params;\n  return <div>Product {id}</div>;\n}"
+        "referenceAnswer": {
+            "en": "export async function generateStaticParams() {\n  const products = await getProducts();\n  return products.map((product) => ({\n    id: product.id.toString()\n  }));\n}\n\nexport default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {\n  const { id } = await params;\n  return <div>Product {id}</div>;\n}",
+            "ru": "Готовое решение:\n\nexport async function generateStaticParams() {\n  const products = await getProducts();\n  return products.map((product) => ({\n    id: product.id.toString()\n  }));\n}\n\nexport default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {\n  const { id } = await params;\n  return <div>Product {id}</div>;\n}"
+        }
     },
     {
         "id": "next-completion-isr-001",
@@ -1035,7 +1050,10 @@
         "code": "// app/lib/products.ts\nexport async function getProducts() {\n  return fetch('https://api.example.com/products', {\n    next: { __BLANK__: ['products'] }\n  }).then(r => r.json());\n}\n\n// ----- separate file -----\n\n// app/actions.ts\n'use server';\n\nimport { __BLANK__ } from 'next/cache';\n\nexport async function invalidateProducts() {\n  __BLANK__('products', 'max');\n}",
         "blanks": ["tags", "revalidateTag", "revalidateTag"],
         "lang": "typescript",
-        "referenceAnswer": "// app/lib/products.ts\nexport async function getProducts() {\n  return fetch('https://api.example.com/products', {\n    next: { tags: ['products'] }\n  }).then(r => r.json());\n}\n\n// ----- separate file -----\n\n// app/actions.ts\n'use server';\n\nimport { revalidateTag } from 'next/cache';\n\nexport async function invalidateProducts() {\n  revalidateTag('products', 'max');\n}"
+        "referenceAnswer": {
+            "en": "// app/lib/products.ts\nexport async function getProducts() {\n  return fetch('https://api.example.com/products', {\n    next: { tags: ['products'] }\n  }).then(r => r.json());\n}\n\n// ----- separate file -----\n\n// app/actions.ts\n'use server';\n\nimport { revalidateTag } from 'next/cache';\n\nexport async function invalidateProducts() {\n  revalidateTag('products', 'max');\n}",
+            "ru": "Готовое решение:\n\n// app/lib/products.ts\nexport async function getProducts() {\n  return fetch('https://api.example.com/products', {\n    next: { tags: ['products'] }\n  }).then(r => r.json());\n}\n\n// ----- separate file -----\n\n// app/actions.ts\n'use server';\n\nimport { revalidateTag } from 'next/cache';\n\nexport async function invalidateProducts() {\n  revalidateTag('products', 'max');\n}"
+        }
     },
     {
         "id": "next-completion-font-001",
@@ -1054,7 +1072,10 @@
         "code": "import { __BLANK__ } from 'next/font/google';\n\nconst inter = __BLANK__({ subsets: ['latin'] });\n\nexport default function RootLayout({ children }: { children: React.ReactNode }) {\n  return (\n    <html lang=\"en\">\n      <body className={inter.__BLANK__}>{children}</body>\n    </html>\n  );\n}",
         "blanks": ["Inter", "Inter", "className"],
         "lang": "typescript",
-        "referenceAnswer": "import { Inter } from 'next/font/google';\n\nconst inter = Inter({ subsets: ['latin'] });\n\nexport default function RootLayout({ children }: { children: React.ReactNode }) {\n  return (\n    <html lang=\"en\">\n      <body className={inter.className}>{children}</body>\n    </html>\n  );\n}"
+        "referenceAnswer": {
+            "en": "import { Inter } from 'next/font/google';\n\nconst inter = Inter({ subsets: ['latin'] });\n\nexport default function RootLayout({ children }: { children: React.ReactNode }) {\n  return (\n    <html lang=\"en\">\n      <body className={inter.className}>{children}</body>\n    </html>\n  );\n}",
+            "ru": "Готовое решение:\n\nimport { Inter } from 'next/font/google';\n\nconst inter = Inter({ subsets: ['latin'] });\n\nexport default function RootLayout({ children }: { children: React.ReactNode }) {\n  return (\n    <html lang=\"en\">\n      <body className={inter.className}>{children}</body>\n    </html>\n  );\n}"
+        }
     },
     {
         "id": "next-completion-server-component-fetch-001",
@@ -1073,7 +1094,10 @@
         "code": "export default async function BlogPage() {\n  const posts = await fetch('https://api.example.com/posts', {\n    next: { __BLANK__: __BLANK__ }\n  }).then(r => r.json());\n\n  return (\n    <ul>\n      {posts.map((post: { id: string; title: string }) => (\n        <li key={post.id}>{post.title}</li>\n      ))}\n    </ul>\n  );\n}",
         "blanks": ["revalidate", "300"],
         "lang": "typescript",
-        "referenceAnswer": "export default async function BlogPage() {\n  const posts = await fetch('https://api.example.com/posts', {\n    next: { revalidate: 300 }\n  }).then(r => r.json());\n\n  return (\n    <ul>\n      {posts.map((post: { id: string; title: string }) => (\n        <li key={post.id}>{post.title}</li>\n      ))}\n    </ul>\n  );\n}"
+        "referenceAnswer": {
+            "en": "export default async function BlogPage() {\n  const posts = await fetch('https://api.example.com/posts', {\n    next: { revalidate: 300 }\n  }).then(r => r.json());\n\n  return (\n    <ul>\n      {posts.map((post: { id: string; title: string }) => (\n        <li key={post.id}>{post.title}</li>\n      ))}\n    </ul>\n  );\n}",
+            "ru": "Готовое решение:\n\nexport default async function BlogPage() {\n  const posts = await fetch('https://api.example.com/posts', {\n    next: { revalidate: 300 }\n  }).then(r => r.json());\n\n  return (\n    <ul>\n      {posts.map((post: { id: string; title: string }) => (\n        <li key={post.id}>{post.title}</li>\n      ))}\n    </ul>\n  );\n}"
+        }
     },
     {
         "id": "next-multi-choice-app-vs-pages-001",

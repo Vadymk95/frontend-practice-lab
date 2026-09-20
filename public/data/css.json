@@ -1143,7 +1143,10 @@
         },
         "code": ".btn {\n  color: blue;\n}\n\n/* intended override */\nbutton {\n  color: red;\n}",
         "correct": "The class selector .btn (0,0,1,0) has higher specificity than the type selector button (0,0,0,1), so blue wins regardless of source order",
-        "referenceAnswer": "Fix: button.btn { color: red; } which has specificity (0,0,1,1) and beats .btn alone. Alternatively use a more specific class.",
+        "referenceAnswer": {
+            "en": "Fix: button.btn { color: red; } which has specificity (0,0,1,1) and beats .btn alone. Alternatively use a more specific class.",
+            "ru": "Исправление: button.btn { color: red; } — его специфичность (0,0,1,1) выше, чем у одного .btn. Как вариант, используйте более специфичный класс."
+        },
         "lang": "css"
     },
     {
@@ -1162,7 +1165,10 @@
         },
         "code": ".container {\n  display: flex;\n  justify-content: center;\n  height: 200px;\n}\n\n.item {\n  width: 50px;\n  height: 50px;\n}",
         "correct": "align-items is missing from the container — items default to the start of the cross axis",
-        "referenceAnswer": "Add align-items: center to .container. justify-content centers on the main (horizontal) axis; align-items centers on the cross (vertical) axis.",
+        "referenceAnswer": {
+            "en": "Add align-items: center to .container. justify-content centers on the main (horizontal) axis; align-items centers on the cross (vertical) axis.",
+            "ru": "Добавьте align-items: center к .container. justify-content центрирует по главной (горизонтальной) оси; align-items центрирует по поперечной (вертикальной) оси."
+        },
         "lang": "css"
     },
     {
@@ -1181,7 +1187,10 @@
         },
         "code": ".wrapper {\n  display: block; /* not a flex or grid container */\n}\n\n.wrapper .tooltip {\n  z-index: 100;\n  background: black;\n  color: white;\n  padding: 4px;\n}",
         "correct": "z-index has no effect because .tooltip is static and is not a flex or grid item — z-index applies to positioned elements and to flex/grid children",
-        "referenceAnswer": "Add position: relative (or absolute/fixed) to .tooltip. z-index is ignored on a static element unless that element is a flex or grid item, and .wrapper is a plain block container.",
+        "referenceAnswer": {
+            "en": "Add position: relative (or absolute/fixed) to .tooltip. z-index is ignored on a static element unless that element is a flex or grid item, and .wrapper is a plain block container.",
+            "ru": "Добавьте position: relative (или absolute/fixed) к .tooltip. z-index игнорируется у элемента с position: static, если только этот элемент не является flex- или grid-элементом, а .wrapper — обычный блочный контейнер."
+        },
         "lang": "css"
     },
     {
@@ -1200,7 +1209,10 @@
         },
         "code": "@keyframes fadeIn {\n  from { opacity: 0; }\n  to { opacity: 1; }\n}\n\n.element {\n  animation: fadeIn 500ms ease-in;\n  opacity: 0;\n}",
         "correct": "animation-fill-mode: forwards is missing — without it, the element reverts to opacity: 0 when the animation ends",
-        "referenceAnswer": "Add forwards to the animation shorthand: animation: fadeIn 500ms ease-in forwards;",
+        "referenceAnswer": {
+            "en": "Add forwards to the animation shorthand: animation: fadeIn 500ms ease-in forwards;",
+            "ru": "Добавьте forwards в сокращённую запись свойства animation: animation: fadeIn 500ms ease-in forwards;"
+        },
         "lang": "css"
     },
     {
@@ -1219,7 +1231,10 @@
         },
         "code": ".wrapper {\n  max-width: 480px;\n}\n\n.wrapper .grid {\n  display: grid;\n  grid-template-columns: repeat(3, 200px);\n}",
         "correct": "Three fixed 200px columns need 600px, but the wrapper is capped at 480px — the grid overflows its container",
-        "referenceAnswer": "Use responsive columns: grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) to create fluid columns that wrap automatically on small screens.",
+        "referenceAnswer": {
+            "en": "Use responsive columns: grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) to create fluid columns that wrap automatically on small screens.",
+            "ru": "Используйте адаптивные колонки: grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) — так получаются резиновые колонки, которые автоматически переносятся на узких экранах."
+        },
         "lang": "css"
     },
     {
@@ -1238,7 +1253,10 @@
         },
         "code": ":root {\n  --btn-color: ;\n}\n\n.btn {\n  background-color: var(--btn-color, blue);\n}",
         "correct": "--btn-color is explicitly set to an empty value (whitespace). This is a valid CSS value, so the fallback 'blue' is NOT triggered",
-        "referenceAnswer": "Remove the --btn-color declaration or assign a real value. The var() fallback only activates when the property is not defined or guaranteed-invalid.",
+        "referenceAnswer": {
+            "en": "Remove the --btn-color declaration or assign a real value. The var() fallback only activates when the property is not defined or guaranteed-invalid.",
+            "ru": "Удалите объявление --btn-color или присвойте ему реальное значение. Запасное значение в var() срабатывает только тогда, когда свойство не определено или его значение гарантированно невалидно (guaranteed-invalid)."
+        },
         "lang": "css"
     },
     {
@@ -1257,7 +1275,10 @@
         },
         "code": ".container {\n  position: relative;\n  width: 400px;\n  height: 400px;\n}\n\n.centered {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 100px;\n  height: 80px;\n}",
         "correct": "top/left: 50% positions the top-left corner at center. transform: translate(-50%, -50%) is missing to shift the element back by half its own dimensions",
-        "referenceAnswer": "Add transform: translate(-50%, -50%) to .centered.",
+        "referenceAnswer": {
+            "en": "Add transform: translate(-50%, -50%) to .centered.",
+            "ru": "Добавьте transform: translate(-50%, -50%) к .centered."
+        },
         "lang": "css"
     },
     {
@@ -1276,7 +1297,10 @@
         },
         "code": "@media (min-width: 768px) {\n  .hero { font-size: 48px; }\n}\n\n.hero { font-size: 24px; }",
         "correct": "Source order is wrong. The base .hero { font-size: 24px } appears AFTER the media query, so it overrides the 48px rule at equal specificity due to later source order",
-        "referenceAnswer": "Place base styles BEFORE the media query: .hero { font-size: 24px; } then @media (min-width: 768px) { .hero { font-size: 48px; } }",
+        "referenceAnswer": {
+            "en": "Place base styles BEFORE the media query: .hero { font-size: 24px; } then @media (min-width: 768px) { .hero { font-size: 48px; } }",
+            "ru": "Разместите базовые стили ДО медиазапроса: .hero { font-size: 24px; } и затем @media (min-width: 768px) { .hero { font-size: 48px; } }"
+        },
         "lang": "css"
     },
     {
@@ -1296,7 +1320,10 @@
         "code": ".parent {\n  __BLANK__: flex;\n  __BLANK__-content: center;\n  align-__BLANK__: center;\n  height: 100vh;\n}",
         "blanks": ["display", "justify", "items"],
         "lang": "css",
-        "referenceAnswer": "display: flex enables flexbox. justify-content: center on main axis. align-items: center on cross axis."
+        "referenceAnswer": {
+            "en": "display: flex enables flexbox. justify-content: center on main axis. align-items: center on cross axis.",
+            "ru": "display: flex включает flexbox. justify-content: center — по главной оси. align-items: center — по поперечной оси."
+        }
     },
     {
         "id": "css-complete-variables-001",
@@ -1315,7 +1342,10 @@
         "code": ":root {\n  __BLANK__primary: #3b82f6;\n}\n\n.button {\n  background-color: __BLANK__(--primary);\n  padding: var(--spacing, __BLANK__);\n}",
         "blanks": ["--", "var", "1rem"],
         "lang": "css",
-        "referenceAnswer": "--primary defines the property (double-dash prefix). var(--primary) reads it. var(--spacing, 1rem) uses 1rem as fallback if --spacing is unset."
+        "referenceAnswer": {
+            "en": "--primary defines the property (double-dash prefix). var(--primary) reads it. var(--spacing, 1rem) uses 1rem as fallback if --spacing is unset.",
+            "ru": "--primary объявляет свойство (префикс из двух дефисов). var(--primary) читает его. var(--spacing, 1rem) использует 1rem как запасное значение, если значение --spacing не задано."
+        }
     },
     {
         "id": "css-complete-grid-areas-001",
@@ -1334,7 +1364,10 @@
         "code": ".layout {\n  display: grid;\n  grid-template-__BLANK__:\n    'header header'\n    'sidebar main'\n    'footer footer';\n  grid-template-columns: 250px 1fr;\n}\n\n.header { grid-area: __BLANK__; }",
         "blanks": ["areas", "header"],
         "lang": "css",
-        "referenceAnswer": "grid-template-areas defines named regions and the areas string map must be rectangular. grid-area: header places the element in the named region."
+        "referenceAnswer": {
+            "en": "grid-template-areas defines named regions and the areas string map must be rectangular. grid-area: header places the element in the named region.",
+            "ru": "grid-template-areas задаёт именованные области, а строки с областями должны образовывать прямоугольник. grid-area: header помещает элемент в именованную область."
+        }
     },
     {
         "id": "css-complete-animation-001",
@@ -1353,7 +1386,10 @@
         "code": "@keyframes slideIn {\n  from { transform: translateY(__BLANK__); opacity: 0; }\n  to { transform: translateY(0); opacity: 1; }\n}\n\n.card {\n  animation: slideIn 400ms ease-out __BLANK__;\n}\n\n@media (prefers-reduced-motion: __BLANK__) {\n  .card { animation: none; }\n}",
         "blanks": ["-20px", "forwards", "reduce"],
         "lang": "css",
-        "referenceAnswer": "translateY(-20px) starts above. forwards retains the visible end state. prefers-reduced-motion: reduce disables animation for users who prefer less motion."
+        "referenceAnswer": {
+            "en": "translateY(-20px) starts above. forwards retains the visible end state. prefers-reduced-motion: reduce disables animation for users who prefer less motion.",
+            "ru": "translateY(-20px) начинает движение выше. forwards сохраняет конечное видимое состояние. prefers-reduced-motion: reduce отключает анимацию для пользователей, предпочитающих меньше движения."
+        }
     },
     {
         "id": "css-complete-responsive-001",
@@ -1372,7 +1408,10 @@
         "code": "body {\n  font-size: __BLANK__(1rem, 2.5vw, 1.25rem);\n}\n\nh1 {\n  font-size: clamp(__BLANK__, 5vw, 3rem);\n}",
         "blanks": ["clamp", "1.75rem"],
         "lang": "css",
-        "referenceAnswer": "clamp() creates fluid values. Body text: fluid between 1rem and 1.25rem. h1: fluid from 1.75rem minimum up to 3rem maximum."
+        "referenceAnswer": {
+            "en": "clamp() creates fluid values. Body text: fluid between 1rem and 1.25rem. h1: fluid from 1.75rem minimum up to 3rem maximum.",
+            "ru": "clamp() создаёт резиновые значения. Основной текст: плавно меняется между 1rem и 1.25rem. h1: плавно растёт от минимума 1.75rem до максимума 3rem."
+        }
     },
     {
         "id": "css-complete-layers-001",
@@ -1391,7 +1430,10 @@
         "code": "@__BLANK__ base, components, utilities;\n\n@layer base {\n  * { box-sizing: __BLANK__-box; }\n}\n\n@layer utilities {\n  .hidden { display: none __BLANK__important; }\n}",
         "blanks": ["layer", "border", "!"],
         "lang": "css",
-        "referenceAnswer": "@layer declares and orders layers. border-box applies globally in base. !important on .hidden beats normal component declarations, but layer order is reversed for !important: an !important in the earlier components layer would win over this one."
+        "referenceAnswer": {
+            "en": "@layer declares and orders layers. border-box applies globally in base. !important on .hidden beats normal component declarations, but layer order is reversed for !important: an !important in the earlier components layer would win over this one.",
+            "ru": "@layer объявляет слои и задаёт их порядок. border-box применяется глобально в слое base. !important у .hidden побеждает обычные объявления компонентов, но для !important порядок слоёв инвертируется: !important в более раннем слое components выиграл бы у этого."
+        }
     },
     {
         "id": "css-complete-stacking-001",
@@ -1410,7 +1452,10 @@
         "code": ".modal-wrapper {\n  __BLANK__: isolate;\n}\n\n.backdrop {\n  position: __BLANK__;\n  inset: __BLANK__;\n  background: rgba(0,0,0,0.5);\n}\n\n.modal-content {\n  position: relative;\n  z-index: 1;\n  background: white;\n}",
         "blanks": ["isolation", "fixed", "0"],
         "lang": "css",
-        "referenceAnswer": "isolation: isolate creates a stacking context without changing any visual property. position: fixed with inset: 0 makes the backdrop cover the viewport. The modal content's z-index: 1 stacks it above the backdrop inside the isolated context."
+        "referenceAnswer": {
+            "en": "isolation: isolate creates a stacking context without changing any visual property. position: fixed with inset: 0 makes the backdrop cover the viewport. The modal content's z-index: 1 stacks it above the backdrop inside the isolated context.",
+            "ru": "isolation: isolate создаёт контекст наложения, не меняя ни одного визуального свойства. position: fixed с inset: 0 заставляет подложку покрыть вьюпорт. z-index: 1 у содержимого модального окна кладёт его поверх подложки внутри изолированного контекста."
+        }
     },
     {
         "id": "css-complete-counter-001",
@@ -1429,7 +1474,10 @@
         "code": ".steps {\n  counter-__BLANK__: step;\n}\n\n.step::__BLANK__ {\n  counter-__BLANK__: step;\n  content: __BLANK__(step) '. ';\n  font-weight: bold;\n}",
         "blanks": ["reset", "before", "increment", "counter"],
         "lang": "css",
-        "referenceAnswer": "counter-reset initializes. ::before creates the pseudo-element. counter-increment advances per element. counter() retrieves the value as content."
+        "referenceAnswer": {
+            "en": "counter-reset initializes. ::before creates the pseudo-element. counter-increment advances per element. counter() retrieves the value as content.",
+            "ru": "counter-reset инициализирует счётчик. ::before создаёт псевдоэлемент. counter-increment увеличивает его на каждом элементе. counter() возвращает значение как content."
+        }
     },
     {
         "id": "css-multi-easy-001",
@@ -1664,7 +1712,10 @@
         "code": ".card {\n  container-type: inline-size;\n  display: grid;\n  grid-template-columns: 1fr;\n}\n\n@container (inline-size > 30rem) {\n  .card {\n    grid-template-columns: 1fr 1fr;\n  }\n}",
         "lang": "css",
         "correct": "A container query can only style descendants of the container — `.card` is its own container, so the rule never applies to it",
-        "referenceAnswer": "Move the containment to a wrapper and keep the queried styles on the child:\n\n```css\n.card-wrap { container-type: inline-size; }\n\n.card { display: grid; grid-template-columns: 1fr; }\n\n@container (inline-size > 30rem) {\n  .card { grid-template-columns: 1fr 1fr; }\n}\n```\n\nSelf-querying is forbidden by design: styles applied from inside `@container` could change the size the query just tested, and the layout would oscillate. Note that `container-type: size` would also need a definite block size, which is why `inline-size` is the usual choice.",
+        "referenceAnswer": {
+            "en": "Move the containment to a wrapper and keep the queried styles on the child:\n\n```css\n.card-wrap { container-type: inline-size; }\n\n.card { display: grid; grid-template-columns: 1fr; }\n\n@container (inline-size > 30rem) {\n  .card { grid-template-columns: 1fr 1fr; }\n}\n```\n\nSelf-querying is forbidden by design: styles applied from inside `@container` could change the size the query just tested, and the layout would oscillate. Note that `container-type: size` would also need a definite block size, which is why `inline-size` is the usual choice.",
+            "ru": "Перенесите containment на обёртку, а запрашиваемые стили оставьте на потомке:\n\n```css\n.card-wrap { container-type: inline-size; }\n\n.card { display: grid; grid-template-columns: 1fr; }\n\n@container (inline-size > 30rem) {\n  .card { grid-template-columns: 1fr 1fr; }\n}\n```\n\nЗапрос элемента к самому себе запрещён намеренно: стили, применённые изнутри `@container`, могли бы изменить тот самый размер, который запрос только что проверил, и раскладка начала бы колебаться. Учтите, что `container-type: size` потребовал бы ещё и определённого блочного размера, поэтому обычно выбирают `inline-size`."
+        },
         "explanation": {
             "en": "A size query is evaluated against the container, but the declarations inside `@container` apply only to its **descendants**, never to the container element itself. Allowing it to style itself would be circular — the new styles could change the very size the query tested. The fix is always the same shape: one wrapper carries `container-type`, the queried styles live on the child.",
             "ru": "Размерный запрос вычисляется по контейнеру, но объявления внутри `@container` применяются только к его **потомкам**, а не к самому контейнеру. Иначе получилась бы циклическая зависимость: новые стили могли бы изменить ту самую ширину, которую проверил запрос. Фикс всегда одной формы: обёртка несёт `container-type`, а стили из запроса живут на потомке."
@@ -1683,7 +1734,10 @@
         "code": ".card-wrap {\n  container-type: __BLANK__;\n  container-name: card;\n}\n\n@__BLANK__ card (inline-size > 30rem) {\n  .card { grid-template-columns: 1fr 1fr; }\n}\n\n@__BLANK__ not (container-type: inline-size) {\n  @media (min-width: 60rem) {\n    .card { grid-template-columns: 1fr 1fr; }\n  }\n}",
         "blanks": ["inline-size", "container", "supports"],
         "lang": "css",
-        "referenceAnswer": "container-type: inline-size applies layout, style and inline-size containment, so the wrapper's inline size comes from its parent and can be queried; container-name lets @container card target this specific ancestor instead of the nearest query container. The fallback needs @supports not (container-type: inline-size), because an unsupporting engine simply ignores the whole @container block — without the feature query the media-query rules would also apply in supporting browsers and fight the container query.",
+        "referenceAnswer": {
+            "en": "container-type: inline-size applies layout, style and inline-size containment, so the wrapper's inline size comes from its parent and can be queried; container-name lets @container card target this specific ancestor instead of the nearest query container. The fallback needs @supports not (container-type: inline-size), because an unsupporting engine simply ignores the whole @container block — without the feature query the media-query rules would also apply in supporting browsers and fight the container query.",
+            "ru": "container-type: inline-size включает containment по layout, style и inline-size, поэтому inline-размер обёртки берётся от родителя и его можно запрашивать; container-name позволяет @container card обращаться именно к этому предку, а не к ближайшему контейнеру запроса. Для запасного варианта нужен @supports not (container-type: inline-size), потому что движок без поддержки просто игнорирует весь блок @container — без feature query правила с медиазапросами применялись бы и в поддерживающих браузерах и конфликтовали бы с container query."
+        },
         "explanation": {
             "en": "Naming a container matters as soon as containers nest: an unnamed `@container` resolves against the nearest ancestor container, which may not be the one you meant. The `@supports` guard is the honest way to ship a fallback — `@container` blocks are dropped by parsers that do not know them, so without the guard both sets of rules would apply in modern browsers. In practice container queries have been Newly available since February 2023 and Widely available since August 2025, so this fallback is only for genuinely old engines.",
             "ru": "Имя контейнера начинает играть роль, как только контейнеры вкладываются: безымянный `@container` резолвится на ближайший контейнер-предок, а это не всегда тот, который вы имели в виду. Обёртка в `@supports` — честный способ дать fallback: блок `@container` просто игнорируется парсером, который его не знает, и без гварда оба набора правил применялись бы в современных браузерах. На практике container queries — Newly available с февраля 2023, Widely available — с августа 2025, так что fallback тут нужен только под совсем старые движки."
@@ -1808,7 +1862,10 @@
         "code": "function Gallery({ id, setId }) {\n  const open = (next) => {\n    document.startViewTransition(() => {\n      setId(next);\n    });\n  };\n\n  return <Grid current={id} onSelect={open} />;\n}",
         "lang": "jsx",
         "correct": "The callback returns before React has committed the new DOM, so the API takes the 'after' snapshot of an unchanged page and there is nothing to animate",
-        "referenceAnswer": "startViewTransition captures the 'after' state as soon as the callback (or the promise it returns) settles, but a React setState is asynchronous, so at that moment the DOM is still the old one. The direct fix is to force the commit inside the callback:\n\n```jsx\nimport { flushSync } from 'react-dom';\n\ndocument.startViewTransition(() => {\n  flushSync(() => setId(next));\n});\n```\n\nflushSync comes from react-dom, not from react, and forces a synchronous re-render so the new DOM is in place before the second snapshot. On React 19.3 or newer (stable since September 2026) you can instead let React drive the transition:\n\n```jsx\n<ViewTransition>\n  <Grid current={id} />\n</ViewTransition>\n// and update inside a transition:\nstartTransition(() => setId(next));\n```\n\nViewTransition animates updates made inside startTransition, a useDeferredValue change or a Suspense reveal — a plain setState stays urgent and does not animate.",
+        "referenceAnswer": {
+            "en": "startViewTransition captures the 'after' state as soon as the callback (or the promise it returns) settles, but a React setState is asynchronous, so at that moment the DOM is still the old one. The direct fix is to force the commit inside the callback:\n\n```jsx\nimport { flushSync } from 'react-dom';\n\ndocument.startViewTransition(() => {\n  flushSync(() => setId(next));\n});\n```\n\nflushSync comes from react-dom, not from react, and forces a synchronous re-render so the new DOM is in place before the second snapshot. On React 19.3 or newer (stable since September 2026) you can instead let React drive the transition:\n\n```jsx\n<ViewTransition>\n  <Grid current={id} />\n</ViewTransition>\n// and update inside a transition:\nstartTransition(() => setId(next));\n```\n\nViewTransition animates updates made inside startTransition, a useDeferredValue change or a Suspense reveal — a plain setState stays urgent and does not animate.",
+            "ru": "startViewTransition снимает состояние «после» сразу, как только колбэк (или возвращённый им промис) завершается, но setState в React асинхронный, так что в этот момент DOM всё ещё старый. Прямое исправление — принудительно закоммитить изменения внутри колбэка:\n\n```jsx\nimport { flushSync } from 'react-dom';\n\ndocument.startViewTransition(() => {\n  flushSync(() => setId(next));\n});\n```\n\nflushSync берётся из react-dom, а не из react, и заставляет выполнить синхронный ре-рендер, чтобы новый DOM оказался на месте до второго снимка. На React 19.3 и новее (стабильно с сентября 2026) можно вместо этого отдать управление переходом самому React:\n\n```jsx\n<ViewTransition>\n  <Grid current={id} />\n</ViewTransition>\n// and update inside a transition:\nstartTransition(() => setId(next));\n```\n\nViewTransition анимирует обновления, сделанные внутри startTransition, изменение useDeferredValue или раскрытие Suspense — обычный setState остаётся срочным и не анимируется."
+        },
         "explanation": {
             "en": "`document.startViewTransition()` snapshots the page, runs your callback, and then snapshots again once the callback settles; whatever DOM mutation you want animated must be finished by then. React batches state updates, so `setId` has changed nothing yet when the callback returns and both snapshots are identical. The portable fix is to commit synchronously with `flushSync` (imported from `react-dom`) inside the callback; on React 19.3 and newer you can instead hand the problem to `<ViewTransition>` and update inside a transition.",
             "ru": "`document.startViewTransition()` снимает снапшот страницы, выполняет колбэк и снимает второй снапшот, как только колбэк завершился; к этому моменту нужная мутация DOM уже должна произойти. React батчит обновления состояния, поэтому на выходе из колбэка `setId` ещё ничего не изменил, и оба снапшота одинаковые. Переносимый фикс — коммит синхронно через `flushSync` (импорт из `react-dom`) внутри колбэка; на React 19.3 и новее можно вместо этого отдать задачу `<ViewTransition>` и обновлять состояние внутри transition."
@@ -1861,7 +1918,10 @@
         "code": "@__BLANK__ {\n  navigation: __BLANK__;\n}\n\n::view-transition-old(root),\n::view-transition-new(root) {\n  animation-duration: 300ms;\n}",
         "blanks": ["view-transition", "auto"],
         "lang": "css",
-        "referenceAnswer": "@view-transition { navigation: auto; } opts a document into cross-document view transitions. Both pages must carry it and they must be same-origin (scheme, host and port); the outgoing page's opt-in alone does nothing. navigation: auto covers traverse, push and replace navigations that are not user-initiated through browser UI; navigation: none is the default. Use the pageswap and pagereveal events when either side has to set view-transition-name values before its snapshot is taken.",
+        "referenceAnswer": {
+            "en": "@view-transition { navigation: auto; } opts a document into cross-document view transitions. Both pages must carry it and they must be same-origin (scheme, host and port); the outgoing page's opt-in alone does nothing. navigation: auto covers traverse, push and replace navigations that are not user-initiated through browser UI; navigation: none is the default. Use the pageswap and pagereveal events when either side has to set view-transition-name values before its snapshot is taken.",
+            "ru": "@view-transition { navigation: auto; } подключает документ к межстраничным view transitions. Обе страницы должны его содержать, и они должны быть с одного origin (схема, хост и порт); подключения только на уходящей странице недостаточно. navigation: auto покрывает навигации traverse, push и replace, которые не инициированы пользователем через интерфейс браузера; navigation: none — значение по умолчанию. Используйте события pageswap и pagereveal, когда одной из сторон нужно выставить значения view-transition-name до того, как будет сделан её снимок."
+        },
         "explanation": {
             "en": "Cross-document transitions are pure CSS — there is no `startViewTransition` call, the browser runs the transition as part of the navigation. Because two documents are involved, both must opt in and both must be same-origin; one-sided opt-in silently gives you the old hard cut. Shared elements still work the same way: a matching `view-transition-name` on both pages makes the browser animate between them.",
             "ru": "Cross-document переходы — это чистый CSS: никакого вызова `startViewTransition`, браузер проводит переход в рамках самой навигации. Документов два, поэтому opt-in нужен с обеих сторон и обе страницы должны быть same-origin; односторонний opt-in молча оставит обычный резкий переход. Shared elements работают так же: совпадающий `view-transition-name` на обеих страницах заставляет браузер анимировать переход между ними."

@@ -1521,7 +1521,10 @@
         },
         "code": "function Comment({ text }) {\n  return (\n    <div\n      dangerouslySetInnerHTML={{ __html: text }}\n    />\n  );\n}",
         "correct": "User-supplied text is rendered as raw HTML without sanitization",
-        "referenceAnswer": "dangerouslySetInnerHTML bypasses React's XSS protection. The text prop could contain <script> tags or event handlers. Fix: sanitize with DOMPurify before use — dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(text) }}",
+        "referenceAnswer": {
+            "en": "dangerouslySetInnerHTML bypasses React's XSS protection. The text prop could contain <script> tags or event handlers. Fix: sanitize with DOMPurify before use — dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(text) }}",
+            "ru": "dangerouslySetInnerHTML обходит встроенную защиту React от XSS. Проп text может содержать теги <script> или обработчики событий. Исправление: очистите значение через DOMPurify перед использованием — dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(text) }}"
+        },
         "lang": "jsx"
     },
     {
@@ -1540,7 +1543,10 @@
         },
         "code": "app.use(session({\n  secret: process.env.SESSION_SECRET,\n  resave: false,\n  saveUninitialized: false,\n  cookie: {\n    httpOnly: true,\n    secure: true\n  }\n}));",
         "correct": "The SameSite attribute is missing from the cookie configuration",
-        "referenceAnswer": "The cookie options never set sameSite. Most current browsers treat a cookie with no SameSite attribute as Lax, which already blocks a cross-site form POST, so the classic \"sent with every cross-origin request\" description no longer holds - but relying on that default is not portable: older and embedded browsers still fall back to None, and a state-changing GET endpoint is not covered by Lax at all. Fix: set sameSite: 'lax' (or 'strict') explicitly, and keep SameSite as defense-in-depth next to a synchronizer or double-submit CSRF token.",
+        "referenceAnswer": {
+            "en": "The cookie options never set sameSite. Most current browsers treat a cookie with no SameSite attribute as Lax, which already blocks a cross-site form POST, so the classic \"sent with every cross-origin request\" description no longer holds - but relying on that default is not portable: older and embedded browsers still fall back to None, and a state-changing GET endpoint is not covered by Lax at all. Fix: set sameSite: 'lax' (or 'strict') explicitly, and keep SameSite as defense-in-depth next to a synchronizer or double-submit CSRF token.",
+            "ru": "В опциях куки не задан sameSite. Большинство современных браузеров трактуют куку без атрибута SameSite как Lax, а это уже блокирует кросс-сайтовый POST из формы, поэтому классическое описание «отправляется с каждым кросс-доменным запросом» больше не верно - но полагаться на это поведение по умолчанию нельзя, оно непереносимо: старые и встроенные браузеры всё ещё откатываются к None, а изменяющий состояние GET-эндпоинт режим Lax не покрывает вовсе. Исправление: задайте sameSite: 'lax' (или 'strict') явно и оставьте SameSite как эшелонированную защиту рядом с synchronizer- или double-submit-токеном CSRF."
+        },
         "lang": "javascript"
     },
     {
@@ -1559,7 +1565,10 @@
         },
         "code": "function verifyToken(token) {\n  const [headerB64] = token.split('.');\n  const header = JSON.parse(atob(headerB64));\n  return jwt.verify(token, publicKey, { algorithms: [header.alg] });\n}",
         "correct": "The algorithm is read from the untrusted token header, allowing alg:none or algorithm confusion attacks",
-        "referenceAnswer": "Never trust the algorithm specified in the token. The algorithms option must be hardcoded to the expected algorithm (e.g., ['RS256']). An attacker can set alg to 'none' to skip signature verification or to 'HS256' to cause algorithm confusion.",
+        "referenceAnswer": {
+            "en": "Never trust the algorithm specified in the token. The algorithms option must be hardcoded to the expected algorithm (e.g., ['RS256']). An attacker can set alg to 'none' to skip signature verification or to 'HS256' to cause algorithm confusion.",
+            "ru": "Никогда не доверяйте алгоритму, указанному в самом токене. Опция algorithms должна быть жёстко задана ожидаемым алгоритмом (например, ['RS256']). Атакующий может выставить alg в 'none', чтобы пропустить проверку подписи, или в 'HS256', чтобы вызвать путаницу алгоритмов."
+        },
         "lang": "javascript"
     },
     {
@@ -1578,7 +1587,10 @@
         },
         "code": "const ALLOWED_CONFIGS = new Set(['theme', 'flags']);\n\nasync function loadConfig(configName) {\n  if (!ALLOWED_CONFIGS.has(configName)) throw new Error('Unknown config');\n  const response = await fetch(`/configs/${configName}`);\n  const text = await response.text();\n  return eval('(' + text + ')');\n}",
         "correct": "eval() is used to parse server responses, enabling code injection if the server or network is compromised",
-        "referenceAnswer": "Replace eval() with JSON.parse(). Configuration data should be valid JSON, not arbitrary JavaScript. eval() executes any code in the response, giving a man-in-the-middle attacker full code execution.",
+        "referenceAnswer": {
+            "en": "Replace eval() with JSON.parse(). Configuration data should be valid JSON, not arbitrary JavaScript. eval() executes any code in the response, giving a man-in-the-middle attacker full code execution.",
+            "ru": "Замените eval() на JSON.parse(). Конфигурационные данные должны быть валидным JSON, а не произвольным JavaScript. eval() выполняет любой код из ответа, давая атакующему в позиции man-in-the-middle полноценное выполнение кода."
+        },
         "lang": "javascript"
     },
     {
@@ -1597,7 +1609,10 @@
         },
         "code": "function deepMerge(target, source) {\n  for (const key of Object.keys(source)) {\n    if (typeof source[key] === 'object' && source[key] !== null) {\n      target[key] = target[key] || {};\n      deepMerge(target[key], source[key]);\n    } else {\n      target[key] = source[key];\n    }\n  }\n  return target;\n}",
         "correct": "No key filtering means __proto__ and constructor can be merged, polluting Object.prototype",
-        "referenceAnswer": "Add a guard: if (key === '__proto__' || key === 'constructor' || key === 'prototype') continue; Alternatively use Object.create(null) for target, or use structuredClone() for deep copying.",
+        "referenceAnswer": {
+            "en": "Add a guard: if (key === '__proto__' || key === 'constructor' || key === 'prototype') continue; Alternatively use Object.create(null) for target, or use structuredClone() for deep copying.",
+            "ru": "Добавьте защиту: if (key === '__proto__' || key === 'constructor' || key === 'prototype') continue; Как вариант, используйте Object.create(null) для target или structuredClone() для глубокого копирования."
+        },
         "lang": "javascript"
     },
     {
@@ -1616,7 +1631,10 @@
         },
         "code": "// HTTP response header:\n// Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.example.com",
         "correct": "'unsafe-inline' in script-src allows all inline scripts, completely defeating CSP's XSS protection",
-        "referenceAnswer": "Remove 'unsafe-inline' and replace inline scripts with external files or use nonces/hashes. With 'unsafe-inline' present, any injected <script> tag or on* event handler will execute, rendering CSP useless against XSS.",
+        "referenceAnswer": {
+            "en": "Remove 'unsafe-inline' and replace inline scripts with external files or use nonces/hashes. With 'unsafe-inline' present, any injected <script> tag or on* event handler will execute, rendering CSP useless against XSS.",
+            "ru": "Уберите 'unsafe-inline' и замените инлайновые скрипты внешними файлами либо используйте nonce/хеши. Пока присутствует 'unsafe-inline', любой внедрённый тег <script> или on*-обработчик выполнится, и CSP становится бесполезной против XSS."
+        },
         "lang": "javascript"
     },
     {
@@ -1635,7 +1653,10 @@
         },
         "code": "async function login(credentials) {\n  const { token } = await authApi.login(credentials);\n  localStorage.setItem('authToken', token);\n  return token;\n}\n\nfunction getAuthHeader() {\n  return { Authorization: `Bearer ${localStorage.getItem('authToken')}` };\n}",
         "correct": "Storing the JWT in localStorage exposes it to any XSS on the origin, which can read it with localStorage.getItem and exfiltrate it",
-        "referenceAnswer": "Store authentication tokens in HttpOnly cookies instead. They are inaccessible to JavaScript, preventing XSS-based token theft. The browser sends them automatically, so getAuthHeader() becomes unnecessary.",
+        "referenceAnswer": {
+            "en": "Store authentication tokens in HttpOnly cookies instead. They are inaccessible to JavaScript, preventing XSS-based token theft. The browser sends them automatically, so getAuthHeader() becomes unnecessary.",
+            "ru": "Вместо этого храните токены аутентификации в HttpOnly-куках. Они недоступны из JavaScript, что предотвращает кражу токена через XSS. Браузер отправляет их автоматически, поэтому getAuthHeader() становится не нужен."
+        },
         "lang": "javascript"
     },
     {
@@ -1654,7 +1675,10 @@
         },
         "code": "app.use((req, res, next) => {\n  const origin = req.headers.origin;\n  res.setHeader('Access-Control-Allow-Origin', origin);\n  res.setHeader('Access-Control-Allow-Credentials', 'true');\n  next();\n});",
         "correct": "The server reflects any Origin back, combined with Allow-Credentials:true — any site can make credentialed cross-origin requests",
-        "referenceAnswer": "Maintain an explicit allowlist of trusted origins and only set Access-Control-Allow-Origin for origins in that list. Never reflect the request Origin unconditionally when credentials are allowed.",
+        "referenceAnswer": {
+            "en": "Maintain an explicit allowlist of trusted origins and only set Access-Control-Allow-Origin for origins in that list. Never reflect the request Origin unconditionally when credentials are allowed.",
+            "ru": "Ведите явный список доверенных origin и выставляйте Access-Control-Allow-Origin только для origin из этого списка. Никогда не отражайте Origin из запроса безусловно, если разрешены credentials."
+        },
         "lang": "javascript"
     },
     {
@@ -1674,7 +1698,10 @@
         "code": "import crypto from 'node:crypto';\n\nexport function cspMiddleware(req, res, next) {\n  const nonce = crypto.__BLANK__(16).toString('base64url');\n  res.locals.cspNonce = nonce;\n  res.setHeader(\n    'Content-Security-Policy',\n    `default-src 'none'; script-src 'nonce-${nonce}' '__BLANK__'; style-src 'self'; img-src 'self' data:`\n  );\n  next();\n}",
         "blanks": ["randomBytes", "strict-dynamic"],
         "lang": "javascript",
-        "referenceAnswer": "crypto.randomBytes(size) takes a byte count and returns a Buffer, so the nonce is built as crypto.randomBytes(16).toString('base64url') - there is no encoding parameter on randomBytes itself. 'strict-dynamic' propagates trust from the nonce to dynamically loaded scripts, so a bundler's chunks load without host allowlists."
+        "referenceAnswer": {
+            "en": "crypto.randomBytes(size) takes a byte count and returns a Buffer, so the nonce is built as crypto.randomBytes(16).toString('base64url') - there is no encoding parameter on randomBytes itself. 'strict-dynamic' propagates trust from the nonce to dynamically loaded scripts, so a bundler's chunks load without host allowlists.",
+            "ru": "crypto.randomBytes(size) принимает количество байтов и возвращает Buffer, поэтому nonce собирается как crypto.randomBytes(16).toString('base64url') - у самого randomBytes нет параметра кодировки. 'strict-dynamic' переносит доверие с nonce на динамически загружаемые скрипты, поэтому чанки бандлера грузятся без списков разрешённых хостов."
+        }
     },
     {
         "id": "sec-cc-sanitize-001",
@@ -1693,7 +1720,10 @@
         "code": "import DOMPurify from 'dompurify';\n\nfunction SafeHtml({ html }: { html: string }) {\n  const clean = DOMPurify.__BLANK__(html);\n  return <div dangerouslySetInnerHTML={{ __BLANK__: clean }} />;\n}",
         "blanks": ["sanitize", "__html"],
         "lang": "tsx",
-        "referenceAnswer": "DOMPurify.sanitize(html) strips all XSS vectors from the HTML string. dangerouslySetInnerHTML requires the object key __html to inject the sanitized markup."
+        "referenceAnswer": {
+            "en": "DOMPurify.sanitize(html) strips all XSS vectors from the HTML string. dangerouslySetInnerHTML requires the object key __html to inject the sanitized markup.",
+            "ru": "DOMPurify.sanitize(html) вырезает из HTML-строки все XSS-векторы. dangerouslySetInnerHTML требует объект с ключом __html, чтобы вставить очищенную разметку."
+        }
     },
     {
         "id": "sec-cc-jwt-001",
@@ -1712,7 +1742,10 @@
         "code": "import jwt from 'jsonwebtoken';\n\nexport function verifyAccessToken(token: string) {\n  return jwt.verify(token, process.env.JWT_PUBLIC_KEY!, {\n    algorithms: ['__BLANK__'],\n    audience: '__BLANK__',\n    issuer: 'auth.example.com',\n  });\n}",
         "blanks": ["RS256", "api.example.com"],
         "lang": "typescript",
-        "referenceAnswer": "Hardcode the algorithm to 'RS256' so a token whose header claims alg: none or alg: HS256 is rejected instead of being verified with the public key as an HMAC secret. Set audience to this service's own identifier, 'api.example.com', so a token minted for another service in the same infrastructure is rejected."
+        "referenceAnswer": {
+            "en": "Hardcode the algorithm to 'RS256' so a token whose header claims alg: none or alg: HS256 is rejected instead of being verified with the public key as an HMAC secret. Set audience to this service's own identifier, 'api.example.com', so a token minted for another service in the same infrastructure is rejected.",
+            "ru": "Жёстко задайте алгоритм 'RS256', чтобы токен, в заголовке которого заявлено alg: none или alg: HS256, отклонялся, а не проверялся публичным ключом как HMAC-секретом. Задайте audience равным собственному идентификатору сервиса, 'api.example.com', чтобы токен, выпущенный для другого сервиса в той же инфраструктуре, был отклонён."
+        }
     },
     {
         "id": "sec-cc-sri-001",
@@ -1731,7 +1764,10 @@
         "code": "<script\n  src=\"https://cdn.example.com/lib.min.js\"\n  __BLANK__=\"sha384-abc123==\"\n  crossorigin=\"__BLANK__\"\n></script>",
         "blanks": ["integrity", "anonymous"],
         "lang": "html",
-        "referenceAnswer": "The integrity attribute holds the hash (algorithm-hash format). crossorigin='anonymous' sends no credentials with the request, which is required for SRI to work with cross-origin resources."
+        "referenceAnswer": {
+            "en": "The integrity attribute holds the hash (algorithm-hash format). crossorigin='anonymous' sends no credentials with the request, which is required for SRI to work with cross-origin resources.",
+            "ru": "Атрибут integrity содержит хеш (в формате алгоритм-хеш). crossorigin='anonymous' отправляет запрос без учётных данных, что необходимо для работы SRI с кросс-доменными ресурсами."
+        }
     },
     {
         "id": "sec-cc-prototype-001",
@@ -1750,7 +1786,10 @@
         "code": "function safeMerge<T extends object>(target: T, source: Record<string, unknown>): T {\n  const BLOCKED_KEYS = new __BLANK__([ '__BLANK__', 'constructor', 'prototype']);\n  for (const [key, value] of Object.entries(source)) {\n    if (BLOCKED_KEYS.has(key)) continue;\n    (target as Record<string, unknown>)[key] = value;\n  }\n  return target;\n}",
         "blanks": ["Set", "__proto__"],
         "lang": "typescript",
-        "referenceAnswer": "A Set provides O(1) key lookup to block __proto__, constructor, and prototype — the three keys attackers use to reach Object.prototype or class constructors."
+        "referenceAnswer": {
+            "en": "A Set provides O(1) key lookup to block __proto__, constructor, and prototype — the three keys attackers use to reach Object.prototype or class constructors.",
+            "ru": "Set даёт поиск ключа за O(1) и блокирует __proto__, constructor и prototype — три ключа, через которые атакующие добираются до Object.prototype или конструкторов классов."
+        }
     },
     {
         "id": "sec-cc-hsts-001",
@@ -1769,7 +1808,10 @@
         "code": "export function hstsMiddleware(req, res, next) {\n  res.setHeader(\n    '__BLANK__-Transport-Security',\n    'max-age=__BLANK__; includeSubDomains; preload'\n  );\n  next();\n}",
         "blanks": ["Strict", "31536000"],
         "lang": "javascript",
-        "referenceAnswer": "The header name is Strict-Transport-Security. max-age=31536000 is one year in seconds. includeSubDomains and preload are required by the HSTS preload list."
+        "referenceAnswer": {
+            "en": "The header name is Strict-Transport-Security. max-age=31536000 is one year in seconds. includeSubDomains and preload are required by the HSTS preload list.",
+            "ru": "Заголовок называется Strict-Transport-Security. max-age=31536000 — это один год в секундах. includeSubDomains и preload обязательны для списка HSTS preload."
+        }
     },
     {
         "id": "sec-cc-cookie-001",
@@ -1788,7 +1830,10 @@
         "code": "res.cookie('sessionId', token, {\n  httpOnly: __BLANK__,\n  secure: __BLANK__,\n  sameSite: '__BLANK__',\n  maxAge: 15 * 60 * 1000,\n});",
         "blanks": ["true", "true", "strict"],
         "lang": "javascript",
-        "referenceAnswer": "httpOnly:true prevents JS access, secure:true sends the cookie over HTTPS only, and sameSite:'strict' is the only value that also withholds the cookie on a top-level navigation from another site ('lax' would send it). maxAge of 15 minutes limits session lifetime."
+        "referenceAnswer": {
+            "en": "httpOnly:true prevents JS access, secure:true sends the cookie over HTTPS only, and sameSite:'strict' is the only value that also withholds the cookie on a top-level navigation from another site ('lax' would send it). maxAge of 15 minutes limits session lifetime.",
+            "ru": "httpOnly:true запрещает доступ из JS, secure:true отправляет куку только по HTTPS, а sameSite:'strict' — единственное значение, которое не отдаёт куку и при переходе верхнего уровня с другого сайта ('lax' её отправит). maxAge в 15 минут ограничивает время жизни сессии."
+        }
     },
     {
         "id": "sec-cc-cors-001",
@@ -1807,7 +1852,10 @@
         "code": "const ALLOWED_ORIGINS = new Set(['https://app.example.com', 'https://admin.example.com']);\n\nexport function corsMiddleware(req, res, next) {\n  const origin = req.headers.__BLANK__;\n  if (origin && ALLOWED_ORIGINS.__BLANK__(origin)) {\n    res.setHeader('Access-Control-Allow-Origin', origin);\n    res.setHeader('Access-Control-Allow-Credentials', '__BLANK__');\n  }\n  next();\n}",
         "blanks": ["origin", "has", "true"],
         "lang": "javascript",
-        "referenceAnswer": "Read req.headers.origin, check membership with Set.has(), and only reflect the origin if it is in the allowlist. Access-Control-Allow-Credentials must be the string 'true'."
+        "referenceAnswer": {
+            "en": "Read req.headers.origin, check membership with Set.has(), and only reflect the origin if it is in the allowlist. Access-Control-Allow-Credentials must be the string 'true'.",
+            "ru": "Прочитайте req.headers.origin, проверьте вхождение через Set.has() и отражайте origin, только если он есть в списке разрешённых. Access-Control-Allow-Credentials должен быть строкой 'true'."
+        }
     },
     {
         "id": "sec-bff-001",
@@ -2034,7 +2082,10 @@
         "code": "let accessToken: string | null = null;\n\napi.interceptors.response.use(undefined, async (error) => {\n  if (error.response?.status !== 401 || error.config._retried) throw error;\n  error.config._retried = true;\n\n  const res = await fetch('/auth/refresh', {\n    method: 'POST',\n    credentials: 'include'\n  });\n  if (!res.ok) throw error;\n\n  const { access_token } = await res.json();\n  accessToken = access_token;\n\n  error.config.headers.Authorization = `Bearer ${accessToken}`;\n  return api.request(error.config);\n});",
         "lang": "typescript",
         "correct": "Concurrent 401s each start their own refresh, so under rotation the second and third calls replay an already-used refresh token and the server revokes the whole session",
-        "referenceAnswer": "There is no in-flight deduplication. Each 401 independently POSTs to /auth/refresh; with rotation the first call consumes the refresh token, and the two that were already in flight present the now-superseded one. A server implementing reuse detection (RFC 9700 s4.14) reads that as a replayed token and revokes the entire grant family, so the user is logged out by the app's own retry logic — and it only reproduces under concurrency, which is why it survives manual QA. The per-request `_retried` flag already in the snippet stops a permanently dead session from looping, but it cannot help here: every 401 carries its own config object, so each one passes that guard and starts its own refresh.\n\nShare a single refresh promise between all waiters:\n\n```ts\nlet refreshing: Promise<string> | null = null;\n\nfunction refreshOnce(): Promise<string> {\n  refreshing ??= fetch('/auth/refresh', { method: 'POST', credentials: 'include' })\n    .then((r) => {\n      if (!r.ok) throw new Error('refresh failed');\n      return r.json();\n    })\n    .then((d) => d.access_token as string)\n    .finally(() => {\n      refreshing = null;\n    });\n  return refreshing;\n}\n\napi.interceptors.response.use(undefined, async (error) => {\n  if (error.response?.status !== 401 || error.config._retried) throw error;\n  error.config._retried = true;\n  const token = await refreshOnce();\n  error.config.headers.Authorization = `Bearer ${token}`;\n  return api.request(error.config);\n});\n```",
+        "referenceAnswer": {
+            "en": "There is no in-flight deduplication. Each 401 independently POSTs to /auth/refresh; with rotation the first call consumes the refresh token, and the two that were already in flight present the now-superseded one. A server implementing reuse detection (RFC 9700 s4.14) reads that as a replayed token and revokes the entire grant family, so the user is logged out by the app's own retry logic — and it only reproduces under concurrency, which is why it survives manual QA. The per-request `_retried` flag already in the snippet stops a permanently dead session from looping, but it cannot help here: every 401 carries its own config object, so each one passes that guard and starts its own refresh.\n\nShare a single refresh promise between all waiters:\n\n```ts\nlet refreshing: Promise<string> | null = null;\n\nfunction refreshOnce(): Promise<string> {\n  refreshing ??= fetch('/auth/refresh', { method: 'POST', credentials: 'include' })\n    .then((r) => {\n      if (!r.ok) throw new Error('refresh failed');\n      return r.json();\n    })\n    .then((d) => d.access_token as string)\n    .finally(() => {\n      refreshing = null;\n    });\n  return refreshing;\n}\n\napi.interceptors.response.use(undefined, async (error) => {\n  if (error.response?.status !== 401 || error.config._retried) throw error;\n  error.config._retried = true;\n  const token = await refreshOnce();\n  error.config.headers.Authorization = `Bearer ${token}`;\n  return api.request(error.config);\n});\n```",
+            "ru": "Нет дедупликации параллельных запросов. Каждый 401 самостоятельно шлёт POST на /auth/refresh; при ротации первый вызов расходует refresh-токен, а два уже отправленных запроса предъявляют устаревший. Сервер с детектированием повторного использования (RFC 9700 s4.14) читает это как повторное предъявление токена и отзывает всё семейство грантов, так что пользователя разлогинивает собственная логика ретраев приложения — и воспроизводится это только при конкурентности, поэтому ручное QA его не ловит. Флаг `_retried` уровня запроса, уже присутствующий в сниппете, спасает от бесконечного цикла на окончательно мёртвой сессии, но здесь он не помогает: у каждого 401 свой объект config, поэтому каждый проходит эту проверку и запускает собственный refresh.\n\nРазделите один общий refresh-промис между всеми ожидающими:\n\n```ts\nlet refreshing: Promise<string> | null = null;\n\nfunction refreshOnce(): Promise<string> {\n  refreshing ??= fetch('/auth/refresh', { method: 'POST', credentials: 'include' })\n    .then((r) => {\n      if (!r.ok) throw new Error('refresh failed');\n      return r.json();\n    })\n    .then((d) => d.access_token as string)\n    .finally(() => {\n      refreshing = null;\n    });\n  return refreshing;\n}\n\napi.interceptors.response.use(undefined, async (error) => {\n  if (error.response?.status !== 401 || error.config._retried) throw error;\n  error.config._retried = true;\n  const token = await refreshOnce();\n  error.config.headers.Authorization = `Bearer ${token}`;\n  return api.request(error.config);\n});\n```"
+        },
         "explanation": {
             "en": "Rotation makes a refresh token single-use, and a second exchange of the same token is indistinguishable from an attacker replaying a stolen one — so the authorization server revokes the whole family, which is exactly what it is supposed to do. The failure is therefore on the client: fanning out refreshes turns a routine token expiry into a forced logout for real users, and only under load. The fix is one shared in-flight refresh promise that every 401 awaits, so the token is exchanged once and the other callers reuse the result.",
             "ru": "Ротация делает refresh token одноразовым, а повторный обмен того же токена неотличим от replay украденного — поэтому authorization server отзывает всё семейство, и это правильное для него поведение. Значит, ошибка на стороне клиента: веером расходящиеся refresh-запросы превращают рядовое истечение токена в принудительный логаут живых пользователей, причём только под нагрузкой. Починка — один общий in-flight refresh promise, которого дожидаются все 401: токен обменивается один раз, а остальные вызовы переиспользуют результат."
@@ -2265,7 +2316,10 @@
         "code": "// proxy.ts\nexport default async function proxy(req: NextRequest) {\n  const session = await decrypt(req.cookies.get('session')?.value);\n  const headers = new Headers(req.headers);\n  if (session?.userId) headers.set('x-user-id', session.userId);\n  return NextResponse.next({ request: { headers } });\n}\n\nexport const config = {\n  matcher: ['/((?!api|_next/static|_next/image).*)']\n};\n\n// app/api/invoices/route.ts\nexport async function GET(req: Request) {\n  const userId = req.headers.get('x-user-id');\n  if (!userId) return new Response(null, { status: 401 });\n\n  const invoices = await db.invoice.findMany({ where: { userId } });\n  return Response.json(invoices);\n}",
         "lang": "typescript",
         "correct": "The route handler takes identity from `x-user-id`, a header the caller controls — and the matcher excludes `/api`, so the proxy never even runs there",
-        "referenceAnswer": "A request header is attacker-controlled input, not an authentication result. Two things go wrong at once: the matcher negative-lookahead excludes `api`, so the proxy never runs for this route handler and the header the app reads is whatever the client sent; and even on a covered route the proxy only sets `x-user-id` when a session exists — it never deletes an inbound one, so a forged value survives on any unauthenticated request. `curl -H 'x-user-id: <someone-else>' /api/invoices` reads another tenant's invoices with no session at all.\n\nFix: derive identity inside the route handler from the session itself, through the same Data Access Layer every other read uses:\n\n```ts\nexport async function GET() {\n  const { userId } = await verifySession(); // reads + verifies the cookie, redirects/401s on failure\n  const invoices = await db.invoice.findMany({ where: { userId } });\n  return Response.json(invoices);\n}\n```\n\nIf a forwarded header is genuinely wanted for tracing, strip it from the incoming request before setting it (`headers.delete('x-user-id')` first) and still never use it as an authorization input.",
+        "referenceAnswer": {
+            "en": "A request header is attacker-controlled input, not an authentication result. Two things go wrong at once: the matcher negative-lookahead excludes `api`, so the proxy never runs for this route handler and the header the app reads is whatever the client sent; and even on a covered route the proxy only sets `x-user-id` when a session exists — it never deletes an inbound one, so a forged value survives on any unauthenticated request. `curl -H 'x-user-id: <someone-else>' /api/invoices` reads another tenant's invoices with no session at all.\n\nFix: derive identity inside the route handler from the session itself, through the same Data Access Layer every other read uses:\n\n```ts\nexport async function GET() {\n  const { userId } = await verifySession(); // reads + verifies the cookie, redirects/401s on failure\n  const invoices = await db.invoice.findMany({ where: { userId } });\n  return Response.json(invoices);\n}\n```\n\nIf a forwarded header is genuinely wanted for tracing, strip it from the incoming request before setting it (`headers.delete('x-user-id')` first) and still never use it as an authorization input.",
+            "ru": "Заголовок запроса — это управляемый атакующим ввод, а не результат аутентификации. Ломаются сразу две вещи: негативный lookahead в matcher исключает `api`, поэтому для этого route handler прокси не выполняется и приложение читает тот заголовок, который прислал клиент; и даже на покрытом маршруте прокси лишь выставляет `x-user-id`, когда сессия есть, — входящий он не удаляет никогда, поэтому подделанное значение переживает любой неаутентифицированный запрос. `curl -H 'x-user-id: <someone-else>' /api/invoices` читает счета чужого тенанта вообще без сессии.\n\nИсправление: получайте идентичность внутри route handler из самой сессии, через тот же Data Access Layer, которым пользуются все остальные чтения:\n\n```ts\nexport async function GET() {\n  const { userId } = await verifySession(); // reads + verifies the cookie, redirects/401s on failure\n  const invoices = await db.invoice.findMany({ where: { userId } });\n  return Response.json(invoices);\n}\n```\n\nЕсли проброшенный заголовок действительно нужен для трейсинга, удаляйте его из входящего запроса перед установкой (сначала `headers.delete('x-user-id')`) и всё равно никогда не используйте его как вход для авторизации."
+        },
         "explanation": {
             "en": "Next.js is explicit that the proxy is for optimistic checks and must not be the only line of defence, and that route handlers deserve the same treatment as public API endpoints — they have their own URL and are reachable directly, matcher or no matcher. The pattern of trusting a gateway-injected identity header is fine only when the boundary that injects it also guarantees it cannot arrive from outside, which a `matcher` exclusion does not. Verifying the session where the data is read costs one memoised call and removes the whole class.",
             "ru": "Next.js прямо пишет, что proxy нужен для оптимистичных проверок и не должен быть единственной линией обороны, а route handlers надо рассматривать как публичные API-эндпоинты — у них свой URL, и они доступны напрямую, с matcher или без. Паттерн с доверием к заголовку идентичности от шлюза допустим только тогда, когда граница, которая его проставляет, гарантирует, что снаружи он прийти не может, — исключение в `matcher` такой гарантии не даёт. Проверка сессии там, где читаются данные, стоит одного мемоизированного вызова и убирает весь класс проблем."
@@ -2284,7 +2338,10 @@
         "code": "async function buildAuthorizeUrl(verifier) {\n  const digest = await crypto.subtle.digest(\n    'SHA-256',\n    new TextEncoder().encode(verifier)\n  );\n\n  const params = new URLSearchParams({\n    response_type: 'code',\n    client_id: CLIENT_ID,\n    redirect_uri: REDIRECT_URI,\n    scope: 'openid profile',\n    state: randomString(32),\n    nonce: randomString(32),\n    code_challenge: base64UrlEncode(new Uint8Array(digest)),\n    code_challenge_method: '__BLANK__'\n  });\n\n  return `${ISSUER}/authorize?${params}`;\n}\n\nasync function exchangeCode(code, verifier) {\n  const body = new URLSearchParams({\n    grant_type: '__BLANK__',\n    client_id: CLIENT_ID,\n    redirect_uri: REDIRECT_URI,\n    code: code,\n    '__BLANK__': verifier\n  });\n\n  return fetch(`${ISSUER}/token`, { method: 'POST', body });\n}",
         "blanks": ["S256", "authorization_code", "code_verifier"],
         "lang": "javascript",
-        "referenceAnswer": "code_challenge_method is 'S256' — RFC 7636 registers exactly two methods, 'plain' and 'S256', and a browser client must not use 'plain' because it puts the secret in the front-channel URL. The token request is an ordinary RFC 6749 4.1.3 Access Token Request, so grant_type MUST be 'authorization_code', and PKCE adds one parameter to it: code_verifier (RFC 7636 4.5). The split is the whole point — only the hashed challenge travels through the browser's address bar at /authorize, the verifier itself is sent back-channel to /token, so an attacker who steals the redirect URL holds a code they cannot redeem. Note the two distinct random values in the authorize request: state protects the callback against CSRF, nonce binds the resulting ID token to this authorization request.",
+        "referenceAnswer": {
+            "en": "code_challenge_method is 'S256' — RFC 7636 registers exactly two methods, 'plain' and 'S256', and a browser client must not use 'plain' because it puts the secret in the front-channel URL. The token request is an ordinary RFC 6749 4.1.3 Access Token Request, so grant_type MUST be 'authorization_code', and PKCE adds one parameter to it: code_verifier (RFC 7636 4.5). The split is the whole point — only the hashed challenge travels through the browser's address bar at /authorize, the verifier itself is sent back-channel to /token, so an attacker who steals the redirect URL holds a code they cannot redeem. Note the two distinct random values in the authorize request: state protects the callback against CSRF, nonce binds the resulting ID token to this authorization request.",
+            "ru": "code_challenge_method — это 'S256': RFC 7636 регистрирует ровно два метода, 'plain' и 'S256', и браузерный клиент не должен использовать 'plain', потому что тогда секрет попадает во фронт-канальный URL. Запрос токена — это обычный Access Token Request из RFC 6749 4.1.3, поэтому grant_type ОБЯЗАН быть 'authorization_code', а PKCE добавляет к нему один параметр: code_verifier (RFC 7636 4.5). В этом разделении весь смысл — через адресную строку браузера на /authorize уходит только хешированный challenge, а сам verifier отправляется по бэк-каналу на /token, так что атакующий, укравший redirect URL, держит код, который не сможет обменять. Обратите внимание на два разных случайных значения в authorize-запросе: state защищает колбэк от CSRF, а nonce привязывает выданный ID-токен к этому запросу авторизации."
+        },
         "explanation": {
             "en": "PKCE turns the authorization code into something only the originating client can redeem: the hashed `code_challenge` goes out with the authorization request, the raw `code_verifier` goes up at token exchange, and the server recomputes the hash and compares. Getting the two halves the wrong way round is the common mistake — sending the verifier to `/authorize` would publish the secret in a URL and defeat the whole mechanism. `S256` is the only method a browser client should pick; `plain` exists for constrained devices that cannot hash. The token call is still a plain OAuth access token request, so `grant_type` is `authorization_code`.",
             "ru": "PKCE превращает authorization code в то, что может обменять только клиент, начавший флоу: хешированный `code_challenge` уходит с authorization request, сырой `code_verifier` отправляется при обмене кода, и сервер пересчитывает хеш и сверяет. Перепутать половинки местами — типовая ошибка: отправить verifier в `/authorize` значит выложить секрет в URL и убить весь механизм. `S256` — единственный метод, уместный для браузерного клиента; `plain` существует ради ограниченных устройств, которые не умеют хешировать. Сам запрос к токен-эндпоинту остаётся обычным OAuth-запросом за токеном, поэтому `grant_type` равен `authorization_code`."

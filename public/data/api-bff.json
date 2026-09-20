@@ -1373,7 +1373,10 @@
         },
         "code": "async function getUser(id) {\n  try {\n    const response = await fetch(`/api/users/${id}`);\n    return await response.json();\n  } catch (error) {\n    console.error('Request failed', error);\n    return null;\n  }\n}",
         "correct": "HTTP error responses (4xx/5xx) are not detected — only network errors are caught",
-        "referenceAnswer": "fetch only rejects for network failures, not HTTP errors. Add a check after await fetch: if (!response.ok) throw new Error(`HTTP ${response.status}`); before calling response.json().",
+        "referenceAnswer": {
+            "en": "fetch only rejects for network failures, not HTTP errors. Add a check after await fetch: if (!response.ok) throw new Error(`HTTP ${response.status}`); before calling response.json().",
+            "ru": "fetch отклоняется только при сетевых сбоях, а не при HTTP-ошибках. Добавьте проверку после await fetch: if (!response.ok) throw new Error(`HTTP ${response.status}`); перед вызовом response.json()."
+        },
         "lang": "javascript"
     },
     {
@@ -1392,7 +1395,10 @@
         },
         "code": "function useUser(id) {\n  const [data, setData] = useState(null);\n\n  useEffect(() => {\n    fetch(`/api/users/${id}`)\n      .then(r => r.json())\n      .then(setData);\n  }, [id]);\n\n  return data;\n}",
         "correct": "No cleanup: if id changes or the component unmounts, a previous in-flight request can call setData on an unmounted component or overwrite newer data",
-        "referenceAnswer": "Add an AbortController and return a cleanup function: const controller = new AbortController(); fetch(url, { signal: controller.signal }); return () => controller.abort(); This cancels the previous request when id changes.",
+        "referenceAnswer": {
+            "en": "Add an AbortController and return a cleanup function: const controller = new AbortController(); fetch(url, { signal: controller.signal }); return () => controller.abort(); This cancels the previous request when id changes.",
+            "ru": "Добавьте AbortController и верните функцию очистки: const controller = new AbortController(); fetch(url, { signal: controller.signal }); return () => controller.abort(); Это отменяет предыдущий запрос при смене id."
+        },
         "lang": "javascript"
     },
     {
@@ -1411,7 +1417,10 @@
         },
         "code": "const mutation = useMutation({\n  mutationFn: updateTodo,\n  onMutate: async (updatedTodo) => {\n    queryClient.setQueryData(['todos'], (old) =>\n      old.map(t => t.id === updatedTodo.id ? updatedTodo : t)\n    );\n  },\n  onError: () => {\n    queryClient.invalidateQueries({ queryKey: ['todos'] });\n  },\n});",
         "correct": "Missing cancelQueries before optimistic update — an in-flight refetch can overwrite the optimistic state; also missing snapshot return and rollback in onError",
-        "referenceAnswer": "In onMutate: (1) await queryClient.cancelQueries({queryKey:['todos']}), (2) const snapshot = queryClient.getQueryData(['todos']), (3) apply optimistic update, (4) return { snapshot }. In onError: queryClient.setQueryData(['todos'], context.snapshot).",
+        "referenceAnswer": {
+            "en": "In onMutate: (1) await queryClient.cancelQueries({queryKey:['todos']}), (2) const snapshot = queryClient.getQueryData(['todos']), (3) apply optimistic update, (4) return { snapshot }. In onError: queryClient.setQueryData(['todos'], context.snapshot).",
+            "ru": "В onMutate: (1) await queryClient.cancelQueries({queryKey:['todos']}), (2) const snapshot = queryClient.getQueryData(['todos']), (3) применить оптимистичное обновление, (4) return { snapshot }. В onError: queryClient.setQueryData(['todos'], context.snapshot)."
+        },
         "lang": "javascript"
     },
     {
@@ -1430,7 +1439,10 @@
         },
         "code": "const resolvers = {\n  Query: {\n    posts: () => db.posts.findAll(),\n  },\n  Post: {\n    author: (post) => db.users.findById(post.authorId),\n  },\n};",
         "correct": "The author resolver fires a separate DB query for every post, causing N additional queries for N posts",
-        "referenceAnswer": "Use DataLoader to batch author lookups: const userLoader = new DataLoader(ids => db.users.findByIds(ids)); author: (post) => userLoader.load(post.authorId). DataLoader batches all IDs within a single event-loop tick into one query.",
+        "referenceAnswer": {
+            "en": "Use DataLoader to batch author lookups: const userLoader = new DataLoader(ids => db.users.findByIds(ids)); author: (post) => userLoader.load(post.authorId). DataLoader batches all IDs within a single event-loop tick into one query.",
+            "ru": "Используйте DataLoader, чтобы батчить запросы авторов: const userLoader = new DataLoader(ids => db.users.findByIds(ids)); author: (post) => userLoader.load(post.authorId). DataLoader собирает все ID в пределах одного тика event loop в один запрос."
+        },
         "lang": "javascript"
     },
     {
@@ -1449,7 +1461,10 @@
         },
         "code": "async function fetchWithRetry(url, retries = 3) {\n  for (let i = 0; i < retries; i++) {\n    try {\n      return await fetch(url);\n    } catch {\n      if (i === retries - 1) throw new Error('Max retries exceeded');\n      await new Promise(r => setTimeout(r, 1000));\n    }\n  }\n}",
         "correct": "There is no response.ok check — fetch resolves for 5xx, so the failed response is returned as a success and the catch block, which only sees network errors, never runs",
-        "referenceAnswer": "fetch() rejects only on a network failure, so a 500 response resolves and `return await fetch(url)` hands it back as a success — the loop exits on the first attempt. Fix: check `response.ok`, throw and retry on 5xx, return immediately on 4xx because a client error will not succeed on a retry, and replace the fixed 1000 ms delay with full jitter, e.g. `Math.random() * Math.min(1000 * 2 ** i, 30000)`.",
+        "referenceAnswer": {
+            "en": "fetch() rejects only on a network failure, so a 500 response resolves and `return await fetch(url)` hands it back as a success — the loop exits on the first attempt. Fix: check `response.ok`, throw and retry on 5xx, return immediately on 4xx because a client error will not succeed on a retry, and replace the fixed 1000 ms delay with full jitter, e.g. `Math.random() * Math.min(1000 * 2 ** i, 30000)`.",
+            "ru": "fetch() отклоняется только при сетевом сбое, поэтому ответ 500 резолвится, и `return await fetch(url)` возвращает его как успех — цикл выходит на первой же попытке. Исправление: проверяйте `response.ok`, бросайте ошибку и повторяйте попытку на 5xx, сразу возвращайте результат на 4xx, потому что клиентская ошибка не станет успешной при повторе, и замените фиксированную задержку в 1000 мс на full jitter, например `Math.random() * Math.min(1000 * 2 ** i, 30000)`."
+        },
         "lang": "javascript"
     },
     {
@@ -1468,7 +1483,10 @@
         },
         "code": "const response = await fetch('https://api.example.com/profile', {\n  method: 'GET',\n  headers: {\n    'Content-Type': 'application/json',\n  },\n});",
         "correct": "credentials: 'include' is missing — cookies are not sent in cross-origin requests by default",
-        "referenceAnswer": "Add credentials: 'include' to the fetch options. The server must also respond with Access-Control-Allow-Credentials: true and Access-Control-Allow-Origin set to the specific origin (not a wildcard). Note the scope of the option: credentials are cookies, TLS client certificates and browser-managed username/password entries. A hand-written Authorization: Bearer header is an ordinary request header — it is sent cross-origin regardless of the credentials mode and only needs Access-Control-Allow-Headers on the preflight.",
+        "referenceAnswer": {
+            "en": "Add credentials: 'include' to the fetch options. The server must also respond with Access-Control-Allow-Credentials: true and Access-Control-Allow-Origin set to the specific origin (not a wildcard). Note the scope of the option: credentials are cookies, TLS client certificates and browser-managed username/password entries. A hand-written Authorization: Bearer header is an ordinary request header — it is sent cross-origin regardless of the credentials mode and only needs Access-Control-Allow-Headers on the preflight.",
+            "ru": "Добавьте credentials: 'include' в опции fetch. Сервер также должен отвечать Access-Control-Allow-Credentials: true и Access-Control-Allow-Origin с конкретным origin (не с wildcard). Обратите внимание на область действия этой опции: credentials — это cookies, клиентские TLS-сертификаты и пары имя/пароль, которыми управляет браузер. Написанный вручную заголовок Authorization: Bearer — обычный заголовок запроса: он отправляется в кросс-origin-запросах независимо от режима credentials, и ему нужен только Access-Control-Allow-Headers в preflight."
+        },
         "lang": "javascript"
     },
     {
@@ -1487,7 +1505,10 @@
         },
         "code": "async function createPost(data) {\n  const response = await fetch('/api/posts', {\n    method: 'POST',\n    headers: { 'Content-Type': 'application/json' },\n    body: JSON.stringify(data),\n  });\n  const json = await response.json();\n  return json;\n}",
         "correct": "204 No Content or other responses without a body will cause response.json() to throw a JSON parse error",
-        "referenceAnswer": "Check the response status and Content-Type before parsing: if (response.status === 204 || response.headers.get('content-length') === '0') return null; Also guard with response.ok check before parsing.",
+        "referenceAnswer": {
+            "en": "Check the response status and Content-Type before parsing: if (response.status === 204 || response.headers.get('content-length') === '0') return null; Also guard with response.ok check before parsing.",
+            "ru": "Проверяйте статус ответа и Content-Type перед парсингом: if (response.status === 204 || response.headers.get('content-length') === '0') return null; Также добавьте проверку response.ok перед парсингом."
+        },
         "lang": "javascript"
     },
     {
@@ -1507,7 +1528,10 @@
         "code": "async function apiFetch(url: string, options?: RequestInit) {\n  const response = await __BLANK__(url, options);\n  if (!response.__BLANK__) {\n    throw new Error(`HTTP error: ${response.status}`);\n  }\n  return response.__BLANK__();\n}",
         "blanks": ["fetch", "ok", "json"],
         "lang": "typescript",
-        "referenceAnswer": "fetch() returns a Response. response.ok is false for 4xx/5xx. response.json() parses the body as JSON."
+        "referenceAnswer": {
+            "en": "fetch() returns a Response. response.ok is false for 4xx/5xx. response.json() parses the body as JSON.",
+            "ru": "fetch() возвращает Response. response.ok равно false для 4xx/5xx. response.json() парсит тело как JSON."
+        }
     },
     {
         "id": "api-cc-abort-001",
@@ -1526,7 +1550,10 @@
         "code": "useEffect(() => {\n  const controller = new __BLANK__();\n  fetch(`/api/items/${id}`, { signal: controller.__BLANK__ })\n    .then(r => r.json())\n    .then(setData)\n    .catch(err => { if (err.name !== '__BLANK__') console.error(err); });\n  return () => controller.__BLANK__();\n}, [id]);",
         "blanks": ["AbortController", "signal", "AbortError", "abort"],
         "lang": "typescript",
-        "referenceAnswer": "new AbortController() creates the controller. controller.signal is passed to fetch. AbortError is the error name thrown when aborted — it should be silenced. controller.abort() is called in cleanup."
+        "referenceAnswer": {
+            "en": "new AbortController() creates the controller. controller.signal is passed to fetch. AbortError is the error name thrown when aborted — it should be silenced. controller.abort() is called in cleanup.",
+            "ru": "new AbortController() создаёт контроллер. controller.signal передаётся в fetch. AbortError — имя ошибки, которая бросается при отмене; её следует заглушить. controller.abort() вызывается в функции очистки."
+        }
     },
     {
         "id": "api-cc-tanstack-001",
@@ -1545,7 +1572,10 @@
         "code": "export function useUser(id: string) {\n  return useQuery({\n    queryKey: ['user', __BLANK__],\n    queryFn: () => fetchUser(id),\n    __BLANK__: 5 * 60 * 1000,\n    enabled: !!__BLANK__,\n  });\n}",
         "blanks": ["id", "staleTime", "id"],
         "lang": "typescript",
-        "referenceAnswer": "Include id in the queryKey so different users have separate cache entries. staleTime prevents unnecessary refetches. enabled: !!id skips the query when id is undefined/empty."
+        "referenceAnswer": {
+            "en": "Include id in the queryKey so different users have separate cache entries. staleTime prevents unnecessary refetches. enabled: !!id skips the query when id is undefined/empty.",
+            "ru": "Включите id в queryKey, чтобы у разных пользователей были отдельные записи кэша. staleTime предотвращает лишние перезапросы. enabled: !!id пропускает запрос, когда id равен undefined или пуст."
+        }
     },
     {
         "id": "api-cc-backoff-001",
@@ -1564,7 +1594,10 @@
         "code": "function getRetryDelay(attempt: number, baseMs = 1000, maxMs = 30000): number {\n  const exponential = baseMs * __BLANK__(2, attempt);\n  const capped = __BLANK__(exponential, maxMs);\n  return Math.random() * __BLANK__;\n}",
         "blanks": ["Math.pow", "Math.min", "capped"],
         "lang": "typescript",
-        "referenceAnswer": "Math.pow(2, attempt) grows the interval exponentially, Math.min caps it at maxMs, and multiplying the capped value by Math.random() picks a uniform delay in [0, cap) — AWS's Full Jitter. Additive jitter (exponential + Math.random() * baseMs) is a weaker variant: the deterministic term keeps all clients roughly in sync."
+        "referenceAnswer": {
+            "en": "Math.pow(2, attempt) grows the interval exponentially, Math.min caps it at maxMs, and multiplying the capped value by Math.random() picks a uniform delay in [0, cap) — AWS's Full Jitter. Additive jitter (exponential + Math.random() * baseMs) is a weaker variant: the deterministic term keeps all clients roughly in sync.",
+            "ru": "Math.pow(2, attempt) наращивает интервал экспоненциально, Math.min ограничивает его значением maxMs, а умножение ограниченного значения на Math.random() выбирает равномерную задержку в [0, cap) — это Full Jitter от AWS. Аддитивный jitter (exponential + Math.random() * baseMs) — более слабый вариант: детерминированное слагаемое удерживает всех клиентов примерно в одной фазе."
+        }
     },
     {
         "id": "api-cc-openapi-001",
@@ -1583,7 +1616,10 @@
         "code": "interface ProblemDetails {\n  type: string;\n  title: string;\n  status: number;\n  detail?: string;\n}\n\nfunction problemDetails(status: number, title: string, detail?: string): ProblemDetails {\n  return {\n    type: `https://api.example.com/problems/${__BLANK__}`,\n    title: __BLANK__,\n    status: __BLANK__,\n    detail,\n  };\n}",
         "blanks": ["status", "title", "status"],
         "lang": "typescript",
-        "referenceAnswer": "The type URI identifies the problem type and should live on a domain you control (about:blank when you have no custom type). title is the short human-readable summary, status repeats the HTTP status code, and detail is optional."
+        "referenceAnswer": {
+            "en": "The type URI identifies the problem type and should live on a domain you control (about:blank when you have no custom type). title is the short human-readable summary, status repeats the HTTP status code, and detail is optional.",
+            "ru": "URI в type идентифицирует тип проблемы и должен указывать на домен, который вы контролируете (about:blank, если своего типа нет). title — короткое человекочитаемое описание, status повторяет HTTP-код ответа, а detail необязателен."
+        }
     },
     {
         "id": "api-cc-graphql-001",
@@ -1602,7 +1638,10 @@
         "code": "import DataLoader from 'dataloader';\n\nconst userLoader = new DataLoader(async (ids: readonly string[]) => {\n  const users = await db.users.findByIds([...__BLANK__]);\n  return ids.__BLANK__(id => users.find(u => u.id === id) ?? null);\n});\n\nexport async function getAuthor(post: { authorId: string }) {\n  return userLoader.__BLANK__(post.authorId);\n}",
         "blanks": ["ids", "map", "load"],
         "lang": "typescript",
-        "referenceAnswer": "The batch function receives a readonly array, so spread it into a mutable one for the DB call. Map over ids — not over the DB rows — so the result is aligned with the input order and a missing user becomes null. userLoader.load(id) queues a single id for the next batch; loadMany takes an array."
+        "referenceAnswer": {
+            "en": "The batch function receives a readonly array, so spread it into a mutable one for the DB call. Map over ids — not over the DB rows — so the result is aligned with the input order and a missing user becomes null. userLoader.load(id) queues a single id for the next batch; loadMany takes an array.",
+            "ru": "Батч-функция получает readonly-массив, поэтому для запроса в БД разверните его через spread в изменяемый. Делайте map по ids, а не по строкам из БД, чтобы результат был выровнен по порядку входных данных, а отсутствующий пользователь превращался в null. userLoader.load(id) ставит один id в очередь следующего батча; loadMany принимает массив."
+        }
     },
     {
         "id": "api-cc-pagination-001",
@@ -1621,7 +1660,10 @@
         "code": "export function useInfinitePosts() {\n  return useInfiniteQuery({\n    queryKey: ['posts'],\n    queryFn: ({ __BLANK__ }) => fetchPosts({ cursor: pageParam }),\n    initialPageParam: null as string | null,\n    getNextPageParam: (lastPage) => lastPage.__BLANK__,\n  });\n}",
         "blanks": ["pageParam", "nextCursor"],
         "lang": "typescript",
-        "referenceAnswer": "pageParam holds the cursor of the current page and is destructured from the queryFn context. initialPageParam pins the first request (null here, typed as string | null). getNextPageParam reads nextCursor from the last page — returning null or undefined stops the infinite scroll."
+        "referenceAnswer": {
+            "en": "pageParam holds the cursor of the current page and is destructured from the queryFn context. initialPageParam pins the first request (null here, typed as string | null). getNextPageParam reads nextCursor from the last page — returning null or undefined stops the infinite scroll.",
+            "ru": "pageParam хранит курсор текущей страницы и достаётся деструктуризацией из контекста queryFn. initialPageParam задаёт первый запрос (здесь null, с типом string | null). getNextPageParam читает nextCursor из последней страницы — возврат null или undefined останавливает бесконечную прокрутку."
+        }
     },
     {
         "id": "api-cc-sse-001",
@@ -1640,7 +1682,10 @@
         "code": "export function useSSE(url: string) {\n  const [data, setData] = useState<string | null>(null);\n\n  useEffect(() => {\n    const es = new __BLANK__(url);\n    es.addEventListener('__BLANK__', (event) => {\n      setData(event.data);\n    });\n    return () => es.__BLANK__();\n  }, [url]);\n\n  return data;\n}",
         "blanks": ["EventSource", "message", "close"],
         "lang": "typescript",
-        "referenceAnswer": "new EventSource(url) opens the SSE connection. The 'message' event fires for unnamed server events. es.close() terminates the connection on cleanup to prevent memory leaks."
+        "referenceAnswer": {
+            "en": "new EventSource(url) opens the SSE connection. The 'message' event fires for unnamed server events. es.close() terminates the connection on cleanup to prevent memory leaks.",
+            "ru": "new EventSource(url) открывает SSE-соединение. Событие 'message' срабатывает для серверных событий без имени. es.close() закрывает соединение при очистке, чтобы не текла память."
+        }
     },
     {
         "id": "api-cache-001",
@@ -2003,7 +2048,10 @@
         "code": "async function request(url, options, attempt = 0) {\n  const res = await fetch(url, options);\n\n  if (res.status === 429 && attempt < 5) {\n    await new Promise((r) => setTimeout(r, 1000));\n    return request(url, options, attempt + 1);\n  }\n\n  return res;\n}",
         "lang": "javascript",
         "correct": "It ignores the Retry-After header that came with the 429 and retries on a fixed 1s timer, so it keeps hitting the endpoint inside the penalty window and every throttled client retries in lockstep",
-        "referenceAnswer": "A 429 is not a transient failure to back off from blindly — it arrives with `Retry-After`, either as delay-seconds or as an HTTP-date, and that value is the server stating exactly when the bucket refills. Retrying every second until the fifth attempt spends the whole retry budget inside the penalty window, and because the delay is constant, every client throttled at the same moment retries at the same moment. Read the header, fall back to exponential backoff when it is absent, and randomise:\n\n```js\nconst header = res.headers.get('Retry-After');\nconst asNumber = Number(header);\nconst hintedMs = header\n  ? (Number.isNaN(asNumber) ? Date.parse(header) - Date.now() : asNumber * 1000)\n  : 0;\nconst base = hintedMs > 0 ? hintedMs : Math.min(1000 * 2 ** attempt, 30000);\nawait new Promise((r) => setTimeout(r, base + Math.random() * 1000));\n```",
+        "referenceAnswer": {
+            "en": "A 429 is not a transient failure to back off from blindly — it arrives with `Retry-After`, either as delay-seconds or as an HTTP-date, and that value is the server stating exactly when the bucket refills. Retrying every second until the fifth attempt spends the whole retry budget inside the penalty window, and because the delay is constant, every client throttled at the same moment retries at the same moment. Read the header, fall back to exponential backoff when it is absent, and randomise:\n\n```js\nconst header = res.headers.get('Retry-After');\nconst asNumber = Number(header);\nconst hintedMs = header\n  ? (Number.isNaN(asNumber) ? Date.parse(header) - Date.now() : asNumber * 1000)\n  : 0;\nconst base = hintedMs > 0 ? hintedMs : Math.min(1000 * 2 ** attempt, 30000);\nawait new Promise((r) => setTimeout(r, base + Math.random() * 1000));\n```",
+            "ru": "429 — не тот временный сбой, при котором можно вслепую уйти в backoff: он приходит с `Retry-After`, либо в секундах задержки, либо как HTTP-дата, и это значение — прямое указание сервера, когда именно пополнится корзина. Повтор раз в секунду до пятой попытки тратит весь бюджет ретраев внутри штрафного окна, а поскольку задержка постоянна, все клиенты, которых затротлили в один момент, повторяют запрос тоже в один момент. Читайте заголовок, в его отсутствие переходите на экспоненциальный backoff и добавляйте рандомизацию:\n\n```js\nconst header = res.headers.get('Retry-After');\nconst asNumber = Number(header);\nconst hintedMs = header\n  ? (Number.isNaN(asNumber) ? Date.parse(header) - Date.now() : asNumber * 1000)\n  : 0;\nconst base = hintedMs > 0 ? hintedMs : Math.min(1000 * 2 ** attempt, 30000);\nawait new Promise((r) => setTimeout(r, base + Math.random() * 1000));\n```"
+        },
         "explanation": {
             "en": "`Retry-After` accompanies 429 and 503 and is the only honest input for the delay: anything shorter is a request the server has already promised to reject. The header has two forms — a count of seconds or an HTTP-date — so a parser must handle both. The second half of the failure is the constant interval: clients cut off by the same limit are already synchronised, and a fixed delay keeps them that way, which is exactly what jitter exists to break.",
             "ru": "`Retry-After` приходит с 429 и 503 и является единственным честным входом для задержки: всё, что короче, — это запрос, который сервер уже пообещал отклонить. У заголовка две формы — число секунд или HTTP-date, — поэтому парсер должен уметь обе. Вторая половина проблемы это постоянный интервал: клиенты, подрезанные одним и тем же лимитом, уже синхронизированы, а фиксированная задержка их такими и оставляет — именно для того, чтобы эту синхронность сломать, и нужен jitter."
@@ -2022,7 +2070,10 @@
         "code": "function createClient(url: string) {\n  let socket: WebSocket;\n  let intentional = false;\n\n  const connect = () => {\n    socket = new WebSocket(url);\n    socket.onclose = () => {\n      if (!intentional) setTimeout(connect, 1000);\n    };\n  };\n\n  connect();\n\n  return {\n    send: (msg: unknown) => socket.send(JSON.stringify(msg)),\n    close: () => {\n      intentional = true;\n      socket.close();\n    }\n  };\n}",
         "lang": "typescript",
         "correct": "send() writes straight to the current socket without checking readyState and there is no outbound queue, so anything sent between the close and the next open is discarded (or throws while the replacement socket is still CONNECTING)",
-        "referenceAnswer": "The browser `WebSocket` buffers nothing across a reconnect: `send()` throws `InvalidStateError` while `readyState` is `CONNECTING`, and silently discards the data while it is `CLOSING` or `CLOSED`. The client has to own an outbox and flush it on `open`:\n\n```ts\nconst outbox: string[] = [];\n\nconst flush = () => {\n  while (socket.readyState === WebSocket.OPEN && outbox.length > 0) {\n    socket.send(outbox.shift()!);\n  }\n};\n\nconst connect = () => {\n  socket = new WebSocket(url);\n  socket.onopen = flush;\n  socket.onclose = () => {\n    if (!intentional) setTimeout(connect, 1000);\n  };\n};\n\nconst send = (msg: unknown) => {\n  outbox.push(JSON.stringify(msg));\n  flush();\n};\n```\n\nThe queue then forces two decisions the original code never had to make: a bound on its size, because a long outage otherwise turns into unbounded memory, and whether replayed messages need an idempotency key, since a message sent just before the close may or may not have reached the server.",
+        "referenceAnswer": {
+            "en": "The browser `WebSocket` buffers nothing across a reconnect: `send()` throws `InvalidStateError` while `readyState` is `CONNECTING`, and silently discards the data while it is `CLOSING` or `CLOSED`. The client has to own an outbox and flush it on `open`:\n\n```ts\nconst outbox: string[] = [];\n\nconst flush = () => {\n  while (socket.readyState === WebSocket.OPEN && outbox.length > 0) {\n    socket.send(outbox.shift()!);\n  }\n};\n\nconst connect = () => {\n  socket = new WebSocket(url);\n  socket.onopen = flush;\n  socket.onclose = () => {\n    if (!intentional) setTimeout(connect, 1000);\n  };\n};\n\nconst send = (msg: unknown) => {\n  outbox.push(JSON.stringify(msg));\n  flush();\n};\n```\n\nThe queue then forces two decisions the original code never had to make: a bound on its size, because a long outage otherwise turns into unbounded memory, and whether replayed messages need an idempotency key, since a message sent just before the close may or may not have reached the server.",
+            "ru": "Браузерный `WebSocket` ничего не буферизует через переподключение: `send()` бросает `InvalidStateError`, пока `readyState` равен `CONNECTING`, и молча отбрасывает данные, пока он `CLOSING` или `CLOSED`. Клиент обязан сам держать исходящую очередь и сбрасывать её по `open`:\n\n```ts\nconst outbox: string[] = [];\n\nconst flush = () => {\n  while (socket.readyState === WebSocket.OPEN && outbox.length > 0) {\n    socket.send(outbox.shift()!);\n  }\n};\n\nconst connect = () => {\n  socket = new WebSocket(url);\n  socket.onopen = flush;\n  socket.onclose = () => {\n    if (!intentional) setTimeout(connect, 1000);\n  };\n};\n\nconst send = (msg: unknown) => {\n  outbox.push(JSON.stringify(msg));\n  flush();\n};\n```\n\nОчередь затем вынуждает принять два решения, которых в исходном коде не было: ограничение её размера, потому что иначе долгая недоступность превращается в неограниченный рост памяти, и нужен ли повторно отправляемым сообщениям ключ идемпотентности, ведь сообщение, отправленное прямо перед закрытием, могло дойти до сервера, а могло и не дойти."
+        },
         "explanation": {
             "en": "A reconnecting client has two queues to reason about and this one has neither: the inbound gap (solved by a resume token or sequence number) and the outbound messages produced while the link is down. Because `send()` fails differently depending on `readyState` — throwing when CONNECTING, discarding silently when CLOSING or CLOSED — the loss looks intermittent and is easy to miss when testing on a good network. The fix is an outbox flushed on `open`, with a size bound and an explicit answer about duplicates on replay. Out of scope here, but worth naming: the fixed 1000 ms reconnect delay is not what loses the messages — it makes every client dropped by the same outage reconnect in lockstep, which is what backoff with jitter exists to break.",
             "ru": "У переподключающегося клиента есть две очереди, о которых надо думать, и здесь нет ни одной: разрыв во входящем потоке (решается resume-токеном или sequence number) и исходящие сообщения, созданные, пока канала нет. Так как `send()` падает по-разному в зависимости от `readyState` — бросает исключение при CONNECTING и молча выбрасывает данные при CLOSING или CLOSED, — потеря выглядит плавающей и легко не замечается при тестировании на хорошей сети. Исправление — outbox, сбрасываемый по `open`, с ограничением размера и явным ответом про дубли при переотправке. За рамками вопроса, но стоит назвать: фиксированная задержка переподключения в 1000 мс сообщения не теряет, но заставляет всех клиентов, упавших от одного сбоя, переподключаться синхронно — именно эту синхронность разбивает backoff с jitter."
@@ -2041,7 +2092,10 @@
         "code": "app.get('/stream', (req, res) => {\n  res.setHeader('Content-Type', 'text/event-stream');\n  res.setHeader('Cache-Control', 'no-store');\n\n  // EventSource replays the last id it saw in this request header\n  const lastId = req.headers['__BLANK__'];\n\n  for (const event of eventsAfter(lastId)) {\n    // the stream field that sets the client's last event id\n    res.write(`__BLANK__: ${event.id}\\n`);\n    res.write(`data: ${JSON.stringify(event.payload)}\\n\\n`);\n  }\n});",
         "blanks": ["last-event-id", "id"],
         "lang": "javascript",
-        "referenceAnswer": "`EventSource` reconnects on its own and, whenever the stream has sent an `id:` field, replays the most recent value in the `Last-Event-ID` request header (lower-cased in Node's `req.headers`). The server uses it as a cursor and sends only what came after, which turns a reconnect from 'lose the gap' into 'resume'. Two neighbouring fields matter operationally: `retry:` sets the client's reconnection delay in milliseconds, and a comment line (`:keep-alive\\n\\n`) keeps a proxy from closing an idle stream.",
+        "referenceAnswer": {
+            "en": "`EventSource` reconnects on its own and, whenever the stream has sent an `id:` field, replays the most recent value in the `Last-Event-ID` request header (lower-cased in Node's `req.headers`). The server uses it as a cursor and sends only what came after, which turns a reconnect from 'lose the gap' into 'resume'. Two neighbouring fields matter operationally: `retry:` sets the client's reconnection delay in milliseconds, and a comment line (`:keep-alive\\n\\n`) keeps a proxy from closing an idle stream.",
+            "ru": "`EventSource` переподключается сам и, если поток отправлял поле `id:`, повторяет последнее значение в заголовке запроса `Last-Event-ID` (в нижнем регистре в `req.headers` у Node). Сервер использует его как курсор и отправляет только то, что было после, — это превращает переподключение из «потерять пропущенное» в «продолжить с места». Ещё два соседних поля важны на практике: `retry:` задаёт клиенту задержку переподключения в миллисекундах, а строка-комментарий (`:keep-alive\\n\\n`) не даёт прокси закрыть простаивающий поток."
+        },
         "explanation": {
             "en": "Resumability in SSE is two lines of protocol: the server tags every event with `id:`, and the browser hands the last one back as `Last-Event-ID` when it reconnects. Without the id the client still reconnects automatically, but the server has no cursor, so events produced during the gap are simply gone — which is how a 'reliable' dashboard quietly drops updates on every mobile network change.",
             "ru": "Возобновляемость в SSE — это две строки протокола: сервер помечает каждое событие через `id:`, а браузер при переподключении возвращает последний из них в `Last-Event-ID`. Без id клиент всё равно переподключится сам, но у сервера не будет курсора, и события, возникшие в момент разрыва, просто пропадут — именно так «надёжный» дашборд тихо теряет обновления при каждой смене мобильной сети."
@@ -2060,7 +2114,10 @@
         "code": "const inFlight = new Map<string, Promise<Response>>();\n\nexport function dedupedFetch(url: string): Promise<Response> {\n  const existing = inFlight.get(url);\n  if (existing) return existing;\n\n  const request = fetch(url).__BLANK__(() => {\n    inFlight.delete(url);\n  });\n\n  inFlight.__BLANK__(url, request);\n  return request;\n}",
         "blanks": ["finally", "set"],
         "lang": "typescript",
-        "referenceAnswer": "`.finally()` is the only settlement hook that runs on both branches, so the entry is dropped on rejection too — `.then()` here would memoise a rejected promise and make one failure stick for the lifetime of the page. `Map#set` registers the new request, `Map#get` finds one already in flight, and `Map#delete` inside the callback removes the entry once the promise settles. One more detail this shape gets right: the promise stored is the `.finally()` result, so every sharer observes the same settlement. What it deliberately does not do is cache successes: dedup is about concurrency, a cache is about time, and conflating the two is how stale data ends up shared.",
+        "referenceAnswer": {
+            "en": "`.finally()` is the only settlement hook that runs on both branches, so the entry is dropped on rejection too — `.then()` here would memoise a rejected promise and make one failure stick for the lifetime of the page. `Map#set` registers the new request, `Map#get` finds one already in flight, and `Map#delete` inside the callback removes the entry once the promise settles. One more detail this shape gets right: the promise stored is the `.finally()` result, so every sharer observes the same settlement. What it deliberately does not do is cache successes: dedup is about concurrency, a cache is about time, and conflating the two is how stale data ends up shared.",
+            "ru": "`.finally()` — единственный хук завершения, который выполняется на обеих ветках, поэтому запись удаляется и при отклонении — `.then()` здесь запомнил бы отклонённый promise, и один сбой залип бы на всё время жизни страницы. `Map#set` регистрирует новый запрос, `Map#get` находит уже выполняющийся, а `Map#delete` внутри колбэка убирает запись, как только promise завершается. Ещё одна деталь, которую эта форма делает правильно: сохраняется именно результат `.finally()`, поэтому все, кто разделяет запрос, наблюдают одно и то же завершение. Намеренно она не делает одного — не кэширует успешные ответы: дедупликация — про конкурентность, кэш — про время, а смешение этих двух вещей и приводит к тому, что расшаренными оказываются устаревшие данные."
+        },
         "explanation": {
             "en": "Deduplication collapses the N callers that ask for the same thing in the same tick into a single request — the classic case being several components mounting at once, each with its own effect. The subtlety is the lifetime of the map entry: keep it after the promise settles and you have accidentally built a cache with no invalidation; drop it only on success and one failure is memoised forever. `.finally()` is the single hook that fires on both paths.",
             "ru": "Дедупликация схлопывает N вызывающих, которые просят одно и то же в одном тике, в один запрос — классический случай, когда несколько компонентов монтируются разом, каждый со своим эффектом. Тонкость — время жизни записи в Map: оставите её после завершения промиса, и вы случайно построили кэш без инвалидации; удалите только при успехе — и одна ошибка запомнится навсегда. `.finally()` — единственный хук, срабатывающий на обеих ветках."
