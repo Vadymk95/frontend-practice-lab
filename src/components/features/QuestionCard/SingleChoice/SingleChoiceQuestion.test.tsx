@@ -12,7 +12,9 @@ const forcedOrder = vi.hoisted(() => ({ value: null as number[] | null }));
 vi.mock('@/lib/utils/optionOrder', async (importOriginal) => {
     const actual = await importOriginal<typeof import('@/lib/utils/optionOrder')>();
     return {
-        createOptionOrder: (length: number) => forcedOrder.value ?? actual.createOptionOrder(length)
+        ...actual,
+        getOptionOrder: (_questionId: string, length: number) =>
+            forcedOrder.value ?? actual.createOptionOrder(length)
     };
 });
 
@@ -126,5 +128,44 @@ describe('SingleChoiceQuestion — option shuffling', () => {
         rerender(<SingleChoiceQuestion question={question} />);
 
         expect(renderedOrder()).toEqual(first);
+    });
+});
+
+describe('SingleChoiceQuestion — result in words, not only in colour', () => {
+    it('announces an incorrect pick in a polite live region', async () => {
+        forcedOrder.value = [0, 1, 2, 3];
+        renderWithProviders(<SingleChoiceQuestion question={makeQuestion()} />);
+
+        fireEvent.click(screen.getAllByRole('radio')[0]!);
+
+        const status = await screen.findByRole('status');
+        expect(status).toHaveAttribute('aria-live', 'polite');
+        expect(status.textContent).toContain('Incorrect');
+    });
+
+    it('announces a correct pick', async () => {
+        forcedOrder.value = [0, 1, 2, 3];
+        renderWithProviders(<SingleChoiceQuestion question={makeQuestion()} />);
+
+        fireEvent.click(screen.getAllByRole('radio')[2]!);
+
+        const status = await screen.findByRole('status');
+        expect(status.textContent).toContain('Correct');
+        expect(status.textContent).not.toContain('Incorrect');
+    });
+
+    it('separates the reader own pick from the answer they missed', async () => {
+        forcedOrder.value = [0, 1, 2, 3];
+        renderWithProviders(<SingleChoiceQuestion question={makeQuestion()} />);
+
+        fireEvent.click(screen.getAllByRole('radio')[0]!);
+
+        await waitFor(() => {
+            const options = screen.getAllByRole('radio');
+            expect(options[0]!.textContent).toContain('Your answer');
+            expect(options[2]!.textContent).toContain('Missed correct answer');
+            // The answer the reader never picked is ticked too, so the tick is not a score.
+            expect(options[2]!.textContent).toContain('✓');
+        });
     });
 });

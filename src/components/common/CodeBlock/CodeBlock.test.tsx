@@ -131,3 +131,31 @@ describe('CodeBlock', () => {
         expect(codeToHtml).not.toHaveBeenCalled();
     });
 });
+
+describe('CodeBlock — overflow is visible and reachable', () => {
+    const scroller = (container: HTMLElement) => container.querySelector('.overflow-auto')!;
+
+    it('does not clamp the snippet height on the phone', () => {
+        const { container } = renderWithProviders(
+            <CodeBlock code={'line\n'.repeat(40)} lang="javascript" />
+        );
+        expect(scroller(container).className).not.toContain('max-h-[320px]');
+    });
+
+    it('carries the scroll affordance so a clipped edge is visible at rest', () => {
+        const { container } = renderWithProviders(
+            <CodeBlock code="const x = 1" lang="javascript" />
+        );
+        expect(scroller(container).className).toContain('code-scroll');
+    });
+
+    it('lets the keyboard reach the element that actually scrolls', () => {
+        const { container } = renderWithProviders(
+            <CodeBlock code="const x = 1" lang="javascript" />
+        );
+        const region = screen.getByRole('region');
+        expect(region).toBe(scroller(container));
+        expect(region).toHaveAttribute('tabindex', '0');
+        expect(region).toHaveAccessibleName();
+    });
+});

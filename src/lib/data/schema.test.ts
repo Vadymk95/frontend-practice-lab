@@ -55,3 +55,25 @@ describe('CodeCompletionSchema __BLANK__ refinement', () => {
         expect(ok.success).toBe(true);
     });
 });
+
+describe('referenceAnswer shape', () => {
+    const withReference = (referenceAnswer: unknown) =>
+        CodeCompletionSchema.safeParse({
+            ...baseCC,
+            referenceAnswer,
+            code: 'const __BLANK__ = 1',
+            blanks: ['x']
+        });
+
+    it('accepts a localized reference answer', () => {
+        expect(withReference({ en: 'Assign one.', ru: 'Присвойте единицу.' }).success).toBe(true);
+    });
+
+    it('still accepts the legacy plain string', () => {
+        expect(withReference('Assign one.').success).toBe(true);
+    });
+
+    it('rejects a half-localized reference answer', () => {
+        expect(withReference({ en: 'Assign one.' }).success).toBe(false);
+    });
+});

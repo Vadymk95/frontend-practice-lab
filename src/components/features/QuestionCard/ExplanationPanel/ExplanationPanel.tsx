@@ -18,7 +18,7 @@ export const ExplanationPanel: FC<ExplanationPanelProps> = ({ explanation }) => 
             <p className="text-xs font-medium text-muted-foreground mb-1">
                 {t('explanation.label')}
             </p>
-            <p className="text-sm">
+            <p className="text-base">
                 <InlineMarkdown text={explanation} />
             </p>
         </div>

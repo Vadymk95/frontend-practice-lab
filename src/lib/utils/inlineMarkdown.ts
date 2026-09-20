@@ -1,6 +1,7 @@
 /**
  * Minimal inline-markdown reader for question content. The bank uses backticks in 176 stems
- * and 227 explanations, `**bold**` in 15, plus hard newlines — everything else is literal.
+ * and 227 explanations, `**bold**` in 15, single-marker italics in 47, plus hard newlines —
+ * everything else is literal.
  *
  * Deliberately NOT a markdown library: the result is a token list rendered as React nodes,
  * so no HTML from the data can ever reach the DOM.
@@ -9,10 +10,13 @@ export type InlineSegment =
     | { type: 'text'; value: string }
     | { type: 'code'; value: string }
     | { type: 'bold'; value: string }
+    | { type: 'italic'; value: string }
     | { type: 'break' };
 
 const CODE_MARKER = '`';
 const BOLD_MARKER = '**';
+const ITALIC_MARKERS = ['*', '_'] as const;
+const WORD_CHARACTER = /[\p{L}\p{N}]/u;
 
 export const parseInlineMarkdown = (input: string): InlineSegment[] => {
     const segments: InlineSegment[] = [];
@@ -47,6 +51,23 @@ export const parseInlineMarkdown = (input: string): InlineSegment[] => {
                 flushLiteral();
                 segments.push({ type: 'code', value });
                 i = end + CODE_MARKER.length;
+                continue;
+            }
+        }
+
+        const italicMarker = ITALIC_MARKERS.find((m) => m === input[i]);
+        if (italicMarker !== undefined) {
+            // `_` inside a word is an identifier (snake_case), never emphasis; `*` has no such
+            // ambiguity. An italic never spans a line break, so a stray marker stays literal.
+            const opensWord =
+                italicMarker === '_' && WORD_CHARACTER.test(i > 0 ? (input[i - 1] ?? '') : '');
+            const end = opensWord ? -1 : input.indexOf(italicMarker, i + 1);
+            const value = end === -1 ? '' : input.slice(i + 1, end);
+            const closesWord = italicMarker === '_' && WORD_CHARACTER.test(input[end + 1] ?? '');
+            if (value !== '' && !value.includes('\n') && !closesWord) {
+                flushLiteral();
+                segments.push({ type: 'italic', value });
+                i = end + italicMarker.length;
                 continue;
             }
         }

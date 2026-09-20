@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { track } from '@/lib/analytics';
 import type { BugFindingQuestion } from '@/lib/data/schema';
@@ -15,6 +15,7 @@ interface UseBugFindingQuestionProps {
 }
 
 interface UseBugFindingQuestionReturn {
+    selfAssessRef: React.RefObject<HTMLDivElement | null>;
     selectedOption: number | null;
     textAnswer: string;
     isSubmitted: boolean;
@@ -93,6 +94,18 @@ export function useBugFindingQuestion({
         [selfAssessment, setAnswer, question]
     );
 
+    // Submitting reveals the reference answer and the explanation above the grading pair, which
+    // pushes it far below the fold — the reader loses the step the next question is gated on.
+    const selfAssessRef = useRef<HTMLDivElement | null>(null);
+    useEffect(() => {
+        if (!isSubmitted || selfAssessment !== null) return;
+        const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+        selfAssessRef.current?.scrollIntoView?.({
+            behavior: reduceMotion ? 'auto' : 'smooth',
+            block: 'nearest'
+        });
+    }, [isSubmitted, selfAssessment]);
+
     useEffect(() => {
         onSubmitRegister(onSubmit);
     }, [onSubmit, onSubmitRegister]);
@@ -118,6 +131,7 @@ export function useBugFindingQuestion({
     }, [question.id]);
 
     return {
+        selfAssessRef,
         selectedOption,
         textAnswer,
         isSubmitted,

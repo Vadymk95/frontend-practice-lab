@@ -16,3 +16,19 @@ export const createOptionOrder = (length: number): number[] => {
     }
     return order;
 };
+
+/**
+ * Every draw for one question id is the same draw. Taking an answer back remounts the option
+ * list, and a fresh permutation there would re-letter the options the reader had just compared
+ * against the explanation. The cache lives for the page's lifetime; a question id is permanent,
+ * so it is bounded by the size of the bank.
+ */
+const drawnOrders = new Map<string, number[]>();
+
+export const getOptionOrder = (questionId: string, length: number): number[] => {
+    const drawn = drawnOrders.get(questionId);
+    if (drawn && drawn.length === length) return drawn;
+    const order = createOptionOrder(length);
+    drawnOrders.set(questionId, order);
+    return order;
+};

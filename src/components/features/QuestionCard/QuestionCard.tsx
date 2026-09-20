@@ -57,16 +57,16 @@ export const QuestionCard: FC<QuestionCardProps> = ({
     return (
         <article className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
-                <div
-                    aria-label={t('progress.ariaLabel', {
+                <div aria-hidden="true" className="text-sm text-muted-foreground">
+                    {t('progress.indicator', { current: currentIndex + 1, total: questionCount })}
+                </div>
+                {/* The visible counter reads as "3 / 29" out loud, which says nothing; the
+                    spelled-out question number is what a reader needs on every card change. */}
+                <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+                    {t('progress.ariaLabel', {
                         current: currentIndex + 1,
                         total: questionCount
                     })}
-                    aria-live="polite"
-                    aria-atomic="true"
-                    className="text-sm text-muted-foreground"
-                >
-                    {t('progress.indicator', { current: currentIndex + 1, total: questionCount })}
                 </div>
                 <div className="flex items-center gap-2">
                     {!isAnswered && (

@@ -485,3 +485,138 @@ describe('BugFindingQuestion — free-text field and submit gating', () => {
         expect(onCanSubmitChange).toHaveBeenLastCalledWith(true);
     });
 });
+
+describe('BugFindingQuestion — localized reference answer', () => {
+    const textOnlyQuestion = (overrides: Partial<BugFindingQuestion> = {}) =>
+        makeBugFindingQuestion({ options: undefined, correct: 'stale closure', ...overrides });
+
+    it('resolves the { en, ru } form for the active language', async () => {
+        let submitFn: (() => void) | null = null;
+        const { container } = renderWithProviders(
+            <BugFindingQuestionComponent
+                question={textOnlyQuestion({
+                    referenceAnswer: {
+                        en: 'Bound the queue before flushing it.',
+                        ru: 'Ограничьте очередь перед сбросом.'
+                    }
+                })}
+                onSubmitRegister={(fn) => {
+                    submitFn = fn;
+                }}
+                onSelfAssessRegister={vi.fn()}
+            />
+        );
+
+        fireEvent.change(screen.getByRole('textbox', { name: 'Your answer' }), {
+            target: { value: 'unbounded queue' }
+        });
+        await waitFor(() => expect(submitFn).not.toBeNull());
+        act(() => submitFn?.());
+
+        expect(container.textContent).toContain('Bound the queue before flushing it.');
+        expect(container.textContent).not.toContain('[object Object]');
+    });
+});
+
+describe('BugFindingQuestion — self-assessment step', () => {
+    const textOnlyQuestion = (overrides: Partial<BugFindingQuestion> = {}) =>
+        makeBugFindingQuestion({ options: undefined, correct: 'stale closure', ...overrides });
+
+    const submitAnswer = async () => {
+        let submitFn: (() => void) | null = null;
+        const view = renderWithProviders(
+            <BugFindingQuestionComponent
+                question={textOnlyQuestion()}
+                onSubmitRegister={(fn) => {
+                    submitFn = fn;
+                }}
+                onSelfAssessRegister={vi.fn()}
+            />
+        );
+        fireEvent.change(screen.getByRole('textbox', { name: 'Your answer' }), {
+            target: { value: 'the queue is unbounded' }
+        });
+        await waitFor(() => expect(submitFn).not.toBeNull());
+        act(() => submitFn?.());
+        return view;
+    };
+
+    it('asks the grading question instead of showing two bare verbs', async () => {
+        await submitAnswer();
+
+        const group = screen.getByRole('group', { name: 'Grade your answer' });
+        expect(group).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: 'Grade your answer' })).toBeInTheDocument();
+        expect(group.textContent).toContain('Compare your answer');
+    });
+
+    it('gives both halves of the choice the same visible boundary', async () => {
+        await submitAnswer();
+
+        const gotIt = screen.getByRole('button', { name: 'Got it' });
+        const missedIt = screen.getByRole('button', { name: 'Missed it' });
+        expect(missedIt.className).toContain('border');
+        expect(gotIt.className).toContain('border');
+    });
+
+    it('brings the grading controls into view once the reference is revealed', async () => {
+        const scrollIntoView = vi.fn();
+        Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', {
+            value: scrollIntoView,
+            configurable: true,
+            writable: true
+        });
+
+        await submitAnswer();
+
+        await waitFor(() => expect(scrollIntoView).toHaveBeenCalled());
+        expect(scrollIntoView.mock.calls[0]![0]).toMatchObject({ behavior: 'smooth' });
+    });
+
+    it('does not animate the scroll when the reader asked for reduced motion', async () => {
+        const scrollIntoView = vi.fn();
+        Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', {
+            value: scrollIntoView,
+            configurable: true,
+            writable: true
+        });
+        // jsdom ships no matchMedia, so the reduced-motion branch has to be installed.
+        Object.defineProperty(window, 'matchMedia', {
+            value: () => ({ matches: true, media: '(prefers-reduced-motion: reduce)' }),
+            configurable: true,
+            writable: true
+        });
+
+        await submitAnswer();
+
+        await waitFor(() => expect(scrollIntoView).toHaveBeenCalled());
+        expect(scrollIntoView.mock.calls[0]![0]).toMatchObject({ behavior: 'auto' });
+        Reflect.deleteProperty(window, 'matchMedia');
+    });
+});
+
+describe('BugFindingQuestion — answer box', () => {
+    it('is at least 16px so focusing it does not zoom the page on iOS', () => {
+        renderWithProviders(
+            <BugFindingQuestionComponent
+                question={makeBugFindingQuestion({ options: undefined, correct: 'stale closure' })}
+                {...defaultCallbacks}
+            />
+        );
+        const textarea = screen.getByRole('textbox', { name: 'Your answer' });
+        expect(textarea.className).toContain('text-base');
+        expect(textarea.className).not.toContain('text-sm');
+    });
+
+    it('rests at the height its row count promises', () => {
+        renderWithProviders(
+            <BugFindingQuestionComponent
+                question={makeBugFindingQuestion({ options: undefined, correct: 'stale closure' })}
+                {...defaultCallbacks}
+            />
+        );
+        expect(screen.getByRole('textbox', { name: 'Your answer' }).className).toContain(
+            'min-h-[5.5rem]'
+        );
+    });
+});

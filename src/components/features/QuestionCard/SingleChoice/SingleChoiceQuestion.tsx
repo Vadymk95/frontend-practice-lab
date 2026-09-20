@@ -1,9 +1,11 @@
 import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import type { SingleChoiceQuestion as SingleChoiceQuestionType } from '@/lib/data/schema';
 import { useLocalized } from '@/lib/i18n/localized';
 
 import { AnswerOption } from '../AnswerOption';
+import { AnswerVerdict } from '../AnswerVerdict';
 import { ExplanationPanel } from '../ExplanationPanel';
 import { useSingleChoiceQuestion } from './useSingleChoiceQuestion';
 
@@ -24,10 +26,19 @@ export const SingleChoiceQuestion: FC<Props> = ({
         onSelectOptionRegister
     );
     const pick = useLocalized();
+    const { t } = useTranslation('question');
+    // A skipped question is revealed, not graded, so it gets no verdict.
+    const status =
+        isSkipped || selectedIndex === null
+            ? null
+            : selectedIndex === question.correct
+              ? ('correct' as const)
+              : ('incorrect' as const);
 
     return (
         <div className="flex flex-col gap-2">
-            <div role="radiogroup" aria-label="Answer options">
+            <AnswerVerdict status={status} label={status === null ? '' : t(`verdict.${status}`)} />
+            <div role="radiogroup" aria-label={t('answerOptionsLabel')}>
                 {displayOrder.map((originalIndex, displayIndex) => (
                     <AnswerOption
                         key={originalIndex}
