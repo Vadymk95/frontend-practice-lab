@@ -33,7 +33,7 @@
     --color-muted: var(--color-surf);
     --color-muted-foreground: var(--color-txt-muted);
     --color-destructive: var(--color-err);
-    --color-destructive-foreground: #ffffff;
+    --color-destructive-foreground: var(--color-destructive-fg);
     --color-input: var(--color-brd);
     --color-ring: var(--color-acc-alt);
 
@@ -79,6 +79,8 @@
     --color-acc: #00ff87;
     --color-acc-alt: #3b82f6;
     --color-err: #ef4444;
+    /* White on #ef4444 is 3.76:1; black is 5.58:1, so a destructive button carries black text here. */
+    --color-destructive-fg: #000000;
     --color-warn: #f59e0b;
 }
 
@@ -93,6 +95,8 @@ html:not(.dark) {
     --color-acc: #009a52;
     --color-acc-alt: #2563eb;
     --color-err: #dc2626;
+    /* White on #dc2626 is 4.83:1, so the light theme keeps white text on a destructive button. */
+    --color-destructive-fg: #ffffff;
     --color-warn: #d97706;
 }
 

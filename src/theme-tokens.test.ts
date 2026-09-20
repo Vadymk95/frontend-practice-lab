@@ -70,3 +70,29 @@ describe('code scroll affordance', () => {
         expect(block).toContain('background-attachment: local, local, scroll, scroll');
     });
 });
+
+describe('destructive button colours', () => {
+    // The destructive surface is the error red of each theme; the label colour is a per-theme
+    // token because no single red carries both white text and error text on a dark page.
+    it('carries its label text at AA in dark theme', () => {
+        const ratio = contrastRatio(
+            readToken(':root', '--color-err'),
+            readToken(':root', '--color-destructive-fg')
+        );
+        expect(ratio).toBeGreaterThanOrEqual(AA_NORMAL_TEXT);
+    });
+
+    it('carries its label text at AA in light theme', () => {
+        const ratio = contrastRatio(
+            readToken('html:not(.dark)', '--color-err'),
+            readToken('html:not(.dark)', '--color-destructive-fg')
+        );
+        expect(ratio).toBeGreaterThanOrEqual(AA_NORMAL_TEXT);
+    });
+
+    it('is what the button variant paints its label with', () => {
+        const button = readFileSync(resolve(process.cwd(), 'src/components/ui/button.tsx'), 'utf8');
+        expect(button).toContain('bg-destructive text-destructive-foreground');
+        expect(button).not.toContain('bg-destructive text-white');
+    });
+});
