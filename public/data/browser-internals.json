@@ -1451,7 +1451,10 @@
         },
         "code": "let position = 0;\nconst box = document.getElementById('box');\n\nfunction animate() {\n  position += 1;\n  box.style.left = position + 'px';\n  requestAnimationFrame(animate);\n  if (position >= 100) {\n    return; // intended to end the animation at 100px\n  }\n}\n\nanimate();",
         "correct": "The next frame is scheduled before the stop condition is checked, so the early return never ends the loop",
-        "referenceAnswer": "`requestAnimationFrame(animate)` runs before the `position >= 100` check, so the next frame is already queued and the `return` only exits the current call — the loop never ends. Fix: guard the scheduling instead — `if (position < 100) { requestAnimationFrame(animate); }` — or keep the id returned by requestAnimationFrame and call `cancelAnimationFrame(id)` once the target is reached.",
+        "referenceAnswer": {
+            "en": "`requestAnimationFrame(animate)` runs before the `position >= 100` check, so the next frame is already queued and the `return` only exits the current call — the loop never ends. Fix: guard the scheduling instead — `if (position < 100) { requestAnimationFrame(animate); }` — or keep the id returned by requestAnimationFrame and call `cancelAnimationFrame(id)` once the target is reached.",
+            "ru": "`requestAnimationFrame(animate)` вызывается до проверки `position >= 100`, поэтому следующий кадр уже запланирован, а `return` лишь выходит из текущего вызова — цикл никогда не заканчивается. Исправление: ставить под условие само планирование — `if (position < 100) { requestAnimationFrame(animate); }` — либо сохранить id, возвращённый requestAnimationFrame, и вызвать `cancelAnimationFrame(id)`, когда цель достигнута."
+        },
         "lang": "javascript"
     },
     {
@@ -1470,7 +1473,10 @@
         },
         "code": "const items = document.querySelectorAll('.item');\nfor (let i = 0; i < items.length; i++) {\n  items[i].style.width = items[i].offsetWidth + 10 + 'px';\n}",
         "correct": "Reading offsetWidth after writing style.width causes forced synchronous layout on every iteration (layout thrashing)",
-        "referenceAnswer": "Interleaving style writes and layout reads forces the browser to recalculate layout on each iteration. Fix: first read all widths into an array, then apply all writes in a second loop. Or use requestAnimationFrame to batch writes.",
+        "referenceAnswer": {
+            "en": "Interleaving style writes and layout reads forces the browser to recalculate layout on each iteration. Fix: first read all widths into an array, then apply all writes in a second loop. Or use requestAnimationFrame to batch writes.",
+            "ru": "Чередование записи стилей и чтения layout заставляет браузер пересчитывать layout на каждой итерации. Исправление: сначала прочитать все ширины в массив, а затем применить все записи во втором цикле. Либо использовать requestAnimationFrame, чтобы сгруппировать записи."
+        },
         "lang": "javascript"
     },
     {
@@ -1489,7 +1495,10 @@
         },
         "code": "self.addEventListener('fetch', (event) => {\n  const cached = caches.match(event.request);\n  if (cached) {\n    event.respondWith(cached);\n  }\n});",
         "correct": "`caches.match()` returns a Promise, not a value — the truthy check always passes because a Promise is truthy",
-        "referenceAnswer": "caches.match() is async and returns a Promise<Response | undefined>. A Promise object is always truthy, so the if-block always runs but `event.respondWith` receives an unresolved Promise that resolves to undefined. Fix: `event.respondWith(caches.match(event.request).then(r => r || fetch(event.request)))`",
+        "referenceAnswer": {
+            "en": "caches.match() is async and returns a Promise<Response | undefined>. A Promise object is always truthy, so the if-block always runs but `event.respondWith` receives an unresolved Promise that resolves to undefined. Fix: `event.respondWith(caches.match(event.request).then(r => r || fetch(event.request)))`",
+            "ru": "caches.match() асинхронный и возвращает Promise<Response | undefined>. Объект Promise всегда truthy, поэтому блок if выполняется всегда, но `event.respondWith` получает неразрешённый Promise, который резолвится в undefined. Исправление: `event.respondWith(caches.match(event.request).then(r => r || fetch(event.request)))`"
+        },
         "lang": "javascript"
     },
     {
@@ -1508,7 +1517,10 @@
         },
         "code": "fetch('https://api.example.com/user', {\n  credentials: 'include'\n});\n\n// Server response headers:\n// Access-Control-Allow-Origin: *\n// Access-Control-Allow-Credentials: true",
         "correct": "Access-Control-Allow-Origin cannot be a wildcard (*) when credentials are included — it must specify the exact origin",
-        "referenceAnswer": "When `credentials: 'include'` is used, the server must respond with `Access-Control-Allow-Origin: https://your-origin.com` (exact origin, not *) AND `Access-Control-Allow-Credentials: true`. A wildcard origin with credentials is disallowed by the CORS spec.",
+        "referenceAnswer": {
+            "en": "When `credentials: 'include'` is used, the server must respond with `Access-Control-Allow-Origin: https://your-origin.com` (exact origin, not *) AND `Access-Control-Allow-Credentials: true`. A wildcard origin with credentials is disallowed by the CORS spec.",
+            "ru": "Когда используется `credentials: 'include'`, сервер обязан ответить `Access-Control-Allow-Origin: https://your-origin.com` (точный origin, а не *) И `Access-Control-Allow-Credentials: true`. Wildcard в origin вместе с credentials запрещён спецификацией CORS."
+        },
         "lang": "javascript"
     },
     {
@@ -1527,7 +1539,10 @@
         },
         "code": "function saveUser(user) {\n  localStorage.setItem('user', user);\n}\n\nfunction loadUser() {\n  const user = localStorage.getItem('user');\n  return user;\n}\n\nconst user = { name: 'Alice', age: 30 };\nsaveUser(user);\nconst loaded = loadUser();\nconsole.log(loaded.name); // undefined",
         "correct": "The user object is stored as `[object Object]` because localStorage only stores strings and the object is not serialized with JSON.stringify",
-        "referenceAnswer": "localStorage only stores strings. Objects must be serialized: `localStorage.setItem('user', JSON.stringify(user))` and deserialized: `JSON.parse(localStorage.getItem('user'))`. Without this, the object is coerced to the string '[object Object]'.",
+        "referenceAnswer": {
+            "en": "localStorage only stores strings. Objects must be serialized: `localStorage.setItem('user', JSON.stringify(user))` and deserialized: `JSON.parse(localStorage.getItem('user'))`. Without this, the object is coerced to the string '[object Object]'.",
+            "ru": "localStorage хранит только строки. Объекты нужно сериализовать: `localStorage.setItem('user', JSON.stringify(user))` и десериализовать: `JSON.parse(localStorage.getItem('user'))`. Без этого объект приводится к строке '[object Object]'."
+        },
         "lang": "javascript"
     },
     {
@@ -1546,7 +1561,10 @@
         },
         "code": "class DataComponent {\n  constructor(element) {\n    this.element = element;\n    this.data = new Array(100000).fill('data');\n    this.element.addEventListener('click', this.handleClick.bind(this));\n  }\n\n  handleClick() {\n    console.log('clicked', this.data.length);\n  }\n\n  destroy() {\n    this.element = null;\n    this.data = null;\n  }\n}",
         "correct": "The event listener created with .bind(this) is never removed, keeping the DataComponent instance and its large data array alive",
-        "referenceAnswer": "`.bind(this)` creates a new function reference each time, so it cannot be removed with `removeEventListener` using a new `.bind()` call. Fix: store the bound handler: `this.boundHandler = this.handleClick.bind(this)` in the constructor, add it with that reference, and in `destroy()` call `this.element.removeEventListener('click', this.boundHandler)`.",
+        "referenceAnswer": {
+            "en": "`.bind(this)` creates a new function reference each time, so it cannot be removed with `removeEventListener` using a new `.bind()` call. Fix: store the bound handler: `this.boundHandler = this.handleClick.bind(this)` in the constructor, add it with that reference, and in `destroy()` call `this.element.removeEventListener('click', this.boundHandler)`.",
+            "ru": "`.bind(this)` каждый раз создаёт новую ссылку на функцию, поэтому обработчик нельзя снять через `removeEventListener` новым вызовом `.bind()`. Исправление: сохранить привязанный обработчик — `this.boundHandler = this.handleClick.bind(this)` в конструкторе, подписаться именно этой ссылкой, а в `destroy()` вызвать `this.element.removeEventListener('click', this.boundHandler)`."
+        },
         "lang": "javascript"
     },
     {
@@ -1565,7 +1583,10 @@
         },
         "code": "async function saveData(db, key, value) {\n  const tx = db.transaction('store', 'readwrite');\n  const store = tx.objectStore('store');\n  store.put(value, key);\n  await new Promise(resolve => setTimeout(resolve, 0));\n  store.put({ extra: true }, 'extra-key');\n}",
         "correct": "The await causes the IndexedDB transaction to auto-commit before the second store.put() call",
-        "referenceAnswer": "IndexedDB transactions auto-commit when there are no pending requests AND control returns to the event loop. `await setTimeout(resolve, 0)` yields to the event loop, triggering auto-commit. The second `store.put()` will throw a TransactionInactiveError. Fix: issue both put() requests before any await, or listen to the tx.oncomplete event.",
+        "referenceAnswer": {
+            "en": "IndexedDB transactions auto-commit when there are no pending requests AND control returns to the event loop. `await setTimeout(resolve, 0)` yields to the event loop, triggering auto-commit. The second `store.put()` will throw a TransactionInactiveError. Fix: issue both put() requests before any await, or listen to the tx.oncomplete event.",
+            "ru": "Транзакции IndexedDB автоматически коммитятся, когда не осталось незавершённых запросов И управление возвращается в event loop. `await setTimeout(resolve, 0)` отдаёт управление event loop и запускает авто-коммит. Второй `store.put()` бросит TransactionInactiveError. Исправление: отправить оба запроса put() до любого await либо слушать событие tx.oncomplete."
+        },
         "lang": "javascript"
     },
     {
@@ -1585,7 +1606,10 @@
         "code": "console.log('start');\n\n__BLANK__.__BLANK__.then(() => console.log('microtask'));\n\nsetTimeout(() => console.log('macrotask'), 0);\n\nconsole.log('end');\n// Output: start → end → microtask → macrotask",
         "blanks": ["Promise", "resolve()"],
         "lang": "javascript",
-        "referenceAnswer": "Promise.resolve() creates an already-resolved Promise. Its .then() callback is queued as a microtask, which runs after the synchronous code ('start', 'end') and before the setTimeout task."
+        "referenceAnswer": {
+            "en": "Promise.resolve() creates an already-resolved Promise. Its .then() callback is queued as a microtask, which runs after the synchronous code ('start', 'end') and before the setTimeout task.",
+            "ru": "Promise.resolve() создаёт уже разрешённый Promise. Его колбэк .then() попадает в очередь как микротаска и выполняется после синхронного кода ('start', 'end') и до задачи setTimeout."
+        }
     },
     {
         "id": "browser-cc-observer-001",
@@ -1604,7 +1628,10 @@
         "code": "const observer = new __BLANK__(([entry]) => {\n  if (entry.__BLANK__) {\n    entry.target.src = entry.target.dataset.src;\n    observer.unobserve(entry.target);\n  }\n}, { threshold: 0.1 });\n\ndocument.querySelectorAll('img[data-src]').forEach(img => {\n  observer.__BLANK__(img);\n});",
         "blanks": ["IntersectionObserver", "isIntersecting", "observe"],
         "lang": "javascript",
-        "referenceAnswer": "IntersectionObserver constructor takes a callback and options. `entry.isIntersecting` is true when the element enters the viewport. `observer.observe(img)` registers each image for observation."
+        "referenceAnswer": {
+            "en": "IntersectionObserver constructor takes a callback and options. `entry.isIntersecting` is true when the element enters the viewport. `observer.observe(img)` registers each image for observation.",
+            "ru": "Конструктор IntersectionObserver принимает колбэк и опции. `entry.isIntersecting` равно true, когда элемент попадает во вьюпорт. `observer.observe(img)` регистрирует каждое изображение для наблюдения."
+        }
     },
     {
         "id": "browser-cc-sw-cache-001",
@@ -1623,7 +1650,10 @@
         "code": "const CACHE_NAME = 'v1';\nconst ASSETS = ['/', '/index.html', '/app.js'];\n\nself.addEventListener('install', (event) => {\n  event.__BLANK__(\n    caches.__BLANK__(CACHE_NAME).then(cache => cache.__BLANK__(ASSETS))\n  );\n});",
         "blanks": ["waitUntil", "open", "addAll"],
         "lang": "javascript",
-        "referenceAnswer": "event.waitUntil() extends the install lifetime until the promise resolves. caches.open() returns a Cache instance. cache.addAll() fetches and stores all assets atomically — if any request fails, the entire addAll rejects."
+        "referenceAnswer": {
+            "en": "event.waitUntil() extends the install lifetime until the promise resolves. caches.open() returns a Cache instance. cache.addAll() fetches and stores all assets atomically — if any request fails, the entire addAll rejects.",
+            "ru": "event.waitUntil() продлевает время жизни install, пока промис не разрешится. caches.open() возвращает экземпляр Cache. cache.addAll() загружает и сохраняет все ресурсы атомарно — если хотя бы один запрос упал, весь addAll отклоняется."
+        }
     },
     {
         "id": "browser-cc-idb-001",
@@ -1642,7 +1672,10 @@
         "code": "const request = indexedDB.__BLANK__(\"mydb\", 1);\nrequest.__BLANK__ = (event) => {\n  const db = event.target.result;\n  db.__BLANK__('users', { keyPath: 'id', autoIncrement: true });\n};",
         "blanks": ["open", "onupgradeneeded", "createObjectStore"],
         "lang": "javascript",
-        "referenceAnswer": "indexedDB.open(name, version) returns an IDBOpenDBRequest — the open API is request/event based, not promise based, and IDBOpenDBRequest itself has no constructor. The onupgradeneeded event fires when the database is first created or the version increases; createObjectStore is only allowed inside it."
+        "referenceAnswer": {
+            "en": "indexedDB.open(name, version) returns an IDBOpenDBRequest — the open API is request/event based, not promise based, and IDBOpenDBRequest itself has no constructor. The onupgradeneeded event fires when the database is first created or the version increases; createObjectStore is only allowed inside it.",
+            "ru": "indexedDB.open(name, version) возвращает IDBOpenDBRequest — это API на запросах и событиях, а не на промисах, и у самого IDBOpenDBRequest нет конструктора. Событие onupgradeneeded срабатывает при первом создании базы или при увеличении версии; createObjectStore разрешён только внутри него."
+        }
     },
     {
         "id": "browser-cc-mo-001",
@@ -1661,7 +1694,10 @@
         "code": "const observer = new __BLANK__(mutations => {\n  mutations.forEach(mutation => {\n    if (mutation.__BLANK__ === 'childList') {\n      mutation.__BLANK__.forEach(node => console.log('Added:', node));\n    }\n  });\n});\n\nobserver.observe(document.body, { __BLANK__: true });",
         "blanks": ["MutationObserver", "type", "addedNodes", "childList"],
         "lang": "javascript",
-        "referenceAnswer": "MutationObserver constructor takes a callback receiving a MutationRecord array. `mutation.type === 'childList'` checks for DOM insertions/removals. `mutation.addedNodes` is a NodeList of inserted nodes. The `{ childList: true }` option enables child node observation."
+        "referenceAnswer": {
+            "en": "MutationObserver constructor takes a callback receiving a MutationRecord array. `mutation.type === 'childList'` checks for DOM insertions/removals. `mutation.addedNodes` is a NodeList of inserted nodes. The `{ childList: true }` option enables child node observation.",
+            "ru": "Конструктор MutationObserver принимает колбэк, получающий массив MutationRecord. `mutation.type === 'childList'` проверяет вставки и удаления узлов DOM. `mutation.addedNodes` — это NodeList вставленных узлов. Опция `{ childList: true }` включает наблюдение за дочерними узлами."
+        }
     },
     {
         "id": "browser-cc-perf-001",
@@ -1680,7 +1716,10 @@
         "code": "performance.__BLANK__('operation-start');\n\n// ... expensive operation ...\n\nperformance.__BLANK__('operation-end');\n\nconst measure = performance.__BLANK__(\n  'operation-duration',\n  'operation-start',\n  'operation-end'\n);\nconsole.log(measure.duration + 'ms');",
         "blanks": ["mark", "mark", "measure"],
         "lang": "javascript",
-        "referenceAnswer": "performance.mark() creates a named timestamp. performance.measure(measureName, startMark, endMark) computes the duration between two marks and returns the PerformanceMeasure entry directly, so measure.duration is readable without a getEntriesByName() lookup."
+        "referenceAnswer": {
+            "en": "performance.mark() creates a named timestamp. performance.measure(measureName, startMark, endMark) computes the duration between two marks and returns the PerformanceMeasure entry directly, so measure.duration is readable without a getEntriesByName() lookup.",
+            "ru": "performance.mark() создаёт именованную отметку времени. performance.measure(measureName, startMark, endMark) вычисляет длительность между двумя отметками и сразу возвращает запись PerformanceMeasure, поэтому measure.duration доступен без обращения к getEntriesByName()."
+        }
     },
     {
         "id": "browser-cc-raf-001",
@@ -1699,7 +1738,10 @@
         "code": "let rafId = null;\nlet scrollY = 0;\n\nwindow.addEventListener('scroll', () => {\n  scrollY = window.scrollY;\n  if (!rafId) {\n    rafId = __BLANK__(updatePosition);\n  }\n});\n\nfunction updatePosition() {\n  element.style.transform = `translateY(${scrollY * 0.5}px)`;\n  __BLANK__ = null;\n}",
         "blanks": ["requestAnimationFrame", "rafId"],
         "lang": "javascript",
-        "referenceAnswer": "requestAnimationFrame schedules updatePosition to run before the next paint. The `if (!rafId)` guard prevents scheduling multiple rAF callbacks per frame. Setting rafId to null after execution allows the next scroll event to schedule a new rAF."
+        "referenceAnswer": {
+            "en": "requestAnimationFrame schedules updatePosition to run before the next paint. The `if (!rafId)` guard prevents scheduling multiple rAF callbacks per frame. Setting rafId to null after execution allows the next scroll event to schedule a new rAF.",
+            "ru": "requestAnimationFrame планирует выполнение updatePosition перед следующей отрисовкой. Проверка `if (!rafId)` не даёт запланировать несколько колбэков rAF за один кадр. Сброс rafId в null после выполнения позволяет следующему событию scroll запланировать новый rAF."
+        }
     },
     {
         "id": "browser-sw-update-001",
@@ -1822,7 +1864,10 @@
         "code": "navigation.addEventListener('__BLANK__', (event) => {\n  const url = new URL(event.destination.url);\n\n  if (url.origin !== location.origin || event.hashChange || event.downloadRequest !== null) {\n    return;\n  }\n\n  event.__BLANK__({\n    async handler() {\n      renderPlaceholder();\n      const view = await loadView(url.pathname);\n      render(view);\n    }\n  });\n});",
         "blanks": ["navigate", "intercept"],
         "lang": "javascript",
-        "referenceAnswer": "navigation.addEventListener('navigate', ...) fires for every navigation the current document could handle, including link clicks, form submissions, and back/forward traversals — one entry point instead of a click handler plus a popstate listener plus a wrapped history.pushState. Calling event.intercept({ handler }) commits the URL change immediately and lets the browser own the rest: it keeps the navigation in a 'navigating' state until the handler's promise settles, restores scroll position, and reports failures through navigateerror. The guards matter: the origin comparison mirrors event.canIntercept, which the browser sets to false for cross-origin destinations and for anything else the document cannot take over, hashChange should be left to the browser, and downloadRequest is a download rather than a navigation.",
+        "referenceAnswer": {
+            "en": "navigation.addEventListener('navigate', ...) fires for every navigation the current document could handle, including link clicks, form submissions, and back/forward traversals — one entry point instead of a click handler plus a popstate listener plus a wrapped history.pushState. Calling event.intercept({ handler }) commits the URL change immediately and lets the browser own the rest: it keeps the navigation in a 'navigating' state until the handler's promise settles, restores scroll position, and reports failures through navigateerror. The guards matter: the origin comparison mirrors event.canIntercept, which the browser sets to false for cross-origin destinations and for anything else the document cannot take over, hashChange should be left to the browser, and downloadRequest is a download rather than a navigation.",
+            "ru": "navigation.addEventListener('navigate', ...) срабатывает на каждую навигацию, которую текущий документ мог бы обработать, включая клики по ссылкам, отправки форм и переходы назад/вперёд — одна точка входа вместо связки «обработчик клика + слушатель popstate + обёртка над history.pushState». Вызов event.intercept({ handler }) сразу фиксирует смену URL и отдаёт остальное браузеру: он держит навигацию в состоянии 'navigating', пока промис обработчика не завершится, восстанавливает позицию прокрутки и сообщает об ошибках через navigateerror. Проверки здесь важны: сравнение origin повторяет event.canIntercept, который браузер выставляет в false для адресов на другом origin и для всего остального, что документ не может взять на себя, hashChange стоит оставить браузеру, а downloadRequest — это скачивание, а не навигация."
+        },
         "explanation": {
             "en": "The Navigation API replaces the old SPA routing stack — a click handler, a `popstate` listener and a monkey-patched `history.pushState` — with one `navigate` event that also covers form submissions and back/forward traversals. `event.intercept({ handler })` tells the browser the current document will produce the new view, so it updates the URL, keeps the navigation pending until your promise settles, and restores scroll position itself. The guards are not optional: a cross-origin destination cannot be taken over — `event.canIntercept` is `false` for it, and calling `intercept()` anyway throws — while hash changes and downloads should stay with the browser.",
             "ru": "Navigation API заменяет старый набор для SPA-роутинга — обработчик клика, слушатель `popstate` и пропатченный `history.pushState` — одним событием `navigate`, которое покрывает ещё и отправку форм, и переходы вперёд/назад. Вызов `event.intercept({ handler })` сообщает браузеру, что новый вид отрисует текущий документ: браузер меняет URL, держит навигацию незавершённой, пока не зарезолвится промис, и сам восстанавливает позицию скролла. Проверки в начале обязательны: cross-origin адрес перехватить нельзя — для него `event.canIntercept` равен `false`, и вызов `intercept()` выбросит исключение, — а hash-переходы и скачивания лучше оставить браузеру."

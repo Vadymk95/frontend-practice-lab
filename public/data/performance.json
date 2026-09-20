@@ -1271,7 +1271,10 @@
         },
         "code": "function UserProfile({ userId }) {\n  const [data, setData] = useState(null);\n\n  useEffect(() => {\n    fetch(`/api/users/${userId}`)\n      .then(res => res.json())\n      .then(user => setData(user));\n  }, [userId]);\n\n  return <div>{data?.name}</div>;\n}",
         "correct": "The effect has no cleanup: when `userId` changes, a slow response for the previous id can resolve last and overwrite the newer user's data, and the abandoned request is never aborted",
-        "referenceAnswer": "Cancel the previous run in the effect's cleanup. Minimal fix: `let cancelled = false;` inside the effect, `if (!cancelled) setData(user);` in the .then, and `return () => { cancelled = true; };`. Better: abort the request itself — `const controller = new AbortController(); fetch(url, { signal: controller.signal })` and `return () => controller.abort();` — which also frees the connection and stops the JSON parse. Calling setData after unmount is not itself a leak: React 18 removed that warning because the promise is simply garbage-collected. The real defect is the out-of-order response winning the race.",
+        "referenceAnswer": {
+            "en": "Cancel the previous run in the effect's cleanup. Minimal fix: `let cancelled = false;` inside the effect, `if (!cancelled) setData(user);` in the .then, and `return () => { cancelled = true; };`. Better: abort the request itself — `const controller = new AbortController(); fetch(url, { signal: controller.signal })` and `return () => controller.abort();` — which also frees the connection and stops the JSON parse. Calling setData after unmount is not itself a leak: React 18 removed that warning because the promise is simply garbage-collected. The real defect is the out-of-order response winning the race.",
+            "ru": "Отменяйте предыдущий запуск в cleanup эффекта. Минимальное исправление: `let cancelled = false;` внутри эффекта, `if (!cancelled) setData(user);` в .then и `return () => { cancelled = true; };`. Лучше — прерывать сам запрос: `const controller = new AbortController(); fetch(url, { signal: controller.signal })` и `return () => controller.abort();` — это заодно освобождает соединение и прекращает разбор JSON. Вызов setData после размонтирования сам по себе не утечка: React 18 убрал это предупреждение, потому что promise просто собирается сборщиком мусора. Настоящий дефект в том, что гонку выигрывает ответ, пришедший не по порядку."
+        },
         "lang": "jsx"
     },
     {
@@ -1290,7 +1293,10 @@
         },
         "code": "function SearchBar() {\n  const [query, setQuery] = useState('');\n\n  const debouncedSearch = debounce((q) => {\n    fetchResults(q);\n  }, 300);\n\n  return (\n    <input\n      value={query}\n      onChange={(e) => {\n        setQuery(e.target.value);\n        debouncedSearch(e.target.value);\n      }}\n    />\n  );\n}",
         "correct": "A new debounce function is created on every render, so the timer never actually debounces — each keystroke creates a fresh debounced function with its own timer",
-        "referenceAnswer": "The debounced function must be stable across renders. Fix: wrap with useCallback and useMemo, or use useRef: `const debouncedSearch = useRef(debounce((q) => fetchResults(q), 300)).current;` Or use a library hook like `useDebounce`. The debounce instance must be created only once.",
+        "referenceAnswer": {
+            "en": "The debounced function must be stable across renders. Fix: wrap with useCallback and useMemo, or use useRef: `const debouncedSearch = useRef(debounce((q) => fetchResults(q), 300)).current;` Or use a library hook like `useDebounce`. The debounce instance must be created only once.",
+            "ru": "Debounce-функция должна быть стабильной между рендерами. Исправление: обернуть в useCallback и useMemo либо использовать useRef: `const debouncedSearch = useRef(debounce((q) => fetchResults(q), 300)).current;` Или взять готовый хук вроде `useDebounce`. Экземпляр debounce должен создаваться только один раз."
+        },
         "lang": "jsx"
     },
     {
@@ -1309,7 +1315,10 @@
         },
         "code": "function ItemList({ items }) {\n  return (\n    <ul>\n      {items.map((item, index) => (\n        <li key={index}>\n          <ExpensiveItemComponent item={item} />\n        </li>\n      ))}\n    </ul>\n  );\n}",
         "correct": "Using the array index as `key`: on a reorder or a prepend React reuses each instance for a different item, so component state stays bound to the wrong row and every row below the change re-renders",
-        "referenceAnswer": "Use a stable identifier from the data as the key (`key={item.id}`). With index keys the keys do not change when the list is reordered or an item is prepended, so React reuses the existing instances and feeds them different props — internal state, uncontrolled input values and effects stay attached to the wrong row, and every row from the insertion point down re-renders. A key that changes is what forces a remount; the index-key bug is the opposite, unwanted reuse. For large lists, also consider react-window or TanStack Virtual.",
+        "referenceAnswer": {
+            "en": "Use a stable identifier from the data as the key (`key={item.id}`). With index keys the keys do not change when the list is reordered or an item is prepended, so React reuses the existing instances and feeds them different props — internal state, uncontrolled input values and effects stay attached to the wrong row, and every row from the insertion point down re-renders. A key that changes is what forces a remount; the index-key bug is the opposite, unwanted reuse. For large lists, also consider react-window or TanStack Virtual.",
+            "ru": "Используйте в качестве ключа стабильный идентификатор из данных (`key={item.id}`). С индексными ключами ключи не меняются при переупорядочивании списка или вставке элемента в начало, поэтому React переиспользует существующие инстансы и передаёт им другие пропсы — внутреннее состояние, значения неконтролируемых полей ввода и эффекты остаются привязанными к не той строке, а каждая строка, начиная с места вставки, перерендеривается. Перемонтирование вызывает именно изменившийся ключ; баг с индексными ключами — обратный случай, нежелательное переиспользование. Для больших списков стоит также рассмотреть react-window или TanStack Virtual."
+        },
         "lang": "jsx"
     },
     {
@@ -1328,7 +1337,10 @@
         },
         "code": "import _ from 'lodash';\n\nfunction padId(id) {\n  return _.padStart(String(id), 8, '0');\n}\n\nfunction isEqual(a, b) {\n  return _.isEqual(a, b);\n}",
         "correct": "Importing the entire lodash default export (CJS build) includes the entire library in the bundle — lodash's CommonJS format cannot be tree-shaken",
-        "referenceAnswer": "Use named imports from lodash-es: `import { isEqual } from 'lodash-es'` or per-method imports: `import isEqual from 'lodash/isEqual'`. The standard `lodash` package uses CommonJS which bundlers cannot tree-shake. `lodash-es` provides ES module builds.",
+        "referenceAnswer": {
+            "en": "Use named imports from lodash-es: `import { isEqual } from 'lodash-es'` or per-method imports: `import isEqual from 'lodash/isEqual'`. The standard `lodash` package uses CommonJS which bundlers cannot tree-shake. `lodash-es` provides ES module builds.",
+            "ru": "Используйте именованные импорты из lodash-es: `import { isEqual } from 'lodash-es'` или импорты по отдельным методам: `import isEqual from 'lodash/isEqual'`. Стандартный пакет `lodash` собран в формате CommonJS, для которого бандлеры не могут выполнить tree-shaking. `lodash-es` поставляет сборки в формате ES-модулей."
+        },
         "lang": "javascript"
     },
     {
@@ -1347,7 +1359,10 @@
         },
         "code": "function DataGrid({ rows, onSelect }) {\n  const columns = [\n    { key: 'name', label: 'Name' },\n    { key: 'age', label: 'Age' },\n  ];\n\n  const config = {\n    columns,\n    onSelect,\n    pageSize: 25,\n  };\n\n  return <MemoizedGrid config={config} />;\n}",
         "correct": "A new `columns` array and `config` object are created on every render, so MemoizedGrid always receives new object references and re-renders despite React.memo",
-        "referenceAnswer": "Memoize the stable values: `const columns = useMemo(() => [{ key: 'name', label: 'Name' }, { key: 'age', label: 'Age' }], []);` and `const config = useMemo(() => ({ columns, onSelect, pageSize: 25 }), [columns, onSelect]);`. This preserves referential stability so React.memo's shallow comparison works.",
+        "referenceAnswer": {
+            "en": "Memoize the stable values: `const columns = useMemo(() => [{ key: 'name', label: 'Name' }, { key: 'age', label: 'Age' }], []);` and `const config = useMemo(() => ({ columns, onSelect, pageSize: 25 }), [columns, onSelect]);`. This preserves referential stability so React.memo's shallow comparison works.",
+            "ru": "Мемоизируйте стабильные значения: `const columns = useMemo(() => [{ key: 'name', label: 'Name' }, { key: 'age', label: 'Age' }], []);` и `const config = useMemo(() => ({ columns, onSelect, pageSize: 25 }), [columns, onSelect]);`. Это сохраняет ссылочную стабильность, благодаря чему поверхностное сравнение в React.memo работает."
+        },
         "lang": "jsx"
     },
     {
@@ -1366,7 +1381,10 @@
         },
         "code": "/* Base styles */\n* {\n  will-change: transform, opacity;\n}\n\n.card {\n  will-change: contents;\n}\n\n.static-header {\n  will-change: transform;\n}",
         "correct": "Applying will-change to every element (*) and static elements wastes GPU memory by promoting all elements to compositor layers unnecessarily",
-        "referenceAnswer": "Remove `will-change` from the universal selector and static elements entirely. Only add it via JavaScript just before an animation begins, then remove it: `el.style.willChange = 'transform'` before animating, `el.style.willChange = 'auto'` after. `will-change: contents` is particularly problematic as it invalidates all descendants.",
+        "referenceAnswer": {
+            "en": "Remove `will-change` from the universal selector and static elements entirely. Only add it via JavaScript just before an animation begins, then remove it: `el.style.willChange = 'transform'` before animating, `el.style.willChange = 'auto'` after. `will-change: contents` is particularly problematic as it invalidates all descendants.",
+            "ru": "Полностью уберите `will-change` из универсального селектора и со статичных элементов. Добавляйте его только через JavaScript непосредственно перед началом анимации и снимайте после: `el.style.willChange = 'transform'` перед анимацией, `el.style.willChange = 'auto'` после. `will-change: contents` особенно вреден, так как инвалидирует всех потомков."
+        },
         "lang": "css"
     },
     {
@@ -1386,7 +1404,10 @@
         "code": "import { __BLANK__, Suspense } from 'react';\n\nconst Dashboard = __BLANK__(() => import('./pages/Dashboard'));\n\nfunction App() {\n  return (\n    <__BLANK__ fallback={<div>Loading...</div>}>\n      <Dashboard />\n    </__BLANK__>\n  );\n}",
         "blanks": ["lazy", "lazy", "Suspense", "Suspense"],
         "lang": "javascript",
-        "referenceAnswer": "React.lazy() accepts a factory function returning a dynamic import(). Suspense provides a fallback UI while the lazy component loads. The chunk is only downloaded when the component is first rendered."
+        "referenceAnswer": {
+            "en": "React.lazy() accepts a factory function returning a dynamic import(). Suspense provides a fallback UI while the lazy component loads. The chunk is only downloaded when the component is first rendered.",
+            "ru": "React.lazy() принимает фабричную функцию, возвращающую динамический import(). Suspense показывает fallback, пока ленивый компонент загружается. Чанк скачивается только при первом рендере компонента."
+        }
     },
     {
         "id": "perf-cc-codesplit-002",
@@ -1405,7 +1426,10 @@
         "code": "import { lazy, Suspense } from 'react';\n\nconst loadSettings = () => __BLANK__('./pages/Settings');\nconst SettingsPage = __BLANK__(loadSettings);\n\nfunction SettingsLink() {\n  return <a href=\"/settings\" onMouseEnter={loadSettings}>Settings</a>;\n}\n\nfunction Router() {\n  return (\n    <Suspense fallback={<Spinner />}>\n      <SettingsLink />\n      <SettingsPage />\n    </Suspense>\n  );\n}",
         "blanks": ["import", "lazy"],
         "lang": "jsx",
-        "referenceAnswer": "lazy() takes a factory that returns a promise of a module. Hoisting that factory into a named `loadSettings` lets the same dynamic import be triggered early: calling it on hover starts the chunk download before the route is visited, and the module registry caches the request, so rendering SettingsPage later reuses the in-flight or finished download instead of starting a second one."
+        "referenceAnswer": {
+            "en": "lazy() takes a factory that returns a promise of a module. Hoisting that factory into a named `loadSettings` lets the same dynamic import be triggered early: calling it on hover starts the chunk download before the route is visited, and the module registry caches the request, so rendering SettingsPage later reuses the in-flight or finished download instead of starting a second one.",
+            "ru": "lazy() принимает фабрику, возвращающую promise с модулем. Вынесение этой фабрики в именованную `loadSettings` позволяет запустить тот же динамический импорт заранее: вызов по наведению начинает скачивание чанка до перехода на маршрут, а реестр модулей кеширует запрос, поэтому последующий рендер SettingsPage переиспользует уже идущую или завершённую загрузку вместо того, чтобы начинать вторую."
+        }
     },
     {
         "id": "perf-cc-debounce-001",
@@ -1424,7 +1448,10 @@
         "code": "function debounce(fn, delay) {\n  let __BLANK__;\n  return function(...args) {\n    __BLANK__(timerId);\n    timerId = __BLANK__(()  => {\n      fn.apply(this, args);\n    }, delay);\n  };\n}",
         "blanks": ["timerId", "clearTimeout", "setTimeout"],
         "lang": "javascript",
-        "referenceAnswer": "debounce stores a timer ID. On each call, it clears the previous timer (clearTimeout) and sets a new one (setTimeout). Only if delay milliseconds pass without another call does fn execute."
+        "referenceAnswer": {
+            "en": "debounce stores a timer ID. On each call, it clears the previous timer (clearTimeout) and sets a new one (setTimeout). Only if delay milliseconds pass without another call does fn execute.",
+            "ru": "debounce хранит идентификатор таймера. При каждом вызове он сбрасывает предыдущий таймер (clearTimeout) и ставит новый (setTimeout). Функция fn выполнится, только если пройдёт delay миллисекунд без нового вызова."
+        }
     },
     {
         "id": "perf-cc-virtuallist-001",
@@ -1443,7 +1470,10 @@
         "code": "function getVisibleRange(scrollTop, containerHeight, itemHeight, totalItems) {\n  const startIndex = Math.max(0, Math.floor(__BLANK__ / itemHeight));\n  const visibleCount = Math.ceil(__BLANK__ / itemHeight);\n  const endIndex = Math.min(totalItems - 1, startIndex + visibleCount + 1);\n  return { startIndex, endIndex };\n}",
         "blanks": ["scrollTop", "containerHeight"],
         "lang": "javascript",
-        "referenceAnswer": "startIndex is derived from scrollTop / itemHeight (which items are scrolled past). visibleCount is containerHeight / itemHeight (how many fit in the viewport). Adding 1 as a buffer prevents visible gaps during fast scrolling."
+        "referenceAnswer": {
+            "en": "startIndex is derived from scrollTop / itemHeight (which items are scrolled past). visibleCount is containerHeight / itemHeight (how many fit in the viewport). Adding 1 as a buffer prevents visible gaps during fast scrolling.",
+            "ru": "startIndex выводится из scrollTop / itemHeight (сколько элементов уже прокручено). visibleCount — это containerHeight / itemHeight (сколько помещается во вьюпорт). Добавление 1 как буфера предотвращает появление пустых мест при быстрой прокрутке."
+        }
     },
     {
         "id": "perf-cc-worker-001",
@@ -1462,7 +1492,10 @@
         "code": "// main.js\nconst rows = new Float64Array(1_000_000);\nconst worker = new __BLANK__('./heavy-worker.js');\n\nworker.__BLANK__ = ({ data }) => {\n  console.log('Result:', data.result);\n};\n\nworker.__BLANK__({ inputData: rows });\n\n// heavy-worker.js\nself.__BLANK__ = ({ data }) => {\n  const result = processHeavyData(data.inputData);\n  self.postMessage({ result });\n};",
         "blanks": ["Worker", "onmessage", "postMessage", "onmessage"],
         "lang": "javascript",
-        "referenceAnswer": "new Worker() starts the worker thread. `onmessage` is an event-handler property, so it is assigned (`worker.onmessage = fn`), never called — `worker.addEventListener('message', fn)` is the equivalent longer form. worker.postMessage() sends data into the worker; inside the worker, self.onmessage receives it and self.postMessage() sends the result back."
+        "referenceAnswer": {
+            "en": "new Worker() starts the worker thread. `onmessage` is an event-handler property, so it is assigned (`worker.onmessage = fn`), never called — `worker.addEventListener('message', fn)` is the equivalent longer form. worker.postMessage() sends data into the worker; inside the worker, self.onmessage receives it and self.postMessage() sends the result back.",
+            "ru": "new Worker() запускает поток воркера. `onmessage` — это свойство-обработчик события, поэтому ему присваивают функцию (`worker.onmessage = fn`), а не вызывают его — `worker.addEventListener('message', fn)` — эквивалентная развёрнутая форма. worker.postMessage() отправляет данные в воркер; внутри воркера self.onmessage их принимает, а self.postMessage() отправляет результат обратно."
+        }
     },
     {
         "id": "perf-cc-perfobserver-001",
@@ -1481,7 +1514,10 @@
         "code": "const observer = new __BLANK__(entries => {\n  const last = entries.__BLANK__().at(-1);\n  console.log('LCP:', last.startTime);\n});\n\nobserver.observe({\n  type: '__BLANK__',\n  buffered: true\n});",
         "blanks": ["PerformanceObserver", "getEntries", "largest-contentful-paint"],
         "lang": "javascript",
-        "referenceAnswer": "PerformanceObserver watches for specific performance entry types. `entries.getEntries()` returns the array of new entries. `type: 'largest-contentful-paint'` enables LCP observation. `buffered: true` captures entries that occurred before the observer was registered."
+        "referenceAnswer": {
+            "en": "PerformanceObserver watches for specific performance entry types. `entries.getEntries()` returns the array of new entries. `type: 'largest-contentful-paint'` enables LCP observation. `buffered: true` captures entries that occurred before the observer was registered.",
+            "ru": "PerformanceObserver следит за конкретными типами записей производительности. `entries.getEntries()` возвращает массив новых записей. `type: 'largest-contentful-paint'` включает наблюдение за LCP. `buffered: true` захватывает записи, появившиеся до регистрации наблюдателя."
+        }
     },
     {
         "id": "perf-cc-imagepicture-001",
@@ -1500,7 +1536,10 @@
         "code": "<__BLANK__>\n  <source\n    __BLANK__=\"/hero.avif 1x, /hero@2x.avif 2x\"\n    __BLANK__=\"image/avif\"\n  />\n  <source\n    srcset=\"/hero.webp 1x, /hero@2x.webp 2x\"\n    type=\"image/webp\"\n  />\n  <img\n    src=\"/hero.jpg\"\n    alt=\"Hero image\"\n    width=\"1200\"\n    height=\"600\"\n    fetchpriority=\"high\"\n  />\n</__BLANK__>",
         "blanks": ["picture", "srcset", "type", "picture"],
         "lang": "html",
-        "referenceAnswer": "The <picture> element enables format negotiation. Browsers pick the first <source> whose type they support. srcset provides resolution variants (1x/2x). The fallback <img> ensures compatibility. fetchpriority='high' on the LCP image speeds up discovery."
+        "referenceAnswer": {
+            "en": "The <picture> element enables format negotiation. Browsers pick the first <source> whose type they support. srcset provides resolution variants (1x/2x). The fallback <img> ensures compatibility. fetchpriority='high' on the LCP image speeds up discovery.",
+            "ru": "Элемент <picture> включает согласование формата. Браузер выбирает первый <source>, тип которого он поддерживает. srcset задаёт варианты по разрешению (1x/2x). Запасной <img> обеспечивает совместимость. fetchpriority='high' на LCP-изображении ускоряет его обнаружение."
+        }
     },
     {
         "id": "perf-inp-002",
@@ -1655,7 +1694,10 @@
         "code": "function Feed({ rows, virtualItems, totalSize }) {\n  return (\n    <ul role=\"list\" style={{ height: totalSize, position: 'relative' }}>\n      {virtualItems.map((v) => (\n        <li\n          key={rows[v.index].id}\n          role=\"listitem\"\n          style={{\n            position: 'absolute',\n            top: 0,\n            left: 0,\n            width: '100%',\n            transform: `translateY(${v.start}px)`\n          }}\n        >\n          <Row data={rows[v.index]} />\n        </li>\n      ))}\n    </ul>\n  );\n}",
         "lang": "jsx",
         "correct": "Only the windowed rows exist in the DOM and nothing declares the real collection, so the accessibility tree computes the set size from the 20 rendered `<li>` elements instead of 5000",
-        "referenceAnswer": "The explicit `role=\"list\"` and `role=\"listitem\"` are deliberate, not the defect: Safari/VoiceOver drops list semantics from a list whose bullets are removed in CSS, and the roles restore them. The real bug is elsewhere. The accessibility tree is built from the DOM, so a windowed list reports the size of the window, not the collection. Declare the real set explicitly on every rendered row — ARIA overrides the computed values:\n\n```jsx\n<li\n  key={rows[v.index].id}\n  role=\"listitem\"\n  aria-setsize={rows.length}\n  aria-posinset={v.index + 1}\n  style={{ position: 'absolute', top: 0, left: 0, width: '100%', transform: `translateY(${v.start}px)` }}\n>\n```\n\nFor a feed that appends pages as the user scrolls, `role=\"feed\"` on the container with `aria-busy` toggled while a page is loading is the better container role, and each article inside it still carries `aria-setsize` / `aria-posinset`. None of this fixes reachability: rows outside the window are not in the DOM at all, so find-in-page, type-ahead and Ctrl+End cannot reach them — keep a non-virtualized path (a 'load more' button alongside the scroll sentinel, or an un-virtualized print/expanded view) for that.",
+        "referenceAnswer": {
+            "en": "The explicit `role=\"list\"` and `role=\"listitem\"` are deliberate, not the defect: Safari/VoiceOver drops list semantics from a list whose bullets are removed in CSS, and the roles restore them. The real bug is elsewhere. The accessibility tree is built from the DOM, so a windowed list reports the size of the window, not the collection. Declare the real set explicitly on every rendered row — ARIA overrides the computed values:\n\n```jsx\n<li\n  key={rows[v.index].id}\n  role=\"listitem\"\n  aria-setsize={rows.length}\n  aria-posinset={v.index + 1}\n  style={{ position: 'absolute', top: 0, left: 0, width: '100%', transform: `translateY(${v.start}px)` }}\n>\n```\n\nFor a feed that appends pages as the user scrolls, `role=\"feed\"` on the container with `aria-busy` toggled while a page is loading is the better container role, and each article inside it still carries `aria-setsize` / `aria-posinset`. None of this fixes reachability: rows outside the window are not in the DOM at all, so find-in-page, type-ahead and Ctrl+End cannot reach them — keep a non-virtualized path (a 'load more' button alongside the scroll sentinel, or an un-virtualized print/expanded view) for that.",
+            "ru": "Явные `role=\"list\"` и `role=\"listitem\"` здесь намеренны и не являются дефектом: Safari/VoiceOver теряет семантику списка, если маркеры убраны через CSS, а роли её возвращают. Настоящий баг в другом. Дерево доступности строится по DOM, поэтому виртуализированный список сообщает размер окна, а не всей коллекции. Объявляйте реальный набор явно на каждой отрисованной строке — ARIA перекрывает вычисленные значения:\n\n```jsx\n<li\n  key={rows[v.index].id}\n  role=\"listitem\"\n  aria-setsize={rows.length}\n  aria-posinset={v.index + 1}\n  style={{ position: 'absolute', top: 0, left: 0, width: '100%', transform: `translateY(${v.start}px)` }}\n>\n```\n\nДля ленты, которая дописывает страницы по мере прокрутки, лучшей ролью контейнера будет `role=\"feed\"` с переключаемым `aria-busy` на время загрузки страницы, а каждая статья внутри всё равно несёт `aria-setsize` / `aria-posinset`. Ничто из этого не решает проблему достижимости: строк за пределами окна вообще нет в DOM, поэтому поиск по странице, набор по первым буквам и Ctrl+End до них не доберутся — держите для этого невиртуализированный путь (кнопку «загрузить ещё» рядом со сторожевым элементом прокрутки либо невиртуализированный вид для печати или развёрнутого просмотра)."
+        },
         "explanation": {
             "en": "Virtualization is a trade: rows that are not in the DOM are not in the accessibility tree either, so the implicit set size collapses to the size of the window. `aria-setsize` and `aria-posinset` on each rendered row restore the real count and position without re-rendering anything. The same missing-DOM root cause is why find-in-page and type-ahead stop working on a virtualized list, which is why a keyboard-reachable path to off-window content still has to exist.",
             "ru": "Виртуализация — это размен: строки, которых нет в DOM, отсутствуют и в accessibility tree, поэтому неявный размер множества схлопывается до размера окна. `aria-setsize` и `aria-posinset` на каждой отрендеренной строке возвращают настоящие количество и позицию, ничего при этом не перерендеривая. Та же причина — отсутствие узлов в DOM — ломает поиск по странице и type-ahead в виртуализированном списке, поэтому доступный с клавиатуры путь к контенту вне окна всё равно нужен."
@@ -1674,7 +1716,10 @@
         "code": "const feed = document.querySelector('#feed');         // the scrolling container\nconst sentinel = document.querySelector('#sentinel'); // empty div after the last row\n\nconst io = new IntersectionObserver(\n  ([entry]) => {\n    // the observer also fires once on observe() and again when the sentinel leaves\n    if (!entry.__BLANK__) return;\n    loadNextPage();\n  },\n  {\n    // measure against the scrolling container, not the viewport\n    __BLANK__: feed,\n    // start fetching 400px before the sentinel becomes visible\n    __BLANK__: '400px'\n  }\n);\n\nio.observe(sentinel);",
         "blanks": ["isIntersecting", "root", "rootMargin"],
         "lang": "javascript",
-        "referenceAnswer": "`entry.isIntersecting` is the guard: the observer delivers an initial entry as soon as `observe()` is called and another one when the sentinel scrolls back out, so without it `loadNextPage()` fires on mount and again on every exit. `root: feed` measures the intersection against the scrolling element, which is what makes the margin expand the container's box — with the default `root: null` the 400px prefetch margin applies to the viewport instead and no longer means what you intended. `rootMargin: '400px'` grows that box so the fetch starts before the user reaches the bottom; the value accepts px and % only, not `em`. Remember to `io.disconnect()` when the last page has been loaded or the component unmounts.",
+        "referenceAnswer": {
+            "en": "`entry.isIntersecting` is the guard: the observer delivers an initial entry as soon as `observe()` is called and another one when the sentinel scrolls back out, so without it `loadNextPage()` fires on mount and again on every exit. `root: feed` measures the intersection against the scrolling element, which is what makes the margin expand the container's box — with the default `root: null` the 400px prefetch margin applies to the viewport instead and no longer means what you intended. `rootMargin: '400px'` grows that box so the fetch starts before the user reaches the bottom; the value accepts px and % only, not `em`. Remember to `io.disconnect()` when the last page has been loaded or the component unmounts.",
+            "ru": "`entry.isIntersecting` — это защита: наблюдатель отдаёт первую запись сразу после вызова `observe()` и ещё одну, когда сторожевой элемент уходит из области видимости, поэтому без неё `loadNextPage()` сработает на монтировании и при каждом выходе. `root: feed` измеряет пересечение относительно прокручиваемого элемента — именно это заставляет margin расширять его бокс; со значением по умолчанию `root: null` предзагрузочный отступ в 400px применяется к вьюпорту и означает уже не то, что задумано. `rootMargin: '400px'` увеличивает этот бокс, чтобы запрос стартовал до того, как пользователь дойдёт до низа; значение принимает только px и %, но не `em`. Не забудьте вызвать `io.disconnect()`, когда загружена последняя страница или компонент размонтирован."
+        },
         "explanation": {
             "en": "`IntersectionObserver` delivers an entry when observation starts and again when the target stops intersecting, so a sentinel handler without an `isIntersecting` guard triggers a page load on mount and another on every scroll-past. `root` decides what the target is measured against and `rootMargin` inflates that root's box, which is how the fetch starts before the user actually reaches the end. A sentinel also keeps the work off the scroll path: the callback is delivered from the observer's own task rather than running on every scroll event, so it never becomes the reason the scroll is janky.",
             "ru": "`IntersectionObserver` отдаёт запись при старте наблюдения и ещё раз, когда цель перестаёт пересекаться, поэтому обработчик sentinel без проверки `isIntersecting` грузит страницу при монтировании и ещё раз на каждом уходе за границу. `root` определяет, относительно чего меряется пересечение, а `rootMargin` раздувает бокс этого root — так загрузка стартует раньше, чем пользователь реально доедет до конца. Sentinel к тому же убирает работу со scroll-пути: колбэк приходит из собственной задачи обсервера, а не выполняется на каждое событие скролла, и потому сам никогда не становится причиной рывков."

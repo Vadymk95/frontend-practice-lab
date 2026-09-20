@@ -1025,7 +1025,10 @@
         },
         "code": "function isUserActive(user: User): string {\n  if (user.status === 'active') {\n    return 'yes';\n  }\n  return 'no';\n}",
         "correct": "The function is named isUserActive (implies boolean return) but returns a string ('yes'/'no') instead of a boolean",
-        "referenceAnswer": "Fix: function isUserActive(user: User): boolean { return user.status === 'active'; }. The is prefix signals a boolean predicate. Returning 'yes'/'no' strings breaks the naming contract and forces callers to compare against magic strings.",
+        "referenceAnswer": {
+            "en": "Fix: function isUserActive(user: User): boolean { return user.status === 'active'; }. The is prefix signals a boolean predicate. Returning 'yes'/'no' strings breaks the naming contract and forces callers to compare against magic strings.",
+            "ru": "Исправление: function isUserActive(user: User): boolean { return user.status === 'active'; }. Префикс is обозначает булев предикат. Возврат строк 'yes'/'no' ломает контракт именования и заставляет вызывающий код сравнивать результат с магическими строками."
+        },
         "lang": "typescript"
     },
     {
@@ -1044,7 +1047,10 @@
         },
         "code": "async function fetchUser(id: string) {\n  try {\n    const response = await fetch(`/api/users/${id}`);\n    const user = await response.json();\n    return user;\n  } catch (e) {\n    console.log('Error occurred');\n  }\n}",
         "correct": "1) HTTP errors (4xx/5xx) are not caught because fetch() only throws on network failures; 2) The error is swallowed after logging — the function returns undefined, hiding the failure from callers",
-        "referenceAnswer": "Fix: check response.ok and throw on HTTP errors; re-throw or return a typed error so callers know the fetch failed. Use logger.error with context instead of console.log.",
+        "referenceAnswer": {
+            "en": "Fix: check response.ok and throw on HTTP errors; re-throw or return a typed error so callers know the fetch failed. Use logger.error with context instead of console.log.",
+            "ru": "Исправление: проверяйте response.ok и бросайте исключение при HTTP-ошибках; пробрасывайте ошибку дальше или возвращайте типизированную ошибку, чтобы вызывающий код знал, что запрос провалился. Используйте logger.error с контекстом вместо console.log."
+        },
         "lang": "typescript"
     },
     {
@@ -1063,7 +1069,10 @@
         },
         "code": "function LoginForm() {\n  return (\n    <form>\n      <div>Email</div>\n      <input type=\"text\" placeholder=\"Enter email\" />\n      <div>Password</div>\n      <input type=\"text\" />\n      <div onClick={() => handleSubmit()}>Login</div>\n    </form>\n  );\n}",
         "correct": "1) The <div> labels are not programmatically associated with the inputs — a screen reader cannot announce the field name; 2) the submit control is a <div onClick>, not a <button> — it is not focusable, not keyboard-activatable and has no role; 3) the password field is type='text', so the value is rendered in plain sight and browsers cannot treat it as a credential",
-        "referenceAnswer": "Use <label htmlFor='email'>Email</label> with <input id='email' type='email'> and <label htmlFor='password'>Password</label> with <input id='password' type='password' autocomplete='current-password'>; replace <div onClick={handleSubmit}> with <button type='submit'>Login</button> so the form submits from the keyboard as well as the mouse.",
+        "referenceAnswer": {
+            "en": "Use <label htmlFor='email'>Email</label> with <input id='email' type='email'> and <label htmlFor='password'>Password</label> with <input id='password' type='password' autocomplete='current-password'>; replace <div onClick={handleSubmit}> with <button type='submit'>Login</button> so the form submits from the keyboard as well as the mouse.",
+            "ru": "Используйте <label htmlFor='email'>Email</label> вместе с <input id='email' type='email'> и <label htmlFor='password'>Password</label> вместе с <input id='password' type='password' autocomplete='current-password'>; замените <div onClick={handleSubmit}> на <button type='submit'>Login</button>, чтобы форма отправлялась не только мышью, но и с клавиатуры."
+        },
         "lang": "jsx"
     },
     {
@@ -1082,7 +1091,10 @@
         },
         "code": "function addItem(cart: CartItem[], newItem: CartItem): CartItem[] {\n  cart.push(newItem);\n  return cart;\n}",
         "correct": "The function mutates the original cart array instead of returning a new array, creating an unexpected side effect for the caller",
-        "referenceAnswer": "Fix: return [...cart, newItem]; — this returns a new array without mutating the original. Mutating the input array means any other reference to that array also sees the change, which can cause hard-to-trace bugs in React state management.",
+        "referenceAnswer": {
+            "en": "Fix: return [...cart, newItem]; — this returns a new array without mutating the original. Mutating the input array means any other reference to that array also sees the change, which can cause hard-to-trace bugs in React state management.",
+            "ru": "Исправление: return [...cart, newItem]; — так возвращается новый массив без мутации исходного. Мутация входного массива означает, что изменение увидит и любая другая ссылка на этот массив, а это может приводить к трудноотслеживаемым багам в управлении состоянием React."
+        },
         "lang": "typescript"
     },
     {
@@ -1101,7 +1113,10 @@
         },
         "code": "function processPayment(payload: PaymentPayload) {\n  logger.info('Processing payment', {\n    userId: payload.userId,\n    amount: payload.amount,\n    cardNumber: payload.cardNumber,\n    cvv: payload.cvv,\n  });\n  return chargeCard(payload);\n}",
         "correct": "The function logs sensitive payment data (cardNumber and CVV) which is a PCI DSS violation and serious security risk",
-        "referenceAnswer": "Never log sensitive data. Log only safe identifiers: logger.info('Processing payment', { userId: payload.userId, amount: payload.amount, lastFour: payload.cardNumber.slice(-4) }). CVV must never be logged or stored under any circumstances.",
+        "referenceAnswer": {
+            "en": "Never log sensitive data. Log only safe identifiers: logger.info('Processing payment', { userId: payload.userId, amount: payload.amount, lastFour: payload.cardNumber.slice(-4) }). CVV must never be logged or stored under any circumstances.",
+            "ru": "Никогда не логируйте чувствительные данные. Логируйте только безопасные идентификаторы: logger.info('Processing payment', { userId: payload.userId, amount: payload.amount, lastFour: payload.cardNumber.slice(-4) }). CVV нельзя логировать или хранить ни при каких обстоятельствах."
+        },
         "lang": "typescript"
     },
     {
@@ -1120,7 +1135,10 @@
         },
         "code": "{\n  \"lint-staged\": {\n    \"*.{ts,tsx}\": [\n      \"eslint\",\n      \"tsc --noEmit\",\n      \"git add\"\n    ]\n  }\n}",
         "correct": "Passing the staged file paths to tsc makes it ignore tsconfig.json, so the hook type-checks those files with default compiler options and outside the project graph — the result is a false green, not a slow full-project check",
-        "referenceAnswer": "lint-staged appends the staged file paths to every command. ESLint and Prettier are built for that; tsc is not — the TypeScript handbook states that when input files are specified on the command line, tsconfig.json files are ignored, so strict, paths, lib and the rest of compilerOptions are dropped and the files are checked outside the project graph. Fix: hand lint-staged a function so no paths are appended — '*.{ts,tsx}': () => 'tsc --noEmit' — or use tsc-files, which synthesises a temporary tsconfig that extends yours. Also, 'git add' has been unnecessary since lint-staged v10: it re-stages modified files itself.",
+        "referenceAnswer": {
+            "en": "lint-staged appends the staged file paths to every command. ESLint and Prettier are built for that; tsc is not — the TypeScript handbook states that when input files are specified on the command line, tsconfig.json files are ignored, so strict, paths, lib and the rest of compilerOptions are dropped and the files are checked outside the project graph. Fix: hand lint-staged a function so no paths are appended — '*.{ts,tsx}': () => 'tsc --noEmit' — or use tsc-files, which synthesises a temporary tsconfig that extends yours. Also, 'git add' has been unnecessary since lint-staged v10: it re-stages modified files itself.",
+            "ru": "lint-staged дописывает пути застейдженных файлов к каждой команде. ESLint и Prettier на это рассчитаны, а tsc — нет: в документации TypeScript сказано, что при указании входных файлов в командной строке файлы tsconfig.json игнорируются, поэтому strict, paths, lib и остальные compilerOptions отбрасываются, а файлы проверяются вне графа проекта. Исправление: передайте в lint-staged функцию, чтобы пути не дописывались — '*.{ts,tsx}': () => 'tsc --noEmit' — или используйте tsc-files, который создаёт временный tsconfig, наследующий ваш. Кроме того, 'git add' не нужен начиная с lint-staged v10: он сам заново добавляет изменённые файлы в индекс."
+        },
         "lang": "json"
     },
     {
@@ -1140,7 +1158,10 @@
         "code": "// Before: function fn(d: Date, n: number): Date { const r = new Date(d); ... }\nfunction addDaysToDate(date: Date, daysToAdd: number): Date {\n  const result = new Date(date);\n  result.__BLANK__(result.__BLANK__() + daysToAdd);\n  return result;\n}",
         "blanks": ["setDate", "getDate"],
         "lang": "typescript",
-        "referenceAnswer": "getDate() reads the day of the month and setDate() writes it back, so result.setDate(result.getDate() + daysToAdd) shifts the copy by whole days and rolls over month and year boundaries. The renames carry the intent: fn -> addDaysToDate, d -> date, n -> daysToAdd, r -> result."
+        "referenceAnswer": {
+            "en": "getDate() reads the day of the month and setDate() writes it back, so result.setDate(result.getDate() + daysToAdd) shifts the copy by whole days and rolls over month and year boundaries. The renames carry the intent: fn -> addDaysToDate, d -> date, n -> daysToAdd, r -> result.",
+            "ru": "getDate() читает день месяца, а setDate() записывает его обратно, поэтому result.setDate(result.getDate() + daysToAdd) сдвигает копию на целые дни и переходит через границы месяца и года. Переименования передают намерение: fn -> addDaysToDate, d -> date, n -> daysToAdd, r -> result."
+        }
     },
     {
         "id": "bp-a11y-005",
@@ -1159,7 +1180,10 @@
         "code": "function Modal({ isOpen, title, children, onClose }: ModalProps) {\n  if (!isOpen) return null;\n  return (\n    <div\n      role=\"__BLANK__\"\n      aria-__BLANK__={true}\n      aria-labelledby=\"modal-title\"\n    >\n      <h2 id=\"__BLANK__\">{title}</h2>\n      {children}\n      <button onClick={onClose} aria-label=\"Close dialog\">\n        ✕\n      </button>\n    </div>\n  );\n}",
         "blanks": ["dialog", "modal", "modal-title"],
         "lang": "tsx",
-        "referenceAnswer": "role='dialog' announces the container as a dialog, aria-modal={true} keeps the screen reader's virtual cursor inside it, and aria-labelledby='modal-title' points at the <h2 id='modal-title'> that names the dialog. The close button already carries its own accessible name via aria-label='Close dialog'."
+        "referenceAnswer": {
+            "en": "role='dialog' announces the container as a dialog, aria-modal={true} keeps the screen reader's virtual cursor inside it, and aria-labelledby='modal-title' points at the <h2 id='modal-title'> that names the dialog. The close button already carries its own accessible name via aria-label='Close dialog'.",
+            "ru": "role='dialog' объявляет контейнер диалогом, aria-modal={true} удерживает виртуальный курсор скринридера внутри него, а aria-labelledby='modal-title' указывает на <h2 id='modal-title'>, который даёт диалогу имя. У кнопки закрытия уже есть собственное доступное имя через aria-label='Close dialog'."
+        }
     },
     {
         "id": "bp-error-004",
@@ -1178,7 +1202,10 @@
         "code": "async function apiFetch<T>(url: string): Promise<T> {\n  const response = await fetch(url);\n\n  if (!response.__BLANK__) {\n    const error = await response.text();\n    throw new Error(`HTTP ${response.__BLANK__}: ${error}`);\n  }\n\n  return response.__BLANK__();\n}",
         "blanks": ["ok", "status", "json"],
         "lang": "typescript",
-        "referenceAnswer": "response.ok checks for 2xx status; response.status provides the HTTP status code; response.json() parses the success body."
+        "referenceAnswer": {
+            "en": "response.ok checks for 2xx status; response.status provides the HTTP status code; response.json() parses the success body.",
+            "ru": "response.ok проверяет, что статус попадает в диапазон 2xx; response.status даёт HTTP-код статуса; response.json() разбирает тело успешного ответа."
+        }
     },
     {
         "id": "bp-i18n-003",
@@ -1197,7 +1224,10 @@
         "code": "import { useTranslation } from 'react-i18next';\n\nfunction Greeting({ username }: { username: string }) {\n  const { __BLANK__ } = useTranslation('__BLANK__');\n  return <h1>{__BLANK__('greeting.welcome', { name: username })}</h1>;\n}\n\n// en/common.json:\n// { \"greeting\": { \"welcome\": \"Welcome, {{__BLANK__}}!\" } }",
         "blanks": ["t", "common", "t", "name"],
         "lang": "typescript",
-        "referenceAnswer": "useTranslation('common') loads the common namespace; t('greeting.welcome', { name }) passes the interpolation value; {{name}} is the i18next placeholder."
+        "referenceAnswer": {
+            "en": "useTranslation('common') loads the common namespace; t('greeting.welcome', { name }) passes the interpolation value; {{name}} is the i18next placeholder.",
+            "ru": "useTranslation('common') загружает неймспейс common; t('greeting.welcome', { name }) передаёт значение для интерполяции; {{name}} — это плейсхолдер i18next."
+        }
     },
     {
         "id": "bp-pure-002",
@@ -1216,7 +1246,10 @@
         "code": "// Impure version:\nconst stats = { count: 0, total: 0 };\nfunction recordSale(amount: number) {\n  stats.count++;\n  stats.total += amount;\n}\n\n// Pure version:\ninterface Stats { count: number; total: number; }\nfunction recordSale(current: __BLANK__, amount: number): __BLANK__ {\n  return {\n    count: current.__BLANK__ + 1,\n    total: current.__BLANK__ + amount,\n  };\n}",
         "blanks": ["Stats", "Stats", "count", "total"],
         "lang": "typescript",
-        "referenceAnswer": "Parameters: current: Stats, amount: number; returns Stats; spreads or reconstructs with count+1 and total+amount."
+        "referenceAnswer": {
+            "en": "Parameters: current: Stats, amount: number; returns Stats; spreads or reconstructs with count+1 and total+amount.",
+            "ru": "Параметры: current: Stats, amount: number; возвращает Stats; использует спред или пересобирает объект с count+1 и total+amount."
+        }
     },
     {
         "id": "bp-cicd-002",
@@ -1235,7 +1268,10 @@
         "code": "name: CI\non:\n  push:\n    branches: ['main']\n  pull_request:\n    branches: ['main']\n\njobs:\n  quality:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n          cache: 'npm'\n      - run: npm __BLANK__ # frozen install straight from package-lock.json\n      - run: npm run __BLANK__ # static analysis first, so style failures come back in seconds\n      - run: npm run __BLANK__ # then the unit suite",
         "blanks": ["ci", "lint", "test"],
         "lang": "yaml",
-        "referenceAnswer": "npm ci performs the frozen install (it requires package-lock.json and exits with an error when the lockfile and package.json disagree, instead of rewriting the lockfile the way npm install would), then npm run lint, then npm run test."
+        "referenceAnswer": {
+            "en": "npm ci performs the frozen install (it requires package-lock.json and exits with an error when the lockfile and package.json disagree, instead of rewriting the lockfile the way npm install would), then npm run lint, then npm run test.",
+            "ru": "npm ci выполняет установку по замороженному лок-файлу (ему нужен package-lock.json, и он завершается с ошибкой, когда лок-файл и package.json расходятся, вместо того чтобы переписать лок-файл, как сделал бы npm install), затем npm run lint, затем npm run test."
+        }
     },
     {
         "id": "bp-concerns-002",
@@ -1642,7 +1678,10 @@
         "code": "// src/observability/init.ts\nexport function initErrorReporting(report: (payload: unknown) => void) {\n  window.addEventListener('error', (event) => {\n    report({ message: event.message, stack: event.error?.stack });\n  });\n}\n\n// Dashboard fires loadDashboard() on mount; it rejects when /api/dashboard is unreachable.",
         "lang": "typescript",
         "correct": "Only the `error` event is listened for, and it never fires for a rejected promise — the unawaited loadDashboard() failure becomes an unhandled rejection that nothing reports.",
-        "referenceAnswer": "The global `error` event covers synchronous throws and (in the capture phase) resource load failures. Promise rejections are delivered to a separate event, `unhandledrejection`, so a fire-and-forget async call that rejects is invisible to this setup. Register both:\n\n```ts\nexport function initErrorReporting(report: (payload: unknown) => void) {\n  window.addEventListener('error', (event) => {\n    report({ message: event.message, stack: event.error?.stack });\n  });\n  window.addEventListener('unhandledrejection', (event) => {\n    report({ reason: event.reason, stack: (event.reason as Error)?.stack });\n  });\n}\n```\n\nThe global listener is the backstop for what slips through; it is not a substitute for handling the rejection where the page can react to it.",
+        "referenceAnswer": {
+            "en": "The global `error` event covers synchronous throws and (in the capture phase) resource load failures. Promise rejections are delivered to a separate event, `unhandledrejection`, so a fire-and-forget async call that rejects is invisible to this setup. Register both:\n\n```ts\nexport function initErrorReporting(report: (payload: unknown) => void) {\n  window.addEventListener('error', (event) => {\n    report({ message: event.message, stack: event.error?.stack });\n  });\n  window.addEventListener('unhandledrejection', (event) => {\n    report({ reason: event.reason, stack: (event.reason as Error)?.stack });\n  });\n}\n```\n\nThe global listener is the backstop for what slips through; it is not a substitute for handling the rejection where the page can react to it.",
+            "ru": "Глобальное событие `error` покрывает синхронные throw и (в фазе перехвата) ошибки загрузки ресурсов. Отклонения промисов доставляются отдельным событием, `unhandledrejection`, поэтому асинхронный вызов в режиме fire-and-forget, который отклонился, для такой настройки невидим. Регистрируйте оба:\n\n```ts\nexport function initErrorReporting(report: (payload: unknown) => void) {\n  window.addEventListener('error', (event) => {\n    report({ message: event.message, stack: event.error?.stack });\n  });\n  window.addEventListener('unhandledrejection', (event) => {\n    report({ reason: event.reason, stack: (event.reason as Error)?.stack });\n  });\n}\n```\n\nГлобальный слушатель — это подстраховка для того, что проскочило мимо; он не заменяет обработку отклонения там, где страница может на него отреагировать."
+        },
         "explanation": {
             "en": "`window.onerror` and the global `error` event do not fire for rejected promises — the platform routes those to `unhandledrejection`, whose `event.reason` carries the rejection value. A capture setup that registers only one of the two silently loses every async failure, which is most of them in a data-driven UI. Calling `event.preventDefault()` in the rejection handler also suppresses the default console noise once you have reported it yourself. Reporting is only half the fix: a `.catch()` at the call site is what lets the page render a degraded state instead of a blank one.",
             "ru": "`window.onerror` и глобальное событие `error` не срабатывают на отклонённых промисах — платформа отправляет их в `unhandledrejection`, где значение отказа лежит в `event.reason`. Настройка перехвата, где зарегистрировано только одно из двух событий, молча теряет все асинхронные сбои, а в data-driven интерфейсе это большинство сбоев. Вызов `event.preventDefault()` в обработчике отказа заодно гасит дефолтный шум в консоли после того, как вы сами отрепортили ошибку. Репортинг — только половина решения: пустую страницу вместо деградированной спасает `.catch()` на месте вызова."
@@ -1733,7 +1772,10 @@
         "code": "<button id=\"open\">Edit profile</button>\n\n<dialog id=\"editor\" aria-labelledby=\"editor-title\">\n  <h2 id=\"editor-title\">Edit profile</h2>\n  <form method=\"__BLANK__\">\n    <label>Display name <input name=\"displayName\" /></label>\n    <button value=\"save\">Save</button>\n    <button value=\"cancel\">Cancel</button>\n  </form>\n</dialog>\n\n<script>\n  const editor = document.getElementById('editor');\n  document.getElementById('open').addEventListener('click', () => {\n    editor.__BLANK__();\n  });\n</script>",
         "blanks": ["dialog", "showModal"],
         "lang": "html",
-        "referenceAnswer": "`<form method=\"dialog\">` closes the surrounding dialog on submit, with no navigation and no request, and stores the pressed button's `value` in `dialog.returnValue` — so Save and Cancel take the same declarative exit and the `close` handler reads `editor.returnValue` to tell them apart. `editor.showModal()` — not `show()` — is what puts the dialog in the top layer, paints the `::backdrop`, makes the rest of the document inert, wires Esc to close it, moves focus to the first focusable element inside and returns focus to the button that opened it. `show()` gives you a non-modal dialog with none of that.",
+        "referenceAnswer": {
+            "en": "`<form method=\"dialog\">` closes the surrounding dialog on submit, with no navigation and no request, and stores the pressed button's `value` in `dialog.returnValue` — so Save and Cancel take the same declarative exit and the `close` handler reads `editor.returnValue` to tell them apart. `editor.showModal()` — not `show()` — is what puts the dialog in the top layer, paints the `::backdrop`, makes the rest of the document inert, wires Esc to close it, moves focus to the first focusable element inside and returns focus to the button that opened it. `show()` gives you a non-modal dialog with none of that.",
+            "ru": "`<form method=\"dialog\">` закрывает окружающий диалог при отправке — без навигации и без запроса — и сохраняет `value` нажатой кнопки в `dialog.returnValue`, так что Save и Cancel используют один и тот же декларативный выход, а обработчик `close` читает `editor.returnValue`, чтобы их различить. Именно `editor.showModal()`, а не `show()`, помещает диалог в top layer, рисует `::backdrop`, делает остальной документ inert, вешает закрытие по Esc, переводит фокус на первый фокусируемый элемент внутри и возвращает фокус на кнопку, которая его открыла. `show()` даёт немодальный диалог без всего этого."
+        },
         "explanation": {
             "en": "`showModal()` is the whole reason to drop a hand-rolled modal: the browser owns the top layer, the `::backdrop`, the inertness of everything outside, the Esc shortcut, the initial focus and the return of focus to the invoking element. What still belongs to you is the accessible name (`aria-labelledby` here), a visible close control — Esc alone does not serve pointer or touch users — and an explicit `autofocus` only when the default landing spot is wrong, since focus otherwise goes to the first focusable element inside the dialog. `method=\"dialog\"` is the declarative close: the form submits nowhere and sets `returnValue` from the pressed button, which is why both Save and Cancel can live in it.",
             "ru": "`showModal()` — главная причина отказаться от самописной модалки: браузер сам отвечает за top layer, `::backdrop`, инертность всего снаружи, закрытие по Esc, начальный фокус и возврат фокуса на элемент, который открыл диалог. На вас остаются доступное имя (здесь это `aria-labelledby`), видимая кнопка закрытия — одного Esc недостаточно для пользователей мыши и тача — и явный `autofocus` только там, где точка входа по умолчанию неудачна: иначе фокус уходит на первый фокусируемый элемент внутри диалога. `method=\"dialog\"` — декларативное закрытие: форма никуда не отправляется и записывает `returnValue` из нажатой кнопки, поэтому в ней спокойно живут и Save, и Cancel."
