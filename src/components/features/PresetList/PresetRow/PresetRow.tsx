@@ -50,9 +50,9 @@ export const PresetRow: FC<PresetRowProps> = ({ preset }) => {
                     type="button"
                     aria-label={preset.name}
                     onClick={handleLaunch}
-                    className="flex-1 text-left px-4 py-3"
+                    className="min-h-11 flex-1 text-left px-4 py-3"
                 >
-                    <div className="text-sm font-medium text-foreground">{preset.name}</div>
+                    <div className="text-base font-medium text-foreground">{preset.name}</div>
                     {relativeDate && (
                         <div className="text-xs text-muted-foreground mt-0.5">{relativeDate}</div>
                     )}
@@ -61,7 +61,7 @@ export const PresetRow: FC<PresetRowProps> = ({ preset }) => {
                     type="button"
                     aria-label={`${t('presets.deleteDialog.confirm')} ${preset.name}`}
                     onClick={handleDeleteRequest}
-                    className="px-3 py-3 text-muted-foreground hover:text-destructive transition-colors"
+                    className="min-h-11 min-w-11 px-3 py-3 text-muted-foreground hover:text-destructive transition-colors"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"

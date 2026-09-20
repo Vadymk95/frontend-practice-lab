@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { ErrorState } from '@/components/common/ErrorState';
 import { FlashBanner } from '@/components/common/FlashBanner';
@@ -12,6 +13,7 @@ import type { SessionConfig } from '@/lib/storage/types';
 import { usePresetStore } from '@/store/presets';
 
 export const HomePage: FC = () => {
+    const { t } = useTranslation('home');
     const presets = usePresetStore.use.presets();
     const { isError: isCategoriesError, refetch: refetchCategories } = useCategories();
     const [modifyConfig, setModifyConfig] = useState<SessionConfig | undefined>(undefined);
@@ -48,6 +50,12 @@ export const HomePage: FC = () => {
     return (
         <div className="container mx-auto max-w-2xl px-4 py-6 flex flex-col gap-6">
             <FlashBanner />
+            {/* The first screen used to open on a bare category grid: a newcomer read six
+                control names and never learned what the app does. */}
+            <div className="flex flex-col gap-1">
+                <h1 className="text-xl font-semibold text-foreground">InterviewOS</h1>
+                <p className="text-base text-muted-foreground">{t('intro.tagline')}</p>
+            </div>
             {/* Without the manifest there is nothing to configure — say so and offer a
                 retry instead of rendering an empty category grid with a "pick one" hint. */}
             {isCategoriesError ? (

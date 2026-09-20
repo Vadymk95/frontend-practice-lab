@@ -1,4 +1,5 @@
 import { useCallback, useDeferredValue, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import type { ManifestEntry } from '@/hooks/data/useCategories';
@@ -14,9 +15,13 @@ type Difficulty = SessionConfig['difficulty'];
 type Mode = SessionConfig['mode'];
 type Order = SessionConfig['order'];
 
+/** Translator shape `generatePresetName` needs — the home namespace's `t`. */
+type PresetTranslator = (key: string, options?: { count: number }) => string;
+
 export function generatePresetName(
     config: SessionConfig,
     categories: ManifestEntry[],
+    t: PresetTranslator,
     resolveName: (slug: string, fallback?: string) => string = (_slug, fallback) =>
         fallback ?? _slug
 ): string {
@@ -24,7 +29,9 @@ export function generatePresetName(
         .filter((c) => config.categories.includes(c.slug))
         .map((c) => resolveName(c.slug, c.displayName));
     const catPart = catLabels.slice(0, 2).join('+') + (catLabels.length > 2 ? '+…' : '');
-    return `${catPart} · ${config.difficulty} · ${config.questionCount}q`;
+    const difficulty = t(`configurator.difficulty.${config.difficulty}`);
+    const count = t('preset.questionCount', { count: config.questionCount });
+    return `${catPart} · ${difficulty} · ${count}`;
 }
 
 const MODE_KEY = {
@@ -68,6 +75,7 @@ export function computeAvailableCount(
 
 export function useSessionConfigurator(initialConfig?: SessionConfig) {
     const { data: categories = [], isLoading } = useCategories();
+    const { t } = useTranslation('home');
     const navigate = useNavigate();
     const setConfig = useSessionStore.use.setConfig();
     const savePreset = usePresetStore.use.savePreset();
@@ -81,6 +89,7 @@ export function useSessionConfigurator(initialConfig?: SessionConfig) {
     const [mode, setMode] = useState<Mode>(initialConfig?.mode ?? 'all');
     const [questionCount, setQuestionCount] = useState<number>(initialConfig?.questionCount ?? 10);
     const [order, setOrder] = useState<Order>(initialConfig?.order ?? 'random');
+    const [isCountEdited, setIsCountEdited] = useState(false);
     const [timerEnabled, setTimerEnabled] = useState<boolean>(initialConfig?.timerEnabled ?? false);
 
     const deferredSelectedCategories = useDeferredValue(selectedCategories);
@@ -114,14 +123,14 @@ export function useSessionConfigurator(initialConfig?: SessionConfig) {
         [categories, selectedCategories, difficulty, mode]
     );
 
-    // Always sync questionCount to maxCount when selection/filters change.
-    // User can manually lower the count after — but the default is always "all available".
+    // Until the user types a count, the offered session is the whole available pool.
+    // Once they have typed one it is their choice: a selection or filter change may only
+    // clamp it down to what still exists, never overwrite it with the new maximum.
     useEffect(() => {
-        if (maxCount > 0) {
-            // eslint-disable-next-line react-hooks/set-state-in-effect
-            setQuestionCount(maxCount);
-        }
-    }, [maxCount]);
+        if (maxCount <= 0) return;
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setQuestionCount((prev) => (isCountEdited ? Math.min(prev, maxCount) : maxCount));
+    }, [maxCount, isCountEdited]);
 
     // P-3: use live maxCount (not deferred availableCount) so button state is always current
     const isStartEnabled = selectedCategories.length > 0 && maxCount > 0;
@@ -150,6 +159,7 @@ export function useSessionConfigurator(initialConfig?: SessionConfig) {
         (value: number) => {
             // P-4: guard against NaN (e.g. Number("-") or Number(""))
             if (isNaN(value)) return;
+            setIsCountEdited(true);
             setQuestionCount(Math.max(1, Math.min(value, maxCount)));
         },
         [maxCount]
@@ -199,7 +209,7 @@ export function useSessionConfigurator(initialConfig?: SessionConfig) {
             order,
             timerEnabled
         };
-        const name = generatePresetName(config, categories, getCategoryName);
+        const name = generatePresetName(config, categories, t, getCategoryName);
         savePreset(config, name);
     }, [
         isStartEnabled,
@@ -212,7 +222,8 @@ export function useSessionConfigurator(initialConfig?: SessionConfig) {
         timerEnabled,
         categories,
         savePreset,
-        getCategoryName
+        getCategoryName,
+        t
     ]);
 
     return {

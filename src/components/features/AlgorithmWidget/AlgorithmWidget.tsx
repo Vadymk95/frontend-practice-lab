@@ -18,27 +18,28 @@ export const AlgorithmWidget: FC<AlgorithmWidgetProps> = ({ onCategorySelect }) 
 
     return (
         <div className="rounded-lg border border-border bg-muted/30 p-4">
-            <p className="text-xs text-muted-foreground mb-3">{t('algorithmWidget.title')}</p>
+            <p className="text-base text-muted-foreground mb-3">{t('algorithmWidget.title')}</p>
             <div className="flex flex-wrap gap-2">
                 {topWeakCategories.map((cat) => {
                     const name = getCategoryName(cat.slug, cat.displayName);
+                    const percent = Math.round(cat.errorRate * 100);
                     return (
                         <button
                             key={cat.slug}
                             type="button"
                             onClick={() => onCategorySelect(cat.slug)}
-                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border bg-background text-sm hover:bg-muted transition-colors max-w-full"
-                            aria-label={`${name} ${Math.round(cat.errorRate * 100)}%`}
+                            className="flex min-h-11 items-center gap-1.5 px-3 py-1.5 rounded-full border border-border bg-background text-base hover:bg-muted transition-colors max-w-full"
+                            aria-label={`${name}. ${t('errorRate.ariaLabel', { percent })}`}
                         >
                             <span className="min-w-0 wrap-break-words leading-tight">{name}</span>
-                            <span className="text-[11px] text-destructive font-medium shrink-0">
-                                {Math.round(cat.errorRate * 100)}%
+                            <span className="text-xs text-destructive font-medium shrink-0">
+                                {t('errorRate.badge', { percent })}
                             </span>
                         </button>
                     );
                 })}
             </div>
-            <p className="text-xs text-muted-foreground mt-2">{t('algorithmWidget.tapToSelect')}</p>
+            <p className="text-sm text-muted-foreground mt-2">{t('algorithmWidget.selectHint')}</p>
         </div>
     );
 };
