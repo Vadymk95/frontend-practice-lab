@@ -99,6 +99,9 @@ export const SessionPlayPage: FC = () => {
 
     return (
         <div className="flex flex-col gap-4 pb-24 lg:pb-0">
+            {/* The question heading is an h2, so the page needs its own top-level heading for
+                assistive tech; it is not shown because the progress line already says where we are. */}
+            <h1 className="sr-only">{tSession('pageTitle')}</h1>
             <div className="flex items-center justify-between gap-3">
                 <Button
                     ref={endTriggerRef}

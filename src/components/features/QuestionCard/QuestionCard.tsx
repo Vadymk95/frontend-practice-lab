@@ -69,13 +69,24 @@ export const QuestionCard: FC<QuestionCardProps> = ({
                     })}
                 </div>
                 <div className="flex items-center gap-2">
+                    {/* A phone tap target is 44px; the pointer-driven layout keeps the compact height. */}
                     {!isAnswered && (
-                        <Button variant="ghost" size="sm" onClick={handleSkip}>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className="min-h-11 lg:min-h-9"
+                            onClick={handleSkip}
+                        >
                             {t('skip')}
                         </Button>
                     )}
                     {isAnswered && !isSkipped && (
-                        <Button variant="ghost" size="sm" onClick={onBack}>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className="min-h-11 lg:min-h-9"
+                            onClick={onBack}
+                        >
                             {t('back')}
                         </Button>
                     )}
