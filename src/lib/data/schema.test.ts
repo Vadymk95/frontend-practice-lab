@@ -10,7 +10,7 @@ const baseCC = {
     tags: ['blanks'],
     question: { en: 'Fill the blank', ru: 'Заполните пропуск' },
     explanation: { en: 'because.', ru: 'потому что.' },
-    referenceAnswer: 'const x = 1'
+    referenceAnswer: { en: 'const x = 1', ru: 'const x = 1' }
 };
 
 describe('CodeCompletionSchema __BLANK__ refinement', () => {
@@ -69,8 +69,8 @@ describe('referenceAnswer shape', () => {
         expect(withReference({ en: 'Assign one.', ru: 'Присвойте единицу.' }).success).toBe(true);
     });
 
-    it('still accepts the legacy plain string', () => {
-        expect(withReference('Assign one.').success).toBe(true);
+    it('rejects a bare string now that the whole bank is localized', () => {
+        expect(withReference('Assign one.').success).toBe(false);
     });
 
     it('rejects a half-localized reference answer', () => {

@@ -7,10 +7,10 @@ const LocalizedStringSchema = z.object({
 
 export type LocalizedString = z.infer<typeof LocalizedStringSchema>;
 
-// `referenceAnswer` is prose about the fix, not source code, so it needs translating like any
-// other body text. The localized `{ en, ru }` shape is the canonical one; a bare string is the
-// legacy form still present in the bank and renders as the same English text in both languages.
-const ReferenceAnswerSchema = z.union([LocalizedStringSchema, z.string()]);
+// `referenceAnswer` is prose about the fix, not source code, so it is translated like any other
+// body text: `{ en, ru }` only. The bank was migrated in full on 2026-09-20; a bare string is a
+// data error, not a legacy form.
+const ReferenceAnswerSchema = LocalizedStringSchema;
 
 export type ReferenceAnswer = z.infer<typeof ReferenceAnswerSchema>;
 

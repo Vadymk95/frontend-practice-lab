@@ -30,7 +30,10 @@ const makeBugFindingQuestion = (
         { en: 'Arrow function is wrong', ru: 'Arrow function is wrong' }
     ],
     correct: 0,
-    referenceAnswer: 'for (let i = 0; i < 3; i++) { setTimeout(() => console.log(i), 100); }',
+    referenceAnswer: {
+        en: 'for (let i = 0; i < 3; i++) { setTimeout(() => console.log(i), 100); }',
+        ru: 'for (let i = 0; i < 3; i++) { setTimeout(() => console.log(i), 100); }'
+    },
     explanation: {
         en: 'var is function-scoped; use let for block-scoped binding.',
         ru: 'var is function-scoped; use let for block-scoped binding.'
@@ -372,7 +375,10 @@ describe('BugFindingQuestion — reference answer and snippet language', () => {
         const { container } = renderWithProviders(
             <BugFindingQuestionComponent
                 question={textOnlyQuestion({
-                    referenceAnswer: 'Add the directive:\n```ts\nexport async function a() {}\n```'
+                    referenceAnswer: {
+                        en: 'Add the directive:\n```ts\nexport async function a() {}\n```',
+                        ru: 'Add the directive:\n```ts\nexport async function a() {}\n```'
+                    }
                 })}
                 onSubmitRegister={(fn) => {
                     submitFn = fn;
@@ -397,7 +403,12 @@ describe('BugFindingQuestion — reference answer and snippet language', () => {
         let submitFn: (() => void) | null = null;
         const { container } = renderWithProviders(
             <BugFindingQuestionComponent
-                question={textOnlyQuestion({ referenceAnswer: 'Use `useCallback` instead.' })}
+                question={textOnlyQuestion({
+                    referenceAnswer: {
+                        en: 'Use `useCallback` instead.',
+                        ru: 'Use `useCallback` instead.'
+                    }
+                })}
                 onSubmitRegister={(fn) => {
                     submitFn = fn;
                 }}

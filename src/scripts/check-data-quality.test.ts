@@ -41,7 +41,7 @@ function completion(id: string, blanks: string[], lang?: string): Question {
         code: blanks.map(() => '__BLANK__').join(' '),
         blanks,
         lang,
-        referenceAnswer: 'ref'
+        referenceAnswer: { en: 'ref', ru: 'ref' }
     } as Question;
 }
 
@@ -200,13 +200,12 @@ describe('localized reference answers', () => {
         expect(kinds(auditBank(bank([q])))).toContain('empty-text');
     });
 
-    it('passes a translated reference answer and the legacy string form', () => {
+    it('passes a translated reference answer', () => {
         const translated = completion('cc-translated', ['x'], 'javascript');
         (translated as { referenceAnswer: unknown }).referenceAnswer = {
             en: 'Move the catch to the end.',
             ru: 'Перенесите catch в конец цепочки.'
         };
-        const legacy = completion('cc-legacy', ['x'], 'javascript');
-        expect(kinds(auditBank(bank([translated, legacy])))).toEqual([]);
+        expect(kinds(auditBank(bank([translated])))).toEqual([]);
     });
 });

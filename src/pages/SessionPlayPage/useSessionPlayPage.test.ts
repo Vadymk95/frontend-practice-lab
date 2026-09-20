@@ -45,7 +45,7 @@ const bugFindingQuestion = {
     explanation: { en: 'e', ru: 'e' },
     code: 'foo()',
     correct: 'bug',
-    referenceAnswer: 'fix'
+    referenceAnswer: { en: 'fix', ru: 'fix' }
 } as unknown as Question;
 
 /** The data router renders the subject through this host, so rerenders reach it as context. */

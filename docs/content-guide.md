@@ -51,7 +51,7 @@ If you add a question manually, both `en` and `ru` must be non-empty. The valida
 }
 ```
 
-A bare string is still accepted while the existing bank is migrated; it renders as the same English text in both languages. **New questions use the object form** — the data gate runs its untranslated-RU heuristic on `referenceAnswer.ru` exactly as it does on `explanation.ru`. Code belongs inside a ` ``` ` fence in the prose, not in place of it: the card renders the prose as wrapping text and each fence as a highlighted code block.
+A bare string is a schema error (the whole bank was migrated in September 2026). The data gate runs its untranslated-RU heuristic on `referenceAnswer.ru` exactly as it does on `explanation.ru`; code spans and fenced blocks must be identical in both languages — identifiers, API names and error codes are never translated. Code belongs inside a ` ``` ` fence in the prose, not in place of it: the card renders the prose as wrapping text and each fence as a highlighted code block.
 
 ---
 

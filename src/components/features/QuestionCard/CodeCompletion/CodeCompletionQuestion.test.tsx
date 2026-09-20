@@ -25,7 +25,10 @@ const makeCodeCompletionQuestion = (
     question: { en: 'Complete the function:', ru: 'Complete the function:' },
     code: 'function add(a, b) {\n  return __BLANK__ + __BLANK__;\n}',
     blanks: ['a', 'b'],
-    referenceAnswer: 'function add(a, b) {\n  return a + b;\n}',
+    referenceAnswer: {
+        en: 'function add(a, b) {\n  return a + b;\n}',
+        ru: 'function add(a, b) {\n  return a + b;\n}'
+    },
     explanation: { en: 'Add the two parameters.', ru: 'Add the two parameters.' },
     ...overrides
 });
@@ -514,7 +517,10 @@ describe('CodeCompletionQuestion — reference answer', () => {
     it('renders a prose reference answer as wrapping text, not as a code block', async () => {
         const { container } = await submitAnswered(
             makeCodeCompletionQuestion({
-                referenceAnswer: 'Use `useCallback` so the handler identity stays stable.'
+                referenceAnswer: {
+                    en: 'Use `useCallback` so the handler identity stays stable.',
+                    ru: 'Use `useCallback` so the handler identity stays stable.'
+                }
             })
         );
 
@@ -530,7 +536,10 @@ describe('CodeCompletionQuestion — reference answer', () => {
     it('renders only the fenced part of a reference answer as code', async () => {
         const { container } = await submitAnswered(
             makeCodeCompletionQuestion({
-                referenceAnswer: 'Return the sum:\n```js\nreturn a + b;\n```'
+                referenceAnswer: {
+                    en: 'Return the sum:\n```js\nreturn a + b;\n```',
+                    ru: 'Return the sum:\n```js\nreturn a + b;\n```'
+                }
             })
         );
 
