@@ -1,5 +1,7 @@
+import type { RefObject } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import type { BlockerFunction } from 'react-router-dom';
+import { useBlocker, useNavigate } from 'react-router-dom';
 
 import type { FlashState } from '@/components/common/FlashBanner';
 import { useSessionSetup } from '@/hooks/session/useSessionSetup';
@@ -15,6 +17,10 @@ export interface SessionPlayPageState {
     questionCount: number;
     currentQuestion: Question | null;
     isAnswered: boolean;
+    /** Attach to the desktop advance control so revealing an answer can bring it into view. */
+    actionBarRef: RefObject<HTMLDivElement | null>;
+    /** The advance control leads to the results, not to another question. */
+    isLastQuestion: boolean;
     timerEnabled: boolean;
     timerMs: number;
 
@@ -27,6 +33,12 @@ export interface SessionPlayPageState {
     bugFindingCanSubmit: boolean;
 
     isEndDialogOpen: boolean;
+    /** Attach to the control that opens the end dialog so focus can come back to it. */
+    endTriggerRef: RefObject<HTMLButtonElement | null>;
+    /** Hand to the dialog's close-autofocus hook: focus belongs back on the trigger. */
+    restoreEndTriggerFocus: (event: Event) => void;
+    /** True once something is answered: ending now produces a scored summary, not a discard. */
+    willScoreOnEnd: boolean;
     openEndDialog: () => void;
     closeEndDialog: () => void;
     confirmEndSession: () => void;
@@ -53,6 +65,7 @@ export function useSessionPlayPage(): SessionPlayPageState {
     const answers = useSessionStore.use.answers();
     const nextQuestion = useSessionStore.use.nextQuestion();
     const endSession = useSessionStore.use.endSession();
+    const setQuestionList = useSessionStore.use.setQuestionList();
     const timerMs = useSessionStore.use.timerMs();
     const setTimerMs = useSessionStore.use.setTimerMs();
 
@@ -78,6 +91,20 @@ export function useSessionPlayPage(): SessionPlayPageState {
     const isLastQuestion = questionList.length > 0 && currentIndex === questionList.length - 1;
 
     const sessionCompletedRef = useRef(false);
+    const actionBarRef = useRef<HTMLDivElement>(null);
+
+    // Revealing an answer grows the page below the fold while the scroll position stays put, so
+    // on a desktop viewport both the explanation and the only way forward land off screen.
+    useEffect(() => {
+        if (!isAnswered) return;
+        const prefersReducedMotion =
+            typeof window.matchMedia === 'function' &&
+            window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        actionBarRef.current?.scrollIntoView({
+            block: 'end',
+            behavior: prefersReducedMotion ? 'auto' : 'smooth'
+        });
+    }, [isAnswered, currentQuestion?.id]);
 
     const handleNext = useCallback(() => {
         if (isLastQuestion) {
@@ -88,32 +115,71 @@ export function useSessionPlayPage(): SessionPlayPageState {
         }
     }, [isLastQuestion, navigate, nextQuestion]);
 
-    const [isEndDialogOpen, setIsEndDialogOpen] = useState(false);
+    const [isEndDialogRequested, setIsEndDialogRequested] = useState(false);
 
-    const openEndDialog = useCallback(() => setIsEndDialogOpen(true), []);
-    const closeEndDialog = useCallback(() => setIsEndDialogOpen(false), []);
+    const willScoreOnEnd = Object.keys(answers).length > 0;
+
+    // Leaving through the browser Back gesture, a header link or any other in-app navigation
+    // abandons the session just as the End button does, so it has to ask the same question.
+    // Our own exits set sessionCompletedRef first and pass straight through.
+    const shouldBlockExit = useCallback<BlockerFunction>(
+        ({ currentLocation, nextLocation }) =>
+            !sessionCompletedRef.current &&
+            currentLocation.pathname !== nextLocation.pathname &&
+            useSessionStore.getState().questionList.length > 0,
+        []
+    );
+    const blocker = useBlocker(shouldBlockExit);
+
+    // A blocked navigation IS the request to leave — no separate state to raise.
+    const isEndDialogOpen = isEndDialogRequested || blocker.state === 'blocked';
+
+    const endTriggerRef = useRef<HTMLButtonElement>(null);
+
+    // Closing the dialog otherwise drops focus on the body, so the next Tab restarts at the
+    // skip link at the top of the document instead of where the keyboard user was.
+    const restoreEndTriggerFocus = useCallback((event: Event) => {
+        event.preventDefault();
+        endTriggerRef.current?.focus();
+    }, []);
+
+    const openEndDialog = useCallback(() => setIsEndDialogRequested(true), []);
+    const closeEndDialog = useCallback(() => {
+        setIsEndDialogRequested(false);
+        // A blocked navigation stays pending until it is released; resetting it drops the
+        // attempted exit and leaves the user on the question they were on.
+        if (blocker.state === 'blocked') blocker.reset();
+    }, [blocker]);
 
     const confirmEndSession = useCallback(() => {
-        // Track abandonment here so the unmount cleanup doesn't re-emit a duplicate event
-        // after we wipe the store. Mirrors the cleanup-effect contract.
         const state = useSessionStore.getState();
-        if (state.questionList.length > 0 && Object.keys(state.answers).length > 0) {
-            track('session_abandoned', {
-                answered: Object.keys(state.answers).length,
-                total: state.questionList.length
-            });
-        }
+        const attempted = state.questionList.filter((q) => state.answers[q.id] !== undefined);
+        // The unmount cleanup below must not read this as an abandonment: either the summary
+        // scores the session (and emits its own completion event), or there was nothing to score.
         sessionCompletedRef.current = true;
-        setIsEndDialogOpen(false);
-        // endSession() wipes session data and stamps endedAt — useSessionSetup's
-        // !config redirect reads endedAt and skips, so this navigate's sessionEnded
-        // flash is preserved.
+        setIsEndDialogRequested(false);
+        // The end flow navigates on its own, so the attempted exit is dropped rather than
+        // resumed: otherwise a Back gesture would win over the summary we are about to show.
+        if (blocker.state === 'blocked') blocker.reset();
+
+        if (attempted.length > 0) {
+            // Ending mid-run keeps the questions the user actually reached. Without the trim the
+            // untouched remainder would score as wrong and would be written into the adaptive
+            // weights as questions the user got wrong rather than never saw.
+            setQuestionList(attempted);
+            navigate(RoutesPath.SessionSummary);
+            return;
+        }
+
+        // Nothing was answered, so there is no summary to show. endSession() wipes session data
+        // and stamps endedAt — useSessionSetup's !config redirect reads endedAt and skips, so
+        // this navigate's sessionEnded flash is preserved.
         endSession();
         const flash: FlashState = { flash: 'sessionEnded' };
         // replace, not push: the session behind this route no longer exists, so a
         // Back onto /session/play would land on a page with nothing to show.
         navigate(RoutesPath.Root, { replace: true, state: flash });
-    }, [navigate, endSession]);
+    }, [navigate, endSession, setQuestionList, blocker]);
 
     // Fire session_abandoned when navigating away mid-session without completing
     useEffect(() => {
@@ -254,6 +320,8 @@ export function useSessionPlayPage(): SessionPlayPageState {
         questionCount: questionList.length,
         currentQuestion,
         isAnswered,
+        actionBarRef,
+        isLastQuestion,
         timerEnabled,
         timerMs,
 
@@ -266,6 +334,9 @@ export function useSessionPlayPage(): SessionPlayPageState {
         bugFindingCanSubmit,
 
         isEndDialogOpen,
+        endTriggerRef,
+        restoreEndTriggerFocus,
+        willScoreOnEnd,
         openEndDialog,
         closeEndDialog,
         confirmEndSession,
