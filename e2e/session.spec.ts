@@ -29,11 +29,16 @@ async function waitForQuestion(page: import('@playwright/test').Page) {
     await page.locator('[role="radiogroup"]').waitFor({ timeout: 10000 });
 }
 
-/** Answer the current single-choice question and return after clicking Next */
+/** The advance control. On the last question it names the results rather than the next question. */
+function advanceButton(page: import('@playwright/test').Page) {
+    return page.getByRole('button', { name: /Далее|Next|К результатам|Show results/i });
+}
+
+/** Answer the current single-choice question and return after advancing */
 async function answerAndNext(page: import('@playwright/test').Page) {
     await waitForQuestion(page);
     await page.locator('[role="radio"]').first().click();
-    await page.getByRole('button', { name: /Далее|Next/i }).click();
+    await advanceButton(page).click();
 }
 
 test.describe('Session flow', () => {
@@ -62,14 +67,16 @@ test.describe('Session flow', () => {
         await expect(options).toHaveCount(4); // javascript questions have 4 options
     });
 
-    test('Next button appears after selecting a single-choice answer', async ({ page }) => {
+    test('advance control names the results on the last question', async ({ page }) => {
         await startMinSession(page);
         await waitForQuestion(page);
 
         await page.locator('[role="radio"]').first().click();
 
-        const nextBtn = page.getByRole('button', { name: /Далее|Next/i });
-        await expect(nextBtn).toBeVisible({ timeout: 3000 });
+        await expect(page.getByRole('button', { name: /К результатам|Show results/i })).toBeVisible(
+            { timeout: 3000 }
+        );
+        await expect(page.getByRole('button', { name: /^Далее$|^Next$/i })).toHaveCount(0);
     });
 
     test('Back button appears after answering a question', async ({ page }) => {
@@ -109,6 +116,97 @@ test.describe('Session flow', () => {
         await page.getByRole('button', { name: /Домой|Home/i }).click();
         await page.waitForURL('http://localhost:3000/');
         expect(page.url()).toBe('http://localhost:3000/');
+    });
+});
+
+test.describe('Leaving a live session', () => {
+    test('ending an answered session lands on the results', async ({ page }) => {
+        await startMinSession(page);
+        await waitForQuestion(page);
+        await page.locator('[role="radio"]').first().click();
+
+        await page.getByRole('button', { name: /Завершить|End session/i }).click();
+        await page
+            .getByRole('dialog')
+            .getByRole('button', { name: /Завершить|End session/i })
+            .click();
+
+        await page.waitForURL('**/session/summary', { timeout: 5000 });
+        await expect(page.locator('text=/\\d+ \\/ \\d+/')).toBeVisible();
+    });
+
+    test('browser Back asks before abandoning a live session', async ({ page }) => {
+        await startMinSession(page);
+        await waitForQuestion(page);
+        await page.locator('[role="radio"]').first().click();
+
+        await page.goBack();
+
+        await expect(page.getByRole('dialog')).toBeVisible({ timeout: 3000 });
+        expect(page.url()).toContain('/session/play');
+    });
+
+    test('dismissing that confirmation keeps the user on the question', async ({ page }) => {
+        await startMinSession(page);
+        await waitForQuestion(page);
+        await page.locator('[role="radio"]').first().click();
+
+        await page.goBack();
+        await page
+            .getByRole('dialog')
+            .getByRole('button', { name: /Продолжить|Continue session/i })
+            .click();
+
+        await expect(page.getByRole('dialog')).toHaveCount(0);
+        expect(page.url()).toContain('/session/play');
+    });
+});
+
+test.describe('Phone tap targets', () => {
+    test.use({ viewport: { width: 390, height: 844 } });
+
+    /** Laid-out height of a control, in CSS px. offsetHeight ignores the dialog's
+     *  open animation, which scales its content and made a settled 44px measure as 41.8. */
+    function tapHeight(control: import('@playwright/test').Locator) {
+        return control.evaluate((el: HTMLElement) => el.offsetHeight);
+    }
+
+    function button(page: import('@playwright/test').Page, name: RegExp) {
+        return page.getByRole('button', { name });
+    }
+
+    test('session controls clear the 44px minimum', async ({ page }) => {
+        await startMinSession(page);
+        await waitForQuestion(page);
+
+        expect(await tapHeight(button(page, /Завершить|End session/i))).toBeGreaterThanOrEqual(44);
+
+        await page.locator('[role="radio"]').first().click();
+        expect(await tapHeight(button(page, /К результатам|Show results/i))).toBeGreaterThanOrEqual(
+            44
+        );
+    });
+
+    test('end-session dialog buttons clear the 44px minimum', async ({ page }) => {
+        await startMinSession(page);
+        await waitForQuestion(page);
+        await page.getByRole('button', { name: /Завершить|End session/i }).click();
+
+        const dialog = page.getByRole('dialog');
+        await expect(dialog).toBeVisible();
+        const confirm = dialog.getByRole('button', { name: /Завершить|End session/i });
+        const cancel = dialog.getByRole('button', { name: /Продолжить|Continue session/i });
+
+        expect(await tapHeight(confirm)).toBeGreaterThanOrEqual(44);
+        expect(await tapHeight(cancel)).toBeGreaterThanOrEqual(44);
+    });
+
+    test('summary actions clear the 44px minimum', async ({ page }) => {
+        await startMinSession(page);
+        await answerAndNext(page);
+        await page.waitForURL('**/session/summary', { timeout: 5000 });
+
+        expect(await tapHeight(button(page, /Домой|Home/i))).toBeGreaterThanOrEqual(44);
     });
 });
 

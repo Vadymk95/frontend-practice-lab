@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { track } from '@/lib/analytics';
 import type { MultiChoiceQuestion } from '@/lib/data/schema';
-import { createOptionOrder } from '@/lib/utils/optionOrder';
+import { getOptionOrder } from '@/lib/utils/optionOrder';
 import { useSessionStore } from '@/store/session';
 
 export function useMultiChoiceQuestion(
@@ -14,9 +14,9 @@ export function useMultiChoiceQuestion(
 ) {
     const [_selectedIndices, setSelectedIndices] = useState<number[]>([]);
     const [_isChecked, setIsChecked] = useState(false);
-    // One draw per question — see createOptionOrder for why the bank order is not shown as-is.
+    // One draw per question id — see getOptionOrder for why a remount must not re-draw.
     const [optionOrder, setOptionOrder] = useState(() =>
-        createOptionOrder(question.options.length)
+        getOptionOrder(question.id, question.options.length)
     );
     const selectedIndices = isSkipped ? question.correct : _selectedIndices;
     const isChecked = isSkipped || _isChecked;
@@ -91,7 +91,7 @@ export function useMultiChoiceQuestion(
         onSelectionChange(false);
         if (drawnForId.current !== question.id) {
             drawnForId.current = question.id;
-            setOptionOrder(createOptionOrder(question.options.length));
+            setOptionOrder(getOptionOrder(question.id, question.options.length));
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [question.id]);

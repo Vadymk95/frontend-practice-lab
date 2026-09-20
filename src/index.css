@@ -33,7 +33,7 @@
     --color-muted: var(--color-surf);
     --color-muted-foreground: var(--color-txt-muted);
     --color-destructive: var(--color-err);
-    --color-destructive-foreground: #ffffff;
+    --color-destructive-foreground: var(--color-destructive-fg);
     --color-input: var(--color-brd);
     --color-ring: var(--color-acc-alt);
 
@@ -79,6 +79,8 @@
     --color-acc: #00ff87;
     --color-acc-alt: #3b82f6;
     --color-err: #ef4444;
+    /* White on #ef4444 is 3.76:1; black is 5.58:1, so a destructive button carries black text here. */
+    --color-destructive-fg: #000000;
     --color-warn: #f59e0b;
 }
 
@@ -93,6 +95,8 @@ html:not(.dark) {
     --color-acc: #009a52;
     --color-acc-alt: #2563eb;
     --color-err: #dc2626;
+    /* White on #dc2626 is 4.83:1, so the light theme keeps white text on a destructive button. */
+    --color-destructive-fg: #ffffff;
     --color-warn: #d97706;
 }
 
@@ -164,4 +168,37 @@ html:not(.dark) {
 }
 .scrollbar-themed::-webkit-scrollbar-corner {
     background: transparent;
+}
+
+/* Horizontal- and vertical-overflow affordance for code. macOS and iOS overlay scrollbars
+   are invisible at rest, so a clipped snippet looks complete — on a bug-finding question the
+   hidden part can be the bug. Two edge shadows are pinned to the element (`scroll`) and two
+   background-coloured covers travel with the content (`local`), so a shadow disappears exactly
+   when that edge is reached. The thin scrollbar is declared too: setting `scrollbar-color`
+   opts the element out of overlay scrollbars. */
+.code-scroll {
+    --code-scroll-bg: #ffffff;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-brd) transparent;
+    background-image:
+        linear-gradient(to right, var(--code-scroll-bg), transparent),
+        linear-gradient(to left, var(--code-scroll-bg), transparent),
+        linear-gradient(to right, rgba(0, 0, 0, 0.28), transparent),
+        linear-gradient(to left, rgba(0, 0, 0, 0.28), transparent);
+    background-position:
+        left center,
+        right center,
+        left center,
+        right center;
+    background-repeat: no-repeat;
+    background-size:
+        28px 100%,
+        28px 100%,
+        14px 100%,
+        14px 100%;
+    background-attachment: local, local, scroll, scroll;
+}
+
+:where(.dark) .code-scroll {
+    --code-scroll-bg: #0d1117;
 }

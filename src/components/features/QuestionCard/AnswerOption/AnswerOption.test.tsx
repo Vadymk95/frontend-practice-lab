@@ -1,5 +1,7 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
+
+import { renderWithProviders as render } from '@/test/test-utils';
 
 import { AnswerOption } from './AnswerOption';
 
@@ -104,7 +106,7 @@ describe('AnswerOption — checkbox variant', () => {
         expect(screen.getByText('✗')).toBeInTheDocument();
     });
 
-    it('shows no icon for isMissed option (correct but not selected)', () => {
+    it('ticks and names a correct option the reader did not pick', () => {
         render(
             <AnswerOption
                 {...defaultProps}
@@ -115,7 +117,8 @@ describe('AnswerOption — checkbox variant', () => {
                 isMissed={true}
             />
         );
-        expect(screen.queryByText('✓')).not.toBeInTheDocument();
+        expect(screen.getByText('✓')).toBeInTheDocument();
+        expect(screen.getByText('Missed correct answer')).toBeInTheDocument();
         expect(screen.queryByText('✗')).not.toBeInTheDocument();
     });
 
@@ -198,5 +201,34 @@ describe('AnswerOption — skipped reveal', () => {
             <AnswerOption {...defaultProps} isAnswered={true} isCorrect={true} isSelected={true} />
         );
         expect(screen.getByRole('radio').className).toContain('bg-accent/10');
+    });
+});
+
+describe('AnswerOption — select-one vs select-many affordance', () => {
+    const badgeOf = (container: HTMLElement) => container.querySelector('button > span')!;
+
+    it('draws a round badge for a pick-one option', () => {
+        const { container } = render(<AnswerOption {...defaultProps} variant="radio" />);
+        expect(badgeOf(container).className).toContain('rounded-full');
+    });
+
+    it('draws a square badge for a pick-many option', () => {
+        const { container } = render(<AnswerOption {...defaultProps} variant="checkbox" />);
+        expect(badgeOf(container).className).not.toContain('rounded-full');
+        expect(badgeOf(container).className).toContain('rounded-sm');
+    });
+});
+
+describe('AnswerOption — badge label beyond the fifth option', () => {
+    it('labels a sixth and a seventh option instead of leaving the badge blank', () => {
+        const { rerender, container } = render(<AnswerOption {...defaultProps} index={5} />);
+        expect(container.querySelector('button > span')?.textContent).toBe('F');
+        rerender(<AnswerOption {...defaultProps} index={6} />);
+        expect(container.querySelector('button > span')?.textContent).toBe('G');
+    });
+
+    it('falls back to a number past the letter range', () => {
+        const { container } = render(<AnswerOption {...defaultProps} index={8} />);
+        expect(container.querySelector('button > span')?.textContent).toBe('9');
     });
 });

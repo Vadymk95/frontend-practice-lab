@@ -1101,7 +1101,10 @@
         },
         "code": "// PR comment on a junior developer's code:\n// \"This is completely wrong. You clearly don't understand\n// how promises work. Did you even read the docs?\n// Any senior dev would know not to do this.\"",
         "correct": "The comment is personal, demeaning, and attacks the developer's competence rather than addressing the specific code issue",
-        "referenceAnswer": "Rewrite as: 'This pattern runs the promises sequentially instead of in parallel, which will be slower than needed. Consider Promise.all([...]) to run them concurrently. Here's a reference: [link]. Happy to discuss in our next 1:1 if helpful.'",
+        "referenceAnswer": {
+            "en": "Rewrite as: 'This pattern runs the promises sequentially instead of in parallel, which will be slower than needed. Consider Promise.all([...]) to run them concurrently. Here's a reference: [link]. Happy to discuss in our next 1:1 if helpful.'",
+            "ru": "Переписать так: «Этот паттерн выполняет promise последовательно, а не параллельно, и это будет медленнее, чем нужно. Стоит использовать Promise.all([...]), чтобы выполнить их параллельно. Вот материал по теме: [link]. Если полезно, с радостью обсудим на ближайшем 1:1.»"
+        },
         "lang": "markdown"
     },
     {
@@ -1120,7 +1123,10 @@
         },
         "code": "// Sprint planning process:\n// 1. PM shares 30 stories the morning of planning\n// 2. Team estimates all 30 in 2 hours\n// 3. Team commits to the top 20 for the 2-week sprint\n// 4. Any incomplete stories are moved to next sprint\n// Result: last 3 sprints delivered 40% of committed stories",
         "correct": "The team is consistently over-committing because there is not enough time to refine stories before estimation, the sprint is overloaded (20 stories), and incomplete work carries forward without addressing the root cause",
-        "referenceAnswer": "Fix: (1) Hold a separate refinement session 1 week before planning so stories are well-understood before estimating. (2) Reduce commitment based on historical velocity (40% delivery → commit to 40% less). (3) Use a 'ready' definition for stories before they enter a sprint. (4) Investigate why stories slip — unknowns, dependencies, or scope creep.",
+        "referenceAnswer": {
+            "en": "Fix: (1) Hold a separate refinement session 1 week before planning so stories are well-understood before estimating. (2) Reduce commitment based on historical velocity (40% delivery → commit to 40% less). (3) Use a 'ready' definition for stories before they enter a sprint. (4) Investigate why stories slip — unknowns, dependencies, or scope creep.",
+            "ru": "Исправление: (1) Проводить отдельную сессию refinement за неделю до планирования, чтобы к моменту оценки истории были хорошо понятны. (2) Снизить объём обязательств с опорой на историческую velocity (доставляем 40% → берём в спринт на 40% меньше). (3) Ввести определение «ready» для историй до их попадания в спринт. (4) Разобраться, почему истории переносятся — непрояснённые детали, зависимости или scope creep."
+        },
         "lang": "markdown"
     },
     {
@@ -1140,7 +1146,10 @@
         "code": "# ADR-042: Migrate state management from Redux to Zustand\n\n## __BLANK__\nOur Redux setup has grown complex with excessive boilerplate.\nThe team struggles to onboard new developers quickly.\n\n## __BLANK__\nAdopt Zustand as the global state management library.\n\n## Alternatives Considered\n- Keep Redux with Redux Toolkit\n- Migrate to Jotai (atomic model)\n- Use React Context only\n\n## __BLANK__\n- Positive: 70% less boilerplate, faster onboarding\n- Negative: requires migration effort (~2 sprints)\n- Risk: team needs to learn new patterns",
         "blanks": ["Context", "Decision", "Consequences"],
         "lang": "markdown",
-        "referenceAnswer": "ADR sections: Context (why a decision was needed), Decision (what was decided), Consequences (trade-offs, positive/negative/risk)."
+        "referenceAnswer": {
+            "en": "ADR sections: Context (why a decision was needed), Decision (what was decided), Consequences (trade-offs, positive/negative/risk).",
+            "ru": "Разделы ADR: Context (почему потребовалось решение), Decision (что решили), Consequences (trade-offs: плюсы, минусы, риски)."
+        }
     },
     {
         "id": "lead-1on1-002",
@@ -1159,7 +1168,10 @@
         "code": "## 1:1 — Vadym & Alex — 2024-W12\n\n### Team member's topics (Alex's items first)\n- Feeling stuck on the auth refactor — need help prioritizing\n- Question about the Q2 roadmap direction\n\n### Manager's topics (Vadym's items)\n- Feedback on last sprint's PRs\n- Discuss promotion criteria timeline\n\n### __BLANK__ (each one has an owner and a date)\n- [ ] Vadym: unblock auth refactor by Friday\n- [ ] Alex: draft promotion self-assessment by EOW",
         "blanks": ["Action Items"],
         "lang": "markdown",
-        "referenceAnswer": "Action Items. The template opens with the team member's topics (it is their meeting), then the manager's topics, and closes with action items that each carry an owner and a date."
+        "referenceAnswer": {
+            "en": "Action Items. The template opens with the team member's topics (it is their meeting), then the manager's topics, and closes with action items that each carry an owner and a date.",
+            "ru": "Action Items. Шаблон начинается с тем сотрудника (это его встреча), затем идут темы менеджера, а завершается он action items, у каждого из которых есть владелец и дата."
+        }
     },
     {
         "id": "lead-rice-002",
@@ -1178,7 +1190,10 @@
         "code": "// Feature: add a dark mode toggle\nconst reach = 5000;           // users reached per month\nconst impact = 0.5;           // low — convenience, not core\nconst confidence = __BLANK__; // 80% expressed as a decimal\nconst effort = 2;             // person-months\n\nconst riceScore = (reach * impact * __BLANK__) / __BLANK__;\nconsole.log(riceScore); // __BLANK__",
         "blanks": ["0.8", "confidence", "effort", "1000"],
         "lang": "javascript",
-        "referenceAnswer": "confidence = 0.8; riceScore = (reach * impact * confidence) / effort = (5000 * 0.5 * 0.8) / 2 = 1000 value units per person-month."
+        "referenceAnswer": {
+            "en": "confidence = 0.8; riceScore = (reach * impact * confidence) / effort = (5000 * 0.5 * 0.8) / 2 = 1000 value units per person-month.",
+            "ru": "confidence = 0.8; riceScore = (reach * impact * confidence) / effort = (5000 * 0.5 * 0.8) / 2 = 1000 единиц ценности на человеко-месяц."
+        }
     },
     {
         "id": "lead-postmortem-003",
@@ -1197,7 +1212,10 @@
         "code": "# Incident Postmortem — 2024-03-15 Checkout Outage\n\n## Summary\nA synchronous DB migration shipped in v2.3.1 locked the orders table and took checkout down.\n\n## __BLANK__\nCheckout was unavailable for 23 minutes (14:35–14:58 UTC).\nEstimated revenue impact: $12,000.\n\n## __BLANK__\n14:35 — Deployment of v2.3.1 completed\n14:38 — Error rate spiked to 45%\n14:42 — On-call alerted via PagerDuty\n14:58 — Rollback completed, service restored\n\n## Root Causes\nNew DB migration ran synchronously, locking the orders table\n\n## __BLANK__\n- [ ] Add migration dry-run step to deployment pipeline\n- [ ] Set up DB lock monitoring alert\n- [ ] Update runbook with rollback steps",
         "blanks": ["Impact", "Timeline", "Action Items"],
         "lang": "markdown",
-        "referenceAnswer": "Impact, Timeline, Action Items. Google's SRE template keeps Summary and Impact as separate sections: Summary is the narrative of what happened, Impact states who and what was affected and what it cost."
+        "referenceAnswer": {
+            "en": "Impact, Timeline, Action Items. Google's SRE template keeps Summary and Impact as separate sections: Summary is the narrative of what happened, Impact states who and what was affected and what it cost.",
+            "ru": "Impact, Timeline, Action Items. В шаблоне Google SRE Summary и Impact — отдельные разделы: Summary — это рассказ о том, что произошло, а Impact фиксирует, кого и что затронуло и во сколько это обошлось."
+        }
     },
     {
         "id": "lead-feedback-002",
@@ -1564,7 +1582,10 @@
         "code": "// OKR format: Objective + Key Results\n\n// __BLANK__: ambitious, qualitative goal\n\"Improve developer experience and reduce onboarding time\"\n\n// __BLANK__ (measurable outcomes):\n// KR1: Reduce time from git clone to running app from 2h to 15min\n// KR2: Raise the developer satisfaction survey score from 6.2/10 to 8.0/10\n// KR3: Zero new engineers take >1 day to merge their first PR",
         "blanks": ["Objective", "Key Results"],
         "lang": "markdown",
-        "referenceAnswer": "The Objective is the qualitative direction; the Key Results are the measurable outcomes that prove it was reached. KR1 cuts setup time, KR2 moves a survey score, KR3 sets a binary milestone."
+        "referenceAnswer": {
+            "en": "The Objective is the qualitative direction; the Key Results are the measurable outcomes that prove it was reached. KR1 cuts setup time, KR2 moves a survey score, KR3 sets a binary milestone.",
+            "ru": "Objective — это качественное направление; Key Results — измеримые результаты, которые доказывают, что оно достигнуто. KR1 сокращает время настройки, KR2 сдвигает оценку из опроса, KR3 задаёт бинарную веху."
+        }
     },
     {
         "id": "lead-conflict-001",
@@ -1583,7 +1604,10 @@
         "code": "// Scenario: Dev A wants to use GraphQL; Dev B insists on REST.\n// Tech lead facilitation steps:\n\n// 1. Hear both perspectives without taking sides initially\n// 2. Reframe from positions to interests:\n//    'What problem are you trying to solve with this approach?'\n// 3. Compare the options against __BLANK__ criteria: latency, flexibility, team familiarity\n// 4. Agree to a time-boxed __BLANK__ to validate the assumptions with real data\n// 5. Record the decision, its context and its consequences in an __BLANK__",
         "blanks": ["objective", "spike", "ADR"],
         "lang": "markdown",
-        "referenceAnswer": "Hear both sides; reframe positions into interests; compare the options against objective criteria; run a time-boxed spike for real data; record the decision, its context and its consequences in an ADR."
+        "referenceAnswer": {
+            "en": "Hear both sides; reframe positions into interests; compare the options against objective criteria; run a time-boxed spike for real data; record the decision, its context and its consequences in an ADR.",
+            "ru": "Выслушать обе стороны; перевести позиции в интересы; сравнить варианты по объективным критериям; провести time-boxed spike, чтобы получить реальные данные; зафиксировать в ADR решение, его контекст и последствия."
+        }
     },
     {
         "id": "lead-mentoring-002",
@@ -1602,7 +1626,10 @@
         "code": "const growthLadder = [\n  {\n    level: '__BLANK__',\n    scope: 'a single component or bug fix',\n    autonomy: 'needs guidance on every task',\n  },\n  {\n    level: '__BLANK__',\n    scope: 'a feature, end to end',\n    autonomy: 'independent within team norms',\n  },\n  {\n    level: '__BLANK__',\n    scope: 'a team domain and its system design',\n    autonomy: 'mentors others, makes architectural decisions',\n  },\n  {\n    level: '__BLANK__',\n    scope: 'multi-team, org-wide initiatives',\n    autonomy: 'sets technical direction across teams',\n  },\n];",
         "blanks": ["Trainee", "Mid", "Senior", "Staff"],
         "lang": "javascript",
-        "referenceAnswer": "Trainee -> Mid -> Senior -> Staff. Scope grows from one task to a feature, then a domain, then org-wide initiatives; autonomy grows from guided to independent to mentoring to setting direction across teams."
+        "referenceAnswer": {
+            "en": "Trainee -> Mid -> Senior -> Staff. Scope grows from one task to a feature, then a domain, then org-wide initiatives; autonomy grows from guided to independent to mentoring to setting direction across teams.",
+            "ru": "Trainee -> Mid -> Senior -> Staff. Scope растёт от одной задачи к фиче, затем к домену, затем к инициативам уровня организации; автономия растёт от работы под руководством к самостоятельности, затем к менторингу и к заданию направления сразу для нескольких команд."
+        }
     },
     {
         "id": "lead-conflict-002",
@@ -2003,7 +2030,10 @@
         "code": "// Transcribed answer:\n//\n// \"So we were migrating to a new state management library and I wasn't\n//  convinced it was the right call. There were a lot of opinions in the\n//  team about it. We discussed it over several meetings, and eventually\n//  we decided to go ahead with it, and honestly we made it work in the\n//  end. It was a good learning experience for everybody and the team\n//  came out of it stronger.\"",
         "lang": "markdown",
         "correct": "The answer is all Situation: there is no first-person Action and no measurable Result — it never says what the candidate personally did or what changed as a result.",
-        "referenceAnswer": "Every verb in the middle of the answer is 'we' ('we discussed', 'we decided', 'we made it work'), so a rubric scoring Action has nothing to score — a panel cannot tell whether the candidate led the disagreement, lost it, or watched it. The close ('a good learning experience', 'the team came out stronger') is a feeling, not a Result: no number, no artefact, no decision that stuck. Rewrite with the same story: Situation in one sentence; Task = 'I owned the migration risk assessment'; Action = 'I wrote a two-page comparison against three criteria we agreed first, ran a three-day spike on the largest screen, and took the numbers to the two engineers who disagreed'; Result = 'we adopted the library with a scoped rollout, migrated 40 screens in one quarter with no rollback, and I recorded the trade-off in an ADR that we cited twice the following year'. Keep the ratio roughly 10% Situation, 20% Task, 50% Action, 20% Result.",
+        "referenceAnswer": {
+            "en": "Every verb in the middle of the answer is 'we' ('we discussed', 'we decided', 'we made it work'), so a rubric scoring Action has nothing to score — a panel cannot tell whether the candidate led the disagreement, lost it, or watched it. The close ('a good learning experience', 'the team came out stronger') is a feeling, not a Result: no number, no artefact, no decision that stuck. Rewrite with the same story: Situation in one sentence; Task = 'I owned the migration risk assessment'; Action = 'I wrote a two-page comparison against three criteria we agreed first, ran a three-day spike on the largest screen, and took the numbers to the two engineers who disagreed'; Result = 'we adopted the library with a scoped rollout, migrated 40 screens in one quarter with no rollback, and I recorded the trade-off in an ADR that we cited twice the following year'. Keep the ratio roughly 10% Situation, 20% Task, 50% Action, 20% Result.",
+            "ru": "Все глаголы в середине ответа — «мы» («мы обсудили», «мы решили», «мы это сделали»), поэтому рубрике, которая оценивает Action, оценивать нечего — интервьюеры не могут понять, вёл кандидат этот спор, проиграл его или наблюдал со стороны. Концовка («хороший опыт», «команда стала сильнее») — это ощущение, а не Result: ни числа, ни артефакта, ни решения, которое закрепилось. Перепишите ту же историю так: Situation в одном предложении; Task = «я отвечал за оценку рисков миграции»; Action = «я написал сравнение на две страницы по трём критериям, о которых мы договорились заранее, провёл трёхдневный spike на самом большом экране и принёс цифры двум несогласным инженерам»; Result = «мы взяли библиотеку с ограниченным по охвату выкатом, перевели 40 экранов за квартал без откатов, а сам trade-off я зафиксировал в ADR, на который мы дважды сослались в следующем году». Держите пропорцию примерно 10% Situation, 20% Task, 50% Action, 20% Result."
+        },
         "explanation": {
             "en": "A structured behavioural rubric scores the Action and the Result far more heavily than the setup, because those are the only parts that evidence what this person does. A 'we' answer is unscoreable — it may describe a team the candidate merely stood next to — and a Result made of feelings gives the panel nothing to calibrate seniority against. Interviewers also read a missing Result as a candidate who never checked whether the decision worked.",
             "ru": "Структурированная поведенческая рубрика взвешивает Action и Result заметно выше, чем завязку, потому что только они показывают, что человек реально делает. Ответ на «мы» невозможно оценить — он может описывать команду, рядом с которой кандидат просто стоял, — а Result из ощущений не даёт панели ничего, по чему калибровать грейд. Отсутствующий Result интервьюеры читают ещё и как кандидата, который не проверил, сработало ли решение."
@@ -2022,7 +2052,10 @@
         "code": "# Postmortem - checkout outage\n\nImpact:     41 minutes, ~8% of checkout requests failed.\nRoot cause: a config change disabled the payment provider retry; the key was\n            undocumented, so nobody reviewing the PR knew what it controlled.\n\nAction items:\n1. Remind the team in standup to be more careful with config changes.  (owner: the team)\n2. Add a note about this provider to the runbook.                      (owner: unassigned)\n3. Be more careful with config PRs.                                    (no date)",
         "lang": "markdown",
         "correct": "No action item is a mechanism: they rest on people remembering and on a runbook note instead of changing the system, and none of them carries a named owner with a date.",
-        "referenceAnswer": "The write-up is blameless in tone but not in substance - every action item locates the fix inside human attention, which is exactly the thing the incident proved unreliable. Replace them with changes that survive those people leaving: a required check that fails any config PR touching the payment-retry keys without a second approval; staged config rollout with automatic revert when the checkout error rate crosses the alert threshold; an alert on retry-disabled so the next occurrence is caught in minutes rather than by users. Every item gets a named individual owner, a date, and a ticket id so it is visible outside the document. A useful test: if the same config change were made again tomorrow by someone who never read this postmortem, would anything stop it?",
+        "referenceAnswer": {
+            "en": "The write-up is blameless in tone but not in substance - every action item locates the fix inside human attention, which is exactly the thing the incident proved unreliable. Replace them with changes that survive those people leaving: a required check that fails any config PR touching the payment-retry keys without a second approval; staged config rollout with automatic revert when the checkout error rate crosses the alert threshold; an alert on retry-disabled so the next occurrence is caught in minutes rather than by users. Every item gets a named individual owner, a date, and a ticket id so it is visible outside the document. A useful test: if the same config change were made again tomorrow by someone who never read this postmortem, would anything stop it?",
+            "ru": "Разбор blameless по тону, но не по сути — каждый action item помещает исправление внутрь человеческого внимания, а именно его инцидент и признал ненадёжным. Замените их изменениями, которые переживут уход этих людей: обязательная проверка, которая блокирует любой config-PR, трогающий ключи payment-retry, без второго апрува; поэтапный выкат конфига с автоматическим откатом, когда доля ошибок на чекауте переходит порог алерта; алерт на retry-disabled, чтобы следующий случай ловили за минуты, а не силами пользователей. Каждый пункт получает конкретного владельца-человека, дату и id тикета, чтобы он был виден за пределами документа. Полезная проверка: если завтра то же изменение конфига сделает человек, который не читал этот постмортем, остановит ли его хоть что-нибудь?"
+        },
         "explanation": {
             "en": "Blameless means the analysis looks for the system condition that let a reasonable person cause an outage — so an action item that asks for more care has not changed anything, and the next engineer inherits the same trap. Action items need a single named owner rather than 'the team', a date, and a ticket, or they die with the document. If this incident is a recurrence of one already fixed, the process itself is the defect and the fix belongs there, not only in the code.",
             "ru": "Blameless означает, что разбор ищет условие системы, из-за которого разумный человек смог уронить прод, — поэтому action item «быть внимательнее» не меняет ничего, и следующий инженер наследует ту же ловушку. У action item должен быть один конкретный владелец, а не «команда», дата и тикет, иначе он умирает вместе с документом. Если инцидент — повтор уже починенного, дефект в самом процессе, и чинить надо его, а не только код."
@@ -2041,7 +2074,10 @@
         "code": "# Incident runbook - roles and comms (severity S1)\n\n1. The first responder declares the incident and names an incident __BLANK__,\n   who owns the decisions and does not debug personally.\n2. A communications lead posts to the stakeholder channel every __BLANK__ minutes,\n   even when the only update is \"still investigating, next update at HH:MM\".\n3. A __BLANK__ keeps the timeline: actions, timestamps, and what has been ruled out.\n4. That role declares mitigation, then hands over to the postmortem owner.",
         "blanks": ["commander", "30", "scribe"],
         "lang": "markdown",
-        "referenceAnswer": "Incident commander (decides, delegates, does not type), communications lead (fixed cadence to stakeholders - 30 minutes for an S1, agreed in the runbook rather than improvised), scribe (timeline, which becomes the spine of the postmortem). Separating these roles is what stops the one person who understands the system from being pulled out of the investigation to answer stakeholder questions.",
+        "referenceAnswer": {
+            "en": "Incident commander (decides, delegates, does not type), communications lead (fixed cadence to stakeholders - 30 minutes for an S1, agreed in the runbook rather than improvised), scribe (timeline, which becomes the spine of the postmortem). Separating these roles is what stops the one person who understands the system from being pulled out of the investigation to answer stakeholder questions.",
+            "ru": "Incident commander (решает, делегирует, сам за клавиатуру не садится), communications lead (фиксированная частота апдейтов стейкхолдерам — 30 минут для S1, согласованная в runbook, а не придуманная на ходу), scribe (таймлайн, который становится хребтом постмортема). Разделение этих ролей и не даёт вытащить из расследования единственного человека, который понимает систему, ради ответов на вопросы стейкхолдеров."
+        },
         "explanation": {
             "en": "The commander's value is that they are not debugging: the moment the person with the deepest system knowledge also owns comms and decisions, the investigation stops. A fixed comms cadence agreed in advance is what prevents the worst pattern in a long incident — silence, which stakeholders read as 'nobody is on it' and answer by messaging engineers directly. The scribe's timeline is also the reason the postmortem can be written from evidence rather than from memory a day later.",
             "ru": "Ценность commander в том, что он не отлаживает: как только человек с самым глубоким знанием системы забирает себе и коммуникацию, и решения, расследование встаёт. Заранее согласованная частота апдейтов предотвращает худший паттерн долгого инцидента — тишину, которую стейкхолдеры читают как «никто не занимается» и лечат личными сообщениями инженерам. Таймлайн от scribe — ещё и причина того, что постмортем потом пишется по фактам, а не по памяти через сутки."
@@ -2060,7 +2096,10 @@
         "code": "# Dependency upgrade policy - frontend fleet\n\n1. A bot opens upgrade PRs on a weekly schedule, grouped by ecosystem.\n2. patch and __BLANK__ updates auto-merge once the full CI gate is green.\n3. Each __BLANK__ update gets a ticket, a named owner, and a changelog read\n   before the branch is opened.\n4. A dependency with no release in 24 months is marked end-of-life and scheduled.\n5. Security advisories leave the weekly batch and are handled at the advisory's severity.",
         "blanks": ["minor", "major"],
         "lang": "markdown",
-        "referenceAnswer": "Under semver a minor release promises backwards compatibility, so batching patch and minor into an auto-merge lane behind a full CI gate is safe enough and keeps the fleet close to current - which is what makes the occasional major upgrade cheap. Major releases carry intentional breaking changes, so they get a ticket, a named owner and a changelog read, and they never ride in an automated batch. The gate is the load-bearing part: auto-merge without a trustworthy CI gate is just an unattended deploy of somebody else's code.",
+        "referenceAnswer": {
+            "en": "Under semver a minor release promises backwards compatibility, so batching patch and minor into an auto-merge lane behind a full CI gate is safe enough and keeps the fleet close to current - which is what makes the occasional major upgrade cheap. Major releases carry intentional breaking changes, so they get a ticket, a named owner and a changelog read, and they never ride in an automated batch. The gate is the load-bearing part: auto-merge without a trustworthy CI gate is just an unattended deploy of somebody else's code.",
+            "ru": "По semver minor-релиз обещает обратную совместимость, поэтому собирать patch и minor в полосу auto-merge за полным CI-гейтом достаточно безопасно, и это держит флот близко к актуальным версиям — а именно это и делает редкий major-апгрейд дешёвым. Major-релизы несут намеренные ломающие изменения, поэтому им положен тикет, именованный владелец и вычитанный changelog, и они никогда не едут в автоматической пачке. Несущая часть здесь — гейт: auto-merge без CI-гейта, которому можно доверять, — это просто безнадзорный деплой чужого кода."
+        },
         "explanation": {
             "en": "The policy exists to keep the upgrade cost linear instead of letting it accumulate into a migration project — a fleet two majors behind pays for the whole gap at once, usually under a security deadline. Semver is a promise, not a guarantee, which is why the auto-merge lane is only as trustworthy as the CI gate behind it. The end-of-life rule matters because an unmaintained dependency is the one that will have no patched version on the day an advisory lands.",
             "ru": "Политика нужна, чтобы стоимость обновлений оставалась линейной и не копилась в отдельный миграционный проект: флот, отставший на два мажора, платит за весь разрыв сразу и обычно под дедлайном по безопасности. Semver — это обещание, а не гарантия, поэтому полоса auto-merge надёжна ровно настолько, насколько надёжен CI-гейт за ней. Правило про end-of-life важно потому, что именно у заброшенной зависимости не окажется пропатченной версии в день, когда прилетит advisory."

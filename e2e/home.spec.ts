@@ -8,9 +8,15 @@ test.describe('Home page', () => {
     test('renders app brand and header controls', async ({ page }) => {
         await expect(page.getByRole('link', { name: 'InterviewOS' })).toBeVisible();
         await expect(
-            page.getByRole('button', { name: /Toggle language|Переключить язык/i })
+            page.getByRole('button', {
+                name: /Switch to (English|Russian)|Переключить на (английский|русский)/i
+            })
         ).toBeVisible();
-        await expect(page.getByRole('button', { name: /Switch to|Переключить на/i })).toBeVisible();
+        await expect(
+            page.getByRole('button', {
+                name: /Switch to (light|dark) mode|Переключить на (светлую|тёмную) тему/i
+            })
+        ).toBeVisible();
     });
 
     test('shows SessionConfigurator with category buttons', async ({ page }) => {

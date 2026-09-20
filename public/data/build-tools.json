@@ -1131,7 +1131,10 @@
         },
         "code": "// .env\nAPI_URL=https://api.example.com\nVITE_APP_TITLE=My App\n\n// component.tsx\nconst apiUrl = process.env.API_URL;\nconst title = import.meta.env.VITE_APP_TITLE;\nconsole.log(apiUrl, title);",
         "correct": "`process.env.API_URL` is undefined in Vite — only variables prefixed with VITE_ are exposed, and they must be accessed via `import.meta.env`, not `process.env`",
-        "referenceAnswer": "In Vite, only VITE_-prefixed variables are exposed to the browser. Access them via `import.meta.env.VITE_API_URL` not `process.env`. Rename API_URL to VITE_API_URL and access it as `import.meta.env.VITE_API_URL`. The VITE_APP_TITLE access is correct.",
+        "referenceAnswer": {
+            "en": "In Vite, only VITE_-prefixed variables are exposed to the browser. Access them via `import.meta.env.VITE_API_URL` not `process.env`. Rename API_URL to VITE_API_URL and access it as `import.meta.env.VITE_API_URL`. The VITE_APP_TITLE access is correct.",
+            "ru": "В Vite в браузер попадают только переменные с префиксом VITE_. Обращаться к ним нужно через `import.meta.env.VITE_API_URL`, а не через `process.env`. Переименуйте API_URL в VITE_API_URL и читайте её как `import.meta.env.VITE_API_URL`. Обращение к VITE_APP_TITLE корректно."
+        },
         "lang": "javascript"
     },
     {
@@ -1150,7 +1153,10 @@
         },
         "code": "// babel.config.json\n{\n  \"presets\": [\n    [\"@babel/preset-env\", {\n      \"targets\": \"> 0.25%, not dead\",\n      \"modules\": \"commonjs\"\n    }]\n  ]\n}",
         "correct": "`\"modules\": \"commonjs\"` converts ES module imports to CommonJS require(), which disables tree shaking in bundlers that rely on static ESM analysis",
-        "referenceAnswer": "Set `\"modules\": false` to preserve ES module syntax for the bundler (webpack/Rollup/Vite). These bundlers handle module transformation themselves and need static import/export to tree shake. `commonjs` is only appropriate when the output will be run directly by Node.js without a bundler.",
+        "referenceAnswer": {
+            "en": "Set `\"modules\": false` to preserve ES module syntax for the bundler (webpack/Rollup/Vite). These bundlers handle module transformation themselves and need static import/export to tree shake. `commonjs` is only appropriate when the output will be run directly by Node.js without a bundler.",
+            "ru": "Укажите `\"modules\": false`, чтобы сохранить синтаксис ES-модулей для бандлера (webpack/Rollup/Vite). Эти бандлеры сами выполняют преобразование модулей, и статические import/export нужны им для tree shaking. `commonjs` уместен только тогда, когда результат будет запускаться напрямую в Node.js без бандлера."
+        },
         "lang": "javascript"
     },
     {
@@ -1169,7 +1175,10 @@
         },
         "code": "async function loadPage(pageName) {\n  const module = await import(`./pages/${pageName}/index.js`);\n  return module.default;\n}",
         "correct": "A fully dynamic template literal in import() (variable in the path) forces webpack to create chunks for ALL files matching the glob pattern `./pages/*/index.js`, bundling every possible page even if most are never loaded",
-        "referenceAnswer": "webpack cannot statically analyse the variable segment, so it creates a 'context module' that includes every file matching ./pages/*/index.js. Narrow it with magic comments so only the intended files enter the context:\n\n```js\nconst module = await import(\n  /* webpackInclude: /index\\.js$/ */\n  /* webpackChunkName: \"page-[request]\" */\n  `./pages/${pageName}/index.js`\n);\n```\n\nBetter still, replace the dynamic request with an explicit map of thunks - { home: () => import('./pages/home/index.js') } - which gives webpack fully static requests and one real chunk per page.",
+        "referenceAnswer": {
+            "en": "webpack cannot statically analyse the variable segment, so it creates a 'context module' that includes every file matching ./pages/*/index.js. Narrow it with magic comments so only the intended files enter the context:\n\n```js\nconst module = await import(\n  /* webpackInclude: /index\\.js$/ */\n  /* webpackChunkName: \"page-[request]\" */\n  `./pages/${pageName}/index.js`\n);\n```\n\nBetter still, replace the dynamic request with an explicit map of thunks - { home: () => import('./pages/home/index.js') } - which gives webpack fully static requests and one real chunk per page.",
+            "ru": "webpack не может статически проанализировать переменный сегмент пути, поэтому создаёт «контекстный модуль», включающий каждый файл, подходящий под ./pages/*/index.js. Сузьте его magic-комментариями, чтобы в контекст попадали только нужные файлы:\n\n```js\nconst module = await import(\n  /* webpackInclude: /index\\.js$/ */\n  /* webpackChunkName: \"page-[request]\" */\n  `./pages/${pageName}/index.js`\n);\n```\n\nЕщё лучше — заменить динамический запрос явной картой thunk-ов - { home: () => import('./pages/home/index.js') } - тогда у webpack будут полностью статические запросы и по одному настоящему чанку на страницу."
+        },
         "lang": "javascript"
     },
     {
@@ -1188,7 +1197,10 @@
         },
         "code": "// postcss.config.js\nmodule.exports = {\n  plugins: [\n    require('cssnano'),\n    require('autoprefixer'),\n  ]\n};",
         "correct": "cssnano runs before autoprefixer — cssnano may remove or merge declarations that autoprefixer needs to prefix, resulting in missing vendor prefixes",
-        "referenceAnswer": "Plugin order matters in PostCSS. autoprefixer should run BEFORE cssnano (minification). cssnano may optimize away properties that autoprefixer needs to transform. Correct order: `[require('autoprefixer'), require('cssnano')]`.",
+        "referenceAnswer": {
+            "en": "Plugin order matters in PostCSS. autoprefixer should run BEFORE cssnano (minification). cssnano may optimize away properties that autoprefixer needs to transform. Correct order: `[require('autoprefixer'), require('cssnano')]`.",
+            "ru": "В PostCSS порядок плагинов имеет значение. autoprefixer должен выполняться ДО cssnano (минификации). cssnano может при оптимизации выбросить свойства, которые autoprefixer должен преобразовать. Правильный порядок: `[require('autoprefixer'), require('cssnano')]`."
+        },
         "lang": "javascript"
     },
     {
@@ -1207,7 +1219,10 @@
         },
         "code": "// a.js\nimport { valueB } from './b.js';\nexport const valueA = valueB + 1;\n\n// b.js\nimport { valueA } from './a.js';\nexport const valueB = valueA + 1;",
         "correct": "The circular import makes the module that is evaluated second read a `const` export that is still in its temporal dead zone, so module evaluation throws `ReferenceError: Cannot access 'valueA' before initialization` instead of producing a value",
-        "referenceAnswer": "ESM evaluates a cycle depth-first. Entering from a.js, its import of b.js is evaluated first, and b.js immediately reads valueA from a.js. a.js has not run its own body yet, so the const binding for valueA exists but is uninitialized, and reading it throws ReferenceError: Cannot access 'valueA' before initialization. Evaluation stops there - no NaN is ever produced. The same cycle in CommonJS (or after Babel transpiles it with modules: \"commonjs\") is quieter and more dangerous: require returns a partially filled exports object, valueA reads as undefined and valueB becomes NaN with no error. Fix: break the cycle - move the shared values into a third module (c.js) that both a.js and b.js import.",
+        "referenceAnswer": {
+            "en": "ESM evaluates a cycle depth-first. Entering from a.js, its import of b.js is evaluated first, and b.js immediately reads valueA from a.js. a.js has not run its own body yet, so the const binding for valueA exists but is uninitialized, and reading it throws ReferenceError: Cannot access 'valueA' before initialization. Evaluation stops there - no NaN is ever produced. The same cycle in CommonJS (or after Babel transpiles it with modules: \"commonjs\") is quieter and more dangerous: require returns a partially filled exports object, valueA reads as undefined and valueB becomes NaN with no error. Fix: break the cycle - move the shared values into a third module (c.js) that both a.js and b.js import.",
+            "ru": "ESM вычисляет цикл в глубину. При входе из a.js первым вычисляется его импорт b.js, и b.js сразу же читает valueA из a.js. Тело самого a.js ещё не выполнялось, поэтому привязка const для valueA существует, но не инициализирована, и её чтение выбрасывает ReferenceError: Cannot access 'valueA' before initialization. Вычисление на этом останавливается - никакого NaN не возникает. Тот же цикл в CommonJS (или после того, как Babel транспилирует его с modules: \"commonjs\") ведёт себя тише и опаснее: require возвращает частично заполненный объект exports, valueA читается как undefined, а valueB становится NaN без всякой ошибки. Решение: разорвать цикл - вынести общие значения в третий модуль (c.js), который импортируют и a.js, и b.js."
+        },
         "lang": "javascript"
     },
     {
@@ -1226,7 +1241,10 @@
         },
         "code": "// my-component-library/package.json\n{\n  \"name\": \"my-component-library\",\n  \"dependencies\": {\n    \"react\": \"^18.0.0\",\n    \"react-dom\": \"^18.0.0\"\n  },\n  \"peerDependencies\": {\n    \"react\": \"^18.0.0\"\n  }\n}",
         "correct": "Listing react/react-dom in both `dependencies` AND `peerDependencies` will cause duplicate React instances — the library bundles its own React copy instead of using the consumer's",
-        "referenceAnswer": "Move `react` and `react-dom` from `dependencies` to `peerDependencies` only. Libraries should NOT include React as a regular dependency — consumers provide it. Having React in `dependencies` means npm may install a second React instance, breaking hooks (React hooks require a single React instance per app).",
+        "referenceAnswer": {
+            "en": "Move `react` and `react-dom` from `dependencies` to `peerDependencies` only. Libraries should NOT include React as a regular dependency — consumers provide it. Having React in `dependencies` means npm may install a second React instance, breaking hooks (React hooks require a single React instance per app).",
+            "ru": "Оставьте `react` и `react-dom` только в `peerDependencies`, убрав их из `dependencies`. Библиотеки НЕ должны включать React как обычную зависимость — его предоставляет потребитель. React в `dependencies` означает, что npm может установить второй экземпляр React и сломать hooks (hooks в React требуют единственного экземпляра React на приложение)."
+        },
         "lang": "javascript"
     },
     {
@@ -1245,7 +1263,10 @@
         },
         "code": "{\n  \"compilerOptions\": {\n    \"target\": \"ES2020\",\n    \"module\": \"CommonJS\",\n    \"moduleResolution\": \"node\",\n    \"strict\": true,\n    \"esModuleInterop\": true\n  }\n}",
         "correct": "`\"module\": \"CommonJS\"` and `\"moduleResolution\": \"node\"` are wrong for a Vite project — Vite uses native ESM and requires `\"module\": \"ESNext\"` and `\"moduleResolution\": \"bundler\"` (or \"node16\"/\"nodenext\")",
-        "referenceAnswer": "For Vite + modern TypeScript: use `\"module\": \"ESNext\"`, `\"moduleResolution\": \"bundler\"` (TS 5.0+), and `\"isolatedModules\": true`. CommonJS module mode conflicts with Vite's ESM-first approach. `moduleResolution: bundler` correctly resolves package.json `exports` fields and ESM-specific paths.",
+        "referenceAnswer": {
+            "en": "For Vite + modern TypeScript: use `\"module\": \"ESNext\"`, `\"moduleResolution\": \"bundler\"` (TS 5.0+), and `\"isolatedModules\": true`. CommonJS module mode conflicts with Vite's ESM-first approach. `moduleResolution: bundler` correctly resolves package.json `exports` fields and ESM-specific paths.",
+            "ru": "Для Vite и современного TypeScript: используйте `\"module\": \"ESNext\"`, `\"moduleResolution\": \"bundler\"` (TS 5.0+) и `\"isolatedModules\": true`. Режим модулей CommonJS конфликтует с ESM-first подходом Vite. `moduleResolution: bundler` корректно разрешает поля `exports` в package.json и специфичные для ESM пути."
+        },
         "lang": "json"
     },
     {
@@ -1265,7 +1286,10 @@
         "code": "import { defineConfig } from 'vite';\nimport __BLANK__ from '@vitejs/plugin-react';\nimport { resolve } from 'path';\n\nexport default __BLANK__(() => ({\n  plugins: [__BLANK__()],\n  resolve: {\n    __BLANK__: {\n      '@': resolve(__dirname, './src'),\n    },\n  },\n}));",
         "blanks": ["react", "defineConfig", "react", "alias"],
         "lang": "javascript",
-        "referenceAnswer": "Import the react plugin and use defineConfig for TypeScript autocomplete. plugins: [react()] adds JSX support and React Fast Refresh. resolve.alias maps '@' to the src directory for clean imports."
+        "referenceAnswer": {
+            "en": "Import the react plugin and use defineConfig for TypeScript autocomplete. plugins: [react()] adds JSX support and React Fast Refresh. resolve.alias maps '@' to the src directory for clean imports.",
+            "ru": "Импортируйте плагин react и используйте defineConfig ради автодополнения в TypeScript. plugins: [react()] добавляет поддержку JSX и React Fast Refresh. resolve.alias сопоставляет '@' с директорией src, чтобы импорты оставались короткими."
+        }
     },
     {
         "id": "build-cc-webpack-001",
@@ -1284,7 +1308,10 @@
         "code": "module.exports = {\n  entry: './src/index.ts',\n  __BLANK__: {\n    rules: [\n      {\n        test: /\\.tsx?$/,\n        use: '__BLANK__',\n        exclude: /node_modules/,\n      },\n      {\n        test: /\\.css$/,\n        use: ['style-loader', '__BLANK__'],\n      },\n    ],\n  },\n  resolve: {\n    extensions: ['.tsx', '.ts', '.js'],\n  },\n};",
         "blanks": ["module", "ts-loader", "css-loader"],
         "lang": "javascript",
-        "referenceAnswer": "module.rules contains the array of loader configurations. ts-loader runs the TypeScript compiler, so type errors fail the build; babel-loader, swc-loader and esbuild-loader only strip the types and would need a separate tsc --noEmit for checking. css-loader resolves @import and url() in CSS; style-loader injects the result into the DOM. The order matters: loaders run right-to-left, so css-loader runs before style-loader."
+        "referenceAnswer": {
+            "en": "module.rules contains the array of loader configurations. ts-loader runs the TypeScript compiler, so type errors fail the build; babel-loader, swc-loader and esbuild-loader only strip the types and would need a separate tsc --noEmit for checking. css-loader resolves @import and url() in CSS; style-loader injects the result into the DOM. The order matters: loaders run right-to-left, so css-loader runs before style-loader.",
+            "ru": "module.rules содержит массив конфигураций лоадеров. ts-loader запускает компилятор TypeScript, поэтому ошибки типов роняют сборку; babel-loader, swc-loader и esbuild-loader только удаляют типы, и для проверки понадобился бы отдельный tsc --noEmit. css-loader разрешает @import и url() в CSS, а style-loader вставляет результат в DOM. Порядок важен: лоадеры выполняются справа налево, поэтому css-loader отрабатывает раньше style-loader."
+        }
     },
     {
         "id": "build-cc-rollup-001",
@@ -1303,7 +1330,10 @@
         "code": "import typescript from '@rollup/plugin-typescript';\n\nexport default {\n  input: 'src/index.ts',\n  __BLANK__: [\n    {\n      file: 'dist/index.esm.js',\n      format: 'esm',\n    },\n    {\n      file: 'dist/index.cjs.js',\n      format: 'cjs',\n    },\n  ],\n  __BLANK__: ['react', 'react-dom'],\n  plugins: [__BLANK__()],\n};",
         "blanks": ["output", "external", "typescript"],
         "lang": "javascript",
-        "referenceAnswer": "output takes an array, so a single pass emits several formats: format: 'esm' for bundlers and tree shaking (Rollup's canonical name for it is 'es', with 'esm' and 'module' as documented aliases) and format: 'cjs' for Node's require. external: ['react', 'react-dom'] keeps peer dependencies out of the bundle so a consumer never loads two React instances. plugins: [typescript()] compiles the TypeScript entry - Rollup has no built-in TypeScript support."
+        "referenceAnswer": {
+            "en": "output takes an array, so a single pass emits several formats: format: 'esm' for bundlers and tree shaking (Rollup's canonical name for it is 'es', with 'esm' and 'module' as documented aliases) and format: 'cjs' for Node's require. external: ['react', 'react-dom'] keeps peer dependencies out of the bundle so a consumer never loads two React instances. plugins: [typescript()] compiles the TypeScript entry - Rollup has no built-in TypeScript support.",
+            "ru": "output принимает массив, поэтому один проход выдаёт сразу несколько форматов: format: 'esm' для бандлеров и tree shaking (каноническое имя в Rollup — 'es', а 'esm' и 'module' задокументированы как алиасы) и format: 'cjs' для require в Node. external: ['react', 'react-dom'] оставляет peer-зависимости вне бандла, так что потребитель никогда не загрузит два экземпляра React. plugins: [typescript()] компилирует точку входа на TypeScript - встроенной поддержки TypeScript у Rollup нет."
+        }
     },
     {
         "id": "build-cc-babel-001",
@@ -1322,7 +1352,10 @@
         "code": "module.exports = {\n  presets: [\n    ['@babel/preset-env', { __BLANK__ : false }],\n    ['@babel/preset-react', { runtime: '__BLANK__' }],\n    '@babel/preset-typescript',\n  ],\n};",
         "blanks": ["modules", "automatic"],
         "lang": "javascript",
-        "referenceAnswer": "`modules: false` preserves ES module syntax for bundler tree shaking. `runtime: 'automatic'` enables the new JSX transform (React 17+) which doesn't require `import React from 'react'` in every file. Presets run in reverse: typescript first, then react, then env."
+        "referenceAnswer": {
+            "en": "`modules: false` preserves ES module syntax for bundler tree shaking. `runtime: 'automatic'` enables the new JSX transform (React 17+) which doesn't require `import React from 'react'` in every file. Presets run in reverse: typescript first, then react, then env.",
+            "ru": "`modules: false` сохраняет синтаксис ES-модулей ради tree shaking в бандлере. `runtime: 'automatic'` включает новый JSX-трансформ (React 17+), которому не нужен `import React from 'react'` в каждом файле. Пресеты применяются в обратном порядке: сначала typescript, затем react, затем env."
+        }
     },
     {
         "id": "build-cc-tsconfig-001",
@@ -1341,7 +1374,10 @@
         "code": "{\n  \"compilerOptions\": {\n    \"target\": \"ES2020\",\n    \"__BLANK__\": \"ESNext\",\n    \"moduleResolution\": \"__BLANK__\",\n    \"strict\": true,\n    \"__BLANK__\": true,\n    \"baseUrl\": \".\",\n    \"paths\": {\n      \"@/*\": [\"src/*\"]\n    }\n  }\n}",
         "blanks": ["module", "bundler", "isolatedModules"],
         "lang": "javascript",
-        "referenceAnswer": "`module: ESNext` preserves ESM syntax for Vite. `moduleResolution: bundler` (TS 5.0+) correctly resolves package.json exports fields. `isolatedModules: true` ensures each file can be transpiled independently, which is what Vite's file-at-a-time transforms require - they have no cross-file type context."
+        "referenceAnswer": {
+            "en": "`module: ESNext` preserves ESM syntax for Vite. `moduleResolution: bundler` (TS 5.0+) correctly resolves package.json exports fields. `isolatedModules: true` ensures each file can be transpiled independently, which is what Vite's file-at-a-time transforms require - they have no cross-file type context.",
+            "ru": "`module: ESNext` сохраняет синтаксис ESM для Vite. `moduleResolution: bundler` (TS 5.0+) корректно разрешает поля exports в package.json. `isolatedModules: true` гарантирует, что каждый файл можно транспилировать независимо, — именно это требуется пофайловым трансформациям Vite: межфайлового контекста типов у них нет."
+        }
     },
     {
         "id": "build-cc-modfed-001",
@@ -1360,7 +1396,10 @@
         "code": "const { ModuleFederationPlugin } = require('webpack').container;\n\nmodule.exports = {\n  plugins: [\n    new __BLANK__({ \n      name: 'componentLib',\n      filename: '__BLANK__',\n      exposes: {\n        './Button': './src/components/Button',\n      },\n      shared: {\n        react: { __BLANK__: true, requiredVersion: '^18.0.0' },\n      },\n    }),\n  ],\n};",
         "blanks": ["ModuleFederationPlugin", "remoteEntry.js", "singleton"],
         "lang": "javascript",
-        "referenceAnswer": "ModuleFederationPlugin enables sharing. `filename: 'remoteEntry.js'` is the manifest consumers will import. `exposes` maps public paths to source files. `singleton: true` in shared ensures only one React instance runs — critical for hooks compatibility."
+        "referenceAnswer": {
+            "en": "ModuleFederationPlugin enables sharing. `filename: 'remoteEntry.js'` is the manifest consumers will import. `exposes` maps public paths to source files. `singleton: true` in shared ensures only one React instance runs — critical for hooks compatibility.",
+            "ru": "ModuleFederationPlugin включает шаринг модулей. `filename: 'remoteEntry.js'` — это манифест, который будут импортировать потребители. `exposes` сопоставляет публичные пути с исходными файлами. `singleton: true` в shared гарантирует, что работает только один экземпляр React — критично для совместимости hooks."
+        }
     },
     {
         "id": "build-cc-publicsuffix-001",
@@ -1379,7 +1418,10 @@
         "code": "{\n  \"name\": \"my-lib\",\n  \"exports\": {\n    \".\": {\n      \"__BLANK__\": {\n        \"types\": \"./dist/index.d.ts\",\n        \"default\": \"./dist/index.esm.js\"\n      },\n      \"require\": {\n        \"types\": \"./dist/index.d.cts\",\n        \"__BLANK__\": \"./dist/index.cjs.js\"\n      }\n    }\n  }\n}",
         "blanks": ["import", "default"],
         "lang": "javascript",
-        "referenceAnswer": "The `import` condition matches ESM consumers (import statement or bundlers). The `require` condition matches CJS consumers (require()). `types` in each condition provides TypeScript declarations for the corresponding format. `default` is the fallback within each condition."
+        "referenceAnswer": {
+            "en": "The `import` condition matches ESM consumers (import statement or bundlers). The `require` condition matches CJS consumers (require()). `types` in each condition provides TypeScript declarations for the corresponding format. `default` is the fallback within each condition.",
+            "ru": "Условие `import` срабатывает для ESM-потребителей (оператор import или бандлеры). Условие `require` срабатывает для CJS-потребителей (require()). `types` в каждом условии даёт объявления TypeScript для соответствующего формата. `default` — запасной вариант внутри каждого условия."
+        }
     },
     {
         "id": "build-cicd-rollback-001",
@@ -1574,7 +1616,10 @@
         "code": "- name: Cache dependencies\n  id: deps\n  uses: actions/cache@v4\n  with:\n    path: node_modules\n    key: ${{ runner.os }}-node-${{ hashFiles('package.json') }}\n\n- name: Install\n  if: steps.deps.outputs.cache-hit != 'true'\n  run: npm ci\n\n- name: Build and test\n  run: npm run build && npm test",
         "lang": "yaml",
         "correct": "The cache key hashes `package.json` instead of the lockfile, so a lockfile-only change restores a stale `node_modules` and `npm ci` is skipped entirely — caching `node_modules` and gating `npm ci` on the hit is the same defect from the other side.",
-        "referenceAnswer": "Key the cache on the resolved dependency tree, not the manifest:\n\n```yaml\nkey: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}\n```\n\n`package.json` holds ranges, so it does not change when a transitive dependency is bumped or when a teammate regenerates the lockfile. Every such run hits the old cache, the `cache-hit` guard skips `npm ci`, and the build and tests run against versions the lockfile no longer pins — CI goes green on a dependency tree that production will never get. The other face of the same defect is caching a derived directory at all: the `actions/cache` examples say it is not recommended to cache `node_modules`, because it breaks across Node versions and does not work with `npm ci`. The sturdier shape is to cache npm's download cache and keep the install authoritative:\n\n```yaml\n- uses: actions/setup-node@v4\n  with:\n    node-version: 22\n    cache: npm\n- run: npm ci\n```\n\nHere the key is derived from the lockfile by the action, and `npm ci` still rebuilds `node_modules` from the lockfile on every run, so a cache miss costs time and never correctness.",
+        "referenceAnswer": {
+            "en": "Key the cache on the resolved dependency tree, not the manifest:\n\n```yaml\nkey: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}\n```\n\n`package.json` holds ranges, so it does not change when a transitive dependency is bumped or when a teammate regenerates the lockfile. Every such run hits the old cache, the `cache-hit` guard skips `npm ci`, and the build and tests run against versions the lockfile no longer pins — CI goes green on a dependency tree that production will never get. The other face of the same defect is caching a derived directory at all: the `actions/cache` examples say it is not recommended to cache `node_modules`, because it breaks across Node versions and does not work with `npm ci`. The sturdier shape is to cache npm's download cache and keep the install authoritative:\n\n```yaml\n- uses: actions/setup-node@v4\n  with:\n    node-version: 22\n    cache: npm\n- run: npm ci\n```\n\nHere the key is derived from the lockfile by the action, and `npm ci` still rebuilds `node_modules` from the lockfile on every run, so a cache miss costs time and never correctness.",
+            "ru": "Стройте ключ кеша на итоговом дереве зависимостей, а не на манифесте:\n\n```yaml\nkey: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}\n```\n\n`package.json` хранит диапазоны, поэтому он не меняется, когда поднимают транзитивную зависимость или когда коллега перегенерирует lockfile. Каждый такой прогон попадает в старый кеш, проверка `cache-hit` пропускает `npm ci`, и сборка с тестами идут на версиях, которые lockfile уже не фиксирует — CI становится зелёным на дереве зависимостей, которое продакшен никогда не получит. Обратная сторона того же дефекта — вообще кешировать производную директорию: примеры `actions/cache` говорят, что кешировать `node_modules` не рекомендуется, потому что это ломается между версиями Node и не работает с `npm ci`. Более надёжная форма — кешировать загрузочный кеш npm, оставив установку авторитетной:\n\n```yaml\n- uses: actions/setup-node@v4\n  with:\n    node-version: 22\n    cache: npm\n- run: npm ci\n```\n\nЗдесь ключ выводится из lockfile самим action, а `npm ci` по-прежнему пересобирает `node_modules` из lockfile на каждом прогоне, так что промах кеша стоит времени и никогда — корректности."
+        },
         "explanation": {
             "en": "A cache key must be a function of everything that determines the cached content; for `node_modules` that is the lockfile, because it is the only file that pins exact versions. Keying on the manifest turns the cache into a correctness bug rather than a speed optimisation, and the `cache-hit` guard makes it silent — nothing in the log says the install was skipped against the wrong tree. The general rule: prefer caching an input store (npm's cache, a Turborepo remote cache) over caching a derived directory you then skip regenerating.",
             "ru": "Ключ кеша должен быть функцией от всего, что определяет его содержимое; для `node_modules` это лок-файл, потому что только он фиксирует точные версии. Ключ по манифесту превращает кеш из ускорения в баг корректности, а проверка `cache-hit` делает его тихим — в логе ничего не скажет, что установку пропустили на неправильном дереве. Общее правило: лучше кешировать хранилище входных данных (кеш npm, remote cache Turborepo), чем производную директорию, генерацию которой вы потом пропускаете."
@@ -1593,7 +1638,10 @@
         "code": "name: CI\non: pull_request\n\n__BLANK__:\n  group: ${{ github.workflow }}-${{ __BLANK__ }}\n  cancel-in-progress: __BLANK__\n\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - run: npm ci && npm test",
         "blanks": ["concurrency", "github.ref", "true"],
         "lang": "yaml",
-        "referenceAnswer": "`concurrency` with `group: ${{ github.workflow }}-${{ github.ref }}` and `cancel-in-progress: true`.\n\nThe group key is what scopes the cancellation: `github.ref` identifies the pull request, so two runs of the same workflow on the same PR share a group and the older one is cancelled, while other PRs are untouched. Dropping `github.workflow` from the key makes unrelated workflows cancel each other, and a constant group serialises the whole repository. On pushes to the default branch you usually want `cancel-in-progress: false` — cancelling a deploy mid-flight is worse than queueing it.",
+        "referenceAnswer": {
+            "en": "`concurrency` with `group: ${{ github.workflow }}-${{ github.ref }}` and `cancel-in-progress: true`.\n\nThe group key is what scopes the cancellation: `github.ref` identifies the pull request, so two runs of the same workflow on the same PR share a group and the older one is cancelled, while other PRs are untouched. Dropping `github.workflow` from the key makes unrelated workflows cancel each other, and a constant group serialises the whole repository. On pushes to the default branch you usually want `cancel-in-progress: false` — cancelling a deploy mid-flight is worse than queueing it.",
+            "ru": "`concurrency` с `group: ${{ github.workflow }}-${{ github.ref }}` и `cancel-in-progress: true`.\n\nОбласть отмены задаёт именно ключ группы: `github.ref` идентифицирует pull request, поэтому два прогона одного workflow на одном PR попадают в одну группу и более старый отменяется, а другие PR это не затрагивает. Если убрать `github.workflow` из ключа, несвязанные workflow начнут отменять друг друга, а постоянная группа сериализует весь репозиторий. Для пушей в дефолтную ветку обычно нужен `cancel-in-progress: false` — отменить деплой на полпути хуже, чем поставить его в очередь."
+        },
         "explanation": {
             "en": "Without a concurrency group every push to a PR starts another full run, so a branch under active work burns runner minutes on builds whose result nobody will read, and the queue delays the run that matters. The group expression is the whole design decision: it must be narrow enough that only the superseded run is cancelled, and stable enough that consecutive pushes on the same ref land in the same group. Treat cancellation as unsafe for jobs with side effects — deploys, releases, anything that writes outside the runner.",
             "ru": "Без группы concurrency каждый пуш в PR стартует ещё один полный прогон: активно дорабатываемая ветка жжёт минуты раннеров на сборках, результат которых никто не прочитает, а очередь задерживает нужный прогон. Всё проектное решение — в выражении группы: она должна быть достаточно узкой, чтобы отменялся только устаревший прогон, и достаточно стабильной, чтобы последовательные пуши по одному ref попадали в одну группу. Для джоб с побочными эффектами — деплой, релиз, любая запись за пределами раннера — отмену считайте небезопасной."
@@ -1824,7 +1872,10 @@
         "code": "#!/usr/bin/env bash\nset -euo pipefail\n\nnpm ci\nnpm run build\n\n# publish the release\naws s3 cp dist/index.html \"s3://$BUCKET/index.html\" --cache-control \"max-age=60\"\naws s3 sync dist/assets \"s3://$BUCKET/assets\" --cache-control \"max-age=31536000,immutable\"\naws s3 sync dist \"s3://$BUCKET\" --exclude \"index.html\" --exclude \"assets/*\" --cache-control \"max-age=300\"\n\naws cloudfront create-invalidation --distribution-id \"$DIST_ID\" --paths \"/index.html\"",
         "lang": "bash",
         "correct": "`index.html` is uploaded before the hashed assets it references, so during the upload window clients get HTML pointing at chunks that are not on the origin yet.",
-        "referenceAnswer": "Publish in dependency order — hashed assets and the remaining static files first, the entry document last, invalidation last:\n\n```bash\naws s3 sync dist/assets \"s3://$BUCKET/assets\" --cache-control \"max-age=31536000,immutable\"\naws s3 sync dist \"s3://$BUCKET\" --exclude \"index.html\" --exclude \"assets/*\" --cache-control \"max-age=300\"\naws s3 cp dist/index.html \"s3://$BUCKET/index.html\" --cache-control \"max-age=60\"\naws cloudfront create-invalidation --distribution-id \"$DIST_ID\" --paths \"/index.html\"\n```\n\nThe mirror-image rule applies to cleanup: never delete the previous release's hashed assets right after a deploy, because tabs that already loaded the old `index.html` keep requesting them by hash. Retain the assets of the last N releases and expire them on a schedule instead.",
+        "referenceAnswer": {
+            "en": "Publish in dependency order — hashed assets and the remaining static files first, the entry document last, invalidation last:\n\n```bash\naws s3 sync dist/assets \"s3://$BUCKET/assets\" --cache-control \"max-age=31536000,immutable\"\naws s3 sync dist \"s3://$BUCKET\" --exclude \"index.html\" --exclude \"assets/*\" --cache-control \"max-age=300\"\naws s3 cp dist/index.html \"s3://$BUCKET/index.html\" --cache-control \"max-age=60\"\naws cloudfront create-invalidation --distribution-id \"$DIST_ID\" --paths \"/index.html\"\n```\n\nThe mirror-image rule applies to cleanup: never delete the previous release's hashed assets right after a deploy, because tabs that already loaded the old `index.html` keep requesting them by hash. Retain the assets of the last N releases and expire them on a schedule instead.",
+            "ru": "Публикуйте в порядке зависимостей — сначала хешированные ассеты и остальные статические файлы, входной документ последним, инвалидация в самом конце:\n\n```bash\naws s3 sync dist/assets \"s3://$BUCKET/assets\" --cache-control \"max-age=31536000,immutable\"\naws s3 sync dist \"s3://$BUCKET\" --exclude \"index.html\" --exclude \"assets/*\" --cache-control \"max-age=300\"\naws s3 cp dist/index.html \"s3://$BUCKET/index.html\" --cache-control \"max-age=60\"\naws cloudfront create-invalidation --distribution-id \"$DIST_ID\" --paths \"/index.html\"\n```\n\nЗеркальное правило действует и для очистки: никогда не удаляйте хешированные ассеты предыдущего релиза сразу после деплоя, потому что вкладки, уже загрузившие старый `index.html`, продолжают запрашивать их по хешу. Храните ассеты последних N релизов и удаляйте их по расписанию."
+        },
         "explanation": {
             "en": "A static deploy is not atomic: each object becomes visible the moment its own upload finishes, so the upload order is the contract. `index.html` is the only mutable entry point and therefore goes last — publishing it first advertises hashed chunks that are still being uploaded, and any client that loads during that window fails on the first dynamic import. The same reasoning forbids deleting the previous release's chunks immediately, since open sessions are still fetching them.",
             "ru": "Выкладка статики не атомарна: каждый объект становится виден сразу после своей загрузки, поэтому порядок загрузок — это и есть контракт. `index.html` — единственная изменяемая точка входа, и публиковать её нужно последней: выложенный первым, он уже ссылается на хэшированные чанки, которые ещё заливаются, и любой клиент, зашедший в это окно, падает на первом динамическом импорте. По той же причине нельзя сразу удалять чанки прошлого релиза — открытые вкладки продолжают их запрашивать."
@@ -1843,7 +1894,10 @@
         "code": "name: CI\non: pull_request\n\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n        with:\n          fetch-depth: __BLANK__\n\n      - uses: actions/setup-node@v4\n        with:\n          node-version: 22\n          cache: npm\n\n      - run: npm ci\n      - run: npx turbo run build --__BLANK__\n        env:\n          TURBO_SCM_BASE: origin/${{ github.base_ref }}",
         "blanks": ["0", "affected"],
         "lang": "yaml",
-        "referenceAnswer": "`fetch-depth: 0` fetches the full history. With the default shallow clone there is no merge base to diff against, so Turborepo has to treat every package as changed — the pipeline silently degrades into a full build with no error in the log.\n\n`turbo run build --affected` defaults to the range `main...HEAD`. On GitHub Actions it first reads `GITHUB_BASE_REF`, but that variable holds a branch *name* (`main`), and a stock `actions/checkout` — even at `fetch-depth: 0` — creates only the remote-tracking ref `origin/main`, so `main` does not resolve. Turborepo deliberately does not fall back to main or master once it knows it is on GitHub Actions; it fails with `Failed to resolve base ref` and warns `unable to detect git range, assuming all files have changed`, which is the same silent full build the shallow clone causes. That is why the job pins the base explicitly:\n\n```yaml\n      - run: npx turbo run build --affected\n        env:\n          TURBO_SCM_BASE: origin/${{ github.base_ref }}\n```\n\n`TURBO_SCM_HEAD` overrides the other end of the range the same way, and the opt-in `futureFlags.githubActionsRemoteBaseRefFallback` makes Turborepo retry the inferred ref as `origin/<branch>` by itself. When you need a different base entirely, express the same selection with a `--filter` git range.",
+        "referenceAnswer": {
+            "en": "`fetch-depth: 0` fetches the full history. With the default shallow clone there is no merge base to diff against, so Turborepo has to treat every package as changed — the pipeline silently degrades into a full build with no error in the log.\n\n`turbo run build --affected` defaults to the range `main...HEAD`. On GitHub Actions it first reads `GITHUB_BASE_REF`, but that variable holds a branch *name* (`main`), and a stock `actions/checkout` — even at `fetch-depth: 0` — creates only the remote-tracking ref `origin/main`, so `main` does not resolve. Turborepo deliberately does not fall back to main or master once it knows it is on GitHub Actions; it fails with `Failed to resolve base ref` and warns `unable to detect git range, assuming all files have changed`, which is the same silent full build the shallow clone causes. That is why the job pins the base explicitly:\n\n```yaml\n      - run: npx turbo run build --affected\n        env:\n          TURBO_SCM_BASE: origin/${{ github.base_ref }}\n```\n\n`TURBO_SCM_HEAD` overrides the other end of the range the same way, and the opt-in `futureFlags.githubActionsRemoteBaseRefFallback` makes Turborepo retry the inferred ref as `origin/<branch>` by itself. When you need a different base entirely, express the same selection with a `--filter` git range.",
+            "ru": "`fetch-depth: 0` подтягивает полную историю. При shallow-клоне по умолчанию нет merge base, с которой можно сравнивать, поэтому Turborepo вынужден считать изменённым каждый пакет — пайплайн тихо вырождается в полную сборку без единой ошибки в логе.\n\n`turbo run build --affected` по умолчанию берёт диапазон `main...HEAD`. На GitHub Actions он сначала читает `GITHUB_BASE_REF`, но эта переменная хранит *имя* ветки (`main`), а стандартный `actions/checkout` — даже с `fetch-depth: 0` — создаёт только remote-tracking ref `origin/main`, поэтому `main` не разрешается. Turborepo намеренно не откатывается на main или master, если уже знает, что работает в GitHub Actions: он падает с `Failed to resolve base ref` и предупреждает `unable to detect git range, assuming all files have changed`, а это та же тихая полная сборка, к которой приводит shallow-клон. Поэтому job фиксирует базу явно:\n\n```yaml\n      - run: npx turbo run build --affected\n        env:\n          TURBO_SCM_BASE: origin/${{ github.base_ref }}\n```\n\n`TURBO_SCM_HEAD` точно так же переопределяет другой конец диапазона, а опциональный `futureFlags.githubActionsRemoteBaseRefFallback` заставляет Turborepo самостоятельно повторить попытку с выведенным ref в виде `origin/<branch>`. Если нужна совсем другая база, выразите тот же отбор через git-диапазон в `--filter`."
+        },
         "explanation": {
             "en": "Affected-build selection is only as correct as the git history on the runner, and a shallow checkout fails open, not loud: everything looks changed and the pipeline just gets slow. The GitHub Actions path fails open in the same direction — `GITHUB_BASE_REF` names a branch that a stock checkout has only as `origin/<branch>`, and Turborepo refuses to guess main or master once it knows it is on CI, so it warns and rebuilds everything unless the base is pinned through `TURBO_SCM_BASE`. Expect honest 'everything is affected' runs too — a lockfile or shared-config change legitimately invalidates the whole graph.",
             "ru": "Affected-сборка настолько корректна, насколько доступна история git на раннере, а shallow-клон ломается «тихо»: изменённым выглядит всё, и пайплайн просто становится полным, без единой ошибки в логе. На GitHub Actions всё ломается в ту же сторону: в `GITHUB_BASE_REF` лежит имя ветки, которая у стандартного checkout есть только как `origin/<branch>`, а угадывать main или master Turborepo в CI отказывается — он пишет предупреждение и пересобирает всё, если базу не зафиксировать через `TURBO_SCM_BASE`. И помните про честные случаи «затронуто всё»: правка лок-файла или общего конфига законно инвалидирует весь граф."

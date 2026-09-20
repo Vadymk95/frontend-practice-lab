@@ -25,3 +25,14 @@ describe('ExplanationPanel', () => {
         expect(screen.getByRole('complementary', { name: 'Explanation' })).toBeInTheDocument();
     });
 });
+
+describe('ExplanationPanel — reading size', () => {
+    it('sets the explanation body at the phone reading size', () => {
+        const { container } = renderWithProviders(
+            <ExplanationPanel explanation="Plain explanation." />
+        );
+        const body = container.querySelector('p:last-of-type');
+        expect(body?.className).toContain('text-base');
+        expect(body?.className).not.toContain('text-sm');
+    });
+});

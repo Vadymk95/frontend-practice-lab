@@ -1,19 +1,22 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { renderHook, act, screen, within } from '@testing-library/react';
+import { renderHook, act, fireEvent, screen, within } from '@testing-library/react';
 import { createInstance } from 'i18next';
 import type { ReactNode } from 'react';
 import { initReactI18next } from 'react-i18next';
 import { MemoryRouter } from 'react-router-dom';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { ManifestEntry } from '@/hooks/data/useCategories';
 import { useCategories } from '@/hooks/data/useCategories';
+import type { SessionConfig } from '@/lib/storage/types';
+import { useProgressStoreBase } from '@/store/progress/progressStore';
 import { useSessionStore } from '@/store/session';
 import { renderWithProviders } from '@/test/test-utils';
 
 import { SessionConfigurator } from './SessionConfigurator';
 import {
     computeAvailableCount,
+    generatePresetName,
     getFilteredCategoryCount,
     useSessionConfigurator
 } from './useSessionConfigurator';
@@ -321,6 +324,58 @@ describe('useSessionConfigurator', () => {
         expect(result.current.isStartEnabled).toBe(false);
     });
 
+    it('keeps a question count the user typed when a later selection raises the maximum', () => {
+        const { result } = renderHook(() => useSessionConfigurator(), {
+            wrapper: createWrapper()
+        });
+        act(() => {
+            result.current.handleCategoryToggle('javascript');
+        });
+        act(() => {
+            result.current.handleQuestionCountChange(3);
+        });
+        act(() => {
+            result.current.handleCategoryToggle('typescript');
+        });
+        expect(result.current.maxCount).toBe(12);
+        expect(result.current.questionCount).toBe(3);
+    });
+
+    it('lowers a question count the user typed to the maximum when the pool shrinks', () => {
+        const { result } = renderHook(() => useSessionConfigurator(), {
+            wrapper: createWrapper()
+        });
+        act(() => {
+            result.current.handleCategoryToggle('javascript');
+        });
+        act(() => {
+            result.current.handleCategoryToggle('typescript');
+        });
+        act(() => {
+            result.current.handleQuestionCountChange(10);
+        });
+        act(() => {
+            result.current.handleDifficultyChange('hard');
+        });
+        // javascript hard = 1, typescript hard = 2
+        expect(result.current.maxCount).toBe(3);
+        expect(result.current.questionCount).toBe(3);
+    });
+
+    it('offers the whole available pool while the count field is still untouched', () => {
+        const { result } = renderHook(() => useSessionConfigurator(), {
+            wrapper: createWrapper()
+        });
+        act(() => {
+            result.current.handleCategoryToggle('javascript');
+        });
+        expect(result.current.questionCount).toBe(6);
+        act(() => {
+            result.current.handleCategoryToggle('typescript');
+        });
+        expect(result.current.questionCount).toBe(12);
+    });
+
     it('handleQuestionCountChange clamps value between 1 and maxCount', () => {
         const { result } = renderHook(() => useSessionConfigurator(), {
             wrapper: createWrapper()
@@ -421,11 +476,271 @@ describe('SessionConfigurator — start affordance', () => {
         }
     });
 
+    it('lets a category name too long for its tile wrap instead of painting over the count', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        // A single unbreakable word ("Производительность" in Russian) has no break
+        // opportunity, so with overflow-wrap:normal it runs over the count badge.
+        const label = screen.getByText('JavaScript');
+        expect(label.className).toContain('wrap-anywhere');
+        expect(label.className).not.toContain('wrap-normal');
+    });
+
     it('keeps long category names whole instead of breaking them mid-word', () => {
         renderWithProviders(<SessionConfigurator />);
 
         const label = screen.getByText('JavaScript');
         expect(label.className).not.toContain('break-words');
         expect(label.className).toContain('hyphens-manual');
+    });
+});
+
+describe('SessionConfigurator — filter radiogroups', () => {
+    beforeEach(() => {
+        vi.mocked(useCategories).mockReturnValue({
+            data: mockCategories,
+            isLoading: false,
+            isError: false
+        } as unknown as ReturnType<typeof useCategories>);
+    });
+
+    const difficultyGroup = () =>
+        screen.getByRole('radiogroup', { name: 'Select difficulty level' });
+
+    it('puts the unfiltered option first in every group that offers one', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        const firstOptionOf = (name: string) =>
+            within(screen.getByRole('radiogroup', { name })).getAllByRole('radio')[0];
+
+        expect(firstOptionOf('Select difficulty level')).toHaveTextContent('All');
+        expect(firstOptionOf('Select question mode')).toHaveTextContent('All');
+    });
+
+    it('costs a single tab stop per filter group, landing on the selected option', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        const radios = within(difficultyGroup()).getAllByRole('radio');
+        const tabbable = radios.filter((radio) => radio.tabIndex === 0);
+        expect(tabbable).toHaveLength(1);
+        expect(tabbable[0]).toHaveAttribute('aria-checked', 'true');
+    });
+
+    it('moves the selection to the next option when the right arrow is pressed', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        const group = difficultyGroup();
+        const all = within(group).getByRole('radio', { name: 'All' });
+        act(() => all.focus());
+        fireEvent.keyDown(all, { key: 'ArrowRight' });
+
+        const easy = within(group).getByRole('radio', { name: 'Easy' });
+        expect(easy).toHaveAttribute('aria-checked', 'true');
+        expect(all).toHaveAttribute('aria-checked', 'false');
+        expect(document.activeElement).toBe(easy);
+    });
+
+    it('wraps to the last option when the left arrow is pressed on the first', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        const group = difficultyGroup();
+        const all = within(group).getByRole('radio', { name: 'All' });
+        act(() => all.focus());
+        fireEvent.keyDown(all, { key: 'ArrowLeft' });
+
+        const hard = within(group).getByRole('radio', { name: 'Hard' });
+        expect(hard).toHaveAttribute('aria-checked', 'true');
+        expect(document.activeElement).toBe(hard);
+    });
+
+    it('jumps to the first and last option with Home and End', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        const group = difficultyGroup();
+        const all = within(group).getByRole('radio', { name: 'All' });
+        act(() => all.focus());
+        fireEvent.keyDown(all, { key: 'End' });
+        expect(within(group).getByRole('radio', { name: 'Hard' })).toHaveAttribute(
+            'aria-checked',
+            'true'
+        );
+
+        fireEvent.keyDown(within(group).getByRole('radio', { name: 'Hard' }), { key: 'Home' });
+        expect(within(group).getByRole('radio', { name: 'All' })).toHaveAttribute(
+            'aria-checked',
+            'true'
+        );
+    });
+
+    it('arrows through the mode and order groups too', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        const modeGroup = screen.getByRole('radiogroup', { name: 'Select question mode' });
+        const modeRadios = within(modeGroup).getAllByRole('radio');
+        const checkedMode = modeRadios.find(
+            (radio) => radio.getAttribute('aria-checked') === 'true'
+        )!;
+        act(() => checkedMode.focus());
+        fireEvent.keyDown(checkedMode, { key: 'ArrowRight' });
+        expect(checkedMode).toHaveAttribute('aria-checked', 'false');
+
+        const orderGroup = screen.getByRole('radiogroup', { name: 'Select question order' });
+        const random = within(orderGroup).getByRole('radio', { name: 'Random' });
+        act(() => random.focus());
+        fireEvent.keyDown(random, { key: 'ArrowDown' });
+        expect(within(orderGroup).getByRole('radio', { name: 'Sequential' })).toHaveAttribute(
+            'aria-checked',
+            'true'
+        );
+    });
+});
+
+describe('generatePresetName', () => {
+    const translatorFor = async (lng: 'en' | 'ru') => {
+        const instance = createInstance();
+        await instance.use(initReactI18next).init({
+            lng,
+            fallbackLng: lng,
+            ns: ['home'],
+            defaultNS: 'home',
+            resources: { en: { home: enHome }, ru: { home: ruHome } },
+            interpolation: { escapeValue: false }
+        });
+        return instance.t;
+    };
+
+    const configWith = (questionCount: number): SessionConfig => ({
+        categories: ['javascript'],
+        questionCount,
+        difficulty: 'hard',
+        mode: 'all',
+        order: 'random',
+        timerEnabled: false
+    });
+
+    it('names a preset with the translated difficulty and a counted unit in Russian', async () => {
+        const t = await translatorFor('ru');
+        expect(generatePresetName(configWith(12), mockCategories, t)).toBe(
+            'JavaScript · Сложный · 12 вопросов'
+        );
+    });
+
+    it('uses the Russian singular when the preset holds one question', async () => {
+        const t = await translatorFor('ru');
+        expect(generatePresetName(configWith(1), mockCategories, t)).toBe(
+            'JavaScript · Сложный · 1 вопрос'
+        );
+    });
+
+    it('names a preset with the translated difficulty and a counted unit in English', async () => {
+        const t = await translatorFor('en');
+        expect(generatePresetName(configWith(12), mockCategories, t)).toBe(
+            'JavaScript · Hard · 12 questions'
+        );
+    });
+});
+
+describe('SessionConfigurator — error rate badge', () => {
+    beforeEach(() => {
+        vi.mocked(useCategories).mockReturnValue({
+            data: mockCategories,
+            isLoading: false,
+            isError: false
+        } as unknown as ReturnType<typeof useCategories>);
+        useProgressStoreBase.setState({ errorRates: { javascript: 0.46 } });
+    });
+
+    afterEach(() => {
+        useProgressStoreBase.setState({ errorRates: {} });
+    });
+
+    it('says what the red percentage on a category tile measures', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        expect(screen.getByText('46% wrong')).toBeInTheDocument();
+        expect(screen.getByTitle('Error rate: 46%')).toBeInTheDocument();
+    });
+
+    it('does not announce the tile as a name followed by two bare numbers', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        const tile = screen.getByRole('checkbox', { name: /JavaScript/ });
+        expect(tile).toHaveAccessibleName(/Error rate: 46%/);
+        expect(tile).toHaveAccessibleName(/Questions: 6/);
+    });
+});
+
+describe('SessionConfigurator — legibility and touch targets', () => {
+    beforeEach(() => {
+        vi.mocked(useCategories).mockReturnValue({
+            data: mockCategories,
+            isLoading: false,
+            isError: false
+        } as unknown as ReturnType<typeof useCategories>);
+    });
+
+    it('sets the section headings at body size rather than one step below it', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        screen.getAllByRole('heading', { level: 2 }).forEach((heading) => {
+            expect(heading.className).toContain('text-base');
+        });
+    });
+
+    it('sets the category and filter labels at body size', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        [...screen.getAllByRole('radio'), ...screen.getAllByRole('checkbox')].forEach((option) => {
+            expect(option.className).toContain('text-base');
+        });
+    });
+
+    it('keeps every filter option tappable at the 44px minimum', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        screen.getAllByRole('radio').forEach((option) => {
+            expect(option.className).toContain('min-h-11');
+        });
+    });
+});
+
+describe('SessionConfigurator — contrast of the start affordance', () => {
+    beforeEach(() => {
+        vi.mocked(useCategories).mockReturnValue({
+            data: mockCategories,
+            isLoading: false,
+            isError: false
+        } as unknown as ReturnType<typeof useCategories>);
+    });
+
+    const startButton = () => screen.getAllByRole('button', { name: 'Start Session' })[0]!;
+
+    it('shows an unavailable Start as a desaturated fill, not a dimmed accent', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        expect(startButton()).toBeDisabled();
+        expect(startButton().className).toContain('disabled:opacity-100');
+        expect(startButton().className).toContain('disabled:bg-muted-foreground');
+    });
+
+    it('points an unavailable Start at the sentence that says why', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        const describedBy = startButton().getAttribute('aria-describedby');
+        expect(describedBy).not.toBeNull();
+        expect(document.getElementById(describedBy as string)).toHaveTextContent(
+            'Select at least one category to begin'
+        );
+    });
+
+    it('does not dim a selected category label into the accent colour', () => {
+        renderWithProviders(<SessionConfigurator />);
+
+        const tile = screen.getByRole('checkbox', { name: /JavaScript/ });
+        act(() => tile.click());
+
+        expect(tile).toHaveAttribute('aria-checked', 'true');
+        expect(tile.className).toContain('text-foreground');
+        expect(tile.className).not.toContain('text-primary');
     });
 });

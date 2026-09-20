@@ -1249,7 +1249,10 @@
         },
         "code": "class LoggingProxy {\n  constructor(private service: UserService) {}\n\n  getUser(id: string) {\n    console.log(`Getting user ${id}`);\n    this.service.getUser(id);\n    console.log(`Done`);\n  }\n}",
         "correct": "The result of this.service.getUser(id) is not returned",
-        "referenceAnswer": "The proxy calls this.service.getUser(id) but does not return its result. The caller always receives undefined. Fix: return this.service.getUser(id);",
+        "referenceAnswer": {
+            "en": "The proxy calls this.service.getUser(id) but does not return its result. The caller always receives undefined. Fix: return this.service.getUser(id);",
+            "ru": "Прокси вызывает this.service.getUser(id), но не возвращает результат. Вызывающий код всегда получает undefined. Исправление: return this.service.getUser(id);"
+        },
         "lang": "typescript"
     },
     {
@@ -1268,7 +1271,10 @@
         },
         "code": "class Dashboard extends React.Component {\n  state = { data: null };\n\n  componentDidMount() {\n    eventBus.on('update', this.handleUpdate);\n  }\n\n  handleUpdate = (data: Data) => {\n    this.setState({ data });\n  };\n\n  render() {\n    return <div>{this.state.data}</div>;\n  }\n}",
         "correct": "The event listener is never removed in componentWillUnmount, causing a memory leak",
-        "referenceAnswer": "componentWillUnmount is missing: componentWillUnmount() { eventBus.off('update', this.handleUpdate); }. Without cleanup, the listener holds a reference to the unmounted component, causing memory leaks and setState calls on unmounted components.",
+        "referenceAnswer": {
+            "en": "componentWillUnmount is missing: componentWillUnmount() { eventBus.off('update', this.handleUpdate); }. Without cleanup, the listener holds a reference to the unmounted component, causing memory leaks and setState calls on unmounted components.",
+            "ru": "Отсутствует componentWillUnmount: componentWillUnmount() { eventBus.off('update', this.handleUpdate); }. Без очистки слушатель удерживает ссылку на размонтированный компонент, что приводит к утечкам памяти и вызовам setState на размонтированных компонентах."
+        },
         "lang": "tsx"
     },
     {
@@ -1287,7 +1293,10 @@
         },
         "code": "class Config {\n  private static instance: Config;\n  public apiUrl: string = '';\n\n  static getInstance(): Config {\n    if (!Config.instance) {\n      Config.instance = new Config();\n    }\n    return Config.instance;\n  }\n\n  constructor() {}\n}",
         "correct": "The constructor is public, allowing direct instantiation and breaking the singleton guarantee",
-        "referenceAnswer": "The constructor must be private: `private constructor() {}`. A public constructor allows `new Config()` to bypass getInstance(), creating multiple instances and violating the singleton contract.",
+        "referenceAnswer": {
+            "en": "The constructor must be private: `private constructor() {}`. A public constructor allows `new Config()` to bypass getInstance(), creating multiple instances and violating the singleton contract.",
+            "ru": "Конструктор должен быть приватным: `private constructor() {}`. Публичный конструктор позволяет через `new Config()` обойти getInstance(), создать несколько экземпляров и нарушить контракт синглтона."
+        },
         "lang": "typescript"
     },
     {
@@ -1306,7 +1315,10 @@
         },
         "code": "function cartReducer(state = { items: [] }, action) {\n  switch (action.type) {\n    case 'ADD_ITEM':\n      state.items.push(action.item);\n      return state;\n    case 'CLEAR':\n      return { items: [] };\n    default:\n      return state;\n  }\n}",
         "correct": "The ADD_ITEM case mutates the existing state array directly instead of returning a new state object",
-        "referenceAnswer": "state.items.push() mutates state in place. Redux reducers must return new objects: return { ...state, items: [...state.items, action.item] }. Mutation breaks change detection in React-Redux and time-travel debugging.",
+        "referenceAnswer": {
+            "en": "state.items.push() mutates state in place. Redux reducers must return new objects: return { ...state, items: [...state.items, action.item] }. Mutation breaks change detection in React-Redux and time-travel debugging.",
+            "ru": "state.items.push() мутирует состояние на месте. Редьюсеры Redux должны возвращать новые объекты: return { ...state, items: [...state.items, action.item] }. Мутация ломает отслеживание изменений в React-Redux и time-travel-отладку."
+        },
         "lang": "javascript"
     },
     {
@@ -1325,7 +1337,10 @@
         },
         "code": "class UserPresenter {\n  constructor(\n    private view: UserView,\n    private repo: UserRepository\n  ) {}\n\n  async loadUser(id: string) {\n    const user = await this.repo.getUser(id);\n    document.title = `User: ${user.name}`;\n    this.view.displayUser(user);\n  }\n}",
         "correct": "The Presenter directly manipulates the DOM (document.title), violating the separation of concerns — that is the View's responsibility",
-        "referenceAnswer": "In MVP, the Presenter should not touch the DOM directly. document.title = ... should be delegated to the View: this.view.setTitle(`User: ${user.name}`). The Presenter coordinates logic; the View handles all DOM updates.",
+        "referenceAnswer": {
+            "en": "In MVP, the Presenter should not touch the DOM directly. document.title = ... should be delegated to the View: this.view.setTitle(`User: ${user.name}`). The Presenter coordinates logic; the View handles all DOM updates.",
+            "ru": "В MVP Presenter не должен напрямую обращаться к DOM. document.title = ... нужно делегировать во View: this.view.setTitle(`User: ${user.name}`). Presenter координирует логику; View выполняет все обновления DOM."
+        },
         "lang": "typescript"
     },
     {
@@ -1344,7 +1359,10 @@
         },
         "code": "// src/entities/user/model/userStore.ts\nimport { cartFeatureUtils } from '@/features/cart/lib/utils';\nimport { UserSchema } from '@/shared/lib/schemas';\n\nexport const userStore = create(() => ({ ... }));",
         "correct": "An entity (entities/user) imports from a feature (features/cart), which violates FSD's layer rule — lower layers cannot import from higher layers",
-        "referenceAnswer": "In FSD, entities are a lower layer than features. An entity must never import from a feature. Move the shared utility to @/shared/lib/utils or restructure so the feature imports from the entity, not the other way around.",
+        "referenceAnswer": {
+            "en": "In FSD, entities are a lower layer than features. An entity must never import from a feature. Move the shared utility to @/shared/lib/utils or restructure so the feature imports from the entity, not the other way around.",
+            "ru": "В FSD слой entities находится ниже слоя features. Entity никогда не должна импортировать из feature. Перенесите общую утилиту в @/shared/lib/utils либо перестройте код так, чтобы feature импортировала из entity, а не наоборот."
+        },
         "lang": "javascript"
     },
     {
@@ -1363,7 +1381,10 @@
         },
         "code": "function createChart(type: string) {\n  if (type === 'bar') return new BarChart();\n  if (type === 'line') return new LineChart();\n  if (type === 'pie') return new PieChart();\n  return null;\n}",
         "correct": "The factory violates the Open/Closed Principle — every new chart type requires modifying the factory function",
-        "referenceAnswer": "Register chart types in a map: const registry: Record<string, new () => Chart> = { bar: BarChart, line: LineChart, pie: PieChart }; function createChart(type: string) { return registry[type] ? new registry[type]() : null; }. Adding a new type only requires updating the registry, not the factory logic.",
+        "referenceAnswer": {
+            "en": "Register chart types in a map: const registry: Record<string, new () => Chart> = { bar: BarChart, line: LineChart, pie: PieChart }; function createChart(type: string) { return registry[type] ? new registry[type]() : null; }. Adding a new type only requires updating the registry, not the factory logic.",
+            "ru": "Зарегистрируйте типы графиков в словаре: const registry: Record<string, new () => Chart> = { bar: BarChart, line: LineChart, pie: PieChart }; function createChart(type: string) { return registry[type] ? new registry[type]() : null; }. Добавление нового типа требует только обновления реестра, а не правок в логике фабрики."
+        },
         "lang": "typescript"
     },
     {
@@ -1383,7 +1404,10 @@
         "code": "interface Logger {\n  log(message: string): void;\n}\n\nclass TimestampLogger implements __BLANK__ {\n  constructor(private inner: Logger) {}\n\n  log(message: string): void {\n    const ts = new Date().toISOString();\n    this.inner.__BLANK__(`[${ts}] ${message}`);\n  }\n}",
         "blanks": ["Logger", "log"],
         "lang": "typescript",
-        "referenceAnswer": "TimestampLogger implements Logger, delegates to this.inner.log(), passing the prefixed message string."
+        "referenceAnswer": {
+            "en": "TimestampLogger implements Logger, delegates to this.inner.log(), passing the prefixed message string.",
+            "ru": "TimestampLogger реализует Logger и делегирует вызов this.inner.log(), передавая строку сообщения с префиксом."
+        }
     },
     {
         "id": "arch-strategy-001",
@@ -1402,7 +1426,10 @@
         "code": "interface SortStrategy {\n  sort(data: number[]): __BLANK__;\n}\n\nclass Sorter {\n  constructor(private strategy: SortStrategy) {}\n\n  setStrategy(strategy: __BLANK__) {\n    this.strategy = strategy;\n  }\n\n  execute(data: number[]): number[] {\n    return this.strategy.__BLANK__(data);\n  }\n}",
         "blanks": ["number[]", "SortStrategy", "sort"],
         "lang": "typescript",
-        "referenceAnswer": "The interface sort method returns number[]; setStrategy accepts SortStrategy; execute delegates to this.strategy.sort(data)."
+        "referenceAnswer": {
+            "en": "The interface sort method returns number[]; setStrategy accepts SortStrategy; execute delegates to this.strategy.sort(data).",
+            "ru": "Метод sort в интерфейсе возвращает number[]; setStrategy принимает SortStrategy; execute делегирует вызов this.strategy.sort(data)."
+        }
     },
     {
         "id": "arch-di-002",
@@ -1421,7 +1448,10 @@
         "code": "const ServiceContext = React.createContext<UserService | __BLANK__>(null);\n\nfunction ServiceProvider({ children }: { children: React.ReactNode }) {\n  const service = useMemo(() => new UserService(), __BLANK__);\n  return (\n    <ServiceContext value={service}>\n      {children}\n    </ServiceContext>\n  );\n}\n\nfunction useUserService(): UserService {\n  const service = useContext(__BLANK__);\n  if (!service) throw new Error('ServiceProvider missing');\n  return service;\n}",
         "blanks": ["null", "[]", "ServiceContext"],
         "lang": "typescript",
-        "referenceAnswer": "createContext<UserService | null>(null); useMemo(() => new UserService(), []) keeps one instance per provider; in React 19 the context itself is the provider (<ServiceContext value={service}>); useContext(ServiceContext) retrieves the injected service."
+        "referenceAnswer": {
+            "en": "createContext<UserService | null>(null); useMemo(() => new UserService(), []) keeps one instance per provider; in React 19 the context itself is the provider (<ServiceContext value={service}>); useContext(ServiceContext) retrieves the injected service.",
+            "ru": "createContext<UserService | null>(null); useMemo(() => new UserService(), []) сохраняет один экземпляр на провайдер; в React 19 сам контекст является провайдером (<ServiceContext value={service}>); useContext(ServiceContext) получает внедрённый сервис."
+        }
     },
     {
         "id": "arch-observer-001",
@@ -1440,7 +1470,10 @@
         "code": "class EventEmitter<T> {\n  private listeners: Array<(data: T) => void> = [];\n\n  on(listener: (data: T) => void): () => void {\n    this.listeners.__BLANK__(listener);\n    return () => this.__BLANK__(listener);\n  }\n\n  off(listener: (data: T) => void): void {\n    this.listeners = this.listeners.__BLANK__(fn => fn !== listener);\n  }\n\n  emit(data: T): void {\n    this.listeners.__BLANK__(listener => listener(data));\n  }\n}",
         "blanks": ["push", "off", "filter", "forEach"],
         "lang": "typescript",
-        "referenceAnswer": "push adds a listener; on returns a cleanup function that calls off; off filters out the listener; emit iterates all listeners."
+        "referenceAnswer": {
+            "en": "push adds a listener; on returns a cleanup function that calls off; off filters out the listener; emit iterates all listeners.",
+            "ru": "push добавляет слушателя; on возвращает функцию очистки, которая вызывает off; off отфильтровывает слушателя; emit проходит по всем слушателям."
+        }
     },
     {
         "id": "arch-command-001",
@@ -1459,7 +1492,10 @@
         "code": "interface Command {\n  execute(): void;\n  __BLANK__(): void;\n}\n\nclass CommandHistory {\n  private stack: __BLANK__[] = [];\n\n  run(cmd: Command): void {\n    cmd.__BLANK__();\n    this.stack.__BLANK__(cmd);\n  }\n\n  undo(): void {\n    const cmd = this.stack.__BLANK__();\n    if (cmd) cmd.undo();\n  }\n}",
         "blanks": ["undo", "Command", "execute", "push", "pop"],
         "lang": "typescript",
-        "referenceAnswer": "Interface declares undo(); stack is Command[]; run calls execute() then pushes to stack; undo() pops the last command and calls its undo()."
+        "referenceAnswer": {
+            "en": "Interface declares undo(); stack is Command[]; run calls execute() then pushes to stack; undo() pops the last command and calls its undo().",
+            "ru": "Интерфейс объявляет undo(); stack имеет тип Command[]; run вызывает execute() и кладёт команду в stack; undo() снимает последнюю команду и вызывает её undo()."
+        }
     },
     {
         "id": "arch-adapter-001",
@@ -1478,7 +1514,10 @@
         "code": "interface UserDTO {\n  userId: string;\n  fullName: string;\n}\n\nclass LegacyUserAdapter {\n  constructor(private legacy: LegacyUserApi) {}\n\n  async getUser(id: string): Promise<__BLANK__> {\n    const raw = await this.legacy.fetch_user(id);\n    return {\n      __BLANK__: raw.user_id,\n      __BLANK__: raw.full_name,\n    };\n  }\n}",
         "blanks": ["UserDTO", "userId", "fullName"],
         "lang": "typescript",
-        "referenceAnswer": "getUser returns Promise<UserDTO>; maps raw.user_id to userId and raw.full_name to fullName."
+        "referenceAnswer": {
+            "en": "getUser returns Promise<UserDTO>; maps raw.user_id to userId and raw.full_name to fullName.",
+            "ru": "getUser возвращает Promise<UserDTO>; raw.user_id маппится в userId, а raw.full_name — в fullName."
+        }
     },
     {
         "id": "arch-renderprops-001",
@@ -1497,7 +1536,10 @@
         "code": "interface MouseProps {\n  x: number;\n  y: number;\n}\n\ntype RenderFn = (pos: MouseProps) => React.ReactNode;\n\nfunction MouseTracker({ render }: { render: __BLANK__ }) {\n  const [pos, setPos] = useState<MouseProps>({ x: 0, y: 0 });\n\n  const handleMouseMove = (e: React.MouseEvent) => {\n    setPos({ x: e.__BLANK__, y: e.__BLANK__ });\n  };\n\n  return <div onMouseMove={__BLANK__}>{render(pos)}</div>;\n}",
         "blanks": ["RenderFn", "clientX", "clientY", "handleMouseMove"],
         "lang": "typescript",
-        "referenceAnswer": "The render prop is typed by the RenderFn alias declared above the component; clientX and clientY come from the mouse event; onMouseMove={handleMouseMove} wires the handler."
+        "referenceAnswer": {
+            "en": "The render prop is typed by the RenderFn alias declared above the component; clientX and clientY come from the mouse event; onMouseMove={handleMouseMove} wires the handler.",
+            "ru": "Тип render-пропа задаётся алиасом RenderFn, объявленным над компонентом; clientX и clientY берутся из события мыши; onMouseMove={handleMouseMove} подключает обработчик."
+        }
     },
     {
         "id": "arch-state-003",
@@ -1756,7 +1798,10 @@
         "code": "const EMPTY_SUMMARY = { count: 0, total: 0 };\n\nexport function useCartSummary() {\n  return useSyncExternalStore(\n    cartStore.subscribe,\n    () => ({ count: cartStore.state.items.length, total: cartStore.state.total }),\n    () => EMPTY_SUMMARY\n  );\n}",
         "lang": "typescript",
         "correct": "getSnapshot builds a new object on every call, so React's Object.is comparison never matches and the component re-renders in a loop",
-        "referenceAnswer": "getSnapshot must return a cached, referentially stable value for as long as the store has not changed. React compares consecutive snapshots with Object.is, and a fresh object literal is never equal to the previous one, so React re-renders, calls getSnapshot again, gets another new object, and warns that the result of getSnapshot should be cached to avoid an infinite loop. Compute the derived object once inside the store whenever it writes, and return that reference:\n\n```ts\n// inside the store, recompute on every write\nstate.summary = { count: state.items.length, total: state.total };\n\nexport function useCartSummary() {\n  return useSyncExternalStore(\n    cartStore.subscribe,\n    () => cartStore.state.summary,\n    () => EMPTY_SUMMARY\n  );\n}\n```\n\nThe alternative is useSyncExternalStoreWithSelector from use-sync-external-store/shim/with-selector, which takes an isEqual argument and memoizes the selected value for you. Selecting two primitives with two separate useSyncExternalStore calls also works, because primitives compare by value.",
+        "referenceAnswer": {
+            "en": "getSnapshot must return a cached, referentially stable value for as long as the store has not changed. React compares consecutive snapshots with Object.is, and a fresh object literal is never equal to the previous one, so React re-renders, calls getSnapshot again, gets another new object, and warns that the result of getSnapshot should be cached to avoid an infinite loop. Compute the derived object once inside the store whenever it writes, and return that reference:\n\n```ts\n// inside the store, recompute on every write\nstate.summary = { count: state.items.length, total: state.total };\n\nexport function useCartSummary() {\n  return useSyncExternalStore(\n    cartStore.subscribe,\n    () => cartStore.state.summary,\n    () => EMPTY_SUMMARY\n  );\n}\n```\n\nThe alternative is useSyncExternalStoreWithSelector from use-sync-external-store/shim/with-selector, which takes an isEqual argument and memoizes the selected value for you. Selecting two primitives with two separate useSyncExternalStore calls also works, because primitives compare by value.",
+            "ru": "getSnapshot должен возвращать закэшированное, референциально стабильное значение до тех пор, пока стор не изменился. React сравнивает соседние снапшоты через Object.is, а свежий объектный литерал никогда не равен предыдущему — поэтому React запускает повторный рендер, снова вызывает getSnapshot, получает очередной новый объект и предупреждает, что результат getSnapshot следует кэшировать, чтобы избежать бесконечного цикла. Вычисляйте производный объект один раз внутри стора при каждой записи и возвращайте эту же ссылку:\n\n```ts\n// inside the store, recompute on every write\nstate.summary = { count: state.items.length, total: state.total };\n\nexport function useCartSummary() {\n  return useSyncExternalStore(\n    cartStore.subscribe,\n    () => cartStore.state.summary,\n    () => EMPTY_SUMMARY\n  );\n}\n```\n\nАльтернатива — useSyncExternalStoreWithSelector из use-sync-external-store/shim/with-selector: он принимает аргумент isEqual и мемоизирует выбранное значение за вас. Выбор двух примитивов двумя отдельными вызовами useSyncExternalStore тоже работает, потому что примитивы сравниваются по значению."
+        },
         "explanation": {
             "en": "React re-renders whenever `getSnapshot` returns a value that is not `Object.is`-equal to the previous one, so the snapshot has to be a stable reference, not a value derived on the fly. Deriving inside `getSnapshot` is the single most common way to break `useSyncExternalStore`, and it fails loudly with a runtime warning rather than quietly. The fix is to move the derivation into the store — the store owns the snapshot, the hook only reads it — or to use a selector wrapper that supplies its own equality function.",
             "ru": "React перерендеривает компонент всякий раз, когда `getSnapshot` возвращает значение, не равное предыдущему по `Object.is`, поэтому снимок обязан быть стабильной ссылкой, а не значением, собранным на лету. Вычисление внутри `getSnapshot` — самый частый способ сломать `useSyncExternalStore`, и падает он громко, с предупреждением в рантайме. Исправление — перенести вычисление в стор (стор владеет снимком, хук его только читает) либо использовать обёртку с селектором, которая принимает собственную функцию сравнения."
@@ -1775,7 +1820,10 @@
         "code": "new ModuleFederationPlugin({\n  name: 'host',\n  remotes: {\n    profile: 'profile@https://cdn.example.com/profile/remoteEntry.js'\n  },\n  shared: {\n    react: { singleton: true, requiredVersion: '^19.0.0' },\n    'react-dom': { singleton: true, requiredVersion: '^19.0.0' },\n    // exports AuthContext + useAuth()\n    '@acme/auth': { requiredVersion: '^2.3.0' }\n  }\n});",
         "lang": "javascript",
         "correct": "@acme/auth is shared without singleton: true, so host and remote can each load their own copy and the remote reads a different AuthContext object",
-        "referenceAnswer": "A React context is identified by the object returned from createContext, which is per module instance. Without singleton: true the shared scope is allowed to serve two copies of @acme/auth: the host renders the provider from its copy while the remote's useAuth() subscribes to the context object from the other copy, finds no matching provider above it, and falls back to the default passed to createContext. Any module that carries identity — react, react-dom, a router, a context or provider package, a global store — must be declared singleton:\n\n```js\nshared: {\n  '@acme/auth': { singleton: true, requiredVersion: '^2.3.0' }\n}\n```\n\nKeep the version aligned across the estate as well, since singleton resolution silently loads the higher version and only warns the lower-version consumer.",
+        "referenceAnswer": {
+            "en": "A React context is identified by the object returned from createContext, which is per module instance. Without singleton: true the shared scope is allowed to serve two copies of @acme/auth: the host renders the provider from its copy while the remote's useAuth() subscribes to the context object from the other copy, finds no matching provider above it, and falls back to the default passed to createContext. Any module that carries identity — react, react-dom, a router, a context or provider package, a global store — must be declared singleton:\n\n```js\nshared: {\n  '@acme/auth': { singleton: true, requiredVersion: '^2.3.0' }\n}\n```\n\nKeep the version aligned across the estate as well, since singleton resolution silently loads the higher version and only warns the lower-version consumer.",
+            "ru": "React-контекст идентифицируется объектом, который возвращает createContext, а этот объект свой у каждого экземпляра модуля. Без singleton: true общий scope может отдать две копии @acme/auth: хост рендерит провайдер из своей копии, а useAuth() в ремоуте подписывается на объект контекста из другой копии, не находит над собой подходящего провайдера и откатывается к значению по умолчанию, переданному в createContext. Любой модуль, несущий идентичность — react, react-dom, роутер, пакет с контекстом или провайдером, глобальный стор — должен быть объявлен как singleton:\n\n```js\nshared: {\n  '@acme/auth': { singleton: true, requiredVersion: '^2.3.0' }\n}\n```\n\nВерсии тоже держите выровненными по всему парку приложений: разрешение singleton-зависимости молча подгружает более высокую версию и лишь предупреждает потребителя с более низкой."
+        },
         "explanation": {
             "en": "Module Federation deduplicates a shared module only when it is marked `singleton`; otherwise each container may load its own satisfying copy, which is fine for a pure utility library and fatal for anything whose identity is the contract. React context, React itself, and a store instance all fail in the same way: two module instances mean two separate identities, and the consumer silently falls back to a default instead of erroring. The review rule worth stating in an interview is that shared dependencies split into stateless ones, where duplication only costs bytes, and identity-bearing ones, where duplication is a correctness bug.",
             "ru": "Module Federation дедуплицирует общий модуль только если он помечен `singleton`; иначе каждый контейнер может загрузить свою подходящую копию — для чистой утилитарной библиотеки это нормально, а для всего, чей контракт и есть идентичность, фатально. React context, сам React и экземпляр стора ломаются одинаково: два экземпляра модуля — две разные идентичности, и потребитель молча откатывается к значению по умолчанию вместо ошибки. Правило, которое стоит проговорить на интервью: общие зависимости делятся на stateless, где дублирование стоит только байтов, и несущие идентичность, где дублирование — это баг корректности."
@@ -1794,7 +1842,10 @@
         "code": "// state shape: { ids: EntityId[], entities: Record<EntityId, Order> }\nconst ordersAdapter = __BLANK__<Order>();\n\nconst ordersSlice = createSlice({\n  name: 'orders',\n  initialState: ordersAdapter.__BLANK__(),\n  reducers: {\n    orderUpserted(state, action: PayloadAction<Order>) {\n      ordersAdapter.upsertOne(state, action.payload);\n    }\n  }\n});\n\n// one row subscribes to one entity, not to the array\nexport const { selectById: selectOrderById } = ordersAdapter.__BLANK__(\n  (state: RootState) => state.orders\n);",
         "blanks": ["createEntityAdapter", "getInitialState", "getSelectors"],
         "lang": "typescript",
-        "referenceAnswer": "createEntityAdapter<Order>() produces the { ids, entities } shape plus CRUD reducers (addOne, setOne, upsertOne, updateOne, removeOne and their Many variants) that operate on it. getInitialState() seeds the slice with { ids: [], entities: {} }, and getSelectors(selectSliceState) returns memoized selectIds / selectAll / selectById / selectEntities / selectTotal already bound to where the slice lives in the tree. The payoff is subscription granularity: a row selecting entities[id] gets an Object.is-stable reference that only changes when that one order changes, whereas selecting from an Order[] hands every row a new array reference on every write.",
+        "referenceAnswer": {
+            "en": "createEntityAdapter<Order>() produces the { ids, entities } shape plus CRUD reducers (addOne, setOne, upsertOne, updateOne, removeOne and their Many variants) that operate on it. getInitialState() seeds the slice with { ids: [], entities: {} }, and getSelectors(selectSliceState) returns memoized selectIds / selectAll / selectById / selectEntities / selectTotal already bound to where the slice lives in the tree. The payoff is subscription granularity: a row selecting entities[id] gets an Object.is-stable reference that only changes when that one order changes, whereas selecting from an Order[] hands every row a new array reference on every write.",
+            "ru": "createEntityAdapter<Order>() даёт форму { ids, entities } плюс CRUD-редьюсеры (addOne, setOne, upsertOne, updateOne, removeOne и их варианты Many), которые с ней работают. getInitialState() инициализирует слайс значением { ids: [], entities: {} }, а getSelectors(selectSliceState) возвращает мемоизированные selectIds / selectAll / selectById / selectEntities / selectTotal, уже привязанные к месту слайса в дереве состояния. Выигрыш — в гранулярности подписок: строка, выбирающая entities[id], получает стабильную по Object.is ссылку, которая меняется только при изменении этого одного заказа, тогда как выбор из Order[] отдаёт каждой строке новую ссылку на массив при любой записи."
+        },
         "explanation": {
             "en": "Normalising to an id list plus a lookup table is what makes per-entity subscriptions possible: an update touches one key, so only the row reading that key re-renders, and lookups by id stop being an O(n) `find` on every render. It is not a default, though — a plain array is simpler to read and to order, and the switch only pays off once the collection is large, writes arrive per entity, or the same entity is referenced from several places. Reach for it at that threshold, not before; the adapter's shape is the same one you would hand-roll for Zustand or Jotai.",
             "ru": "Нормализация в список id плюс таблицу поиска — это то, что делает возможными подписки на отдельную сущность: обновление трогает один ключ, поэтому перерендеривается только строка, читающая этот ключ, а поиск по id перестаёт быть O(n)-вызовом `find` на каждый рендер. Но это не поведение по умолчанию: обычный массив проще читать и сортировать, и переход окупается только когда коллекция велика, записи приходят по одной сущности или одна сущность упоминается в нескольких местах. Брать её стоит на этом пороге, а не заранее; форма адаптера — ровно та же, что вы написали бы руками для Zustand или Jotai."

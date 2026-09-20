@@ -31,6 +31,8 @@ export const SessionPlayPage: FC = () => {
         isSetupError,
         questionCount,
         isAnswered,
+        actionBarRef,
+        isLastQuestion,
         timerEnabled,
         timerMs,
         isMultiChoice,
@@ -41,6 +43,9 @@ export const SessionPlayPage: FC = () => {
         codeCompletionAllFilled,
         bugFindingCanSubmit,
         isEndDialogOpen,
+        endTriggerRef,
+        restoreEndTriggerFocus,
+        willScoreOnEnd,
         openEndDialog,
         closeEndDialog,
         confirmEndSession,
@@ -69,7 +74,11 @@ export const SessionPlayPage: FC = () => {
     }
 
     const actionBar: ActionBarState | null = isAnswered
-        ? { label: tSession('next'), onClick: handleNext, disabled: false }
+        ? {
+              label: tSession(isLastQuestion ? 'showResults' : 'next'),
+              onClick: handleNext,
+              disabled: false
+          }
         : isBugFindingPendingSelfAssess
           ? null
           : isMultiChoice
@@ -90,12 +99,17 @@ export const SessionPlayPage: FC = () => {
 
     return (
         <div className="flex flex-col gap-4 pb-24 lg:pb-0">
+            {/* The question heading is an h2, so the page needs its own top-level heading for
+                assistive tech; it is not shown because the progress line already says where we are. */}
+            <h1 className="sr-only">{tSession('pageTitle')}</h1>
             <div className="flex items-center justify-between gap-3">
                 <Button
+                    ref={endTriggerRef}
                     variant="ghost"
                     size="sm"
                     onClick={openEndDialog}
-                    className="text-muted-foreground hover:text-destructive"
+                    // A phone tap target is 44px; the pointer-driven layout keeps the compact height.
+                    className="min-h-11 text-muted-foreground hover:text-destructive lg:min-h-9"
                 >
                     <LogOut size={14} aria-hidden="true" />
                     {tSession('end.button')}
@@ -121,6 +135,7 @@ export const SessionPlayPage: FC = () => {
 
             {actionBar && (
                 <SessionActionBar
+                    ref={actionBarRef}
                     label={actionBar.label}
                     onClick={actionBar.onClick}
                     disabled={actionBar.disabled}
@@ -128,16 +143,26 @@ export const SessionPlayPage: FC = () => {
             )}
 
             <Dialog open={isEndDialogOpen} onOpenChange={(open) => !open && closeEndDialog()}>
-                <DialogContent>
+                <DialogContent onCloseAutoFocus={restoreEndTriggerFocus}>
                     <DialogHeader>
                         <DialogTitle>{tSession('end.dialog.title')}</DialogTitle>
-                        <DialogDescription>{tSession('end.dialog.description')}</DialogDescription>
+                        <DialogDescription>
+                            {tSession(
+                                willScoreOnEnd
+                                    ? 'end.dialog.descriptionScored'
+                                    : 'end.dialog.description'
+                            )}
+                        </DialogDescription>
                     </DialogHeader>
                     <div className="flex flex-col gap-2 sm:flex-row sm:justify-end">
-                        <Button variant="outline" onClick={closeEndDialog}>
+                        <Button variant="outline" className="min-h-11" onClick={closeEndDialog}>
                             {tSession('end.dialog.cancel')}
                         </Button>
-                        <Button variant="destructive" onClick={confirmEndSession}>
+                        <Button
+                            variant="destructive"
+                            className="min-h-11"
+                            onClick={confirmEndSession}
+                        >
                             {tSession('end.dialog.confirm')}
                         </Button>
                     </div>

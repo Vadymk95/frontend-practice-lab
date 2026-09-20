@@ -10,7 +10,7 @@ const baseCC = {
     tags: ['blanks'],
     question: { en: 'Fill the blank', ru: 'Заполните пропуск' },
     explanation: { en: 'because.', ru: 'потому что.' },
-    referenceAnswer: 'const x = 1'
+    referenceAnswer: { en: 'const x = 1', ru: 'const x = 1' }
 };
 
 describe('CodeCompletionSchema __BLANK__ refinement', () => {
@@ -53,5 +53,27 @@ describe('CodeCompletionSchema __BLANK__ refinement', () => {
             blanks: []
         });
         expect(ok.success).toBe(true);
+    });
+});
+
+describe('referenceAnswer shape', () => {
+    const withReference = (referenceAnswer: unknown) =>
+        CodeCompletionSchema.safeParse({
+            ...baseCC,
+            referenceAnswer,
+            code: 'const __BLANK__ = 1',
+            blanks: ['x']
+        });
+
+    it('accepts a localized reference answer', () => {
+        expect(withReference({ en: 'Assign one.', ru: 'Присвойте единицу.' }).success).toBe(true);
+    });
+
+    it('rejects a bare string now that the whole bank is localized', () => {
+        expect(withReference('Assign one.').success).toBe(false);
+    });
+
+    it('rejects a half-localized reference answer', () => {
+        expect(withReference({ en: 'Assign one.' }).success).toBe(false);
     });
 });

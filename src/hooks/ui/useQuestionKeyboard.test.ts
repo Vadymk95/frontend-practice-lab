@@ -94,6 +94,7 @@ describe('useQuestionKeyboard', () => {
         const input = document.createElement('input');
         document.body.appendChild(input);
         fireEvent.keyDown(input, { key: '1' });
+        fireEvent.keyDown(input, { key: 'a' });
         fireEvent.keyDown(input, { key: 'Enter' });
         document.body.removeChild(input);
 
@@ -109,6 +110,7 @@ describe('useQuestionKeyboard', () => {
         const textarea = document.createElement('textarea');
         document.body.appendChild(textarea);
         fireEvent.keyDown(textarea, { key: '1' });
+        fireEvent.keyDown(textarea, { key: 'a' });
         fireEvent.keyDown(textarea, { key: 'Enter' });
         document.body.removeChild(textarea);
 
@@ -160,6 +162,7 @@ describe('useQuestionKeyboard', () => {
         document.body.appendChild(dialog);
         fireEvent.keyDown(cancel, { key: 'Enter' });
         fireEvent.keyDown(cancel, { key: '1' });
+        fireEvent.keyDown(cancel, { key: 'a' });
         document.body.removeChild(dialog);
 
         expect(onSubmit).not.toHaveBeenCalled();
@@ -178,5 +181,121 @@ describe('useQuestionKeyboard', () => {
         expect(onSelectOption).toHaveBeenCalledTimes(2);
         expect(onSelectOption).toHaveBeenNthCalledWith(1, 0);
         expect(onSelectOption).toHaveBeenNthCalledWith(2, 1);
+    });
+    describe('Enter belongs to the focused control', () => {
+        function renderWithTarget(tag: 'button' | 'a') {
+            renderHook(() =>
+                useQuestionKeyboard({ optionCount: 4, onSelectOption, onSubmit, isAnswered: false })
+            );
+            const el = document.createElement(tag);
+            if (tag === 'a') el.setAttribute('href', '#x');
+            document.body.appendChild(el);
+            return el;
+        }
+
+        it('leaves Enter to a focused button so its native activation runs', () => {
+            const button = renderWithTarget('button');
+
+            fireEvent.keyDown(button, { key: 'Enter' });
+            document.body.removeChild(button);
+
+            expect(onSubmit).not.toHaveBeenCalled();
+        });
+
+        it('leaves Enter to a focused link', () => {
+            const link = renderWithTarget('a');
+
+            fireEvent.keyDown(link, { key: 'Enter' });
+            document.body.removeChild(link);
+
+            expect(onSubmit).not.toHaveBeenCalled();
+        });
+
+        it('leaves Enter to a focused custom control with a button role', () => {
+            renderHook(() =>
+                useQuestionKeyboard({ optionCount: 4, onSelectOption, onSubmit, isAnswered: true })
+            );
+            const el = document.createElement('div');
+            el.setAttribute('role', 'button');
+            document.body.appendChild(el);
+
+            fireEvent.keyDown(el, { key: 'Enter' });
+            document.body.removeChild(el);
+
+            expect(onSubmit).not.toHaveBeenCalled();
+        });
+
+        it('still submits on Enter when the page body holds the focus', () => {
+            renderHook(() =>
+                useQuestionKeyboard({ optionCount: 4, onSelectOption, onSubmit, isAnswered: false })
+            );
+
+            fireEvent.keyDown(document.body, { key: 'Enter' });
+
+            expect(onSubmit).toHaveBeenCalledOnce();
+        });
+
+        it('still selects an option by digit while a control holds the focus', () => {
+            const button = renderWithTarget('button');
+
+            fireEvent.keyDown(button, { key: '2' });
+            document.body.removeChild(button);
+
+            expect(onSelectOption).toHaveBeenCalledWith(1);
+        });
+    });
+
+    describe('letter keys mirror the printed option labels', () => {
+        it('calls onSelectOption(1) when key "b" is pressed', () => {
+            renderHook(() =>
+                useQuestionKeyboard({ optionCount: 4, onSelectOption, onSubmit, isAnswered: false })
+            );
+
+            fireEvent.keyDown(document, { key: 'b' });
+
+            expect(onSelectOption).toHaveBeenCalledWith(1);
+        });
+
+        it('accepts the uppercase letter the option label actually prints', () => {
+            renderHook(() =>
+                useQuestionKeyboard({ optionCount: 4, onSelectOption, onSubmit, isAnswered: false })
+            );
+
+            fireEvent.keyDown(document, { key: 'D' });
+
+            expect(onSelectOption).toHaveBeenCalledWith(3);
+        });
+
+        it('does not select a letter past the last option ("e" with 4 options)', () => {
+            renderHook(() =>
+                useQuestionKeyboard({ optionCount: 4, onSelectOption, onSubmit, isAnswered: false })
+            );
+
+            fireEvent.keyDown(document, { key: 'e' });
+
+            expect(onSelectOption).not.toHaveBeenCalled();
+        });
+
+        it('does not select a letter once the question is answered', () => {
+            renderHook(() =>
+                useQuestionKeyboard({ optionCount: 4, onSelectOption, onSubmit, isAnswered: true })
+            );
+
+            fireEvent.keyDown(document, { key: 'a' });
+
+            expect(onSelectOption).not.toHaveBeenCalled();
+        });
+
+        it('leaves a shortcut key held with a modifier to the browser', () => {
+            renderHook(() =>
+                useQuestionKeyboard({ optionCount: 4, onSelectOption, onSubmit, isAnswered: false })
+            );
+
+            fireEvent.keyDown(document, { key: 'a', metaKey: true });
+            fireEvent.keyDown(document, { key: 'a', ctrlKey: true });
+            fireEvent.keyDown(document, { key: '1', metaKey: true });
+
+            expect(onSelectOption).not.toHaveBeenCalled();
+        });
     });
 });

@@ -8,7 +8,7 @@ interface InlineMarkdownProps {
 }
 
 /**
- * Renders the question bank's inline markdown (`code`, **bold**, hard newlines) as React
+ * Renders the question bank's inline markdown (`code`, **bold**, *italic*, hard newlines) as React
  * nodes. Never uses dangerouslySetInnerHTML — content that is not a supported marker is
  * emitted as a text node, so HTML in the data stays visible as HTML.
  */
@@ -32,6 +32,9 @@ export const InlineMarkdown: FC<InlineMarkdownProps> = ({ text, className }) => 
                         {segment.value}
                     </strong>
                 );
+            }
+            if (segment.type === 'italic') {
+                return <em key={index}>{segment.value}</em>;
             }
             return <Fragment key={index}>{segment.value}</Fragment>;
         })}

@@ -1097,7 +1097,10 @@
         },
         "code": "// useFlags() returns { flags, isReady } — isReady stays false until the SDK has fetched the flag set\nfunction NewDashboard() {\n  const { flags, isReady } = useFlags();\n\n  if (flags['new-dashboard']) {\n    return <DashboardV2 />;\n  }\n\n  return <Dashboard />;\n}",
         "correct": "The component never checks isReady, so it renders while flags is still empty and every user gets the control variant on first paint, flipping to DashboardV2 once the flags arrive",
-        "referenceAnswer": "Gate the render on the SDK's readiness instead of on the flag value alone:\n\n```jsx\nfunction NewDashboard() {\n  const { flags, isReady } = useFlags();\n  if (!isReady) return <DashboardSkeleton />;\n  return flags['new-dashboard'] ? <DashboardV2 /> : <Dashboard />;\n}\n```\n\nThe skeleton removes the flash but still costs a loading pass. The stronger fix is to bootstrap the resolved flag values from the server (or evaluate at the edge) so the first render already has real values and the loading branch disappears entirely.",
+        "referenceAnswer": {
+            "en": "Gate the render on the SDK's readiness instead of on the flag value alone:\n\n```jsx\nfunction NewDashboard() {\n  const { flags, isReady } = useFlags();\n  if (!isReady) return <DashboardSkeleton />;\n  return flags['new-dashboard'] ? <DashboardV2 /> : <Dashboard />;\n}\n```\n\nThe skeleton removes the flash but still costs a loading pass. The stronger fix is to bootstrap the resolved flag values from the server (or evaluate at the edge) so the first render already has real values and the loading branch disappears entirely.",
+            "ru": "Привяжите рендер к готовности SDK, а не только к значению флага:\n\n```jsx\nfunction NewDashboard() {\n  const { flags, isReady } = useFlags();\n  if (!isReady) return <DashboardSkeleton />;\n  return flags['new-dashboard'] ? <DashboardV2 /> : <Dashboard />;\n}\n```\n\nСкелетон убирает мигание, но проход с загрузкой всё равно остаётся. Более надёжное решение — отдавать с сервера уже вычисленные значения флагов (или вычислять их на edge), чтобы первый рендер сразу получал реальные значения и ветка загрузки исчезала совсем."
+        },
         "lang": "jsx"
     },
     {
@@ -1116,7 +1119,10 @@
         },
         "code": "async function initApp() {\n  renderApp(); // renders before flags are loaded\n  await flagClient.initialize();\n  const flags = flagClient.getAllFlags();\n  applyFlags(flags);\n}",
         "correct": "renderApp() is called before flagClient.initialize() completes, so the initial render uses no flag state and causes a flash of the unflagged experience",
-        "referenceAnswer": "Await initialization before rendering: await flagClient.initialize(); const flags = flagClient.getAllFlags(); applyFlags(flags); renderApp();. Or bootstrap flags server-side so they are available synchronously on first render.",
+        "referenceAnswer": {
+            "en": "Await initialization before rendering: await flagClient.initialize(); const flags = flagClient.getAllFlags(); applyFlags(flags); renderApp();. Or bootstrap flags server-side so they are available synchronously on first render.",
+            "ru": "Дождитесь инициализации перед рендером: await flagClient.initialize(); const flags = flagClient.getAllFlags(); applyFlags(flags); renderApp();. Либо передавайте флаги с сервера, чтобы они были доступны синхронно уже на первом рендере."
+        },
         "lang": "javascript"
     },
     {
@@ -1135,7 +1141,10 @@
         },
         "code": "// Before cleanup:\nfunction getPrice(item: Item) {\n  if (flags.isEnabled('new-pricing')) {\n    return item.price * 0.9;\n  }\n  return item.price;\n}\n\n// After 'cleanup' (flag removed, new pricing is default):\nfunction getPrice(item: Item) {\n  if (true) {\n    return item.price * 0.9;\n  }\n  return item.price;\n}",
         "correct": "The developer replaced the flag with `if (true)` instead of removing the conditional entirely, leaving dead unreachable code",
-        "referenceAnswer": "Correct cleanup: function getPrice(item: Item) { return item.price * 0.9; }. The entire if/else should be removed and only the active code path retained. Replacing with `if (true)` is incomplete cleanup that still adds cognitive overhead.",
+        "referenceAnswer": {
+            "en": "Correct cleanup: function getPrice(item: Item) { return item.price * 0.9; }. The entire if/else should be removed and only the active code path retained. Replacing with `if (true)` is incomplete cleanup that still adds cognitive overhead.",
+            "ru": "Правильная очистка: function getPrice(item: Item) { return item.price * 0.9; }. Весь if/else нужно удалить, оставив только активную ветку кода. Замена на `if (true)` — незавершённая очистка, которая всё равно добавляет когнитивную нагрузку."
+        },
         "lang": "javascript"
     },
     {
@@ -1155,7 +1164,10 @@
         "code": "interface FeatureFlagProps {\n  name: string;\n  children: React.ReactNode;\n  fallback?: React.ReactNode;\n}\n\nfunction FeatureFlag({ name, children, fallback = null }: FeatureFlagProps) {\n  const isEnabled = useFlag(__BLANK__);\n  return __BLANK__  ? <>{children}</> : <>{__BLANK__}</>;\n}",
         "blanks": ["name", "isEnabled", "fallback"],
         "lang": "typescript",
-        "referenceAnswer": "useFlag(name) evaluates the flag by key; render children when enabled, fallback otherwise."
+        "referenceAnswer": {
+            "en": "useFlag(name) evaluates the flag by key; render children when enabled, fallback otherwise.",
+            "ru": "useFlag(name) вычисляет флаг по ключу; рендерьте children, если флаг включён, иначе fallback."
+        }
     },
     {
         "id": "ff-hook-001",
@@ -1174,7 +1186,10 @@
         "code": "const FlagsContext = React.createContext<Record<string, boolean>>({});\n\nexport function useFeatureFlag(key: __BLANK__): boolean {\n  const flags = useContext(__BLANK__);\n  return flags[__BLANK__] ?? false;\n}\n\nexport function FlagsProvider({\n  flags,\n  children,\n}: {\n  flags: Record<string, boolean>;\n  children: React.ReactNode;\n}) {\n  return (\n    <FlagsContext.__BLANK__ value={flags}>{children}</FlagsContext.__BLANK__>\n  );\n}",
         "blanks": ["string", "FlagsContext", "key", "Provider", "Provider"],
         "lang": "typescript",
-        "referenceAnswer": "key is string; useContext(FlagsContext) retrieves flags; flags[key] ?? false provides a safe default; FlagsContext.Provider wraps children."
+        "referenceAnswer": {
+            "en": "key is string; useContext(FlagsContext) retrieves flags; flags[key] ?? false provides a safe default; FlagsContext.Provider wraps children.",
+            "ru": "key имеет тип string; useContext(FlagsContext) достаёт флаги; flags[key] ?? false даёт безопасное значение по умолчанию; FlagsContext.Provider оборачивает children."
+        }
     },
     {
         "id": "ff-gradual-001",
@@ -1193,7 +1208,10 @@
         "code": "function isInRollout(userId: string, flagKey: string, percentage: number): boolean {\n  const hash = simpleHash(`${userId}-${flagKey}`);\n  return (hash % __BLANK__) < percentage;\n}\n\n// simpleHash returns a number 0..Number.MAX_SAFE_INTEGER\n// percentage is 0..100",
         "blanks": ["100"],
         "lang": "typescript",
-        "referenceAnswer": "Hash userId together with flagKey (either order works, as long as it is consistent), take the hash modulo 100 to land in a 0..99 bucket, and compare that bucket to the rollout percentage."
+        "referenceAnswer": {
+            "en": "Hash userId together with flagKey (either order works, as long as it is consistent), take the hash modulo 100 to land in a 0..99 bucket, and compare that bucket to the rollout percentage.",
+            "ru": "Хешируйте userId вместе с flagKey (порядок не важен, главное — чтобы он был одинаковым), возьмите остаток хеша по модулю 100, чтобы получить бакет 0..99, и сравните его с процентом раскатки."
+        }
     },
     {
         "id": "ff-openfeature-002",
@@ -1212,7 +1230,10 @@
         "code": "import { OpenFeature } from '@openfeature/web-sdk';\n\n// Setup (once at app init) — awaited so evaluations do not fall back while the provider initialises\nawait OpenFeature.setProviderAndWait(new MyFlagProvider());\n\n// In a component:\nfunction PricingPanel() {\n  const client = OpenFeature.__BLANK__('app');\n  const showNewPricing: boolean = client.__BLANK__(\n    'new-pricing',\n    __BLANK__ // safe default when the flag has no value\n  );\n  return showNewPricing ? <NewPricing /> : <OldPricing />;\n}",
         "blanks": ["getClient", "getBooleanValue", "false"],
         "lang": "tsx",
-        "referenceAnswer": "await OpenFeature.setProviderAndWait(provider) registers the provider and waits until it is ready; OpenFeature.getClient('app') returns a named evaluation client; client.getBooleanValue('new-pricing', false) evaluates the flag and returns the safe default when no value is available."
+        "referenceAnswer": {
+            "en": "await OpenFeature.setProviderAndWait(provider) registers the provider and waits until it is ready; OpenFeature.getClient('app') returns a named evaluation client; client.getBooleanValue('new-pricing', false) evaluates the flag and returns the safe default when no value is available.",
+            "ru": "await OpenFeature.setProviderAndWait(provider) регистрирует провайдер и ждёт, пока он не будет готов; OpenFeature.getClient('app') возвращает именованный клиент для вычисления флагов; client.getBooleanValue('new-pricing', false) вычисляет флаг и возвращает безопасное значение по умолчанию, если значения нет."
+        }
     },
     {
         "id": "ff-mock-001",
@@ -1231,7 +1252,10 @@
         "code": "import { vi, describe, it, expect } from 'vitest';\nimport { render, screen } from '@testing-library/react';\nimport { useFeatureFlag } from '@/hooks/useFeatureFlag';\nimport { PricingPanel } from './PricingPanel';\n\n// hoisted above the imports, so the static import above already resolves to the mock\nvi.__BLANK__('@/hooks/useFeatureFlag', () => ({\n  useFeatureFlag: vi.fn(),\n}));\n\ndescribe('PricingPanel', () => {\n  it('shows new pricing when the flag is enabled', () => {\n    vi.mocked(useFeatureFlag).__BLANK__(true);\n    render(<PricingPanel />);\n    expect(screen.getByText('New Pricing')).__BLANK__();\n  });\n});",
         "blanks": ["mock", "mockReturnValue", "toBeInTheDocument"],
         "lang": "tsx",
-        "referenceAnswer": "vi.mock('@/hooks/useFeatureFlag', factory) replaces the module; the call is hoisted to the top of the file, above the imports, so the static import of useFeatureFlag already resolves to the mocked version. vi.mocked(useFeatureFlag).mockReturnValue(true) sets the value for one test case, and toBeInTheDocument() asserts the rendered variant."
+        "referenceAnswer": {
+            "en": "vi.mock('@/hooks/useFeatureFlag', factory) replaces the module; the call is hoisted to the top of the file, above the imports, so the static import of useFeatureFlag already resolves to the mocked version. vi.mocked(useFeatureFlag).mockReturnValue(true) sets the value for one test case, and toBeInTheDocument() asserts the rendered variant.",
+            "ru": "vi.mock('@/hooks/useFeatureFlag', factory) подменяет модуль; вызов поднимается в начало файла, выше импортов, поэтому статический импорт useFeatureFlag уже разрешается в замоканную версию. vi.mocked(useFeatureFlag).mockReturnValue(true) задаёт значение для одного теста, а toBeInTheDocument() проверяет отрендеренный вариант."
+        }
     },
     {
         "id": "ff-provider-001",
@@ -1250,7 +1274,10 @@
         "code": "// Server renders: <script>window.__FLAGS__ = { 'new-ui': true }</script>\n\nfunction FlagsProvider({ children }: { children: React.ReactNode }) {\n  const [flags] = useState<Record<string, boolean>>(\n    () => (window as any).__BLANK__ ?? {}\n  );\n\n  return (\n    <FlagsContext.__BLANK__ value={__BLANK__}>\n      {children}\n    </FlagsContext.__BLANK__>\n  );\n}",
         "blanks": ["__FLAGS__", "Provider", "flags", "Provider"],
         "lang": "tsx",
-        "referenceAnswer": "Read window.__FLAGS__ in the useState initializer (lazy init, runs once); provide via FlagsContext.Provider."
+        "referenceAnswer": {
+            "en": "Read window.__FLAGS__ in the useState initializer (lazy init, runs once); provide via FlagsContext.Provider.",
+            "ru": "Читайте window.__FLAGS__ в инициализаторе useState (ленивая инициализация, выполняется один раз); прокидывайте значение через FlagsContext.Provider."
+        }
     },
     {
         "id": "ff-types-004",
@@ -1522,7 +1549,10 @@
         },
         "code": "function isInRollout(percentage: number): boolean {\n  const random = Math.random() * 100;\n  return random < percentage;\n}",
         "correct": "Math.random() is non-deterministic — a user may be in the rollout on one request and out on the next, causing inconsistent experiences and corrupting A/B test data",
-        "referenceAnswer": "Use a deterministic hash of a stable user identifier: function isInRollout(userId: string, flagKey: string, percentage: number) { const hash = stableHash(userId + flagKey) % 100; return hash < percentage; }. The same user always gets the same assignment.",
+        "referenceAnswer": {
+            "en": "Use a deterministic hash of a stable user identifier: function isInRollout(userId: string, flagKey: string, percentage: number) { const hash = stableHash(userId + flagKey) % 100; return hash < percentage; }. The same user always gets the same assignment.",
+            "ru": "Используйте детерминированный хеш стабильного идентификатора пользователя: function isInRollout(userId: string, flagKey: string, percentage: number) { const hash = stableHash(userId + flagKey) % 100; return hash < percentage; }. Один и тот же пользователь всегда попадает в одну и ту же группу."
+        },
         "lang": "typescript"
     },
     {
@@ -1542,7 +1572,10 @@
         "code": "// Before:\nfunction CheckoutPage() {\n  const isNewCheckout = useFeatureFlag('use-new-checkout');\n  if (__BLANK__) {\n    return <NewCheckout />;\n  }\n  return <OldCheckout />;\n}\n\n// After cleanup (flag removed permanently):\nfunction CheckoutPage() {\n  return <__BLANK__ />;\n}",
         "blanks": ["isNewCheckout", "NewCheckout"],
         "lang": "tsx",
-        "referenceAnswer": "The condition was `if (isNewCheckout)`; after cleanup the component returns `<NewCheckout />` only — the flag evaluation, the branch and OldCheckout are all removed."
+        "referenceAnswer": {
+            "en": "The condition was `if (isNewCheckout)`; after cleanup the component returns `<NewCheckout />` only — the flag evaluation, the branch and OldCheckout are all removed.",
+            "ru": "Условие было `if (isNewCheckout)`; после очистки компонент возвращает только `<NewCheckout />` — вычисление флага, ветвление и OldCheckout удалены полностью."
+        }
     },
     {
         "id": "ff-ownership-001",

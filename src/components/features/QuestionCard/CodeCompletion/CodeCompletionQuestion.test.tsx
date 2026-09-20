@@ -25,7 +25,10 @@ const makeCodeCompletionQuestion = (
     question: { en: 'Complete the function:', ru: 'Complete the function:' },
     code: 'function add(a, b) {\n  return __BLANK__ + __BLANK__;\n}',
     blanks: ['a', 'b'],
-    referenceAnswer: 'function add(a, b) {\n  return a + b;\n}',
+    referenceAnswer: {
+        en: 'function add(a, b) {\n  return a + b;\n}',
+        ru: 'function add(a, b) {\n  return a + b;\n}'
+    },
     explanation: { en: 'Add the two parameters.', ru: 'Add the two parameters.' },
     ...overrides
 });
@@ -486,5 +489,122 @@ describe('CodeCompletionQuestion — skipped reveal', () => {
         });
 
         expect(screen.getAllByRole('textbox')[0]!.className).toContain('text-accent');
+    });
+});
+
+describe('CodeCompletionQuestion — reference answer', () => {
+    const submitAnswered = async (question: CodeCompletionQuestionData) => {
+        let capturedSubmitFn: (() => void) | null = null;
+        const view = renderWithProviders(
+            <CodeCompletionQuestion
+                question={question}
+                onSubmitRegister={(fn) => {
+                    capturedSubmitFn = fn;
+                }}
+                onAllBlanksFilled={vi.fn()}
+            />
+        );
+        const inputs = screen.getAllByRole('textbox');
+        fireEvent.change(inputs[0]!, { target: { value: 'a' } });
+        fireEvent.change(inputs[1]!, { target: { value: 'b' } });
+        await waitFor(() => expect(capturedSubmitFn).not.toBeNull());
+        await act(async () => {
+            capturedSubmitFn!();
+        });
+        return view;
+    };
+
+    it('renders a prose reference answer as wrapping text, not as a code block', async () => {
+        const { container } = await submitAnswered(
+            makeCodeCompletionQuestion({
+                referenceAnswer: {
+                    en: 'Use `useCallback` so the handler identity stays stable.',
+                    ru: 'Use `useCallback` so the handler identity stays stable.'
+                }
+            })
+        );
+
+        await waitFor(() =>
+            expect(container.textContent).toContain('so the handler identity stays stable')
+        );
+        const highlighted = [...container.querySelectorAll('.shiki')].map((el) => el.textContent);
+        expect(highlighted.join('')).not.toContain('so the handler identity stays stable');
+        const codeSpans = [...container.querySelectorAll('code')].map((el) => el.textContent);
+        expect(codeSpans).toContain('useCallback');
+    });
+
+    it('renders only the fenced part of a reference answer as code', async () => {
+        const { container } = await submitAnswered(
+            makeCodeCompletionQuestion({
+                referenceAnswer: {
+                    en: 'Return the sum:\n```js\nreturn a + b;\n```',
+                    ru: 'Return the sum:\n```js\nreturn a + b;\n```'
+                }
+            })
+        );
+
+        await waitFor(() => expect(container.textContent).toContain('Return the sum:'));
+        const highlighted = [...container.querySelectorAll('.shiki')].map((el) => el.textContent);
+        expect(highlighted.join('')).not.toContain('Return the sum');
+        expect(highlighted.join('')).toContain('return a + b;');
+    });
+
+    it('resolves a localized reference answer for the active language', async () => {
+        const { container } = await submitAnswered(
+            makeCodeCompletionQuestion({
+                referenceAnswer: {
+                    en: 'Add the two parameters together.',
+                    ru: 'Сложите два параметра.'
+                }
+            })
+        );
+
+        await waitFor(() =>
+            expect(container.textContent).toContain('Add the two parameters together.')
+        );
+        expect(container.textContent).not.toContain('Сложите два параметра.');
+        expect(container.textContent).not.toContain('[object Object]');
+    });
+});
+
+describe('CodeCompletionQuestion — result in words, not only in colour', () => {
+    const submitWith = async (values: string[]) => {
+        let capturedSubmitFn: (() => void) | null = null;
+        const view = renderWithProviders(
+            <CodeCompletionQuestion
+                question={makeCodeCompletionQuestion()}
+                onSubmitRegister={(fn) => {
+                    capturedSubmitFn = fn;
+                }}
+                onAllBlanksFilled={vi.fn()}
+            />
+        );
+        const inputs = screen.getAllByRole('textbox');
+        values.forEach((value, i) => fireEvent.change(inputs[i]!, { target: { value } }));
+        await waitFor(() => expect(capturedSubmitFn).not.toBeNull());
+        await act(async () => {
+            capturedSubmitFn!();
+        });
+        return view;
+    };
+
+    it('announces the verdict in a polite live region', async () => {
+        await submitWith(['a', 'zzz']);
+
+        const status = await screen.findByRole('status');
+        expect(status).toHaveAttribute('aria-live', 'polite');
+        expect(status.textContent).toContain('Incorrect');
+    });
+
+    it('confirms a correct blank in words, not only with a green underline', async () => {
+        await submitWith(['a', 'zzz']);
+
+        await waitFor(() => {
+            const items = screen.getAllByRole('listitem').map((el) => el.textContent);
+            expect(items[0]).toContain('Blank 1');
+            expect(items[0]).toContain('Correct');
+            expect(items[1]).toContain('Blank 2');
+            expect(items[1]).toContain('Expected:');
+        });
     });
 });

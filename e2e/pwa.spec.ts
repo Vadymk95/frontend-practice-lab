@@ -37,7 +37,7 @@ async function completeMiniSession(page: import('@playwright/test').Page) {
     await page.waitForURL('**/session/play');
     await page.waitForSelector('article h2', { timeout: 8000 });
     await page.getByRole('button', { name: /Пропустить|Skip/i }).click();
-    const nextBtn = page.getByRole('button', { name: /Далее|Next/i });
+    const nextBtn = page.getByRole('button', { name: /Далее|Next|К результатам|Show results/i });
     await expect(nextBtn).toBeVisible({ timeout: 5000 });
     await nextBtn.click();
     await page.waitForURL('**/session/summary', { timeout: 5000 });

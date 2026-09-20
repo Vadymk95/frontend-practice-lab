@@ -11,7 +11,7 @@ test.describe('Header controls', () => {
         const isDark = initialClass.includes('dark');
 
         const themeBtn = page.getByRole('button', {
-            name: /Switch to|Переключить на/i
+            name: /Switch to (light|dark) mode|Переключить на (светлую|тёмную) тему/i
         });
         await themeBtn.click();
 
@@ -28,7 +28,11 @@ test.describe('Header controls', () => {
         const initialClass = (await html.getAttribute('class')) ?? '';
         const isDark = initialClass.includes('dark');
 
-        await page.getByRole('button', { name: /Switch to|Переключить на/i }).click();
+        await page
+            .getByRole('button', {
+                name: /Switch to (light|dark) mode|Переключить на (светлую|тёмную) тему/i
+            })
+            .click();
 
         await page.reload();
         const newClass = (await html.getAttribute('class')) ?? '';
@@ -40,7 +44,9 @@ test.describe('Header controls', () => {
     });
 
     test('language toggle shows current code (EN/RU) and flips on click', async ({ page }) => {
-        const langBtn = page.getByRole('button', { name: /Toggle language|Переключить язык/i });
+        const langBtn = page.getByRole('button', {
+            name: /Switch to (English|Russian)|Переключить на (английский|русский)/i
+        });
 
         // Default is Russian — button shows RU (the current language)
         await expect(langBtn).toContainText(/EN|RU/);
@@ -54,13 +60,17 @@ test.describe('Header controls', () => {
     });
 
     test('language toggle persists on reload', async ({ page }) => {
-        const langBtn = page.getByRole('button', { name: /Toggle language|Переключить язык/i });
+        const langBtn = page.getByRole('button', {
+            name: /Switch to (English|Russian)|Переключить на (английский|русский)/i
+        });
         const initialText = await langBtn.textContent();
 
         await langBtn.click();
         await page.reload();
 
-        const newBtn = page.getByRole('button', { name: /Toggle language|Переключить язык/i });
+        const newBtn = page.getByRole('button', {
+            name: /Switch to (English|Russian)|Переключить на (английский|русский)/i
+        });
         const persistedText = await newBtn.textContent();
         expect(persistedText).not.toBe(initialText);
     });

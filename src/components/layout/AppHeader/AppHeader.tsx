@@ -8,6 +8,9 @@ import { RoutesPath } from '@/router/routes';
 
 import { useAppHeader } from './useAppHeader';
 
+const CONTROL_CLASS =
+    'inline-flex min-h-11 min-w-11 items-center justify-center rounded px-2 text-sm text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-alt';
+
 export const AppHeader: FC = () => {
     const { theme, language, handleLanguageToggle, handleThemeToggle, resetDialog } =
         useAppHeader();
@@ -26,31 +29,34 @@ export const AppHeader: FC = () => {
                     <div className="flex items-center gap-2">
                         <button
                             type="button"
-                            aria-label={t('header.toggleLanguage')}
+                            aria-label={t(
+                                language === 'ru' ? 'header.switchToEn' : 'header.switchToRu'
+                            )}
                             onClick={handleLanguageToggle}
-                            className="rounded px-2 py-1 text-sm text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-alt"
+                            className={CONTROL_CLASS}
                         >
                             {language.toUpperCase()}
                         </button>
+                        {/* Icon and label name the same thing — the theme the click leads to. */}
                         <button
                             type="button"
                             aria-label={t(
                                 theme === 'dark' ? 'header.switchToLight' : 'header.switchToDark'
                             )}
                             onClick={handleThemeToggle}
-                            className="rounded p-1 text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-alt"
+                            className={CONTROL_CLASS}
                         >
                             {theme === 'dark' ? (
-                                <Moon size={16} aria-hidden="true" />
-                            ) : (
                                 <Sun size={16} aria-hidden="true" />
+                            ) : (
+                                <Moon size={16} aria-hidden="true" />
                             )}
                         </button>
                         <button
                             type="button"
                             aria-label={t('resetWeights.title')}
                             onClick={resetDialog.open}
-                            className="rounded p-1 text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-alt"
+                            className={CONTROL_CLASS}
                         >
                             <Settings size={16} aria-hidden="true" />
                         </button>
@@ -65,6 +71,9 @@ export const AppHeader: FC = () => {
                 categories={resetDialog.categories}
                 successMessage={resetDialog.successMessage}
                 errorMessage={resetDialog.errorMessage}
+                isConfirmingAll={resetDialog.isConfirmingAll}
+                requestResetAll={resetDialog.requestResetAll}
+                cancelResetAll={resetDialog.cancelResetAll}
             />
         </>
     );

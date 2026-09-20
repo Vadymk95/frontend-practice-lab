@@ -1259,7 +1259,10 @@
         },
         "code": "function calculateTotal(items) {\n<<<<<<< HEAD\n  return items.reduce((sum, item) => sum + item.price, 0);\n=======\n  return items.reduce((sum, item) => sum + item.cost, 0);\n>>>>>>> feature/pricing-update\n}",
         "correct": "The merge conflict markers (<<<<<<, =======, >>>>>>>) were committed as-is — the conflict was never actually resolved",
-        "referenceAnswer": "The developer must manually resolve the conflict by choosing one version (or combining them), removing all conflict markers, and committing the clean file. A pre-commit hook or CI lint check can catch this.",
+        "referenceAnswer": {
+            "en": "The developer must manually resolve the conflict by choosing one version (or combining them), removing all conflict markers, and committing the clean file. A pre-commit hook or CI lint check can catch this.",
+            "ru": "Разработчик должен вручную разрешить конфликт: выбрать одну из версий (или объединить их), удалить все маркеры конфликта и закоммитить чистый файл. Поймать такое помогает pre-commit hook или lint-проверка в CI."
+        },
         "lang": "bash"
     },
     {
@@ -1278,7 +1281,10 @@
         },
         "code": "# On branch: feature/shared-api (3 teammates have pulled this branch)\n$ git rebase -i origin/main\n$ git push --force origin feature/shared-api",
         "correct": "Force-pushing a rebased branch that teammates have already pulled rewrites history they are based on, causing everyone else to have diverged histories and losing their local commits",
-        "referenceAnswer": "Do not rebase a branch other people have already pulled. `--force-with-lease` is not the fix here: it only refuses the push when the remote ref moved since your last fetch, so against an untouched remote it succeeds and every teammate is still left on orphaned commits. Real options: (1) merge origin/main into the shared branch instead of rebasing it, (2) if the history must be cleaned up, publish the rebased work as a new branch and let the team switch to it, (3) keep rebase for branches that are still private to you. If the force-push already happened, every teammate has to replay their own work onto the new tip (git fetch, then git rebase --onto origin/feature/shared-api <old-tip>) — the manual cleanup this mistake forces on the whole team.",
+        "referenceAnswer": {
+            "en": "Do not rebase a branch other people have already pulled. `--force-with-lease` is not the fix here: it only refuses the push when the remote ref moved since your last fetch, so against an untouched remote it succeeds and every teammate is still left on orphaned commits. Real options: (1) merge origin/main into the shared branch instead of rebasing it, (2) if the history must be cleaned up, publish the rebased work as a new branch and let the team switch to it, (3) keep rebase for branches that are still private to you. If the force-push already happened, every teammate has to replay their own work onto the new tip (git fetch, then git rebase --onto origin/feature/shared-api <old-tip>) — the manual cleanup this mistake forces on the whole team.",
+            "ru": "Не делайте rebase ветки, которую другие уже успели себе забрать. `--force-with-lease` здесь не спасает: он отклоняет push только тогда, когда удалённая ссылка сдвинулась с момента вашего последнего fetch, поэтому, если удалённую ветку с тех пор никто не трогал, push пройдёт, а вся команда всё равно останется на осиротевших коммитах. Реальные варианты: (1) влить origin/main в общую ветку вместо того, чтобы её перебазировать, (2) если историю всё же нужно причесать — опубликовать перебазированную работу как новую ветку и дать команде переключиться на неё, (3) оставить rebase для веток, которые пока остаются только вашими. Если force-push уже случился, каждому коллеге придётся переносить свою работу на новую вершину (git fetch, затем git rebase --onto origin/feature/shared-api <old-tip>) — та самая ручная уборка, которую эта ошибка навязывает всей команде."
+        },
         "lang": "bash"
     },
     {
@@ -1297,7 +1303,10 @@
         },
         "code": "# .gitignore\nnode_modules/\n\n# git status output:\nChanges not staged for commit:\n  modified:   node_modules/lodash/package.json",
         "correct": "node_modules/ was already tracked by Git before .gitignore was updated; .gitignore only prevents untracked files from being added, it does not remove already-tracked files",
-        "referenceAnswer": "Run: git rm -r --cached node_modules/ then commit the change. This removes node_modules from Git's index (tracking) without deleting the files from disk. After this, .gitignore will prevent it from being re-added.",
+        "referenceAnswer": {
+            "en": "Run: git rm -r --cached node_modules/ then commit the change. This removes node_modules from Git's index (tracking) without deleting the files from disk. After this, .gitignore will prevent it from being re-added.",
+            "ru": "Выполните: git rm -r --cached node_modules/ и закоммитьте изменение. Это убирает node_modules из индекса Git (из-под отслеживания), не удаляя файлы с диска. После этого .gitignore не даст добавить их обратно."
+        },
         "lang": "bash"
     },
     {
@@ -1317,7 +1326,10 @@
         "code": "# 1. condense each commit to a single line\ngit log __BLANK__\n\n# 2. draw the ASCII branch/merge topology\ngit log __BLANK__\n\n# 3. start the walk from every ref in refs/, not just HEAD\ngit log __BLANK__",
         "blanks": ["--oneline", "--graph", "--all"],
         "lang": "bash",
-        "referenceAnswer": "git log --oneline --graph --all combines the three: one line per commit, an ASCII topology graph, and every ref in refs/ as a starting point. The flags are order-independent."
+        "referenceAnswer": {
+            "en": "git log --oneline --graph --all combines the three: one line per commit, an ASCII topology graph, and every ref in refs/ as a starting point. The flags are order-independent.",
+            "ru": "git log --oneline --graph --all объединяет все три вещи: по одной строке на коммит, ASCII-граф топологии и все ссылки из refs/ как стартовые точки. Порядок флагов значения не имеет."
+        }
     },
     {
         "id": "git-stash-002",
@@ -1336,7 +1348,10 @@
         "code": "git stash __BLANK__ 'WIP: refactor auth'\ngit stash __BLANK__\ngit stash __BLANK__",
         "blanks": ["push -m", "list", "pop"],
         "lang": "bash",
-        "referenceAnswer": "git stash push -m 'message' saves with a label; git stash list shows all stashes; git stash pop applies and removes the top stash."
+        "referenceAnswer": {
+            "en": "git stash push -m 'message' saves with a label; git stash list shows all stashes; git stash pop applies and removes the top stash.",
+            "ru": "git stash push -m 'message' сохраняет изменения с меткой; git stash list показывает все записи stash; git stash pop применяет верхнюю запись и удаляет её."
+        }
     },
     {
         "id": "git-bisect-003",
@@ -1355,7 +1370,10 @@
         "code": "git bisect __BLANK__\ngit bisect __BLANK__ HEAD          # current commit is broken\ngit bisect __BLANK__ v1.2.0        # v1.2.0 was working\n# ... Git checks out midpoint commits ...\ngit bisect __BLANK__               # end the session",
         "blanks": ["start", "bad", "good", "reset"],
         "lang": "bash",
-        "referenceAnswer": "git bisect start; git bisect bad HEAD; git bisect good v1.2.0; ...mark each checkout; git bisect reset to return to original HEAD."
+        "referenceAnswer": {
+            "en": "git bisect start; git bisect bad HEAD; git bisect good v1.2.0; ...mark each checkout; git bisect reset to return to original HEAD.",
+            "ru": "git bisect start; git bisect bad HEAD; git bisect good v1.2.0; ...отмечайте каждый checkout; git bisect reset возвращает к исходному HEAD."
+        }
     },
     {
         "id": "git-rebase-003",
@@ -1374,7 +1392,10 @@
         "code": "git rebase -i __BLANK__~__BLANK__\n\n# In the editor, change the action for commits 2-4 from 'pick' to:\n# __BLANK__",
         "blanks": ["HEAD", "4", "squash"],
         "lang": "bash",
-        "referenceAnswer": "git rebase -i HEAD~4 opens the last 4 commits; change 'pick' to 'squash' (or 's') on commits 2-4 to fold them into the first commit."
+        "referenceAnswer": {
+            "en": "git rebase -i HEAD~4 opens the last 4 commits; change 'pick' to 'squash' (or 's') on commits 2-4 to fold them into the first commit.",
+            "ru": "git rebase -i HEAD~4 открывает последние 4 коммита; замените 'pick' на 'squash' (или 's') у коммитов 2-4, чтобы схлопнуть их в первый коммит."
+        }
     },
     {
         "id": "git-config-001",
@@ -1393,7 +1414,10 @@
         "code": "git config __BLANK__ user.name \"Vadym Kononenko\"\ngit config __BLANK__ user.email \"vadym@example.com\"",
         "blanks": ["--global", "--global"],
         "lang": "bash",
-        "referenceAnswer": "git config --global user.name and git config --global user.email set identity in ~/.gitconfig, used for all repositories."
+        "referenceAnswer": {
+            "en": "git config --global user.name and git config --global user.email set identity in ~/.gitconfig, used for all repositories.",
+            "ru": "git config --global user.name и git config --global user.email задают данные автора в ~/.gitconfig, которые используются во всех репозиториях."
+        }
     },
     {
         "id": "git-workflow-003",
@@ -1412,7 +1436,10 @@
         "code": "# .husky/__BLANK__\nnpx lint-staged\n\n# package.json\n# {\n#   \"scripts\": { \"__BLANK__\": \"husky\" },\n#   \"lint-staged\": { \"*.ts\": [\"eslint --fix\"] }\n# }",
         "blanks": ["pre-commit", "prepare"],
         "lang": "bash",
-        "referenceAnswer": "`.husky/pre-commit` holds `npx lint-staged`; `\"prepare\": \"husky\"` in package.json reinstalls the hooks after every `npm install` and sets core.hooksPath to `.husky/_`. The lint-staged glob `*.ts` needs no `git add` — lint-staged stages whatever its tasks modify."
+        "referenceAnswer": {
+            "en": "`.husky/pre-commit` holds `npx lint-staged`; `\"prepare\": \"husky\"` in package.json reinstalls the hooks after every `npm install` and sets core.hooksPath to `.husky/_`. The lint-staged glob `*.ts` needs no `git add` — lint-staged stages whatever its tasks modify.",
+            "ru": "`.husky/pre-commit` содержит `npx lint-staged`; `\"prepare\": \"husky\"` в package.json переустанавливает хуки после каждого `npm install` и выставляет core.hooksPath в `.husky/_`. Глоб `*.ts` в lint-staged не требует `git add` — lint-staged сам добавляет в индекс всё, что изменили его задачи."
+        }
     },
     {
         "id": "git-cherrypick-002",
@@ -1431,7 +1458,10 @@
         "code": "git cherry-pick __BLANK__..__BLANK__",
         "blanks": ["abc1234", "def5678"],
         "lang": "bash",
-        "referenceAnswer": "git cherry-pick abc1234..def5678 applies every commit reachable from def5678 but not from abc1234 — the two-dot range excludes its start. Use abc1234^..def5678 when abc1234 itself must be applied too."
+        "referenceAnswer": {
+            "en": "git cherry-pick abc1234..def5678 applies every commit reachable from def5678 but not from abc1234 — the two-dot range excludes its start. Use abc1234^..def5678 when abc1234 itself must be applied too.",
+            "ru": "git cherry-pick abc1234..def5678 применяет все коммиты, достижимые из def5678, но не из abc1234 — диапазон с двумя точками не включает начальную точку. Используйте abc1234^..def5678, когда нужно применить и сам abc1234."
+        }
     },
     {
         "id": "git-branch-003",
@@ -1556,6 +1586,9 @@
         "code": "# 1. Create and switch to a new feature branch\ngit __BLANK__ -c feature/user-search\n\n# 2. Stage all modified tracked files\ngit __BLANK__ -u\n\n# 3. Commit with a conventional commit message\ngit commit -m \"feat(search): add user search with debouncing\"\n\n# 4. Push and set upstream tracking (use the one-letter flag)\ngit push __BLANK__ origin feature/user-search",
         "blanks": ["switch", "add", "-u"],
         "lang": "bash",
-        "referenceAnswer": "git switch -c creates and switches; git add -u stages all tracked modified files; git push -u sets upstream tracking."
+        "referenceAnswer": {
+            "en": "git switch -c creates and switches; git add -u stages all tracked modified files; git push -u sets upstream tracking.",
+            "ru": "git switch -c создаёт ветку и сразу переключается на неё; git add -u добавляет в индекс все изменённые отслеживаемые файлы; git push -u настраивает отслеживание upstream."
+        }
     }
 ]

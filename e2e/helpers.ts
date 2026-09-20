@@ -27,7 +27,9 @@ export async function revealAndNext(page: Page) {
     if (await option.count()) {
         await option.click();
     }
-    // Click "Далее" (Next)
-    const nextBtn = page.getByRole('button', { name: /Далее|Next/i });
+    // Click the advance control — the last question names the results instead
+    const nextBtn = page.getByRole('button', {
+        name: /Далее|Next|К результатам|Show results/i
+    });
     await nextBtn.click();
 }

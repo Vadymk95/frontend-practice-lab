@@ -313,7 +313,10 @@ export const DevPlayground: FC = () => {
                                     { en: 'console.log is wrong', ru: 'неверный console.log' }
                                 ],
                                 correct: 0,
-                                referenceAnswer: `for (let i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 100);\n}`,
+                                referenceAnswer: {
+                                    en: `for (let i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 100);\n}`,
+                                    ru: `for (let i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 100);\n}`
+                                },
                                 explanation: {
                                     en: 'var is function-scoped. By the time the timeouts fire, i is 3. Using let creates a new binding per iteration.',
                                     ru: 'var имеет функциональную область видимости. Когда срабатывают таймеры, i уже равен 3. let создаёт новую привязку на каждой итерации.'
@@ -340,7 +343,10 @@ export const DevPlayground: FC = () => {
                                 },
                                 code: `if (userAge == "18") {\n  grantAccess();\n}`,
                                 correct: 'uses loose equality instead of strict',
-                                referenceAnswer: `if (userAge === 18) {\n  grantAccess();\n}`,
+                                referenceAnswer: {
+                                    en: `if (userAge === 18) {\n  grantAccess();\n}`,
+                                    ru: `if (userAge === 18) {\n  grantAccess();\n}`
+                                },
                                 explanation: {
                                     en: 'Use === for type-safe comparison. == coerces types which can lead to unexpected behavior.',
                                     ru: 'Используйте === для строгого сравнения. == приводит типы, что может приводить к неожиданному поведению.'
@@ -374,7 +380,10 @@ export const DevPlayground: FC = () => {
                                 },
                                 code: 'function add(a, b) {\n  return __BLANK__ + __BLANK__;\n}',
                                 blanks: ['a', 'b'],
-                                referenceAnswer: 'function add(a, b) {\n  return a + b;\n}',
+                                referenceAnswer: {
+                                    en: 'function add(a, b) {\n  return a + b;\n}',
+                                    ru: 'function add(a, b) {\n  return a + b;\n}'
+                                },
                                 explanation: {
                                     en: 'Add the two parameters. Both a and b are the function arguments.',
                                     ru: 'Сложите два параметра. a и b — аргументы функции.'

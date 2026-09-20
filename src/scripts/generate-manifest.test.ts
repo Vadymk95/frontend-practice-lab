@@ -34,7 +34,7 @@ const HARD_QUESTION = {
     explanation: { en: 'There is one.', ru: 'There is one.' },
     code: 'const x = 1',
     correct: 'off-by-one',
-    referenceAnswer: 'It is off-by-one'
+    referenceAnswer: { en: 'It is off-by-one', ru: 'It is off-by-one' }
 };
 
 const MEDIUM_COMPLETION_QUESTION = {
@@ -47,7 +47,7 @@ const MEDIUM_COMPLETION_QUESTION = {
     explanation: { en: 'It is a const.', ru: 'It is a const.' },
     code: '__BLANK__ x = 1',
     blanks: ['const'],
-    referenceAnswer: 'const'
+    referenceAnswer: { en: 'const', ru: 'const' }
 };
 
 const EASY_MULTI_QUESTION = {

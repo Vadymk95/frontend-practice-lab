@@ -67,3 +67,45 @@ describe('parseInlineMarkdown', () => {
         expect(parseInlineMarkdown('a `` b')).toEqual([{ type: 'text', value: 'a `` b' }]);
     });
 });
+
+describe('parseInlineMarkdown — italics', () => {
+    it('extracts an asterisk-marked italic between prose', () => {
+        expect(parseInlineMarkdown('created by *that* run')).toEqual([
+            { type: 'text', value: 'created by ' },
+            { type: 'italic', value: 'that' },
+            { type: 'text', value: ' run' }
+        ]);
+    });
+
+    it('extracts an underscore-marked italic', () => {
+        expect(parseInlineMarkdown('_always_ await it')).toEqual([
+            { type: 'italic', value: 'always' },
+            { type: 'text', value: ' await it' }
+        ]);
+    });
+
+    it('leaves bold alone', () => {
+        expect(parseInlineMarkdown('**before** the call')).toEqual([
+            { type: 'bold', value: 'before' },
+            { type: 'text', value: ' the call' }
+        ]);
+    });
+
+    it('does not italicise an underscore inside an identifier', () => {
+        expect(parseInlineMarkdown('use snake_case_names here')).toEqual([
+            { type: 'text', value: 'use snake_case_names here' }
+        ]);
+    });
+
+    it('keeps a lone marker literal', () => {
+        expect(parseInlineMarkdown('2 * 3 = 6')).toEqual([{ type: 'text', value: '2 * 3 = 6' }]);
+    });
+
+    it('does not run an italic across a line break', () => {
+        expect(parseInlineMarkdown('a *b\nc* d')).toEqual([
+            { type: 'text', value: 'a *b' },
+            { type: 'break' },
+            { type: 'text', value: 'c* d' }
+        ]);
+    });
+});

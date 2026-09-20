@@ -69,6 +69,40 @@ describe('useResetWeightsDialog', () => {
         expect(result.current.isOpen).toBe(false);
     });
 
+    it('leaves every stored weight in place until the all-categories reset is confirmed', () => {
+        const { result } = renderHook(() => useResetWeightsDialog());
+
+        act(() => result.current.requestResetAll());
+
+        expect(result.current.isConfirmingAll).toBe(true);
+        expect(useProgressStoreBase.getState().weights).toEqual({
+            q1: 2.0,
+            q2: 1.5,
+            q3: 0.8,
+            q4: 3.0
+        });
+        expect(useProgressStoreBase.getState().errorRates).toEqual({ react: 0.4, typescript: 0.2 });
+    });
+
+    it('drops the pending confirmation when the dialog is closed', () => {
+        const { result } = renderHook(() => useResetWeightsDialog());
+
+        act(() => result.current.open());
+        act(() => result.current.requestResetAll());
+        act(() => result.current.close());
+
+        expect(result.current.isConfirmingAll).toBe(false);
+    });
+
+    it('drops the pending confirmation when the reset is cancelled', () => {
+        const { result } = renderHook(() => useResetWeightsDialog());
+
+        act(() => result.current.requestResetAll());
+        act(() => result.current.cancelResetAll());
+
+        expect(result.current.isConfirmingAll).toBe(false);
+    });
+
     it('resetAll clears all weights and errorRates in store', async () => {
         const { result } = renderHook(() => useResetWeightsDialog());
 

@@ -1,14 +1,17 @@
 import { Fragment, type FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { CodeBlock } from '@/components/common/CodeBlock';
+import { MarkdownBlocks } from '@/components/common/InlineMarkdown';
 import type { CodeCompletionQuestion as CodeCompletionQuestionData } from '@/lib/data/schema';
 import { useLocalized } from '@/lib/i18n/localized';
 import { cn } from '@/lib/utils';
 
+import { AnswerVerdict } from '../AnswerVerdict';
 import { ExplanationPanel } from '../ExplanationPanel';
+import { useReferenceAnswer } from '../referenceAnswer';
 import { useCodeCompletionQuestion } from './useCodeCompletionQuestion';
 
+const DEFAULT_SNIPPET_LANG = 'javascript';
 const ENTER_KEY = 'Enter';
 /** Wide enough to stay a 44px-class tap target on a phone. */
 const MIN_BLANK_WIDTH_CH = 6;
@@ -28,15 +31,24 @@ export const CodeCompletionQuestion: FC<Props> = ({
 }) => {
     const { t } = useTranslation('question');
     const pick = useLocalized();
+    const pickReference = useReferenceAnswer();
     const { segments, blanksInput, isSubmitted, blankResults, onBlankChange, onSubmit } =
         useCodeCompletionQuestion({ question, isSkipped, onSubmitRegister, onAllBlanksFilled });
+    // A skipped question reveals the blanks instead of grading them, so it gets no verdict.
+    const status =
+        isSkipped || !isSubmitted || blankResults.length === 0
+            ? null
+            : blankResults.every((r) => r === 'correct')
+              ? ('correct' as const)
+              : ('incorrect' as const);
 
     return (
         <div className="flex flex-col gap-4">
+            <AnswerVerdict status={status} label={status === null ? '' : t(`verdict.${status}`)} />
             <div className="relative rounded-none border border-border bg-white font-mono text-sm dark:bg-[#0d1117]">
                 <div className="flex items-center border-b border-border px-3 py-1">
                     <span className="text-xs text-muted-foreground">
-                        {question.lang ?? 'javascript'}
+                        {question.lang ?? DEFAULT_SNIPPET_LANG}
                     </span>
                 </div>
                 <pre className="m-0 overflow-x-auto bg-white p-4 whitespace-pre-wrap dark:bg-[#0d1117]">
@@ -85,16 +97,21 @@ export const CodeCompletionQuestion: FC<Props> = ({
                 </pre>
             </div>
 
-            {isSubmitted && blankResults.some((r) => r === 'incorrect') && (
-                <ul className="text-xs space-y-1 mt-1">
-                    {blankResults.map((result, i) =>
-                        result === 'incorrect' ? (
-                            <li key={i} className="text-error">
-                                {t('codeCompletion.inputLabel', { index: i + 1 })}:{' '}
-                                {t('codeCompletion.expected')} <code>{question.blanks[i]}</code>
-                            </li>
-                        ) : null
-                    )}
+            {isSubmitted && !isSkipped && blankResults.length > 0 && (
+                <ul className="text-base space-y-1 mt-1">
+                    {blankResults.map((result, i) => (
+                        <li key={i} className={result === 'correct' ? 'text-accent' : 'text-error'}>
+                            <span aria-hidden="true">{result === 'correct' ? '✓' : '✗'}</span>{' '}
+                            {t('codeCompletion.inputLabel', { index: i + 1 })}:{' '}
+                            {result === 'correct' ? (
+                                t('verdict.correct')
+                            ) : (
+                                <>
+                                    {t('codeCompletion.expected')} <code>{question.blanks[i]}</code>
+                                </>
+                            )}
+                        </li>
+                    ))}
                 </ul>
             )}
 
@@ -104,9 +121,9 @@ export const CodeCompletionQuestion: FC<Props> = ({
                         <p className="text-xs font-medium text-muted-foreground mb-2">
                             {t('referenceSolution')}
                         </p>
-                        <CodeBlock
-                            code={question.referenceAnswer}
-                            lang={question.lang ?? 'javascript'}
+                        <MarkdownBlocks
+                            text={pickReference(question.referenceAnswer)}
+                            lang={question.lang ?? DEFAULT_SNIPPET_LANG}
                         />
                     </div>
                     <ExplanationPanel explanation={pick(question.explanation)} />

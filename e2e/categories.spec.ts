@@ -175,7 +175,7 @@ test.describe('Categories — question access', () => {
         } else {
             await page.locator('article [role="radio"]').first().click();
         }
-        await page.getByRole('button', { name: /Далее|Next/i }).click();
+        await page.getByRole('button', { name: /Далее|Next|К результатам|Show results/i }).click();
 
         await page.waitForURL('**/session/summary', { timeout: 5000 });
         await expect(page.locator('text=/\\d+ \\/ \\d+/')).toBeVisible();

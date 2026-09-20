@@ -19,13 +19,13 @@ export const PrimaryPresetCard: FC<PrimaryPresetCardProps> = ({ preset, onModify
         <div className="border border-accent-alt bg-accent-alt/5 px-4 py-4 flex flex-col gap-3">
             <div className="text-base font-semibold text-foreground">{preset.name}</div>
             <div className="flex items-center gap-3">
-                <Button className="flex-1" onClick={handleStart}>
+                <Button className="min-h-11 flex-1 text-base" onClick={handleStart}>
                     {t('presets.primaryCard.start')}
                 </Button>
                 <button
                     type="button"
                     onClick={handleModify}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors underline underline-offset-2"
+                    className="min-h-11 px-1 text-base text-muted-foreground hover:text-foreground transition-colors underline underline-offset-2"
                 >
                     {t('presets.primaryCard.modify')}
                 </button>
